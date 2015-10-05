@@ -1,0 +1,48 @@
+{
+  "name": "type-validator",
+  "version": "0.0.1",
+  "description": "Wrapper over validator.js library that allows to use validation decorators in your Typescript classes",
+  "license": "Apache-2.0",
+  "readmeFilename": "README.md",
+  "author": {
+    "name": "Umed Khudoiberdiev",
+    "email": "zarrhost@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PLEEROCK/type-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/PLEEROCK/type-validator/issues"
+  },
+  "tags": [
+    "validator",
+    "validation",
+    "typescript",
+    "typescript-validator"
+  ],
+  "typings": "./type-validator.d.ts",
+  "typescript": {
+    "definitions": [
+      "type-validator.d.ts"
+    ]
+  },
+  "dependencies": {
+    "validator": "^4.1.0"
+  },
+  "devDependencies": {
+    "del": "^2.0.2",
+    "dts-generator": "^1.5.0",
+    "fs": "0.0.2",
+    "gulp": "^3.9.0",
+    "gulp-exec": "^2.1.1",
+    "gulp-plumber": "^1.0.1",
+    "gulp-typescript": "^2.9.0",
+    "run-sequence": "^1.1.4",
+    "tsd": "^0.6.4",
+    "typescript": "^1.6.2"
+  },
+  "scripts": {
+    "postversion": "./node_modules/.bin/gulp package"
+  }
+}
