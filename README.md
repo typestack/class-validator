@@ -1,4 +1,4 @@
-# Type Validator
+# T-Validator
 
 Wrapper over [validator.js][1] library that provides you easy way to use it with Typescript classes.
 
@@ -7,7 +7,7 @@ Wrapper over [validator.js][1] library that provides you easy way to use it with
 Create your class and put some validation annotations on its properties you want to validate:
 
 ```typescript
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "type-validator/ValidationAnnotations";
+import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "t-validator/ValidationAnnotations";
 
 export class Post {
 

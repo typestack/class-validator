@@ -1,5 +1,5 @@
 {
-  "name": "type-validator",
+  "name": "t-validator",
   "version": "0.0.1",
   "description": "Wrapper over validator.js library that allows to use validation decorators in your Typescript classes",
   "license": "Apache-2.0",
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/PLEEROCK/type-validator.git"
+    "url": "https://github.com/PLEEROCK/t-validator.git"
   },
   "bugs": {
-    "url": "https://github.com/PLEEROCK/type-validator/issues"
+    "url": "https://github.com/PLEEROCK/t-validator/issues"
   },
   "tags": [
     "validator",
@@ -21,10 +21,10 @@
     "typescript",
     "typescript-validator"
   ],
-  "typings": "./type-validator.d.ts",
+  "typings": "./t-validator.d.ts",
   "typescript": {
     "definitions": [
-      "type-validator.d.ts"
+      "t-validator.d.ts"
     ]
   },
   "dependencies": {
