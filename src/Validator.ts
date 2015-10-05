@@ -164,6 +164,16 @@ export class Validator {
             case ValidationTypes.MATCHES:
                 return this.validator.matches(value, metadata.value1, metadata.value2);
 
+            // custom validation types
+            case ValidationTypes.MIN_LENGTH:
+                return this.validator.isLength(value, metadata.value1);
+            case ValidationTypes.MAX_LENGTH:
+                return this.validator.isLength(value, 0, metadata.value1);
+            case ValidationTypes.MIN_NUMBER:
+                return this.validator.isInt(value, { min: metadata.value1 });
+            case ValidationTypes.MAX_NUMBER:
+                return this.validator.isInt(value, { max: metadata.value1 });
+
             default:
                 throw Error('Wrong validation type is supplied (' + metadata.type + ') for value ' + value);
         }

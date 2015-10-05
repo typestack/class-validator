@@ -791,3 +791,75 @@ export function Matches(pattern: any, modifiers?: any, annotationOptions?: Valid
         });
     }
 }
+
+/**
+ * Check if the string's length is not less then given number. Note: this function takes into account surrogate pairs.
+ */
+export function MinLength(min: number, annotationOptions?: ValidationAnnotationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.MIN_LENGTH,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            value1: min,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+        });
+    }
+}
+
+/**
+ * Check if the string's length is not more then given number. Note: this function takes into account surrogate pairs.
+ */
+export function MaxLength(max: number, annotationOptions?: ValidationAnnotationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.MAX_LENGTH,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            value1: max,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+        });
+    }
+}
+
+/**
+ * Check if the given number is not less then given number.
+ */
+export function MinNumber(min: number, annotationOptions?: ValidationAnnotationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.MIN_NUMBER,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            value1: min,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+        });
+    }
+}
+
+/**
+ * Check if the given number is not more then given number.
+ */
+export function MaxNumber(max: number, annotationOptions?: ValidationAnnotationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.MAX_NUMBER,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            value1: max,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+        });
+    }
+}

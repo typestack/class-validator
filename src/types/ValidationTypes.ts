@@ -41,7 +41,13 @@ export enum ValidationTypes {
     IS_UUID = 39,
     IS_UPPERCASE = 40,
     IS_VARIABLE_WIDTH = 41,
-    MATCHES = 42
+    MATCHES = 42,
+
+    // custom validation types
+    MIN_LENGTH = 301,
+    MAX_LENGTH = 302,
+    MIN_NUMBER = 281,
+    MAX_NUMBER = 282,
 }
 
 export class ValidationTypesUtils {
@@ -53,85 +59,95 @@ export class ValidationTypesUtils {
             case ValidationTypes.EQUALS:
                 return 'equals';
             case ValidationTypes.IS_AFTER:
-                return 'is_after';
+                return 'after';
             case ValidationTypes.IS_ALPHA:
-                return 'is_alpha';
+                return 'alpha';
             case ValidationTypes.IS_ALPHANUMERIC:
-                return 'is_alphanumeric';
+                return 'alphanumeric';
             case ValidationTypes.IS_ASCII:
-                return 'is_ascii';
+                return 'ascii';
             case ValidationTypes.IS_BASE64:
-                return 'is_base64';
+                return 'base64';
             case ValidationTypes.IS_BEFORE:
-                return 'is_before';
+                return 'before';
             case ValidationTypes.IS_BOOLEAN:
-                return 'is_boolean';
+                return 'boolean';
             case ValidationTypes.IS_BYTE_LENGTH:
-                return 'is_byte_length';
+                return 'byte_length';
             case ValidationTypes.IS_CREDIT_CARD:
-                return 'is_credit_card';
+                return 'credit_card';
             case ValidationTypes.IS_CURRENCY:
-                return 'is_currency';
+                return 'currency';
             case ValidationTypes.IS_DATE:
-                return 'is_date';
+                return 'date';
             case ValidationTypes.IS_DECIMAL:
-                return 'is_decimal';
+                return 'decimal';
             case ValidationTypes.IS_DIVISIBLE_BY:
-                return 'is_divisible_by';
+                return 'divisible_by';
             case ValidationTypes.IS_EMAIL:
-                return 'is_email';
+                return 'email';
             case ValidationTypes.IS_FQDN:
-                return 'is_fqdn';
+                return 'fqdn';
             case ValidationTypes.IS_FLOAT:
-                return 'is_float';
+                return 'float';
             case ValidationTypes.IS_FULL_WIDTH:
-                return 'is_full_width';
+                return 'full_width';
             case ValidationTypes.IS_HALF_WIDTH:
-                return 'is_half_width';
+                return 'half_width';
             case ValidationTypes.IS_HEX_COLOR:
-                return 'is_hex_color';
+                return 'hex_color';
             case ValidationTypes.IS_HEXADECIMAL:
-                return 'is_hexadecimal';
+                return 'hexadecimal';
             case ValidationTypes.IS_IP:
-                return 'is_ip';
+                return 'ip';
             case ValidationTypes.IS_ISBN:
-                return 'is_isbn';
+                return 'isbn';
             case ValidationTypes.IS_ISIN:
-                return 'is_isin';
+                return 'isin';
             case ValidationTypes.IS_ISO8601:
-                return 'is_iso8601';
+                return 'iso8601';
             case ValidationTypes.IS_IN:
-                return 'is_in';
+                return 'in';
             case ValidationTypes.IS_INT:
-                return 'is_int';
+                return 'int';
             case ValidationTypes.IS_JSON:
-                return 'is_json';
+                return 'json';
             case ValidationTypes.IS_LENGTH:
-                return 'is_length';
+                return 'length';
             case ValidationTypes.IS_LOWERCASE:
-                return 'is_lowercase';
+                return 'lowercase';
             case ValidationTypes.IS_MOBILE_PHONE:
-                return 'is_mobile_phone';
+                return 'mobile_phone';
             case ValidationTypes.IS_MONGO_ID:
-                return 'is_mongo_id';
+                return 'mongo_id';
             case ValidationTypes.IS_MULTIBYTE:
-                return 'is_multibyte';
+                return 'multibyte';
             case ValidationTypes.IS_NULL:
-                return 'is_null';
+                return 'null';
             case ValidationTypes.IS_NUMERIC:
-                return 'is_numeric';
+                return 'numeric';
             case ValidationTypes.IS_SURROGATE_PAIR:
-                return 'is_surrogate_pair';
+                return 'surrogate_pair';
             case ValidationTypes.IS_URL:
-                return 'is_url';
+                return 'url';
             case ValidationTypes.IS_UUID:
-                return 'is_uuid';
+                return 'uuid';
             case ValidationTypes.IS_UPPERCASE:
-                return 'is_uppercase';
+                return 'uppercase';
             case ValidationTypes.IS_VARIABLE_WIDTH:
-                return 'is_variable_width';
+                return 'variable_width';
             case ValidationTypes.MATCHES:
                 return 'matches';
+
+            // custom validation types
+            case ValidationTypes.MIN_LENGTH:
+                return 'min_length';
+            case ValidationTypes.MAX_LENGTH:
+                return 'max_length';
+            case ValidationTypes.MIN_NUMBER:
+                return 'min_number';
+            case ValidationTypes.MAX_NUMBER:
+                return 'max_number';
         }
     }
 

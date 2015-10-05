@@ -1,8 +1,9 @@
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/annotation/ValidationAnnotations";
+import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate} from "../../src/annotation/ValidationAnnotations";
 
 export class Post {
 
-    @IsLength(10, 20)
+    @MinLength(10)
+    @MaxLength(20)
     title: string;
 
     @Contains('hello')
