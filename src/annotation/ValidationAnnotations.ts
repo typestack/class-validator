@@ -778,13 +778,24 @@ export function IsVariableWidth(annotationOptions?: ValidationAnnotationOptions)
 /**
  * Check if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
  */
-export function Matches(pattern: any, modifiers?: any, annotationOptions?: ValidationAnnotationOptions) {
+export function Matches(pattern: RegExp, annotationOptions?: ValidationAnnotationOptions): Function;
+export function Matches(pattern: RegExp, modifiers?: string, annotationOptions?: ValidationAnnotationOptions): Function;
+export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationAnnotationOptions, annotationOptions?: ValidationAnnotationOptions): Function {
+    let modifiers: string;
+    if (modifiersOrAnnotationOptions && modifiersOrAnnotationOptions instanceof Object && !annotationOptions) {
+        annotationOptions = <ValidationAnnotationOptions> modifiersOrAnnotationOptions;
+    } else {
+        modifiers = <string> modifiersOrAnnotationOptions;
+    }
+
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MATCHES,
             sanitize: false,
             object: object,
             propertyName: propertyName,
+            value1: pattern,
+            value2: modifiers,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
