@@ -4,6 +4,7 @@ import {defaultMetadataStorage} from "../metadata/MetadataStorage";
 import {ValidationTypes} from "../types/ValidationTypes";
 
 export interface ValidationAnnotationOptions {
+    each?: boolean;
     message?: string;
     groups?: string[];
     always?: boolean;
@@ -22,7 +23,8 @@ export function Contains(seed: string, annotationOptions?: ValidationAnnotationO
             value1: seed,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -40,7 +42,8 @@ export function Equals(comparison: string, annotationOptions?: ValidationAnnotat
             value1: comparison,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -58,7 +61,8 @@ export function IsAfter(date: Date, annotationOptions?: ValidationAnnotationOpti
             value1: date,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -75,7 +79,8 @@ export function IsAlpha(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -92,7 +97,8 @@ export function IsAlphanumeric(annotationOptions?: ValidationAnnotationOptions) 
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -109,7 +115,8 @@ export function IsAscii(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -126,7 +133,8 @@ export function IsBase64(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -144,7 +152,8 @@ export function IsBefore(date: Date, annotationOptions?: ValidationAnnotationOpt
             value1: date,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -161,7 +170,8 @@ export function IsBoolean(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -180,7 +190,8 @@ export function IsByteLength(min: number, max?: number, annotationOptions?: Vali
             value2: max,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -197,7 +208,8 @@ export function IsCreditCard(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -230,7 +242,8 @@ export function IsCurrency(options?: IsCurrencyOptions, annotationOptions?: Vali
             value1: options,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -247,7 +260,8 @@ export function IsDate(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -264,7 +278,8 @@ export function IsDecimal(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -282,7 +297,8 @@ export function IsDivisibleBy(number: number, annotationOptions?: ValidationAnno
             value1: number,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -306,7 +322,8 @@ export function IsEmail(options?: IsEmailOptions, annotationOptions?: Validation
             value1: options,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -330,7 +347,8 @@ export function IsFQDN(options?: IsFQDNOptions, annotationOptions?: ValidationAn
             value1: options,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -353,7 +371,8 @@ export function IsFloat(options?: IsFloatOptions, annotationOptions?: Validation
             value1: options,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -370,7 +389,8 @@ export function IsFullWidth(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -387,7 +407,8 @@ export function IsHalfWidth(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -404,7 +425,8 @@ export function IsHexColor(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -421,7 +443,8 @@ export function IsHexadecimal(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -439,7 +462,8 @@ export function IsIP(version?: number, annotationOptions?: ValidationAnnotationO
             value1: version,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -457,7 +481,8 @@ export function IsISBN(version?: number, annotationOptions?: ValidationAnnotatio
             value1: version,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -474,7 +499,8 @@ export function IsISIN(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -491,7 +517,8 @@ export function IsISO8601(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -509,7 +536,8 @@ export function IsIn(values: any[], annotationOptions?: ValidationAnnotationOpti
             value1: values,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -532,7 +560,8 @@ export function IsInt(options?: IsIntOptions, annotationOptions?: ValidationAnno
             value1: options,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -549,7 +578,8 @@ export function IsJSON(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -568,7 +598,8 @@ export function IsLength(min: number, max?: number, annotationOptions?: Validati
             value2: max,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -585,7 +616,8 @@ export function IsLowercase(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -603,7 +635,8 @@ export function IsMobilePhone(locale: string, annotationOptions?: ValidationAnno
             value1: locale,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -620,7 +653,8 @@ export function IsMongoId(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -637,7 +671,8 @@ export function IsMultibyte(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -654,7 +689,8 @@ export function IsNull(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -671,7 +707,8 @@ export function IsNumeric(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -688,7 +725,8 @@ export function IsSurrogatePair(annotationOptions?: ValidationAnnotationOptions)
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -718,7 +756,8 @@ export function IsUrl(options?: IsURLOptions, annotationOptions?: ValidationAnno
             value1: options,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -736,7 +775,8 @@ export function IsUUID(version?: number, annotationOptions?: ValidationAnnotatio
             value1: version,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -753,7 +793,8 @@ export function IsUppercase(annotationOptions?: ValidationAnnotationOptions) {
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -770,7 +811,8 @@ export function IsVariableWidth(annotationOptions?: ValidationAnnotationOptions)
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -798,7 +840,8 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
             value2: modifiers,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -816,7 +859,8 @@ export function MinLength(min: number, annotationOptions?: ValidationAnnotationO
             value1: min,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -834,7 +878,8 @@ export function MaxLength(max: number, annotationOptions?: ValidationAnnotationO
             value1: max,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -852,7 +897,8 @@ export function MinNumber(min: number, annotationOptions?: ValidationAnnotationO
             value1: min,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }
@@ -870,7 +916,82 @@ export function MaxNumber(max: number, annotationOptions?: ValidationAnnotationO
             value1: max,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    }
+}
+
+/**
+ * Checks if given value is not empty
+ */
+export function NotEmpty(annotationOptions?: ValidationAnnotationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.NOT_EMPTY,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    }
+}
+
+/**
+ * Checks if given array is not empty.
+ */
+export function NotEmptyArray(annotationOptions?: ValidationAnnotationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.NOT_EMPTY_ARRAY,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    }
+}
+
+/**
+ * Checks if array's length is as minimal this number.
+ */
+export function MinElements(min: number, annotationOptions?: ValidationAnnotationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.MIN_ELEMENTS,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            value1: min,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    }
+}
+
+/**
+ * Checks if array's length is as maximal this number.
+ */
+export function MaxElements(max: number, annotationOptions?: ValidationAnnotationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.MAX_ELEMENTS,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            value1: max,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
     }
 }

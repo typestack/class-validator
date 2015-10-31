@@ -4,4 +4,5 @@ export interface ValidationError {
     errorName: string;
     errorMessage: string;
     value: any;
+    expectedValue: any;
 }

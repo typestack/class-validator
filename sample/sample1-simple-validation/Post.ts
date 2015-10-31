@@ -1,4 +1,4 @@
-import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate} from "../../src/annotation/ValidationAnnotations";
+import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, NotEmpty, NotEmptyArray, MinElements, MaxElements} from "../../src/annotation/ValidationAnnotations";
 
 export class Post {
 
@@ -20,5 +20,12 @@ export class Post {
 
     @IsDate()
     createDate: Date;
+
+    @NotEmptyArray()
+    @MinElements(2)
+    @MaxElements(5)
+    @MinLength(3, { each: true, message: 'Tag is too short' })
+    @MaxLength(50, { each: true, message: 'Tag is too long' })
+    tags: string[];
 
 }

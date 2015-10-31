@@ -35,18 +35,31 @@ export class Validator {
                 return null;
 
             let duplicateMetadatas = metadatas.filter(m => m.propertyName === metadata.propertyName && m.type === metadata.type);
-            let errors = duplicateMetadatas.map(m => {
-                let isValid = this.performValidation(value, m);
+            let errors = duplicateMetadatas.map(metadata => {
+                let isValid = true;
+                if (metadata.each) {
+                    if (value instanceof Array) {
+
+                        isValid = value.every((v: any) => this.performValidation(v, metadata));
+                    }
+                } else {
+                    isValid = this.performValidation(value, metadata);
+                }
                 if (isValid) return null;
 
                 return <ValidationError> {
-                    property: m.propertyName,
-                    errorCode: m.type,
-                    errorName: ValidationTypesUtils.getCodeName(m.type),
-                    errorMessage: m.message,
-                    value: value
+                    property: metadata.propertyName,
+                    errorCode: metadata.type,
+                    errorName: ValidationTypesUtils.getCodeName(metadata.type),
+                    errorMessage: metadata.message,
+                    value: value,
+                    expectedValue: metadata.value1
                 };
             });
+
+            if (value instanceof Array) {
+
+            }
 
             if (errors.length > 0 && errors.indexOf(null) !== -1)
                 return null;
@@ -76,6 +89,17 @@ export class Validator {
     // -------------------------------------------------------------------------
     // Private Methods
     // -------------------------------------------------------------------------
+
+    /*private performArrayValidation(value: any[], metadata: ValidationMetadata): boolean {
+        switch (metadata.type) {
+            case ValidationTypes.NOT_EMPTY_ARRAY:
+                return value.length > 0;
+            case ValidationTypes.MIN_ELEMENTS:
+                return value.length > metadata.value1;
+            case ValidationTypes.MAX_ELEMENTS:
+                return value.length > metadata.value1;
+        }
+    }*/
 
     private performValidation(value: any, metadata: ValidationMetadata): boolean {
         switch (metadata.type) {
@@ -173,10 +197,23 @@ export class Validator {
                 return this.validator.isInt(value, { min: metadata.value1 });
             case ValidationTypes.MAX_NUMBER:
                 return this.validator.isInt(value, { max: metadata.value1 });
+            case ValidationTypes.NOT_EMPTY:
+                return !!value;
 
-            default:
-                throw Error('Wrong validation type is supplied (' + metadata.type + ') for value ' + value);
+            case ValidationTypes.NOT_EMPTY_ARRAY:
+                return value instanceof Array && value.length > 0;
+            case ValidationTypes.MIN_ELEMENTS:
+                if (value instanceof Array)
+                    return value.length >= metadata.value1;
+                break;
+            case ValidationTypes.MAX_ELEMENTS:
+                if (value instanceof Array)
+                    return value.length <= metadata.value1;
+                break;
+
+            //    throw Error('Wrong validation type is supplied (' + metadata.type + ') for value ' + value);
         }
+        return true;
     }
 
     private performSanitization(value: any, metadata: ValidationMetadata): any {

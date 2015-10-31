@@ -11,4 +11,5 @@ export interface ValidationMetadata {
     message?: string;
     groups?: string[];
     always?: boolean;
+    each?: boolean;
 }
