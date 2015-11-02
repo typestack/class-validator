@@ -12,6 +12,7 @@ post1.rating = 10; // should pass
 post1.email = 'info@google.com'; // should pass
 post1.site = 'google.com'; // should pass
 post1.createDate = new Date(); // should pass
+post1.tags = ['abcd1', 'abcd2', 'abcd3', 'abcd4', 'abcd4']; // should pass
 
 console.log('should pass: ', validator.validate(Post, post1)); // should pass completely, e.g. return empty array
 
@@ -65,7 +66,7 @@ post6.rating = 10; // should pass
 post6.email = 'info@google.com'; // should pass
 post6.site = 'google.com'; // should pass
 post6.createDate = new Date(); // should pass
-post6.tags = [];
+post6.tags = ['abcd1', 'abcd2', 'abcd3', 'abcd4', 'abcd4'];
 
 console.log('should pass: ', validator.validate(Post, post6)); // should pass completely, e.g. return empty array
 

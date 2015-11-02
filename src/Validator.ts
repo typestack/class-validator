@@ -26,6 +26,23 @@ export class Validator {
     // Public Methods
     // -------------------------------------------------------------------------
 
+    validateAsync<T>(objectClass: Function, object: T, validationOptions?: ValidationOptions): Promise<T> {
+        return new Promise<T>((ok, fail) => { // todo install promise
+            let errors = this.validate(objectClass, object, validationOptions);
+            if (errors.length > 0) {
+                fail(errors);
+            } else {
+                ok(object);
+            }
+        });
+    }
+
+    validateOrThrow(objectClass: Function, object: any, validationOptions?: ValidationOptions) {
+        const errors = this.validate(objectClass, object, validationOptions);
+        if (errors.length > 0)
+            throw new Error('Validation failed: ' + JSON.stringify(errors)); // todo
+    }
+
     validate(objectClass: Function, object: any, validationOptions?: ValidationOptions): ValidationError[] {
         let groups = validationOptions ? validationOptions.groups : undefined;
         let metadatas = this.metadataStorage.getValidationMetadatasForObject(objectClass, groups);
@@ -38,16 +55,16 @@ export class Validator {
             let errors = duplicateMetadatas.map(metadata => {
                 let isValid = true;
                 if (metadata.each) {
-                    if (value instanceof Array) {
-
+                    if (value instanceof Array)
                         isValid = value.every((v: any) => this.performValidation(v, metadata));
-                    }
+
                 } else {
                     isValid = this.performValidation(value, metadata);
                 }
                 if (isValid) return null;
 
                 return <ValidationError> {
+                    objectClass: objectClass,
                     property: metadata.propertyName,
                     errorCode: metadata.type,
                     errorName: ValidationTypesUtils.getCodeName(metadata.type),
@@ -57,12 +74,29 @@ export class Validator {
                 };
             });
 
-            if (value instanceof Array) {
+            let nestedValidation = duplicateMetadatas.reduce((found, metadata) => {
+                return metadata.type === ValidationTypes.NESTED_VALIDATION ? metadata : found;
+            }, undefined);
+            if (nestedValidation) {
+                if (value instanceof Array) {
+                    value.map((v: any) => {
+                        const nestedErrors = this.validate(metadata.value1(), v, validationOptions);
+                        if (nestedErrors && nestedErrors.length)
+                            errors = errors.concat(nestedErrors);
+                    });
 
+                } else if (value instanceof Object) {
+                    const nestedErrors = this.validate(metadata.value1, value, validationOptions);
+                    if (nestedErrors && nestedErrors.length)
+                        errors = errors.concat(nestedErrors);
+
+                } else {
+                    throw new Error('Only objects and arrays are supported to nested validation');
+                }
             }
 
-            if (errors.length > 0 && errors.indexOf(null) !== -1)
-                return null;
+            //if (errors.length > 0 && errors.indexOf(null) !== -1)
+              //  return null;
 
             return errors.reduceRight((found, err) => err !== null ? err : found, null);
 

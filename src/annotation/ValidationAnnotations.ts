@@ -995,3 +995,22 @@ export function MaxElements(max: number, annotationOptions?: ValidationAnnotatio
         });
     }
 }
+
+/**
+ * Checks if array's length is as maximal this number.
+ */
+export function ValidateNested(type: (_?: any) => Function, annotationOptions?: ValidationAnnotationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.NESTED_VALIDATION,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            value1: type,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    }
+}

@@ -1,4 +1,5 @@
 export interface ValidationError {
+    objectClass: Function;
     property: string;
     errorCode: number;
     errorName: string;

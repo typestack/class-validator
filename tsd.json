@@ -20,6 +20,9 @@
     },
     "sinon/sinon.d.ts": {
       "commit": "7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645"
+    },
+    "es6-promise/es6-promise.d.ts": {
+      "commit": "b70895565dd5bd5de71c31e573d781409554bbf1"
     }
   }
 }

@@ -52,6 +52,8 @@ export enum ValidationTypes {
     NOT_EMPTY_ARRAY = 1002,
     MIN_ELEMENTS = 1003,
     MAX_ELEMENTS = 1004,
+
+    NESTED_VALIDATION = 0
 }
 
 export class ValidationTypesUtils {
