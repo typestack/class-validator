@@ -2,9 +2,10 @@ import {ValidationMetadata} from "./metadata/ValidationMetadata";
 import {SanitizeTypes} from "./types/SanitizeTypes";
 import {ValidationTypes} from "./types/ValidationTypes";
 import {MetadataStorage, defaultMetadataStorage} from "./metadata/MetadataStorage";
-import {ValidationError} from "./ValidationError";
+import {ValidationErrorInterface} from "./ValidationErrorInterface";
 import {ValidationTypesUtils} from "./types/ValidationTypes";
 import {ValidationOptions} from "./ValidationOptions";
+import {ValidationError} from "./error/ValidationError";
 
 /**
  * Validator performs validation of the given object based on its metadata.
@@ -39,11 +40,10 @@ export class Validator {
 
     validateOrThrow(objectClass: Function, object: any, validationOptions?: ValidationOptions) {
         const errors = this.validate(objectClass, object, validationOptions);
-        if (errors.length > 0)
-            throw new Error('Validation failed: ' + JSON.stringify(errors)); // todo
+        throw new ValidationError(errors);
     }
 
-    validate(objectClass: Function, object: any, validationOptions?: ValidationOptions): ValidationError[] {
+    validate(objectClass: Function, object: any, validationOptions?: ValidationOptions): ValidationErrorInterface[] {
         let groups = validationOptions ? validationOptions.groups : undefined;
         let metadatas = this.metadataStorage.getValidationMetadatasForObject(objectClass, groups);
         return metadatas.map(metadata => {
@@ -63,8 +63,8 @@ export class Validator {
                 }
                 if (isValid) return null;
 
-                return <ValidationError> {
-                    objectClass: objectClass,
+                return <ValidationErrorInterface> {
+                    //objectClass: objectClass,
                     property: metadata.propertyName,
                     errorCode: metadata.type,
                     errorName: ValidationTypesUtils.getCodeName(metadata.type),
@@ -111,7 +111,7 @@ export class Validator {
         });
     }
 
-    sanitizeAndValidate(objectClass: Function, object: any, validationOptions?: ValidationOptions): ValidationError[] {
+    sanitizeAndValidate(objectClass: Function, object: any, validationOptions?: ValidationOptions): ValidationErrorInterface[] {
         this.sanitize(objectClass, object);
         return this.validate(objectClass, object, validationOptions);
     }

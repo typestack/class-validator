@@ -1,4 +1,4 @@
-export interface ValidationError {
+export interface ValidationErrorInterface {
     objectClass: Function;
     property: string;
     errorCode: number;
