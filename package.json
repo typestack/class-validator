@@ -1,6 +1,6 @@
 {
   "name": "validator.ts",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Wrapper over validator.js library that allows to use validation decorators in your Typescript classes",
   "license": "Apache-2.0",
   "readmeFilename": "README.md",
