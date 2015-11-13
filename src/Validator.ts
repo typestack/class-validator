@@ -31,7 +31,7 @@ export class Validator {
         return new Promise<T>((ok, fail) => { // todo install promise
             let errors = this.validate(objectClass, object, validationOptions);
             if (errors.length > 0) {
-                fail(errors);
+                fail(new ValidationError(errors));
             } else {
                 ok(object);
             }
@@ -40,7 +40,8 @@ export class Validator {
 
     validateOrThrow(objectClass: Function, object: any, validationOptions?: ValidationOptions) {
         const errors = this.validate(objectClass, object, validationOptions);
-        throw new ValidationError(errors);
+        if (errors.length > 0)
+            throw new ValidationError(errors);
     }
 
     validate(objectClass: Function, object: any, validationOptions?: ValidationOptions): ValidationErrorInterface[] {
