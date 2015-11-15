@@ -1,12 +1,12 @@
 import {defaultMetadataStorage} from "../metadata/MetadataStorage";
 import {SanitizeTypes} from "../types/SanitizeTypes";
-import {ValidationAnnotationOptions} from "./options/ValidationAnnotationOptions";
+import {ValidationDecoratorOptions} from "./options/ValidationDecoratorOptions";
 
 /**
  * Remove characters that appear in the blacklist. The characters are used in a RegExp and so you will need to
  * escape some chars, e.g @Blacklist('\\[\\]')
  */
-export function Blacklist(chars: RegExp, annotationOptions?: ValidationAnnotationOptions) {
+export function Blacklist(chars: RegExp, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -22,7 +22,7 @@ export function Blacklist(chars: RegExp, annotationOptions?: ValidationAnnotatio
 /**
  * Replace <, >, &, ', " and / with HTML entities.
  */
-export function Escape(annotationOptions?: ValidationAnnotationOptions) {
+export function Escape(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -37,7 +37,7 @@ export function Escape(annotationOptions?: ValidationAnnotationOptions) {
 /**
  * Trim characters from the left-side of the input.
  */
-export function Ltrim(chars?: string[], annotationOptions?: ValidationAnnotationOptions) {
+export function Ltrim(chars?: string[], annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -53,7 +53,7 @@ export function Ltrim(chars?: string[], annotationOptions?: ValidationAnnotation
 /**
  * Canonicalize an email address.
  */
-export function NormalizeEmail(lowercase?: boolean, annotationOptions?: ValidationAnnotationOptions) {
+export function NormalizeEmail(lowercase?: boolean, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -69,7 +69,7 @@ export function NormalizeEmail(lowercase?: boolean, annotationOptions?: Validati
 /**
  * Trim characters from the left-side of the input.
  */
-export function Rtrim(chars?: string[], annotationOptions?: ValidationAnnotationOptions) {
+export function Rtrim(chars?: string[], annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -87,7 +87,7 @@ export function Rtrim(chars?: string[], annotationOptions?: ValidationAnnotation
  * If keep_new_lines is true, newline characters are preserved (\n and \r, hex 0xA and 0xD).
  * Unicode-safe in JavaScript.
  */
-export function StripLow(keepNewLines?: boolean, annotationOptions?: ValidationAnnotationOptions) {
+export function StripLow(keepNewLines?: boolean, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -104,7 +104,7 @@ export function StripLow(keepNewLines?: boolean, annotationOptions?: ValidationA
  * Convert the input to a boolean.
  * Everything except for '0', 'false' and '' returns true. In strict mode only '1' and 'true' return true.
  */
-export function ToBoolean(isStrict?: boolean, annotationOptions?: ValidationAnnotationOptions) {
+export function ToBoolean(isStrict?: boolean, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -120,7 +120,7 @@ export function ToBoolean(isStrict?: boolean, annotationOptions?: ValidationAnno
 /**
  * Convert the input to a date, or null if the input is not a date.
  */
-export function ToDate(annotationOptions?: ValidationAnnotationOptions) {
+export function ToDate(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -135,7 +135,7 @@ export function ToDate(annotationOptions?: ValidationAnnotationOptions) {
 /**
  * Convert the input to a float.
  */
-export function ToFloat(annotationOptions?: ValidationAnnotationOptions) {
+export function ToFloat(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -150,7 +150,7 @@ export function ToFloat(annotationOptions?: ValidationAnnotationOptions) {
 /**
  * Convert the input to an integer, or NaN if the input is not an integer.
  */
-export function ToInt(radix?: number, annotationOptions?: ValidationAnnotationOptions) {
+export function ToInt(radix?: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -166,7 +166,7 @@ export function ToInt(radix?: number, annotationOptions?: ValidationAnnotationOp
 /**
  * Convert the input to a string.
  */
-export function ToString(annotationOptions?: ValidationAnnotationOptions) {
+export function ToString(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -181,7 +181,7 @@ export function ToString(annotationOptions?: ValidationAnnotationOptions) {
 /**
  * Trim characters (whitespace by default) from both sides of the input.  You can specify chars that should be trimmed.
  */
-export function Trim(chars?: string[], annotationOptions?: ValidationAnnotationOptions) {
+export function Trim(chars?: string[], annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,
@@ -198,7 +198,7 @@ export function Trim(chars?: string[], annotationOptions?: ValidationAnnotationO
  * Remove characters that do not appear in the whitelist.
  * The characters are used in a RegExp and so you will need to escape some chars, e.g. whitelist(input, '\\[\\]').
  */
-export function Whitelist(chars: RegExp, annotationOptions?: ValidationAnnotationOptions) {
+export function Whitelist(chars: RegExp, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             sanitize: true,

@@ -18,7 +18,7 @@ Wrapper over [validator.js][1] library that provides you easy way to use it with
 Create your class and put some validation annotations on its properties you want to validate:
 
 ```typescript
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "validator.ts/ValidationAnnotations";
+import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "validator.ts/decorator/ValidationDecorators";
 
 export class Post {
 

@@ -38,7 +38,7 @@
     "gulp": "^3.9.0",
     "gulp-replace": "^0.5.4",
     "gulp-shell": "^0.5.0",
-    "gulpfile.ts": "0.0.2",
+    "gulpclass": "0.0.4",
     "tsd": "^0.6.4",
     "typescript": "^1.6.2"
   },

@@ -1,4 +1,4 @@
-import {Gulpclass, Task, SequenceTask} from "gulpfile.ts/Annotations";
+import {Gulpclass, Task, SequenceTask} from "gulpclass/Decorators";
 import * as gulp from "gulp";
 
 const del: any = require('del');

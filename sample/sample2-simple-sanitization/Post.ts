@@ -1,4 +1,4 @@
-import {Trim, Rtrim, ToInt, Blacklist} from "../../src/annotation/SanitizeAnnotations";
+import {Trim, Rtrim, ToInt, Blacklist} from "../../src/decorator/SanitizeDecorators";
 
 export class Post {
 

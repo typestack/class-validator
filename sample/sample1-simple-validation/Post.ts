@@ -1,4 +1,4 @@
-import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, NotEmpty, NotEmptyArray, MinElements, MaxElements} from "../../src/annotation/ValidationAnnotations";
+import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, NotEmpty, NotEmptyArray, MinElements, MaxElements} from "../../src/decorator/ValidationDecorators";
 
 export class Post {
 
