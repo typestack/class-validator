@@ -7,7 +7,7 @@
   "compileOnSave": false,
   "installed": {
     "node/node.d.ts": {
-      "commit": "4df20c9706ce6ca27137617770b57f3a0d3f9689"
+      "commit": "efd40e67ff323f7147651bdbef03c03ead7b1675"
     },
     "mocha/mocha.d.ts": {
       "commit": "7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645"
@@ -23,6 +23,15 @@
     },
     "es6-promise/es6-promise.d.ts": {
       "commit": "b70895565dd5bd5de71c31e573d781409554bbf1"
+    },
+    "orchestrator/orchestrator.d.ts": {
+      "commit": "efd40e67ff323f7147651bdbef03c03ead7b1675"
+    },
+    "gulp/gulp.d.ts": {
+      "commit": "efd40e67ff323f7147651bdbef03c03ead7b1675"
+    },
+    "q/Q.d.ts": {
+      "commit": "efd40e67ff323f7147651bdbef03c03ead7b1675"
     }
   }
 }

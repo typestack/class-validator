@@ -1,8 +1,6 @@
-import * as bodyParser from 'body-parser';
-import {Express} from "express";
 import {defaultMetadataStorage} from "../metadata/MetadataStorage";
 import {SanitizeTypes} from "../types/SanitizeTypes";
-import {ValidationAnnotationOptions} from "./ValidationAnnotations";
+import {ValidationAnnotationOptions} from "./options/ValidationAnnotationOptions";
 
 /**
  * Remove characters that appear in the blacklist. The characters are used in a RegExp and so you will need to
@@ -22,7 +20,7 @@ export function Blacklist(chars: RegExp, annotationOptions?: ValidationAnnotatio
 }
 
 /**
- * Replace <, >, &, ', " and / with HTML entities
+ * Replace <, >, &, ', " and / with HTML entities.
  */
 export function Escape(annotationOptions?: ValidationAnnotationOptions) {
     return function (object: Object, propertyName: string) {
@@ -135,7 +133,7 @@ export function ToDate(annotationOptions?: ValidationAnnotationOptions) {
 }
 
 /**
- * Convert the input to a date, or null if the input is not a date.
+ * Convert the input to a float.
  */
 export function ToFloat(annotationOptions?: ValidationAnnotationOptions) {
     return function (object: Object, propertyName: string) {
@@ -181,7 +179,7 @@ export function ToString(annotationOptions?: ValidationAnnotationOptions) {
 }
 
 /**
- * Trim characters (whitespace by default) from both sides of the input.
+ * Trim characters (whitespace by default) from both sides of the input.  You can specify chars that should be trimmed.
  */
 export function Trim(chars?: string[], annotationOptions?: ValidationAnnotationOptions) {
     return function (object: Object, propertyName: string) {

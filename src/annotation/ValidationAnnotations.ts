@@ -1,14 +1,6 @@
-import * as bodyParser from 'body-parser';
-import {Express} from "express";
 import {defaultMetadataStorage} from "../metadata/MetadataStorage";
 import {ValidationTypes} from "../types/ValidationTypes";
-
-export interface ValidationAnnotationOptions {
-    each?: boolean;
-    message?: string;
-    groups?: string[];
-    always?: boolean;
-}
+import {ValidationAnnotationOptions} from "./options/ValidationAnnotationOptions";
 
 /**
  * Check if the string contains the seed.

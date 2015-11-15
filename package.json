@@ -1,6 +1,7 @@
 {
   "name": "validator.ts",
-  "version": "0.0.8",
+  "private": true,
+  "version": "0.0.9",
   "description": "Wrapper over validator.js library that allows to use validation decorators in your Typescript classes",
   "license": "Apache-2.0",
   "readmeFilename": "README.md",
@@ -19,7 +20,7 @@
     "validator",
     "validation",
     "typescript",
-    "typescripvalidator.ts"
+    "typescript-validator"
   ],
   "typings": "./validator.ts.d.ts",
   "typescript": {
@@ -31,18 +32,17 @@
     "validator": "^4.1.0"
   },
   "devDependencies": {
-    "del": "^2.x.x",
-    "dts-generator": "^1.5.0",
-    "fs": "^0.0.x",
+    "del": "^2.0.2",
+    "dts-generator": "^1.6.0",
+    "glob": "^5.0.15",
     "gulp": "^3.9.0",
-    "gulp-exec": "^2.1.1",
-    "gulp-plumber": "^1.0.1",
-    "gulp-typescript": "^2.9.0",
-    "run-sequence": "^1.1.4",
+    "gulp-replace": "^0.5.4",
+    "gulp-shell": "^0.5.0",
+    "gulpfile.ts": "0.0.2",
     "tsd": "^0.6.4",
     "typescript": "^1.6.2"
   },
   "scripts": {
-    "postversion": "./node_modules/.bin/gulp package"
+    "start": "./node_modules/.bin/tsd install && ./node_modules/.bin/tsd rebundle && ./node_modules/.bin/tsd link && ./node_modules/.bin/tsc"
   }
 }

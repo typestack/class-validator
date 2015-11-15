@@ -5,5 +5,5 @@ export interface ValidationErrorInterface {
     errorName: string;
     errorMessage: string;
     value: any;
-    expectedValue: any;
+    required: any;
 }

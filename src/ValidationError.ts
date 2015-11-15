@@ -1,4 +1,4 @@
-import {ValidationErrorInterface} from "../ValidationErrorInterface";
+import {ValidationErrorInterface} from "./ValidationErrorInterface";
 
 export class ValidationError extends Error {
     name = 'ValidationError';

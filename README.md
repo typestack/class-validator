@@ -1,6 +1,19 @@
-# T-Validator
+# Validator.ts
 
 Wrapper over [validator.js][1] library that provides you easy way to use it with Typescript classes.
+
+## Installation
+
+Assuming you have already installed [microframework][2]. If you didn't do it yet, go to its page, read instructions
+ and install it.
+
+1. Install module:
+
+    `npm install --save validator.ts`
+
+2. Install required [tsd](http://definitelytyped.org/tsd/) dependencies:
+
+    `tsd install --save es6-promise`
 
 ## Usage
 
@@ -45,6 +58,39 @@ console.log(validator.validate(Post, post)); // returns you array of errors for 
 
 Validator also supports validation groups.
 Take a look on samples in `./sample` for more examples of usages.
+
+## Sanity decorators
+
+| Decorator                        | Description                                                                                                                                                             |
+|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `@Blacklist(chars: RegExp)`      | Remove characters that appear in the blacklist.                                                                                                                         |
+| `@Escape()`                      | Replace <, >, &, ', " and / with HTML entities.                                                                                                                         |
+| `@Ltrim()`                       | Trim characters from the left-side of the input.                                                                                                                        |
+| `@NormalizeEmail()`              | Canonicalize an email address.                                                                                                                                          |
+| `@Rtrim()`                       | Trim characters from the left-side of the input.                                                                                                                        |
+| `@StripLow()`                    | Remove characters with a numerical value < 32 and 127, mostly control characters.                                                                                       |
+| `@ToBoolean(isStrict?: boolean)` | Convert the input to a boolean. Everything except for '0', 'false' and '' returns true. In strict mode only '1' and 'true' return true.                                 |
+| `@ToDate()`                      | Convert the input to a date, or null if the input is not a date.                                                                                                        |
+| `@ToFloat()`                     | Convert the input to a float.                                                                                                                                           |
+| `@ToInt()`                       | Convert the input to an integer, or NaN if the input is not an integer.                                                                                                 |
+| `@ToString()`                    | Convert the input to a string.                                                                                                                                          |
+| `@Trim(chars?: string[])`        | Trim characters (whitespace by default) from both sides of the input. You can specify chars that should be trimmed.                                                     |
+| `@Whitelist(chars: RegExp)`      | Remove characters that do not appear in the whitelist.* The characters are used in a RegExp and so you will need to escape some chars, e.g. whitelist(input, '\\[\\]'). |
+
+## FAQ
+
+* Which node version is supported?
+
+    This module is tested on > node 4.0, so its highly recommended if you install the latest version of node.
+    If you are using old versions of node, the major dependency afaik of this module is on ES6 Promises, which are
+    supported by some of old versions of node too. In the case if your node version does not support promises you can
+    try to npm install `es6-promise` module and include it to make promises work in your version of node.
+
+* Is this library production-ready?
+
+    The library is under active development, and needs better testing and contributions from community.
+    If you want to use it in production its highly recommended to fix library version that you will use.
+    I personally use it in production.
 
 ## Todos
 

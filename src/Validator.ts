@@ -5,7 +5,7 @@ import {MetadataStorage, defaultMetadataStorage} from "./metadata/MetadataStorag
 import {ValidationErrorInterface} from "./ValidationErrorInterface";
 import {ValidationTypesUtils} from "./types/ValidationTypes";
 import {ValidationOptions} from "./ValidationOptions";
-import {ValidationError} from "./error/ValidationError";
+import {ValidationError} from "./ValidationError";
 
 /**
  * Validator performs validation of the given object based on its metadata.
@@ -28,8 +28,8 @@ export class Validator {
     // -------------------------------------------------------------------------
 
     validateAsync<T>(objectClass: Function, object: T, validationOptions?: ValidationOptions): Promise<T> {
-        return new Promise<T>((ok, fail) => { // todo install promise
-            let errors = this.validate(objectClass, object, validationOptions);
+        return new Promise<T>((ok, fail) => {
+            const errors = this.validate(objectClass, object, validationOptions);
             if (errors.length > 0) {
                 fail(new ValidationError(errors));
             } else {
@@ -71,7 +71,7 @@ export class Validator {
                     errorName: ValidationTypesUtils.getCodeName(metadata.type),
                     errorMessage: metadata.message,
                     value: value,
-                    expectedValue: metadata.value1
+                    required: metadata.value1
                 };
             });
 
@@ -105,16 +105,33 @@ export class Validator {
     }
 
     sanitize(objectClass: Function, object: any): void {
-        let metadatas = this.metadataStorage.getSanitizeMetadatasForObject(objectClass);
-        metadatas.forEach(metadata => {
-            if (!object[metadata.propertyName]) return;
-            object[metadata.propertyName] = this.performSanitization(object[metadata.propertyName], metadata);
+        this.metadataStorage
+            .getSanitizeMetadatasForObject(objectClass)
+            .filter(metadata => !!object[metadata.propertyName])
+            .forEach(metadata => object[metadata.propertyName] = this.sanitizeValue(object[metadata.propertyName], metadata));
+    }
+
+    sanitizeAsync<T>(objectClass: Function, object: T): Promise<T> {
+        return new Promise<T>((ok) => {
+            this.sanitize(objectClass, object);
+            ok(object);
         });
     }
 
     sanitizeAndValidate(objectClass: Function, object: any, validationOptions?: ValidationOptions): ValidationErrorInterface[] {
         this.sanitize(objectClass, object);
         return this.validate(objectClass, object, validationOptions);
+    }
+
+    sanitizeAndValidateAsync<T>(objectClass: Function, object: T, validationOptions?: ValidationOptions): Promise<T> {
+        return new Promise<T>((ok, fail) => {
+            const errors = this.sanitizeAndValidate(objectClass, object, validationOptions);
+            if (errors.length > 0) {
+                fail(new ValidationError(errors));
+            } else {
+                ok(object);
+            }
+        });
     }
 
     isValid(objectClass: Function, object: any, validationOptions?: ValidationOptions): boolean {
@@ -124,17 +141,6 @@ export class Validator {
     // -------------------------------------------------------------------------
     // Private Methods
     // -------------------------------------------------------------------------
-
-    /*private performArrayValidation(value: any[], metadata: ValidationMetadata): boolean {
-        switch (metadata.type) {
-            case ValidationTypes.NOT_EMPTY_ARRAY:
-                return value.length > 0;
-            case ValidationTypes.MIN_ELEMENTS:
-                return value.length > metadata.value1;
-            case ValidationTypes.MAX_ELEMENTS:
-                return value.length > metadata.value1;
-        }
-    }*/
 
     private performValidation(value: any, metadata: ValidationMetadata): boolean {
         switch (metadata.type) {
@@ -251,7 +257,7 @@ export class Validator {
         return true;
     }
 
-    private performSanitization(value: any, metadata: ValidationMetadata): any {
+    private sanitizeValue(value: any, metadata: ValidationMetadata): any {
         switch (metadata.type) {
             case SanitizeTypes.BLACKLIST:
                 return this.validator.blacklist(value, metadata.value1);
