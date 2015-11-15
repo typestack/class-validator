@@ -4,9 +4,6 @@ Wrapper over [validator.js][1] library that provides you easy way to use it with
 
 ## Installation
 
-Assuming you have already installed [microframework][2]. If you didn't do it yet, go to its page, read instructions
- and install it.
-
 1. Install module:
 
     `npm install --save validator.ts`
@@ -61,6 +58,10 @@ Take a look on samples in `./sample` for more examples of usages.
 
 ## Sanity decorators
 
+*TBD*
+
+## Sanity decorators
+
 | Decorator                        | Description                                                                                                                                                             |
 |----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `@Blacklist(chars: RegExp)`      | Remove characters that appear in the blacklist.                                                                                                                         |
@@ -82,15 +83,15 @@ Take a look on samples in `./sample` for more examples of usages.
 * Which node version is supported?
 
     This module is tested on > node 4.0, so its highly recommended if you install the latest version of node.
-    If you are using old versions of node, the major dependency afaik of this module is on ES6 Promises, which are
-    supported by some of old versions of node too. In the case if your node version does not support promises you can
-    try to npm install `es6-promise` module and include it to make promises work in your version of node.
+    If you are using old versions of node, the major dependency (afaik) of this module is on ES6 Promises, which are
+    supported by some of the old versions of node too. In the case if your node version does not support promises you
+    can try to npm install `es6-promise` module and include it to make promises work in your version of node.
 
 * Is this library production-ready?
 
-    The library is under active development, and needs better testing and contributions from community.
-    If you want to use it in production its highly recommended to fix library version that you will use.
-    I personally use it in production.
+    The library is under active development, and needs better testing and contributions from community. If you want
+    to use it in production its highly recommended to fix library version that you use in your package.json file.
+    Personally I use it in production.
 
 ## Todos
 
@@ -98,5 +99,6 @@ Take a look on samples in `./sample` for more examples of usages.
 * more documentation and samples
 * add support to load validation configuration from json and plain javascript objects 
 * add support to work with vanila js
+* add support for custom validation classes
 
 [1]: https://github.com/chriso/validator.js
