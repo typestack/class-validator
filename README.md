@@ -8,7 +8,8 @@ Wrapper over [validator.js][1] library that provides you easy way to use it with
 
     `npm install --save validator.ts`
 
-2. Install required [tsd](http://definitelytyped.org/tsd/) dependencies:
+2. Install required [tsd](http://definitelytyped.org/tsd/) dependencies
+(only in the case if you are targetting ES3/ES5 in tsconfig of your project. If you are using ES6 this step is not required):
 
     `tsd install --save es6-promise`
 
