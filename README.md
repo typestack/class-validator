@@ -56,7 +56,7 @@ console.log(validator.validate(Post, post)); // returns you array of errors for 
 Validator also supports validation groups.
 Take a look on samples in `./sample` for more examples of usages.
 
-## Sanity decorators
+## Validation decorators
 
 *TBD*
 
