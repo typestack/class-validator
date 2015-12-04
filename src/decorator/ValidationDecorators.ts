@@ -3,7 +3,7 @@ import {ValidationTypes} from "../types/ValidationTypes";
 import {ValidationDecoratorOptions} from "./options/ValidationDecoratorOptions";
 
 /**
- * Check if the string contains the seed.
+ * Checks if the string contains the seed.
  */
 export function Contains(seed: string, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -22,7 +22,7 @@ export function Contains(seed: string, annotationOptions?: ValidationDecoratorOp
 }
 
 /**
- * Check if the string matches the comparison.
+ * Checks if the string matches the comparison.
  */
 export function Equals(comparison: string, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -41,7 +41,7 @@ export function Equals(comparison: string, annotationOptions?: ValidationDecorat
 }
 
 /**
- * Check if the string is a date that's after the specified date.
+ * Checks if the string is a date that's after the specified date.
  */
 export function IsAfter(date: Date, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -60,7 +60,7 @@ export function IsAfter(date: Date, annotationOptions?: ValidationDecoratorOptio
 }
 
 /**
- * Check if the string contains only letters (a-zA-Z).
+ * Checks if the string contains only letters (a-zA-Z).
  */
 export function IsAlpha(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -78,7 +78,7 @@ export function IsAlpha(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string contains only letters and numbers.
+ * Checks if the string contains only letters and numbers.
  */
 export function IsAlphanumeric(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -96,7 +96,7 @@ export function IsAlphanumeric(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string contains ASCII chars only.
+ * Checks if the string contains ASCII chars only.
  */
 export function IsAscii(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -114,7 +114,7 @@ export function IsAscii(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if a string is base64 encoded.
+ * Checks if a string is base64 encoded.
  */
 export function IsBase64(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -132,7 +132,7 @@ export function IsBase64(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is a date that's before the specified date.
+ * Checks if the string is a date that's before the specified date.
  */
 export function IsBefore(date: Date, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -151,7 +151,7 @@ export function IsBefore(date: Date, annotationOptions?: ValidationDecoratorOpti
 }
 
 /**
- * Check if a string is a boolean.
+ * Checks if a string is a boolean.
  */
 export function IsBoolean(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -169,7 +169,7 @@ export function IsBoolean(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string's length (in bytes) falls in a range.
+ * Checks if the string's length (in bytes) falls in a range.
  */
 export function IsByteLength(min: number, max?: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -189,7 +189,7 @@ export function IsByteLength(min: number, max?: number, annotationOptions?: Vali
 }
 
 /**
- * Check if the string is a credit card.
+ * Checks if the string is a credit card.
  */
 export function IsCreditCard(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -222,7 +222,7 @@ export interface IsCurrencyOptions {
 }
 
 /**
- * Check if the string is a valid currency amount.
+ * Checks if the string is a valid currency amount.
  */
 export function IsCurrency(options?: IsCurrencyOptions, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -241,7 +241,7 @@ export function IsCurrency(options?: IsCurrencyOptions, annotationOptions?: Vali
 }
 
 /**
- * Check if the string is a date.
+ * Checks if the string is a date.
  */
 export function IsDate(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -259,7 +259,7 @@ export function IsDate(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
+ * Checks if the string represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
  */
 export function IsDecimal(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -277,7 +277,7 @@ export function IsDecimal(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is a number that's divisible by another.
+ * Checks if the string is a number that's divisible by another.
  */
 export function IsDivisibleBy(number: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -302,7 +302,7 @@ export interface IsEmailOptions {
 }
 
 /**
- * Check if the string is an email.
+ * Checks if the string is an email.
  */
 export function IsEmail(options?: IsEmailOptions, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -327,7 +327,7 @@ export interface IsFQDNOptions {
 }
 
 /**
- * Check if the string is a fully qualified domain name (e.g. domain.com).
+ * Checks if the string is a fully qualified domain name (e.g. domain.com).
  */
 export function IsFQDN(options?: IsFQDNOptions, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -351,7 +351,7 @@ export interface IsFloatOptions {
 }
 
 /**
- * Check if the string is a float.
+ * Checks if the string is a float.
  */
 export function IsFloat(options?: IsFloatOptions, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -370,7 +370,7 @@ export function IsFloat(options?: IsFloatOptions, annotationOptions?: Validation
 }
 
 /**
- * Check if the string contains any full-width chars.
+ * Checks if the string contains any full-width chars.
  */
 export function IsFullWidth(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -388,7 +388,7 @@ export function IsFullWidth(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string contains any half-width chars.
+ * Checks if the string contains any half-width chars.
  */
 export function IsHalfWidth(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -406,7 +406,7 @@ export function IsHalfWidth(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is a hexadecimal color.
+ * Checks if the string is a hexadecimal color.
  */
 export function IsHexColor(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -424,7 +424,7 @@ export function IsHexColor(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is a hexadecimal number.
+ * Checks if the string is a hexadecimal number.
  */
 export function IsHexadecimal(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -442,7 +442,7 @@ export function IsHexadecimal(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is an IP (version 4 or 6).
+ * Checks if the string is an IP (version 4 or 6).
  */
 export function IsIP(version?: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -461,7 +461,7 @@ export function IsIP(version?: number, annotationOptions?: ValidationDecoratorOp
 }
 
 /**
- * Check if the string is an ISBN (version 10 or 13).
+ * Checks if the string is an ISBN (version 10 or 13).
  */
 export function IsISBN(version?: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -480,7 +480,7 @@ export function IsISBN(version?: number, annotationOptions?: ValidationDecorator
 }
 
 /**
- * Check if the string is an ISIN (stock/security identifier).
+ * Checks if the string is an ISIN (stock/security identifier).
  */
 export function IsISIN(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -498,7 +498,7 @@ export function IsISIN(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is a valid ISO 8601 date.
+ * Checks if the string is a valid ISO 8601 date.
  */
 export function IsISO8601(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -516,7 +516,7 @@ export function IsISO8601(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is in a array of allowed values.
+ * Checks if the string is in a array of allowed values.
  */
 export function IsIn(values: any[], annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -540,7 +540,7 @@ export interface IsIntOptions {
 }
 
 /**
- * Check if the string is an integer.
+ * Checks if the string is an integer.
  */
 export function IsInt(options?: IsIntOptions, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -559,7 +559,7 @@ export function IsInt(options?: IsIntOptions, annotationOptions?: ValidationDeco
 }
 
 /**
- * Check if the string is valid JSON (note: uses JSON.parse).
+ * Checks if the string is valid JSON (note: uses JSON.parse).
  */
 export function IsJSON(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -577,7 +577,7 @@ export function IsJSON(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string's length falls in a range. Note: this function takes into account surrogate pairs.
+ * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
  */
 export function IsLength(min: number, max?: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -597,7 +597,7 @@ export function IsLength(min: number, max?: number, annotationOptions?: Validati
 }
 
 /**
- * Check if the string is lowercase.
+ * Checks if the string is lowercase.
  */
 export function IsLowercase(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -615,7 +615,7 @@ export function IsLowercase(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-TW', 'en-ZA', 'en-AU', 'en-HK', 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
+ * Checks if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-TW', 'en-ZA', 'en-AU', 'en-HK', 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
  */
 export function IsMobilePhone(locale: string, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -634,7 +634,7 @@ export function IsMobilePhone(locale: string, annotationOptions?: ValidationDeco
 }
 
 /**
- * Check if the string is a valid hex-encoded representation of a MongoDB ObjectId.
+ * Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
  */
 export function IsMongoId(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -652,7 +652,7 @@ export function IsMongoId(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string contains one or more multibyte chars.
+ * Checks if the string contains one or more multibyte chars.
  */
 export function IsMultibyte(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -670,7 +670,7 @@ export function IsMultibyte(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is null.
+ * Checks if the string is null.
  */
 export function IsNull(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -688,7 +688,7 @@ export function IsNull(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is numeric.
+ * Checks if the string is numeric.
  */
 export function IsNumeric(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -706,7 +706,7 @@ export function IsNumeric(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string contains any surrogate pairs chars.
+ * Checks if the string contains any surrogate pairs chars.
  */
 export function IsSurrogatePair(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -736,7 +736,7 @@ export interface IsURLOptions {
 }
 
 /**
- * Check if the string is a fully qualified domain name (e.g. domain.com).
+ * Checks if the string is a fully qualified domain name (e.g. domain.com).
  */
 export function IsUrl(options?: IsURLOptions, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -755,7 +755,7 @@ export function IsUrl(options?: IsURLOptions, annotationOptions?: ValidationDeco
 }
 
 /**
- * Check if the string is a UUID (version 3, 4 or 5).
+ * Checks if the string is a UUID (version 3, 4 or 5).
  */
 export function IsUUID(version?: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -774,7 +774,7 @@ export function IsUUID(version?: number, annotationOptions?: ValidationDecorator
 }
 
 /**
- * Check if the string is uppercase.
+ * Checks if the string is uppercase.
  */
 export function IsUppercase(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -792,7 +792,7 @@ export function IsUppercase(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string contains a mixture of full and half-width chars.
+ * Checks if the string contains a mixture of full and half-width chars.
  */
 export function IsVariableWidth(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -810,7 +810,7 @@ export function IsVariableWidth(annotationOptions?: ValidationDecoratorOptions) 
 }
 
 /**
- * Check if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+ * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
  */
 export function Matches(pattern: RegExp, annotationOptions?: ValidationDecoratorOptions): Function;
 export function Matches(pattern: RegExp, modifiers?: string, annotationOptions?: ValidationDecoratorOptions): Function;
@@ -839,7 +839,7 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
 }
 
 /**
- * Check if the string's length is not less then given number. Note: this function takes into account surrogate pairs.
+ * Checks if the string's length is not less then given number. Note: this function takes into account surrogate pairs.
  */
 export function MinLength(min: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -858,7 +858,7 @@ export function MinLength(min: number, annotationOptions?: ValidationDecoratorOp
 }
 
 /**
- * Check if the string's length is not more then given number. Note: this function takes into account surrogate pairs.
+ * Checks if the string's length is not more then given number. Note: this function takes into account surrogate pairs.
  */
 export function MaxLength(max: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -877,7 +877,7 @@ export function MaxLength(max: number, annotationOptions?: ValidationDecoratorOp
 }
 
 /**
- * Check if the given number is not less then given number.
+ * Checks if the given number is not less then given number.
  */
 export function MinNumber(min: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -896,7 +896,7 @@ export function MinNumber(min: number, annotationOptions?: ValidationDecoratorOp
 }
 
 /**
- * Check if the given number is not more then given number.
+ * Checks if the given number is not more then given number.
  */
 export function MaxNumber(max: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
