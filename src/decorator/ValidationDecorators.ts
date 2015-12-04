@@ -41,7 +41,7 @@ export function Equals(comparison: string, annotationOptions?: ValidationDecorat
 }
 
 /**
- * Check if the string is a date that's after the specified date (defaults to now).
+ * Check if the string is a date that's after the specified date.
  */
 export function IsAfter(date: Date, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -114,7 +114,7 @@ export function IsAscii(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string contains ASCII chars only.
+ * Check if a string is base64 encoded.
  */
 export function IsBase64(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -406,7 +406,7 @@ export function IsHalfWidth(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string contains any half-width chars.
+ * Check if the string is a hexadecimal color.
  */
 export function IsHexColor(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -615,7 +615,7 @@ export function IsLowercase(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Check if the string is lowercase.
+ * Check if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-TW', 'en-ZA', 'en-AU', 'en-HK', 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
  */
 export function IsMobilePhone(locale: string, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -774,7 +774,7 @@ export function IsUUID(version?: number, annotationOptions?: ValidationDecorator
 }
 
 /**
- * Check if the string is null.
+ * Check if the string is uppercase.
  */
 export function IsUppercase(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -915,7 +915,7 @@ export function MaxNumber(max: number, annotationOptions?: ValidationDecoratorOp
 }
 
 /**
- * Checks if given value is not empty
+ * Checks if given value is not empty.
  */
 export function NotEmpty(annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -952,6 +952,7 @@ export function NotEmptyArray(annotationOptions?: ValidationDecoratorOptions) {
 
 /**
  * Checks if array's length is as minimal this number.
+ * todo: rename to MinArrayLength ?
  */
 export function MinElements(min: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {
@@ -971,6 +972,7 @@ export function MinElements(min: number, annotationOptions?: ValidationDecorator
 
 /**
  * Checks if array's length is as maximal this number.
+ * todo: rename to MaxArrayLength ?
  */
 export function MaxElements(max: number, annotationOptions?: ValidationDecoratorOptions) {
     return function (object: Object, propertyName: string) {

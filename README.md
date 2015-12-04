@@ -13,6 +13,10 @@ Wrapper over [validator.js][1] library that provides you easy way to use it with
 
     `tsd install --save es6-promise`
 
+3. Link you tsd modules:
+
+    `tsd link`
+
 ## Usage
 
 Create your class and put some validation annotations on its properties you want to validate:
@@ -59,7 +63,59 @@ Take a look on samples in `./sample` for more examples of usages.
 
 ## Validation decorators
 
-*TBD*
+| Decorator                                       | Description                                                                                       |
+|-------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| `@Contains(seed: string)`                       | Check if the string contains the seed.                                                            |
+| `@Equals(comparison: string)`                   | Check if the string matches the comparison.                                                       |
+| `@IsAfter(date: Date)`                          | Check if the string is a date that's after the specified date.                                    |
+| `@IsAlpha()`                                    | Check if the string contains only letters (a-zA-Z).                                               |
+| `@IsAlphanumeric()`                             | Check if the string contains only letters and numbers.                                            |
+| `@IsAscii()`                                    | Check if the string contains ASCII chars only.                                                    |
+| `@IsBase64()`                                   | Check if a string is base64 encoded.                                                              |
+| `@IsBefore(date: Date)`                         | Check if the string is a date that's before the specified date.                                   |
+| `@IsBoolean()`                                  | Check if a string is a boolean.                                                                   |
+| `@IsByteLength(min: number, max?: number)`      | Check if the string's length (in bytes) falls in a range.                                         |
+| `@IsCreditCard()`                               | Check if the string is a credit card.                                                             |
+| `@IsCurrency(options?: IsCurrencyOptions)`      | Check if the string is a valid currency amount.                                                   |
+| `@IsDate()`                                     | Check if the string is a date.                                                                    |
+| `@IsDecimal()`                                  | Check if the string represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.         |
+| `@IsDivisibleBy(number: number)`                | Check if the string is a number that's divisible by another.                                      |
+| `@IsEmail(options?: IsEmailOptions)`            | Check if the string is an email.                                                                  |
+| `@IsFQDN(options?: IsFQDNOptions)`              | Check if the string is a fully qualified domain name (e.g. domain.com).                           |
+| `@IsFloat(options?: IsFloatOptions)`            | Check if the string is a float.                                                                   |
+| `@IsFullWidth()`                                | Check if the string contains any full-width chars.                                                |
+| `@IsHalfWidth()`                                | Check if the string contains any half-width chars.                                                |
+| `@IsHexColor()`                                 | Check if the string is a hexadecimal color.                                                       |
+| `@IsHexadecimal()`                              | Check if the string is a hexadecimal number.                                                      |
+| `@IsIP(version?: number)`                       | Check if the string is an IP (version 4 or 6).                                                    |
+| `@IsISBN(version?: number)`                     | Check if the string is an ISBN (version 10 or 13).                                                |
+| `@IsISIN()`                                     | Check if the string is an ISIN (stock/security identifier).                                       |
+| `@IsISO8601()`                                  | Check if the string is a valid ISO 8601 date.                                                     |
+| `@IsIn(values: any[])`                          | Check if the string is in a array of allowed values.                                              |
+| `@IsInt(options?: IsIntOptions)`                | Check if the string is an integer.                                                                |
+| `@IsJSON()`                                     | Check if the string is valid JSON.                                                                |
+| `@IsLength(min: number, max?: number)`          | Check if the string's length falls in a range.                                                    |
+| `@IsLowercase()`                                | Check if the string is lowercase.                                                                 |
+| `@IsMobilePhone(locale: string)`                | Check if the string is a mobile phone number.                                                     |
+| `@IsMongoId()`                                  | Check if the string is a valid hex-encoded representation of a MongoDB ObjectId.                  |
+| `@IsMultibyte()`                                | Check if the string contains one or more multibyte chars.                                         |
+| `@IsNull()`                                     | Check if the string is null.                                                                      |
+| `@IsNumeric()`                                  | Check if the string is numeric.                                                                   |
+| `@IsSurrogatePair()`                            | Check if the string contains any surrogate pairs chars.                                           |
+| `@IsUrl(options?: IsURLOptions)`                | Check if the string is a fully qualified domain name (e.g. domain.com).                           |
+| `@IsUUID(version?: number)`                     | Check if the string is a UUID (version 3, 4 or 5).                                                |
+| `@IsUppercase()`                                | Check if the string is uppercase.                                                                 |
+| `@IsVariableWidth()`                            | Check if the string contains a mixture of full and half-width chars.                              |
+| `@Matches(pattern: RegExp, modifiers?: string)` | Check if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i'). |
+| `@MinLength(min: number)`                       | Check if the string's length is not less then given number.                                       |
+| `@MaxLength(max: number)`                       | Check if the string's length is not more then given number.                                       |
+| `@MinNumber(min: number)`                       | Check if the given number is not less then given number.                                          |
+| `@MaxNumber(max: number)`                       | Check if the given number is not more then given number.                                          |
+| `@NotEmpty()`                                   | Checks if given value is not empty.                                                               |
+| `@NotEmptyArray()`                              | Checks if given array is not empty.                                                               |
+| `@MinElements(min: number)`                     | Checks if array's length is as minimal this number.                                               |
+| `@MaxElements(max: number)`                     | Checks if array's length is as maximal this number.                                               |
+
 
 ## Sanity decorators
 
