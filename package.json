@@ -1,8 +1,8 @@
 {
   "name": "validator.ts",
   "private": true,
-  "version": "0.0.9",
-  "description": "Wrapper over validator.js library that allows to use validation decorators in your Typescript classes",
+  "version": "0.1.0",
+  "description": "Annotation and non-annotation based validation in Typescript",
   "license": "Apache-2.0",
   "readmeFilename": "README.md",
   "author": {
@@ -22,12 +22,6 @@
     "typescript",
     "typescript-validator"
   ],
-  "typings": "./validator.ts.d.ts",
-  "typescript": {
-    "definitions": [
-      "validator.ts.d.ts"
-    ]
-  },
   "dependencies": {
     "validator": "^4.1.0"
   },
@@ -41,8 +35,5 @@
     "gulpclass": "0.0.4",
     "tsd": "^0.6.4",
     "typescript": "^1.6.2"
-  },
-  "scripts": {
-    "start": "./node_modules/.bin/tsd install && ./node_modules/.bin/tsd rebundle && ./node_modules/.bin/tsd link && ./node_modules/.bin/tsc"
   }
 }

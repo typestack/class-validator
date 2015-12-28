@@ -11,11 +11,11 @@ post1.email = 'info@google.com'; // should pass
 post1.site = 'google.com'; // should pass
 post1.createDate = new Date(); // should pass
 
-console.log('should pass: ', validator.validate(Post, post1, {
+console.log('should pass: ', validator.validate(post1, {
     groups: ['users']
 }));
 
-console.log('should pass: ', validator.validate(Post, post1, {
+console.log('should pass: ', validator.validate(post1, {
     groups: ['admins']
 }));
 
@@ -27,19 +27,19 @@ post2.email = 'info@google.com'; // should pass
 post2.site = 'google.com'; // should pass
 post2.createDate = new Date(); // should pass
 
-console.log('should not pass: ', validator.validate(Post, post2, {
+console.log('should not pass: ', validator.validate(post2, {
     groups: ['users']
 }));
 
-console.log('should not pass: ', validator.validate(Post, post2, {
+console.log('should not pass: ', validator.validate(post2, {
     groups: ['moderators']
 }));
 
-console.log('should pass: ', validator.validate(Post, post2, {
+console.log('should pass: ', validator.validate(post2, {
     groups: ['admins']
 }));
 
-console.log('should pass: ', validator.validate(Post, post2, {
+console.log('should pass: ', validator.validate(post2, {
     groups: ['users', 'admins']
 }));
 
@@ -51,11 +51,11 @@ post3.email = 'info@google.com'; // should pass
 post3.site = 'google.com'; // should pass
 // note that we dont set date
 
-console.log('should pass: ', validator.validate(Post, post3, {
+console.log('should pass: ', validator.validate(post3, {
     groups: ['users']
 }));
 
-console.log('should not pass: ', validator.validate(Post, post3));
+console.log('should not pass: ', validator.validate(post3));
 
 let post4 = new Post();
 post4.title = 'Hello world'; // should not pass for user or moderator, but should pass for admin
@@ -65,8 +65,8 @@ post4.email = ''; // should not pass
 post4.site = 'google.com'; // should pass
 // note that we dont set date
 
-console.log('should not pass: ', validator.validate(Post, post4, {
+console.log('should not pass: ', validator.validate(post4, {
     groups: ['users']
 }));
 
-console.log('should not pass: ', validator.validate(Post, post4));
+console.log('should not pass: ', validator.validate(post4));

@@ -1,11 +1,11 @@
 import {defaultMetadataStorage} from "../metadata/MetadataStorage";
 import {ValidationTypes} from "../types/ValidationTypes";
-import {ValidationDecoratorOptions} from "./options/ValidationDecoratorOptions";
+import {ValidationOptions, IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "../ValidationOptions";
 
 /**
  * Checks if the string contains the seed.
  */
-export function Contains(seed: string, annotationOptions?: ValidationDecoratorOptions) {
+export function Contains(seed: string, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.CONTAINS,
@@ -24,7 +24,7 @@ export function Contains(seed: string, annotationOptions?: ValidationDecoratorOp
 /**
  * Checks if the string matches the comparison.
  */
-export function Equals(comparison: string, annotationOptions?: ValidationDecoratorOptions) {
+export function Equals(comparison: string, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.EQUALS,
@@ -43,7 +43,7 @@ export function Equals(comparison: string, annotationOptions?: ValidationDecorat
 /**
  * Checks if the string is a date that's after the specified date.
  */
-export function IsAfter(date: Date, annotationOptions?: ValidationDecoratorOptions) {
+export function IsAfter(date: Date, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_AFTER,
@@ -62,7 +62,7 @@ export function IsAfter(date: Date, annotationOptions?: ValidationDecoratorOptio
 /**
  * Checks if the string contains only letters (a-zA-Z).
  */
-export function IsAlpha(annotationOptions?: ValidationDecoratorOptions) {
+export function IsAlpha(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ALPHA,
@@ -80,7 +80,7 @@ export function IsAlpha(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string contains only letters and numbers.
  */
-export function IsAlphanumeric(annotationOptions?: ValidationDecoratorOptions) {
+export function IsAlphanumeric(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ALPHANUMERIC,
@@ -98,7 +98,7 @@ export function IsAlphanumeric(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string contains ASCII chars only.
  */
-export function IsAscii(annotationOptions?: ValidationDecoratorOptions) {
+export function IsAscii(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ASCII,
@@ -116,7 +116,7 @@ export function IsAscii(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if a string is base64 encoded.
  */
-export function IsBase64(annotationOptions?: ValidationDecoratorOptions) {
+export function IsBase64(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BASE64,
@@ -134,7 +134,7 @@ export function IsBase64(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string is a date that's before the specified date.
  */
-export function IsBefore(date: Date, annotationOptions?: ValidationDecoratorOptions) {
+export function IsBefore(date: Date, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BEFORE,
@@ -153,7 +153,7 @@ export function IsBefore(date: Date, annotationOptions?: ValidationDecoratorOpti
 /**
  * Checks if a string is a boolean.
  */
-export function IsBoolean(annotationOptions?: ValidationDecoratorOptions) {
+export function IsBoolean(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BOOLEAN,
@@ -171,7 +171,7 @@ export function IsBoolean(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string's length (in bytes) falls in a range.
  */
-export function IsByteLength(min: number, max?: number, annotationOptions?: ValidationDecoratorOptions) {
+export function IsByteLength(min: number, max?: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BYTE_LENGTH,
@@ -191,7 +191,7 @@ export function IsByteLength(min: number, max?: number, annotationOptions?: Vali
 /**
  * Checks if the string is a credit card.
  */
-export function IsCreditCard(annotationOptions?: ValidationDecoratorOptions) {
+export function IsCreditCard(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_CREDIT_CARD,
@@ -206,25 +206,10 @@ export function IsCreditCard(annotationOptions?: ValidationDecoratorOptions) {
     }
 }
 
-export interface IsCurrencyOptions {
-    symbol: string;
-    require_symbol: boolean;
-    allow_space_after_symbol: boolean;
-    symbol_after_digits: boolean;
-    allow_negatives: boolean;
-    parens_for_negatives: boolean;
-    negative_sign_before_digits: boolean;
-    negative_sign_after_digits: boolean;
-    allow_negative_sign_placeholder: boolean;
-    thousands_separator: string;
-    decimal_separator: string;
-    allow_space_after_digits: boolean
-}
-
 /**
  * Checks if the string is a valid currency amount.
  */
-export function IsCurrency(options?: IsCurrencyOptions, annotationOptions?: ValidationDecoratorOptions) {
+export function IsCurrency(options?: IsCurrencyOptions, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_CURRENCY,
@@ -243,7 +228,7 @@ export function IsCurrency(options?: IsCurrencyOptions, annotationOptions?: Vali
 /**
  * Checks if the string is a date.
  */
-export function IsDate(annotationOptions?: ValidationDecoratorOptions) {
+export function IsDate(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_DATE,
@@ -261,7 +246,7 @@ export function IsDate(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
  */
-export function IsDecimal(annotationOptions?: ValidationDecoratorOptions) {
+export function IsDecimal(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_DECIMAL,
@@ -279,7 +264,7 @@ export function IsDecimal(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string is a number that's divisible by another.
  */
-export function IsDivisibleBy(number: number, annotationOptions?: ValidationDecoratorOptions) {
+export function IsDivisibleBy(number: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_DIVISIBLE_BY,
@@ -295,16 +280,10 @@ export function IsDivisibleBy(number: number, annotationOptions?: ValidationDeco
     }
 }
 
-export interface IsEmailOptions {
-    allow_display_name: boolean;
-    allow_utf8_local_part: boolean;
-    require_tld: boolean;
-}
-
 /**
  * Checks if the string is an email.
  */
-export function IsEmail(options?: IsEmailOptions, annotationOptions?: ValidationDecoratorOptions) {
+export function IsEmail(options?: IsEmailOptions, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_EMAIL,
@@ -320,16 +299,10 @@ export function IsEmail(options?: IsEmailOptions, annotationOptions?: Validation
     }
 }
 
-export interface IsFQDNOptions {
-    require_tld: boolean;
-    allow_underscores: boolean;
-    allow_trailing_dot: boolean;
-}
-
 /**
  * Checks if the string is a fully qualified domain name (e.g. domain.com).
  */
-export function IsFQDN(options?: IsFQDNOptions, annotationOptions?: ValidationDecoratorOptions) {
+export function IsFQDN(options?: IsFQDNOptions, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_FQDN,
@@ -345,15 +318,10 @@ export function IsFQDN(options?: IsFQDNOptions, annotationOptions?: ValidationDe
     }
 }
 
-export interface IsFloatOptions {
-    min: number;
-    max: number;
-}
-
 /**
  * Checks if the string is a float.
  */
-export function IsFloat(options?: IsFloatOptions, annotationOptions?: ValidationDecoratorOptions) {
+export function IsFloat(options?: IsFloatOptions, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_FLOAT,
@@ -372,7 +340,7 @@ export function IsFloat(options?: IsFloatOptions, annotationOptions?: Validation
 /**
  * Checks if the string contains any full-width chars.
  */
-export function IsFullWidth(annotationOptions?: ValidationDecoratorOptions) {
+export function IsFullWidth(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_FULL_WIDTH,
@@ -390,7 +358,7 @@ export function IsFullWidth(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string contains any half-width chars.
  */
-export function IsHalfWidth(annotationOptions?: ValidationDecoratorOptions) {
+export function IsHalfWidth(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_HALF_WIDTH,
@@ -406,9 +374,27 @@ export function IsHalfWidth(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
+ * Checks if the string contains a mixture of full and half-width chars.
+ */
+export function IsVariableWidth(annotationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.IS_VARIABLE_WIDTH,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    }
+}
+
+/**
  * Checks if the string is a hexadecimal color.
  */
-export function IsHexColor(annotationOptions?: ValidationDecoratorOptions) {
+export function IsHexColor(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_HEX_COLOR,
@@ -426,7 +412,7 @@ export function IsHexColor(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string is a hexadecimal number.
  */
-export function IsHexadecimal(annotationOptions?: ValidationDecoratorOptions) {
+export function IsHexadecimal(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_HEXADECIMAL,
@@ -444,7 +430,7 @@ export function IsHexadecimal(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string is an IP (version 4 or 6).
  */
-export function IsIP(version?: number, annotationOptions?: ValidationDecoratorOptions) {
+export function IsIP(version?: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_IP,
@@ -463,7 +449,7 @@ export function IsIP(version?: number, annotationOptions?: ValidationDecoratorOp
 /**
  * Checks if the string is an ISBN (version 10 or 13).
  */
-export function IsISBN(version?: number, annotationOptions?: ValidationDecoratorOptions) {
+export function IsISBN(version?: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ISBN,
@@ -482,7 +468,7 @@ export function IsISBN(version?: number, annotationOptions?: ValidationDecorator
 /**
  * Checks if the string is an ISIN (stock/security identifier).
  */
-export function IsISIN(annotationOptions?: ValidationDecoratorOptions) {
+export function IsISIN(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ISIN,
@@ -500,7 +486,7 @@ export function IsISIN(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string is a valid ISO 8601 date.
  */
-export function IsISO8601(annotationOptions?: ValidationDecoratorOptions) {
+export function IsISO8601(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ISO8601,
@@ -518,7 +504,7 @@ export function IsISO8601(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string is in a array of allowed values.
  */
-export function IsIn(values: any[], annotationOptions?: ValidationDecoratorOptions) {
+export function IsIn(values: any[], annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_IN,
@@ -534,15 +520,10 @@ export function IsIn(values: any[], annotationOptions?: ValidationDecoratorOptio
     }
 }
 
-export interface IsIntOptions {
-    min: number;
-    max: number;
-}
-
 /**
  * Checks if the string is an integer.
  */
-export function IsInt(options?: IsIntOptions, annotationOptions?: ValidationDecoratorOptions) {
+export function IsInt(options?: IsIntOptions, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_INT,
@@ -561,7 +542,7 @@ export function IsInt(options?: IsIntOptions, annotationOptions?: ValidationDeco
 /**
  * Checks if the string is valid JSON (note: uses JSON.parse).
  */
-export function IsJSON(annotationOptions?: ValidationDecoratorOptions) {
+export function IsJSON(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_JSON,
@@ -579,7 +560,7 @@ export function IsJSON(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
  */
-export function IsLength(min: number, max?: number, annotationOptions?: ValidationDecoratorOptions) {
+export function IsLength(min: number, max?: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_LENGTH,
@@ -599,7 +580,7 @@ export function IsLength(min: number, max?: number, annotationOptions?: Validati
 /**
  * Checks if the string is lowercase.
  */
-export function IsLowercase(annotationOptions?: ValidationDecoratorOptions) {
+export function IsLowercase(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_LOWERCASE,
@@ -615,9 +596,10 @@ export function IsLowercase(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Checks if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-TW', 'en-ZA', 'en-AU', 'en-HK', 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
+ * Checks if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-TW', 'en-ZA', 'en-AU', 'en-HK',
+ * 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
  */
-export function IsMobilePhone(locale: string, annotationOptions?: ValidationDecoratorOptions) {
+export function IsMobilePhone(locale: string, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_MOBILE_PHONE,
@@ -636,7 +618,7 @@ export function IsMobilePhone(locale: string, annotationOptions?: ValidationDeco
 /**
  * Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
  */
-export function IsMongoId(annotationOptions?: ValidationDecoratorOptions) {
+export function IsMongoId(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_MONGO_ID,
@@ -654,7 +636,7 @@ export function IsMongoId(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string contains one or more multibyte chars.
  */
-export function IsMultibyte(annotationOptions?: ValidationDecoratorOptions) {
+export function IsMultibyte(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_MULTIBYTE,
@@ -672,7 +654,7 @@ export function IsMultibyte(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string is null.
  */
-export function IsNull(annotationOptions?: ValidationDecoratorOptions) {
+export function IsNull(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_NULL,
@@ -690,7 +672,7 @@ export function IsNull(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string is numeric.
  */
-export function IsNumeric(annotationOptions?: ValidationDecoratorOptions) {
+export function IsNumeric(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_NUMERIC,
@@ -708,7 +690,7 @@ export function IsNumeric(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if the string contains any surrogate pairs chars.
  */
-export function IsSurrogatePair(annotationOptions?: ValidationDecoratorOptions) {
+export function IsSurrogatePair(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_SURROGATE_PAIR,
@@ -723,22 +705,10 @@ export function IsSurrogatePair(annotationOptions?: ValidationDecoratorOptions) 
     }
 }
 
-export interface IsURLOptions {
-    protocols: string[];
-    require_tld: boolean;
-    require_protocol: boolean;
-    require_valid_protocol: boolean;
-    allow_underscores: boolean;
-    host_whitelist: boolean;
-    host_blacklist: boolean;
-    allow_trailing_dot: boolean;
-    allow_protocol_relative_urls: boolean;
-}
-
 /**
  * Checks if the string is a fully qualified domain name (e.g. domain.com).
  */
-export function IsUrl(options?: IsURLOptions, annotationOptions?: ValidationDecoratorOptions) {
+export function IsUrl(options?: IsURLOptions, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_URL,
@@ -757,7 +727,7 @@ export function IsUrl(options?: IsURLOptions, annotationOptions?: ValidationDeco
 /**
  * Checks if the string is a UUID (version 3, 4 or 5).
  */
-export function IsUUID(version?: number, annotationOptions?: ValidationDecoratorOptions) {
+export function IsUUID(version?: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_UUID,
@@ -776,7 +746,7 @@ export function IsUUID(version?: number, annotationOptions?: ValidationDecorator
 /**
  * Checks if the string is uppercase.
  */
-export function IsUppercase(annotationOptions?: ValidationDecoratorOptions) {
+export function IsUppercase(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_UPPERCASE,
@@ -792,32 +762,14 @@ export function IsUppercase(annotationOptions?: ValidationDecoratorOptions) {
 }
 
 /**
- * Checks if the string contains a mixture of full and half-width chars.
- */
-export function IsVariableWidth(annotationOptions?: ValidationDecoratorOptions) {
-    return function (object: Object, propertyName: string) {
-        defaultMetadataStorage.addValidationMetadata({
-            type: ValidationTypes.IS_VARIABLE_WIDTH,
-            sanitize: false,
-            object: object,
-            propertyName: propertyName,
-            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
-            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
-            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
-            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
-        });
-    }
-}
-
-/**
  * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
  */
-export function Matches(pattern: RegExp, annotationOptions?: ValidationDecoratorOptions): Function;
-export function Matches(pattern: RegExp, modifiers?: string, annotationOptions?: ValidationDecoratorOptions): Function;
-export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationDecoratorOptions, annotationOptions?: ValidationDecoratorOptions): Function {
+export function Matches(pattern: RegExp, annotationOptions?: ValidationOptions): Function;
+export function Matches(pattern: RegExp, modifiers?: string, annotationOptions?: ValidationOptions): Function;
+export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationOptions, annotationOptions?: ValidationOptions): Function {
     let modifiers: string;
     if (modifiersOrAnnotationOptions && modifiersOrAnnotationOptions instanceof Object && !annotationOptions) {
-        annotationOptions = <ValidationDecoratorOptions> modifiersOrAnnotationOptions;
+        annotationOptions = <ValidationOptions> modifiersOrAnnotationOptions;
     } else {
         modifiers = <string> modifiersOrAnnotationOptions;
     }
@@ -841,7 +793,7 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
 /**
  * Checks if the string's length is not less then given number. Note: this function takes into account surrogate pairs.
  */
-export function MinLength(min: number, annotationOptions?: ValidationDecoratorOptions) {
+export function MinLength(min: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MIN_LENGTH,
@@ -860,7 +812,7 @@ export function MinLength(min: number, annotationOptions?: ValidationDecoratorOp
 /**
  * Checks if the string's length is not more then given number. Note: this function takes into account surrogate pairs.
  */
-export function MaxLength(max: number, annotationOptions?: ValidationDecoratorOptions) {
+export function MaxLength(max: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MAX_LENGTH,
@@ -879,7 +831,7 @@ export function MaxLength(max: number, annotationOptions?: ValidationDecoratorOp
 /**
  * Checks if the given number is not less then given number.
  */
-export function MinNumber(min: number, annotationOptions?: ValidationDecoratorOptions) {
+export function MinNumber(min: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MIN_NUMBER,
@@ -898,7 +850,7 @@ export function MinNumber(min: number, annotationOptions?: ValidationDecoratorOp
 /**
  * Checks if the given number is not more then given number.
  */
-export function MaxNumber(max: number, annotationOptions?: ValidationDecoratorOptions) {
+export function MaxNumber(max: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MAX_NUMBER,
@@ -917,7 +869,7 @@ export function MaxNumber(max: number, annotationOptions?: ValidationDecoratorOp
 /**
  * Checks if given value is not empty.
  */
-export function NotEmpty(annotationOptions?: ValidationDecoratorOptions) {
+export function NotEmpty(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.NOT_EMPTY,
@@ -935,7 +887,7 @@ export function NotEmpty(annotationOptions?: ValidationDecoratorOptions) {
 /**
  * Checks if given array is not empty.
  */
-export function NotEmptyArray(annotationOptions?: ValidationDecoratorOptions) {
+export function NotEmptyArray(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.NOT_EMPTY_ARRAY,
@@ -952,12 +904,11 @@ export function NotEmptyArray(annotationOptions?: ValidationDecoratorOptions) {
 
 /**
  * Checks if array's length is as minimal this number.
- * todo: rename to MinArrayLength ?
  */
-export function MinElements(min: number, annotationOptions?: ValidationDecoratorOptions) {
+export function MinSize(min: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
-            type: ValidationTypes.MIN_ELEMENTS,
+            type: ValidationTypes.MIN_SIZE,
             sanitize: false,
             object: object,
             propertyName: propertyName,
@@ -972,12 +923,11 @@ export function MinElements(min: number, annotationOptions?: ValidationDecorator
 
 /**
  * Checks if array's length is as maximal this number.
- * todo: rename to MaxArrayLength ?
  */
-export function MaxElements(max: number, annotationOptions?: ValidationDecoratorOptions) {
+export function MaxSize(max: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
-            type: ValidationTypes.MAX_ELEMENTS,
+            type: ValidationTypes.MAX_SIZE,
             sanitize: false,
             object: object,
             propertyName: propertyName,
@@ -993,7 +943,7 @@ export function MaxElements(max: number, annotationOptions?: ValidationDecorator
 /**
  * Checks if array's length is as maximal this number.
  */
-export function ValidateNested(type: (_?: any) => Function, annotationOptions?: ValidationDecoratorOptions) {
+export function ValidateNested(type: (_?: any) => Function, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.NESTED_VALIDATION,

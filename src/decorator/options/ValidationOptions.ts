@@ -1,5 +1,5 @@
 
-export interface ValidationDecoratorOptions {
+export interface ValidationOptions {
     each?: boolean;
     message?: string;
     groups?: string[];

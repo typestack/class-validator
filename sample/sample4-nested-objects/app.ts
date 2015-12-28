@@ -14,4 +14,4 @@ let post1 = new Post();
 post1.title = 'Hello world';
 post1.tags = [tag1, tag2];
 
-console.log('should not pass: ', validator.validate(Post, post1));
+console.log('should not pass: ', validator.validate(post1));

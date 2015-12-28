@@ -113,8 +113,8 @@ Take a look on samples in `./sample` for more examples of usages.
 | `@MaxNumber(max: number)`                       | Checks if the given number is not more then given number.                                          |
 | `@NotEmpty()`                                   | Checks if given value is not empty.                                                                |
 | `@NotEmptyArray()`                              | Checks if given array is not empty.                                                                |
-| `@MinElements(min: number)`                     | Checks if array's length is as minimal this number.                                                |
-| `@MaxElements(max: number)`                     | Checks if array's length is as maximal this number.                                                |
+| `@MinSize(min: number)`                         | Checks if array's length is as minimal this number.                                                |
+| `@MaxSize(max: number)`                         | Checks if array's length is as maximal this number.                                                |
 
 
 ## Sanity decorators
@@ -125,7 +125,7 @@ Take a look on samples in `./sample` for more examples of usages.
 | `@Escape()`                      | Replace <, >, &, ', " and / with HTML entities.                                                                                                                         |
 | `@Ltrim()`                       | Trim characters from the left-side of the input.                                                                                                                        |
 | `@NormalizeEmail()`              | Canonicalize an email address.                                                                                                                                          |
-| `@Rtrim()`                       | Trim characters from the left-side of the input.                                                                                                                        |
+| `@Rtrim()`                       | Trim characters from the right-side of the input.                                                                                                                        |
 | `@StripLow()`                    | Remove characters with a numerical value < 32 and 127, mostly control characters.                                                                                       |
 | `@ToBoolean(isStrict?: boolean)` | Convert the input to a boolean. Everything except for '0', 'false' and '' returns true. In strict mode only '1' and 'true' return true.                                 |
 | `@ToDate()`                      | Convert the input to a date, or null if the input is not a date.                                                                                                        |

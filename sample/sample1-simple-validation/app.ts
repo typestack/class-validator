@@ -14,7 +14,7 @@ post1.site = 'google.com'; // should pass
 post1.createDate = new Date(); // should pass
 post1.tags = ['abcd1', 'abcd2', 'abcd3', 'abcd4', 'abcd4']; // should pass
 
-console.log('should pass: ', validator.validate(Post, post1)); // should pass completely, e.g. return empty array
+console.log('should pass: ', validator.validate(post1)); // should pass completely, e.g. return empty array
 
 let post2 = new Post();
 post2.title = 'Hello'; // should not pass
@@ -24,7 +24,7 @@ post2.email = 'google.com'; // should not pass
 post2.site = 'googlecom'; // should not pass
 // should not pass because date property is missing
 
-console.log('should not pass: ', validator.validate(Post, post2)); // should not pass completely, must return array of ValidationError-s
+console.log('should not pass: ', validator.validate(post2)); // should not pass completely, must return array of ValidationError-s
 
 // Sample2. using validation options to skip properties that are not defined
 
@@ -35,7 +35,7 @@ post3.rating = 11; // should not pass
 post3.email = 'google.com'; // should not pass
 post3.site = 'googlecom'; // should not pass
 
-console.log('should not pass: ', validator.validate(Post, post3, { skipMissingProperties: true })); // should not pass, but returned ValidationError-s should not have error about date field
+console.log('should not pass: ', validator.validate(post3, { skipMissingProperties: true })); // should not pass, but returned ValidationError-s should not have error about date field
 
 let post4 = new Post();
 post4.title = 'Hello world'; // should pass
@@ -44,7 +44,7 @@ post4.rating = 10; // should pass
 post4.email = 'info@google.com'; // should pass
 post4.site = 'google.com'; // should pass
 
-console.log('should pass: ', validator.validate(Post, post4, { skipMissingProperties: true })); // should pass even if date is not set
+console.log('should pass: ', validator.validate(post4, { skipMissingProperties: true })); // should pass even if date is not set
 
 // Sample3. using validation groups
 
@@ -55,7 +55,7 @@ post5.rating = 10; // should pass
 post5.email = 'info@google.com'; // should pass
 post5.site = 'google.com'; // should pass
 
-console.log('should pass: ', validator.validate(Post, post5, { skipMissingProperties: true })); // should pass even if date is not set
+console.log('should pass: ', validator.validate(post5, { skipMissingProperties: true })); // should pass even if date is not set
 
 // Sample4. array validation
 
@@ -68,7 +68,7 @@ post6.site = 'google.com'; // should pass
 post6.createDate = new Date(); // should pass
 post6.tags = ['abcd1', 'abcd2', 'abcd3', 'abcd4', 'abcd4'];
 
-console.log('should pass: ', validator.validate(Post, post6)); // should pass completely, e.g. return empty array
+console.log('should pass: ', validator.validate(post6)); // should pass completely, e.g. return empty array
 
 let post7 = new Post();
 post7.title = 'Hello world'; // should pass
@@ -79,7 +79,7 @@ post7.site = 'google.com'; // should pass
 post7.createDate = new Date(); // should pass
 post7.tags = ['news', 'a'];
 
-console.log('should not pass: ', validator.validate(Post, post7)); // should not pass
+console.log('should not pass: ', validator.validate(post7)); // should not pass
 
 let post8 = new Post();
 post8.title = 'Hello world'; // should pass
@@ -90,7 +90,7 @@ post8.site = 'google.com'; // should pass
 post8.createDate = new Date(); // should pass
 post8.tags = [];
 
-console.log('should not pass: ', validator.validate(Post, post8)); // should not pass
+console.log('should not pass: ', validator.validate(post8)); // should not pass
 
 let post9 = new Post();
 post9.title = 'Hello world'; // should pass
@@ -101,7 +101,7 @@ post9.site = 'google.com'; // should pass
 post9.createDate = new Date(); // should pass
 post9.tags = ['abcd1', 'abcd2', 'abcd3', 'abcd4', 'abcd4', 'abcd4'];
 
-console.log('should not pass: ', validator.validate(Post, post9)); // should not pass
+console.log('should not pass: ', validator.validate(post9)); // should not pass
 
 let post10 = new Post();
 post10.title = 'Hello world'; // should pass
@@ -112,7 +112,7 @@ post10.site = 'google.com'; // should pass
 post10.createDate = new Date(); // should pass
 post10.tags = ['abcd1', 'abcd2', 'abcd3', 'abcd4', 'abcd4'];
 
-console.log('should pass: ', validator.validate(Post, post10)); // should pass
+console.log('should pass: ', validator.validate(post10)); // should pass
 
 let post11 = new Post();
 post11.title = 'Hello world'; // should pass
@@ -123,4 +123,4 @@ post11.site = 'google.com'; // should pass
 post11.createDate = new Date(); // should pass
 post11.tags = null;
 
-console.log('should not pass: ', validator.validate(Post, post11)); // should not pass
+console.log('should not pass: ', validator.validate(post11)); // should not pass

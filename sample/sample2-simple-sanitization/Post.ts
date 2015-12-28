@@ -1,4 +1,4 @@
-import {Trim, Rtrim, ToInt, Blacklist} from "../../src/decorator/SanitizeDecorators";
+import {Trim, Rtrim, ToInt, Blacklist} from "../../src/decorator/Sanitization";
 
 export class Post {
 

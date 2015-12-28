@@ -10,5 +10,5 @@ post1.title = ' Hello world '; // should pass
 post1.text = '1. this is a great (2) post about hello 3 world.'; // should pass
 post1.rating = 12.2; // should pass
 
-validator.sanitize(Post, post1);
+validator.sanitize(post1);
 console.log(post1);

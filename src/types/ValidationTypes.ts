@@ -50,8 +50,8 @@ export enum ValidationTypes {
     MAX_NUMBER = 282,
     NOT_EMPTY = 1001,
     NOT_EMPTY_ARRAY = 1002,
-    MIN_ELEMENTS = 1003,
-    MAX_ELEMENTS = 1004,
+    MIN_SIZE = 1003,
+    MAX_SIZE = 1004,
 
     NESTED_VALIDATION = 0
 }
@@ -158,10 +158,10 @@ export class ValidationTypesUtils {
                 return 'not_empty';
             case ValidationTypes.NOT_EMPTY_ARRAY:
                 return 'not_empty_array';
-            case ValidationTypes.MIN_ELEMENTS:
-                return 'min_elements';
-            case ValidationTypes.MAX_ELEMENTS:
-                return 'max_elements';
+            case ValidationTypes.MIN_SIZE:
+                return 'min_size';
+            case ValidationTypes.MAX_SIZE:
+                return 'max_size';
         }
     }
 

@@ -1,4 +1,4 @@
-import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, NotEmpty, NotEmptyArray, MinElements, MaxElements} from "../../src/decorator/ValidationDecorators";
+import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, NotEmpty, NotEmptyArray, MinSize, MaxSize} from "../../src/decorator/Validation";
 
 export class Post {
 
@@ -22,8 +22,8 @@ export class Post {
     createDate: Date;
 
     @NotEmptyArray()
-    @MinElements(2)
-    @MaxElements(5)
+    @MinSize(2)
+    @MaxSize(5)
     @MinLength(3, { each: true, message: 'Tag is too short' })
     @MaxLength(50, { each: true, message: 'Tag is too long' })
     tags: string[];
