@@ -1,6 +1,40 @@
 import {defaultMetadataStorage} from "../metadata/MetadataStorage";
 import {SanitizeTypes} from "../types/SanitizeTypes";
-import {SanitizationOptions} from "./options/SanitizationOptions";
+
+/**
+ * Options used to pass to sanitation decorators.
+ */
+export interface SanitizationOptions {
+    each?: boolean;
+}
+
+/**
+ * Decorator used to register custom sanitizer.
+ */
+export function SanitizerConstraint() {
+    return function(object: Function) {
+        defaultMetadataStorage.addConstraintMetadata({
+            sanitize: true,
+            object: object
+        });
+    };
+}
+
+/**
+ * Performs validation based on the given custom constraint.
+ */
+export function Sanitize(constraintClass: Function, annotationOptions?: SanitizationOptions) {
+    return function(object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: SanitizeTypes.CUSTOM_SANITIZATION,
+            sanitize: true,
+            object: object,
+            propertyName: propertyName,
+            value1: constraintClass,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    };
+}
 
 /**
  * Remove characters that appear in the blacklist. The characters are used in a RegExp and so you will need to
@@ -16,7 +50,7 @@ export function Blacklist(chars: RegExp, annotationOptions?: SanitizationOptions
             value1: chars,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -31,7 +65,7 @@ export function Escape(annotationOptions?: SanitizationOptions) {
             propertyName: propertyName,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -47,7 +81,7 @@ export function Ltrim(chars?: string[], annotationOptions?: SanitizationOptions)
             value1: chars,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -63,7 +97,7 @@ export function NormalizeEmail(lowercase?: boolean, annotationOptions?: Sanitiza
             value1: lowercase,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -79,7 +113,7 @@ export function Rtrim(chars?: string[], annotationOptions?: SanitizationOptions)
             value1: chars,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -97,7 +131,7 @@ export function StripLow(keepNewLines?: boolean, annotationOptions?: Sanitizatio
             value1: keepNewLines,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -114,7 +148,7 @@ export function ToBoolean(isStrict?: boolean, annotationOptions?: SanitizationOp
             value1: isStrict,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -129,7 +163,7 @@ export function ToDate(annotationOptions?: SanitizationOptions) {
             propertyName: propertyName,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -144,7 +178,7 @@ export function ToFloat(annotationOptions?: SanitizationOptions) {
             propertyName: propertyName,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -160,7 +194,7 @@ export function ToInt(radix?: number, annotationOptions?: SanitizationOptions) {
             value1: radix,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -175,7 +209,7 @@ export function ToString(annotationOptions?: SanitizationOptions) {
             propertyName: propertyName,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -191,7 +225,7 @@ export function Trim(chars?: string[], annotationOptions?: SanitizationOptions) 
             value1: chars,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -208,5 +242,5 @@ export function Whitelist(chars: RegExp, annotationOptions?: SanitizationOptions
             value1: chars,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }

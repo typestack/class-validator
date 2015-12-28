@@ -6,7 +6,7 @@ export class Post {
     @MaxLength(20)
     title: string;
 
-    @Contains('hello')
+    @Contains("hello")
     text: string;
 
     @IsInt({ min: 0, max: 10 })
@@ -24,8 +24,8 @@ export class Post {
     @NotEmptyArray()
     @MinSize(2)
     @MaxSize(5)
-    @MinLength(3, { each: true, message: 'Tag is too short' })
-    @MaxLength(50, { each: true, message: 'Tag is too long' })
+    @MinLength(3, { each: true, message: "Tag is too short" })
+    @MaxLength(50, { each: true, message: "Tag is too long" })
     tags: string[];
 
 }

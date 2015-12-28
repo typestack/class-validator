@@ -1,6 +1,47 @@
 import {defaultMetadataStorage} from "../metadata/MetadataStorage";
 import {ValidationTypes} from "../types/ValidationTypes";
-import {ValidationOptions, IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "../ValidationOptions";
+import {IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "../ValidationOptions";
+
+/**
+ * Options used to pass to validation decorators.
+ */
+export interface ValidationOptions {
+    each?: boolean;
+    message?: string;
+    groups?: string[];
+    always?: boolean;
+}
+
+/**
+ * Decorator used to register custom validators.
+ */
+export function ValidatorConstraint() {
+    return function(object: Function) {
+        defaultMetadataStorage.addConstraintMetadata({
+            sanitize: false,
+            object: object
+        });
+    };
+}
+
+/**
+ * Performs validation based on the given custom validation class.
+ */
+export function Validate(constraintClass: Function, annotationOptions?: ValidationOptions) {
+    return function(object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.CUSTOM_VALIDATION,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            value1: constraintClass,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    };
+}
 
 /**
  * Checks if the string contains the seed.
@@ -18,7 +59,7 @@ export function Contains(seed: string, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -37,7 +78,7 @@ export function Equals(comparison: string, annotationOptions?: ValidationOptions
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -56,7 +97,7 @@ export function IsAfter(date: Date, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -74,7 +115,7 @@ export function IsAlpha(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -92,7 +133,7 @@ export function IsAlphanumeric(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -110,7 +151,7 @@ export function IsAscii(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -128,7 +169,7 @@ export function IsBase64(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -147,7 +188,7 @@ export function IsBefore(date: Date, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -165,7 +206,7 @@ export function IsBoolean(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -185,7 +226,7 @@ export function IsByteLength(min: number, max?: number, annotationOptions?: Vali
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -203,7 +244,7 @@ export function IsCreditCard(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -222,7 +263,7 @@ export function IsCurrency(options?: IsCurrencyOptions, annotationOptions?: Vali
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -240,7 +281,7 @@ export function IsDate(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -258,26 +299,26 @@ export function IsDecimal(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
  * Checks if the string is a number that's divisible by another.
  */
-export function IsDivisibleBy(number: number, annotationOptions?: ValidationOptions) {
+export function IsDivisibleBy(num: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_DIVISIBLE_BY,
             sanitize: false,
             object: object,
             propertyName: propertyName,
-            value1: number,
+            value1: num,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
             message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -296,7 +337,7 @@ export function IsEmail(options?: IsEmailOptions, annotationOptions?: Validation
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -315,7 +356,7 @@ export function IsFQDN(options?: IsFQDNOptions, annotationOptions?: ValidationOp
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -334,7 +375,7 @@ export function IsFloat(options?: IsFloatOptions, annotationOptions?: Validation
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -352,7 +393,7 @@ export function IsFullWidth(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -370,7 +411,7 @@ export function IsHalfWidth(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -388,7 +429,7 @@ export function IsVariableWidth(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -406,7 +447,7 @@ export function IsHexColor(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -424,7 +465,7 @@ export function IsHexadecimal(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -443,7 +484,7 @@ export function IsIP(version?: number, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -462,7 +503,7 @@ export function IsISBN(version?: number, annotationOptions?: ValidationOptions) 
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -480,7 +521,7 @@ export function IsISIN(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -498,7 +539,7 @@ export function IsISO8601(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -517,7 +558,7 @@ export function IsIn(values: any[], annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -536,7 +577,7 @@ export function IsInt(options?: IsIntOptions, annotationOptions?: ValidationOpti
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -554,7 +595,7 @@ export function IsJSON(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -574,7 +615,7 @@ export function IsLength(min: number, max?: number, annotationOptions?: Validati
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -592,7 +633,7 @@ export function IsLowercase(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -612,7 +653,7 @@ export function IsMobilePhone(locale: string, annotationOptions?: ValidationOpti
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -630,7 +671,7 @@ export function IsMongoId(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -648,7 +689,7 @@ export function IsMultibyte(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -666,7 +707,7 @@ export function IsNull(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -684,7 +725,7 @@ export function IsNumeric(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -702,7 +743,7 @@ export function IsSurrogatePair(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -721,7 +762,7 @@ export function IsUrl(options?: IsURLOptions, annotationOptions?: ValidationOpti
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -740,7 +781,7 @@ export function IsUUID(version?: number, annotationOptions?: ValidationOptions) 
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -758,7 +799,7 @@ export function IsUppercase(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -787,7 +828,7 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -806,7 +847,7 @@ export function MinLength(min: number, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -825,7 +866,7 @@ export function MaxLength(max: number, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -844,7 +885,7 @@ export function MinNumber(min: number, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -863,7 +904,7 @@ export function MaxNumber(max: number, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -881,7 +922,7 @@ export function NotEmpty(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -899,7 +940,7 @@ export function NotEmptyArray(annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -918,7 +959,7 @@ export function MinSize(min: number, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -937,7 +978,7 @@ export function MaxSize(max: number, annotationOptions?: ValidationOptions) {
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }
 
 /**
@@ -956,5 +997,5 @@ export function ValidateNested(type: (_?: any) => Function, annotationOptions?: 
             always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
             each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
         });
-    }
+    };
 }

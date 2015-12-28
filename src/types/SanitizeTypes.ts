@@ -12,5 +12,6 @@ export enum SanitizeTypes {
     TO_INT = 10,
     TO_STRING = 11,
     TRIM = 12,
-    WHITELIST = 13
+    WHITELIST = 13,
+    CUSTOM_SANITIZATION = 9999
 }

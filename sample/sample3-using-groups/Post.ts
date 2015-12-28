@@ -3,18 +3,18 @@ import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/deco
 export class Post {
 
     @IsLength(10, 20, {
-        message: 'Incorrect length!',
-        groups: ['users', 'moderators']
+        message: "Incorrect length!",
+        groups: ["users", "moderators"]
     })
     @IsLength(0, 20, {
-        message: 'Incorrect length!',
-        groups: ['admins']
+        message: "Incorrect length!",
+        groups: ["admins"]
     })
     title: string;
 
-    @Contains('hello', {
-        message: 'It should contain word "hello!"',
-        groups: ['users', 'moderators']
+    @Contains("hello", {
+        message: "It should contain word \"hello!\"",
+        groups: ["users", "moderators"]
     })
     text: string;
 
@@ -27,8 +27,8 @@ export class Post {
     email: string;
 
     @IsFQDN(null, {
-        message: 'Site address should be correct',
-        groups: ['users']
+        message: "Site address should be correct",
+        groups: ["users"]
     })
     site: string;
 

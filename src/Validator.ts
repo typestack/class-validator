@@ -5,12 +5,20 @@ import {MetadataStorage, defaultMetadataStorage} from "./metadata/MetadataStorag
 import {ValidationErrorInterface} from "./ValidationErrorInterface";
 import {ValidationTypesUtils} from "./types/ValidationTypes";
 import {ValidationError} from "./ValidationError";
-import {ValidationOptions, IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "../ValidationOptions";
+import {ValidationOptions, IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "./ValidationOptions";
+import {ValidatorInterface} from "./ValidatorInterface";
+import {SanitizerInterface} from "./SanitizerInterface";
 
 /**
  * Validator performs validation of the given object based on its metadata.
  */
 export class Validator {
+
+    // -------------------------------------------------------------------------
+    // Properties
+    // -------------------------------------------------------------------------
+
+    private _container: { get(type: Function): any };
 
     // -------------------------------------------------------------------------
     // Constructor
@@ -20,9 +28,17 @@ export class Validator {
         if (!metadataStorage)
             this.metadataStorage = defaultMetadataStorage;
         if (!validator)
-            this.validator = require('validator');
+            this.validator = require("validator");
     }
-    
+
+    // -------------------------------------------------------------------------
+    // Accessors
+    // -------------------------------------------------------------------------
+
+    set container(container: { get(type: Function): any }) {
+        this._container = container;
+    }
+
     // -------------------------------------------------------------------------
     // Annotation-based Validation Methods
     // -------------------------------------------------------------------------
@@ -52,7 +68,6 @@ export class Validator {
                 if (isValid) return null;
 
                 return <ValidationErrorInterface> {
-                    //objectClass: objectClass,
                     property: metadata.propertyName,
                     errorCode: metadata.type,
                     errorName: ValidationTypesUtils.getCodeName(metadata.type),
@@ -79,7 +94,7 @@ export class Validator {
                         errors = errors.concat(nestedErrors);
 
                 } else {
-                    throw new Error('Only objects and arrays are supported to nested validation');
+                    throw new Error("Only objects and arrays are supported to nested validation");
                 }
             }
 
@@ -269,8 +284,8 @@ export class Validator {
     /**
      * Checks if the string is a number that's divisible by another.
      */
-    isDivisibleBy(str: string, number: number): boolean {
-        return this.validator.isDivisibleBy(str, number);
+    isDivisibleBy(str: string, num: number): boolean {
+        return this.validator.isDivisibleBy(str, num);
     }
 
     /**
@@ -676,6 +691,16 @@ export class Validator {
                 if (value instanceof Array)
                     return value.length <= metadata.value1;
                 break;
+            case ValidationTypes.CUSTOM_VALIDATION:
+                return this.metadataStorage
+                    .getValidatorConstraintsForObject(metadata.value1)
+                    .map(validatorMetadata => {
+                        if (!validatorMetadata.instance)
+                            validatorMetadata.instance = this.createInstance(validatorMetadata.object);
+
+                        return <ValidatorInterface> validatorMetadata.instance;
+                    }).every(validator => validator.validate(value));
+                break;
         }
         return true;
     }
@@ -708,10 +733,23 @@ export class Validator {
                 return this.trim(value, metadata.value1);
             case SanitizeTypes.WHITELIST:
                 return this.whitelist(value, metadata.value1);
+            case SanitizeTypes.CUSTOM_SANITIZATION:
+                return this.metadataStorage
+                    .getSanitizeConstraintsForObject(metadata.value1)
+                    .map(validatorMetadata => {
+                        if (!validatorMetadata.instance)
+                            validatorMetadata.instance = this.createInstance(validatorMetadata.object);
+
+                        return <SanitizerInterface> validatorMetadata.instance;
+                    }).reduce((result, validator) => validator.sanitize(result), value);
 
             default:
-                throw Error('Wrong sanitization type is supplied (' + metadata.type + ') for value ' + value);
+                throw Error(`Wrong sanitization type is supplied ${metadata.type} for value ${value}`);
         }
+    }
+
+    private createInstance(object: Function): ValidatorInterface|SanitizerInterface {
+        return this._container ? this._container.get(object) : new (<any> object)();
     }
 
 }

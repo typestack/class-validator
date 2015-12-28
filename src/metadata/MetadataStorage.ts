@@ -1,4 +1,6 @@
 import {ValidationMetadata} from "./ValidationMetadata";
+import {ValidatorInterface} from "../ValidatorInterface";
+import {ConstraintMetadata} from "./ConstraintMetadata";
 
 /**
  * Storage all metadatas of validations.
@@ -10,6 +12,7 @@ export class MetadataStorage {
     // -------------------------------------------------------------------------
 
     private _validationMetadatas: ValidationMetadata[] = [];
+    private _constraintMetadatas: ConstraintMetadata[] = [];
 
     // -------------------------------------------------------------------------
     // Getter Methods
@@ -19,12 +22,20 @@ export class MetadataStorage {
         return this._validationMetadatas;
     }
 
+    get constraintMetadatas(): ConstraintMetadata[] {
+        return this._constraintMetadatas;
+    }
+
     // -------------------------------------------------------------------------
     // Adder Methods
     // -------------------------------------------------------------------------
 
     addValidationMetadata(metadata: ValidationMetadata) {
         this.validationMetadatas.push(metadata);
+    }
+
+    addConstraintMetadata(metadata: ConstraintMetadata) {
+        this.constraintMetadatas.push(metadata);
     }
 
     // -------------------------------------------------------------------------
@@ -39,6 +50,14 @@ export class MetadataStorage {
 
     getSanitizeMetadatasForObject(object: Object): ValidationMetadata[] {
         return this.validationMetadatas.filter(metadata => metadata.object.constructor === object && metadata.sanitize === true);
+    }
+
+    getValidatorConstraintsForObject(object: Function): ConstraintMetadata[] {
+        return this.constraintMetadatas.filter(metadata => metadata.object === object && metadata.sanitize === false);
+    }
+
+    getSanitizeConstraintsForObject(object: Function): ConstraintMetadata[] {
+        return this.constraintMetadatas.filter(metadata => metadata.object === object && metadata.sanitize === true);
     }
 }
 

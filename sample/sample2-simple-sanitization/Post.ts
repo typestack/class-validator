@@ -5,7 +5,7 @@ export class Post {
     @Trim()
     title: string;
 
-    @Rtrim(['.'])
+    @Rtrim(["."])
     @Blacklist(/(1-9)/)
     text: string;
 
