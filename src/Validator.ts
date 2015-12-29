@@ -422,8 +422,8 @@ export class Validator {
     /**
      * Checks if the string is null.
      */
-    isNull(str: string): boolean {
-        return this.validator.isNull(str);
+    isNull(input: any): boolean {
+        return this.validator.isNull(input);
     }
 
     /**
