@@ -19,17 +19,8 @@ export class Validator {
     // -------------------------------------------------------------------------
 
     private _container: { get(type: Function): any };
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
-    constructor(private metadataStorage?: MetadataStorage, private validator?: any) {
-        if (!metadataStorage)
-            this.metadataStorage = defaultMetadataStorage;
-        if (!validator)
-            this.validator = require("validator");
-    }
+    private metadataStorage = defaultMetadataStorage;
+    private validator = require("validator");
 
     // -------------------------------------------------------------------------
     // Accessors
@@ -47,9 +38,8 @@ export class Validator {
      * Performs validation of the given object based on annotations used in given object class.
      */
     validate(object: any, validationOptions?: ValidationOptions): ValidationErrorInterface[] {
-        const objectClass = object.constructor;
         const groups = validationOptions ? validationOptions.groups : undefined;
-        const metadatas = this.metadataStorage.getValidationMetadatasForObject(objectClass, groups);
+        const metadatas = this.metadataStorage.getValidationMetadatasForObject(object.constructor, groups);
         return metadatas.map(metadata => {
             const value = object[metadata.propertyName];
             if (!value && validationOptions && validationOptions.skipMissingProperties === true)
@@ -187,21 +177,21 @@ export class Validator {
      * Checks if the string contains the seed.
      */
     contains(str: string, seed: string): boolean {
-        return this.validator.contains(seed, str);
+        return this.validator.contains(str, seed);
     }
 
     /**
      * Checks if the string matches the comparison.
      */
     equals(str: string, comparison: string): boolean {
-        return this.validator.equals(comparison, str);
+        return this.validator.equals(str, comparison);
     }
 
     /**
      * Checks if the string is a date that's after the specified date.
      */
     isAfter(date: Date, afterDate: Date): boolean {
-        return this.validator.isAfter(afterDate, date);
+        return this.validator.isAfter(date, afterDate);
     }
 
     /**
@@ -236,7 +226,7 @@ export class Validator {
      * Checks if the string is a date that's before the specified date.
      */
     isBefore(date: Date, beforeDate: Date): boolean {
-        return this.validator.isBefore(beforeDate, date);
+        return this.validator.isBefore(date, beforeDate);
     }
 
     /**

@@ -13,16 +13,13 @@
       "commit": "7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645"
     },
     "assertion-error/assertion-error.d.ts": {
-      "commit": "7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645"
+      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
     },
     "chai/chai.d.ts": {
-      "commit": "7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645"
+      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
     },
     "sinon/sinon.d.ts": {
       "commit": "7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645"
-    },
-    "es6-promise/es6-promise.d.ts": {
-      "commit": "b70895565dd5bd5de71c31e573d781409554bbf1"
     },
     "orchestrator/orchestrator.d.ts": {
       "commit": "efd40e67ff323f7147651bdbef03c03ead7b1675"
@@ -32,6 +29,15 @@
     },
     "q/Q.d.ts": {
       "commit": "efd40e67ff323f7147651bdbef03c03ead7b1675"
+    },
+    "es6-shim/es6-shim.d.ts": {
+      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+    },
+    "promises-a-plus/promises-a-plus.d.ts": {
+      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+    },
+    "chai-as-promised/chai-as-promised.d.ts": {
+      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
     }
   }
 }

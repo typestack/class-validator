@@ -6,6 +6,8 @@ const shell: any = require("gulp-shell");
 const dtsGenerator: any = require("dts-generator").default;
 const replace: any = require("gulp-replace");
 const glob: any = require("glob");
+const mocha: any = require("gulp-mocha");
+const chai: any = require("chai");
 
 @Gulpclass()
 export class Gulpfile {
@@ -103,6 +105,26 @@ export class Gulpfile {
     @SequenceTask()
     publish() {
         return ["package", "npmPublish"];
+    }
+
+    /**
+     * Runs unit-tests.
+     */
+    @Task()
+    unit() {
+        chai.should();
+        chai.use(require("sinon-chai"));
+        chai.use(require("chai-as-promised"));
+        return gulp.src("./build/es5/test/unit/**/*.js")
+            .pipe(mocha());
+    }
+
+    /**
+     * Compiles the code and runs tests.
+     */
+    @SequenceTask()
+    tests() {
+        return ["compile", "unit"];
     }
 
 }

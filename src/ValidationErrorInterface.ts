@@ -1,3 +1,6 @@
+/**
+ * Validation error description.
+ */
 export interface ValidationErrorInterface {
     objectClass: Function;
     property: string;

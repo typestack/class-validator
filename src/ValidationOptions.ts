@@ -1,8 +1,23 @@
+/**
+ * Options passed to validator during validation.
+ */
 export interface ValidationOptions {
+
+    /**
+     * If set to true then validator will skip validation of all properties that are missing in the document.
+     */
     skipMissingProperties?: boolean;
+
+    /**
+     * Groups to be used during validation of the object.
+     */
     groups?: string[];
+
 }
 
+/**
+ * Options to be passed to IsCurrency decorator.
+ */
 export interface IsCurrencyOptions {
     symbol?: string;
     require_symbol?: boolean;
@@ -15,9 +30,12 @@ export interface IsCurrencyOptions {
     allow_negative_sign_placeholder?: boolean;
     thousands_separator?: string;
     decimal_separator?: string;
-    allow_space_after_digits?: boolean
+    allow_space_after_digits?: boolean;
 }
 
+/**
+ * Options to be passed to IsURL decorator.
+ */
 export interface IsURLOptions {
     protocols?: string[];
     require_tld?: boolean;
@@ -30,23 +48,35 @@ export interface IsURLOptions {
     allow_protocol_relative_urls?: boolean;
 }
 
+/**
+ * Options to be passed to isEmail decorator.
+ */
 export interface IsEmailOptions {
     allow_display_name?: boolean;
     allow_utf8_local_part?: boolean;
     require_tld?: boolean;
 }
 
+/**
+ * Options to be passed to IsFQDN decorator.
+ */
 export interface IsFQDNOptions {
     require_tld?: boolean;
     allow_underscores?: boolean;
     allow_trailing_dot?: boolean;
 }
 
+/**
+ * Options to be passed to IsFloat decorator.
+ */
 export interface IsFloatOptions {
     min?: number;
     max?: number;
 }
 
+/**
+ * Options to be passed to IsInt decorator.
+ */
 export interface IsIntOptions {
     min?: number;
     max?: number;

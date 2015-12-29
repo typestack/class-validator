@@ -1,4 +1,6 @@
-
+/**
+ * Validation types.
+ */
 export enum ValidationTypes {
     CONTAINS = 1,
     EQUALS = 2,

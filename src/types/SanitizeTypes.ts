@@ -1,4 +1,6 @@
-
+/**
+ * Sanitization types.
+ */
 export enum SanitizeTypes {
     BLACKLIST = 1,
     ESCAPE = 2,
