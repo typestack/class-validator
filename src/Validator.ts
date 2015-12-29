@@ -194,7 +194,7 @@ export class Validator {
      * Checks if the string matches the comparison.
      */
     equals(str: string, comparison: string): boolean {
-        return this.validator.contains(comparison, str);
+        return this.validator.equals(comparison, str);
     }
 
     /**
@@ -263,7 +263,7 @@ export class Validator {
     /**
      * Checks if the string is a valid currency amount.
      */
-    isCurrency(str: string, options: IsCurrencyOptions): boolean {
+    isCurrency(str: string, options?: IsCurrencyOptions): boolean {
         return this.validator.isCurrency(str, options);
     }
 
@@ -338,7 +338,7 @@ export class Validator {
     }
 
     /**
-     * Checks if the string is a hexadecimal color.
+     * Checks if the string is a hexadecimal number.
      */
     isHexadecimal(str: string): boolean {
         return this.validator.isHexadecimal(str);
@@ -361,8 +361,8 @@ export class Validator {
     /**
      * Checks if the string is an ISIN (stock/security identifier).
      */
-    isISIN(str: string, version?: number): boolean {
-        return this.validator.isISBN(str);
+    isISIN(str: string): boolean {
+        return this.validator.isISIN(str);
     }
 
     /**
@@ -467,8 +467,8 @@ export class Validator {
     /**
      * Checks if the string is uppercase.
      */
-    isUppercase(str: string, version?: number): boolean {
-        return this.validator.isUUID(str, version);
+    isUppercase(str: string): boolean {
+        return this.validator.isUppercase(str);
     }
 
     /**

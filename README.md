@@ -1,6 +1,7 @@
 # Validator.ts
 
-Wrapper over [validator.js][1] library that provides you easy way to use it with Typescript classes.
+Allows to use decorator and non-decorator based validation in your Typescript classes.
+Internally uses [validator.js][1] to make validation and sanitization.
 
 ## Installation
 
@@ -13,7 +14,7 @@ Wrapper over [validator.js][1] library that provides you easy way to use it with
 
     `tsd install --save es6-shim`
 
-3. Link you tsd modules:
+3. Link your tsd modules:
 
     `tsd link`
 
@@ -56,11 +57,30 @@ post.rating = 11; // should not pass
 post.email = 'google.com'; // should not pass
 post.site = 'googlecom'; // should not pass
 
-console.log(validator.validate(post)); // returns you array of errors
+let errors = validator.validate(post); // returns you array of errors
 ```
 
-Validator also supports validation groups.
-Take a look on samples in `./sample` for more examples of usages.
+If you want to do sanitization you should use `sanitize` method:
+
+```typescript
+import {Validator} from "validator.ts/Validator";
+
+// ...
+
+let validator = new Validator();
+validator.sanitize(post);
+```
+
+There are some additional methods you may want to use:
+
+```typescript
+validator.validateAsync<Post>(post); // returns Promise<Post> if validate success, throws error if validation fail
+validator.validateOrThrow(post); // performs validation and throws ValidationError if validation fail
+validator.sanitizeAsync<Post>(post);// returns Promise<Post> after sanitization
+validator.sanitizeAndValidate(post); // performs both sanitization and validation of the given object
+validator.sanitizeAndValidateAsync<Post>(post); // performs both sanitization and validation and returns Promise<Post>
+validator.isValid(post); // simply checks if given object is valid. Returns true if it is, false otherwise
+```
 
 ## Validation message
 
@@ -135,7 +155,7 @@ In different situations you may want to use different validations for the same o
 
 ```typescript
 import {Validator} from "validator.ts/Validator";
-import {MinNumber} from "validator.ts/decorator/Validation";
+import {MinNumber, Length} from "validator.ts/decorator/Validation";
 
 export class User {
 
@@ -172,6 +192,81 @@ validator.validate(user, {
     groups: []
 }); // this will pass validation
 ```
+
+## Manual validation
+
+There are several method exist in the Validator that allows to perform non-decorator based validation:
+
+```typescript
+import {Validator} from "validator.ts/Validator";
+
+// Validation methods
+
+validator.contains(str, seed);
+validator.equals(str, comparison);
+validator.isAfter(date, afterDate);
+validator.isAlpha(str);
+validator.isAlphanumeric(str);
+validator.isAscii(str);
+validator.isBase64(str);
+validator.isBefore(date, beforeDate);
+validator.isBoolean(str);
+validator.isByteLength(str, min, max);
+validator.isCreditCard(str);
+validator.isCurrency(str, options);
+validator.isDate(str);
+validator.isDecimal(str);
+validator.isDivisibleBy(str, num);
+validator.isEmail(str, options);
+validator.isFQDN(str, options);
+validator.isFloat(str, options);
+validator.isFullWidth(str);
+validator.isHalfWidth(str);
+validator.isVariableWidth(str);
+validator.isHexColor(str);
+validator.isHexadecimal(str);
+validator.isIP(str, version);
+validator.isISBN(str, version);
+validator.isISIN(str);
+validator.isISO8601(str);
+validator.isIn(str, values);
+validator.isInt(str, options);
+validator.isJSON(str);
+validator.isLength(str, min, max);
+validator.isLowercase(str);
+validator.isMobilePhone(str, locale);
+validator.isMongoId(str);
+validator.isMultibyte(str);
+validator.isNull(str);
+validator.isNumeric(str);
+validator.isSurrogatePair(str);
+validator.isURL(str, options);
+validator.isUUID(str, version);
+validator.isUppercase(str);
+validator.matches(str, pattern, modifiers);
+
+// Sanitization methods
+
+validator.blacklist(str, chars);
+validator.escape(str);
+validator.ltrim(str, chars);
+validator.normalizeEmail(str, isLowercase);
+validator.rtrim(str, chars);
+validator.stripLow(str, keepNewLines);
+validator.toBoolean(input, isStrict);
+validator.toDate(input);
+validator.toFloat(input);
+validator.toInt(input, radix);
+validator.toString(input);
+validator.trim(str, chars);
+validator.whitelist(str, chars);
+
+```
+
+## Samples
+
+Take a look on samples in [./sample](https://github.com/PLEEROCK/validator.ts/tree/master/sample) for more examples of
+usages.
 
 ## Validation decorators
 
