@@ -23,7 +23,7 @@ Create your class and put some validation decorators on its properties you want 
 
 ```typescript
 import {Validator} from "validator.ts/Validator";
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "validator.ts/decorator/ValidationDecorators";
+import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "validator.ts/decorator/Validation";
 
 export class Post {
 
@@ -56,7 +56,7 @@ post.rating = 11; // should not pass
 post.email = 'google.com'; // should not pass
 post.site = 'googlecom'; // should not pass
 
-console.log(validator.validate(post)); // returns you array of errors for fields that didn't pass validation
+console.log(validator.validate(post)); // returns you array of errors
 ```
 
 Validator also supports validation groups.
@@ -68,7 +68,7 @@ You can specify validation message decorator options to specify message that wil
 object returned by `validate` method.
 
 ```typescript
-import {MinLength, MaxLength} from "validator.ts/decorator/ValidationDecorators";
+import {MinLength, MaxLength} from "validator.ts/decorator/Validation";
 
 export class Post {
 
@@ -82,13 +82,13 @@ export class Post {
 }
 ```
 
-## Array validation
+## Validating arrays
 
 If your value is an array and you want to perform validation against each item of the array you need to specify a
 special option to decorator:
 
 ```typescript
-import {MinLength, MaxLength} from "validator.ts/decorator/ValidationDecorators";
+import {MinLength, MaxLength} from "validator.ts/decorator/Validation";
 
 export class Post {
 
@@ -105,7 +105,7 @@ If your object contains nested objects and you want validator to perform validat
 use special decorator:
 
 ```typescript
-import {ValidateNested} from "validator.ts/decorator/ValidationDecorators";
+import {ValidateNested} from "validator.ts/decorator/Validation";
 
 export class Post {
 
@@ -135,7 +135,7 @@ In different situations you may want to use different validations for the same o
 
 ```typescript
 import {Validator} from "validator.ts/Validator";
-import {MinNumber} from "validator.ts/decorator/ValidationDecorators";
+import {MinNumber} from "validator.ts/decorator/Validation";
 
 export class User {
 
