@@ -240,6 +240,23 @@ If you have custom validation logic you want to use as annotations you can do it
     validator.validate(post);
     ```
 
+## Using service container
+
+Validator supports service container in the case if want to inject dependencies into your custom validator constraint
+classes. Here is example how to integrate it with [typedi][2]:
+
+```typescript
+import {Container} from "typedi/Container";
+import {Validator} from "validator.ts/Validator";
+
+// do this somewhere in the global application level:
+let validator = Container.get<Validator>(Validator);
+validator.container = Container;
+
+// now everywhere you can inject Validator class which will go from the container
+// also you can inject classes using constructor injection into your custom ValidatorConstraints
+```
+
 ## Manual validation
 
 There are several method exist in the Validator that allows to perform non-decorator based validation:
@@ -410,3 +427,4 @@ usages.
 * more documentation and samples
 
 [1]: https://github.com/chriso/validator.js
+[2]: https://github.com/PLEEROCK/typedi
