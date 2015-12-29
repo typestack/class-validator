@@ -48,8 +48,6 @@ export class Post {
 
 }
 
-let validator = new Validator();
-
 let post = new Post();
 post.title = 'Hello'; // should not pass
 post.text = 'this is a great post about hell world'; // should not pass
@@ -57,24 +55,20 @@ post.rating = 11; // should not pass
 post.email = 'google.com'; // should not pass
 post.site = 'googlecom'; // should not pass
 
+let validator = new Validator();
 let errors = validator.validate(post); // returns you array of errors
 ```
 
 If you want to do sanitization you should use `sanitize` method:
 
 ```typescript
-import {Validator} from "validator.ts/Validator";
-
-// ...
-
-let validator = new Validator();
 validator.sanitize(post);
 ```
 
 There are some additional methods you may want to use:
 
 ```typescript
-validator.validateAsync<Post>(post); // returns Promise<Post> if validate success, throws error if validation fail
+validator.validateAsync<Post>(post); // returns Promise<Post> if validation success, throws error if validation fail
 validator.validateOrThrow(post); // performs validation and throws ValidationError if validation fail
 validator.sanitizeAsync<Post>(post);// returns Promise<Post> after sanitization
 validator.sanitizeAndValidate(post); // performs both sanitization and validation of the given object
@@ -82,10 +76,10 @@ validator.sanitizeAndValidateAsync<Post>(post); // performs both sanitization an
 validator.isValid(post); // simply checks if given object is valid. Returns true if it is, false otherwise
 ```
 
-## Validation message
+## Validation messages
 
-You can specify validation message decorator options to specify message that will be returned in ValidationError
-object returned by `validate` method.
+You can specify validation message to decorator options and this message will be returned in `ValidationError`
+object returned by `validate` method in the case if validation for this field fail.
 
 ```typescript
 import {MinLength, MaxLength} from "validator.ts/decorator/Validation";
@@ -104,8 +98,8 @@ export class Post {
 
 ## Validating arrays
 
-If your value is an array and you want to perform validation against each item of the array you need to specify a
-special option to decorator:
+If your field is an array and you want to perform validation of each item in the array you need to specify a
+special decorator option:
 
 ```typescript
 import {MinLength, MaxLength} from "validator.ts/decorator/Validation";
@@ -118,6 +112,8 @@ export class Post {
     tags: string[];
 }
 ```
+
+This will validate each item in `post.tags` array.
 
 ## Validating nested objects
 
@@ -137,9 +133,10 @@ export class Post {
 
 ## Skipping missing properties
 
-Sometimes you may want to skip validation of the properties that does not exist. This is usually desirable when you
-want to update some parts of the document, and want to validate only updated parts, but skip everything else, e.g.
-skip missing properties. In such situations you need to pass a special flag to `validate` method:
+Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is
+usually desirable when you want to update some parts of the document, and want to validate only updated parts,
+but skip everything else, e.g. skip missing properties.
+In such situations you need to pass a special flag to `validate` method:
 
 ```typescript
 import {Validator} from "validator.ts/Validator";
@@ -150,7 +147,7 @@ validator.validate(post, { skipMissingProperties: true });
 
 ## Validation groups
 
-In different situations you may want to use different validations for the same object.
+In different situations you may want to use different validation schemas of the same object.
  In such cases you can use validation groups.
 
 ```typescript
@@ -170,11 +167,11 @@ export class User {
     name: string;
 }
 
-let validator = new Validator();
-
 let user = new User();
 user.age = 10;
 user.name = 'Alex';
+
+let validator = new Validator();
 
 validator.validate(user, {
     groups: ['registration']
@@ -192,6 +189,56 @@ validator.validate(user, {
     groups: []
 }); // this will pass validation
 ```
+
+## Custom validation classes
+
+If you have custom validation logic you want to use as annotations you can do it this way:
+
+1. First create a file, lets say `CustomTextLength.ts`, and create there a new class:
+
+    ```typescript
+    import {ValidatorInterface} from "validator.ts/ValidatorInterface";
+    import {ValidatorConstraint} from "validator.ts/decorator/Validation";
+
+    @ValidatorConstraint()
+    export class CustomTextLength implements ValidatorInterface {
+
+        validate(text: string): boolean {
+            return text.length > 1 && text.length < 10;
+        }
+
+    }
+    ```
+
+    Your class should implement `ValidatorInterface` interface and its `validate` method, which defines logic for data if
+    its valid or not.
+
+2. Then you can use your new validation constraint in your class:
+
+    ```typescript
+    import {Validate} from "validator.ts/decorator/Validation";
+    import {CustomTextLength} from "./CustomTextLength";
+
+    export class Post {
+
+        @Validate(CustomTextLength, {
+            message: "Wrong post title"
+        })
+        title: string;
+
+    }
+    ```
+
+    Here we set our newly created `CustomTextLength` validation constraint for `Post.title`.
+
+3. Now you can use validator as usual:
+
+    ```typescript
+    import {Validator} from "validator.ts/Validator";
+
+    let validator = new Validator();
+    validator.validate(post);
+    ```
 
 ## Manual validation
 
@@ -349,7 +396,7 @@ usages.
     This module is tested on > node 4.0, so its highly recommended if you install the latest version of node.
     If you are using old versions of node, the major dependency (afaik) of this module is on ES6 Promises, which are
     supported by some of the old versions of node too. In the case if your node version does not support promises you
-    can try to npm install `es6-promise` module and include it to make promises work in your version of node.
+    can try to npm install `es6-shim` module and include it to make promises work in your version of node.
 
 * Is this library production-ready?
 
@@ -361,8 +408,5 @@ usages.
 
 * cover with tests
 * more documentation and samples
-* add support to load validation configuration from json and plain javascript objects 
-* add support to work with vanila js
-* add support for custom validation classes
 
 [1]: https://github.com/chriso/validator.js
