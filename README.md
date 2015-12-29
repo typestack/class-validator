@@ -11,7 +11,7 @@ Wrapper over [validator.js][1] library that provides you easy way to use it with
 2. Install required [tsd](http://definitelytyped.org/tsd/) dependencies
 (only in the case if you are targetting ES3/ES5 in tsconfig of your project. If you are using ES6 this step is not required):
 
-    `tsd install --save es6-promise`
+    `tsd install --save es6-shim`
 
 3. Link you tsd modules:
 
@@ -19,9 +19,10 @@ Wrapper over [validator.js][1] library that provides you easy way to use it with
 
 ## Usage
 
-Create your class and put some validation annotations on its properties you want to validate:
+Create your class and put some validation decorators on its properties you want to validate:
 
 ```typescript
+import {Validator} from "validator.ts/Validator";
 import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "validator.ts/decorator/ValidationDecorators";
 
 export class Post {
@@ -55,11 +56,122 @@ post.rating = 11; // should not pass
 post.email = 'google.com'; // should not pass
 post.site = 'googlecom'; // should not pass
 
-console.log(validator.validate(Post, post)); // returns you array of errors for fields that didn't pass validation
+console.log(validator.validate(post)); // returns you array of errors for fields that didn't pass validation
 ```
 
 Validator also supports validation groups.
 Take a look on samples in `./sample` for more examples of usages.
+
+## Validation message
+
+You can specify validation message decorator options to specify message that will be returned in ValidationError
+object returned by `validate` method.
+
+```typescript
+import {MinLength, MaxLength} from "validator.ts/decorator/ValidationDecorators";
+
+export class Post {
+
+    @MinLength(10, {
+        message: "Title is too short"
+    })
+    @MaxLength(50, {
+        message: "Title is too long"
+    })
+    title: string;
+}
+```
+
+## Array validation
+
+If your value is an array and you want to perform validation against each item of the array you need to specify a
+special option to decorator:
+
+```typescript
+import {MinLength, MaxLength} from "validator.ts/decorator/ValidationDecorators";
+
+export class Post {
+
+    @MaxLength(20, {
+        each: true
+    })
+    tags: string[];
+}
+```
+
+## Validating nested objects
+
+If your object contains nested objects and you want validator to perform validation of them too, then you need to
+use special decorator:
+
+```typescript
+import {ValidateNested} from "validator.ts/decorator/ValidationDecorators";
+
+export class Post {
+
+    @ValidateNested()
+    user: User;
+
+}
+```
+
+## Skipping missing properties
+
+Sometimes you may want to skip validation of the properties that does not exist. This is usually desirable when you
+want to update some parts of the document, and want to validate only updated parts, but skip everything else, e.g.
+skip missing properties. In such situations you need to pass a special flag to `validate` method:
+
+```typescript
+import {Validator} from "validator.ts/Validator";
+// ...
+let validator = new Validator();
+validator.validate(post, { skipMissingProperties: true });
+```
+
+## Validation groups
+
+In different situations you may want to use different validations for the same object.
+ In such cases you can use validation groups.
+
+```typescript
+import {Validator} from "validator.ts/Validator";
+import {MinNumber} from "validator.ts/decorator/ValidationDecorators";
+
+export class User {
+
+    @MinNumber(12, {
+        groups: ['registration']
+    })
+    age: number;
+
+    @Length(2, 20, {
+        groups: ['registration', 'admin']
+    })
+    name: string;
+}
+
+let validator = new Validator();
+
+let user = new User();
+user.age = 10;
+user.name = 'Alex';
+
+validator.validate(user, {
+    groups: ['registration']
+}); // this will not pass validation
+
+validator.validate(user, {
+    groups: ['admin']
+}); // this will pass validation
+
+validator.validate(user, {
+    groups: ['registration', 'admin']
+}); // this will not pass validation
+
+validator.validate(user, {
+    groups: []
+}); // this will pass validation
+```
 
 ## Validation decorators
 

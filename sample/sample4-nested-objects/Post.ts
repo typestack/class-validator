@@ -8,7 +8,7 @@ export class Post {
     })
     title: string;
 
-    @ValidateNested(type => Tag)
+    @ValidateNested()
     tags: Tag[];
 
 }

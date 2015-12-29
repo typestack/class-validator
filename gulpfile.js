@@ -1,1 +1,1 @@
-require('./build/es5/gulpfile');
+eval(require('typescript').transpile(require('fs').readFileSync('./gulpfile.ts').toString()));

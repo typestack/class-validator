@@ -1,11 +1,11 @@
 import {Gulpclass, Task, SequenceTask} from "gulpclass/Decorators";
 import * as gulp from "gulp";
 
-const del: any = require('del');
-const shell: any = require('gulp-shell');
-const dtsGenerator: any = require('dts-generator').default;
-const replace: any = require('gulp-replace');
-const glob: any = require('glob');
+const del: any = require("del");
+const shell: any = require("gulp-shell");
+const dtsGenerator: any = require("dts-generator").default;
+const replace: any = require("gulp-replace");
+const glob: any = require("glob");
 
 @Gulpclass()
 export class Gulpfile {
@@ -15,7 +15,7 @@ export class Gulpfile {
      */
     @Task()
     clean(cb: Function) {
-        return del(['./build/**', '!./build/es5/gulpfile.js'], cb);
+        return del(["./build/**", "!./build/es5/gulpfile.js"], cb);
     }
 
     /**
@@ -23,9 +23,9 @@ export class Gulpfile {
      */
     @Task()
     npmPublish() {
-        return gulp.src('*.js', { read: false })
+        return gulp.src("*.js", { read: false })
             .pipe(shell([
-                'cd ./build/package && npm publish'
+                "cd ./build/package && npm publish"
             ]));
     }
 
@@ -34,10 +34,8 @@ export class Gulpfile {
      */
     @Task()
     compile() {
-        return gulp.src('*.js', { read: false })
-            .pipe(shell([
-                './node_modules/.bin/tsc'
-            ]));
+        return gulp.src("*.js", { read: false })
+            .pipe(shell(["tsc"]));
     }
 
     /**
@@ -45,8 +43,8 @@ export class Gulpfile {
      */
     @Task()
     packageFiles() {
-        return gulp.src('./build/es5/src/**/*')
-            .pipe(gulp.dest('./build/package'));
+        return gulp.src("./build/es5/src/**/*")
+            .pipe(gulp.dest("./build/package"));
     }
 
     /**
@@ -54,9 +52,9 @@ export class Gulpfile {
      */
     @Task()
     packagePreparePackageFile() {
-        return gulp.src('./package.json')
-            .pipe(replace('"private": true,', '"private": false,'))
-            .pipe(gulp.dest('./build/package'));
+        return gulp.src("./package.json")
+            .pipe(replace("\"private\": true,", "\"private\": false,"))
+            .pipe(gulp.dest("./build/package"));
     }
 
     /**
@@ -65,9 +63,9 @@ export class Gulpfile {
      */
     @Task()
     packageReadmeFile() {
-        return gulp.src('./README.md')
-            .pipe(replace(/```typescript([\s\S]*?)```/g, '```javascript$1```'))
-            .pipe(gulp.dest('./build/package'));
+        return gulp.src("./README.md")
+            .pipe(replace(/```typescript([\s\S]*?)```/g, "```javascript$1```"))
+            .pipe(gulp.dest("./build/package"));
     }
 
     /**
@@ -75,13 +73,13 @@ export class Gulpfile {
      */
     @Task()
     packageGenerateDts(cb: Function) {
-        glob('./src/**/*.ts', (err: any, files: string[]) => {
-            const name = require(__dirname + '/../../package.json').name;
+        glob("./src/**/*.ts", (err: any, files: string[]) => {
+            const name = require("./package.json").name;
             dtsGenerator({
                 name: name,
-                baseDir: './src',
+                baseDir: "./src",
                 files: files,
-                out: './build/package/' + name + '.d.ts'
+                out: "./build/package/" + name + ".d.ts"
             });
             cb();
         });
@@ -93,9 +91,9 @@ export class Gulpfile {
     @SequenceTask()
     package() {
         return [
-            'clean',
-            'compile',
-            ['packageFiles', 'packagePreparePackageFile', 'packageReadmeFile', 'packageGenerateDts']
+            "clean",
+            "compile",
+            ["packageFiles", "packagePreparePackageFile", "packageReadmeFile", "packageGenerateDts"]
         ];
     }
 
@@ -104,7 +102,7 @@ export class Gulpfile {
      */
     @SequenceTask()
     publish() {
-        return ['package', 'npmPublish'];
+        return ["package", "npmPublish"];
     }
 
 }
