@@ -17,7 +17,13 @@ export class Gulpfile {
      */
     @Task()
     clean(cb: Function) {
-        return del(["./build/**", "!./build/es5/gulpfile.js"], cb);
+        return del([
+            "build/**",
+            "!build",
+            "!build/package",
+            "!build/package/node_modules",
+            "!build/package/node_modules/**"
+        ], cb);
     }
 
     /**
@@ -81,7 +87,7 @@ export class Gulpfile {
                 name: name,
                 baseDir: "./src",
                 files: files,
-                out: "./build/package/" + name + ".d.ts"
+                out: "./build/package/index.d.ts"
             });
             cb();
         });

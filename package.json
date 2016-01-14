@@ -22,6 +22,11 @@
     "typescript",
     "typescript-validator"
   ],
+  "typescript": {
+    "definitions": [
+      "index.d.ts"
+    ]
+  },
   "dependencies": {
     "validator": "^4.1.0"
   },
