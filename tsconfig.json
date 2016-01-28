@@ -4,11 +4,12 @@
         "outDir": "build/es5",
         "target": "es5",
         "module": "commonjs",
-        "moduleResolution": "node",
+        "moduleResolution": "classic",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true,
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "declaration": true
     },
     "exclude": [
         "build",
