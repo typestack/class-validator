@@ -7,16 +7,18 @@ Internally uses [validator.js][1] to make validation and sanitization.
 
 1. Install module:
 
-    `npm install --save validator.ts`
+    `npm install validator.ts --save`
 
-2. Install required [tsd](http://definitelytyped.org/tsd/) dependencies
-(only in the case if you are targetting ES3/ES5 in tsconfig of your project. If you are using ES6 this step is not required):
+2. Use [typings](https://github.com/typings/typings) to install all required definition dependencies.
 
-    `tsd install --save es6-shim`
+    `typings install`
 
-3. Link your tsd modules:
+3. ES6 features are used, so you may want to install [es6-shim](https://github.com/paulmillr/es6-shim) too:
 
-    `tsd link`
+    `npm install es6-shim --save`
+
+    if you are building nodejs app, you may want to `require("es6-shim");` in your app.
+    or if you are building web app, you man want to add `<script src="path-to-shim/es6-shim.js">` on your page.
 
 ## Usage
 
@@ -327,11 +329,6 @@ validator.whitelist(str, chars);
 
 ```
 
-## Samples
-
-Take a look on samples in [./sample](https://github.com/PLEEROCK/validator.ts/tree/master/sample) for more examples of
-usages.
-
 ## Validation decorators
 
 | Decorator                                       | Description                                                                                        |
@@ -406,6 +403,11 @@ usages.
 | `@Trim(chars?: string[])`        | Trim characters (whitespace by default) from both sides of the input. You can specify chars that should be trimmed.                                                     |
 | `@Whitelist(chars: RegExp)`      | Remove characters that do not appear in the whitelist.* The characters are used in a RegExp and so you will need to escape some chars, e.g. whitelist(input, '\\[\\]'). |
 
+## Samples
+
+Take a look on samples in [./sample](https://github.com/pleerock/validator.ts/tree/master/sample) for more examples of
+usages.
+
 ## FAQ
 
 * Which node version is supported?
@@ -424,7 +426,8 @@ usages.
 ## Todos
 
 * cover with tests
-* more documentation and samples
+* more validation options
+* add support for json-schema based validation
 
 [1]: https://github.com/chriso/validator.js
-[2]: https://github.com/PLEEROCK/typedi
+[2]: https://github.com/pleerock/typedi

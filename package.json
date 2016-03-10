@@ -1,20 +1,20 @@
 {
   "name": "validator.ts",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Decorator based validation in Typescript",
   "license": "Apache-2.0",
   "readmeFilename": "README.md",
   "author": {
     "name": "Umed Khudoiberdiev",
-    "email": "zarrhost@gmail.com"
+    "email": "pleerock.me@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/PLEEROCK/validator.ts.git"
+    "url": "https://github.com/pleerock/validator.ts.git"
   },
   "bugs": {
-    "url": "https://github.com/PLEEROCK/validator.ts/issues"
+    "url": "https://github.com/pleerock/validator.ts/issues"
   },
   "tags": [
     "validator",
@@ -22,29 +22,25 @@
     "typescript",
     "typescript-validator"
   ],
-  "typescript": {
-    "definitions": [
-      "index.d.ts"
-    ]
-  },
   "dependencies": {
-    "validator": "^4.1.0"
+    "validator": "^5.1.0"
   },
   "devDependencies": {
     "chai": "^3.4.1",
     "chai-as-promised": "^5.2.0",
     "del": "^2.0.2",
-    "dts-generator": "^1.6.0",
-    "glob": "^5.0.15",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-mocha": "^2.2.0",
     "gulp-replace": "^0.5.4",
     "gulp-shell": "^0.5.0",
-    "gulpclass": "0.0.4",
+    "gulp-tslint": "^4.3.3",
+    "gulpclass": "0.1.0",
     "mocha": "^2.3.4",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
-    "tsd": "^0.6.4",
-    "typescript": "^1.6.2"
+    "tslint": "^3.5.0",
+    "tslint-stylish": "^2.1.0-beta",
+    "typescript": "^1.8.7",
+    "typings": "^0.7.7"
   }
 }

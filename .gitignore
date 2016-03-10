@@ -1,5 +1,4 @@
-typings/
-node_modules/
 build/
+node_modules/
+typings/
 npm-debug.log
-tsd-debug.log
