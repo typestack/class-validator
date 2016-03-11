@@ -277,6 +277,7 @@ validator.isAscii(str);
 validator.isBase64(str);
 validator.isBefore(date, beforeDate);
 validator.isBoolean(str);
+validator.isBooleanString(str);
 validator.isByteLength(str, min, max);
 validator.isCreditCard(str);
 validator.isCurrency(str, options);
@@ -341,7 +342,8 @@ validator.whitelist(str, chars);
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only.                                                    |
 | `@IsBase64()`                                   | Checks if a string is base64 encoded.                                                              |
 | `@IsBefore(date: Date)`                         | Checks if the string is a date that's before the specified date.                                   |
-| `@IsBoolean()`                                  | Checks if a string is a boolean.                                                                   |
+| `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                    |
+| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                       |
 | `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range.                                         |
 | `@IsCreditCard()`                               | Checks if the string is a credit card.                                                             |
 | `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount.                                                   |

@@ -191,9 +191,13 @@ export class Validator {
      * Checks if the string is a date that's after the specified date.
      */
     isAfter(date: string, afterDate: Date): boolean;
+    isAfter(date: Date, afterDate: string): boolean;
+    isAfter(date: string, afterDate: string): boolean;
     isAfter(date: Date, afterDate: Date): boolean;
-    isAfter(date: Date | string, afterDate: Date): boolean {
-        return validatatorJs.isAfter(<string> date, afterDate);
+    isAfter(date: Date|string, afterDate: Date|string): boolean {
+        const dateString = date instanceof Date ? date.toDateString() : date;
+        const afterDateString = afterDate instanceof Date ? afterDate.toDateString() : afterDate;
+        return validatatorJs.isAfter(dateString, <any> afterDateString);
     }
 
     /**
@@ -228,16 +232,27 @@ export class Validator {
      * Checks if the string is a date that's before the specified date.
      */
     isBefore(date: string, beforeDate: Date): boolean;
+    isBefore(date: Date, beforeDate: string): boolean;
+    isBefore(date: string, beforeDate: string): boolean;
     isBefore(date: Date, beforeDate: Date): boolean;
-    isBefore(date: Date|string, beforeDate: Date): boolean {
-        return validatatorJs.isBefore(<string> date, beforeDate);
+    isBefore(date: Date|string, beforeDate: Date|string): boolean {
+        const dateString = date instanceof Date ? date.toDateString() : date;
+        const beforeDateString = beforeDate instanceof Date ? beforeDate.toDateString() : beforeDate;
+        return validatatorJs.isBefore(dateString, <any> beforeDateString);
     }
 
     /**
      * Checks if a string is a boolean.
      */
-    isBoolean(str: string): boolean {
+    isBooleanString(str: any): boolean {
         return validatatorJs.isBoolean(str);
+    }
+
+    /**
+     * Checks if a boolean is a real boolean;
+     */
+    isBoolean(value: any): boolean {
+        return value instanceof Boolean || typeof value === "boolean";
     }
 
     /**
@@ -299,8 +314,11 @@ export class Validator {
     /**
      * Checks if the string is a float.
      */
-    isFloat(str: string, options: IsFloatOptions): boolean {
-        return validatatorJs.isFloat(str, options);
+    isFloat(val: number, options: IsFloatOptions): boolean;
+    isFloat(val: string, options: IsFloatOptions): boolean;
+    isFloat(val: string|number, options: IsFloatOptions): boolean {
+        const numberString = String(val);
+        return validatatorJs.isFloat(numberString, options);
     }
 
     /**
@@ -376,8 +394,11 @@ export class Validator {
     /**
      * Checks if the string is an integer.
      */
-    isInt(str: string, options: IsIntOptions): boolean {
-        return validatatorJs.isInt(str, options);
+    isInt(val: number, options: IsIntOptions): boolean;
+    isInt(val: string, options: IsIntOptions): boolean;
+    isInt(val: string|number, options: IsIntOptions): boolean {
+        const numberString = String(val);
+        return validatatorJs.isInt(numberString, options);
     }
 
     /**
@@ -424,10 +445,11 @@ export class Validator {
     }
 
     /**
-     * Checks if the string is null.
+     * Checks if value is null.
+     * @deprecated
      */
-    isNull(input: any): boolean {
-        return validatatorJs.isNull(input);
+    isNull(value: any): boolean {
+        return value === null;
     }
 
     /**
@@ -598,6 +620,8 @@ export class Validator {
                 return this.isBase64(value);
             case ValidationTypes.IS_BEFORE:
                 return this.isBefore(value, metadata.value1);
+            case ValidationTypes.IS_BOOLEAN_STRING:
+                return this.isBooleanString(value);
             case ValidationTypes.IS_BOOLEAN:
                 return this.isBoolean(value);
             case ValidationTypes.IS_BYTE_LENGTH:

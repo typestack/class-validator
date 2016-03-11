@@ -2,7 +2,7 @@ import * as chai from "chai";
 import {expect} from "chai";
 import * as sinon from "sinon";
 import {defaultMetadataStorage} from "../../../src/metadata/MetadataStorage";
-import {ValidatorConstraint} from "../../../src/decorator/Validation";
+import {ValidatorConstraint, IsBooleanString} from "../../../src/decorator/Validation";
 import {Validate} from "../../../src/decorator/Validation";
 import {ValidationTypes} from "../../../src/types/ValidationTypes";
 import {ValidatorInterface} from "../../../src/ValidatorInterface";
@@ -348,10 +348,10 @@ describe("IsBefore", function() {
 
 });
 
-describe("IsBoolean", function() {
+describe("IsBooleanString", function() {
 
     class MyClass {
-        @IsBoolean()
+        @IsBooleanString()
         name: string;
     }
 
@@ -364,6 +364,27 @@ describe("IsBoolean", function() {
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "trui";
+        ifNotValid(object);
+    });
+
+});
+
+describe("IsBoolean", function() {
+
+    class MyClass {
+        @IsBoolean()
+        name: any;
+    }
+
+    it("should not fail validation if property is valid", function() {
+        const object = new MyClass();
+        object.name = true;
+        ifValid(object);
+    });
+
+    it("should fail validation if property is not valid", function() {
+        const object = new MyClass();
+        object.name = "true";
         ifNotValid(object);
     });
 
@@ -1436,7 +1457,8 @@ describe("IsMultibyte", function() {
 
 });
 
-describe("IsNull", function() {
+// todo: remove this because of useless
+/*describe("IsNull", function() {
 
     class MyClass {
         @IsNull()
@@ -1468,7 +1490,7 @@ describe("IsNull", function() {
             });
     });
 
-});
+});*/
 
 describe("IsNumeric", function() {
 
@@ -1601,7 +1623,6 @@ describe("IsUrl", function() {
             , "http://www.foobar.com:99999/"
             , "http://www.-foobar.com/"
             , "http://www.foobar-.com/"
-            , "http://www.foo---bar.com/"
             , "http://foobar/# lol"
             , "http://foobar/? lol"
             , "http://foobar/ lol/"

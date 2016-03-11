@@ -208,12 +208,30 @@ export function IsBefore(date: Date, annotationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if a string is a boolean.
+ * Checks if a value is a boolean.
  */
 export function IsBoolean(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BOOLEAN,
+            sanitize: false,
+            object: object,
+            propertyName: propertyName,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    };
+}
+
+/**
+ * Checks if a string is a boolean.
+ */
+export function IsBooleanString(annotationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.IS_BOOLEAN_STRING,
             sanitize: false,
             object: object,
             propertyName: propertyName,
