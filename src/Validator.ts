@@ -412,7 +412,7 @@ export class Validator {
      * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
      */
     isLength(str: string, min: number, max?: number): boolean {
-        return validatatorJs.isLength(str, min, max);
+        return typeof str === "string" && validatatorJs.isLength(str, min, max);
     }
 
     /**
