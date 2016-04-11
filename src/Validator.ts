@@ -300,23 +300,23 @@ export class Validator {
     /**
      * Checks if the string is an email.
      */
-    isEmail(str: string, options: IsEmailOptions): boolean {
+    isEmail(str: string, options?: IsEmailOptions): boolean {
         return validatatorJs.isEmail(str, options);
     }
 
     /**
      * Checks if the string is a fully qualified domain name (e.g. domain.com).
      */
-    isFQDN(str: string, options: IsFQDNOptions): boolean {
+    isFQDN(str: string, options?: IsFQDNOptions): boolean {
         return validatatorJs.isFQDN(str, options);
     }
 
     /**
      * Checks if the string is a float.
      */
-    isFloat(val: number, options: IsFloatOptions): boolean;
-    isFloat(val: string, options: IsFloatOptions): boolean;
-    isFloat(val: string|number, options: IsFloatOptions): boolean {
+    isFloat(val: number, options?: IsFloatOptions): boolean;
+    isFloat(val: string, options?: IsFloatOptions): boolean;
+    isFloat(val: string|number, options?: IsFloatOptions): boolean {
         const numberString = String(val);
         return validatatorJs.isFloat(numberString, options);
     }
@@ -394,9 +394,9 @@ export class Validator {
     /**
      * Checks if the string is an integer.
      */
-    isInt(val: number, options: IsIntOptions): boolean;
-    isInt(val: string, options: IsIntOptions): boolean;
-    isInt(val: string|number, options: IsIntOptions): boolean {
+    isInt(val: number, options?: IsIntOptions): boolean;
+    isInt(val: string, options?: IsIntOptions): boolean;
+    isInt(val: string|number, options?: IsIntOptions): boolean {
         const numberString = String(val);
         return validatatorJs.isInt(numberString, options);
     }
@@ -469,7 +469,7 @@ export class Validator {
     /**
      * Checks if the string contains any surrogate pairs chars.
      */
-    isURL(str: string, options: IsURLOptions): boolean {
+    isURL(str: string, options?: IsURLOptions): boolean {
         return validatatorJs.isURL(str, options);
     }
 
