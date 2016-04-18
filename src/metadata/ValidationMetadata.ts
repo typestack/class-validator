@@ -4,12 +4,7 @@
 export interface ValidationMetadata {
 
     /**
-     * Inidicates if this validation metadata is for sanitization or validation.
-     */
-    sanitize: boolean;
-
-    /**
-     * Validation/sanitization type.
+     * Validation type.
      */
     type: number;
 
@@ -52,4 +47,5 @@ export interface ValidationMetadata {
      * Specifies if validated value is an array and each of its item must be validated.
      */
     each?: boolean;
+    
 }

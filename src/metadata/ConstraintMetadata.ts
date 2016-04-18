@@ -1,23 +1,18 @@
 import {ValidatorInterface} from "../ValidatorInterface";
-import {SanitizerInterface} from "../SanitizerInterface";
 
 /**
- * This metadata interface contains information for custom validators and sanitizers.
+ * This metadata interface contains information for custom validators.
  */
 export interface ConstraintMetadata {
 
     /**
-     * Inidicates if this constraint is for sanitization or validation.
-     */
-    sanitize: boolean;
-
-    /**
-     * Object class which performs validation/sanitization.
+     * Object class which performs validation.
      */
     object: Function;
 
     /**
-     * Instance of the object which performs validation/sanitization.
+     * Instance of the object which performs validation.
      */
-    instance?: ValidatorInterface|SanitizerInterface;
+    instance?: ValidatorInterface;
+    
 }

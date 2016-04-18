@@ -1,6 +1,6 @@
-import {defaultMetadataStorage} from "../metadata/MetadataStorage";
-import {ValidationTypes} from "../types/ValidationTypes";
-import {IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "../ValidationOptions";
+import {defaultMetadataStorage} from "./metadata/MetadataStorage";
+import {ValidationTypes} from "./ValidationTypes";
+import {IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "./ValidatorOptions";
 
 /**
  * Options used to pass to validation decorators.
@@ -34,7 +34,6 @@ export interface ValidationOptions {
 export function ValidatorConstraint() {
     return function(object: Function) {
         defaultMetadataStorage.addConstraintMetadata({
-            sanitize: false,
             object: object
         });
     };
@@ -47,7 +46,6 @@ export function Validate(constraintClass: Function, annotationOptions?: Validati
     return function(object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.CUSTOM_VALIDATION,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: constraintClass,
@@ -66,7 +64,6 @@ export function Contains(seed: string, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.CONTAINS,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: seed,
@@ -85,7 +82,6 @@ export function Equals(comparison: string, annotationOptions?: ValidationOptions
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.EQUALS,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: comparison,
@@ -104,7 +100,6 @@ export function IsAfter(date: Date, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_AFTER,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: date,
@@ -123,7 +118,6 @@ export function IsAlpha(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ALPHA,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -141,7 +135,6 @@ export function IsAlphanumeric(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ALPHANUMERIC,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -159,7 +152,6 @@ export function IsAscii(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ASCII,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -177,7 +169,6 @@ export function IsBase64(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BASE64,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -195,7 +186,6 @@ export function IsBefore(date: Date, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BEFORE,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: date,
@@ -214,7 +204,6 @@ export function IsBoolean(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BOOLEAN,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -232,7 +221,6 @@ export function IsBooleanString(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BOOLEAN_STRING,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -250,7 +238,6 @@ export function IsByteLength(min: number, max?: number, annotationOptions?: Vali
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_BYTE_LENGTH,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: min,
@@ -270,7 +257,6 @@ export function IsCreditCard(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_CREDIT_CARD,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -288,7 +274,6 @@ export function IsCurrency(options?: IsCurrencyOptions, annotationOptions?: Vali
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_CURRENCY,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: options,
@@ -307,7 +292,6 @@ export function IsDate(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_DATE,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -325,7 +309,6 @@ export function IsDecimal(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_DECIMAL,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -343,7 +326,6 @@ export function IsDivisibleBy(num: number, annotationOptions?: ValidationOptions
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_DIVISIBLE_BY,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: num,
@@ -362,7 +344,6 @@ export function IsEmail(options?: IsEmailOptions, annotationOptions?: Validation
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_EMAIL,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: options,
@@ -381,7 +362,6 @@ export function IsFQDN(options?: IsFQDNOptions, annotationOptions?: ValidationOp
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_FQDN,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: options,
@@ -400,7 +380,6 @@ export function IsFloat(options?: IsFloatOptions, annotationOptions?: Validation
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_FLOAT,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: options,
@@ -419,7 +398,6 @@ export function IsFullWidth(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_FULL_WIDTH,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -437,7 +415,6 @@ export function IsHalfWidth(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_HALF_WIDTH,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -455,7 +432,6 @@ export function IsVariableWidth(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_VARIABLE_WIDTH,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -473,7 +449,6 @@ export function IsHexColor(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_HEX_COLOR,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -491,7 +466,6 @@ export function IsHexadecimal(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_HEXADECIMAL,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -509,7 +483,6 @@ export function IsIP(version?: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_IP,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: version,
@@ -528,7 +501,6 @@ export function IsISBN(version?: number, annotationOptions?: ValidationOptions) 
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ISBN,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: version,
@@ -547,7 +519,6 @@ export function IsISIN(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ISIN,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -565,7 +536,6 @@ export function IsISO8601(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_ISO8601,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -583,7 +553,6 @@ export function IsIn(values: any[], annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_IN,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: values,
@@ -602,7 +571,6 @@ export function IsInt(options?: IsIntOptions, annotationOptions?: ValidationOpti
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_INT,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: options,
@@ -621,7 +589,6 @@ export function IsJSON(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_JSON,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -639,7 +606,6 @@ export function IsLength(min: number, max?: number, annotationOptions?: Validati
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_LENGTH,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: min,
@@ -659,7 +625,6 @@ export function IsLowercase(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_LOWERCASE,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -678,7 +643,6 @@ export function IsMobilePhone(locale: string, annotationOptions?: ValidationOpti
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_MOBILE_PHONE,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: locale,
@@ -697,7 +661,6 @@ export function IsMongoId(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_MONGO_ID,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -715,7 +678,6 @@ export function IsMultibyte(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_MULTIBYTE,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -733,7 +695,6 @@ export function IsNull(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_NULL,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -751,7 +712,6 @@ export function IsNumeric(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_NUMERIC,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -769,7 +729,6 @@ export function IsSurrogatePair(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_SURROGATE_PAIR,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -787,7 +746,6 @@ export function IsUrl(options?: IsURLOptions, annotationOptions?: ValidationOpti
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_URL,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: options,
@@ -806,7 +764,6 @@ export function IsUUID(version?: number, annotationOptions?: ValidationOptions) 
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_UUID,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: version,
@@ -825,7 +782,6 @@ export function IsUppercase(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_UPPERCASE,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -852,7 +808,6 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MATCHES,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: pattern,
@@ -872,7 +827,6 @@ export function MinLength(min: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MIN_LENGTH,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: min,
@@ -891,7 +845,6 @@ export function MaxLength(max: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MAX_LENGTH,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: max,
@@ -910,7 +863,6 @@ export function MinNumber(min: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MIN_NUMBER,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: min,
@@ -929,7 +881,6 @@ export function MaxNumber(max: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MAX_NUMBER,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: max,
@@ -948,7 +899,6 @@ export function NotEmpty(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.NOT_EMPTY,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -966,7 +916,6 @@ export function NotEmptyArray(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.NOT_EMPTY_ARRAY,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
@@ -984,7 +933,6 @@ export function MinSize(min: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MIN_SIZE,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: min,
@@ -1003,7 +951,6 @@ export function MaxSize(max: number, annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.MAX_SIZE,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             value1: max,
@@ -1016,13 +963,12 @@ export function MaxSize(max: number, annotationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if array's length is as maximal this number.
+ * Indicates if nested object should be validated as well.
  */
 export function ValidateNested(annotationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.NESTED_VALIDATION,
-            sanitize: false,
             object: object,
             propertyName: propertyName,
             groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,

@@ -1,13 +1,11 @@
 import {ValidationMetadata} from "./metadata/ValidationMetadata";
-import {SanitizeTypes} from "./types/SanitizeTypes";
-import {ValidationTypes} from "./types/ValidationTypes";
-import {MetadataStorage, defaultMetadataStorage} from "./metadata/MetadataStorage";
+import {ValidationTypes} from "./ValidationTypes";
+import {defaultMetadataStorage} from "./metadata/MetadataStorage";
 import {ValidationErrorInterface} from "./ValidationErrorInterface";
-import {ValidationTypesUtils} from "./types/ValidationTypes";
+import {ValidationTypesUtils} from "./ValidationTypes";
 import {ValidationError} from "./ValidationError";
-import {ValidationOptions, IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "./ValidationOptions";
+import {ValidatorOptions, IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "./ValidatorOptions";
 import {ValidatorInterface} from "./ValidatorInterface";
-import {SanitizerInterface} from "./SanitizerInterface";
 import * as validatatorJs from "validator";
 
 /**
@@ -37,12 +35,12 @@ export class Validator {
     /**
      * Performs validation of the given object based on annotations used in given object class.
      */
-    validate(object: any, validationOptions?: ValidationOptions): ValidationErrorInterface[] {
-        const groups = validationOptions ? validationOptions.groups : undefined;
+    validate(object: any, validatorOptions?: ValidatorOptions): ValidationErrorInterface[] {
+        const groups = validatorOptions ? validatorOptions.groups : undefined;
         const metadatas = this.metadataStorage.getValidationMetadatasForObject(object.constructor, groups);
         return metadatas.map(metadata => {
             const value = object[metadata.propertyName];
-            if (!value && validationOptions && validationOptions.skipMissingProperties === true)
+            if (!value && validatorOptions && validatorOptions.skipMissingProperties === true)
                 return null;
 
             const duplicateMetadatas = metadatas.filter(m => m.propertyName === metadata.propertyName && m.type === metadata.type);
@@ -73,13 +71,13 @@ export class Validator {
             if (nestedValidation) {
                 if (value instanceof Array) {
                     value.map((v: any) => {
-                        const nestedErrors = this.validate(v, validationOptions);
+                        const nestedErrors = this.validate(v, validatorOptions);
                         if (nestedErrors && nestedErrors.length)
                             errors = errors.concat(nestedErrors);
                     });
 
                 } else if (value instanceof Object) {
-                    const nestedErrors = this.validate(value, validationOptions);
+                    const nestedErrors = this.validate(value, validatorOptions);
                     if (nestedErrors && nestedErrors.length)
                         errors = errors.concat(nestedErrors);
 
@@ -97,9 +95,9 @@ export class Validator {
      * Performs validation of the given object based on annotations used in given object class.
      * Performs in async-style, useful to use it in chained promises.
      */
-    validateAsync<T>(object: T, validationOptions?: ValidationOptions): Promise<T> {
+    validateAsync<T>(object: T, validatorOptions?: ValidatorOptions): Promise<T> {
         return new Promise<T>((ok, fail) => {
-            const errors = this.validate(object, validationOptions);
+            const errors = this.validate(object, validatorOptions);
             if (errors.length > 0) {
                 fail(new ValidationError(errors));
             } else {
@@ -112,61 +110,17 @@ export class Validator {
      * Performs validation of the given object based on annotations used in given object class.
      * If validation is not passed then throws ValidationError.
      */
-    validateOrThrow(object: any, validationOptions?: ValidationOptions) {
-        const errors = this.validate(object, validationOptions);
+    validateOrThrow(object: any, validatorOptions?: ValidatorOptions): void {
+        const errors = this.validate(object, validatorOptions);
         if (errors.length > 0)
             throw new ValidationError(errors);
     }
 
     /**
-     * Performs sanitization of the given object based on annotations used in given object class.
-     */
-    sanitize(object: any): void {
-        this.metadataStorage
-            .getSanitizeMetadatasForObject(object.constructor)
-            .filter(metadata => !!object[metadata.propertyName])
-            .forEach(metadata => object[metadata.propertyName] = this.sanitizeValue(object[metadata.propertyName], metadata));
-    }
-
-    /**
-     * Performs sanitization of the given object based on annotations used in given object class.
-     * Performs in async-style, useful to use it in chained promises.
-     */
-    sanitizeAsync<T>(object: T): Promise<T> {
-        return new Promise<T>((ok) => {
-            this.sanitize(object);
-            ok(object);
-        });
-    }
-
-    /**
-     * Performs sanitization and validation of the given object based on annotations used in given object class.
-     */
-    sanitizeAndValidate(object: any, validationOptions?: ValidationOptions): ValidationErrorInterface[] {
-        this.sanitize(object);
-        return this.validate(object, validationOptions);
-    }
-
-    /**
-     * Performs sanitization and validation of the given object based on annotations used in given object class.
-     * Performs in async-style, useful to use it in chained promises.
-     */
-    sanitizeAndValidateAsync<T>(object: T, validationOptions?: ValidationOptions): Promise<T> {
-        return new Promise<T>((ok, fail) => {
-            const errors = this.sanitizeAndValidate(object, validationOptions);
-            if (errors.length > 0) {
-                fail(new ValidationError(errors));
-            } else {
-                ok(object);
-            }
-        });
-    }
-
-    /**
      * Checks if given object is valid (all annotations passes validation). Returns true if its valid, false otherwise.
      */
-    isValid(object: any, validationOptions?: ValidationOptions): boolean {
-        return this.validate(object, validationOptions).length === 0;
+    isValid(object: any, validatorOptions?: ValidatorOptions): boolean {
+        return this.validate(object, validatorOptions).length === 0;
     }
 
     // -------------------------------------------------------------------------
@@ -495,110 +449,6 @@ export class Validator {
     }
 
     // -------------------------------------------------------------------------
-    // Sanitization Methods
-    // -------------------------------------------------------------------------
-
-    /**
-     * Remove characters that appear in the blacklist. The characters are used in a RegExp and so you will need to
-     * escape some chars, e.g @Blacklist('\\[\\]')
-     */
-    blacklist(str: string, chars: string): string;
-    blacklist(str: string, chars: RegExp): string;
-    blacklist(str: string, chars: RegExp | string): string {
-        return validatatorJs.blacklist(str, <string> chars);
-    }
-
-    /**
-     * Replace <, >, &, ', " and / with HTML entities.
-     */
-    escape(str: string): string {
-        return validatatorJs.escape(str);
-    }
-
-    /**
-     * Trim characters from the left-side of the input.
-     */
-    ltrim(str: string, chars?: string[]): string {
-        return validatatorJs.ltrim(str, chars.join());
-    }
-
-    /**
-     * Canonicalize an email address.
-     */
-    normalizeEmail(str: string, lowercase?: boolean): string {
-        return validatatorJs.normalizeEmail(str, lowercase);
-    }
-
-    /**
-     * Trim characters from the right-side of the input.
-     */
-    rtrim(str: string, chars?: string[]): string {
-        return validatatorJs.rtrim(str, chars.join());
-    }
-
-    /**
-     * Remove characters with a numerical value < 32 and 127, mostly control characters.
-     * If keepNewLines is true, newline characters are preserved (\n and \r, hex 0xA and 0xD).
-     * Unicode-safe in JavaScript.
-     */
-    stripLow(str: string, keepNewLines?: boolean): string {
-        return validatatorJs.stripLow(str, keepNewLines);
-    }
-
-    /**
-     * Convert the input to a boolean.
-     * Everything except for '0', 'false' and '' returns true. In strict mode only '1' and 'true' return true.
-     */
-    toBoolean(input: any, isStrict?: boolean): boolean {
-        return validatatorJs.toBoolean(input, isStrict);
-    }
-
-    /**
-     * Convert the input to a date, or null if the input is not a date.
-     */
-    toDate(input: any): Date {
-        return validatatorJs.toDate(input);
-    }
-
-    /**
-     * Convert the input to a float.
-     */
-    toFloat(input: any): number {
-        return validatatorJs.toFloat(input);
-    }
-
-    /**
-     * Convert the input to an integer, or NaN if the input is not an integer.
-     */
-    toInt(input: any, radix?: number): number {
-        return validatatorJs.toInt(input, radix);
-    }
-
-    /**
-     * Convert the input to a string.
-     */
-    toString(input: any): string {
-        return validatatorJs.toString(input);
-    }
-
-    /**
-     * Trim characters (whitespace by default) from both sides of the input. You can specify chars that should be trimmed.
-     */
-    trim(str: string, chars?: string[]): string {
-        return validatatorJs.trim(str, chars.join());
-    }
-
-    /**
-     * Remove characters that do not appear in the whitelist.
-     * The characters are used in a RegExp and so you will need to escape some chars, e.g. whitelist(input, '\\[\\]').
-     */
-    whitelist(str: string, chars: string): string;
-    whitelist(str: string, chars: RegExp): string;
-    whitelist(str: string, chars: RegExp | string): string {
-        return validatatorJs.whitelist(str, <string> chars);
-    }
-
-    // -------------------------------------------------------------------------
     // Private Methods
     // -------------------------------------------------------------------------
 
@@ -720,56 +570,13 @@ export class Validator {
                         if (!validatorMetadata.instance)
                             validatorMetadata.instance = this.createInstance(validatorMetadata.object);
 
-                        return <ValidatorInterface> validatorMetadata.instance;
+                        return validatorMetadata.instance;
                     }).every(validator => validator.validate(value));
         }
         return true;
     }
 
-    private sanitizeValue(value: any, metadata: ValidationMetadata): any {
-        switch (metadata.type) {
-            case SanitizeTypes.BLACKLIST:
-                return this.blacklist(value, metadata.value1);
-            case SanitizeTypes.ESCAPE:
-                return this.escape(value);
-            case SanitizeTypes.LTRIM:
-                return this.ltrim(value, metadata.value1);
-            case SanitizeTypes.NORMALIZE_EMAIL:
-                return this.normalizeEmail(value, metadata.value1);
-            case SanitizeTypes.RTRIM:
-                return this.rtrim(value, metadata.value1);
-            case SanitizeTypes.STRIP_LOW:
-                return this.stripLow(value, metadata.value1);
-            case SanitizeTypes.TO_BOOLEAN:
-                return this.toBoolean(value, metadata.value1);
-            case SanitizeTypes.TO_DATE:
-                return this.toDate(value);
-            case SanitizeTypes.TO_FLOAT:
-                return this.toFloat(value);
-            case SanitizeTypes.TO_INT:
-                return this.toInt(value, metadata.value1);
-            case SanitizeTypes.TO_STRING:
-                return this.toString(value);
-            case SanitizeTypes.TRIM:
-                return this.trim(value, metadata.value1);
-            case SanitizeTypes.WHITELIST:
-                return this.whitelist(value, metadata.value1);
-            case SanitizeTypes.CUSTOM_SANITIZATION:
-                return this.metadataStorage
-                    .getSanitizeConstraintsForObject(metadata.value1)
-                    .map(validatorMetadata => {
-                        if (!validatorMetadata.instance)
-                            validatorMetadata.instance = this.createInstance(validatorMetadata.object);
-
-                        return <SanitizerInterface> validatorMetadata.instance;
-                    }).reduce((result, validator) => validator.sanitize(result), value);
-
-            default:
-                throw Error(`Wrong sanitization type is supplied ${metadata.type} for value ${value}`);
-        }
-    }
-
-    private createInstance(object: Function): ValidatorInterface|SanitizerInterface {
+    private createInstance(object: Function): ValidatorInterface {
         return this._container ? this._container.get(object) : new (<any> object)();
     }
 

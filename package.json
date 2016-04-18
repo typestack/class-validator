@@ -1,8 +1,8 @@
 {
-  "name": "validator.ts",
+  "name": "class-validator",
   "private": true,
-  "version": "0.2.3",
-  "description": "Decorator based validation in Typescript",
+  "version": "0.3.0",
+  "description": "Class-based validation in Typescript using decorators",
   "license": "Apache-2.0",
   "readmeFilename": "README.md",
   "author": {
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pleerock/validator.ts.git"
+    "url": "https://github.com/pleerock/class-validator.git"
   },
   "bugs": {
-    "url": "https://github.com/pleerock/validator.ts/issues"
+    "url": "https://github.com/pleerock/class-validator/issues"
   },
   "tags": [
     "validator",
@@ -42,5 +42,8 @@
     "tslint-stylish": "^2.1.0-beta",
     "typescript": "^1.8.7",
     "typings": "^0.7.7"
+  },
+  "scripts": {
+    "test": "gulp tests"
   }
 }

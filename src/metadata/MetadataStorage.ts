@@ -59,30 +59,17 @@ export class MetadataStorage {
      */
     getValidationMetadatasForObject(object: Function, groups?: string[]): ValidationMetadata[] {
         return this.validationMetadatas
-            .filter(metadata => metadata.object.constructor === object && metadata.sanitize === false)
+            .filter(metadata => metadata.object.constructor === object)
             .filter(metadata => groups && groups.length > 0 ? metadata.always || (metadata.groups && metadata.groups.filter(g => groups.indexOf(g) !== -1).length > 0) : true);
-    }
-
-    /**
-     * Gets all sanitization metadatas for the given object with the given groups.
-     */
-    getSanitizeMetadatasForObject(object: Object): ValidationMetadata[] {
-        return this.validationMetadatas.filter(metadata => metadata.object.constructor === object && metadata.sanitize === true);
     }
 
     /**
      * Gets all validator constraints for the given object.
      */
     getValidatorConstraintsForObject(object: Function): ConstraintMetadata[] {
-        return this.constraintMetadatas.filter(metadata => metadata.object === object && metadata.sanitize === false);
+        return this.constraintMetadatas.filter(metadata => metadata.object === object);
     }
 
-    /**
-     * Gets all sanitizator constraints for the given object.
-     */
-    getSanitizeConstraintsForObject(object: Function): ConstraintMetadata[] {
-        return this.constraintMetadatas.filter(metadata => metadata.object === object && metadata.sanitize === true);
-    }
 }
 
 /**

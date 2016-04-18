@@ -2,62 +2,62 @@ import * as chai from "chai";
 import {expect} from "chai";
 import * as sinon from "sinon";
 import {defaultMetadataStorage} from "../../../src/metadata/MetadataStorage";
-import {ValidatorConstraint, IsBooleanString} from "../../../src/decorator/Validation";
-import {Validate} from "../../../src/decorator/Validation";
-import {ValidationTypes} from "../../../src/types/ValidationTypes";
+import {ValidatorConstraint, IsBooleanString} from "../../../src/decorators";
+import {Validate} from "../../../src/decorators";
+import {ValidationTypes} from "../../../src/ValidationTypes";
 import {ValidatorInterface} from "../../../src/ValidatorInterface";
-import {Contains} from "../../../src/decorator/Validation";
-import {Equals} from "../../../src/decorator/Validation";
+import {Contains} from "../../../src/decorators";
+import {Equals} from "../../../src/decorators";
 import {Validator} from "../../../src/Validator";
 import {ValidationError} from "../../../src/ValidationError";
-import {IsAfter} from "../../../src/decorator/Validation";
-import {IsBefore} from "../../../src/decorator/Validation";
-import {IsAlpha} from "../../../src/decorator/Validation";
-import {IsAlphanumeric} from "../../../src/decorator/Validation";
-import {IsAscii} from "../../../src/decorator/Validation";
-import {IsBase64} from "../../../src/decorator/Validation";
-import {IsBoolean} from "../../../src/decorator/Validation";
-import {IsByteLength} from "../../../src/decorator/Validation";
-import {IsCreditCard} from "../../../src/decorator/Validation";
-import {IsCurrency} from "../../../src/decorator/Validation";
-import {IsDate} from "../../../src/decorator/Validation";
-import {IsDecimal} from "../../../src/decorator/Validation";
-import {IsDivisibleBy} from "../../../src/decorator/Validation";
-import {IsEmail} from "../../../src/decorator/Validation";
-import {IsFQDN} from "../../../src/decorator/Validation";
-import {IsFloat} from "../../../src/decorator/Validation";
-import {IsFullWidth} from "../../../src/decorator/Validation";
-import {IsHalfWidth} from "../../../src/decorator/Validation";
-import {IsVariableWidth} from "../../../src/decorator/Validation";
-import {IsHexColor} from "../../../src/decorator/Validation";
-import {IsHexadecimal} from "../../../src/decorator/Validation";
-import {IsIP} from "../../../src/decorator/Validation";
-import {IsISBN} from "../../../src/decorator/Validation";
-import {IsISO8601} from "../../../src/decorator/Validation";
-import {IsIn} from "../../../src/decorator/Validation";
-import {IsInt} from "../../../src/decorator/Validation";
-import {IsJSON} from "../../../src/decorator/Validation";
-import {IsLength} from "../../../src/decorator/Validation";
-import {IsLowercase} from "../../../src/decorator/Validation";
-import {IsMobilePhone} from "../../../src/decorator/Validation";
-import {IsMongoId} from "../../../src/decorator/Validation";
-import {IsMultibyte} from "../../../src/decorator/Validation";
-import {IsNull} from "../../../src/decorator/Validation";
-import {IsNumeric} from "../../../src/decorator/Validation";
-import {IsSurrogatePair} from "../../../src/decorator/Validation";
-import {IsUrl} from "../../../src/decorator/Validation";
-import {IsUUID} from "../../../src/decorator/Validation";
-import {IsUppercase} from "../../../src/decorator/Validation";
-import {Matches} from "../../../src/decorator/Validation";
-import {MinLength} from "../../../src/decorator/Validation";
-import {MaxLength} from "../../../src/decorator/Validation";
-import {MinNumber} from "../../../src/decorator/Validation";
-import {MaxNumber} from "../../../src/decorator/Validation";
-import {NotEmpty} from "../../../src/decorator/Validation";
-import {NotEmptyArray} from "../../../src/decorator/Validation";
-import {MinSize} from "../../../src/decorator/Validation";
-import {MaxSize} from "../../../src/decorator/Validation";
-import {ValidateNested} from "../../../src/decorator/Validation";
+import {IsAfter} from "../../../src/decorators";
+import {IsBefore} from "../../../src/decorators";
+import {IsAlpha} from "../../../src/decorators";
+import {IsAlphanumeric} from "../../../src/decorators";
+import {IsAscii} from "../../../src/decorators";
+import {IsBase64} from "../../../src/decorators";
+import {IsBoolean} from "../../../src/decorators";
+import {IsByteLength} from "../../../src/decorators";
+import {IsCreditCard} from "../../../src/decorators";
+import {IsCurrency} from "../../../src/decorators";
+import {IsDate} from "../../../src/decorators";
+import {IsDecimal} from "../../../src/decorators";
+import {IsDivisibleBy} from "../../../src/decorators";
+import {IsEmail} from "../../../src/decorators";
+import {IsFQDN} from "../../../src/decorators";
+import {IsFloat} from "../../../src/decorators";
+import {IsFullWidth} from "../../../src/decorators";
+import {IsHalfWidth} from "../../../src/decorators";
+import {IsVariableWidth} from "../../../src/decorators";
+import {IsHexColor} from "../../../src/decorators";
+import {IsHexadecimal} from "../../../src/decorators";
+import {IsIP} from "../../../src/decorators";
+import {IsISBN} from "../../../src/decorators";
+import {IsISO8601} from "../../../src/decorators";
+import {IsIn} from "../../../src/decorators";
+import {IsInt} from "../../../src/decorators";
+import {IsJSON} from "../../../src/decorators";
+import {IsLength} from "../../../src/decorators";
+import {IsLowercase} from "../../../src/decorators";
+import {IsMobilePhone} from "../../../src/decorators";
+import {IsMongoId} from "../../../src/decorators";
+import {IsMultibyte} from "../../../src/decorators";
+import {IsNull} from "../../../src/decorators";
+import {IsNumeric} from "../../../src/decorators";
+import {IsSurrogatePair} from "../../../src/decorators";
+import {IsUrl} from "../../../src/decorators";
+import {IsUUID} from "../../../src/decorators";
+import {IsUppercase} from "../../../src/decorators";
+import {Matches} from "../../../src/decorators";
+import {MinLength} from "../../../src/decorators";
+import {MaxLength} from "../../../src/decorators";
+import {MinNumber} from "../../../src/decorators";
+import {MaxNumber} from "../../../src/decorators";
+import {NotEmpty} from "../../../src/decorators";
+import {NotEmptyArray} from "../../../src/decorators";
+import {MinSize} from "../../../src/decorators";
+import {MaxSize} from "../../../src/decorators";
+import {ValidateNested} from "../../../src/decorators";
 
 let validator: Validator;
 
@@ -103,7 +103,6 @@ describe("ValidatorConstraint", function() {
         const method = this.mock(defaultMetadataStorage).expects("addConstraintMetadata");
         ValidatorConstraint()(TestClass);
         method.should.have.been.calledWith({
-            sanitize: false,
             object: TestClass
         });
     }));
@@ -117,7 +116,6 @@ describe("Validate", function() {
         Validate(TestConstraint)(TestClass, "name");
         method.should.have.been.calledWith({
             type: ValidationTypes.CUSTOM_VALIDATION,
-            sanitize: false,
             object: TestClass,
             propertyName: "name",
             value1: TestConstraint,
@@ -133,7 +131,6 @@ describe("Validate", function() {
         Validate(TestConstraint, { always: true, each: true, message: "Error!", groups: ["main"] })(TestClass, "name");
         method.should.have.been.calledWith({
             type: ValidationTypes.CUSTOM_VALIDATION,
-            sanitize: false,
             object: TestClass,
             propertyName: "name",
             value1: TestConstraint,
@@ -153,7 +150,6 @@ describe("ValidateNested", function() {
         ValidateNested()(TestClass, "name");
         method.should.have.been.calledWith({
             type: ValidationTypes.NESTED_VALIDATION,
-            sanitize: false,
             object: TestClass,
             propertyName: "name",
             groups: undefined,
@@ -168,7 +164,6 @@ describe("ValidateNested", function() {
         ValidateNested({ always: true, each: true, message: "Error!", groups: ["main"] })(TestClass, "name");
         method.should.have.been.calledWith({
             type: ValidationTypes.NESTED_VALIDATION,
-            sanitize: false,
             object: TestClass,
             propertyName: "name",
             groups: ["main"],

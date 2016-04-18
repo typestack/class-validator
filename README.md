@@ -1,13 +1,20 @@
-# Validator.ts
+# class-validator
 
 Allows to use decorator and non-decorator based validation in your Typescript classes.
-Internally uses [validator.js][1] to make validation and sanitization.
+Internally uses [validator.js][1] to perform validation.
+
+## Release Notes
+
+**0.3.0**
+
+* package has changed its name from `validator.ts` to `class-validator`.
+* sanitation functionality has been removed from this library. Use [class-sanitizer][1] instead.
 
 ## Installation
 
 1. Install module:
 
-    `npm install validator.ts --save`
+    `npm install class-validator --save`
 
 2. Use [typings](https://github.com/typings/typings) to install all required definition dependencies.
 
@@ -25,8 +32,8 @@ Internally uses [validator.js][1] to make validation and sanitization.
 Create your class and put some validation decorators on its properties you want to validate:
 
 ```typescript
-import {Validator} from "validator.ts/Validator";
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "validator.ts/decorator/Validation";
+import {validate} from "class-validator/class-validator";
+import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "class-validator/decorators";
 
 export class Post {
 
@@ -57,25 +64,15 @@ post.rating = 11; // should not pass
 post.email = 'google.com'; // should not pass
 post.site = 'googlecom'; // should not pass
 
-let validator = new Validator();
-let errors = validator.validate(post); // returns you array of errors
+let errors = validate(post); // returns you array of errors
 ```
 
-If you want to do sanitization you should use `sanitize` method:
+There are some additional functions you may want to use:
 
 ```typescript
-validator.sanitize(post);
-```
-
-There are some additional methods you may want to use:
-
-```typescript
-validator.validateAsync<Post>(post); // returns Promise<Post> if validation success, throws error if validation fail
-validator.validateOrThrow(post); // performs validation and throws ValidationError if validation fail
-validator.sanitizeAsync<Post>(post);// returns Promise<Post> after sanitization
-validator.sanitizeAndValidate(post); // performs both sanitization and validation of the given object
-validator.sanitizeAndValidateAsync<Post>(post); // performs both sanitization and validation and returns Promise<Post>
-validator.isValid(post); // simply checks if given object is valid. Returns true if it is, false otherwise
+validateAsync(post); // returns Promise<Post> if validation success, throws error if validation fail
+validateOrThrow(post); // performs validation and throws ValidationError if validation fail
+isValid(post); // simply checks if given object is valid. Returns true if it is, false otherwise
 ```
 
 ## Validation messages
@@ -84,7 +81,7 @@ You can specify validation message to decorator options and this message will be
 object returned by `validate` method in the case if validation for this field fail.
 
 ```typescript
-import {MinLength, MaxLength} from "validator.ts/decorator/Validation";
+import {MinLength, MaxLength} from "class-validator/decorators";
 
 export class Post {
 
@@ -104,7 +101,7 @@ If your field is an array and you want to perform validation of each item in the
 special decorator option:
 
 ```typescript
-import {MinLength, MaxLength} from "validator.ts/decorator/Validation";
+import {MinLength, MaxLength} from "class-validator/decorators";
 
 export class Post {
 
@@ -123,7 +120,7 @@ If your object contains nested objects and you want validator to perform validat
 use special decorator:
 
 ```typescript
-import {ValidateNested} from "validator.ts/decorator/Validation";
+import {ValidateNested} from "class-validator/decorators";
 
 export class Post {
 
@@ -141,10 +138,9 @@ but skip everything else, e.g. skip missing properties.
 In such situations you need to pass a special flag to `validate` method:
 
 ```typescript
-import {Validator} from "validator.ts/Validator";
+import {validate} from "class-validator/class-validator";
 // ...
-let validator = new Validator();
-validator.validate(post, { skipMissingProperties: true });
+validate(post, { skipMissingProperties: true });
 ```
 
 ## Validation groups
@@ -153,8 +149,8 @@ In different situations you may want to use different validation schemas of the 
  In such cases you can use validation groups.
 
 ```typescript
-import {Validator} from "validator.ts/Validator";
-import {MinNumber, Length} from "validator.ts/decorator/Validation";
+import {validate} from "class-validator/class-validator";
+import {MinNumber, Length} from "class-validator/decorators";
 
 export class User {
 
@@ -173,21 +169,19 @@ let user = new User();
 user.age = 10;
 user.name = 'Alex';
 
-let validator = new Validator();
-
-validator.validate(user, {
+validate(user, {
     groups: ['registration']
 }); // this will not pass validation
 
-validator.validate(user, {
+validate(user, {
     groups: ['admin']
 }); // this will pass validation
 
-validator.validate(user, {
+validate(user, {
     groups: ['registration', 'admin']
 }); // this will not pass validation
 
-validator.validate(user, {
+validate(user, {
     groups: []
 }); // this will pass validation
 ```
@@ -199,8 +193,8 @@ If you have custom validation logic you want to use as annotations you can do it
 1. First create a file, lets say `CustomTextLength.ts`, and create there a new class:
 
     ```typescript
-    import {ValidatorInterface} from "validator.ts/ValidatorInterface";
-    import {ValidatorConstraint} from "validator.ts/decorator/Validation";
+    import {ValidatorInterface} from "class-validator/ValidatorInterface";
+    import {ValidatorConstraint} from "class-validator/decorators";
 
     @ValidatorConstraint()
     export class CustomTextLength implements ValidatorInterface {
@@ -218,7 +212,7 @@ If you have custom validation logic you want to use as annotations you can do it
 2. Then you can use your new validation constraint in your class:
 
     ```typescript
-    import {Validate} from "validator.ts/decorator/Validation";
+    import {Validate} from "class-validator/decorators";
     import {CustomTextLength} from "./CustomTextLength";
 
     export class Post {
@@ -236,10 +230,9 @@ If you have custom validation logic you want to use as annotations you can do it
 3. Now you can use validator as usual:
 
     ```typescript
-    import {Validator} from "validator.ts/Validator";
+    import {validate} from "class-validator/class-validator";
 
-    let validator = new Validator();
-    validator.validate(post);
+    validate(post);
     ```
 
 ## Using service container
@@ -249,10 +242,10 @@ classes. Here is example how to integrate it with [typedi][2]:
 
 ```typescript
 import {Container} from "typedi/Container";
-import {Validator} from "validator.ts/Validator";
+import {Validator} from "class-validator/class-validator";
 
 // do this somewhere in the global application level:
-let validator = Container.get<Validator>(Validator);
+let validator = Container.get(Validator);
 validator.container = Container;
 
 // now everywhere you can inject Validator class which will go from the container
@@ -264,69 +257,52 @@ validator.container = Container;
 There are several method exist in the Validator that allows to perform non-decorator based validation:
 
 ```typescript
-import {Validator} from "validator.ts/Validator";
+import Validator from "class-validator/class-validator";
 
 // Validation methods
 
-validator.contains(str, seed);
-validator.equals(str, comparison);
-validator.isAfter(date, afterDate);
-validator.isAlpha(str);
-validator.isAlphanumeric(str);
-validator.isAscii(str);
-validator.isBase64(str);
-validator.isBefore(date, beforeDate);
-validator.isBoolean(str);
-validator.isBooleanString(str);
-validator.isByteLength(str, min, max);
-validator.isCreditCard(str);
-validator.isCurrency(str, options);
-validator.isDate(str);
-validator.isDecimal(str);
-validator.isDivisibleBy(str, num);
-validator.isEmail(str, options);
-validator.isFQDN(str, options);
-validator.isFloat(str, options);
-validator.isFullWidth(str);
-validator.isHalfWidth(str);
-validator.isVariableWidth(str);
-validator.isHexColor(str);
-validator.isHexadecimal(str);
-validator.isIP(str, version);
-validator.isISBN(str, version);
-validator.isISIN(str);
-validator.isISO8601(str);
-validator.isIn(str, values);
-validator.isInt(str, options);
-validator.isJSON(str);
-validator.isLength(str, min, max);
-validator.isLowercase(str);
-validator.isMobilePhone(str, locale);
-validator.isMongoId(str);
-validator.isMultibyte(str);
-validator.isNull(str);
-validator.isNumeric(str);
-validator.isSurrogatePair(str);
-validator.isURL(str, options);
-validator.isUUID(str, version);
-validator.isUppercase(str);
-validator.matches(str, pattern, modifiers);
-
-// Sanitization methods
-
-validator.blacklist(str, chars);
-validator.escape(str);
-validator.ltrim(str, chars);
-validator.normalizeEmail(str, isLowercase);
-validator.rtrim(str, chars);
-validator.stripLow(str, keepNewLines);
-validator.toBoolean(input, isStrict);
-validator.toDate(input);
-validator.toFloat(input);
-validator.toInt(input, radix);
-validator.toString(input);
-validator.trim(str, chars);
-validator.whitelist(str, chars);
+Validator.contains(str, seed);
+Validator.equals(str, comparison);
+Validator.isAfter(date, afterDate);
+Validator.isAlpha(str);
+Validator.isAlphanumeric(str);
+Validator.isAscii(str);
+Validator.isBase64(str);
+Validator.isBefore(date, beforeDate);
+Validator.isBoolean(str);
+Validator.isBooleanString(str);
+Validator.isByteLength(str, min, max);
+Validator.isCreditCard(str);
+Validator.isCurrency(str, options);
+Validator.isDate(str);
+Validator.isDecimal(str);
+Validator.isDivisibleBy(str, num);
+Validator.isEmail(str, options);
+Validator.isFQDN(str, options);
+Validator.isFloat(str, options);
+Validator.isFullWidth(str);
+Validator.isHalfWidth(str);
+Validator.isVariableWidth(str);
+Validator.isHexColor(str);
+Validator.isHexadecimal(str);
+Validator.isIP(str, version);
+Validator.isISBN(str, version);
+Validator.isISIN(str);
+Validator.isISO8601(str);
+Validator.isIn(str, values);
+Validator.isInt(str, options);
+Validator.isJSON(str);
+Validator.isLength(str, min, max);
+Validator.isLowercase(str);
+Validator.isMobilePhone(str, locale);
+Validator.isMongoId(str);
+Validator.isMultibyte(str);
+Validator.isNumeric(str);
+Validator.isSurrogatePair(str);
+Validator.isURL(str, options);
+Validator.isUUID(str, version);
+Validator.isUppercase(str);
+Validator.matches(str, pattern, modifiers);
 
 ```
 
@@ -386,28 +362,9 @@ validator.whitelist(str, chars);
 | `@MinSize(min: number)`                         | Checks if array's length is as minimal this number.                                                |
 | `@MaxSize(max: number)`                         | Checks if array's length is as maximal this number.                                                |
 
-
-## Sanity decorators
-
-| Decorator                        | Description                                                                                                                                                             |
-|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `@Blacklist(chars: RegExp)`      | Remove characters that appear in the blacklist.                                                                                                                         |
-| `@Escape()`                      | Replace <, >, &, ', " and / with HTML entities.                                                                                                                         |
-| `@Ltrim()`                       | Trim characters from the left-side of the input.                                                                                                                        |
-| `@NormalizeEmail()`              | Canonicalize an email address.                                                                                                                                          |
-| `@Rtrim()`                       | Trim characters from the right-side of the input.                                                                                                                        |
-| `@StripLow()`                    | Remove characters with a numerical value < 32 and 127, mostly control characters.                                                                                       |
-| `@ToBoolean(isStrict?: boolean)` | Convert the input to a boolean. Everything except for '0', 'false' and '' returns true. In strict mode only '1' and 'true' return true.                                 |
-| `@ToDate()`                      | Convert the input to a date, or null if the input is not a date.                                                                                                        |
-| `@ToFloat()`                     | Convert the input to a float.                                                                                                                                           |
-| `@ToInt()`                       | Convert the input to an integer, or NaN if the input is not an integer.                                                                                                 |
-| `@ToString()`                    | Convert the input to a string.                                                                                                                                          |
-| `@Trim(chars?: string[])`        | Trim characters (whitespace by default) from both sides of the input. You can specify chars that should be trimmed.                                                     |
-| `@Whitelist(chars: RegExp)`      | Remove characters that do not appear in the whitelist.* The characters are used in a RegExp and so you will need to escape some chars, e.g. whitelist(input, '\\[\\]'). |
-
 ## Samples
 
-Take a look on samples in [./sample](https://github.com/pleerock/validator.ts/tree/master/sample) for more examples of
+Take a look on samples in [./sample](https://github.com/pleerock/class-validator/tree/master/sample) for more examples of
 usages.
 
 ## FAQ
@@ -430,6 +387,8 @@ usages.
 * cover with tests
 * more validation options
 * add support for json-schema based validation
+* use something better then validator.js and solve string-only validation issues
 
 [1]: https://github.com/chriso/validator.js
 [2]: https://github.com/pleerock/typedi
+[2]: https://github.com/pleerock/class-sanitizer
