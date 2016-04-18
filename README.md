@@ -8,7 +8,7 @@ Internally uses [validator.js][1] to perform validation.
 **0.3.0**
 
 * package has changed its name from `validator.ts` to `class-validator`.
-* sanitation functionality has been removed from this library. Use [class-sanitizer][1] instead.
+* sanitation functionality has been removed from this library. Use [class-sanitizer][3] instead.
 
 ## Installation
 
