@@ -329,6 +329,8 @@ Validator.matches(str, pattern, modifiers);
 | `@IsEmail(options?: IsEmailOptions)`            | Checks if the string is an email.                                                                  |
 | `@IsFQDN(options?: IsFQDNOptions)`              | Checks if the string is a fully qualified domain name (e.g. domain.com).                           |
 | `@IsFloat(options?: IsFloatOptions)`            | Checks if the string is a float.                                                                   |
+| `@IsPositiveFloat(options?: IsFloatOptions)`    | Checks if the string is a positive float.                                                                   |
+| `@IsNegativeFloat(options?: IsFloatOptions)`    | Checks if the string is a negative float.                                                                   |
 | `@IsFullWidth()`                                | Checks if the string contains any full-width chars.                                                |
 | `@IsHalfWidth()`                                | Checks if the string contains any half-width chars.                                                |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                       |
@@ -339,6 +341,8 @@ Validator.matches(str, pattern, modifiers);
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                     |
 | `@IsIn(values: any[])`                          | Checks if the string is in a array of allowed values.                                              |
 | `@IsInt(options?: IsIntOptions)`                | Checks if the string is an integer.                                                                |
+| `@IsPositiveInt(options?: IsIntOptions)`        | Checks if the string is a positive integer.                                                                |
+| `@IsNegativeInt(options?: IsIntOptions)`        | Checks if the string is a negative integer.                                                                |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                |
 | `@IsLength(min: number, max?: number)`          | Checks if the string's length falls in a range.                                                    |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                 |

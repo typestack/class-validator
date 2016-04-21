@@ -276,6 +276,28 @@ export class Validator {
     }
 
     /**
+     * Checks if the string is a positive float.
+     */
+    isPositiveFloat(val: number, options?: IsFloatOptions): boolean;
+    isPositiveFloat(val: string, options?: IsFloatOptions): boolean;
+    isPositiveFloat(val: string|number, options?: IsFloatOptions): boolean {
+        const numberString = String(val);
+        const num = typeof val === "number" ? val : parseFloat(<string> val);
+        return validatatorJs.isFloat(numberString, options) && num > 0;
+    }
+
+    /**
+     * Checks if the string is a negative float.
+     */
+    isNegativeFloat(val: number, options?: IsFloatOptions): boolean;
+    isNegativeFloat(val: string, options?: IsFloatOptions): boolean;
+    isNegativeFloat(val: string|number, options?: IsFloatOptions): boolean {
+        const numberString = String(val);
+        const num = typeof val === "number" ? val : parseFloat(<string> val);
+        return validatatorJs.isFloat(numberString, options) && num < 0;
+    }
+
+    /**
      * Checks if the string contains any full-width chars.
      */
     isFullWidth(str: string): boolean {
@@ -353,6 +375,28 @@ export class Validator {
     isInt(val: string|number, options?: IsIntOptions): boolean {
         const numberString = String(val);
         return validatatorJs.isInt(numberString, options);
+    }
+
+    /**
+     * Checks if the string is a positive integer.
+     */
+    isPositiveInt(val: number, options?: IsIntOptions): boolean;
+    isPositiveInt(val: string, options?: IsIntOptions): boolean;
+    isPositiveInt(val: string|number, options?: IsIntOptions): boolean {
+        const numberString = String(val);
+        const num = typeof val === "number" ? val : parseInt(<string> val);
+        return validatatorJs.isInt(numberString, options) && num > 0;
+    }
+
+    /**
+     * Checks if the string is a negative integer.
+     */
+    isNegativeInt(val: number, options?: IsIntOptions): boolean;
+    isNegativeInt(val: string, options?: IsIntOptions): boolean;
+    isNegativeInt(val: string|number, options?: IsIntOptions): boolean {
+        const numberString = String(val);
+        const num = typeof val === "number" ? val : parseInt(<string> val);
+        return validatatorJs.isInt(numberString, options) && num < 0;
     }
 
     /**
@@ -492,6 +536,10 @@ export class Validator {
                 return this.isFQDN(value, metadata.value1);
             case ValidationTypes.IS_FLOAT:
                 return this.isFloat(value, metadata.value1);
+            case ValidationTypes.IS_POSITIVE_FLOAT:
+                return this.isPositiveFloat(value, metadata.value1);
+            case ValidationTypes.IS_NEGATIVE_FLOAT:
+                return this.isNegativeFloat(value, metadata.value1);
             case ValidationTypes.IS_FULL_WIDTH:
                 return this.isFullWidth(value);
             case ValidationTypes.IS_HALF_WIDTH:
@@ -514,6 +562,10 @@ export class Validator {
                 return this.isIn(value, metadata.value1);
             case ValidationTypes.IS_INT:
                 return this.isInt(value, metadata.value1);
+            case ValidationTypes.IS_POSITIVE_INT:
+                return this.isPositiveInt(value, metadata.value1);
+            case ValidationTypes.IS_NEGATIVE_INT:
+                return this.isNegativeInt(value, metadata.value1);
             case ValidationTypes.IS_JSON:
                 return this.isJSON(value);
             case ValidationTypes.IS_LENGTH:

@@ -21,6 +21,8 @@ export enum ValidationTypes {
     IS_EMAIL = 16,
     IS_FQDN = 17,
     IS_FLOAT = 18,
+    IS_POSITIVE_FLOAT = 180,
+    IS_NEGATIVE_FLOAT = 181,
     IS_FULL_WIDTH = 19,
     IS_HALF_WIDTH = 20,
     IS_HEX_COLOR = 21,
@@ -31,6 +33,8 @@ export enum ValidationTypes {
     IS_ISO8601 = 26,
     IS_IN = 27,
     IS_INT = 28,
+    IS_POSITIVE_INT = 283,
+    IS_NEGATIVE_INT = 284,
     IS_JSON = 29,
     IS_LENGTH = 30,
     IS_LOWERCASE = 31,
@@ -100,6 +104,10 @@ export class ValidationTypesUtils {
                 return "fqdn";
             case ValidationTypes.IS_FLOAT:
                 return "float";
+            case ValidationTypes.IS_POSITIVE_FLOAT:
+                return "positive_float";
+            case ValidationTypes.IS_NEGATIVE_FLOAT:
+                return "negative_float";
             case ValidationTypes.IS_FULL_WIDTH:
                 return "full_width";
             case ValidationTypes.IS_HALF_WIDTH:
@@ -120,6 +128,10 @@ export class ValidationTypesUtils {
                 return "in";
             case ValidationTypes.IS_INT:
                 return "int";
+            case ValidationTypes.IS_POSITIVE_INT:
+                return "positive_int";
+            case ValidationTypes.IS_NEGATIVE_INT:
+                return "negative_int";
             case ValidationTypes.IS_JSON:
                 return "json";
             case ValidationTypes.IS_LENGTH:

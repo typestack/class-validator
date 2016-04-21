@@ -2,7 +2,10 @@ import * as chai from "chai";
 import {expect} from "chai";
 import * as sinon from "sinon";
 import {defaultMetadataStorage} from "../../../src/metadata/MetadataStorage";
-import {ValidatorConstraint, IsBooleanString} from "../../../src/decorators";
+import {
+    ValidatorConstraint, IsBooleanString, IsPositiveInt, IsNegativeInt,
+    IsPositiveFloat, IsNegativeFloat
+} from "../../../src/decorators";
 import {Validate} from "../../../src/decorators";
 import {ValidationTypes} from "../../../src/ValidationTypes";
 import {ValidatorInterface} from "../../../src/ValidatorInterface";
@@ -826,6 +829,92 @@ describe("IsFloat", function() {
 
 });
 
+describe("IsPositiveFloat", function() {
+
+    class MyClass {
+        @IsPositiveFloat()
+        num: string;
+    }
+
+    it("should not fail validation if property is valid", function() {
+        const object = new MyClass();
+        [
+            57.31,
+            "123"
+            , "123."
+            , "123.123"
+            , "+0.123"
+            , "0.123"
+            , "01.123"
+        ]
+            .forEach(i => {
+                object.num = <any> i;
+                ifValid(object);
+            });
+    });
+
+    it("should fail validation if property is not valid", function() {
+        const object = new MyClass();
+        [
+            -57.31,
+            0,
+            "0"
+            , "-123.123"
+            , "-0.123"
+            , "-0.22250738585072011e-307"
+        ]
+            .forEach(i => {
+                object.num = <any> i;
+                ifNotValid(object);
+            });
+    });
+
+});
+
+describe("IsNegativeFloat", function() {
+
+    class MyClass {
+        @IsNegativeFloat()
+        num: string;
+    }
+
+    it("should not fail validation if property is valid", function() {
+        const object = new MyClass();
+        [
+            -57.31
+            , "-123.123"
+            , "-0.123"
+            , "-0.22250738585072011e-307"
+        ]
+            .forEach(i => {
+                object.num = <any> i;
+                ifValid(object);
+            });
+    });
+
+    it("should fail validation if property is not valid", function() {
+        const object = new MyClass();
+        [
+            0,
+            "0",
+            57.31,
+            "123"
+            , "123."
+            , "123.123"
+            , "+0.123"
+            , "0.123"
+            , ".0"
+            , "01.123"
+            , "   "
+            , ""]
+            .forEach(i => {
+                object.num = <any> i;
+                ifNotValid(object);
+            });
+    });
+
+});
+
 describe("IsFullWidth", function() {
 
     class MyClass {
@@ -1291,6 +1380,102 @@ describe("IsInt", function() {
             , ""]
             .forEach(i => {
                 object.num = i;
+                ifNotValid(object);
+            });
+    });
+
+});
+
+describe("IsPositiveInt", function() {
+
+    class MyClass {
+        @IsPositiveInt()
+        num: string;
+    }
+
+    it("should not fail validation if property is valid", function() {
+        const object = new MyClass();
+        [
+            "1"
+            , "2"
+            , "3"
+            , "4"
+            , "5"
+            , "6"
+            , "7"
+            , "8"
+            , "9"
+            , "100000"
+            , 500
+            , 123
+            , 1
+        ]
+            .forEach(i => {
+                object.num = <any> i;
+                ifValid(object);
+            });
+    });
+
+    it("should fail validation if property is not valid", function() {
+        const object = new MyClass();
+        [
+            "0"
+            , "-1"
+            , "-2"
+            , -3
+            , -5000
+            , "   "
+            , ""]
+            .forEach(i => {
+                object.num = <any> i;
+                ifNotValid(object);
+            });
+    });
+
+});
+
+describe("IsNegativeInt", function() {
+
+    class MyClass {
+        @IsNegativeInt()
+        num: string;
+    }
+
+    it("should not fail validation if property is valid", function() {
+        const object = new MyClass();
+        [
+            , "-1"
+            , "-2"
+            , -3
+            , -5000
+        ]
+            .forEach(i => {
+                object.num = <any> i;
+                ifValid(object);
+            });
+    });
+
+    it("should fail validation if property is not valid", function() {
+        const object = new MyClass();
+        [
+            "0"
+            , "1"
+            , "2"
+            , "3"
+            , "4"
+            , "5"
+            , "6"
+            , "7"
+            , "8"
+            , "9"
+            , "100000"
+            , 500
+            , 123
+            , 1
+            , "   "
+            , ""]
+            .forEach(i => {
+                object.num = <any> i;
                 ifNotValid(object);
             });
     });

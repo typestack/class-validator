@@ -392,6 +392,42 @@ export function IsFloat(options?: IsFloatOptions, annotationOptions?: Validation
 }
 
 /**
+ * Checks if the string is a positive float.
+ */
+export function IsPositiveFloat(options?: IsFloatOptions, annotationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.IS_POSITIVE_FLOAT,
+            object: object,
+            propertyName: propertyName,
+            value1: options,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    };
+}
+
+/**
+ * Checks if the string is a negative float.
+ */
+export function IsNegativeFloat(options?: IsFloatOptions, annotationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.IS_NEGATIVE_FLOAT,
+            object: object,
+            propertyName: propertyName,
+            value1: options,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    };
+}
+
+/**
  * Checks if the string contains any full-width chars.
  */
 export function IsFullWidth(annotationOptions?: ValidationOptions) {
@@ -571,6 +607,42 @@ export function IsInt(options?: IsIntOptions, annotationOptions?: ValidationOpti
     return function (object: Object, propertyName: string) {
         defaultMetadataStorage.addValidationMetadata({
             type: ValidationTypes.IS_INT,
+            object: object,
+            propertyName: propertyName,
+            value1: options,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    };
+}
+
+/**
+ * Checks if the string is a positive integer.
+ */
+export function IsPositiveInt(options?: IsIntOptions, annotationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.IS_POSITIVE_INT,
+            object: object,
+            propertyName: propertyName,
+            value1: options,
+            groups: annotationOptions && annotationOptions.groups ? annotationOptions.groups : undefined,
+            message: annotationOptions && annotationOptions.message ? annotationOptions.message : undefined,
+            always: annotationOptions && annotationOptions.always ? annotationOptions.always : undefined,
+            each: annotationOptions && annotationOptions.each ? annotationOptions.each : undefined
+        });
+    };
+}
+
+/**
+ * Checks if the string is a negative integer.
+ */
+export function IsNegativeInt(options?: IsIntOptions, annotationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        defaultMetadataStorage.addValidationMetadata({
+            type: ValidationTypes.IS_NEGATIVE_INT,
             object: object,
             propertyName: propertyName,
             value1: options,

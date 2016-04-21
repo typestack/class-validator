@@ -1,7 +1,7 @@
 {
   "name": "class-validator",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Class-based validation in Typescript using decorators",
   "license": "Apache-2.0",
   "readmeFilename": "README.md",
