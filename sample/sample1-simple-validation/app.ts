@@ -1,4 +1,4 @@
-import {validate} from "../../src/class-validator";
+import {validate} from "../../src/index";
 import {Post} from "./Post";
 
 // Sample1. simple validation

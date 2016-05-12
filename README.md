@@ -32,8 +32,7 @@ Internally uses [validator.js][1] to perform validation.
 Create your class and put some validation decorators on its properties you want to validate:
 
 ```typescript
-import {validate} from "class-validator/class-validator";
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "class-validator/decorators";
+import {validate, Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "class-validator";
 
 export class Post {
 
@@ -81,7 +80,7 @@ You can specify validation message to decorator options and this message will be
 object returned by `validate` method in the case if validation for this field fail.
 
 ```typescript
-import {MinLength, MaxLength} from "class-validator/decorators";
+import {MinLength, MaxLength} from "class-validator";
 
 export class Post {
 
@@ -101,7 +100,7 @@ If your field is an array and you want to perform validation of each item in the
 special decorator option:
 
 ```typescript
-import {MinLength, MaxLength} from "class-validator/decorators";
+import {MinLength, MaxLength} from "class-validator";
 
 export class Post {
 
@@ -120,7 +119,7 @@ If your object contains nested objects and you want validator to perform validat
 use special decorator:
 
 ```typescript
-import {ValidateNested} from "class-validator/decorators";
+import {ValidateNested} from "class-validator";
 
 export class Post {
 
@@ -138,7 +137,7 @@ but skip everything else, e.g. skip missing properties.
 In such situations you need to pass a special flag to `validate` method:
 
 ```typescript
-import {validate} from "class-validator/class-validator";
+import {validate} from "class-validator";
 // ...
 validate(post, { skipMissingProperties: true });
 ```
@@ -149,8 +148,7 @@ In different situations you may want to use different validation schemas of the 
  In such cases you can use validation groups.
 
 ```typescript
-import {validate} from "class-validator/class-validator";
-import {MinNumber, Length} from "class-validator/decorators";
+import {validate, MinNumber, Length} from "class-validator";
 
 export class User {
 
@@ -193,8 +191,7 @@ If you have custom validation logic you want to use as annotations you can do it
 1. First create a file, lets say `CustomTextLength.ts`, and create there a new class:
 
     ```typescript
-    import {ValidatorInterface} from "class-validator/ValidatorInterface";
-    import {ValidatorConstraint} from "class-validator/decorators";
+    import {ValidatorConstraint, ValidatorInterface} from "class-validator";
 
     @ValidatorConstraint()
     export class CustomTextLength implements ValidatorInterface {
@@ -212,7 +209,7 @@ If you have custom validation logic you want to use as annotations you can do it
 2. Then you can use your new validation constraint in your class:
 
     ```typescript
-    import {Validate} from "class-validator/decorators";
+    import {Validate} from "class-validator";
     import {CustomTextLength} from "./CustomTextLength";
 
     export class Post {
@@ -230,7 +227,7 @@ If you have custom validation logic you want to use as annotations you can do it
 3. Now you can use validator as usual:
 
     ```typescript
-    import {validate} from "class-validator/class-validator";
+    import {validate} from "class-validator";
 
     validate(post);
     ```
@@ -241,8 +238,8 @@ Validator supports service container in the case if want to inject dependencies 
 classes. Here is example how to integrate it with [typedi][2]:
 
 ```typescript
-import {Container} from "typedi/Container";
-import {Validator} from "class-validator/class-validator";
+import {Container} from "typedi";
+import {Validator} from "class-validator";
 
 // do this somewhere in the global application level:
 let validator = Container.get(Validator);
@@ -257,7 +254,7 @@ validator.container = Container;
 There are several method exist in the Validator that allows to perform non-decorator based validation:
 
 ```typescript
-import Validator from "class-validator/class-validator";
+import Validator from "class-validator";
 
 // Validation methods
 
