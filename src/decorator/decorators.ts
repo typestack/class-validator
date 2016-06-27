@@ -40,7 +40,7 @@ export function Validate(constraintClass: Function, validationOptions?: Validati
 /**
  * Objects / object arrays marked with this decorator will also be validated.
  */
-export function NestedValidation(validationOptions?: ValidationOptions) {
+export function ValidateNested(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.NESTED_VALIDATION,
@@ -59,10 +59,10 @@ export function NestedValidation(validationOptions?: ValidationOptions) {
 /**
  * Checks if the value match ("===") the comparison.
  */
-export function IsEqual(comparison: any, validationOptions?: ValidationOptions) {
+export function Equal(comparison: any, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_EQUAL,
+            type: ValidationTypes.EQUAL,
             target: object.constructor,
             propertyName: propertyName,
             value1: comparison,
@@ -75,10 +75,10 @@ export function IsEqual(comparison: any, validationOptions?: ValidationOptions) 
 /**
  * Checks if the value does not match ("!==") the comparison.
  */
-export function IsNotEqual(comparison: any, validationOptions?: ValidationOptions) {
+export function NotEqual(comparison: any, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NOT_EQUAL,
+            type: ValidationTypes.NOT_EQUAL,
             target: object.constructor,
             propertyName: propertyName,
             value1: comparison,
@@ -91,10 +91,10 @@ export function IsNotEqual(comparison: any, validationOptions?: ValidationOption
 /**
  * Checks if given value is empty (=== '', === null, === undefined).
  */
-export function IsEmpty(validationOptions?: ValidationOptions) {
+export function Empty(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_EMPTY,
+            type: ValidationTypes.EMPTY,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
@@ -106,10 +106,10 @@ export function IsEmpty(validationOptions?: ValidationOptions) {
 /**
  * Checks if given value is not empty (!== '', !== null, !== undefined).
  */
-export function IsNotEmpty(validationOptions?: ValidationOptions) {
+export function NotEmpty(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NOT_EMPTY,
+            type: ValidationTypes.NOT_EMPTY,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
@@ -121,10 +121,10 @@ export function IsNotEmpty(validationOptions?: ValidationOptions) {
 /**
  * Checks if value is in a array of allowed values.
  */
-export function IsIn(values: any[], validationOptions?: ValidationOptions) {
+export function In(values: any[], validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_IN,
+            type: ValidationTypes.IN,
             target: object.constructor,
             propertyName: propertyName,
             value1: values,
@@ -137,10 +137,10 @@ export function IsIn(values: any[], validationOptions?: ValidationOptions) {
 /**
  * Checks if value is not in a array of disallowed values.
  */
-export function IsNotIn(values: any[], validationOptions?: ValidationOptions) {
+export function NotIn(values: any[], validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NOT_IN,
+            type: ValidationTypes.NOT_IN,
             target: object.constructor,
             propertyName: propertyName,
             value1: values,
@@ -221,10 +221,10 @@ export function IsString(validationOptions?: ValidationOptions) {
 /**
  * Checks if the value is a number that's divisible by another.
  */
-export function IsDivisibleBy(num: number, validationOptions?: ValidationOptions) {
+export function DivisibleBy(num: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_DIVISIBLE_BY,
+            type: ValidationTypes.DIVISIBLE_BY,
             target: object.constructor,
             propertyName: propertyName,
             value1: num,
@@ -296,10 +296,10 @@ export function IsNegative(validationOptions?: ValidationOptions) {
 /**
  * Checks if the given number is greater then given number.
  */
-export function IsGreater(min: number, validationOptions?: ValidationOptions) {
+export function Greater(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_GREATER,
+            type: ValidationTypes.GREATER,
             target: object.constructor,
             propertyName: propertyName,
             value1: min,
@@ -312,10 +312,10 @@ export function IsGreater(min: number, validationOptions?: ValidationOptions) {
 /**
  * Checks if the given number is less then given number.
  */
-export function IsLess(max: number, validationOptions?: ValidationOptions) {
+export function Less(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_LESS,
+            type: ValidationTypes.LESS,
             target: object.constructor,
             propertyName: propertyName,
             value1: max,
@@ -332,10 +332,10 @@ export function IsLess(max: number, validationOptions?: ValidationOptions) {
 /**
  * Checks if the value is a date that's after the specified date.
  */
-export function IsMinDate(date: Date, validationOptions?: ValidationOptions) {
+export function MinDate(date: Date, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_MIN_DATE,
+            type: ValidationTypes.MIN_DATE,
             target: object.constructor,
             propertyName: propertyName,
             value1: date,
@@ -348,10 +348,10 @@ export function IsMinDate(date: Date, validationOptions?: ValidationOptions) {
 /**
  * Checks if the value is a date that's before the specified date.
  */
-export function IsMaxDate(date: Date, validationOptions?: ValidationOptions) {
+export function MaxDate(date: Date, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_MAX_DATE,
+            type: ValidationTypes.MAX_DATE,
             target: object.constructor,
             propertyName: propertyName,
             value1: date,
@@ -368,9 +368,9 @@ export function IsMaxDate(date: Date, validationOptions?: ValidationOptions) {
 /**
  * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
  */
-export function IsMatch(pattern: RegExp, validationOptions?: ValidationOptions): Function;
-export function IsMatch(pattern: RegExp, modifiers?: string, validationOptions?: ValidationOptions): Function;
-export function IsMatch(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationOptions, validationOptions?: ValidationOptions): Function {
+export function Matches(pattern: RegExp, validationOptions?: ValidationOptions): Function;
+export function Matches(pattern: RegExp, modifiers?: string, validationOptions?: ValidationOptions): Function;
+export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationOptions, validationOptions?: ValidationOptions): Function {
     let modifiers: string;
     if (modifiersOrAnnotationOptions && modifiersOrAnnotationOptions instanceof Object && !validationOptions) {
         validationOptions = modifiersOrAnnotationOptions as ValidationOptions;
@@ -380,7 +380,7 @@ export function IsMatch(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
 
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_MATCH,
+            type: ValidationTypes.MATCHES,
             target: object.constructor,
             propertyName: propertyName,
             value1: pattern,
@@ -446,10 +446,10 @@ export function IsNumberString(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string contains the seed.
  */
-export function IsContain(seed: string, validationOptions?: ValidationOptions) {
+export function Contains(seed: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_CONTAIN,
+            type: ValidationTypes.CONTAINS,
             target: object.constructor,
             propertyName: propertyName,
             value1: seed,
@@ -462,10 +462,10 @@ export function IsContain(seed: string, validationOptions?: ValidationOptions) {
 /**
  * Checks if the string does not contain the seed.
  */
-export function IsNotContain(seed: string, validationOptions?: ValidationOptions) {
+export function NotContains(seed: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NOT_CONTAIN,
+            type: ValidationTypes.NOT_CONTAINS,
             target: object.constructor,
             propertyName: propertyName,
             value1: seed,
@@ -768,23 +768,6 @@ export function IsJSON(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
- */
-export function IsLength(min: number, max?: number, validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_LENGTH,
-            target: object.constructor,
-            propertyName: propertyName,
-            value1: min,
-            value2: max,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
  * Checks if the string is lowercase.
  */
 export function IsLowercase(validationOptions?: ValidationOptions) {
@@ -909,9 +892,26 @@ export function IsUppercase(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
+ */
+export function Length(min: number, max?: number, validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.LENGTH,
+            target: object.constructor,
+            propertyName: propertyName,
+            value1: min,
+            value2: max,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if the string's length is not less then given number. Note: this function takes into account surrogate pairs.
  */
-export function IsMinLength(min: number, validationOptions?: ValidationOptions) {
+export function MinLength(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.MIN_LENGTH,
@@ -927,7 +927,7 @@ export function IsMinLength(min: number, validationOptions?: ValidationOptions) 
 /**
  * Checks if the string's length is not more then given number. Note: this function takes into account surrogate pairs.
  */
-export function IsMaxLength(max: number, validationOptions?: ValidationOptions) {
+export function MaxLength(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.MAX_LENGTH,
@@ -947,10 +947,10 @@ export function IsMaxLength(max: number, validationOptions?: ValidationOptions) 
 /**
  * Checks if array contains all values from the given array of values.
  */
-export function IsContainInArray(values: any[], validationOptions?: ValidationOptions) {
+export function ArrayContains(values: any[], validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_CONTAIN_IN_ARRAY,
+            type: ValidationTypes.ARRAY_CONTAINS,
             target: object.constructor,
             propertyName: propertyName,
             value1: values,
@@ -963,10 +963,10 @@ export function IsContainInArray(values: any[], validationOptions?: ValidationOp
 /**
  * Checks if array does not contain any of the given values.
  */
-export function IsNotContainInArray(values: any[], validationOptions?: ValidationOptions) {
+export function ArrayNotContains(values: any[], validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NOT_CONTAIN_IN_ARRAY,
+            type: ValidationTypes.ARRAY_NOT_CONTAINS,
             target: object.constructor,
             propertyName: propertyName,
             value1: values,
@@ -979,10 +979,10 @@ export function IsNotContainInArray(values: any[], validationOptions?: Validatio
 /**
  * Checks if given array is not empty.
  */
-export function IsNotEmptyArray(validationOptions?: ValidationOptions) {
+export function ArrayNotEmpty(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NOT_EMPTY_ARRAY,
+            type: ValidationTypes.ARRAY_NOT_EMPTY,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
@@ -994,10 +994,10 @@ export function IsNotEmptyArray(validationOptions?: ValidationOptions) {
 /**
  * Checks if array's length is as minimal this number.
  */
-export function IsMinSize(min: number, validationOptions?: ValidationOptions) {
+export function ArrayMinSize(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_MIN_SIZE,
+            type: ValidationTypes.ARRAY_MIN_SIZE,
             target: object.constructor,
             propertyName: propertyName,
             value1: min,
@@ -1010,10 +1010,10 @@ export function IsMinSize(min: number, validationOptions?: ValidationOptions) {
 /**
  * Checks if array's length is as maximal this number.
  */
-export function IsMaxSize(max: number, validationOptions?: ValidationOptions) {
+export function ArrayMaxSize(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_MAX_SIZE,
+            type: ValidationTypes.ARRAY_MAX_SIZE,
             target: object.constructor,
             propertyName: propertyName,
             value1: max,
@@ -1026,10 +1026,10 @@ export function IsMaxSize(max: number, validationOptions?: ValidationOptions) {
 /**
  * Checks if all array's values are unique. Comparison for objects is reference-based.
  */
-export function IsAllUnique(validationOptions?: ValidationOptions) {
+export function ArrayUnique(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_ALL_UNIQUE,
+            type: ValidationTypes.ARRAY_UNIQUE,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions

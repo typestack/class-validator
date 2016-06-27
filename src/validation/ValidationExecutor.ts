@@ -6,6 +6,9 @@ import {getFromContainer} from "../index";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationTypes} from "./ValidationTypes";
 
+/**
+ * Executes validation over given object.
+ */
 export class ValidationExecutor {
 
     // -------------------------------------------------------------------------
@@ -40,12 +43,16 @@ export class ValidationExecutor {
 
         Object.keys(groupedMetadatas).forEach(propertyName => {
             const value = (object as any)[propertyName];
-            if (!value && this.validatorOptions && this.validatorOptions.skipMissingProperties === true)
-                return;
-
             const metadatas = groupedMetadatas[propertyName];
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
+            const notEmptyMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NOT_EMPTY);
+            
+            // handle NOT_EMPTY validation type the special way - it should work no matter skipMissingProperties is set or not
+            this.defaultValidations(value, notEmptyMetadatas);
+            
+            if (!value && this.validatorOptions && this.validatorOptions.skipMissingProperties === true)
+                return;
 
             this.defaultValidations(value, metadatas);
             this.customValidations(value, customValidationMetadatas);
@@ -80,7 +87,7 @@ export class ValidationExecutor {
             this.metadataStorage
                 .getTargetValidatorConstraints(metadata.value1 as Function)
                 .forEach(customConstraintMetadata => {
-                    const validatedValue = customConstraintMetadata.instance.validate(value);
+                    const validatedValue = customConstraintMetadata.instance.validate(value, metadata);
                     if (validatedValue instanceof Promise) {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {
@@ -116,10 +123,14 @@ export class ValidationExecutor {
     }
 
     private createValidationError(value: any, metadata: ValidationMetadata): ValidationError {
+        const message = metadata.message
+            .replace(/\$value1/g, metadata.value1)
+            .replace(/\$value2/g, metadata.value2)
+            .replace(/\$value/g, metadata.value1);
         return {
             property: metadata.propertyName,
             type: metadata.type,
-            message: metadata.message,
+            message: message,
             value: value
         };
     }

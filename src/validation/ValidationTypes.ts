@@ -8,80 +8,80 @@ export class ValidationTypes {
     static NESTED_VALIDATION = "nested_validation";
 
     /* common checkers */
-    static IS_EQUAL = "equal";
-    static IS_NOT_EQUAL = "not_equal";
-    static IS_EMPTY = "empty";
-    static IS_NOT_EMPTY = "not_empty";
-    static IS_IN = "in";
-    static IS_NOT_IN = "not_in";
+    static EQUAL = "equal";
+    static NOT_EQUAL = "not_equal";
+    static EMPTY = "empty";
+    static NOT_EMPTY = "not_empty";
+    static IN = "in";
+    static NOT_IN = "not_in";
 
     /* type checkers */
-    static IS_BOOLEAN = "boolean";
-    static IS_DATE = "date";
-    static IS_NUMBER = "number";
-    static IS_STRING = "string";
+    static IS_BOOLEAN = "is_boolean";
+    static IS_DATE = "is_date";
+    static IS_NUMBER = "is_number";
+    static IS_STRING = "is_string";
 
     /* number checkers */
-    static IS_DIVISIBLE_BY = "divisible_by";
-    static IS_DECIMAL = "decimal";
-    static IS_INT = "int";
-    static IS_POSITIVE = "positive";
-    static IS_NEGATIVE = "negative";
-    static IS_GREATER = "greater";
-    static IS_LESS = "less";
+    static DIVISIBLE_BY = "divisible_by";
+    static IS_DECIMAL = "is_decimal";
+    static IS_INT = "is_int";
+    static IS_POSITIVE = "is_positive";
+    static IS_NEGATIVE = "is_negative";
+    static GREATER = "greater";
+    static LESS = "less";
 
     /* date checkers */
-    static IS_MIN_DATE = "min_date";
-    static IS_MAX_DATE = "max_date";
+    static MIN_DATE = "min_date";
+    static MAX_DATE = "max_date";
 
     /* regexp checkers */
-    static IS_MATCH = "match";
+    static MATCHES = "matches";
 
     /* string-as-type checkers */
-    static IS_BOOLEAN_STRING = "boolean_string";
-    static IS_DATE_STRING = "date_string";
-    static IS_NUMBER_STRING = "numeric_string";
+    static IS_BOOLEAN_STRING = "is_boolean_string";
+    static IS_DATE_STRING = "is_date_string";
+    static IS_NUMBER_STRING = "is_number_string";
 
     /* string checkers */
-    static IS_CONTAIN = "contain";
-    static IS_NOT_CONTAIN = "not_contain";
-    static IS_ALPHA = "alpha";
-    static IS_ALPHANUMERIC = "alphanumeric";
-    static IS_ASCII = "ascii";
-    static IS_BASE64 = "base64";
-    static IS_BYTE_LENGTH = "byte_length";
-    static IS_CREDIT_CARD = "credit_card";
-    static IS_CURRENCY = "currency";
-    static IS_EMAIL = "email";
-    static IS_FQDN = "fqdn";
-    static IS_FULL_WIDTH = "full_width";
-    static IS_HALF_WIDTH = "half_width";
-    static IS_VARIABLE_WIDTH = "variable_width";
-    static IS_HEX_COLOR = "hex_color";
-    static IS_HEXADECIMAL = "hexadecimal";
-    static IS_IP = "ip";
-    static IS_ISBN = "isbn";
-    static IS_ISIN = "isin";
-    static IS_ISO8601 = "iso8601";
-    static IS_JSON = "json";
-    static IS_LENGTH = "length";
-    static IS_LOWERCASE = "lowercase";
-    static IS_MOBILE_PHONE = "mobile_phone";
-    static IS_MONGO_ID = "mongo_id";
-    static IS_MULTIBYTE = "multibyte";
-    static IS_SURROGATE_PAIR = "surrogate_pair";
-    static IS_URL = "url";
-    static IS_UUID = "uuid";
-    static IS_UPPERCASE = "uppercase";
+    static CONTAINS = "contains";
+    static NOT_CONTAINS = "not_contains";
+    static IS_ALPHA = "is_alpha";
+    static IS_ALPHANUMERIC = "is_alphanumeric";
+    static IS_ASCII = "is_ascii";
+    static IS_BASE64 = "is_base64";
+    static IS_BYTE_LENGTH = "is_byte_length";
+    static IS_CREDIT_CARD = "is_credit_card";
+    static IS_CURRENCY = "is_currency";
+    static IS_EMAIL = "is_email";
+    static IS_FQDN = "is_fqdn";
+    static IS_FULL_WIDTH = "is_full_width";
+    static IS_HALF_WIDTH = "is_half_width";
+    static IS_VARIABLE_WIDTH = "is_variable_width";
+    static IS_HEX_COLOR = "is_hex_color";
+    static IS_HEXADECIMAL = "is_hexadecimal";
+    static IS_IP = "is_ip";
+    static IS_ISBN = "is_isbn";
+    static IS_ISIN = "is_isin";
+    static IS_ISO8601 = "is_iso8601";
+    static IS_JSON = "is_json";
+    static IS_LOWERCASE = "is_lowercase";
+    static IS_MOBILE_PHONE = "is_mobile_phone";
+    static IS_MONGO_ID = "is_mongo_id";
+    static IS_MULTIBYTE = "is_multibyte";
+    static IS_SURROGATE_PAIR = "is_surrogate_pair";
+    static IS_URL = "is_url";
+    static IS_UUID = "is_uuid";
+    static LENGTH = "length";
+    static IS_UPPERCASE = "is_uppercase";
     static MIN_LENGTH = "min_length";
     static MAX_LENGTH = "max_length";
 
     /* array checkers */
-    static IS_CONTAIN_IN_ARRAY = "contain_in_array";
-    static IS_NOT_CONTAIN_IN_ARRAY = "not_contain_in_array";
-    static IS_NOT_EMPTY_ARRAY = "not_empty_array";
-    static IS_MIN_SIZE = "min_size";
-    static IS_MAX_SIZE = "max_size";
-    static IS_ALL_UNIQUE = "all_unique";
+    static ARRAY_CONTAINS = "array_contains";
+    static ARRAY_NOT_CONTAINS = "array_not_contains";
+    static ARRAY_NOT_EMPTY = "array_not_empty";
+    static ARRAY_MIN_SIZE = "array_min_size";
+    static ARRAY_MAX_SIZE = "array_max_size";
+    static ARRAY_UNIQUE = "array_unique";
     
 }

@@ -1,12 +1,7 @@
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationTypes} from "./ValidationTypes";
 import {ValidationError} from "./ValidationError";
-import {
-    IsEmailOptions,
-    IsFQDNOptions,
-    IsURLOptions,
-    IsCurrencyOptions
-} from "./ValidationTypeOptions";
+import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 
@@ -28,7 +23,7 @@ export class Validator {
     /**
      * Performs validation of the given object based on annotations used in given object class.
      */
-    validate(object: any, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+    validate(object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
         return new ValidationExecutor(this, validatorOptions).execute(object);
     }
 
@@ -38,17 +33,17 @@ export class Validator {
     validateBasedOnMetadata(value: any, metadata: ValidationMetadata): boolean {
         switch (metadata.type) {
             /* common checkers */
-            case ValidationTypes.IS_EQUAL:
-                return this.equals(value, metadata.value1);
-            case ValidationTypes.IS_NOT_EQUAL:
-                return this.notEquals(value, metadata.value1);
-            case ValidationTypes.IS_EMPTY:
+            case ValidationTypes.EQUAL:
+                return this.equal(value, metadata.value1);
+            case ValidationTypes.NOT_EQUAL:
+                return this.notEqual(value, metadata.value1);
+            case ValidationTypes.EMPTY:
                 return this.empty(value);
-            case ValidationTypes.IS_NOT_EMPTY:
+            case ValidationTypes.NOT_EMPTY:
                 return this.notEmpty(value);
-            case ValidationTypes.IS_IN:
+            case ValidationTypes.IN:
                 return this.isIn(value, metadata.value1);
-            case ValidationTypes.IS_NOT_IN:
+            case ValidationTypes.NOT_IN:
                 return this.isNotIn(value, metadata.value1);
 
             /* type checkers */
@@ -62,8 +57,8 @@ export class Validator {
                 return this.isString(value);
 
             /* number checkers */
-            case ValidationTypes.IS_DIVISIBLE_BY:
-                return this.isDivisibleBy(value, metadata.value1);
+            case ValidationTypes.DIVISIBLE_BY:
+                return this.divisibleBy(value, metadata.value1);
             case ValidationTypes.IS_DECIMAL:
                 return this.isDecimal(value);
             case ValidationTypes.IS_INT:
@@ -72,19 +67,19 @@ export class Validator {
                 return this.isPositive(value);
             case ValidationTypes.IS_NEGATIVE:
                 return this.isNegative(value);
-            case ValidationTypes.IS_GREATER:
-                return this.isGreater(value, metadata.value1);
-            case ValidationTypes.IS_LESS:
-                return this.isLess(value, metadata.value1);
+            case ValidationTypes.GREATER:
+                return this.greater(value, metadata.value1);
+            case ValidationTypes.LESS:
+                return this.less(value, metadata.value1);
 
             /* date checkers */
-            case ValidationTypes.IS_MIN_DATE:
-                return this.isMinDate(value, metadata.value1);
-            case ValidationTypes.IS_MAX_DATE:
-                return this.isMaxDate(value, metadata.value1);
+            case ValidationTypes.MIN_DATE:
+                return this.minDate(value, metadata.value1);
+            case ValidationTypes.MAX_DATE:
+                return this.maxDate(value, metadata.value1);
 
             /* regexp checkers */
-            case ValidationTypes.IS_MATCH:
+            case ValidationTypes.MATCHES:
                 return this.matches(value, metadata.value1, metadata.value2);
 
             /* string-as-type checkers */
@@ -96,9 +91,9 @@ export class Validator {
                 return this.isNumberString(value);
 
             /* string checkers */
-            case ValidationTypes.IS_CONTAIN:
+            case ValidationTypes.CONTAINS:
                 return this.contains(value, metadata.value1);
-            case ValidationTypes.IS_NOT_CONTAIN:
+            case ValidationTypes.NOT_CONTAINS:
                 return this.notContains(value, metadata.value1);
             case ValidationTypes.IS_ALPHA:
                 return this.isAlpha(value);
@@ -138,8 +133,6 @@ export class Validator {
                 return this.isISO8601(value);
             case ValidationTypes.IS_JSON:
                 return this.isJSON(value);
-            case ValidationTypes.IS_LENGTH:
-                return this.isLength(value, metadata.value1, metadata.value2);
             case ValidationTypes.IS_LOWERCASE:
                 return this.isLowercase(value);
             case ValidationTypes.IS_MOBILE_PHONE:
@@ -156,24 +149,26 @@ export class Validator {
                 return this.isUUID(value, metadata.value1);
             case ValidationTypes.IS_UPPERCASE:
                 return this.isUppercase(value);
+            case ValidationTypes.LENGTH:
+                return this.length(value, metadata.value1, metadata.value2);
             case ValidationTypes.MIN_LENGTH:
-                return this.isLength(value, metadata.value1);
+                return this.minLength(value, metadata.value1);
             case ValidationTypes.MAX_LENGTH:
-                return this.isLength(value, 0, metadata.value1);
+                return this.maxLength(value, metadata.value1);
 
             /* array checkers */
-            case ValidationTypes.IS_CONTAIN_IN_ARRAY:
-                return this.containInArray(value, metadata.value1);
-            case ValidationTypes.IS_NOT_CONTAIN_IN_ARRAY:
-                return this.notContainInArray(value, metadata.value1);
-            case ValidationTypes.IS_NOT_EMPTY_ARRAY:
-                return this.isNotEmptyArray(value);
-            case ValidationTypes.IS_MIN_SIZE:
-                return this.isMinSize(value, metadata.value1);
-            case ValidationTypes.IS_MAX_SIZE:
-                return this.isMaxSize(value, metadata.value1);
-            case ValidationTypes.IS_ALL_UNIQUE:
-                return this.isAllUnique(value);
+            case ValidationTypes.ARRAY_CONTAINS:
+                return this.arrayContains(value, metadata.value1);
+            case ValidationTypes.ARRAY_NOT_CONTAINS:
+                return this.arrayNotContains(value, metadata.value1);
+            case ValidationTypes.ARRAY_NOT_EMPTY:
+                return this.arrayNotEmpty(value);
+            case ValidationTypes.ARRAY_MIN_SIZE:
+                return this.arrayMinSize(value, metadata.value1);
+            case ValidationTypes.ARRAY_MAX_SIZE:
+                return this.arrayMaxSize(value, metadata.value1);
+            case ValidationTypes.ARRAY_UNIQUE:
+                return this.arrayUnique(value);
         }
         return true;
     }
@@ -185,14 +180,14 @@ export class Validator {
     /**
      * Checks if value matches ("===") the comparison.
      */
-    equals(value: any, comparison: any): boolean {
+    equal(value: any, comparison: any): boolean {
         return value === comparison;
     }
 
     /**
      * Checks if value does not match ("!==") the comparison.
      */
-    notEquals(value: any, comparison: any): boolean {
+    notEqual(value: any, comparison: any): boolean {
         return value !== comparison;
     }
 
@@ -263,9 +258,9 @@ export class Validator {
     /**
      * Checks if value is a number that's divisible by another.
      */
-    isDivisibleBy(value: number, num: number): boolean {
+    divisibleBy(value: number, num: number): boolean {
         const numberString = String(value); // fix it
-        return this.validatorJs.isDivisibleBy(numberString, num);
+        return this.validatorJs.divisibleBy(numberString, num);
     }
 
     /**
@@ -301,14 +296,14 @@ export class Validator {
     /**
      * Checks if the first number is greater then second.
      */
-    isGreater(first: number, second: number): boolean {
+    greater(first: number, second: number): boolean {
         return first > second;
     }
 
     /**
      * Checks if the first number is less then second.
      */
-    isLess(first: number, second: number): boolean {
+    less(first: number, second: number): boolean {
         return first > second;
     }
 
@@ -319,14 +314,14 @@ export class Validator {
     /**
      * Checks if the value is a date that's after the specified date.
      */
-    isMinDate(date: Date, minDate: Date): boolean {
+    minDate(date: Date, minDate: Date): boolean {
         return date.getTime() <= minDate.getTime();
     }
 
     /**
      * Checks if the value is a date that's before the specified date.
      */
-    isMaxDate(date: Date, maxDate: Date): boolean {
+    maxDate(date: Date, maxDate: Date): boolean {
         return date.getTime() >= maxDate.getTime();
     }
 
@@ -518,13 +513,6 @@ export class Validator {
     }
 
     /**
-     * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
-     */
-    isLength(str: string, min: number, max?: number): boolean {
-        return typeof str === "string" && this.validatorJs.isLength(str, min, max);
-    }
-
-    /**
      * Checks if the string is lowercase.
      */
     isLowercase(str: string): boolean {
@@ -582,17 +570,24 @@ export class Validator {
     }
 
     /**
+     * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
+     */
+    length(str: string, min: number, max?: number): boolean {
+        return typeof str === "string" && this.validatorJs.isLength(str, min, max);
+    }
+
+    /**
      * Checks if the string's length is not less then given number. Note: this function takes into account surrogate pairs.
      */
-    isMinLength(str: string, min: number) {
-        return this.isLength(str, min);
+    minLength(str: string, min: number) {
+        return this.length(str, min);
     }
 
     /**
      * Checks if the string's length is not more then given number. Note: this function takes into account surrogate pairs.
      */
-    isMaxLength(str: string, max: number) {
-        return this.isLength(str, 0, max);
+    maxLength(str: string, max: number) {
+        return this.length(str, 0, max);
     }
 
     // -------------------------------------------------------------------------
@@ -602,42 +597,42 @@ export class Validator {
     /**
      * Checks if array contains all values from the given array of values.
      */
-    containInArray(array: any[], values: any[]) {
+    arrayContains(array: any[], values: any[]) {
         return values.every(value => array.indexOf(value) !== -1);
     }
 
     /**
      * Checks if array does not contain any of the given values.
      */
-    notContainInArray(array: any[], values: any[]) {
+    arrayNotContains(array: any[], values: any[]) {
         return values.every(value => array.indexOf(value) === -1);
     }
 
     /**
      * Checks if given array is not empty.
      */
-    isNotEmptyArray(array: any[]) {
+    arrayNotEmpty(array: any[]) {
         return array.length === 0;
     }
 
     /**
      * Checks if array's length is as minimal this number.
      */
-    isMinSize(array: any[], min: number) {
+    arrayMinSize(array: any[], min: number) {
         return array.length >= min;
     }
 
     /**
      * Checks if array's length is as maximal this number.
      */
-    isMaxSize(array: any[], max: number) {
+    arrayMaxSize(array: any[], max: number) {
         return array.length <= max;
     }
 
     /**
      * Checks if all array's values are unique. Comparison for objects is reference-based.
      */
-    isAllUnique(array: any[]) {
+    arrayUnique(array: any[]) {
         const uniqueItems = array.filter((a, b, c) => c.indexOf(a) === b);
         return array.length === uniqueItems.length;
     }

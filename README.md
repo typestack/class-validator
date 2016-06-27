@@ -7,14 +7,16 @@ Internally uses [validator.js][1] to perform validation.
 
 **0.4.0** [BREAKING CHANGES]
 
-* refactored all the code
+* refactoring
 * everything should be imported from "class-validator" main entry point now
-* all validation decorators whose names was not prefixed with "Is" now are prefixed
+* contain can be set in the main entry point now
+* some decorator's names changed. Be aware of this
 * fixed all decorators that should not work only with strings
 * added few more non-string decorators
-* validator now returns array of ValidationError instead of ValidationErrorInterface
-* removed all other validation methods expect `validator.valdate`
-* finally validate method is async now, so custom async validation types are supported now
+* validator now returns array of ValidationError instead of ValidationErrorInterface. Removed old ValidationError
+* removed all other validation methods except `validator.validate`
+* finally validate method is async now, so custom async validations are supported now
+* added ability to validate inherited properties
 
 **0.3.0**
 

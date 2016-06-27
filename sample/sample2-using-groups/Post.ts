@@ -1,18 +1,18 @@
-import {IsContain, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/decorator/decorators";
+import {Contains, IsInt, Length, IsEmail, IsFQDN, IsDate} from "../../src/decorator/decorators";
 
 export class Post {
 
-    @IsLength(10, 20, {
+    @Length(10, 20, {
         message: "Incorrect length!",
         groups: ["users", "moderators"]
     })
-    @IsLength(0, 20, {
+    @Length(0, 20, {
         message: "Incorrect length!",
         groups: ["admins"]
     })
     title: string;
 
-    @IsContain("hello", {
+    @Contains("hello", {
         message: "It should contain word \"hello!\"",
         groups: ["users", "moderators"]
     })

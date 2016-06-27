@@ -3,10 +3,10 @@ import {
     IsBooleanString,
     IsPositive,
     IsNegative,
-    IsContain,
-    IsEqual,
-    IsMinDate,
-    IsMaxDate,
+    Contains,
+    Equal,
+    MinDate,
+    MaxDate,
     IsAlpha,
     IsAlphanumeric,
     IsAscii,
@@ -17,7 +17,7 @@ import {
     IsCurrency,
     IsDate,
     IsDecimal,
-    IsDivisibleBy,
+    DivisibleBy,
     IsEmail,
     IsFQDN,
     IsFullWidth,
@@ -28,10 +28,10 @@ import {
     IsIP,
     IsISBN,
     IsISO8601,
-    IsIn,
+    In,
     IsInt,
     IsJSON,
-    IsLength,
+    Length,
     IsLowercase,
     IsMongoId,
     IsMultibyte,
@@ -40,15 +40,15 @@ import {
     IsUrl,
     IsUUID,
     IsUppercase,
-    IsMatch,
-    IsMinLength,
-    IsMaxLength,
-    IsGreater,
-    IsLess,
-    IsNotEmpty,
-    IsNotEmptyArray,
-    IsMinSize,
-    IsMaxSize
+    Matches,
+    MinLength,
+    MaxLength,
+    Greater,
+    Less,
+    NotEmpty,
+    ArrayNotEmpty,
+    ArrayMinSize,
+    ArrayMaxSize
 } from "../../../src/decorator/decorators";
 import {CustomValidator} from "../../../src/validation/CustomValidator";
 import {Validator} from "../../../src/validation/Validator";
@@ -170,7 +170,7 @@ describe("ValidateNested", function() {
 describe("Contains", function() {
 
     class MyClass {
-        @IsContain("hello")
+        @Contains("hello")
         name: string;
     }
 
@@ -191,7 +191,7 @@ describe("Contains", function() {
 describe("Equals", function() {
 
     class MyClass {
-        @IsEqual("Alex")
+        @Equal("Alex")
         name: string;
     }
 
@@ -212,7 +212,7 @@ describe("Equals", function() {
 describe("IsAfter", function() {
 
     class MyClass {
-        @IsMinDate(new Date(1995, 11, 17))
+        @MinDate(new Date(1995, 11, 17))
         date: Date;
     }
 
@@ -317,7 +317,7 @@ describe("IsBase64", function() {
 describe("IsBefore", function() {
 
     class MyClass {
-        @IsMaxDate(new Date(1995, 11, 17))
+        @MaxDate(new Date(1995, 11, 17))
         date: Date;
     }
 
@@ -652,7 +652,7 @@ describe("IsDecimal", function() {
 describe("IsDivisibleBy", function() {
 
     class MyClass {
-        @IsDivisibleBy(2)
+        @DivisibleBy(2)
         name: string;
     }
 
@@ -1181,7 +1181,7 @@ describe("IsISO8601", function() {
 describe("IsIn", function() {
 
     class MyClass {
-        @IsIn(["foo", "bar"])
+        @In(["foo", "bar"])
         str: string;
     }
 
@@ -1371,7 +1371,7 @@ describe("IsJSON", function() {
 describe("IsLength", function() {
 
     class MyClass {
-        @IsLength(2, 3)
+        @Length(2, 3)
         str: string;
     }
 
@@ -1835,7 +1835,7 @@ describe("IsUppercase", function() {
 describe("Matches", function() {
 
     class MyClass {
-        @IsMatch(/abc/)
+        @Matches(/abc/)
         str: string;
     }
 
@@ -1862,7 +1862,7 @@ describe("Matches", function() {
 describe("MinLength", function() {
 
     class MyClass {
-        @IsMinLength(10)
+        @MinLength(10)
         str: string;
     }
 
@@ -1889,7 +1889,7 @@ describe("MinLength", function() {
 describe("MaxLength", function() {
 
     class MyClass {
-        @IsMaxLength(10)
+        @MaxLength(10)
         str: string;
     }
 
@@ -1916,7 +1916,7 @@ describe("MaxLength", function() {
 describe("MinNumber", function() {
 
     class MyClass {
-        @IsGreater(10)
+        @Greater(10)
         num: number;
     }
 
@@ -1943,7 +1943,7 @@ describe("MinNumber", function() {
 describe("MaxNumber", function() {
 
     class MyClass {
-        @IsLess(10)
+        @Less(10)
         num: number;
     }
 
@@ -1970,7 +1970,7 @@ describe("MaxNumber", function() {
 describe("NotEmpty", function() {
 
     class MyClass {
-        @IsNotEmpty()
+        @NotEmpty()
         str: string;
     }
 
@@ -1997,7 +1997,7 @@ describe("NotEmpty", function() {
 describe("NotEmptyArray", function() {
 
     class MyClass {
-        @IsNotEmptyArray()
+        @ArrayNotEmpty()
         tags: string[];
     }
 
@@ -2018,7 +2018,7 @@ describe("NotEmptyArray", function() {
 describe("MinSize", function() {
 
     class MyClass {
-        @IsMinSize(2)
+        @ArrayMinSize(2)
         tags: string[];
     }
 
@@ -2039,7 +2039,7 @@ describe("MinSize", function() {
 describe("MaxSize", function() {
 
     class MyClass {
-        @IsMaxSize(2)
+        @ArrayMaxSize(2)
         tags: string[];
     }
 
