@@ -1,11 +1,18 @@
-import {ValidationMetadata} from "./metadata/ValidationMetadata";
+import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationTypes} from "./ValidationTypes";
-import {defaultMetadataStorage} from "./metadata/MetadataStorage";
-import {ValidationErrorInterface} from "./ValidationErrorInterface";
 import {ValidationError} from "./ValidationError";
-import {ValidatorOptions, IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "./ValidatorOptions";
-import {ValidatorInterface} from "./ValidatorInterface";
+import {
+    IsEmailOptions,
+    IsFQDNOptions,
+    IsFloatOptions,
+    IsURLOptions,
+    IsIntOptions,
+    IsCurrencyOptions
+} from "./ValidationTypeOptions";
 import * as validatatorJs from "validator";
+import {getFromContainer} from "../index";
+import {MetadataStorage} from "../metadata/MetadataStorage";
+import {ValidatorOptions} from "./ValidatorOptions";
 
 /**
  * Validator performs validation of the given object based on its metadata.
@@ -16,16 +23,7 @@ export class Validator {
     // Properties
     // -------------------------------------------------------------------------
 
-    private _container: { get(type: Function): any };
-    private metadataStorage = defaultMetadataStorage;
-
-    // -------------------------------------------------------------------------
-    // Accessors
-    // -------------------------------------------------------------------------
-
-    set container(container: { get(type: Function): any }) {
-        this._container = container;
-    }
+    private metadataStorage = getFromContainer(MetadataStorage);
 
     // -------------------------------------------------------------------------
     // Annotation-based Validation Methods
@@ -34,13 +32,14 @@ export class Validator {
     /**
      * Performs validation of the given object based on annotations used in given object class.
      */
-    validate(object: any, validatorOptions?: ValidatorOptions): ValidationErrorInterface[] {
+    validate(object: any, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
         const groups = validatorOptions ? validatorOptions.groups : undefined;
-        const metadatas = this.metadataStorage.getValidationMetadatasForObject(object.constructor, groups);
-        return metadatas.map(metadata => {
+        const metadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, groups);
+        let validationErrors: ValidationError[] = [];
+        const promises = metadatas.map(metadata => {
             const value = object[metadata.propertyName];
             if (!value && validatorOptions && validatorOptions.skipMissingProperties === true)
-                return null;
+                return Promise.resolve();
 
             const duplicateMetadatas = metadatas.filter(m => m.propertyName === metadata.propertyName && m.type === metadata.type);
             let errors = duplicateMetadatas.map(metadata => {
@@ -52,73 +51,47 @@ export class Validator {
                 } else {
                     isValid = this.performValidation(value, metadata);
                 }
-                if (isValid) return null;
+                if (isValid) 
+                    return Promise.resolve();
 
-                return <ValidationErrorInterface> {
+                const validationError: ValidationError = {
+                    target: metadata.target,
                     property: metadata.propertyName,
                     errorCode: metadata.type,
                     errorMessage: metadata.message,
                     value: value,
                     required: metadata.value1
                 };
+                validationErrors.push(validationError);
             });
 
-            const nestedValidation = duplicateMetadatas.reduce((found, metadata) => {
-                return metadata.type === ValidationTypes.NESTED_VALIDATION ? metadata : found;
-            }, undefined);
+            const nestedValidation = duplicateMetadatas.find(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
             if (nestedValidation) {
                 if (value instanceof Array) {
-                    value.map((v: any) => {
-                        const nestedErrors = this.validate(v, validatorOptions);
-                        if (nestedErrors && nestedErrors.length)
-                            errors = errors.concat(nestedErrors);
-                    });
+                    return Promise.all(value.map((v: any) => {
+                        return this.validate(v, validatorOptions)
+                            .then(nestedErrors => {
+                                if (nestedErrors && nestedErrors.length)
+                                    validationErrors = validationErrors.concat(nestedErrors);
+                            });
+                    }));
 
                 } else if (value instanceof Object) {
-                    const nestedErrors = this.validate(value, validatorOptions);
-                    if (nestedErrors && nestedErrors.length)
-                        errors = errors.concat(nestedErrors);
+                    return this.validate(value, validatorOptions)
+                        .then(nestedErrors => {
+                            if (nestedErrors && nestedErrors.length)
+                                validationErrors = validationErrors.concat(nestedErrors);
+                        });
 
                 } else {
                     throw new Error("Only objects and arrays are supported to nested validation");
                 }
             }
-
-            return errors.reduceRight((found, err) => err !== null ? err : found, null);
-
-        }).filter(error => error !== null);
-    }
-
-    /**
-     * Performs validation of the given object based on annotations used in given object class.
-     * Performs in async-style, useful to use it in chained promises.
-     */
-    validateAsync<T>(object: T, validatorOptions?: ValidatorOptions): Promise<T> {
-        return new Promise<T>((ok, fail) => {
-            const errors = this.validate(object, validatorOptions);
-            if (errors.length > 0) {
-                fail(new ValidationError(errors));
-            } else {
-                ok(object);
-            }
+            
+            return Promise.resolve();
         });
-    }
 
-    /**
-     * Performs validation of the given object based on annotations used in given object class.
-     * If validation is not passed then throws ValidationError.
-     */
-    validateOrThrow(object: any, validatorOptions?: ValidatorOptions): void {
-        const errors = this.validate(object, validatorOptions);
-        if (errors.length > 0)
-            throw new ValidationError(errors);
-    }
-
-    /**
-     * Checks if given object is valid (all annotations passes validation). Returns true if its valid, false otherwise.
-     */
-    isValid(object: any, validatorOptions?: ValidatorOptions): boolean {
-        return this.validate(object, validatorOptions).length === 0;
+        return Promise.all(promises).then(() => validationErrors);
     }
 
     // -------------------------------------------------------------------------
@@ -613,19 +586,11 @@ export class Validator {
                 break;
             case ValidationTypes.CUSTOM_VALIDATION:
                 return this.metadataStorage
-                    .getValidatorConstraintsForObject(metadata.value1)
-                    .map(validatorMetadata => {
-                        if (!validatorMetadata.instance)
-                            validatorMetadata.instance = this.createInstance(validatorMetadata.object);
-
-                        return validatorMetadata.instance;
-                    }).every(validator => validator.validate(value));
+                    .getTargetValidatorConstraints(metadata.value1)
+                    .map(validatorMetadata => validatorMetadata.instance)
+                    .every(validator => validator.validate(value));
         }
         return true;
-    }
-
-    private createInstance(object: Function): ValidatorInterface {
-        return this._container ? this._container.get(object) : new (<any> object)();
     }
 
 }

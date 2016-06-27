@@ -1,4 +1,4 @@
-import {IsContain, IsInt, IsLength, IsEmail, IsFQDN, IsDate, NestedValidation} from "../../src/decorators";
+import {IsContain, IsInt, IsLength, IsEmail, IsFQDN, IsDate, NestedValidation} from "../../src/decorator/decorators";
 import {Tag} from "./Tag";
 
 export class Post {

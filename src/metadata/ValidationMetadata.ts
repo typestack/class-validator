@@ -1,7 +1,7 @@
 import {ValidationMetadataArgs} from "./ValidationMetadataArgs";
 
 /**
- * This metadata interface contains information for validation.
+ * This metadata contains validation rules.
  */
 export class ValidationMetadata {
 
@@ -15,9 +15,9 @@ export class ValidationMetadata {
     type: string;
 
     /**
-     * Object that is used to be validated.
+     * Target class to which this validation is applied.
      */
-    object: Object;
+    target: Function;
 
     /**
      * Property of the object to be validated.
@@ -60,7 +60,7 @@ export class ValidationMetadata {
 
     constructor(args: ValidationMetadataArgs) {
         this.type = args.type;
-        this.object = args.object;
+        this.target = args.target;
         this.value1 = args.value1;
         this.value2 = args.value2;
         if (args.validationOptions) {

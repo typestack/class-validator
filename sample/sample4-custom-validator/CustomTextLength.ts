@@ -1,8 +1,8 @@
-import {ValidatorInterface} from "../../src/ValidatorInterface";
-import {ValidatorConstraint} from "../../src/decorators";
+import {CustomValidator} from "../../src/validation/CustomValidator";
+import {ValidatorConstraint} from "../../src/decorator/decorators";
 
 @ValidatorConstraint()
-export class CustomTextLength implements ValidatorInterface {
+export class CustomTextLength implements CustomValidator {
 
     validate(text: string): boolean {
         return text.length > 1 && text.length < 10;

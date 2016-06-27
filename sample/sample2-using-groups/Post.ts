@@ -1,4 +1,4 @@
-import {IsContain, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/decorators";
+import {IsContain, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/decorator/decorators";
 
 export class Post {
 

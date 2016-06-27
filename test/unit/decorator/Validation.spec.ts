@@ -1,87 +1,81 @@
-import * as chai from "chai";
 import {expect} from "chai";
-import * as sinon from "sinon";
-import {defaultMetadataStorage} from "../../../src/metadata/MetadataStorage";
 import {
-    ValidatorConstraint, IsBooleanString, IsPositiveInt, IsNegativeInt,
-    IsPositiveFloat, IsNegativeFloat
-} from "../../../src/decorators";
-import {Validate} from "../../../src/decorators";
-import {ValidationTypes} from "../../../src/ValidationTypes";
-import {ValidatorInterface} from "../../../src/ValidatorInterface";
-import {IsContain} from "../../../src/decorators";
-import {IsEqual} from "../../../src/decorators";
-import {Validator} from "../../../src/Validator";
-import {ValidationError} from "../../../src/ValidationError";
-import {IsMinDate} from "../../../src/decorators";
-import {IsMaxDate} from "../../../src/decorators";
-import {IsAlpha} from "../../../src/decorators";
-import {IsAlphanumeric} from "../../../src/decorators";
-import {IsAscii} from "../../../src/decorators";
-import {IsBase64} from "../../../src/decorators";
-import {IsBoolean} from "../../../src/decorators";
-import {IsByteLength} from "../../../src/decorators";
-import {IsCreditCard} from "../../../src/decorators";
-import {IsCurrency} from "../../../src/decorators";
-import {IsDate} from "../../../src/decorators";
-import {IsDecimal} from "../../../src/decorators";
-import {IsDivisibleBy} from "../../../src/decorators";
-import {IsEmail} from "../../../src/decorators";
-import {IsFQDN} from "../../../src/decorators";
-import {IsFloat} from "../../../src/decorators";
-import {IsFullWidth} from "../../../src/decorators";
-import {IsHalfWidth} from "../../../src/decorators";
-import {IsVariableWidth} from "../../../src/decorators";
-import {IsHexColor} from "../../../src/decorators";
-import {IsHexadecimal} from "../../../src/decorators";
-import {IsIP} from "../../../src/decorators";
-import {IsISBN} from "../../../src/decorators";
-import {IsISO8601} from "../../../src/decorators";
-import {IsIn} from "../../../src/decorators";
-import {IsInt} from "../../../src/decorators";
-import {IsJSON} from "../../../src/decorators";
-import {IsLength} from "../../../src/decorators";
-import {IsLowercase} from "../../../src/decorators";
-import {IsMobilePhone} from "../../../src/decorators";
-import {IsMongoId} from "../../../src/decorators";
-import {IsMultibyte} from "../../../src/decorators";
-import {IsNumericString} from "../../../src/decorators";
-import {IsSurrogatePair} from "../../../src/decorators";
-import {IsUrl} from "../../../src/decorators";
-import {IsUUID} from "../../../src/decorators";
-import {IsUppercase} from "../../../src/decorators";
-import {IsMatch} from "../../../src/decorators";
-import {IsMinLength} from "../../../src/decorators";
-import {IsMaxLength} from "../../../src/decorators";
-import {IsGreater} from "../../../src/decorators";
-import {IsLess} from "../../../src/decorators";
-import {IsNotEmpty} from "../../../src/decorators";
-import {IsNotEmptyArray} from "../../../src/decorators";
-import {IsMinSize} from "../../../src/decorators";
-import {IsMaxSize} from "../../../src/decorators";
-import {NestedValidation} from "../../../src/decorators";
+    IsBooleanString,
+    IsPositiveInt,
+    IsNegativeInt,
+    IsPositiveFloat,
+    IsNegativeFloat,
+    IsContain,
+    IsEqual,
+    IsMinDate,
+    IsMaxDate,
+    IsAlpha,
+    IsAlphanumeric,
+    IsAscii,
+    IsBase64,
+    IsBoolean,
+    IsByteLength,
+    IsCreditCard,
+    IsCurrency,
+    IsDate,
+    IsDecimal,
+    IsDivisibleBy,
+    IsEmail,
+    IsFQDN,
+    IsFloat,
+    IsFullWidth,
+    IsHalfWidth,
+    IsVariableWidth,
+    IsHexColor,
+    IsHexadecimal,
+    IsIP,
+    IsISBN,
+    IsISO8601,
+    IsIn,
+    IsInt,
+    IsJSON,
+    IsLength,
+    IsLowercase,
+    IsMongoId,
+    IsMultibyte,
+    IsNumericString,
+    IsSurrogatePair,
+    IsUrl,
+    IsUUID,
+    IsUppercase,
+    IsMatch,
+    IsMinLength,
+    IsMaxLength,
+    IsGreater,
+    IsLess,
+    IsNotEmpty,
+    IsNotEmptyArray,
+    IsMinSize,
+    IsMaxSize
+} from "../../../src/decorator/decorators";
+import {CustomValidator} from "../../../src/validation/CustomValidator";
+import {Validator} from "../../../src/validation/Validator";
+import {ValidationError} from "../../../src/validation/ValidationError";
 
 let validator: Validator;
 
 function ifValid(object: any) {
-    validator.validate(object).length.should.be.equal(0);
-    validator.validateAsync(object).should.eventually.equal(object);
-    expect(() => validator.validateOrThrow(object)).not.to.throw(ValidationError);
-    validator.isValid(object).should.be.equal(true);
+    return validator
+        .validate(object)
+        .then(errors => errors.length.should.be.equal(0));
 }
 
 function ifNotValid(object: any) {
-    validator.validate(object).length.should.be.equal(1);
-    validator.validateAsync(object).should.eventually.be.rejected;
-    expect(() => validator.validateOrThrow(object)).to.throw(ValidationError);
-    validator.isValid(object).should.be.equal(false);
+    return validator
+        .validate(object)
+        .then(errors => errors.length.should.be.equal(1));
 }
 
 class TestClass {
     name: string;
 }
 
-class TestConstraint implements ValidatorInterface {
+class TestConstraint implements CustomValidator {
     validate(value: any): boolean {
         return !!value;
     }
@@ -99,7 +93,7 @@ beforeEach(function() {
 // Specifications
 // -------------------------------------------------------------------------
 
-describe("ValidatorConstraint", function() {
+/*describe("ValidatorConstraint", function() {
 
     it("should add its metadata to metadata storage", sinon.test(function() {
         const method = this.mock(defaultMetadataStorage).expects("addConstraintMetadata");
@@ -175,7 +169,7 @@ describe("ValidateNested", function() {
         });
     }));
 
-});
+});*/
 
 describe("Contains", function() {
 
@@ -187,13 +181,13 @@ describe("Contains", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.name = "hello world";
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "bye world";
-        ifNotValid(object);
+        return return ifNotValid(object);
     });
 
 });
@@ -208,13 +202,13 @@ describe("Equals", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.name = "Alex";
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "Alexxx";
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -229,13 +223,13 @@ describe("IsAfter", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.date = new Date();
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.date = new Date(1994, 11, 17);
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -250,13 +244,13 @@ describe("IsAlpha", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.name = "hellomynameisalex";
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "hello1mynameisalex";
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -271,13 +265,13 @@ describe("IsAlphanumeric", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.name = "hellomyname1salex";
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "hell*mynameisalex";
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -292,13 +286,13 @@ describe("IsAscii", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.name = "hellomyname1salex";
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "hell*mynameisлеха";
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -313,13 +307,13 @@ describe("IsBase64", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.name = "aGVsbG8=";
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "hell*mynameisalex";
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -334,13 +328,13 @@ describe("IsBefore", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.date = new Date(1994, 11, 17);
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.date = new Date();
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -355,13 +349,13 @@ describe("IsBooleanString", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.name = "true";
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "trui";
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -376,13 +370,13 @@ describe("IsBoolean", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.name = true;
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "true";
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -397,13 +391,13 @@ describe("IsByteLength", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.name = "hellostring";
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "helloveryveryveryverylongstring";
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -426,7 +420,7 @@ describe("IsCreditCard", function() {
             , "5398228707871527"]
             .forEach(i => {
                 object.name = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -438,7 +432,7 @@ describe("IsCreditCard", function() {
             , "5398228707871528"]
             .forEach(i => {
                 object.name = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -474,7 +468,7 @@ describe("IsCurrency", function() {
             , "-10123"]
             .forEach(i => {
                 object.name = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -505,7 +499,7 @@ describe("IsCurrency", function() {
             , "- $"]
             .forEach(i => {
                 object.name = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -585,7 +579,7 @@ describe("IsDate", function() {
             , "Wed, 9 Apr 2014 08:21:03 +0000"
         ].forEach(i => {
             object.date = i;
-            ifValid(object);
+            return ifValid(object);
         });
     });
 
@@ -626,7 +620,7 @@ describe("IsDate", function() {
             , "Fri, 31 Nov 1997 09:55:06 -0600"
         ].forEach(i => {
             object.date = i;
-            ifNotValid(object);
+            return ifNotValid(object);
         });
     });
 
@@ -644,7 +638,7 @@ describe("IsDecimal", function() {
         ["123", "00123", "-00123", "0", "-0", "+123", "0.01", ".1", "1.0", "-.25", "-0", "0.0000000000001"]
             .forEach(i => {
                 object.name = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -653,7 +647,7 @@ describe("IsDecimal", function() {
         ["....", " ", "", "-", "+", ".", "0.1a", "a", "\n"]
             .forEach(i => {
                 object.name = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -671,7 +665,7 @@ describe("IsDivisibleBy", function() {
         [ "2", "4", "100", "1000" ]
             .forEach(i => {
                 object.name = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -686,7 +680,7 @@ describe("IsDivisibleBy", function() {
         ]
             .forEach(i => {
                 object.name = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -718,7 +712,7 @@ describe("IsEmail", function() {
         ]
             .forEach(i => {
                 object.email = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -736,7 +730,7 @@ describe("IsEmail", function() {
         ]
             .forEach(i => {
                 object.email = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -761,7 +755,7 @@ describe("IsFQDN", function() {
         ]
             .forEach(i => {
                 object.site = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -778,7 +772,7 @@ describe("IsFQDN", function() {
         ]
             .forEach(i => {
                 object.site = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -807,7 +801,7 @@ describe("IsFloat", function() {
         ]
             .forEach(i => {
                 object.num = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -822,7 +816,7 @@ describe("IsFloat", function() {
         ]
             .forEach(i => {
                 object.num = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -848,7 +842,7 @@ describe("IsPositiveFloat", function() {
         ]
             .forEach(i => {
                 object.num = <any> i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -864,7 +858,7 @@ describe("IsPositiveFloat", function() {
         ]
             .forEach(i => {
                 object.num = <any> i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -887,7 +881,7 @@ describe("IsNegativeFloat", function() {
         ]
             .forEach(i => {
                 object.num = <any> i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -908,7 +902,7 @@ describe("IsNegativeFloat", function() {
             , ""]
             .forEach(i => {
                 object.num = <any> i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -931,7 +925,7 @@ describe("IsFullWidth", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -943,7 +937,7 @@ describe("IsFullWidth", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -965,7 +959,7 @@ describe("IsHalfWidth", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -977,7 +971,7 @@ describe("IsHalfWidth", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1000,7 +994,7 @@ describe("IsVariableWidth", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1016,7 +1010,7 @@ describe("IsVariableWidth", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1039,7 +1033,7 @@ describe("IsHexColor", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1052,7 +1046,7 @@ describe("IsHexColor", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1073,7 +1067,7 @@ describe("IsHexadecimal", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1086,7 +1080,7 @@ describe("IsHexadecimal", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1121,7 +1115,7 @@ describe("IsIP", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1148,7 +1142,7 @@ describe("IsIP", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1172,7 +1166,7 @@ describe("IsISBN version 10", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1185,7 +1179,7 @@ describe("IsISBN version 10", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1207,7 +1201,7 @@ describe("IsISBN version 13", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1220,7 +1214,7 @@ describe("IsISBN version 13", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1279,7 +1273,7 @@ describe("IsISO8601", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1312,7 +1306,7 @@ describe("IsISO8601", function() {
         ]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1330,7 +1324,7 @@ describe("IsIn", function() {
         ["foo", "bar"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1339,7 +1333,7 @@ describe("IsIn", function() {
         ["foobar", "barfoo", ""]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1363,7 +1357,7 @@ describe("IsInt", function() {
             , "+1"]
             .forEach(i => {
                 object.num = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1379,7 +1373,7 @@ describe("IsInt", function() {
             , ""]
             .forEach(i => {
                 object.num = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1411,7 +1405,7 @@ describe("IsPositiveInt", function() {
         ]
             .forEach(i => {
                 object.num = <any> i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1427,7 +1421,7 @@ describe("IsPositiveInt", function() {
             , ""]
             .forEach(i => {
                 object.num = <any> i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1450,7 +1444,7 @@ describe("IsNegativeInt", function() {
         ]
             .forEach(i => {
                 object.num = <any> i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1475,7 +1469,7 @@ describe("IsNegativeInt", function() {
             , ""]
             .forEach(i => {
                 object.num = <any> i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1493,7 +1487,7 @@ describe("IsJSON", function() {
         ["{ \"key\": \"value\" }", "{}"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1502,7 +1496,7 @@ describe("IsJSON", function() {
         ["{ key: \"value\" }", "{ 'key': 'value' }", "null", "1234", "false", "\"nope\""]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1520,7 +1514,7 @@ describe("IsLength", function() {
         ["abc", "de"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1529,7 +1523,7 @@ describe("IsLength", function() {
         [ "", "a", "abcd"]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1551,7 +1545,7 @@ describe("IsLowercase", function() {
             , "tr竪s 端ber"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1562,7 +1556,7 @@ describe("IsLowercase", function() {
             , "123A"]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1581,7 +1575,7 @@ describe("IsMongoId", function() {
             "507f1f77bcf86cd799439011"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1594,7 +1588,7 @@ describe("IsMongoId", function() {
             , "507f1f77bcf86cd799439011 "]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1618,7 +1612,7 @@ describe("IsMultibyte", function() {
             , "中文"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1630,7 +1624,7 @@ describe("IsMultibyte", function() {
             , "<>@\" *."]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1654,7 +1648,7 @@ describe("IsNumeric", function() {
             , "+123"]
             .forEach(i => {
                 object.num = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1666,7 +1660,7 @@ describe("IsNumeric", function() {
             , "."]
             .forEach(i => {
                 object.num = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1687,7 +1681,7 @@ describe("IsSurrogatePair", function() {
             , "ABC千𥧄1-2-3"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1699,7 +1693,7 @@ describe("IsSurrogatePair", function() {
             , "ABC1-2-3"]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1744,7 +1738,7 @@ describe("IsUrl", function() {
             , "http://xn--j1aac5a4g.xn--j1amh"]
             .forEach(i => {
                 object.site = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1788,7 +1782,7 @@ describe("IsUrl", function() {
             , "http:////foobar.com"]
             .forEach(i => {
                 object.site = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1809,7 +1803,7 @@ describe("IsUUID", function() {
             , "A987FBC9-4BED-5078-AF07-9141BA07C9F3"]
             .forEach(i => {
                 object.num = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1825,7 +1819,7 @@ describe("IsUUID", function() {
             , "AAAAAAAA-1111-1111-AAAG-111111111111"]
             .forEach(i => {
                 object.num = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1844,7 +1838,7 @@ describe("IsUUID 3", function() {
             "A987FBC9-4BED-3078-CF07-9141BA07C9F3"]
             .forEach(i => {
                 object.num = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1859,7 +1853,7 @@ describe("IsUUID 3", function() {
             , "A987FBC9-4BED-5078-AF07-9141BA07C9F3"]
             .forEach(i => {
                 object.num = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1881,7 +1875,7 @@ describe("IsUUID 4", function() {
             , "9c858901-8a57-4791-81fe-4c455b099bc9"]
             .forEach(i => {
                 object.num = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1896,7 +1890,7 @@ describe("IsUUID 4", function() {
             , "A987FBC9-4BED-3078-CF07-9141BA07C9F3"]
             .forEach(i => {
                 object.num = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1918,7 +1912,7 @@ describe("IsUUID 5", function() {
             , "987FBC97-4BED-5078-9F07-9141BA07C9F3"]
             .forEach(i => {
                 object.num = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1933,7 +1927,7 @@ describe("IsUUID 5", function() {
             , "A987FBC9-4BED-3078-CF07-9141BA07C9F3"]
             .forEach(i => {
                 object.num = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1955,7 +1949,7 @@ describe("IsUppercase", function() {
             , "   ."]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1966,7 +1960,7 @@ describe("IsUppercase", function() {
             , "123abc"]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -1984,7 +1978,7 @@ describe("Matches", function() {
         ["abc", "abcdef", "123abc"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -1993,7 +1987,7 @@ describe("Matches", function() {
         ["acb", "Abc"]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -2011,7 +2005,7 @@ describe("MinLength", function() {
         ["helloworld", "hello how are you"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -2020,7 +2014,7 @@ describe("MinLength", function() {
         ["hellowar", "howareyou"]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -2038,7 +2032,7 @@ describe("MaxLength", function() {
         ["hellowar", "howareyou"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -2047,7 +2041,7 @@ describe("MaxLength", function() {
         ["helloworld!", "hello how are you"]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -2065,7 +2059,7 @@ describe("MinNumber", function() {
         [10, 20, 30, 40]
             .forEach(i => {
                 object.num = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -2074,7 +2068,7 @@ describe("MinNumber", function() {
         [1, 2, 3, 4, 5, 6, 7, 8, 9, -10]
             .forEach(i => {
                 object.num = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -2092,7 +2086,7 @@ describe("MaxNumber", function() {
         [1, 2, 3, 4, 5, 6, 7, 8, 9, -10]
             .forEach(i => {
                 object.num = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -2101,7 +2095,7 @@ describe("MaxNumber", function() {
         [11, 20, 30, 40]
             .forEach(i => {
                 object.num = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -2119,7 +2113,7 @@ describe("NotEmpty", function() {
         ["a", "abc"]
             .forEach(i => {
                 object.str = i;
-                ifValid(object);
+                return ifValid(object);
             });
     });
 
@@ -2128,7 +2122,7 @@ describe("NotEmpty", function() {
         ["", undefined, null]
             .forEach(i => {
                 object.str = i;
-                ifNotValid(object);
+                return ifNotValid(object);
             });
     });
 
@@ -2144,13 +2138,13 @@ describe("NotEmptyArray", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.tags = ["world"];
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.tags = [];
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -2165,13 +2159,13 @@ describe("MinSize", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.tags = ["world", "hello"];
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.tags = ["hi"];
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });
@@ -2186,13 +2180,13 @@ describe("MaxSize", function() {
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
         object.tags = ["world", "hello"];
-        ifValid(object);
+        return ifValid(object);
     });
 
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.tags = ["hi", "hello", "javascript"];
-        ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });

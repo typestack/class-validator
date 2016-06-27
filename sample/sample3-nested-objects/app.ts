@@ -1,4 +1,4 @@
-import {Validator} from "../../src/Validator";
+import {Validator} from "../../src/validation/Validator";
 import {Post} from "./Post";
 import {Tag} from "./Tag";
 

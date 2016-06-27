@@ -5,6 +5,17 @@ Internally uses [validator.js][1] to perform validation.
 
 ## Release Notes
 
+**0.4.0** [BREAKING CHANGES]
+
+* refactored all the code
+* everything should be imported from "class-validator" main entry point now
+* all validation decorators whose names was not prefixed with "Is" now are prefixed
+* fixed all decorators that should not work only with strings
+* added few more non-string decorators
+* validator now returns array of ValidationError instead of ValidationErrorInterface
+* removed all other validation methods expect `validator.valdate`
+* finally validate method is async now, so custom async validation types are supported now
+
 **0.3.0**
 
 * package has changed its name from `validator.ts` to `class-validator`.
@@ -16,11 +27,7 @@ Internally uses [validator.js][1] to perform validation.
 
     `npm install class-validator --save`
 
-2. Use [typings](https://github.com/typings/typings) to install all required definition dependencies.
-
-    `typings install`
-
-3. ES6 features are used, so you may want to install [es6-shim](https://github.com/paulmillr/es6-shim) too:
+2. ES6 features are used, so you may want to install [es6-shim](https://github.com/paulmillr/es6-shim) too:
 
     `npm install es6-shim --save`
 
@@ -380,11 +387,6 @@ usages.
     The library is under active development, and needs better testing and contributions from community. If you want
     to use it in production its highly recommended to fix library version that you use in your package.json file.
     Personally I use it in production.
-
-## Release notes
-
-**0.5.0**
-
 
 ## Todos
 

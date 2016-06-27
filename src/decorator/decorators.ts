@@ -1,9 +1,11 @@
-import {defaultMetadataStorage} from "./metadata/MetadataStorage";
-import {ValidationTypes} from "./ValidationTypes";
-import {IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "./ValidatorOptions";
+import {ValidationTypes} from "../validation/ValidationTypes";
+import {IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
-import {ValidationMetadata} from "./metadata/ValidationMetadata";
-import {ValidationMetadataArgs} from "./metadata/ValidationMetadataArgs";
+import {ValidationMetadata} from "../metadata/ValidationMetadata";
+import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
+import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
+import {getFromContainer} from "../index";
+import {MetadataStorage} from "../metadata/MetadataStorage";
 
 // -------------------------------------------------------------------------
 // System
@@ -13,10 +15,8 @@ import {ValidationMetadataArgs} from "./metadata/ValidationMetadataArgs";
  * Registers custom validator class.
  */
 export function ValidatorConstraint() {
-    return function(object: Function) {
-        defaultMetadataStorage.addConstraintMetadata({
-            object: object
-        });
+    return function(target: Function) {
+        getFromContainer(MetadataStorage).addConstraintMetadata(new ConstraintMetadata(target));
     };
 }
 
@@ -28,12 +28,12 @@ export function Validate(constraintClass: Function, validationOptions?: Validati
     return function(object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.CUSTOM_VALIDATION,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: constraintClass,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -44,11 +44,11 @@ export function NestedValidation(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.NESTED_VALIDATION,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -63,12 +63,12 @@ export function IsEqual(comparison: any, validationOptions?: ValidationOptions) 
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_EQUAL,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: comparison,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -79,12 +79,12 @@ export function IsNotEqual(comparison: any, validationOptions?: ValidationOption
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NOT_EQUAL,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: comparison,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -95,11 +95,11 @@ export function IsEmpty(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_EMPTY,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -110,11 +110,11 @@ export function IsNotEmpty(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NOT_EMPTY,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -125,12 +125,12 @@ export function IsIn(values: any[], validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_IN,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: values,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -141,12 +141,12 @@ export function IsNotIn(values: any[], validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NOT_IN,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: values,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -161,11 +161,11 @@ export function IsBoolean(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_BOOLEAN,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -176,11 +176,11 @@ export function IsDate(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_DATE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -191,11 +191,11 @@ export function IsNumber(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NUMBER,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -206,11 +206,11 @@ export function IsString(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_STRING,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -225,12 +225,12 @@ export function IsDivisibleBy(num: number, validationOptions?: ValidationOptions
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_DIVISIBLE_BY,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: num,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -241,11 +241,11 @@ export function IsDecimal(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_DECIMAL,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -256,12 +256,12 @@ export function IsFloat(options?: IsFloatOptions, validationOptions?: Validation
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_FLOAT,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -272,12 +272,12 @@ export function IsPositiveFloat(options?: IsFloatOptions, validationOptions?: Va
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_POSITIVE_FLOAT,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -288,12 +288,12 @@ export function IsNegativeFloat(options?: IsFloatOptions, validationOptions?: Va
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NEGATIVE_FLOAT,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -304,12 +304,12 @@ export function IsInt(options?: IsIntOptions, validationOptions?: ValidationOpti
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_INT,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -320,12 +320,12 @@ export function IsPositiveInt(options?: IsIntOptions, validationOptions?: Valida
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_POSITIVE_INT,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -336,12 +336,12 @@ export function IsNegativeInt(options?: IsIntOptions, validationOptions?: Valida
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NEGATIVE_INT,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 /**
@@ -351,12 +351,12 @@ export function IsGreater(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_GREATER,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: min,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -367,12 +367,12 @@ export function IsLess(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_LESS,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: max,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -387,12 +387,12 @@ export function IsMinDate(date: Date, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_MIN_DATE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: date,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -403,12 +403,12 @@ export function IsMaxDate(date: Date, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_MAX_DATE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: date,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -432,13 +432,13 @@ export function IsMatch(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_MATCH,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: pattern,
             value2: modifiers,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 // -------------------------------------------------------------------------
@@ -452,11 +452,11 @@ export function IsBooleanString(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_BOOLEAN_STRING,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -467,11 +467,11 @@ export function IsDateString(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_DATE_STRING,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -482,11 +482,11 @@ export function IsNumericString(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NUMERIC_STRING,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -501,12 +501,12 @@ export function IsContain(seed: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_CONTAIN,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: seed,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -517,12 +517,12 @@ export function IsNotContain(seed: string, validationOptions?: ValidationOptions
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NOT_CONTAIN,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: seed,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -533,11 +533,11 @@ export function IsAlpha(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ALPHA,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -548,11 +548,11 @@ export function IsAlphanumeric(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ALPHANUMERIC,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -563,11 +563,11 @@ export function IsAscii(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ASCII,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -578,11 +578,11 @@ export function IsBase64(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_BASE64,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -593,13 +593,13 @@ export function IsByteLength(min: number, max?: number, validationOptions?: Vali
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_BYTE_LENGTH,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: min,
             value2: max,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -610,11 +610,11 @@ export function IsCreditCard(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_CREDIT_CARD,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -625,12 +625,12 @@ export function IsCurrency(options?: IsCurrencyOptions, validationOptions?: Vali
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_CURRENCY,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -641,12 +641,12 @@ export function IsEmail(options?: IsEmailOptions, validationOptions?: Validation
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_EMAIL,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -657,12 +657,12 @@ export function IsFQDN(options?: IsFQDNOptions, validationOptions?: ValidationOp
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_FQDN,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -673,11 +673,11 @@ export function IsFullWidth(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_FULL_WIDTH,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -688,11 +688,11 @@ export function IsHalfWidth(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_HALF_WIDTH,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -703,11 +703,11 @@ export function IsVariableWidth(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_VARIABLE_WIDTH,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -718,11 +718,11 @@ export function IsHexColor(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_HEX_COLOR,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -733,11 +733,11 @@ export function IsHexadecimal(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_HEXADECIMAL,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -748,12 +748,12 @@ export function IsIP(version?: "4"|"6", validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_IP,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: version,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -764,12 +764,12 @@ export function IsISBN(version?: "10"|"13", validationOptions?: ValidationOption
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ISBN,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: version,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -780,11 +780,11 @@ export function IsISIN(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ISIN,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -795,11 +795,11 @@ export function IsISO8601(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ISO8601,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -810,11 +810,11 @@ export function IsJSON(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_JSON,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -825,13 +825,13 @@ export function IsLength(min: number, max?: number, validationOptions?: Validati
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_LENGTH,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: min,
             value2: max,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -842,11 +842,11 @@ export function IsLowercase(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_LOWERCASE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -858,12 +858,12 @@ export function IsMobilePhone(locale: string, validationOptions?: ValidationOpti
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_MOBILE_PHONE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: locale,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -874,11 +874,11 @@ export function IsMongoId(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_MONGO_ID,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -889,11 +889,11 @@ export function IsMultibyte(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_MULTIBYTE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -904,11 +904,11 @@ export function IsSurrogatePair(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_SURROGATE_PAIR,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -919,12 +919,12 @@ export function IsUrl(options?: IsURLOptions, validationOptions?: ValidationOpti
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_URL,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: options,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -935,12 +935,12 @@ export function IsUUID(version?: "3"|"4"|"5", validationOptions?: ValidationOpti
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_UUID,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: version,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -951,11 +951,11 @@ export function IsUppercase(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_UPPERCASE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -966,12 +966,12 @@ export function IsMinLength(min: number, validationOptions?: ValidationOptions) 
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.MIN_LENGTH,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: min,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -982,12 +982,12 @@ export function IsMaxLength(max: number, validationOptions?: ValidationOptions) 
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.MAX_LENGTH,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: max,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1002,12 +1002,12 @@ export function IsContainInArray(values: any[], validationOptions?: ValidationOp
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_CONTAIN_IN_ARRAY,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: values,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1018,12 +1018,12 @@ export function IsNotContainInArray(values: any[], validationOptions?: Validatio
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NOT_CONTAIN_IN_ARRAY,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: values,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1034,11 +1034,11 @@ export function IsNotEmptyArray(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NOT_EMPTY_ARRAY,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1049,12 +1049,12 @@ export function IsMinSize(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_MIN_SIZE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: min,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1065,12 +1065,12 @@ export function IsMaxSize(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_MAX_SIZE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             value1: max,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1081,10 +1081,10 @@ export function IsAllUnique(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ALL_UNIQUE,
-            object: object,
+            target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        defaultMetadataStorage.addValidationMetadata(new ValidationMetadata(args));
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }

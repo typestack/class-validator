@@ -1,27 +1,55 @@
-import {Validator} from "./Validator";
-import {ValidationErrorInterface} from "./ValidationErrorInterface";
-import {ValidatorOptions} from "./ValidatorOptions";
+import {Validator} from "./validation/Validator";
+import {ValidationError} from "./validation/ValidationError";
+import {ValidatorOptions} from "./validation/ValidatorOptions";
+import {MetadataStorage} from "./metadata/MetadataStorage";
 
-export * from "./decorators";
-export * from "./ValidatorOptions";
-export * from "./Validator";
-export * from "./ValidatorInterface";
+// -------------------------------------------------------------------------
+// Global Container
+// -------------------------------------------------------------------------
 
-const validator = new Validator();
-export default validator;
+/**
+ * Container to be used by this library for inversion control. If container was not implicitly set then by default
+ * container simply creates a new instance of the given class.
+ */
+let container: { get<T>(someClass: { new (...args: any[]): T }|Function): T } = new (class {
+    private instances: any[] = [];
+    get<T>(someClass: { new (...args: any[]): T }): T {
+        if (!this.instances[<any>someClass])
+            this.instances[<any>someClass] = new someClass();
 
-export function validate(object: any, validatorOptions?: ValidatorOptions): ValidationErrorInterface[] {
-    return validator.validate(object, validatorOptions);
+        return this.instances[<any>someClass];
+    }
+})();
+
+/**
+ * Sets container to be used by this library.
+ *
+ * @param iocContainer
+ */
+export function useContainer(iocContainer: { get(someClass: any): any }) {
+    container = iocContainer;
 }
 
-export function validateAsync<T>(object: T, validatorOptions?: ValidatorOptions): Promise<T> {
-    return validator.validateAsync(object, validatorOptions);
+/**
+ * Gets the IOC container used by this library.
+ */
+export function getFromContainer<T>(someClass: { new (...args: any[]): T }|Function): T {
+    return container.get<T>(someClass);
 }
 
-export function validateOrThrow(object: any, validatorOptions?: ValidatorOptions): void {
-    validator.validateOrThrow(object, validatorOptions);
-}
+// -------------------------------------------------------------------------
+// Exports
+// -------------------------------------------------------------------------
 
-export function isValid(object: any, validatorOptions?: ValidatorOptions): boolean {
-    return validator.isValid(object, validatorOptions);
+export * from "./decorator/decorators";
+export * from "./validation/ValidatorOptions";
+export * from "./validation/Validator";
+export * from "./validation/CustomValidator";
+
+// -------------------------------------------------------------------------
+// Shortcut methods
+// -------------------------------------------------------------------------
+
+export function validate(object: any, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+    return getFromContainer(Validator).validate(object, validatorOptions);
 }
