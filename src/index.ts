@@ -1,7 +1,6 @@
 import {Validator} from "./validation/Validator";
 import {ValidationError} from "./validation/ValidationError";
 import {ValidatorOptions} from "./validation/ValidatorOptions";
-import {MetadataStorage} from "./metadata/MetadataStorage";
 
 // -------------------------------------------------------------------------
 // Global Container
@@ -38,16 +37,19 @@ export function getFromContainer<T>(someClass: { new (...args: any[]): T }|Funct
 }
 
 // -------------------------------------------------------------------------
-// Exports
+// Export everything api users needs
 // -------------------------------------------------------------------------
 
 export * from "./decorator/decorators";
+export * from "./decorator/ValidationOptions";
+export * from "./validation/CustomValidator";
+export * from "./validation/ValidationError";
+export * from "./validation/ValidationTypeOptions";
 export * from "./validation/ValidatorOptions";
 export * from "./validation/Validator";
-export * from "./validation/CustomValidator";
 
 // -------------------------------------------------------------------------
-// Shortcut methods
+// Shortcut methods for api users
 // -------------------------------------------------------------------------
 
 export function validate(object: any, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {

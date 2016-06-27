@@ -6,6 +6,6 @@ export interface CustomValidator {
     /**
      * Method to be called to perform custom validation over given value.
      */
-    validate(value: any): boolean;
+    validate(value: any): Promise<boolean>|boolean;
 
 }

@@ -14,9 +14,9 @@ import {MetadataStorage} from "../metadata/MetadataStorage";
 /**
  * Registers custom validator class.
  */
-export function ValidatorConstraint() {
+export function ValidatorConstraint(name?: string) {
     return function(target: Function) {
-        getFromContainer(MetadataStorage).addConstraintMetadata(new ConstraintMetadata(target));
+        getFromContainer(MetadataStorage).addConstraintMetadata(new ConstraintMetadata(target, name));
     };
 }
 

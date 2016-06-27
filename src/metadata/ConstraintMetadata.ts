@@ -15,12 +15,18 @@ export class ConstraintMetadata {
      */
     target: Function;
 
+    /**
+     * Custom validation's name, that will be used as validation error type.
+     */
+    name: string;
+
     // -------------------------------------------------------------------------
     // Constructor
     // -------------------------------------------------------------------------
     
-    constructor(target: Function) {
+    constructor(target: Function, name?: string) {
         this.target = target;
+        this.name = name;
     }
 
     // -------------------------------------------------------------------------

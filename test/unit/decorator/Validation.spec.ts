@@ -76,8 +76,8 @@ class TestClass {
 }
 
 class TestConstraint implements CustomValidator {
-    validate(value: any): boolean {
-        return !!value;
+    validate(value: any): Promise<boolean> {
+        return Promise.resolve(!!value);
     }
 }
 

@@ -4,7 +4,7 @@
 export interface ValidatorOptions {
 
     /**
-     * If set to true then validator will skip validation of all properties that are missing in the document.
+     * If set to true then validator will skip validation of all properties that are missing in the validating object.
      */
     skipMissingProperties?: boolean;
 
