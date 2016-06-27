@@ -9,12 +9,12 @@ import {
 import {Validate} from "../../../src/decorators";
 import {ValidationTypes} from "../../../src/ValidationTypes";
 import {ValidatorInterface} from "../../../src/ValidatorInterface";
-import {Contains} from "../../../src/decorators";
-import {Equals} from "../../../src/decorators";
+import {IsContain} from "../../../src/decorators";
+import {IsEqual} from "../../../src/decorators";
 import {Validator} from "../../../src/Validator";
 import {ValidationError} from "../../../src/ValidationError";
-import {IsAfter} from "../../../src/decorators";
-import {IsBefore} from "../../../src/decorators";
+import {IsMinDate} from "../../../src/decorators";
+import {IsMaxDate} from "../../../src/decorators";
 import {IsAlpha} from "../../../src/decorators";
 import {IsAlphanumeric} from "../../../src/decorators";
 import {IsAscii} from "../../../src/decorators";
@@ -45,22 +45,21 @@ import {IsLowercase} from "../../../src/decorators";
 import {IsMobilePhone} from "../../../src/decorators";
 import {IsMongoId} from "../../../src/decorators";
 import {IsMultibyte} from "../../../src/decorators";
-import {IsNull} from "../../../src/decorators";
-import {IsNumeric} from "../../../src/decorators";
+import {IsNumericString} from "../../../src/decorators";
 import {IsSurrogatePair} from "../../../src/decorators";
 import {IsUrl} from "../../../src/decorators";
 import {IsUUID} from "../../../src/decorators";
 import {IsUppercase} from "../../../src/decorators";
-import {Matches} from "../../../src/decorators";
-import {MinLength} from "../../../src/decorators";
-import {MaxLength} from "../../../src/decorators";
-import {MinNumber} from "../../../src/decorators";
-import {MaxNumber} from "../../../src/decorators";
-import {NotEmpty} from "../../../src/decorators";
-import {NotEmptyArray} from "../../../src/decorators";
-import {MinSize} from "../../../src/decorators";
-import {MaxSize} from "../../../src/decorators";
-import {ValidateNested} from "../../../src/decorators";
+import {IsMatch} from "../../../src/decorators";
+import {IsMinLength} from "../../../src/decorators";
+import {IsMaxLength} from "../../../src/decorators";
+import {IsGreater} from "../../../src/decorators";
+import {IsLess} from "../../../src/decorators";
+import {IsNotEmpty} from "../../../src/decorators";
+import {IsNotEmptyArray} from "../../../src/decorators";
+import {IsMinSize} from "../../../src/decorators";
+import {IsMaxSize} from "../../../src/decorators";
+import {NestedValidation} from "../../../src/decorators";
 
 let validator: Validator;
 
@@ -150,7 +149,7 @@ describe("ValidateNested", function() {
 
     it("should add its metadata to metadata storage", sinon.test(function() {
         const method = this.mock(defaultMetadataStorage).expects("addValidationMetadata");
-        ValidateNested()(TestClass, "name");
+        NestedValidation()(TestClass, "name");
         method.should.have.been.calledWith({
             type: ValidationTypes.NESTED_VALIDATION,
             object: TestClass,
@@ -164,7 +163,7 @@ describe("ValidateNested", function() {
 
     it("should be able to set extra metadata options", sinon.test(function() {
         const method = this.mock(defaultMetadataStorage).expects("addValidationMetadata");
-        ValidateNested({ always: true, each: true, message: "Error!", groups: ["main"] })(TestClass, "name");
+        NestedValidation({ always: true, each: true, message: "Error!", groups: ["main"] })(TestClass, "name");
         method.should.have.been.calledWith({
             type: ValidationTypes.NESTED_VALIDATION,
             object: TestClass,
@@ -181,7 +180,7 @@ describe("ValidateNested", function() {
 describe("Contains", function() {
 
     class MyClass {
-        @Contains("hello")
+        @IsContain("hello")
         name: string;
     }
 
@@ -202,7 +201,7 @@ describe("Contains", function() {
 describe("Equals", function() {
 
     class MyClass {
-        @Equals("Alex")
+        @IsEqual("Alex")
         name: string;
     }
 
@@ -223,7 +222,7 @@ describe("Equals", function() {
 describe("IsAfter", function() {
 
     class MyClass {
-        @IsAfter(new Date(1995, 11, 17))
+        @IsMinDate(new Date(1995, 11, 17))
         date: Date;
     }
 
@@ -328,7 +327,7 @@ describe("IsBase64", function() {
 describe("IsBefore", function() {
 
     class MyClass {
-        @IsBefore(new Date(1995, 11, 17))
+        @IsMaxDate(new Date(1995, 11, 17))
         date: Date;
     }
 
@@ -1158,7 +1157,7 @@ describe("IsIP", function() {
 describe("IsISBN version 10", function() {
 
     class MyClass {
-        @IsISBN(10)
+        @IsISBN("10")
         str: string;
     }
 
@@ -1195,7 +1194,7 @@ describe("IsISBN version 10", function() {
 describe("IsISBN version 13", function() {
 
     class MyClass {
-        @IsISBN(13)
+        @IsISBN("13")
         str: string;
     }
 
@@ -1637,45 +1636,10 @@ describe("IsMultibyte", function() {
 
 });
 
-// todo: remove this because of useless
-/*describe("IsNull", function() {
-
-    class MyClass {
-        @IsNull()
-        str: any;
-    }
-
-    it("should not fail validation if property is valid", function() {
-        const object = new MyClass();
-        [
-            ""
-            , NaN
-            , []
-            , undefined
-            , null]
-            .forEach(i => {
-                object.str = i;
-                ifValid(object);
-            });
-    });
-
-    it("should fail validation if property is not valid", function() {
-        const object = new MyClass();
-        [
-            " "
-            , "foo"]
-            .forEach(i => {
-                object.str = i;
-                ifNotValid(object);
-            });
-    });
-
-});*/
-
 describe("IsNumeric", function() {
 
     class MyClass {
-        @IsNumeric()
+        @IsNumericString()
         num: string;
     }
 
@@ -1870,7 +1834,7 @@ describe("IsUUID", function() {
 describe("IsUUID 3", function() {
 
     class MyClass {
-        @IsUUID(3)
+        @IsUUID("3")
         num: string;
     }
 
@@ -1904,7 +1868,7 @@ describe("IsUUID 3", function() {
 describe("IsUUID 4", function() {
 
     class MyClass {
-        @IsUUID(4)
+        @IsUUID("4")
         num: string;
     }
 
@@ -1941,7 +1905,7 @@ describe("IsUUID 4", function() {
 describe("IsUUID 5", function() {
 
     class MyClass {
-        @IsUUID(5)
+        @IsUUID("5")
         num: string;
     }
 
@@ -2011,7 +1975,7 @@ describe("IsUppercase", function() {
 describe("Matches", function() {
 
     class MyClass {
-        @Matches(/abc/)
+        @IsMatch(/abc/)
         str: string;
     }
 
@@ -2038,7 +2002,7 @@ describe("Matches", function() {
 describe("MinLength", function() {
 
     class MyClass {
-        @MinLength(10)
+        @IsMinLength(10)
         str: string;
     }
 
@@ -2065,7 +2029,7 @@ describe("MinLength", function() {
 describe("MaxLength", function() {
 
     class MyClass {
-        @MaxLength(10)
+        @IsMaxLength(10)
         str: string;
     }
 
@@ -2092,7 +2056,7 @@ describe("MaxLength", function() {
 describe("MinNumber", function() {
 
     class MyClass {
-        @MinNumber(10)
+        @IsGreater(10)
         num: number;
     }
 
@@ -2119,7 +2083,7 @@ describe("MinNumber", function() {
 describe("MaxNumber", function() {
 
     class MyClass {
-        @MaxNumber(10)
+        @IsLess(10)
         num: number;
     }
 
@@ -2146,7 +2110,7 @@ describe("MaxNumber", function() {
 describe("NotEmpty", function() {
 
     class MyClass {
-        @NotEmpty()
+        @IsNotEmpty()
         str: string;
     }
 
@@ -2173,7 +2137,7 @@ describe("NotEmpty", function() {
 describe("NotEmptyArray", function() {
 
     class MyClass {
-        @NotEmptyArray()
+        @IsNotEmptyArray()
         tags: string[];
     }
 
@@ -2194,7 +2158,7 @@ describe("NotEmptyArray", function() {
 describe("MinSize", function() {
 
     class MyClass {
-        @MinSize(2)
+        @IsMinSize(2)
         tags: string[];
     }
 
@@ -2215,7 +2179,7 @@ describe("MinSize", function() {
 describe("MaxSize", function() {
 
     class MyClass {
-        @MaxSize(2)
+        @IsMaxSize(2)
         tags: string[];
     }
 

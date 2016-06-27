@@ -294,7 +294,7 @@ Validator.isLowercase(str);
 Validator.isMobilePhone(str, locale);
 Validator.isMongoId(str);
 Validator.isMultibyte(str);
-Validator.isNumeric(str);
+Validator.isNumericString(str);
 Validator.isSurrogatePair(str);
 Validator.isURL(str, options);
 Validator.isUUID(str, version);
@@ -308,20 +308,19 @@ Validator.matches(str, pattern, modifiers);
 | Decorator                                       | Description                                                                                        |
 |-------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | `@Contains(seed: string)`                       | Checks if the string contains the seed.                                                            |
-| `@Equals(comparison: string)`                   | Checks if the string matches the comparison.                                                       |
-| `@IsAfter(date: Date)`                          | Checks if the string is a date that's after the specified date.                                    |
+| `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison.                                                       |
+| `@IsAfter(date: Date)`                          | Checks if the date is a date that's after the specified date.                                    |
 | `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z).                                               |
 | `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers.                                            |
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only.                                                    |
 | `@IsBase64()`                                   | Checks if a string is base64 encoded.                                                              |
-| `@IsBefore(date: Date)`                         | Checks if the string is a date that's before the specified date.                                   |
+| `@IsBefore(date: Date)`                         | Checks if the date that's before the specified date.                                   |
 | `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                    |
 | `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                       |
 | `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range.                                         |
 | `@IsCreditCard()`                               | Checks if the string is a credit card.                                                             |
 | `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount.                                                   |
 | `@IsDate()`                                     | Checks if the string is a date.                                                                    |
-| `@IsDecimal()`                                  | Checks if the string represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.         |
 | `@IsDivisibleBy(number: number)`                | Checks if the string is a number that's divisible by another.                                      |
 | `@IsEmail(options?: IsEmailOptions)`            | Checks if the string is an email.                                                                  |
 | `@IsFQDN(options?: IsFQDNOptions)`              | Checks if the string is a fully qualified domain name (e.g. domain.com).                           |
@@ -338,18 +337,17 @@ Validator.matches(str, pattern, modifiers);
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                     |
 | `@IsIn(values: any[])`                          | Checks if the string is in a array of allowed values.                                              |
 | `@IsInt(options?: IsIntOptions)`                | Checks if the string is an integer.                                                                |
-| `@IsPositiveInt(options?: IsIntOptions)`        | Checks if the string is a positive integer.                                                                |
-| `@IsNegativeInt(options?: IsIntOptions)`        | Checks if the string is a negative integer.                                                                |
+| `@IsPositiveInt(options?: IsIntOptions)`        | Checks if the string is a positive integer.                                                        |
+| `@IsNegativeInt(options?: IsIntOptions)`        | Checks if the string is a negative integer.                                                        |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                |
 | `@IsLength(min: number, max?: number)`          | Checks if the string's length falls in a range.                                                    |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                 |
 | `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                     |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                  |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                         |
-| `@IsNull()`                                     | Checks if the string is null.                                                                      |
-| `@IsNumeric()`                                  | Checks if the string is numeric.                                                                   |
+| `@IsNumericString()`                            | Checks if the string is numeric.                                                                   |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                           |
-| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is a fully qualified domain name (e.g. domain.com).                           |
+| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url.                                                                    |
 | `@IsUUID(version?: number)`                     | Checks if the string is a UUID (version 3, 4 or 5).                                                |
 | `@IsUppercase()`                                | Checks if the string is uppercase.                                                                 |
 | `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                              |
@@ -382,6 +380,11 @@ usages.
     The library is under active development, and needs better testing and contributions from community. If you want
     to use it in production its highly recommended to fix library version that you use in your package.json file.
     Personally I use it in production.
+
+## Release notes
+
+**0.5.0**
+
 
 ## Todos
 

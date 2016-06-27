@@ -1,12 +1,12 @@
-import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, NotEmpty, NotEmptyArray, MinSize, MaxSize} from "../../src/decorators";
+import {IsContain, IsInt, IsMinLength, IsMaxLength, IsEmail, IsFQDN, IsDate, IsNotEmpty, IsNotEmptyArray, IsMinSize, IsMaxSize} from "../../src/decorators";
 
 export class Post {
 
-    @MinLength(10)
-    @MaxLength(20)
+    @IsMinLength(10)
+    @IsMaxLength(20)
     title: string;
 
-    @Contains("hello")
+    @IsContain("hello")
     text: string;
 
     @IsInt({ min: 0, max: 10 })
@@ -21,11 +21,11 @@ export class Post {
     @IsDate()
     createDate: Date;
 
-    @NotEmptyArray()
-    @MinSize(2)
-    @MaxSize(5)
-    @MinLength(3, { each: true, message: "Tag is too short" })
-    @MaxLength(50, { each: true, message: "Tag is too long" })
+    @IsNotEmptyArray()
+    @IsMinSize(2)
+    @IsMaxSize(5)
+    @IsMinLength(3, { each: true, message: "Tag is too short" })
+    @IsMaxLength(50, { each: true, message: "Tag is too long" })
     tags: string[];
 
 }

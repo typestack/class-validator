@@ -1,4 +1,4 @@
-import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, NotEmpty, NotEmptyArray, MinSize, MaxSize} from "../../src/decorators";
+import {IsContain, IsInt, IsMinLength, IsMaxLength, IsEmail, IsFQDN, IsDate, IsNotEmpty, IsNotEmptyArray, IsMinSize, IsMaxSize} from "../../src/decorators";
 import {Validate} from "../../src/decorators";
 import {CustomTextLength} from "./CustomTextLength";
 

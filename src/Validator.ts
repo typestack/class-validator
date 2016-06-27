@@ -2,7 +2,6 @@ import {ValidationMetadata} from "./metadata/ValidationMetadata";
 import {ValidationTypes} from "./ValidationTypes";
 import {defaultMetadataStorage} from "./metadata/MetadataStorage";
 import {ValidationErrorInterface} from "./ValidationErrorInterface";
-import {ValidationTypesUtils} from "./ValidationTypes";
 import {ValidationError} from "./ValidationError";
 import {ValidatorOptions, IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "./ValidatorOptions";
 import {ValidatorInterface} from "./ValidatorInterface";
@@ -58,7 +57,6 @@ export class Validator {
                 return <ValidationErrorInterface> {
                     property: metadata.propertyName,
                     errorCode: metadata.type,
-                    errorName: ValidationTypesUtils.getCodeName(metadata.type),
                     errorMessage: metadata.message,
                     value: value,
                     required: metadata.value1
@@ -453,7 +451,7 @@ export class Validator {
     /**
      * Checks if the string is numeric.
      */
-    isNumeric(str: string): boolean {
+    isNumericString(str: string): boolean {
         return validatatorJs.isNumeric(str);
     }
 
@@ -498,11 +496,11 @@ export class Validator {
 
     private performValidation(value: any, metadata: ValidationMetadata): boolean {
         switch (metadata.type) {
-            case ValidationTypes.CONTAINS:
+            case ValidationTypes.IS_CONTAIN:
                 return this.contains(value, metadata.value1);
-            case ValidationTypes.EQUALS:
+            case ValidationTypes.IS_EQUAL:
                 return this.equals(value, metadata.value1);
-            case ValidationTypes.IS_AFTER:
+            case ValidationTypes.IS_MIN_DATE:
                 return this.isAfter(value, metadata.value1);
             case ValidationTypes.IS_ALPHA:
                 return this.isAlpha(value);
@@ -512,7 +510,7 @@ export class Validator {
                 return this.isAscii(value);
             case ValidationTypes.IS_BASE64:
                 return this.isBase64(value);
-            case ValidationTypes.IS_BEFORE:
+            case ValidationTypes.IS_MAX_DATE:
                 return this.isBefore(value, metadata.value1);
             case ValidationTypes.IS_BOOLEAN_STRING:
                 return this.isBooleanString(value);
@@ -524,7 +522,7 @@ export class Validator {
                 return this.isCreditCard(value);
             case ValidationTypes.IS_CURRENCY:
                 return this.isCurrency(value, metadata.value1);
-            case ValidationTypes.IS_DATE:
+            case ValidationTypes.IS_DATE_STRING:
                 return this.isDate(value);
             case ValidationTypes.IS_DECIMAL:
                 return this.isDecimal(value);
@@ -578,10 +576,8 @@ export class Validator {
                 return this.isMongoId(value);
             case ValidationTypes.IS_MULTIBYTE:
                 return this.isMultibyte(value);
-            case ValidationTypes.IS_NULL:
-                return this.isNull(value);
-            case ValidationTypes.IS_NUMERIC:
-                return this.isNumeric(value);
+            case ValidationTypes.IS_NUMERIC_STRING:
+                return this.isNumericString(value);
             case ValidationTypes.IS_SURROGATE_PAIR:
                 return this.isSurrogatePair(value);
             case ValidationTypes.IS_URL:
@@ -590,7 +586,7 @@ export class Validator {
                 return this.isUUID(value, metadata.value1);
             case ValidationTypes.IS_UPPERCASE:
                 return this.isUppercase(value);
-            case ValidationTypes.MATCHES:
+            case ValidationTypes.IS_MATCH:
                 return this.matches(value, metadata.value1, metadata.value2);
 
             // custom validation types
@@ -598,20 +594,20 @@ export class Validator {
                 return this.isLength(value, metadata.value1);
             case ValidationTypes.MAX_LENGTH:
                 return this.isLength(value, 0, metadata.value1);
-            case ValidationTypes.MIN_NUMBER:
+            case ValidationTypes.IS_GREATER:
                 return this.isInt(value, { min: metadata.value1 });
-            case ValidationTypes.MAX_NUMBER:
+            case ValidationTypes.IS_LESS:
                 return this.isInt(value, { max: metadata.value1 });
-            case ValidationTypes.NOT_EMPTY:
+            case ValidationTypes.IS_NOT_EMPTY:
                 return !!value;
 
-            case ValidationTypes.NOT_EMPTY_ARRAY:
+            case ValidationTypes.IS_NOT_EMPTY_ARRAY:
                 return value instanceof Array && value.length > 0;
-            case ValidationTypes.MIN_SIZE:
+            case ValidationTypes.IS_MIN_SIZE:
                 if (value instanceof Array)
                     return value.length >= metadata.value1;
                 break;
-            case ValidationTypes.MAX_SIZE:
+            case ValidationTypes.IS_MAX_SIZE:
                 if (value instanceof Array)
                     return value.length <= metadata.value1;
                 break;

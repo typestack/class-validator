@@ -1,4 +1,4 @@
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate, ValidateNested} from "../../src/decorators";
+import {IsContain, IsInt, IsLength, IsEmail, IsFQDN, IsDate, NestedValidation} from "../../src/decorators";
 import {Tag} from "./Tag";
 
 export class Post {
@@ -8,7 +8,7 @@ export class Post {
     })
     title: string;
 
-    @ValidateNested()
+    @NestedValidation()
     tags: Tag[];
 
 }

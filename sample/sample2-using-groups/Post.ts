@@ -1,4 +1,4 @@
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/decorators";
+import {IsContain, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/decorators";
 
 export class Post {
 
@@ -12,7 +12,7 @@ export class Post {
     })
     title: string;
 
-    @Contains("hello", {
+    @IsContain("hello", {
         message: "It should contain word \"hello!\"",
         groups: ["users", "moderators"]
     })

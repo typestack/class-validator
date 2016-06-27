@@ -1,4 +1,4 @@
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/decorators";
+import {IsContain, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/decorators";
 
 export class Tag {
 
