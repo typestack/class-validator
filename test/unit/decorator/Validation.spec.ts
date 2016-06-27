@@ -187,7 +187,7 @@ describe("Contains", function() {
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         object.name = "bye world";
-        return return ifNotValid(object);
+        return ifNotValid(object);
     });
 
 });

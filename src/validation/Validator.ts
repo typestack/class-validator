@@ -9,7 +9,6 @@ import {
     IsIntOptions,
     IsCurrencyOptions
 } from "./ValidationTypeOptions";
-import * as validatatorJs from "validator";
 import {getFromContainer} from "../index";
 import {MetadataStorage} from "../metadata/MetadataStorage";
 import {ValidatorOptions} from "./ValidatorOptions";
@@ -22,7 +21,7 @@ export class Validator {
     // -------------------------------------------------------------------------
     // Properties
     // -------------------------------------------------------------------------
-
+    private validatorJs = require("validator");
     private metadataStorage = getFromContainer(MetadataStorage);
 
     // -------------------------------------------------------------------------
@@ -102,14 +101,14 @@ export class Validator {
      * Checks if the string contains the seed.
      */
     contains(str: string, seed: string): boolean {
-        return validatatorJs.contains(str, seed);
+        return this.validatorJs.contains(str, seed);
     }
 
     /**
      * Checks if the string matches the comparison.
      */
     equals(str: string, comparison: string): boolean {
-        return validatatorJs.equals(str, comparison);
+        return this.validatorJs.equals(str, comparison);
     }
 
     /**
@@ -122,35 +121,35 @@ export class Validator {
     isAfter(date: Date|string, afterDate: Date|string): boolean {
         const dateString = date instanceof Date ? date.toDateString() : date;
         const afterDateString = afterDate instanceof Date ? afterDate.toDateString() : afterDate;
-        return validatatorJs.isAfter(dateString, <any> afterDateString);
+        return this.validatorJs.isAfter(dateString, <any> afterDateString);
     }
 
     /**
      * Checks if the string contains only letters (a-zA-Z).
      */
     isAlpha(str: string): boolean {
-        return validatatorJs.isAlpha(str);
+        return this.validatorJs.isAlpha(str);
     }
 
     /**
      * Checks if the string contains only letters and numbers.
      */
     isAlphanumeric(str: string): boolean {
-        return validatatorJs.isAlphanumeric(str);
+        return this.validatorJs.isAlphanumeric(str);
     }
 
     /**
      * Checks if the string contains ASCII chars only.
      */
     isAscii(str: string): boolean {
-        return validatatorJs.isAscii(str);
+        return this.validatorJs.isAscii(str);
     }
 
     /**
      * Checks if a string is base64 encoded.
      */
     isBase64(str: string): boolean {
-        return validatatorJs.isBase64(str);
+        return this.validatorJs.isBase64(str);
     }
 
     /**
@@ -163,14 +162,14 @@ export class Validator {
     isBefore(date: Date|string, beforeDate: Date|string): boolean {
         const dateString = date instanceof Date ? date.toDateString() : date;
         const beforeDateString = beforeDate instanceof Date ? beforeDate.toDateString() : beforeDate;
-        return validatatorJs.isBefore(dateString, <any> beforeDateString);
+        return this.validatorJs.isBefore(dateString, <any> beforeDateString);
     }
 
     /**
      * Checks if a string is a boolean.
      */
     isBooleanString(str: any): boolean {
-        return validatatorJs.isBoolean(str);
+        return this.validatorJs.isBoolean(str);
     }
 
     /**
@@ -184,56 +183,56 @@ export class Validator {
      * Checks if the string's length (in bytes) falls in a range.
      */
     isByteLength(str: string, min: number, max?: number): boolean {
-        return validatatorJs.isByteLength(str, min, max);
+        return this.validatorJs.isByteLength(str, min, max);
     }
 
     /**
      * Checks if the string is a credit card.
      */
     isCreditCard(str: string): boolean {
-        return validatatorJs.isCreditCard(str);
+        return this.validatorJs.isCreditCard(str);
     }
 
     /**
      * Checks if the string is a valid currency amount.
      */
     isCurrency(str: string, options?: IsCurrencyOptions): boolean {
-        return validatatorJs.isCurrency(str, options);
+        return this.validatorJs.isCurrency(str, options);
     }
 
     /**
      * Checks if the string is a date.
      */
     isDate(str: string): boolean {
-        return validatatorJs.isDate(str);
+        return this.validatorJs.isDate(str);
     }
 
     /**
      * Checks if the string represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
      */
     isDecimal(str: string): boolean {
-        return validatatorJs.isDecimal(str);
+        return this.validatorJs.isDecimal(str);
     }
 
     /**
      * Checks if the string is a number that's divisible by another.
      */
     isDivisibleBy(str: string, num: number): boolean {
-        return validatatorJs.isDivisibleBy(str, num);
+        return this.validatorJs.isDivisibleBy(str, num);
     }
 
     /**
      * Checks if the string is an email.
      */
     isEmail(str: string, options?: IsEmailOptions): boolean {
-        return validatatorJs.isEmail(str, options);
+        return this.validatorJs.isEmail(str, options);
     }
 
     /**
      * Checks if the string is a fully qualified domain name (e.g. domain.com).
      */
     isFQDN(str: string, options?: IsFQDNOptions): boolean {
-        return validatatorJs.isFQDN(str, options);
+        return this.validatorJs.isFQDN(str, options);
     }
 
     /**
@@ -243,7 +242,7 @@ export class Validator {
     isFloat(val: string, options?: IsFloatOptions): boolean;
     isFloat(val: string|number, options?: IsFloatOptions): boolean {
         const numberString = String(val);
-        return validatatorJs.isFloat(numberString, options);
+        return this.validatorJs.isFloat(numberString, options);
     }
 
     /**
@@ -254,7 +253,7 @@ export class Validator {
     isPositiveFloat(val: string|number, options?: IsFloatOptions): boolean {
         const numberString = String(val);
         const num = typeof val === "number" ? val : parseFloat(<string> val);
-        return validatatorJs.isFloat(numberString, options) && num > 0;
+        return this.validatorJs.isFloat(numberString, options) && num > 0;
     }
 
     /**
@@ -265,77 +264,77 @@ export class Validator {
     isNegativeFloat(val: string|number, options?: IsFloatOptions): boolean {
         const numberString = String(val);
         const num = typeof val === "number" ? val : parseFloat(<string> val);
-        return validatatorJs.isFloat(numberString, options) && num < 0;
+        return this.validatorJs.isFloat(numberString, options) && num < 0;
     }
 
     /**
      * Checks if the string contains any full-width chars.
      */
     isFullWidth(str: string): boolean {
-        return validatatorJs.isFullWidth(str);
+        return this.validatorJs.isFullWidth(str);
     }
 
     /**
      * Checks if the string contains any half-width chars.
      */
     isHalfWidth(str: string): boolean {
-        return validatatorJs.isHalfWidth(str);
+        return this.validatorJs.isHalfWidth(str);
     }
 
     /**
      * Checks if the string contains variable-width chars.
      */
     isVariableWidth(str: string): boolean {
-        return validatatorJs.isVariableWidth(str);
+        return this.validatorJs.isVariableWidth(str);
     }
 
     /**
      * Checks if the string is a hexadecimal color.
      */
     isHexColor(str: string): boolean {
-        return validatatorJs.isHexColor(str);
+        return this.validatorJs.isHexColor(str);
     }
 
     /**
      * Checks if the string is a hexadecimal number.
      */
     isHexadecimal(str: string): boolean {
-        return validatatorJs.isHexadecimal(str);
+        return this.validatorJs.isHexadecimal(str);
     }
 
     /**
      * Checks if the string is an IP (version 4 or 6).
      */
     isIP(str: string, version?: number): boolean {
-        return validatatorJs.isIP(str, version);
+        return this.validatorJs.isIP(str, version);
     }
 
     /**
      * Checks if the string is an ISBN (version 10 or 13).
      */
     isISBN(str: string, version?: number): boolean {
-        return validatatorJs.isISBN(str, version);
+        return this.validatorJs.isISBN(str, version);
     }
 
     /**
      * Checks if the string is an ISIN (stock/security identifier).
      */
     isISIN(str: string): boolean {
-        return validatatorJs.isISIN(str);
+        return this.validatorJs.isISIN(str);
     }
 
     /**
      * Checks if the string is a valid ISO 8601 date.
      */
     isISO8601(str: string): boolean {
-        return validatatorJs.isISO8601(str);
+        return this.validatorJs.isISO8601(str);
     }
 
     /**
      * Checks if the string is in a array of allowed values.
      */
     isIn(str: string, values: any[]): boolean {
-        return validatatorJs.isIn(str, values);
+        return this.validatorJs.isIn(str, values);
     }
 
     /**
@@ -345,7 +344,7 @@ export class Validator {
     isInt(val: string, options?: IsIntOptions): boolean;
     isInt(val: string|number, options?: IsIntOptions): boolean {
         const numberString = String(val);
-        return validatatorJs.isInt(numberString, options);
+        return this.validatorJs.isInt(numberString, options);
     }
 
     /**
@@ -356,7 +355,7 @@ export class Validator {
     isPositiveInt(val: string|number, options?: IsIntOptions): boolean {
         const numberString = String(val);
         const num = typeof val === "number" ? val : parseInt(<string> val);
-        return validatatorJs.isInt(numberString, options) && num > 0;
+        return this.validatorJs.isInt(numberString, options) && num > 0;
     }
 
     /**
@@ -367,28 +366,28 @@ export class Validator {
     isNegativeInt(val: string|number, options?: IsIntOptions): boolean {
         const numberString = String(val);
         const num = typeof val === "number" ? val : parseInt(<string> val);
-        return validatatorJs.isInt(numberString, options) && num < 0;
+        return this.validatorJs.isInt(numberString, options) && num < 0;
     }
 
     /**
      * Checks if the string is valid JSON (note: uses JSON.parse).
      */
     isJSON(str: string): boolean {
-        return validatatorJs.isJSON(str);
+        return this.validatorJs.isJSON(str);
     }
 
     /**
      * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
      */
     isLength(str: string, min: number, max?: number): boolean {
-        return typeof str === "string" && validatatorJs.isLength(str, min, max);
+        return typeof str === "string" && this.validatorJs.isLength(str, min, max);
     }
 
     /**
      * Checks if the string is lowercase.
      */
     isLowercase(str: string): boolean {
-        return validatatorJs.isLowercase(str);
+        return this.validatorJs.isLowercase(str);
     }
 
     /**
@@ -396,21 +395,21 @@ export class Validator {
      * 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
      */
     isMobilePhone(str: string, locale: string): boolean {
-        return validatatorJs.isMobilePhone(str, locale);
+        return this.validatorJs.isMobilePhone(str, locale);
     }
 
     /**
      * Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
      */
     isMongoId(str: string): boolean {
-        return validatatorJs.isMongoId(str);
+        return this.validatorJs.isMongoId(str);
     }
 
     /**
      * Checks if the string contains one or more multibyte chars.
      */
     isMultibyte(str: string): boolean {
-        return validatatorJs.isMultibyte(str);
+        return this.validatorJs.isMultibyte(str);
     }
 
     /**
@@ -425,42 +424,42 @@ export class Validator {
      * Checks if the string is numeric.
      */
     isNumericString(str: string): boolean {
-        return validatatorJs.isNumeric(str);
+        return this.validatorJs.isNumeric(str);
     }
 
     /**
      * Checks if the string contains any surrogate pairs chars.
      */
     isSurrogatePair(str: string): boolean {
-        return validatatorJs.isSurrogatePair(str);
+        return this.validatorJs.isSurrogatePair(str);
     }
 
     /**
      * Checks if the string contains any surrogate pairs chars.
      */
     isURL(str: string, options?: IsURLOptions): boolean {
-        return validatatorJs.isURL(str, options);
+        return this.validatorJs.isURL(str, options);
     }
 
     /**
      * Checks if the string is a UUID (version 3, 4 or 5).
      */
     isUUID(str: string, version?: number): boolean {
-        return validatatorJs.isUUID(str, version);
+        return this.validatorJs.isUUID(str, version);
     }
 
     /**
      * Checks if the string is uppercase.
      */
     isUppercase(str: string): boolean {
-        return validatatorJs.isUppercase(str);
+        return this.validatorJs.isUppercase(str);
     }
 
     /**
      * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
      */
     matches(str: string, pattern: RegExp, modifiers?: string): boolean {
-        return validatatorJs.matches(str, pattern, modifiers);
+        return this.validatorJs.matches(str, pattern, modifiers);
     }
 
     // -------------------------------------------------------------------------
