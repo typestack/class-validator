@@ -48,19 +48,3 @@ export interface IsFQDNOptions {
     allow_underscores?: boolean;
     allow_trailing_dot?: boolean;
 }
-
-/**
- * Options to be passed to IsFloat decorator.
- */
-export interface IsFloatOptions {
-    min?: number;
-    max?: number;
-}
-
-/**
- * Options to be passed to IsInt decorator.
- */
-export interface IsIntOptions {
-    min?: number;
-    max?: number;
-}

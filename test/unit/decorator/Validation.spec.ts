@@ -1,10 +1,8 @@
 import {expect} from "chai";
 import {
     IsBooleanString,
-    IsPositiveInt,
-    IsNegativeInt,
-    IsPositiveFloat,
-    IsNegativeFloat,
+    IsPositive,
+    IsNegative,
     IsContain,
     IsEqual,
     IsMinDate,
@@ -22,7 +20,6 @@ import {
     IsDivisibleBy,
     IsEmail,
     IsFQDN,
-    IsFloat,
     IsFullWidth,
     IsHalfWidth,
     IsVariableWidth,
@@ -38,7 +35,7 @@ import {
     IsLowercase,
     IsMongoId,
     IsMultibyte,
-    IsNumericString,
+    IsNumberString,
     IsSurrogatePair,
     IsUrl,
     IsUUID,
@@ -55,7 +52,6 @@ import {
 } from "../../../src/decorator/decorators";
 import {CustomValidator} from "../../../src/validation/CustomValidator";
 import {Validator} from "../../../src/validation/Validator";
-import {ValidationError} from "../../../src/validation/ValidationError";
 
 let validator: Validator;
 
@@ -778,136 +774,6 @@ describe("IsFQDN", function() {
 
 });
 
-describe("IsFloat", function() {
-
-    class MyClass {
-        @IsFloat()
-        num: string;
-    }
-
-    it("should not fail validation if property is valid", function() {
-        const object = new MyClass();
-        [
-            "123"
-            , "123."
-            , "123.123"
-            , "-123.123"
-            , "-0.123"
-            , "+0.123"
-            , "0.123"
-            , ".0"
-            , "01.123"
-            , "-0.22250738585072011e-307"
-        ]
-            .forEach(i => {
-                object.num = i;
-                return ifValid(object);
-            });
-    });
-
-    it("should fail validation if property is not valid", function() {
-        const object = new MyClass();
-        [
-            "-.123"
-            , "  "
-            , ""
-            , "."
-            , "foo"
-        ]
-            .forEach(i => {
-                object.num = i;
-                return ifNotValid(object);
-            });
-    });
-
-});
-
-describe("IsPositiveFloat", function() {
-
-    class MyClass {
-        @IsPositiveFloat()
-        num: string;
-    }
-
-    it("should not fail validation if property is valid", function() {
-        const object = new MyClass();
-        [
-            57.31,
-            "123"
-            , "123."
-            , "123.123"
-            , "+0.123"
-            , "0.123"
-            , "01.123"
-        ]
-            .forEach(i => {
-                object.num = <any> i;
-                return ifValid(object);
-            });
-    });
-
-    it("should fail validation if property is not valid", function() {
-        const object = new MyClass();
-        [
-            -57.31,
-            0,
-            "0"
-            , "-123.123"
-            , "-0.123"
-            , "-0.22250738585072011e-307"
-        ]
-            .forEach(i => {
-                object.num = <any> i;
-                return ifNotValid(object);
-            });
-    });
-
-});
-
-describe("IsNegativeFloat", function() {
-
-    class MyClass {
-        @IsNegativeFloat()
-        num: string;
-    }
-
-    it("should not fail validation if property is valid", function() {
-        const object = new MyClass();
-        [
-            -57.31
-            , "-123.123"
-            , "-0.123"
-            , "-0.22250738585072011e-307"
-        ]
-            .forEach(i => {
-                object.num = <any> i;
-                return ifValid(object);
-            });
-    });
-
-    it("should fail validation if property is not valid", function() {
-        const object = new MyClass();
-        [
-            0,
-            "0",
-            57.31,
-            "123"
-            , "123."
-            , "123.123"
-            , "+0.123"
-            , "0.123"
-            , ".0"
-            , "01.123"
-            , "   "
-            , ""]
-            .forEach(i => {
-                object.num = <any> i;
-                return ifNotValid(object);
-            });
-    });
-
-});
-
 describe("IsFullWidth", function() {
 
     class MyClass {
@@ -1382,7 +1248,7 @@ describe("IsInt", function() {
 describe("IsPositiveInt", function() {
 
     class MyClass {
-        @IsPositiveInt()
+        @IsPositive()
         num: string;
     }
 
@@ -1430,7 +1296,7 @@ describe("IsPositiveInt", function() {
 describe("IsNegativeInt", function() {
 
     class MyClass {
-        @IsNegativeInt()
+        @IsNegative()
         num: string;
     }
 
@@ -1633,7 +1499,7 @@ describe("IsMultibyte", function() {
 describe("IsNumeric", function() {
 
     class MyClass {
-        @IsNumericString()
+        @IsNumberString()
         num: string;
     }
 

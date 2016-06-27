@@ -4,9 +4,7 @@ import {ValidationError} from "./ValidationError";
 import {
     IsEmailOptions,
     IsFQDNOptions,
-    IsFloatOptions,
     IsURLOptions,
-    IsIntOptions,
     IsCurrencyOptions
 } from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
@@ -39,12 +37,69 @@ export class Validator {
      */
     validateBasedOnMetadata(value: any, metadata: ValidationMetadata): boolean {
         switch (metadata.type) {
-            case ValidationTypes.IS_CONTAIN:
-                return this.contains(value, metadata.value1);
+            /* common checkers */
             case ValidationTypes.IS_EQUAL:
                 return this.equals(value, metadata.value1);
+            case ValidationTypes.IS_NOT_EQUAL:
+                return this.notEquals(value, metadata.value1);
+            case ValidationTypes.IS_EMPTY:
+                return this.empty(value);
+            case ValidationTypes.IS_NOT_EMPTY:
+                return this.notEmpty(value);
+            case ValidationTypes.IS_IN:
+                return this.isIn(value, metadata.value1);
+            case ValidationTypes.IS_NOT_IN:
+                return this.isNotIn(value, metadata.value1);
+
+            /* type checkers */
+            case ValidationTypes.IS_BOOLEAN:
+                return this.isBoolean(value);
+            case ValidationTypes.IS_DATE:
+                return this.isDate(value);
+            case ValidationTypes.IS_NUMBER:
+                return this.isNumber(value);
+            case ValidationTypes.IS_STRING:
+                return this.isString(value);
+
+            /* number checkers */
+            case ValidationTypes.IS_DIVISIBLE_BY:
+                return this.isDivisibleBy(value, metadata.value1);
+            case ValidationTypes.IS_DECIMAL:
+                return this.isDecimal(value);
+            case ValidationTypes.IS_INT:
+                return this.isInt(value);
+            case ValidationTypes.IS_POSITIVE:
+                return this.isPositive(value);
+            case ValidationTypes.IS_NEGATIVE:
+                return this.isNegative(value);
+            case ValidationTypes.IS_GREATER:
+                return this.isGreater(value, metadata.value1);
+            case ValidationTypes.IS_LESS:
+                return this.isLess(value, metadata.value1);
+
+            /* date checkers */
             case ValidationTypes.IS_MIN_DATE:
-                return this.isAfter(value, metadata.value1);
+                return this.isMinDate(value, metadata.value1);
+            case ValidationTypes.IS_MAX_DATE:
+                return this.isMaxDate(value, metadata.value1);
+
+            /* regexp checkers */
+            case ValidationTypes.IS_MATCH:
+                return this.matches(value, metadata.value1, metadata.value2);
+
+            /* string-as-type checkers */
+            case ValidationTypes.IS_BOOLEAN_STRING:
+                return this.isBooleanString(value);
+            case ValidationTypes.IS_DATE_STRING:
+                return this.isDateString(value);
+            case ValidationTypes.IS_NUMBER_STRING:
+                return this.isNumberString(value);
+
+            /* string checkers */
+            case ValidationTypes.IS_CONTAIN:
+                return this.contains(value, metadata.value1);
+            case ValidationTypes.IS_NOT_CONTAIN:
+                return this.notContains(value, metadata.value1);
             case ValidationTypes.IS_ALPHA:
                 return this.isAlpha(value);
             case ValidationTypes.IS_ALPHANUMERIC:
@@ -53,34 +108,16 @@ export class Validator {
                 return this.isAscii(value);
             case ValidationTypes.IS_BASE64:
                 return this.isBase64(value);
-            case ValidationTypes.IS_MAX_DATE:
-                return this.isBefore(value, metadata.value1);
-            case ValidationTypes.IS_BOOLEAN_STRING:
-                return this.isBooleanString(value);
-            case ValidationTypes.IS_BOOLEAN:
-                return this.isBoolean(value);
             case ValidationTypes.IS_BYTE_LENGTH:
                 return this.isByteLength(value, metadata.value1, metadata.value2);
             case ValidationTypes.IS_CREDIT_CARD:
                 return this.isCreditCard(value);
             case ValidationTypes.IS_CURRENCY:
                 return this.isCurrency(value, metadata.value1);
-            case ValidationTypes.IS_DATE_STRING:
-                return this.isDate(value);
-            case ValidationTypes.IS_DECIMAL:
-                return this.isDecimal(value);
-            case ValidationTypes.IS_DIVISIBLE_BY:
-                return this.isDivisibleBy(value, metadata.value1);
             case ValidationTypes.IS_EMAIL:
                 return this.isEmail(value, metadata.value1);
             case ValidationTypes.IS_FQDN:
                 return this.isFQDN(value, metadata.value1);
-            case ValidationTypes.IS_FLOAT:
-                return this.isFloat(value, metadata.value1);
-            case ValidationTypes.IS_POSITIVE_FLOAT:
-                return this.isPositiveFloat(value, metadata.value1);
-            case ValidationTypes.IS_NEGATIVE_FLOAT:
-                return this.isNegativeFloat(value, metadata.value1);
             case ValidationTypes.IS_FULL_WIDTH:
                 return this.isFullWidth(value);
             case ValidationTypes.IS_HALF_WIDTH:
@@ -99,14 +136,6 @@ export class Validator {
                 return this.isISIN(value);
             case ValidationTypes.IS_ISO8601:
                 return this.isISO8601(value);
-            case ValidationTypes.IS_IN:
-                return this.isIn(value, metadata.value1);
-            case ValidationTypes.IS_INT:
-                return this.isInt(value, metadata.value1);
-            case ValidationTypes.IS_POSITIVE_INT:
-                return this.isPositiveInt(value, metadata.value1);
-            case ValidationTypes.IS_NEGATIVE_INT:
-                return this.isNegativeInt(value, metadata.value1);
             case ValidationTypes.IS_JSON:
                 return this.isJSON(value);
             case ValidationTypes.IS_LENGTH:
@@ -119,8 +148,6 @@ export class Validator {
                 return this.isMongoId(value);
             case ValidationTypes.IS_MULTIBYTE:
                 return this.isMultibyte(value);
-            case ValidationTypes.IS_NUMERIC_STRING:
-                return this.isNumericString(value);
             case ValidationTypes.IS_SURROGATE_PAIR:
                 return this.isSurrogatePair(value);
             case ValidationTypes.IS_URL:
@@ -129,37 +156,218 @@ export class Validator {
                 return this.isUUID(value, metadata.value1);
             case ValidationTypes.IS_UPPERCASE:
                 return this.isUppercase(value);
-            case ValidationTypes.IS_MATCH:
-                return this.matches(value, metadata.value1, metadata.value2);
-
-            // custom validation types
             case ValidationTypes.MIN_LENGTH:
                 return this.isLength(value, metadata.value1);
             case ValidationTypes.MAX_LENGTH:
                 return this.isLength(value, 0, metadata.value1);
-            case ValidationTypes.IS_GREATER:
-                return this.isInt(value, { min: metadata.value1 });
-            case ValidationTypes.IS_LESS:
-                return this.isInt(value, { max: metadata.value1 });
-            case ValidationTypes.IS_NOT_EMPTY:
-                return !!value;
 
+            /* array checkers */
+            case ValidationTypes.IS_CONTAIN_IN_ARRAY:
+                return this.containInArray(value, metadata.value1);
+            case ValidationTypes.IS_NOT_CONTAIN_IN_ARRAY:
+                return this.notContainInArray(value, metadata.value1);
             case ValidationTypes.IS_NOT_EMPTY_ARRAY:
-                return value instanceof Array && value.length > 0;
+                return this.isNotEmptyArray(value);
             case ValidationTypes.IS_MIN_SIZE:
-                if (value instanceof Array)
-                    return value.length >= metadata.value1;
-                break;
+                return this.isMinSize(value, metadata.value1);
             case ValidationTypes.IS_MAX_SIZE:
-                if (value instanceof Array)
-                    return value.length <= metadata.value1;
-                break;
+                return this.isMaxSize(value, metadata.value1);
+            case ValidationTypes.IS_ALL_UNIQUE:
+                return this.isAllUnique(value);
         }
         return true;
     }
 
     // -------------------------------------------------------------------------
-    // Validation Methods
+    // Validation Methods: common checkers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Checks if value matches ("===") the comparison.
+     */
+    equals(value: any, comparison: any): boolean {
+        return value === comparison;
+    }
+
+    /**
+     * Checks if value does not match ("!==") the comparison.
+     */
+    notEquals(value: any, comparison: any): boolean {
+        return value !== comparison;
+    }
+
+    /**
+     * Checks if given value is empty (=== '', === null, === undefined).
+     */
+    empty(value: any): boolean {
+        return value === "" || value === null || value === undefined;
+    }
+
+    /**
+     * Checks if given value is not empty (!== '', !== null, !== undefined).
+     */
+    notEmpty(value: any): boolean {
+        return value !== "" && value !== null && value !== undefined;
+    }
+
+    /**
+     * Checks if given value is in a array of allowed values.
+     */
+    isIn(value: any, possibleValues: any[]): boolean {
+        return possibleValues.some(possibleValue => possibleValue === value);
+    }
+
+    /**
+     * Checks if given value not in a array of allowed values.
+     */
+    isNotIn(value: any, possibleValues: any[]): boolean {
+        return !possibleValues.some(possibleValue => possibleValue === value);
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Methods: type checkers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Checks if a given value is a real boolean.
+     */
+    isBoolean(value: any): boolean {
+        return value instanceof Boolean || typeof value === "boolean";
+    }
+
+    /**
+     * Checks if a given value is a real date.
+     */
+    isDate(value: any): boolean {
+        return value instanceof Date;
+    }
+
+    /**
+     * Checks if a given value is a real number.
+     */
+    isNumber(value: any): boolean {
+        return value instanceof Number || typeof value === "number";
+    }
+
+    /**
+     * Checks if a given value is a real string.
+     */
+    isString(value: any): boolean {
+        return value instanceof String || typeof value === "string";
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Methods: number checkers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Checks if value is a number that's divisible by another.
+     */
+    isDivisibleBy(value: number, num: number): boolean {
+        const numberString = String(value); // fix it
+        return this.validatorJs.isDivisibleBy(numberString, num);
+    }
+
+    /**
+     * Checks if value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
+     */
+    isDecimal(value: number): boolean {
+        const numberString = String(value); // fix it
+        return this.validatorJs.isDecimal(numberString);
+    }
+
+    /**
+     * Checks if value is an integer.
+     */
+    isInt(val: number): boolean {
+        const numberString = String(val); // fix it
+        return this.validatorJs.isInt(numberString);
+    }
+
+    /**
+     * Checks if the value is a positive integer.
+     */
+    isPositive(value: number): boolean {
+        return value > 0;
+    }
+
+    /**
+     * Checks if the value is a negative integer.
+     */
+    isNegative(value: number): boolean {
+        return value < 0;
+    }
+
+    /**
+     * Checks if the first number is greater then second.
+     */
+    isGreater(first: number, second: number): boolean {
+        return first > second;
+    }
+
+    /**
+     * Checks if the first number is less then second.
+     */
+    isLess(first: number, second: number): boolean {
+        return first > second;
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Methods: date checkers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Checks if the value is a date that's after the specified date.
+     */
+    isMinDate(date: Date, minDate: Date): boolean {
+        return date.getTime() <= minDate.getTime();
+    }
+
+    /**
+     * Checks if the value is a date that's before the specified date.
+     */
+    isMaxDate(date: Date, maxDate: Date): boolean {
+        return date.getTime() >= maxDate.getTime();
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Methods: regexp checkers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+     */
+    matches(str: string, pattern: RegExp, modifiers?: string): boolean {
+        return this.validatorJs.matches(str, pattern, modifiers);
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Methods: string-as-type checkers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Checks if a string is a boolean.
+     */
+    isBooleanString(str: any): boolean {
+        return this.validatorJs.isBoolean(str);
+    }
+
+    /**
+     * Checks if the string is a date.
+     */
+    isDateString(str: string): boolean {
+        return this.validatorJs.isDate(str);
+    }
+
+    /**
+     * Checks if the string is numeric.
+     */
+    isNumberString(str: string): boolean {
+        return this.validatorJs.isNumeric(str);
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Methods: string checkers
     // -------------------------------------------------------------------------
 
     /**
@@ -170,23 +378,10 @@ export class Validator {
     }
 
     /**
-     * Checks if the string matches the comparison.
+     * Checks if the string does not contain the seed.
      */
-    equals(str: string, comparison: string): boolean {
-        return this.validatorJs.equals(str, comparison);
-    }
-
-    /**
-     * Checks if the string is a date that's after the specified date.
-     */
-    isAfter(date: string, afterDate: Date): boolean;
-    isAfter(date: Date, afterDate: string): boolean;
-    isAfter(date: string, afterDate: string): boolean;
-    isAfter(date: Date, afterDate: Date): boolean;
-    isAfter(date: Date|string, afterDate: Date|string): boolean {
-        const dateString = date instanceof Date ? date.toDateString() : date;
-        const afterDateString = afterDate instanceof Date ? afterDate.toDateString() : afterDate;
-        return this.validatorJs.isAfter(dateString, <any> afterDateString);
+    notContains(str: string, seed: string): boolean {
+        return !this.validatorJs.contains(str, seed);
     }
 
     /**
@@ -218,33 +413,6 @@ export class Validator {
     }
 
     /**
-     * Checks if the string is a date that's before the specified date.
-     */
-    isBefore(date: string, beforeDate: Date): boolean;
-    isBefore(date: Date, beforeDate: string): boolean;
-    isBefore(date: string, beforeDate: string): boolean;
-    isBefore(date: Date, beforeDate: Date): boolean;
-    isBefore(date: Date|string, beforeDate: Date|string): boolean {
-        const dateString = date instanceof Date ? date.toDateString() : date;
-        const beforeDateString = beforeDate instanceof Date ? beforeDate.toDateString() : beforeDate;
-        return this.validatorJs.isBefore(dateString, <any> beforeDateString);
-    }
-
-    /**
-     * Checks if a string is a boolean.
-     */
-    isBooleanString(str: any): boolean {
-        return this.validatorJs.isBoolean(str);
-    }
-
-    /**
-     * Checks if a boolean is a real boolean;
-     */
-    isBoolean(value: any): boolean {
-        return value instanceof Boolean || typeof value === "boolean";
-    }
-
-    /**
      * Checks if the string's length (in bytes) falls in a range.
      */
     isByteLength(str: string, min: number, max?: number): boolean {
@@ -266,27 +434,6 @@ export class Validator {
     }
 
     /**
-     * Checks if the string is a date.
-     */
-    isDate(str: string): boolean {
-        return this.validatorJs.isDate(str);
-    }
-
-    /**
-     * Checks if the string represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
-     */
-    isDecimal(str: string): boolean {
-        return this.validatorJs.isDecimal(str);
-    }
-
-    /**
-     * Checks if the string is a number that's divisible by another.
-     */
-    isDivisibleBy(str: string, num: number): boolean {
-        return this.validatorJs.isDivisibleBy(str, num);
-    }
-
-    /**
      * Checks if the string is an email.
      */
     isEmail(str: string, options?: IsEmailOptions): boolean {
@@ -298,38 +445,6 @@ export class Validator {
      */
     isFQDN(str: string, options?: IsFQDNOptions): boolean {
         return this.validatorJs.isFQDN(str, options);
-    }
-
-    /**
-     * Checks if the string is a float.
-     */
-    isFloat(val: number, options?: IsFloatOptions): boolean;
-    isFloat(val: string, options?: IsFloatOptions): boolean;
-    isFloat(val: string|number, options?: IsFloatOptions): boolean {
-        const numberString = String(val);
-        return this.validatorJs.isFloat(numberString, options);
-    }
-
-    /**
-     * Checks if the string is a positive float.
-     */
-    isPositiveFloat(val: number, options?: IsFloatOptions): boolean;
-    isPositiveFloat(val: string, options?: IsFloatOptions): boolean;
-    isPositiveFloat(val: string|number, options?: IsFloatOptions): boolean {
-        const numberString = String(val);
-        const num = typeof val === "number" ? val : parseFloat(<string> val);
-        return this.validatorJs.isFloat(numberString, options) && num > 0;
-    }
-
-    /**
-     * Checks if the string is a negative float.
-     */
-    isNegativeFloat(val: number, options?: IsFloatOptions): boolean;
-    isNegativeFloat(val: string, options?: IsFloatOptions): boolean;
-    isNegativeFloat(val: string|number, options?: IsFloatOptions): boolean {
-        const numberString = String(val);
-        const num = typeof val === "number" ? val : parseFloat(<string> val);
-        return this.validatorJs.isFloat(numberString, options) && num < 0;
     }
 
     /**
@@ -396,45 +511,6 @@ export class Validator {
     }
 
     /**
-     * Checks if the string is in a array of allowed values.
-     */
-    isIn(str: string, values: any[]): boolean {
-        return this.validatorJs.isIn(str, values);
-    }
-
-    /**
-     * Checks if the string is an integer.
-     */
-    isInt(val: number, options?: IsIntOptions): boolean;
-    isInt(val: string, options?: IsIntOptions): boolean;
-    isInt(val: string|number, options?: IsIntOptions): boolean {
-        const numberString = String(val);
-        return this.validatorJs.isInt(numberString, options);
-    }
-
-    /**
-     * Checks if the string is a positive integer.
-     */
-    isPositiveInt(val: number, options?: IsIntOptions): boolean;
-    isPositiveInt(val: string, options?: IsIntOptions): boolean;
-    isPositiveInt(val: string|number, options?: IsIntOptions): boolean {
-        const numberString = String(val);
-        const num = typeof val === "number" ? val : parseInt(<string> val);
-        return this.validatorJs.isInt(numberString, options) && num > 0;
-    }
-
-    /**
-     * Checks if the string is a negative integer.
-     */
-    isNegativeInt(val: number, options?: IsIntOptions): boolean;
-    isNegativeInt(val: string, options?: IsIntOptions): boolean;
-    isNegativeInt(val: string|number, options?: IsIntOptions): boolean {
-        const numberString = String(val);
-        const num = typeof val === "number" ? val : parseInt(<string> val);
-        return this.validatorJs.isInt(numberString, options) && num < 0;
-    }
-
-    /**
      * Checks if the string is valid JSON (note: uses JSON.parse).
      */
     isJSON(str: string): boolean {
@@ -478,21 +554,6 @@ export class Validator {
     }
 
     /**
-     * Checks if value is null.
-     * @deprecated
-     */
-    isNull(value: any): boolean {
-        return value === null;
-    }
-
-    /**
-     * Checks if the string is numeric.
-     */
-    isNumericString(str: string): boolean {
-        return this.validatorJs.isNumeric(str);
-    }
-
-    /**
      * Checks if the string contains any surrogate pairs chars.
      */
     isSurrogatePair(str: string): boolean {
@@ -521,10 +582,64 @@ export class Validator {
     }
 
     /**
-     * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+     * Checks if the string's length is not less then given number. Note: this function takes into account surrogate pairs.
      */
-    matches(str: string, pattern: RegExp, modifiers?: string): boolean {
-        return this.validatorJs.matches(str, pattern, modifiers);
+    isMinLength(str: string, min: number) {
+        return this.isLength(str, min);
+    }
+
+    /**
+     * Checks if the string's length is not more then given number. Note: this function takes into account surrogate pairs.
+     */
+    isMaxLength(str: string, max: number) {
+        return this.isLength(str, 0, max);
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Methods: array checkers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Checks if array contains all values from the given array of values.
+     */
+    containInArray(array: any[], values: any[]) {
+        return values.every(value => array.indexOf(value) !== -1);
+    }
+
+    /**
+     * Checks if array does not contain any of the given values.
+     */
+    notContainInArray(array: any[], values: any[]) {
+        return values.every(value => array.indexOf(value) === -1);
+    }
+
+    /**
+     * Checks if given array is not empty.
+     */
+    isNotEmptyArray(array: any[]) {
+        return array.length === 0;
+    }
+
+    /**
+     * Checks if array's length is as minimal this number.
+     */
+    isMinSize(array: any[], min: number) {
+        return array.length >= min;
+    }
+
+    /**
+     * Checks if array's length is as maximal this number.
+     */
+    isMaxSize(array: any[], max: number) {
+        return array.length <= max;
+    }
+
+    /**
+     * Checks if all array's values are unique. Comparison for objects is reference-based.
+     */
+    isAllUnique(array: any[]) {
+        const uniqueItems = array.filter((a, b, c) => c.indexOf(a) === b);
+        return array.length === uniqueItems.length;
     }
 
 }

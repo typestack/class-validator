@@ -9,7 +9,7 @@ export class Post {
     @IsContain("hello")
     text: string;
 
-    @IsInt({ min: 0, max: 10 })
+    @IsInt()
     rating: number;
 
     @IsEmail()

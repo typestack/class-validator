@@ -18,7 +18,7 @@ export class Post {
     })
     text: string;
 
-    @IsInt({ min: 0, max: 10 })
+    @IsInt()
     rating: number;
 
     @IsEmail(null, {

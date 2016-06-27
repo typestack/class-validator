@@ -24,12 +24,9 @@ export class ValidationTypes {
     /* number checkers */
     static IS_DIVISIBLE_BY = "divisible_by";
     static IS_DECIMAL = "decimal";
-    static IS_FLOAT = "float";
-    static IS_POSITIVE_FLOAT = "positive_float";
-    static IS_NEGATIVE_FLOAT = "negative_float";
     static IS_INT = "int";
-    static IS_POSITIVE_INT = "positive_int";
-    static IS_NEGATIVE_INT = "negative_int";
+    static IS_POSITIVE = "positive";
+    static IS_NEGATIVE = "negative";
     static IS_GREATER = "greater";
     static IS_LESS = "less";
 
@@ -40,10 +37,10 @@ export class ValidationTypes {
     /* regexp checkers */
     static IS_MATCH = "match";
 
-    /* string-as-types checkers */
+    /* string-as-type checkers */
     static IS_BOOLEAN_STRING = "boolean_string";
     static IS_DATE_STRING = "date_string";
-    static IS_NUMERIC_STRING = "numeric_string";
+    static IS_NUMBER_STRING = "numeric_string";
 
     /* string checkers */
     static IS_CONTAIN = "contain";

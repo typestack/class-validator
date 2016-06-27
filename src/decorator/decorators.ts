@@ -1,5 +1,5 @@
 import {ValidationTypes} from "../validation/ValidationTypes";
-import {IsEmailOptions, IsFQDNOptions, IsFloatOptions, IsURLOptions, IsIntOptions, IsCurrencyOptions} from "../validation/ValidationTypeOptions";
+import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
@@ -250,63 +250,14 @@ export function IsDecimal(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the value is a float number.
- */
-export function IsFloat(options?: IsFloatOptions, validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_FLOAT,
-            target: object.constructor,
-            propertyName: propertyName,
-            value1: options,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if the value is a positive float number.
- */
-export function IsPositiveFloat(options?: IsFloatOptions, validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_POSITIVE_FLOAT,
-            target: object.constructor,
-            propertyName: propertyName,
-            value1: options,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if the value is a negative float number.
- */
-export function IsNegativeFloat(options?: IsFloatOptions, validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NEGATIVE_FLOAT,
-            target: object.constructor,
-            propertyName: propertyName,
-            value1: options,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
  * Checks if the value is an integer number.
  */
-export function IsInt(options?: IsIntOptions, validationOptions?: ValidationOptions) {
+export function IsInt(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_INT,
             target: object.constructor,
             propertyName: propertyName,
-            value1: options,
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -316,13 +267,12 @@ export function IsInt(options?: IsIntOptions, validationOptions?: ValidationOpti
 /**
  * Checks if the value is a positive integer number.
  */
-export function IsPositiveInt(options?: IsIntOptions, validationOptions?: ValidationOptions) {
+export function IsPositive(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_POSITIVE_INT,
+            type: ValidationTypes.IS_POSITIVE,
             target: object.constructor,
             propertyName: propertyName,
-            value1: options,
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -332,13 +282,12 @@ export function IsPositiveInt(options?: IsIntOptions, validationOptions?: Valida
 /**
  * Checks if the value is a negative integer number.
  */
-export function IsNegativeInt(options?: IsIntOptions, validationOptions?: ValidationOptions) {
+export function IsNegative(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NEGATIVE_INT,
+            type: ValidationTypes.IS_NEGATIVE,
             target: object.constructor,
             propertyName: propertyName,
-            value1: options,
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -476,12 +425,12 @@ export function IsDateString(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the string is numeric.
+ * Checks if the string is a number.
  */
-export function IsNumericString(validationOptions?: ValidationOptions) {
+export function IsNumberString(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NUMERIC_STRING,
+            type: ValidationTypes.IS_NUMBER_STRING,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
