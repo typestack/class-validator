@@ -16,7 +16,7 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
 
     private errors: ValidationError[] = [];
-    private awaitingPromises: Promise<any>[];
+    private awaitingPromises: Promise<any>[] = [];
 
     // -------------------------------------------------------------------------
     // Private Properties
@@ -55,7 +55,7 @@ export class ValidationExecutor {
                 return;
 
             this.defaultValidations(value, metadatas);
-            this.customValidations(value, customValidationMetadatas);
+            this.customValidations(object, value, customValidationMetadatas);
             this.nestedValidations(value, nestedValidationMetadatas);
         });
 
@@ -65,6 +65,46 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
     // Private Methods
     // -------------------------------------------------------------------------
+
+    private defaultValidations(value: any, metadatas: ValidationMetadata[]) {
+        return metadatas
+            .filter(metadata => {
+                if (metadata.each) {
+                    if (value instanceof Array) {
+                        return !value.every((subValue: any) => this.validator.validateBasedOnMetadata(subValue, metadata));
+                        // } else {
+                        //     throw new Error(`Cannot validate ${(metadata.target as any).name}#${metadata.propertyName} because supplied value is not an array, however array is expected for validation.`);
+                    }
+
+                } else {
+                    return !this.validator.validateBasedOnMetadata(value, metadata);
+                }
+            })
+            .forEach(metadata => {
+                this.errors.push(this.createValidationError(value, metadata));
+            });
+    }
+
+    private customValidations(object: Object, value: any, metadatas: ValidationMetadata[]) {
+        metadatas.forEach(metadata => {
+            this.metadataStorage
+                .getTargetValidatorConstraints(metadata.value1 as Function)
+                .forEach(customConstraintMetadata => {
+                    const validatedValue = customConstraintMetadata.instance.validate(value, object);
+                    if (validatedValue instanceof Promise) {
+                        const promise = validatedValue.then(isValid => {
+                            if (!isValid) {
+                                this.errors.push(this.createValidationError(value, metadata));
+                            }
+                        });
+                        this.awaitingPromises.push(promise);
+                    } else {
+                        if (!validatedValue)
+                            this.errors.push(this.createValidationError(value, metadata));
+                    }
+                });
+        });
+    }
     
     private nestedValidations(value: any, metadatas: ValidationMetadata[]) {
         metadatas.forEach(metadata => {
@@ -81,52 +121,26 @@ export class ValidationExecutor {
             }
         });
     }
-    
-    private customValidations(value: any, metadatas: ValidationMetadata[]) {
-        metadatas.forEach(metadata => {
-            this.metadataStorage
-                .getTargetValidatorConstraints(metadata.value1 as Function)
-                .forEach(customConstraintMetadata => {
-                    const validatedValue = customConstraintMetadata.instance.validate(value, metadata);
-                    if (validatedValue instanceof Promise) {
-                        const promise = validatedValue.then(isValid => {
-                            if (!isValid) {
-                                this.errors.push(this.createValidationError(value, metadata));
-                            }
-                        });
-                        this.awaitingPromises.push(promise);
-                    } else {
-                        if (!validatedValue)
-                            this.errors.push(this.createValidationError(value, metadata));
-                    }
-                });
-        });
-    }
-    
-    private defaultValidations(value: any, metadatas: ValidationMetadata[]) {
-        return metadatas
-            .filter(metadata => {
-                if (metadata.each) {
-                    if (value instanceof Array) {
-                        return value.every((subValue: any) => this.validator.validateBasedOnMetadata(subValue, metadata));
-                    } else {
-                        throw new Error(`Cannot validate ${(metadata.target as any).name}#${metadata.propertyName} because supplied value is not an array, however array is expected for validation.`);
-                    }
-    
-                } else {
-                    return this.validator.validateBasedOnMetadata(value, metadata);
-                }
-            })
-            .forEach(metadata => {
-                this.errors.push(this.createValidationError(value, metadata));
-            });
-    }
 
     private createValidationError(value: any, metadata: ValidationMetadata): ValidationError {
-        const message = metadata.message
-            .replace(/\$value1/g, metadata.value1)
-            .replace(/\$value2/g, metadata.value2)
-            .replace(/\$value/g, metadata.value1);
+        let message: string;
+        if (metadata.message instanceof Function) {
+            message = (metadata.message as ((value1?: number, value2?: number) => string))(metadata.value1, metadata.value2);
+        
+        } else if (typeof metadata.message === "string") {
+            message = metadata.message as string;
+
+        } else if (this.validatorOptions && !this.validatorOptions.dismissDefaultMessages) {
+            // message = this.defaultMessages.getFor(metadata.type);
+        }
+
+        if (message && metadata.value1)
+            message = message.replace(/\$value1/g, metadata.value1);
+        if (message && metadata.value2)
+            message = message.replace(/\$value2/g, metadata.value2);
+        if (message && metadata.value1)
+            message = message.replace(/\$value/g, metadata.value1);
+
         return {
             property: metadata.propertyName,
             type: metadata.type,

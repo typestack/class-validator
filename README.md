@@ -3,26 +3,6 @@
 Allows to use decorator and non-decorator based validation in your Typescript classes.
 Internally uses [validator.js][1] to perform validation.
 
-## Release Notes
-
-**0.4.0** [BREAKING CHANGES]
-
-* refactoring
-* everything should be imported from "class-validator" main entry point now
-* contain can be set in the main entry point now
-* some decorator's names changed. Be aware of this
-* fixed all decorators that should not work only with strings
-* added few more non-string decorators
-* validator now returns array of ValidationError instead of ValidationErrorInterface. Removed old ValidationError
-* removed all other validation methods except `validator.validate`
-* finally validate method is async now, so custom async validations are supported now
-* added ability to validate inherited properties
-
-**0.3.0**
-
-* package has changed its name from `validator.ts` to `class-validator`.
-* sanitation functionality has been removed from this library. Use [class-sanitizer][3] instead.
-
 ## Installation
 
 1. Install module:
@@ -33,8 +13,10 @@ Internally uses [validator.js][1] to perform validation.
 
     `npm install es6-shim --save`
 
-    if you are building nodejs app, you may want to `require("es6-shim");` in your app.
-    or if you are building web app, you man want to add `<script src="path-to-shim/es6-shim.js">` on your page.
+    and use it somewhere in the global place of your app:
+
+    * for nodejs (only need for older versions of node): `require("es6-shim")` in your app's entry point (for example `app.ts`)
+    * for browser: `<script src="path-to-shim/es6-shim.js">` in your `index.html`
 
 ## Usage
 
@@ -75,14 +57,6 @@ post.site = 'googlecom'; // should not pass
 let errors = validate(post); // returns you array of errors
 ```
 
-There are some additional functions you may want to use:
-
-```typescript
-validateAsync(post); // returns Promise<Post> if validation success, throws error if validation fail
-validateOrThrow(post); // performs validation and throws ValidationError if validation fail
-isValid(post); // simply checks if given object is valid. Returns true if it is, false otherwise
-```
-
 ## Validation messages
 
 You can specify validation message to decorator options and this message will be returned in `ValidationError`
@@ -103,10 +77,48 @@ export class Post {
 }
 ```
 
+You can also use special variables like `$value` and `$value2` and they will be replaced where they are available:
+
+```typescript
+import {MinLength, MaxLength} from "class-validator";
+
+export class Post {
+
+    @MinLength(10, {
+        message: "Title is too short. Minimal length is $value characters" // here, $value will be replaced with "10"
+    })
+    @MaxLength(50, {
+        message: "Title is too long. Maximal length is $value characters" // here, $value will be replaced with "50"
+    })
+    title: string;
+}
+```
+
+Also you can provide a function, that should return message. Values are being passed to this function, so you can
+use that data to provide more granular messages:
+
+```typescript
+import {MinLength, MaxLength} from "class-validator";
+
+export class Post {
+
+    @MinLength(10, {
+        message: (value1: number, value2: any) => { // value1 is 10 here, value2 is not available here, so its `undefined`. You can omit it.
+            if (value1 === 1) {
+                return "Too short, minimal length is 1 character";
+            } else {
+                return "Too short, minimal length is " + value1 + " characters";
+            }
+        }
+    })
+    title: string;
+}
+```
+
 ## Validating arrays
 
-If your field is an array and you want to perform validation of each item in the array you need to specify a
-special decorator option:
+If your field is an array and you want to perform validation of each item in the array you must specify a
+special decorator option `each: true`:
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
@@ -390,13 +402,31 @@ usages.
     to use it in production its highly recommended to fix library version that you use in your package.json file.
     Personally I use it in production.
 
+## Release Notes
+
+**0.4.0** *[BREAKING CHANGES]*
+
+* refactoring
+* everything should be imported from "class-validator" main entry point now
+* contain can be set in the main entry point now
+* some decorator's names changed. Be aware of this
+* fixed all decorators that should not work only with strings
+* added few more non-string decorators
+* validator now returns array of ValidationError instead of ValidationErrorInterface. Removed old ValidationError
+* removed all other validation methods except `validator.validate`
+* finally validate method is async now, so custom async validations are supported now
+* added ability to validate inherited properties
+
+**0.3.0**
+
+* package has changed its name from `validator.ts` to `class-validator`.
+* sanitation functionality has been removed from this library. Use [class-sanitizer][3] instead.
+
 ## Todos
 
 * cover with tests
-* more validation options
 * add support for json-schema based validation
-* use something better then validator.js and solve string-only validation issues
 
 [1]: https://github.com/chriso/validator.js
 [2]: https://github.com/pleerock/typedi
-[2]: https://github.com/pleerock/class-sanitizer
+[3]: https://github.com/pleerock/class-sanitizer

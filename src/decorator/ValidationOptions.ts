@@ -9,9 +9,13 @@ export interface ValidationOptions {
     each?: boolean;
 
     /**
-     * Message used to be shown on validation fail.
+     * Message used to be shown on validation fail. 
+     * You can use "$value1" and "$value2" keys in the message string, 
+     * and they will be replaced with actual required values if they exist.
+     * Message can be either string, either a function that returns a string.
+     * Second option allows to use values and custom messages depend of them.
      */
-    message?: string;
+    message?: string|((value1?: number, value2?: number) => string);
 
     /**
      * Validation groups used for this validation.

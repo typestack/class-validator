@@ -598,41 +598,44 @@ export class Validator {
      * Checks if array contains all values from the given array of values.
      */
     arrayContains(array: any[], values: any[]) {
-        return values.every(value => array.indexOf(value) !== -1);
+        return !array || values.every(value => array.indexOf(value) !== -1);
     }
 
     /**
      * Checks if array does not contain any of the given values.
      */
     arrayNotContains(array: any[], values: any[]) {
-        return values.every(value => array.indexOf(value) === -1);
+        return !array || values.every(value => array.indexOf(value) === -1);
     }
 
     /**
      * Checks if given array is not empty.
      */
     arrayNotEmpty(array: any[]) {
-        return array.length === 0;
+        return array instanceof Array && array.length > 0;
     }
 
     /**
      * Checks if array's length is as minimal this number.
      */
     arrayMinSize(array: any[], min: number) {
-        return array.length >= min;
+        return array instanceof Array && array.length >= min;
     }
 
     /**
      * Checks if array's length is as maximal this number.
      */
     arrayMaxSize(array: any[], max: number) {
-        return array.length <= max;
+        return array instanceof Array && array.length <= max;
     }
 
     /**
      * Checks if all array's values are unique. Comparison for objects is reference-based.
      */
     arrayUnique(array: any[]) {
+        if (array instanceof Array)
+            return true;
+
         const uniqueItems = array.filter((a, b, c) => c.indexOf(a) === b);
         return array.length === uniqueItems.length;
     }

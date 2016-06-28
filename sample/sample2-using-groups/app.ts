@@ -11,13 +11,13 @@ post1.email = "info@google.com"; // should pass
 post1.site = "google.com"; // should pass
 post1.createDate = new Date(); // should pass
 
-console.log("should pass: ", validator.validate(post1, {
-    groups: ["users"]
-}));
+validator.validate(post1, { groups: ["users"] }).then(result => {
+    console.log("1.1. should pass: ", result);
+});
 
-console.log("should pass: ", validator.validate(post1, {
-    groups: ["admins"]
-}));
+validator.validate(post1, { groups: ["admins"] }).then(result => {
+    console.log("1.2. should pass: ", result);
+});
 
 let post2 = new Post();
 post2.title = "Hi!"; // should not pass for user or moderator, but should pass for admin
@@ -27,21 +27,21 @@ post2.email = "info@google.com"; // should pass
 post2.site = "google.com"; // should pass
 post2.createDate = new Date(); // should pass
 
-console.log("should not pass: ", validator.validate(post2, {
-    groups: ["users"]
-}));
+validator.validate(post2, { groups: ["users"] }).then(result => {
+    console.log("2.1. should not pass: ", result);
+});
 
-console.log("should not pass: ", validator.validate(post2, {
-    groups: ["moderators"]
-}));
+validator.validate(post2, { groups: ["moderators"] }).then(result => {
+    console.log("2.2. should not pass: ", result);
+});
 
-console.log("should pass: ", validator.validate(post2, {
-    groups: ["admins"]
-}));
+validator.validate(post2, { groups: ["admins"] }).then(result => {
+    console.log("2.3. should pass: ", result);
+});
 
-console.log("should pass: ", validator.validate(post2, {
-    groups: ["users", "admins"]
-}));
+validator.validate(post2, { groups: ["users", "admins"] }).then(result => {
+    console.log("2.4. should not pass: ", result);
+});
 
 let post3 = new Post();
 post3.title = "Hello world"; // should not pass for user or moderator, but should pass for admin
@@ -51,11 +51,13 @@ post3.email = "info@google.com"; // should pass
 post3.site = "google.com"; // should pass
 // note that we dont set date
 
-console.log("should pass: ", validator.validate(post3, {
-    groups: ["users"]
-}));
+validator.validate(post3, { groups: ["users"] }).then(result => {
+    console.log("3.1. should pass: ", result);
+});
 
-console.log("should not pass: ", validator.validate(post3));
+validator.validate(post3).then(result => {
+    console.log("3.2. should not pass: ", result);
+});
 
 let post4 = new Post();
 post4.title = "Hello world"; // should not pass for user or moderator, but should pass for admin
@@ -65,8 +67,10 @@ post4.email = ""; // should not pass
 post4.site = "google.com"; // should pass
 // note that we dont set date
 
-console.log("should not pass: ", validator.validate(post4, {
-    groups: ["users"]
-}));
+validator.validate(post4, { groups: ["users"] }).then(result => {
+    console.log("4.1. should not pass: ", result);
+});
 
-console.log("should not pass: ", validator.validate(post4));
+validator.validate(post4).then(result => {
+    console.log("4.2. should not pass: ", result);
+});

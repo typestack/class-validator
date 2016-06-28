@@ -13,4 +13,10 @@ export interface ValidatorOptions {
      */
     groups?: string[];
 
+    /**
+     * If set to true, the validation will not use default messages.
+     * Error message always will be undefined if its not explicitly set.
+     */
+    dismissDefaultMessages?: boolean;
+
 }

@@ -37,7 +37,7 @@ export class ValidationMetadata {
     /**
      * Validation message to be shown in the case of error.
      */
-    message: string;
+    message: string|((value1?: number, value2?: number) => string);
 
     /**
      * Validation groups used for this validation.
@@ -61,6 +61,7 @@ export class ValidationMetadata {
     constructor(args: ValidationMetadataArgs) {
         this.type = args.type;
         this.target = args.target;
+        this.propertyName = args.propertyName;
         this.value1 = args.value1;
         this.value2 = args.value2;
         if (args.validationOptions) {

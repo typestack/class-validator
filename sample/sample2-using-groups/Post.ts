@@ -21,12 +21,12 @@ export class Post {
     @IsInt()
     rating: number;
 
-    @IsEmail(null, {
+    @IsEmail(undefined, {
         always: true
     })
     email: string;
 
-    @IsFQDN(null, {
+    @IsFQDN(undefined, {
         message: "Site address should be correct",
         groups: ["users"]
     })
