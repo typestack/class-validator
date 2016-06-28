@@ -1,4 +1,4 @@
-import {CustomValidator} from "../validation/CustomValidator";
+import {ValidatorConstraintInterface} from "../validation/ValidatorConstraintInterface";
 import {getFromContainer} from "../index";
 
 /**
@@ -36,8 +36,8 @@ export class ConstraintMetadata {
     /**
      * Instance of the target custom validation class which performs validation.
      */
-    get instance(): CustomValidator {
-        return getFromContainer<CustomValidator>(this.target);
+    get instance(): ValidatorConstraintInterface {
+        return getFromContainer<ValidatorConstraintInterface>(this.target);
     }
     
 }

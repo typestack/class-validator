@@ -18,7 +18,7 @@ export function ValidatorConstraint(name?: string) {
     return function(target: Function) {
         getFromContainer(MetadataStorage).addConstraintMetadata(new ConstraintMetadata(target, name));
     };
-}
+} 
 
 /**
  * Performs validation based on the given custom validation class. 
@@ -59,10 +59,10 @@ export function ValidateNested(validationOptions?: ValidationOptions) {
 /**
  * Checks if the value match ("===") the comparison.
  */
-export function Equal(comparison: any, validationOptions?: ValidationOptions) {
+export function Equals(comparison: any, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.EQUAL,
+            type: ValidationTypes.EQUALS,
             target: object.constructor,
             propertyName: propertyName,
             value1: comparison,
@@ -75,10 +75,10 @@ export function Equal(comparison: any, validationOptions?: ValidationOptions) {
 /**
  * Checks if the value does not match ("!==") the comparison.
  */
-export function NotEqual(comparison: any, validationOptions?: ValidationOptions) {
+export function NotEquals(comparison: any, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.NOT_EQUAL,
+            type: ValidationTypes.NOT_EQUALS,
             target: object.constructor,
             propertyName: propertyName,
             value1: comparison,
@@ -265,7 +265,7 @@ export function IsInt(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the value is a positive integer number.
+ * Checks if the value is a positive number.
  */
 export function IsPositive(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
@@ -280,7 +280,7 @@ export function IsPositive(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the value is a negative integer number.
+ * Checks if the value is a negative number.
  */
 export function IsNegative(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {

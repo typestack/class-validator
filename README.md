@@ -30,7 +30,7 @@ export class Post {
     @IsLength(10, 20)
     title: string;
 
-    @Contains('hello')
+    @Contains("hello")
     text: string;
 
     @IsInt({ min: 0, max: 10 })
@@ -48,11 +48,11 @@ export class Post {
 }
 
 let post = new Post();
-post.title = 'Hello'; // should not pass
-post.text = 'this is a great post about hell world'; // should not pass
+post.title = "Hello"; // should not pass
+post.text = "this is a great post about hell world"; // should not pass
 post.rating = 11; // should not pass
-post.email = 'google.com'; // should not pass
-post.site = 'googlecom'; // should not pass
+post.email = "google.com"; // should not pass
+post.site = "googlecom"; // should not pass
 
 let errors = validate(post); // returns you array of errors
 ```
@@ -77,18 +77,18 @@ export class Post {
 }
 ```
 
-You can also use special variables like `$value` and `$value2` and they will be replaced where they are available:
+You can also use special variables like `$constraint` and `$constraint2` and they will be replaced where they are available:
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
 
 export class Post {
 
-    @MinLength(10, {
-        message: "Title is too short. Minimal length is $value characters" // here, $value will be replaced with "10"
+    @MinLength(10, { // here, $constraint will be replaced with "10", and $value with actual supplied value
+        message: "Title is too short. Minimal length is $constraint characters, but actual is $value"
     })
-    @MaxLength(50, {
-        message: "Title is too long. Maximal length is $value characters" // here, $value will be replaced with "50"
+    @MaxLength(50, { // here, $constraint will be replaced with "50", and $value with actual supplied value
+        message: "Title is too long. Maximal length is $constraint characters, but actual is $value"
     })
     title: string;
 }
@@ -103,11 +103,11 @@ import {MinLength, MaxLength} from "class-validator";
 export class Post {
 
     @MinLength(10, {
-        message: (value1: number, value2: any) => { // value1 is 10 here, value2 is not available here, so its `undefined`. You can omit it.
-            if (value1 === 1) {
+        message: (value: any, constraint: any) => { // value is user's supplied value, constraint is 10 here, constraint2 is not available here, so its `undefined`. You can omit it.
+            if (constraint === 1) {
                 return "Too short, minimal length is 1 character";
             } else {
-                return "Too short, minimal length is " + value1 + " characters";
+                return "Too short, minimal length is " + constraint + " characters";
             }
         }
     })
@@ -174,30 +174,30 @@ import {validate, MinNumber, Length} from "class-validator";
 export class User {
 
     @MinNumber(12, {
-        groups: ['registration']
+        groups: ["registration"]
     })
     age: number;
 
     @Length(2, 20, {
-        groups: ['registration', 'admin']
+        groups: ["registration", "admin"]
     })
     name: string;
 }
 
 let user = new User();
 user.age = 10;
-user.name = 'Alex';
+user.name = "Alex";
 
 validate(user, {
-    groups: ['registration']
+    groups: ["registration"]
 }); // this will not pass validation
 
 validate(user, {
-    groups: ['admin']
+    groups: ["admin"]
 }); // this will pass validation
 
 validate(user, {
-    groups: ['registration', 'admin']
+    groups: ["registration", "admin"]
 }); // this will not pass validation
 
 validate(user, {
@@ -212,20 +212,23 @@ If you have custom validation logic you want to use as annotations you can do it
 1. First create a file, lets say `CustomTextLength.ts`, and create there a new class:
 
     ```typescript
-    import {ValidatorConstraint, ValidatorInterface} from "class-validator";
+    import {ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
 
-    @ValidatorConstraint()
-    export class CustomTextLength implements ValidatorInterface {
+    @ValidatorConstraint("custom_text")
+    export class CustomTextLength implements ValidatorConstraintInterface {
 
-        validate(text: string): boolean {
+        validate(text: string) {
             return text.length > 1 && text.length < 10;
         }
 
     }
     ```
 
-    Your class should implement `ValidatorInterface` interface and its `validate` method, which defines logic for data if
-    its valid or not.
+    Your class should implement `ValidatorConstraintInterface` interface and its `validate` method, which defines logic for data if
+    its valid or not. Custom validator can be asynchronous, if you want to perform validation after some asynchronous
+    operations, simply return a promise in `validate` method.
+
+    You can also supply a validation constraint name - this name will be used as "error type" in ValidationErrors.
 
 2. Then you can use your new validation constraint in your class:
 
@@ -260,11 +263,11 @@ classes. Here is example how to integrate it with [typedi][2]:
 
 ```typescript
 import {Container} from "typedi";
-import {Validator} from "class-validator";
+import {useContainer} from "class-validator";
 
 // do this somewhere in the global application level:
+useContainer(Container);
 let validator = Container.get(Validator);
-validator.container = Container;
 
 // now everywhere you can inject Validator class which will go from the container
 // also you can inject classes using constructor injection into your custom ValidatorConstraints
@@ -275,52 +278,78 @@ validator.container = Container;
 There are several method exist in the Validator that allows to perform non-decorator based validation:
 
 ```typescript
-import Validator from "class-validator";
+import {Validator} from "class-validator";
 
 // Validation methods
+const validator = new Validator();
+validator.equals(value, comparison); // Checks if value matches ("===") the comparison.
+validator.notEquals(value, comparison); // Checks if value does not match ("!==") the comparison.
+validator.empty(value); // Checks if given value is empty (=== '', === null, === undefined).
+validator.notEmpty(value); // Checks if given value is not empty (!== '', !== null, !== undefined).
+validator.isIn(value, possibleValues); // Checks if given value is in a array of allowed values.
+validator.isNotIn(value, possibleValues); // Checks if given value not in a array of allowed values.
 
-Validator.contains(str, seed);
-Validator.equals(str, comparison);
-Validator.isAfter(date, afterDate);
-Validator.isAlpha(str);
-Validator.isAlphanumeric(str);
-Validator.isAscii(str);
-Validator.isBase64(str);
-Validator.isBefore(date, beforeDate);
-Validator.isBoolean(str);
-Validator.isBooleanString(str);
-Validator.isByteLength(str, min, max);
-Validator.isCreditCard(str);
-Validator.isCurrency(str, options);
-Validator.isDate(str);
-Validator.isDecimal(str);
-Validator.isDivisibleBy(str, num);
-Validator.isEmail(str, options);
-Validator.isFQDN(str, options);
-Validator.isFloat(str, options);
-Validator.isFullWidth(str);
-Validator.isHalfWidth(str);
-Validator.isVariableWidth(str);
-Validator.isHexColor(str);
-Validator.isHexadecimal(str);
-Validator.isIP(str, version);
-Validator.isISBN(str, version);
-Validator.isISIN(str);
-Validator.isISO8601(str);
-Validator.isIn(str, values);
-Validator.isInt(str, options);
-Validator.isJSON(str);
-Validator.isLength(str, min, max);
-Validator.isLowercase(str);
-Validator.isMobilePhone(str, locale);
-Validator.isMongoId(str);
-Validator.isMultibyte(str);
-Validator.isNumericString(str);
-Validator.isSurrogatePair(str);
-Validator.isURL(str, options);
-Validator.isUUID(str, version);
-Validator.isUppercase(str);
-Validator.matches(str, pattern, modifiers);
+validator.isBoolean(value); // Checks if a given value is a real boolean.
+validator.isDate(value); // Checks if a given value is a real date.
+validator.isNumber(value); // Checks if a given value is a real number.
+validator.isString(value); // Checks if a given value is a real string.
+
+validator.divisibleBy(value, number); // Checks if value is a number that's divisible by another.
+validator.isDecimal(value); // Checks if value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
+validator.isInt(value); // Checks if value is an integer.
+validator.isPositive(value); // Checks if the value is a positive number.
+validator.isNegative(value); // Checks if the value is a negative number.
+validator.greater(firstNumber, secondNumber); // Checks if the first number is greater then second.
+validator.less(firstNumber, secondNumber); // Checks if the first number is less then second.
+
+validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
+validator.maxDate(date, minDate); // Checks if the value is a date that's before the specified date.
+
+validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+
+validator.isBooleanString(str); // Checks if a string is a boolean.
+validator.isDateString(str); // Checks if the string is a date.
+validator.isNumberString(str); // Checks if the string is numeric.
+
+validator.contains(str, seed); // Checks if the string contains the seed.
+validator.notContains(str, seed); // Checks if the string does not contain the seed.
+validator.isAlpha(str); // Checks if the string contains only letters (a-zA-Z).
+validator.isAlphanumeric(str); // Checks if the string contains only letters and numbers.
+validator.isAscii(str); // Checks if the string contains ASCII chars only.
+validator.isBase64(str); // Checks if a string is base64 encoded.
+validator.isByteLength(str, min, max); // Checks if the string's length (in bytes) falls in a range.
+validator.isCreditCard(str); // Checks if the string is a credit card.
+validator.isCurrency(str, options); // Checks if the string is a valid currency amount.
+validator.isEmail(str, options); // Checks if the string is an email.
+validator.isFQDN(str, options); // Checks if the string is a fully qualified domain name (e.g. domain.com).
+validator.isFullWidth(str); // Checks if the string contains any full-width chars.
+validator.isHalfWidth(str); // Checks if the string contains any half-width chars.
+validator.isVariableWidth(str); // Checks if the string contains variable-width chars.
+validator.isHexColor(str); // Checks if the string is a hexadecimal color.
+validator.isHexadecimal(str); // Checks if the string is a hexadecimal number.
+validator.isIP(str, version); // Checks if the string is an IP (version 4 or 6).
+validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
+validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
+validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
+validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
+validator.isLowercase(str); // Checks if the string is lowercase.
+validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
+validator.isMongoId(str); // Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
+validator.isMultibyte(str); // Checks if the string contains one or more multibyte chars.
+validator.isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
+validator.isURL(str, options); // Checks if the string is an url.
+validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4 or 5).
+validator.isUppercase(str); // Checks if the string is uppercase.
+validator.length(str, min, max); // Checks if the string's length falls in a range.
+validator.minLength(str, min); // Checks if the string's length is not less then given number.
+validator.maxLength(str, max); // Checks if the string's length is not more then given number.
+
+validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
+validator.arrayNotContains(array, values); // Checks if array does not contain any of the given values.
+validator.arrayNotEmpty(array); // Checks if given array is not empty.
+validator.arrayMinSize(array, min); // Checks if array's length is as minimal this number.
+validator.arrayMaxSize(array, max); // Checks if array's length is as maximal this number.
+validator.arrayUnique(array); // Checks if all array's values are unique. Comparison for objects is reference-based.
 
 ```
 
@@ -328,40 +357,56 @@ Validator.matches(str, pattern, modifiers);
 
 | Decorator                                       | Description                                                                                        |
 |-------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison.                                                         |
+| `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison.                                                      |
+| `@Empty()`                                      | Checks if given value is empty (=== '', === null, === undefined).                                  |
+| `@NotEmpty()`                                   | Checks if given value is not empty (!== '', !== null, !== undefined).                              |
+| `@In(values: any[])`                            | Checks if value is in a array of allowed values.                                                   |
+| `@NotIn(values: any[])`                         | Checks if value is not in a array of disallowed values.                                            |
+|                                                                                                                                                      |
+| `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                    |
+| `@IsDate()`                                     | Checks if the string is a date.                                                                    |
+| `@IsNumber()`                                   | Checks if the string is a number.                                                                  |
+| `@IsString()`                                   | Checks if the string is a string.                                                                  |
+|                                                                                                                                                      |
+| `@DivisibleBy(num: number)`                     | Checks if the value is a number that's divisible by another.                                       |
+| `@IsDecimal()`                                  | Checks if the value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.          |
+| `@IsInt()`                                      | Checks if the value is an integer number.                                                          |
+| `@IsPositive()`                                 | Checks if the value is a positive number.                                                          |
+| `@IsNegative()`                                 | Checks if the value is a negative number.                                                          |
+| `@Greater(num: number)`                         | Checks if the given number is greater then given number.                                           |
+| `@Less(num: number)`                            | Checks if the given number is less then given number.                                              |
+|                                                                                                                                                      |
+| `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date.                                     |
+| `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                    |
+|                                                                                                                                                      |
+| `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i'). |
+|                                                                                                                                                      |
+| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                       |
+| `@IsDateString()`                               | Checks if a string is a date.                                                                      |
+| `@IsNumberString()`                             | Checks if a string is a number.                                                                    |
+|                                                                                                                                                      |
 | `@Contains(seed: string)`                       | Checks if the string contains the seed.                                                            |
-| `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison.                                                       |
-| `@IsAfter(date: Date)`                          | Checks if the date is a date that's after the specified date.                                    |
+| `@NotContains(seed: string)`                    | Checks if the string not contains the seed.                                                        |
 | `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z).                                               |
 | `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers.                                            |
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only.                                                    |
 | `@IsBase64()`                                   | Checks if a string is base64 encoded.                                                              |
-| `@IsBefore(date: Date)`                         | Checks if the date that's before the specified date.                                   |
-| `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                    |
-| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                       |
 | `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range.                                         |
 | `@IsCreditCard()`                               | Checks if the string is a credit card.                                                             |
 | `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount.                                                   |
-| `@IsDate()`                                     | Checks if the string is a date.                                                                    |
-| `@IsDivisibleBy(number: number)`                | Checks if the string is a number that's divisible by another.                                      |
 | `@IsEmail(options?: IsEmailOptions)`            | Checks if the string is an email.                                                                  |
 | `@IsFQDN(options?: IsFQDNOptions)`              | Checks if the string is a fully qualified domain name (e.g. domain.com).                           |
-| `@IsFloat(options?: IsFloatOptions)`            | Checks if the string is a float.                                                                   |
-| `@IsPositiveFloat(options?: IsFloatOptions)`    | Checks if the string is a positive float.                                                                   |
-| `@IsNegativeFloat(options?: IsFloatOptions)`    | Checks if the string is a negative float.                                                                   |
 | `@IsFullWidth()`                                | Checks if the string contains any full-width chars.                                                |
 | `@IsHalfWidth()`                                | Checks if the string contains any half-width chars.                                                |
+| `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                              |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                       |
 | `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                      |
-| `@IsIP(version?: number)`                       | Checks if the string is an IP (version 4 or 6).                                                    |
-| `@IsISBN(version?: number)`                     | Checks if the string is an ISBN (version 10 or 13).                                                |
+| `@IsIP(version?: "4"|"6")`                      | Checks if the string is an IP (version 4 or 6).                                                    |
+| `@IsISBN(version?: "10"|"13")`                  | Checks if the string is an ISBN (version 10 or 13).                                                |
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                       |
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                     |
-| `@IsIn(values: any[])`                          | Checks if the string is in a array of allowed values.                                              |
-| `@IsInt(options?: IsIntOptions)`                | Checks if the string is an integer.                                                                |
-| `@IsPositiveInt(options?: IsIntOptions)`        | Checks if the string is a positive integer.                                                        |
-| `@IsNegativeInt(options?: IsIntOptions)`        | Checks if the string is a negative integer.                                                        |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                |
-| `@IsLength(min: number, max?: number)`          | Checks if the string's length falls in a range.                                                    |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                 |
 | `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                     |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                  |
@@ -369,38 +414,23 @@ Validator.matches(str, pattern, modifiers);
 | `@IsNumericString()`                            | Checks if the string is numeric.                                                                   |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                           |
 | `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url.                                                                    |
-| `@IsUUID(version?: number)`                     | Checks if the string is a UUID (version 3, 4 or 5).                                                |
+| `@IsUUID(version?: "3"|"4"|"5")`                | Checks if the string is a UUID (version 3, 4 or 5).                                                |
 | `@IsUppercase()`                                | Checks if the string is uppercase.                                                                 |
-| `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                              |
-| `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i'). |
+| `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range.                                                    |
 | `@MinLength(min: number)`                       | Checks if the string's length is not less then given number.                                       |
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more then given number.                                       |
-| `@MinNumber(min: number)`                       | Checks if the given number is not less then given number.                                          |
-| `@MaxNumber(max: number)`                       | Checks if the given number is not more then given number.                                          |
-| `@NotEmpty()`                                   | Checks if given value is not empty.                                                                |
-| `@NotEmptyArray()`                              | Checks if given array is not empty.                                                                |
-| `@MinSize(min: number)`                         | Checks if array's length is as minimal this number.                                                |
-| `@MaxSize(max: number)`                         | Checks if array's length is as maximal this number.                                                |
+|                                                                                                                                                      |
+| `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                |
+| `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                          |
+| `@ArrayNotEmpty()`                              | Checks if given array is not empty.                                                                |
+| `@ArrayMinSize(min: number)`                    | Checks if array's length is as minimal this number.                                                |
+| `@ArrayMaxSize(max: number)`                    | Checks if array's length is as maximal this number.                                                |
+| `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based.                                            |
 
 ## Samples
 
 Take a look on samples in [./sample](https://github.com/pleerock/class-validator/tree/master/sample) for more examples of
 usages.
-
-## FAQ
-
-* Which node version is supported?
-
-    This module is tested on > node 4.0, so its highly recommended if you install the latest version of node.
-    If you are using old versions of node, the major dependency (afaik) of this module is on ES6 Promises, which are
-    supported by some of the old versions of node too. In the case if your node version does not support promises you
-    can try to npm install `es6-shim` module and include it to make promises work in your version of node.
-
-* Is this library production-ready?
-
-    The library is under active development, and needs better testing and contributions from community. If you want
-    to use it in production its highly recommended to fix library version that you use in your package.json file.
-    Personally I use it in production.
 
 ## Release Notes
 
@@ -408,6 +438,7 @@ usages.
 
 * refactoring
 * everything should be imported from "class-validator" main entry point now
+* `ValidatorInterface` has been renamed to `ValidatorConstraintInterface`
 * contain can be set in the main entry point now
 * some decorator's names changed. Be aware of this
 * fixed all decorators that should not work only with strings

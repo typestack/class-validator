@@ -4,9 +4,9 @@
 export interface ValidationError {
     
     /**
-     * Validation's target class.
+     * Name of the target class that was validated.
      */
-    // target: Function;
+    target: string;
 
     /**
      * Target's property on which validation is applied.

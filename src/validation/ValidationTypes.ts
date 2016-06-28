@@ -8,8 +8,8 @@ export class ValidationTypes {
     static NESTED_VALIDATION = "nested_validation";
 
     /* common checkers */
-    static EQUAL = "equal";
-    static NOT_EQUAL = "not_equal";
+    static EQUALS = "equal";
+    static NOT_EQUALS = "not_equal";
     static EMPTY = "empty";
     static NOT_EMPTY = "not_empty";
     static IN = "in";

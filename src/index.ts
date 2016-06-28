@@ -42,7 +42,7 @@ export function getFromContainer<T>(someClass: { new (...args: any[]): T }|Funct
 
 export * from "./decorator/decorators";
 export * from "./decorator/ValidationOptions";
-export * from "./validation/CustomValidator";
+export * from "./validation/ValidatorConstraintInterface";
 export * from "./validation/ValidationError";
 export * from "./validation/ValidationTypeOptions";
 export * from "./validation/ValidatorOptions";

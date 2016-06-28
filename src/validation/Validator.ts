@@ -33,10 +33,10 @@ export class Validator {
     validateBasedOnMetadata(value: any, metadata: ValidationMetadata): boolean {
         switch (metadata.type) {
             /* common checkers */
-            case ValidationTypes.EQUAL:
-                return this.equal(value, metadata.value1);
-            case ValidationTypes.NOT_EQUAL:
-                return this.notEqual(value, metadata.value1);
+            case ValidationTypes.EQUALS:
+                return this.equals(value, metadata.value1);
+            case ValidationTypes.NOT_EQUALS:
+                return this.notEquals(value, metadata.value1);
             case ValidationTypes.EMPTY:
                 return this.empty(value);
             case ValidationTypes.NOT_EMPTY:
@@ -180,14 +180,14 @@ export class Validator {
     /**
      * Checks if value matches ("===") the comparison.
      */
-    equal(value: any, comparison: any): boolean {
+    equals(value: any, comparison: any): boolean {
         return value === comparison;
     }
 
     /**
      * Checks if value does not match ("!==") the comparison.
      */
-    notEqual(value: any, comparison: any): boolean {
+    notEquals(value: any, comparison: any): boolean {
         return value !== comparison;
     }
 
@@ -280,14 +280,14 @@ export class Validator {
     }
 
     /**
-     * Checks if the value is a positive integer.
+     * Checks if the value is a positive number.
      */
     isPositive(value: number): boolean {
         return value > 0;
     }
 
     /**
-     * Checks if the value is a negative integer.
+     * Checks if the value is a negative number.
      */
     isNegative(value: number): boolean {
         return value < 0;
@@ -343,7 +343,7 @@ export class Validator {
     /**
      * Checks if a string is a boolean.
      */
-    isBooleanString(str: any): boolean {
+    isBooleanString(str: string): boolean {
         return this.validatorJs.isBoolean(str);
     }
 
@@ -549,7 +549,7 @@ export class Validator {
     }
 
     /**
-     * Checks if the string contains any surrogate pairs chars.
+     * Checks if the string is an url.
      */
     isURL(str: string, options?: IsURLOptions): boolean {
         return this.validatorJs.isURL(str, options);

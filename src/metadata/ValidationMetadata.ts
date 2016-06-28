@@ -37,7 +37,7 @@ export class ValidationMetadata {
     /**
      * Validation message to be shown in the case of error.
      */
-    message: string|((value1?: number, value2?: number) => string);
+    message: string|((value?: any, constraint1?: any, constraint2?: any) => string);
 
     /**
      * Validation groups used for this validation.

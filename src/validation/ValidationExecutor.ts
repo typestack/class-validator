@@ -5,6 +5,8 @@ import {MetadataStorage} from "../metadata/MetadataStorage";
 import {getFromContainer} from "../index";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationTypes} from "./ValidationTypes";
+import {ValidatorConstraintInterface} from "./ValidatorConstraintInterface";
+import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 
 /**
  * Executes validation over given object.
@@ -49,12 +51,12 @@ export class ValidationExecutor {
             const notEmptyMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NOT_EMPTY);
             
             // handle NOT_EMPTY validation type the special way - it should work no matter skipMissingProperties is set or not
-            this.defaultValidations(value, notEmptyMetadatas);
+            this.defaultValidations(object, value, notEmptyMetadatas);
             
             if (!value && this.validatorOptions && this.validatorOptions.skipMissingProperties === true)
                 return;
 
-            this.defaultValidations(value, metadatas);
+            this.defaultValidations(object, value, metadatas);
             this.customValidations(object, value, customValidationMetadatas);
             this.nestedValidations(value, nestedValidationMetadatas);
         });
@@ -66,7 +68,7 @@ export class ValidationExecutor {
     // Private Methods
     // -------------------------------------------------------------------------
 
-    private defaultValidations(value: any, metadatas: ValidationMetadata[]) {
+    private defaultValidations(object: Object, value: any, metadatas: ValidationMetadata[]) {
         return metadatas
             .filter(metadata => {
                 if (metadata.each) {
@@ -81,7 +83,7 @@ export class ValidationExecutor {
                 }
             })
             .forEach(metadata => {
-                this.errors.push(this.createValidationError(value, metadata));
+                this.errors.push(this.createValidationError(object, value, metadata));
             });
     }
 
@@ -94,13 +96,13 @@ export class ValidationExecutor {
                     if (validatedValue instanceof Promise) {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {
-                                this.errors.push(this.createValidationError(value, metadata));
+                                this.errors.push(this.createValidationError(object, value, metadata, customConstraintMetadata));
                             }
                         });
                         this.awaitingPromises.push(promise);
                     } else {
                         if (!validatedValue)
-                            this.errors.push(this.createValidationError(value, metadata));
+                            this.errors.push(this.createValidationError(object, value, metadata, customConstraintMetadata));
                     }
                 });
         });
@@ -122,11 +124,14 @@ export class ValidationExecutor {
         });
     }
 
-    private createValidationError(value: any, metadata: ValidationMetadata): ValidationError {
+    private createValidationError(target: Object,
+                                  value: any,
+                                  metadata: ValidationMetadata,
+                                  customValidatorMetadata?: ConstraintMetadata): ValidationError {
         let message: string;
         if (metadata.message instanceof Function) {
-            message = (metadata.message as ((value1?: number, value2?: number) => string))(metadata.value1, metadata.value2);
-        
+            message = (metadata.message as ((value?: number, constraint1?: number, constraint2?: number) => string))(value, metadata.value1, metadata.value2);
+
         } else if (typeof metadata.message === "string") {
             message = metadata.message as string;
 
@@ -134,16 +139,19 @@ export class ValidationExecutor {
             // message = this.defaultMessages.getFor(metadata.type);
         }
 
-        if (message && metadata.value1)
-            message = message.replace(/\$value1/g, metadata.value1);
-        if (message && metadata.value2)
-            message = message.replace(/\$value2/g, metadata.value2);
-        if (message && metadata.value1)
-            message = message.replace(/\$value/g, metadata.value1);
+        if (message && metadata.value1 !== undefined && metadata.value1 !== null)
+            message = message.replace(/\$constraint1/g, metadata.value1);
+        if (message && metadata.value2 !== undefined && metadata.value2 !== null)
+            message = message.replace(/\$constraint2/g, metadata.value2);
+        if (message && metadata.value1 !== undefined && metadata.value1 !== null)
+            message = message.replace(/\$constraint/g, metadata.value1);
+        if (message && value !== undefined && value !== null)
+            message = message.replace(/\$value/g, value);
 
         return {
+            target: target.constructor ? (target.constructor as any).name : undefined,
             property: metadata.propertyName,
-            type: metadata.type,
+            type: customValidatorMetadata && customValidatorMetadata.name ? customValidatorMetadata.name : metadata.type,
             message: message,
             value: value
         };

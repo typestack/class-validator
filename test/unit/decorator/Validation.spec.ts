@@ -4,7 +4,7 @@ import {
     IsPositive,
     IsNegative,
     Contains,
-    Equal,
+    Equals,
     MinDate,
     MaxDate,
     IsAlpha,
@@ -50,7 +50,7 @@ import {
     ArrayMinSize,
     ArrayMaxSize
 } from "../../../src/decorator/decorators";
-import {CustomValidator} from "../../../src/validation/CustomValidator";
+import {ValidatorConstraintInterface} from "../../../src/validation/ValidatorConstraintInterface";
 import {Validator} from "../../../src/validation/Validator";
 
 let validator: Validator;
@@ -71,7 +71,7 @@ class TestClass {
     name: string;
 }
 
-class TestConstraint implements CustomValidator {
+class TestConstraint implements ValidatorConstraintInterface {
     validate(value: any): Promise<boolean> {
         return Promise.resolve(!!value);
     }
@@ -191,7 +191,7 @@ describe("Contains", function() {
 describe("Equals", function() {
 
     class MyClass {
-        @Equal("Alex")
+        @Equals("Alex")
         name: string;
     }
 
