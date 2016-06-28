@@ -8,4 +8,9 @@ export interface ValidatorConstraintInterface {
      */
     validate(value: any, validatingObject: Object, constraints: any[]): Promise<boolean>|boolean;
 
+    /**
+     * Gets default message when validation for this constraint fail.
+     */
+    defaultMessage?(value: any, constraints: any[]): string;
+
 }

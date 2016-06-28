@@ -129,27 +129,43 @@ export class ValidationExecutor {
                                   value: any,
                                   metadata: ValidationMetadata,
                                   customValidatorMetadata?: ConstraintMetadata): ValidationError {
-        let message: string;
-        if (metadata.message instanceof Function) {
-            message = (metadata.message as ((value?: any, constraints?: any[]) => string))(value, metadata.constraints);
+        
+        const targetName = target.constructor ? (target.constructor as any).name : undefined;
+        const type = customValidatorMetadata && customValidatorMetadata.name ? customValidatorMetadata.name : metadata.type;
+        let message = metadata.message;
 
-        } else if (typeof metadata.message === "string") {
-            message = metadata.message as string;
+        if (!metadata.message && 
+            (!this.validatorOptions || (this.validatorOptions && !this.validatorOptions.dismissDefaultMessages))) {
+            if (customValidatorMetadata && customValidatorMetadata.instance.defaultMessage instanceof Function) {
+                message = customValidatorMetadata.instance.defaultMessage(value, metadata.constraints);
+            }
 
-        } else if (this.validatorOptions && !this.validatorOptions.dismissDefaultMessages) {
-            // message = this.defaultMessages.getFor(metadata.type);
+            if (!message)
+                message = ValidationTypes.getMessage(type);
         }
 
-        if (message && metadata.constraints instanceof Array)
-            metadata.constraints.forEach((constraint, index) => message.replace(new RegExp(`\$constraint${index}`, "g"), constraint));
-        if (message && value !== undefined && value !== null)
-            message = message.replace(/\$value/g, value);
+        let messageString: string;
+        if (message instanceof Function) {
+            messageString = (message as ((value?: any, constraints?: any[]) => string))(value, metadata.constraints);
+
+        } else if (typeof message === "string") {
+            messageString = message as string;
+        }
+        
+        if (messageString && metadata.constraints instanceof Array)
+            metadata.constraints.forEach((constraint, index) => messageString.replace(new RegExp(`\$constraint${index}`, "g"), constraint));
+        if (messageString && value !== undefined && value !== null)
+            messageString = messageString.replace(/\$value/g, value);
+        if (messageString)
+            messageString = messageString.replace(/\$property/g, metadata.propertyName);
+        if (messageString)
+            messageString = messageString.replace(/\$target/g, targetName);
 
         return {
-            target: target.constructor ? (target.constructor as any).name : undefined,
+            target: targetName,
             property: metadata.propertyName,
-            type: customValidatorMetadata && customValidatorMetadata.name ? customValidatorMetadata.name : metadata.type,
-            message: message,
+            type: type,
+            message: messageString,
             value: value
         };
     }
