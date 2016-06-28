@@ -65,7 +65,7 @@ export function Equals(comparison: any, validationOptions?: ValidationOptions) {
             type: ValidationTypes.EQUALS,
             target: object.constructor,
             propertyName: propertyName,
-            value1: comparison,
+            constraints: [comparison],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -81,7 +81,7 @@ export function NotEquals(comparison: any, validationOptions?: ValidationOptions
             type: ValidationTypes.NOT_EQUALS,
             target: object.constructor,
             propertyName: propertyName,
-            value1: comparison,
+            constraints: [comparison],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -127,7 +127,7 @@ export function In(values: any[], validationOptions?: ValidationOptions) {
             type: ValidationTypes.IN,
             target: object.constructor,
             propertyName: propertyName,
-            value1: values,
+            constraints: [values],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -143,7 +143,7 @@ export function NotIn(values: any[], validationOptions?: ValidationOptions) {
             type: ValidationTypes.NOT_IN,
             target: object.constructor,
             propertyName: propertyName,
-            value1: values,
+            constraints: [values],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -176,21 +176,6 @@ export function IsDate(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_DATE,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if a value is a string.
- */
-export function IsString(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_STRING,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
@@ -244,6 +229,21 @@ export function IsDecimal(validationOptions?: ValidationOptions) {
     };
 }
 
+/**
+ * Checks if a value is a string.
+ */
+export function IsString(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_STRING,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
 // -------------------------------------------------------------------------
 // Number checkers
 // -------------------------------------------------------------------------
@@ -257,7 +257,7 @@ export function DivisibleBy(num: number, validationOptions?: ValidationOptions) 
             type: ValidationTypes.DIVISIBLE_BY,
             target: object.constructor,
             propertyName: propertyName,
-            value1: num,
+            constraints: [num],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -302,7 +302,7 @@ export function GreaterThen(min: number, validationOptions?: ValidationOptions) 
             type: ValidationTypes.GREATER_THEN,
             target: object.constructor,
             propertyName: propertyName,
-            value1: min,
+            constraints: [min],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -318,7 +318,7 @@ export function LessThen(max: number, validationOptions?: ValidationOptions) {
             type: ValidationTypes.LESS_THEN,
             target: object.constructor,
             propertyName: propertyName,
-            value1: max,
+            constraints: [max],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -338,7 +338,7 @@ export function MinDate(date: Date, validationOptions?: ValidationOptions) {
             type: ValidationTypes.MIN_DATE,
             target: object.constructor,
             propertyName: propertyName,
-            value1: date,
+            constraints: [date],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -354,7 +354,7 @@ export function MaxDate(date: Date, validationOptions?: ValidationOptions) {
             type: ValidationTypes.MAX_DATE,
             target: object.constructor,
             propertyName: propertyName,
-            value1: date,
+            constraints: [date],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -423,7 +423,7 @@ export function Contains(seed: string, validationOptions?: ValidationOptions) {
             type: ValidationTypes.CONTAINS,
             target: object.constructor,
             propertyName: propertyName,
-            value1: seed,
+            constraints: [seed],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -439,7 +439,7 @@ export function NotContains(seed: string, validationOptions?: ValidationOptions)
             type: ValidationTypes.NOT_CONTAINS,
             target: object.constructor,
             propertyName: propertyName,
-            value1: seed,
+            constraints: [seed],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -515,8 +515,7 @@ export function IsByteLength(min: number, max?: number, validationOptions?: Vali
             type: ValidationTypes.IS_BYTE_LENGTH,
             target: object.constructor,
             propertyName: propertyName,
-            value1: min,
-            value2: max,
+            constraints: [min, max],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -547,7 +546,7 @@ export function IsCurrency(options?: IsCurrencyOptions, validationOptions?: Vali
             type: ValidationTypes.IS_CURRENCY,
             target: object.constructor,
             propertyName: propertyName,
-            value1: options,
+            validationTypeOptions: options,
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -563,7 +562,7 @@ export function IsEmail(options?: IsEmailOptions, validationOptions?: Validation
             type: ValidationTypes.IS_EMAIL,
             target: object.constructor,
             propertyName: propertyName,
-            value1: options,
+            validationTypeOptions: options,
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -579,7 +578,7 @@ export function IsFQDN(options?: IsFQDNOptions, validationOptions?: ValidationOp
             type: ValidationTypes.IS_FQDN,
             target: object.constructor,
             propertyName: propertyName,
-            value1: options,
+            validationTypeOptions: options,
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -670,7 +669,7 @@ export function IsIP(version?: "4"|"6", validationOptions?: ValidationOptions) {
             type: ValidationTypes.IS_IP,
             target: object.constructor,
             propertyName: propertyName,
-            value1: version,
+            constraints: [version],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -686,7 +685,7 @@ export function IsISBN(version?: "10"|"13", validationOptions?: ValidationOption
             type: ValidationTypes.IS_ISBN,
             target: object.constructor,
             propertyName: propertyName,
-            value1: version,
+            constraints: [version],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -763,7 +762,7 @@ export function IsMobilePhone(locale: string, validationOptions?: ValidationOpti
             type: ValidationTypes.IS_MOBILE_PHONE,
             target: object.constructor,
             propertyName: propertyName,
-            value1: locale,
+            constraints: [locale],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -824,7 +823,7 @@ export function IsUrl(options?: IsURLOptions, validationOptions?: ValidationOpti
             type: ValidationTypes.IS_URL,
             target: object.constructor,
             propertyName: propertyName,
-            value1: options,
+            constraints: [options],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -840,7 +839,7 @@ export function IsUUID(version?: "3"|"4"|"5", validationOptions?: ValidationOpti
             type: ValidationTypes.IS_UUID,
             target: object.constructor,
             propertyName: propertyName,
-            value1: version,
+            constraints: [version],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -871,8 +870,7 @@ export function Length(min: number, max?: number, validationOptions?: Validation
             type: ValidationTypes.LENGTH,
             target: object.constructor,
             propertyName: propertyName,
-            value1: min,
-            value2: max,
+            constraints: [min, max],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -888,7 +886,7 @@ export function MinLength(min: number, validationOptions?: ValidationOptions) {
             type: ValidationTypes.MIN_LENGTH,
             target: object.constructor,
             propertyName: propertyName,
-            value1: min,
+            constraints: [min],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -904,7 +902,7 @@ export function MaxLength(max: number, validationOptions?: ValidationOptions) {
             type: ValidationTypes.MAX_LENGTH,
             target: object.constructor,
             propertyName: propertyName,
-            value1: max,
+            constraints: [max],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -929,8 +927,7 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
             type: ValidationTypes.MATCHES,
             target: object.constructor,
             propertyName: propertyName,
-            value1: pattern,
-            value2: modifiers,
+            constraints: [pattern, modifiers],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -950,7 +947,7 @@ export function ArrayContains(values: any[], validationOptions?: ValidationOptio
             type: ValidationTypes.ARRAY_CONTAINS,
             target: object.constructor,
             propertyName: propertyName,
-            value1: values,
+            constraints: [values],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -966,7 +963,7 @@ export function ArrayNotContains(values: any[], validationOptions?: ValidationOp
             type: ValidationTypes.ARRAY_NOT_CONTAINS,
             target: object.constructor,
             propertyName: propertyName,
-            value1: values,
+            constraints: [values],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -997,7 +994,7 @@ export function ArrayMinSize(min: number, validationOptions?: ValidationOptions)
             type: ValidationTypes.ARRAY_MIN_SIZE,
             target: object.constructor,
             propertyName: propertyName,
-            value1: min,
+            constraints: [min],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -1013,7 +1010,7 @@ export function ArrayMaxSize(max: number, validationOptions?: ValidationOptions)
             type: ValidationTypes.ARRAY_MAX_SIZE,
             target: object.constructor,
             propertyName: propertyName,
-            value1: max,
+            constraints: [max],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));

@@ -30,19 +30,14 @@ export class ValidationMetadata {
     constraintCls: Function;
 
     /**
-     * First extra validation metadata value.
+     * Array of constraints of this validation.
      */
-    value1: any;
-
-    /**
-     * Second extra validation metadata value.
-     */
-    value2: any;
+    constraints: any[];
 
     /**
      * Validation message to be shown in the case of error.
      */
-    message: string|((value?: any, constraint1?: any, constraint2?: any) => string);
+    message: string|((value?: any, constraints?: any[]) => string);
 
     /**
      * Validation groups used for this validation.
@@ -59,6 +54,11 @@ export class ValidationMetadata {
      */
     each: boolean = false;
 
+    /**
+     * Extra options specific to validation type.
+     */
+    validationTypeOptions: any;
+
     // -------------------------------------------------------------------------
     // Constructor
     // -------------------------------------------------------------------------
@@ -67,9 +67,9 @@ export class ValidationMetadata {
         this.type = args.type;
         this.target = args.target;
         this.propertyName = args.propertyName;
-        this.value1 = args.value1;
-        this.value2 = args.value2;
+        this.constraints = args.constraints;
         this.constraintCls = args.constraintCls;
+        this.validationTypeOptions = args.validationTypeOptions;
         if (args.validationOptions) {
             this.message = args.validationOptions.message;
             this.groups = args.validationOptions.groups;

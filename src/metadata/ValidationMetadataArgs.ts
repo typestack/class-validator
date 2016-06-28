@@ -26,17 +26,17 @@ export interface ValidationMetadataArgs {
     constraintCls?: Function;
 
     /**
-     * First extra validation metadata value.
+     * Array of constraints of this validation.
      */
-    value1?: any;
-
-    /**
-     * Second extra validation metadata value.
-     */
-    value2?: any;
+    constraints?: any[];
 
     /**
      * Validation options.
      */
     validationOptions?: ValidationOptions;
+
+    /**
+     * Extra options specific to validation type.
+     */
+    validationTypeOptions?: any;
 }

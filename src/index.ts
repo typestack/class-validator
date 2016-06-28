@@ -85,16 +85,16 @@ export function registerSchema(schema: ValidationSchema): void {
  * Registers a custom validation decorator.
  */
 export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], constraintCls: Function): void;
-export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationName: string, callback: (value?: any) => boolean|Promise<boolean>): void;
-export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationNameOrConstraintCls: string|Function, callback?: (value?: any) => boolean|Promise<boolean>): void {
+export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationName: string, callback: (value?: any, object?: Object, constraints?: any[]) => boolean|Promise<boolean>): void;
+export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationNameOrConstraintCls: string|Function, callback?: (value?: any, object?: Object, constraints?: any[]) => boolean|Promise<boolean>): void {
     
     let constraintCls: Function;
     if (validationNameOrConstraintCls instanceof Function) {
         constraintCls = validationNameOrConstraintCls as Function;
     } else {
         constraintCls = class CustomConstraint implements ValidatorConstraintInterface {
-            validate(value: any, validatingObject: Object): Promise<boolean>|boolean {
-                return callback(value);
+            validate(value: any, object?: Object, constraints?: any[]): Promise<boolean>|boolean {
+                return callback(value, object, constraints);
             }
         };
         getFromContainer(MetadataStorage).addConstraintMetadata(new ConstraintMetadata(constraintCls, validationNameOrConstraintCls as string));
@@ -106,7 +106,7 @@ export function registerDecorator(object: Object, propertyName: string, validati
         propertyName: propertyName,
         validationOptions: validationOptions,
         constraintCls: constraintCls,
-        value1: constraints[0] // temporary
+        constraints: constraints
     };
     getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(validationMetadataArgs));
 }

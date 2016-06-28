@@ -85,18 +85,19 @@ export class Post {
 }
 ```
 
-You can also use special variables like `$constraint` and `$constraint2` and they will be replaced where they are available:
+There is a special token that you can use in message string: `$value` - it will be replaced with actual value used for validation.
+You can also use special token like `$constraint1`, `$constraint2`, ... `$constraintN` and they will be replaced where they are available:
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
 
 export class Post {
 
-    @MinLength(10, { // here, $constraint will be replaced with "10", and $value with actual supplied value
-        message: "Title is too short. Minimal length is $constraint characters, but actual is $value"
+    @MinLength(10, { // here, $constraint1 will be replaced with "10", and $value with actual supplied value
+        message: "Title is too short. Minimal length is $constraint1 characters, but actual is $value"
     })
-    @MaxLength(50, { // here, $constraint will be replaced with "50", and $value with actual supplied value
-        message: "Title is too long. Maximal length is $constraint characters, but actual is $value"
+    @MaxLength(50, { // here, $constraint1 will be replaced with "50", and $value with actual supplied value
+        message: "Title is too long. Maximal length is $constraint1 characters, but actual is $value"
     })
     title: string;
 }

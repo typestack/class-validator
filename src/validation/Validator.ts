@@ -41,17 +41,17 @@ export class Validator {
         switch (metadata.type) {
             /* common checkers */
             case ValidationTypes.EQUALS:
-                return this.equals(value, metadata.value1);
+                return this.equals(value, metadata.constraints[0]);
             case ValidationTypes.NOT_EQUALS:
-                return this.notEquals(value, metadata.value1);
+                return this.notEquals(value, metadata.constraints[0]);
             case ValidationTypes.EMPTY:
                 return this.empty(value);
             case ValidationTypes.NOT_EMPTY:
                 return this.notEmpty(value);
             case ValidationTypes.IN:
-                return this.isIn(value, metadata.value1);
+                return this.isIn(value, metadata.constraints[0]);
             case ValidationTypes.NOT_IN:
-                return this.isNotIn(value, metadata.value1);
+                return this.isNotIn(value, metadata.constraints[0]);
 
             /* type checkers */
             case ValidationTypes.IS_BOOLEAN:
@@ -69,21 +69,21 @@ export class Validator {
 
             /* number checkers */
             case ValidationTypes.DIVISIBLE_BY:
-                return this.divisibleBy(value, metadata.value1);
+                return this.divisibleBy(value, metadata.constraints[0]);
             case ValidationTypes.IS_POSITIVE:
                 return this.isPositive(value);
             case ValidationTypes.IS_NEGATIVE:
                 return this.isNegative(value);
             case ValidationTypes.GREATER_THEN:
-                return this.greaterThen(value, metadata.value1);
+                return this.greaterThen(value, metadata.constraints[0]);
             case ValidationTypes.LESS_THEN:
-                return this.lessThen(value, metadata.value1);
+                return this.lessThen(value, metadata.constraints[0]);
 
             /* date checkers */
             case ValidationTypes.MIN_DATE:
-                return this.minDate(value, metadata.value1);
+                return this.minDate(value, metadata.constraints[0]);
             case ValidationTypes.MAX_DATE:
-                return this.maxDate(value, metadata.value1);
+                return this.maxDate(value, metadata.constraints[0]);
 
             /* string-as-type checkers */
             case ValidationTypes.IS_BOOLEAN_STRING:
@@ -95,9 +95,9 @@ export class Validator {
 
             /* string checkers */
             case ValidationTypes.CONTAINS:
-                return this.contains(value, metadata.value1);
+                return this.contains(value, metadata.constraints[0]);
             case ValidationTypes.NOT_CONTAINS:
-                return this.notContains(value, metadata.value1);
+                return this.notContains(value, metadata.constraints[0]);
             case ValidationTypes.IS_ALPHA:
                 return this.isAlpha(value);
             case ValidationTypes.IS_ALPHANUMERIC:
@@ -107,15 +107,15 @@ export class Validator {
             case ValidationTypes.IS_BASE64:
                 return this.isBase64(value);
             case ValidationTypes.IS_BYTE_LENGTH:
-                return this.isByteLength(value, metadata.value1, metadata.value2);
+                return this.isByteLength(value, metadata.constraints[0], metadata.constraints[1]);
             case ValidationTypes.IS_CREDIT_CARD:
                 return this.isCreditCard(value);
             case ValidationTypes.IS_CURRENCY:
-                return this.isCurrency(value, metadata.value1);
+                return this.isCurrency(value, metadata.validationTypeOptions);
             case ValidationTypes.IS_EMAIL:
-                return this.isEmail(value, metadata.value1);
+                return this.isEmail(value, metadata.validationTypeOptions);
             case ValidationTypes.IS_FQDN:
-                return this.isFQDN(value, metadata.value1);
+                return this.isFQDN(value, metadata.validationTypeOptions);
             case ValidationTypes.IS_FULL_WIDTH:
                 return this.isFullWidth(value);
             case ValidationTypes.IS_HALF_WIDTH:
@@ -127,9 +127,9 @@ export class Validator {
             case ValidationTypes.IS_HEXADECIMAL:
                 return this.isHexadecimal(value);
             case ValidationTypes.IS_IP:
-                return this.isIP(value, metadata.value1);
+                return this.isIP(value, metadata.constraints[0]);
             case ValidationTypes.IS_ISBN:
-                return this.isISBN(value, metadata.value1);
+                return this.isISBN(value, metadata.constraints[0]);
             case ValidationTypes.IS_ISIN:
                 return this.isISIN(value);
             case ValidationTypes.IS_ISO8601:
@@ -139,7 +139,7 @@ export class Validator {
             case ValidationTypes.IS_LOWERCASE:
                 return this.isLowercase(value);
             case ValidationTypes.IS_MOBILE_PHONE:
-                return this.isMobilePhone(value, metadata.value1);
+                return this.isMobilePhone(value, metadata.constraints[0]);
             case ValidationTypes.IS_MONGO_ID:
                 return this.isMongoId(value);
             case ValidationTypes.IS_MULTIBYTE:
@@ -147,31 +147,31 @@ export class Validator {
             case ValidationTypes.IS_SURROGATE_PAIR:
                 return this.isSurrogatePair(value);
             case ValidationTypes.IS_URL:
-                return this.isURL(value, metadata.value1);
+                return this.isURL(value, metadata.validationTypeOptions);
             case ValidationTypes.IS_UUID:
-                return this.isUUID(value, metadata.value1);
+                return this.isUUID(value, metadata.constraints[0]);
             case ValidationTypes.IS_UPPERCASE:
                 return this.isUppercase(value);
             case ValidationTypes.LENGTH:
-                return this.length(value, metadata.value1, metadata.value2);
+                return this.length(value, metadata.constraints[0], metadata.constraints[1]);
             case ValidationTypes.MIN_LENGTH:
-                return this.minLength(value, metadata.value1);
+                return this.minLength(value, metadata.constraints[0]);
             case ValidationTypes.MAX_LENGTH:
-                return this.maxLength(value, metadata.value1);
+                return this.maxLength(value, metadata.constraints[0]);
             case ValidationTypes.MATCHES:
-                return this.matches(value, metadata.value1, metadata.value2);
+                return this.matches(value, metadata.constraints[0], metadata.constraints[1]);
 
             /* array checkers */
             case ValidationTypes.ARRAY_CONTAINS:
-                return this.arrayContains(value, metadata.value1);
+                return this.arrayContains(value, metadata.constraints[0]);
             case ValidationTypes.ARRAY_NOT_CONTAINS:
-                return this.arrayNotContains(value, metadata.value1);
+                return this.arrayNotContains(value, metadata.constraints[0]);
             case ValidationTypes.ARRAY_NOT_EMPTY:
                 return this.arrayNotEmpty(value);
             case ValidationTypes.ARRAY_MIN_SIZE:
-                return this.arrayMinSize(value, metadata.value1);
+                return this.arrayMinSize(value, metadata.constraints[0]);
             case ValidationTypes.ARRAY_MAX_SIZE:
-                return this.arrayMaxSize(value, metadata.value1);
+                return this.arrayMaxSize(value, metadata.constraints[0]);
             case ValidationTypes.ARRAY_UNIQUE:
                 return this.arrayUnique(value);
         }

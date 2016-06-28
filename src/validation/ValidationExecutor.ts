@@ -92,7 +92,7 @@ export class ValidationExecutor {
             getFromContainer(MetadataStorage)
                 .getTargetValidatorConstraints(metadata.constraintCls)
                 .forEach(customConstraintMetadata => {
-                    const validatedValue = customConstraintMetadata.instance.validate(value, object, [metadata.value1]);
+                    const validatedValue = customConstraintMetadata.instance.validate(value, object, metadata.constraints);
                     if (validatedValue instanceof Promise) {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {
@@ -131,7 +131,7 @@ export class ValidationExecutor {
                                   customValidatorMetadata?: ConstraintMetadata): ValidationError {
         let message: string;
         if (metadata.message instanceof Function) {
-            message = (metadata.message as ((value?: number, constraint1?: number, constraint2?: number) => string))(value, metadata.value1, metadata.value2);
+            message = (metadata.message as ((value?: any, constraints?: any[]) => string))(value, metadata.constraints);
 
         } else if (typeof metadata.message === "string") {
             message = metadata.message as string;
@@ -140,12 +140,8 @@ export class ValidationExecutor {
             // message = this.defaultMessages.getFor(metadata.type);
         }
 
-        if (message && metadata.value1 !== undefined && metadata.value1 !== null)
-            message = message.replace(/\$constraint1/g, metadata.value1);
-        if (message && metadata.value2 !== undefined && metadata.value2 !== null)
-            message = message.replace(/\$constraint2/g, metadata.value2);
-        if (message && metadata.value1 !== undefined && metadata.value1 !== null)
-            message = message.replace(/\$constraint/g, metadata.value1);
+        if (message && metadata.constraints instanceof Array)
+            metadata.constraints.forEach((constraint, index) => message.replace(new RegExp(`\$constraint${index}`, "g"), constraint));
         if (message && value !== undefined && value !== null)
             message = message.replace(/\$value/g, value);
 
