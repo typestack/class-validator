@@ -1,0 +1,66 @@
+{
+  "name": "post",
+  "properties": {
+    "title": [
+      {
+        "type": "min_length",
+        "value1": 10
+      },
+      {
+        "type": "max_length",
+        "value1": 20
+      }
+    ],
+    "text": [
+      {
+        "type": "contains",
+        "value1": "hello"
+      }
+    ],
+    "rating": [
+      {
+        "type": "is_int"
+      }
+    ],
+    "email": [
+      {
+        "type": "is_email"
+      }
+    ],
+    "site": [
+      {
+        "type": "is_fqdn"
+      }
+    ],
+    "createDate": [
+      {
+        "type": "is_date"
+      }
+    ],
+    "tags": [
+      {
+        "type": "array_not_empty"
+      },
+      {
+        "type": "array_min_size",
+        "value1": 2
+      },
+      {
+        "type": "array_max_size",
+        "value1": 5
+      },
+      {
+        "type": "min_length",
+        "each": true,
+        "value1": 3,
+        "message": "Tag is too short. Minimal length is $value characters"
+      },
+      {
+        "type": "max_length",
+        "each": true,
+        "value1": 50,
+        "message": "Tag is too long. Maximal length is $value characters"
+      }
+    ]
+  }
+}

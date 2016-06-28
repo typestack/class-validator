@@ -56,13 +56,13 @@ post.rating = 11; // should not pass
 post.email = "google.com"; // should not pass
 post.site = "googlecom"; // should not pass
 
-validate(post).then(errors => {
+validate(post).then(errors => { // errors is an array of validation errors
     if (errors.length > 0) {
         console.log("validation failed. errors: ", errors);
     } else {
         console.log("validation succeed");
     }
-}); // returns you array of errors
+});
 ```
 
 ## Validation messages

@@ -83,5 +83,12 @@ export class ValidationTypes {
     static ARRAY_MIN_SIZE = "array_min_size";
     static ARRAY_MAX_SIZE = "array_max_size";
     static ARRAY_UNIQUE = "array_unique";
+
+    /**
+     * Checks if validation type is valid.
+     */
+    static isValid(type: string) {
+        return type !== "isValid" && Object.keys(this).map(key => (this as any)[key]).indexOf(type) !== -1;
+    }
     
 }

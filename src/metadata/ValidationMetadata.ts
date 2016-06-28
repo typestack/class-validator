@@ -17,7 +17,7 @@ export class ValidationMetadata {
     /**
      * Target class to which this validation is applied.
      */
-    target: Function;
+    target: Function|string;
 
     /**
      * Property of the object to be validated.

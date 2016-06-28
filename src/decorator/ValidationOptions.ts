@@ -9,7 +9,7 @@ export interface ValidationOptions {
     each?: boolean;
 
     /**
-     * Message used to be shown on validation fail. 
+     * Error message used to be used on validation fail.
      * You can use "$value" to use value that was failed by validation.
      * You can use "$constraint1" and "$constraint2" keys in the message string, 
      * and they will be replaced with constraint values if they exist.

@@ -13,7 +13,7 @@ export interface ValidationMetadataArgs {
     /**
      * Object that is used to be validated.
      */
-    target: Function;
+    target: Function|string;
 
     /**
      * Property of the object to be validated.

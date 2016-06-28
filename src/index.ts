@@ -1,6 +1,8 @@
 import {Validator} from "./validation/Validator";
 import {ValidationError} from "./validation/ValidationError";
 import {ValidatorOptions} from "./validation/ValidatorOptions";
+import {ValidationSchema} from "./validation-schema/ValidationSchema";
+import {MetadataStorage} from "./metadata/MetadataStorage";
 
 // -------------------------------------------------------------------------
 // Global Container
@@ -13,8 +15,8 @@ import {ValidatorOptions} from "./validation/ValidatorOptions";
 let container: { get<T>(someClass: { new (...args: any[]): T }|Function): T } = new (class {
     private instances: any[] = [];
     get<T>(someClass: { new (...args: any[]): T }): T {
-        if (!this.instances[<any>someClass])
-            this.instances[<any>someClass] = new someClass();
+        if (!this.instances[someClass as any])
+            this.instances[someClass as any] = new someClass();
 
         return this.instances[<any>someClass];
     }
@@ -46,12 +48,30 @@ export * from "./validation/ValidatorConstraintInterface";
 export * from "./validation/ValidationError";
 export * from "./validation/ValidationTypeOptions";
 export * from "./validation/ValidatorOptions";
+export * from "./validation-schema/ValidationSchema";
 export * from "./validation/Validator";
 
 // -------------------------------------------------------------------------
 // Shortcut methods for api users
 // -------------------------------------------------------------------------
 
+/**
+ * Validates given object.
+ */
 export function validate(object: any, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
     return getFromContainer(Validator).validate(object, validatorOptions);
+}
+
+/**
+ * Validates given object by a given validation schema.
+ */
+export function validateBySchema(schemaName: string, object: any, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+    return getFromContainer(Validator).validateBySchema(schemaName, object, validatorOptions);
+}
+
+/**
+ * Registers a new validation schema.
+ */
+export function registerSchema(schema: ValidationSchema) {
+    return getFromContainer(MetadataStorage).addValidationSchema(schema);
 }

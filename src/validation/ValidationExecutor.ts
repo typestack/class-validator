@@ -25,12 +25,12 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
 
     private metadataStorage = getFromContainer(MetadataStorage);
-    
+
     // -------------------------------------------------------------------------
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(private validator: Validator, 
+    constructor(private validator: Validator,
                 private validatorOptions?: ValidatorOptions) {
     }
     
@@ -38,9 +38,9 @@ export class ValidationExecutor {
     // Public Methods
     // -------------------------------------------------------------------------
     
-    execute(object: Object) {
+    execute(object: Object, targetSchema?: string) {
         const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
-        const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, groups);
+        const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
         Object.keys(groupedMetadatas).forEach(propertyName => {
@@ -73,13 +73,13 @@ export class ValidationExecutor {
             .filter(metadata => {
                 if (metadata.each) {
                     if (value instanceof Array) {
-                        return !value.every((subValue: any) => this.validator.validateBasedOnMetadata(subValue, metadata));
+                        return !value.every((subValue: any) => this.validator.validateValueByMetadata(subValue, metadata));
                         // } else {
                         //     throw new Error(`Cannot validate ${(metadata.target as any).name}#${metadata.propertyName} because supplied value is not an array, however array is expected for validation.`);
                     }
 
                 } else {
-                    return !this.validator.validateBasedOnMetadata(value, metadata);
+                    return !this.validator.validateValueByMetadata(value, metadata);
                 }
             })
             .forEach(metadata => {
@@ -89,7 +89,7 @@ export class ValidationExecutor {
 
     private customValidations(object: Object, value: any, metadatas: ValidationMetadata[]) {
         metadatas.forEach(metadata => {
-            this.metadataStorage
+            getFromContainer(MetadataStorage)
                 .getTargetValidatorConstraints(metadata.value1 as Function)
                 .forEach(customConstraintMetadata => {
                     const validatedValue = customConstraintMetadata.instance.validate(value, object);
@@ -111,12 +111,13 @@ export class ValidationExecutor {
     private nestedValidations(value: any, metadatas: ValidationMetadata[]) {
         metadatas.forEach(metadata => {
             if (metadata.type !== ValidationTypes.NESTED_VALIDATION) return;
+            const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
 
             if (value instanceof Array) {
-                value.forEach((subValue: any) => this.awaitingPromises.push(this.execute(subValue)));
+                value.forEach((subValue: any) => this.awaitingPromises.push(this.execute(subValue, targetSchema)));
 
             } else if (value instanceof Object) {
-                this.awaitingPromises.push(this.execute(value));
+                this.awaitingPromises.push(this.execute(value, targetSchema));
 
             } else {
                 throw new Error("Only objects and arrays are supported to nested validation");

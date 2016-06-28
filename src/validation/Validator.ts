@@ -28,9 +28,16 @@ export class Validator {
     }
 
     /**
+     * Performs validation of the given object based on annotations used in given object class.
+     */
+    validateBySchema(schemaName: string, object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+        return new ValidationExecutor(this, validatorOptions).execute(object, schemaName);
+    }
+
+    /**
      * Performs validation of the given object based on the given ValidationMetadata object.
      */
-    validateBasedOnMetadata(value: any, metadata: ValidationMetadata): boolean {
+    validateValueByMetadata(value: any, metadata: ValidationMetadata): boolean {
         switch (metadata.type) {
             /* common checkers */
             case ValidationTypes.EQUALS:

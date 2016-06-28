@@ -1,5 +1,7 @@
 import {ValidationMetadata} from "./ValidationMetadata";
 import {ConstraintMetadata} from "./ConstraintMetadata";
+import {ValidationSchema} from "../validation-schema/ValidationSchema";
+import {ValidationSchemaToMetadataTransformer} from "../validation-schema/ValidationSchemaToMetadataTransformer";
 
 /**
  * Storage all metadatas.
@@ -17,6 +19,14 @@ export class MetadataStorage {
     // Public Methods
     // -------------------------------------------------------------------------
 
+    /**
+     * Adds a new validation metadata.
+     */
+    addValidationSchema(schema: ValidationSchema) {
+        const validationMetadatas = new ValidationSchemaToMetadataTransformer().transform(schema);
+        validationMetadatas.forEach(validationMetadata => this.addValidationMetadata(validationMetadata));
+    }
+    
     /**
      * Adds a new validation metadata.
      */
@@ -47,11 +57,11 @@ export class MetadataStorage {
     /**
      * Gets all validation metadatas for the given object with the given groups.
      */
-    getTargetValidationMetadatas(target: Function, groups?: string[]): ValidationMetadata[] {
+    getTargetValidationMetadatas(targetConstructor: Function, targetSchema: string, groups?: string[]): ValidationMetadata[] {
         
         // get directly related to a target metadatas
         const originalMetadatas = this.validationMetadatas.filter(metadata => {
-            if (metadata.target !== target)
+            if (metadata.target !== targetConstructor && metadata.target !== targetSchema)
                 return false;
             if (metadata.always) 
                 return true;
@@ -63,7 +73,8 @@ export class MetadataStorage {
         
         // get metadatas for inherited classes
         const inheritedMetadatas = this.validationMetadatas.filter(metadata => {
-            if (!(target.prototype instanceof metadata.target))
+            if (metadata.target instanceof Function && 
+                !(targetConstructor instanceof (metadata.target as Function)))
                 return false;
             if (metadata.always) 
                 return true;
