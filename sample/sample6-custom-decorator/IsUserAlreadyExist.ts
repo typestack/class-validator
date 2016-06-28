@@ -3,7 +3,8 @@ import {ValidationOptions} from "../../src/decorator/ValidationOptions";
 
 export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
-        registerDecorator(object, propertyName, validationOptions, [], "user_exists", userName => {
+        const constraints: any[] = [/*constraints your decorator can have*/];
+        registerDecorator(object, propertyName, validationOptions, constraints, "user_exists", (userName, object, constraints) => {
             return new Promise(ok => {
                 if (userName !== "admin" && userName !== "user") {
                     ok(true);

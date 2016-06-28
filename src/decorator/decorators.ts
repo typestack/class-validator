@@ -24,14 +24,17 @@ export function ValidatorConstraint(name?: string) {
  * Performs validation based on the given custom validation class. 
  * Validation class must be decorated with ValidatorConstraint decorator.
  */
-export function Validate(constraintClass: Function, validationOptions?: ValidationOptions) {
+export function Validate(constraintClass: Function, validationOptions?: ValidationOptions): Function;
+export function Validate(constraintClass: Function, constraints?: any[], validationOptions?: ValidationOptions): Function;
+export function Validate(constraintClass: Function, constraintsOrValidationOptions?: any[]|ValidationOptions, maybeValidationOptions?: ValidationOptions): Function {
     return function(object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.CUSTOM_VALIDATION,
             target: object.constructor,
             propertyName: propertyName,
             constraintCls: constraintClass,
-            validationOptions: validationOptions
+            constraints: constraintsOrValidationOptions instanceof Array ? constraintsOrValidationOptions as any[] : undefined,
+            validationOptions: !(constraintsOrValidationOptions instanceof Array) ? constraintsOrValidationOptions as any[] : maybeValidationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
