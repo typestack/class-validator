@@ -6,6 +6,6 @@ export interface ValidatorConstraintInterface {
     /**
      * Method to be called to perform custom validation over given value.
      */
-    validate(value: any, validatingObject: Object): Promise<boolean>|boolean;
+    validate(value: any, validatingObject: Object, constraints: any[]): Promise<boolean>|boolean;
 
 }

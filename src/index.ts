@@ -3,6 +3,11 @@ import {ValidationError} from "./validation/ValidationError";
 import {ValidatorOptions} from "./validation/ValidatorOptions";
 import {ValidationSchema} from "./validation-schema/ValidationSchema";
 import {MetadataStorage} from "./metadata/MetadataStorage";
+import {ConstraintMetadata} from "./metadata/ConstraintMetadata";
+import {ValidatorConstraintInterface} from "./validation/ValidatorConstraintInterface";
+import {ValidationMetadata} from "./metadata/ValidationMetadata";
+import {ValidationMetadataArgs} from "./metadata/ValidationMetadataArgs";
+import {ValidationTypes} from "./validation/ValidationTypes";
 
 // -------------------------------------------------------------------------
 // Global Container
@@ -72,6 +77,36 @@ export function validateBySchema(schemaName: string, object: any, validatorOptio
 /**
  * Registers a new validation schema.
  */
-export function registerSchema(schema: ValidationSchema) {
-    return getFromContainer(MetadataStorage).addValidationSchema(schema);
+export function registerSchema(schema: ValidationSchema): void {
+    getFromContainer(MetadataStorage).addValidationSchema(schema);
+}
+
+/**
+ * Registers a custom validation decorator.
+ */
+export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], constraintCls: Function): void;
+export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationName: string, callback: (value?: any) => boolean|Promise<boolean>): void;
+export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationNameOrConstraintCls: string|Function, callback?: (value?: any) => boolean|Promise<boolean>): void {
+    
+    let constraintCls: Function;
+    if (validationNameOrConstraintCls instanceof Function) {
+        constraintCls = validationNameOrConstraintCls as Function;
+    } else {
+        constraintCls = class CustomConstraint implements ValidatorConstraintInterface {
+            validate(value: any, validatingObject: Object): Promise<boolean>|boolean {
+                return callback(value);
+            }
+        };
+        getFromContainer(MetadataStorage).addConstraintMetadata(new ConstraintMetadata(constraintCls, validationNameOrConstraintCls as string));
+    }
+
+    const validationMetadataArgs: ValidationMetadataArgs = {
+        type: ValidationTypes.CUSTOM_VALIDATION,
+        target: object.constructor,
+        propertyName: propertyName,
+        validationOptions: validationOptions,
+        constraintCls: constraintCls,
+        value1: constraints[0] // temporary
+    };
+    getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(validationMetadataArgs));
 }

@@ -55,7 +55,7 @@ export class ValidationExecutor {
             
             if (!value && this.validatorOptions && this.validatorOptions.skipMissingProperties === true)
                 return;
-
+            
             this.defaultValidations(object, value, metadatas);
             this.customValidations(object, value, customValidationMetadatas);
             this.nestedValidations(value, nestedValidationMetadatas);
@@ -90,9 +90,9 @@ export class ValidationExecutor {
     private customValidations(object: Object, value: any, metadatas: ValidationMetadata[]) {
         metadatas.forEach(metadata => {
             getFromContainer(MetadataStorage)
-                .getTargetValidatorConstraints(metadata.value1 as Function)
+                .getTargetValidatorConstraints(metadata.constraintCls)
                 .forEach(customConstraintMetadata => {
-                    const validatedValue = customConstraintMetadata.instance.validate(value, object);
+                    const validatedValue = customConstraintMetadata.instance.validate(value, object, [metadata.value1]);
                     if (validatedValue instanceof Promise) {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {

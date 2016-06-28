@@ -25,6 +25,11 @@ export class ValidationMetadata {
     propertyName: string;
 
     /**
+     * Constraint class that performs validation. Used only for custom validations.
+     */
+    constraintCls: Function;
+
+    /**
      * First extra validation metadata value.
      */
     value1: any;
@@ -64,6 +69,7 @@ export class ValidationMetadata {
         this.propertyName = args.propertyName;
         this.value1 = args.value1;
         this.value2 = args.value2;
+        this.constraintCls = args.constraintCls;
         if (args.validationOptions) {
             this.message = args.validationOptions.message;
             this.groups = args.validationOptions.groups;

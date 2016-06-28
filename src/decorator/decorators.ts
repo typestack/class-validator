@@ -30,7 +30,7 @@ export function Validate(constraintClass: Function, validationOptions?: Validati
             type: ValidationTypes.CUSTOM_VALIDATION,
             target: object.constructor,
             propertyName: propertyName,
-            value1: constraintClass,
+            constraintCls: constraintClass,
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
