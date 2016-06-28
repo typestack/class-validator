@@ -27,8 +27,8 @@ export class ValidationTypes {
     static IS_INT = "is_int";
     static IS_POSITIVE = "is_positive";
     static IS_NEGATIVE = "is_negative";
-    static GREATER = "greater";
-    static LESS = "less";
+    static GREATER_THEN = "greater";
+    static LESS_THEN = "less";
 
     /* date checkers */
     static MIN_DATE = "min_date";

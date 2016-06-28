@@ -15,8 +15,10 @@ Internally uses [validator.js][1] to perform validation.
 
     and use it somewhere in the global place of your app:
 
-    * for nodejs (only need for older versions of node): `require("es6-shim")` in your app's entry point (for example `app.ts`)
+    * for nodejs: `require("es6-shim")` in your app's entry point (for example in `app.ts`)
     * for browser: `<script src="path-to-shim/es6-shim.js">` in your `index.html`
+
+    For node.js users this step is only required if you are using old versions of node.
 
 ## Usage
 
@@ -54,7 +56,13 @@ post.rating = 11; // should not pass
 post.email = "google.com"; // should not pass
 post.site = "googlecom"; // should not pass
 
-let errors = validate(post); // returns you array of errors
+validate(post).then(errors => {
+    if (errors.length > 0) {
+        console.log("validation failed. errors: ", errors);
+    } else {
+        console.log("validation succeed");
+    }
+}); // returns you array of errors
 ```
 
 ## Validation messages
@@ -282,6 +290,8 @@ import {Validator} from "class-validator";
 
 // Validation methods
 const validator = new Validator();
+
+// common validation methods
 validator.equals(value, comparison); // Checks if value matches ("===") the comparison.
 validator.notEquals(value, comparison); // Checks if value does not match ("!==") the comparison.
 validator.empty(value); // Checks if given value is empty (=== '', === null, === undefined).
@@ -289,28 +299,31 @@ validator.notEmpty(value); // Checks if given value is not empty (!== '', !== nu
 validator.isIn(value, possibleValues); // Checks if given value is in a array of allowed values.
 validator.isNotIn(value, possibleValues); // Checks if given value not in a array of allowed values.
 
+// type validation methods
 validator.isBoolean(value); // Checks if a given value is a real boolean.
 validator.isDate(value); // Checks if a given value is a real date.
-validator.isNumber(value); // Checks if a given value is a real number.
 validator.isString(value); // Checks if a given value is a real string.
-
-validator.divisibleBy(value, number); // Checks if value is a number that's divisible by another.
-validator.isDecimal(value); // Checks if value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
+validator.isNumber(value); // Checks if a given value is a real number.
 validator.isInt(value); // Checks if value is an integer.
+validator.isDecimal(value); // Checks if value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
+
+// number validation methods
+validator.divisibleBy(value, num); // Checks if value is a number that's divisible by another.
 validator.isPositive(value); // Checks if the value is a positive number.
 validator.isNegative(value); // Checks if the value is a negative number.
-validator.greater(firstNumber, secondNumber); // Checks if the first number is greater then second.
-validator.less(firstNumber, secondNumber); // Checks if the first number is less then second.
+validator.greaterThen(firstNumber, secondNumber); // Checks if the first number is greater then second.
+validator.lessThen(firstNumber, secondNumber); // Checks if the first number is less then second.
 
+// date validation methods
 validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
 validator.maxDate(date, minDate); // Checks if the value is a date that's before the specified date.
 
-validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
-
+// string-type validation methods
 validator.isBooleanString(str); // Checks if a string is a boolean.
 validator.isDateString(str); // Checks if the string is a date.
 validator.isNumberString(str); // Checks if the string is numeric.
 
+// string validation methods
 validator.contains(str, seed); // Checks if the string contains the seed.
 validator.notContains(str, seed); // Checks if the string does not contain the seed.
 validator.isAlpha(str); // Checks if the string contains only letters (a-zA-Z).
@@ -343,49 +356,49 @@ validator.isUppercase(str); // Checks if the string is uppercase.
 validator.length(str, min, max); // Checks if the string's length falls in a range.
 validator.minLength(str, min); // Checks if the string's length is not less then given number.
 validator.maxLength(str, max); // Checks if the string's length is not more then given number.
+validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 
+// array validation methods
 validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
 validator.arrayNotContains(array, values); // Checks if array does not contain any of the given values.
 validator.arrayNotEmpty(array); // Checks if given array is not empty.
 validator.arrayMinSize(array, min); // Checks if array's length is as minimal this number.
 validator.arrayMaxSize(array, max); // Checks if array's length is as maximal this number.
 validator.arrayUnique(array); // Checks if all array's values are unique. Comparison for objects is reference-based.
-
 ```
 
 ## Validation decorators
 
 | Decorator                                       | Description                                                                                        |
 |-------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| **Common validation decorators**                                                                                                                     |
 | `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison.                                                         |
 | `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison.                                                      |
 | `@Empty()`                                      | Checks if given value is empty (=== '', === null, === undefined).                                  |
 | `@NotEmpty()`                                   | Checks if given value is not empty (!== '', !== null, !== undefined).                              |
 | `@In(values: any[])`                            | Checks if value is in a array of allowed values.                                                   |
 | `@NotIn(values: any[])`                         | Checks if value is not in a array of disallowed values.                                            |
-|                                                                                                                                                      |
+| **Type validation decorators**                                                                                                                       |
 | `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                    |
 | `@IsDate()`                                     | Checks if the string is a date.                                                                    |
-| `@IsNumber()`                                   | Checks if the string is a number.                                                                  |
 | `@IsString()`                                   | Checks if the string is a string.                                                                  |
-|                                                                                                                                                      |
-| `@DivisibleBy(num: number)`                     | Checks if the value is a number that's divisible by another.                                       |
-| `@IsDecimal()`                                  | Checks if the value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.          |
+| `@IsNumber()`                                   | Checks if the string is a number.                                                                  |
 | `@IsInt()`                                      | Checks if the value is an integer number.                                                          |
+| `@IsDecimal()`                                  | Checks if the value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.          |
+| **Number validation decorators**                                                                                                                     |
+| `@DivisibleBy(num: number)`                     | Checks if the value is a number that's divisible by another.                                       |
 | `@IsPositive()`                                 | Checks if the value is a positive number.                                                          |
 | `@IsNegative()`                                 | Checks if the value is a negative number.                                                          |
-| `@Greater(num: number)`                         | Checks if the given number is greater then given number.                                           |
-| `@Less(num: number)`                            | Checks if the given number is less then given number.                                              |
-|                                                                                                                                                      |
+| `@GreaterThen(num: number)`                     | Checks if the given number is greater then given number.                                           |
+| `@LessThen(num: number)`                        | Checks if the given number is less then given number.                                              |
+| **Date validation decorators**                                                                                                                       |
 | `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date.                                     |
-| `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                    |
-|                                                                                                                                                      |
-| `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i'). |
-|                                                                                                                                                      |
+| `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                    |                                                                                                                                                  |
+| **String-type validation decorators**                                                                                                                |
 | `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                       |
 | `@IsDateString()`                               | Checks if a string is a date.                                                                      |
 | `@IsNumberString()`                             | Checks if a string is a number.                                                                    |
-|                                                                                                                                                      |
+| **String validation decorators**                                                                                                                     |
 | `@Contains(seed: string)`                       | Checks if the string contains the seed.                                                            |
 | `@NotContains(seed: string)`                    | Checks if the string not contains the seed.                                                        |
 | `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z).                                               |
@@ -419,13 +432,14 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range.                                                    |
 | `@MinLength(min: number)`                       | Checks if the string's length is not less then given number.                                       |
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more then given number.                                       |
-|                                                                                                                                                      |
+| `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i'). |
+| **Array validation decorators**                                                                                                                      |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                          |
 | `@ArrayNotEmpty()`                              | Checks if given array is not empty.                                                                |
 | `@ArrayMinSize(min: number)`                    | Checks if array's length is as minimal this number.                                                |
 | `@ArrayMaxSize(max: number)`                    | Checks if array's length is as maximal this number.                                                |
-| `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based.                                            |
+| `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based.                |
 
 ## Samples
 

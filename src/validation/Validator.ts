@@ -51,36 +51,32 @@ export class Validator {
                 return this.isBoolean(value);
             case ValidationTypes.IS_DATE:
                 return this.isDate(value);
-            case ValidationTypes.IS_NUMBER:
-                return this.isNumber(value);
             case ValidationTypes.IS_STRING:
                 return this.isString(value);
+            case ValidationTypes.IS_NUMBER:
+                return this.isNumber(value);
+            case ValidationTypes.IS_INT:
+                return this.isInt(value);
+            case ValidationTypes.IS_DECIMAL:
+                return this.isDecimal(value);
 
             /* number checkers */
             case ValidationTypes.DIVISIBLE_BY:
                 return this.divisibleBy(value, metadata.value1);
-            case ValidationTypes.IS_DECIMAL:
-                return this.isDecimal(value);
-            case ValidationTypes.IS_INT:
-                return this.isInt(value);
             case ValidationTypes.IS_POSITIVE:
                 return this.isPositive(value);
             case ValidationTypes.IS_NEGATIVE:
                 return this.isNegative(value);
-            case ValidationTypes.GREATER:
-                return this.greater(value, metadata.value1);
-            case ValidationTypes.LESS:
-                return this.less(value, metadata.value1);
+            case ValidationTypes.GREATER_THEN:
+                return this.greaterThen(value, metadata.value1);
+            case ValidationTypes.LESS_THEN:
+                return this.lessThen(value, metadata.value1);
 
             /* date checkers */
             case ValidationTypes.MIN_DATE:
                 return this.minDate(value, metadata.value1);
             case ValidationTypes.MAX_DATE:
                 return this.maxDate(value, metadata.value1);
-
-            /* regexp checkers */
-            case ValidationTypes.MATCHES:
-                return this.matches(value, metadata.value1, metadata.value2);
 
             /* string-as-type checkers */
             case ValidationTypes.IS_BOOLEAN_STRING:
@@ -155,6 +151,8 @@ export class Validator {
                 return this.minLength(value, metadata.value1);
             case ValidationTypes.MAX_LENGTH:
                 return this.maxLength(value, metadata.value1);
+            case ValidationTypes.MATCHES:
+                return this.matches(value, metadata.value1, metadata.value2);
 
             /* array checkers */
             case ValidationTypes.ARRAY_CONTAINS:
@@ -238,29 +236,17 @@ export class Validator {
     }
 
     /**
-     * Checks if a given value is a real number.
-     */
-    isNumber(value: any): boolean {
-        return value instanceof Number || typeof value === "number";
-    }
-
-    /**
      * Checks if a given value is a real string.
      */
     isString(value: any): boolean {
         return value instanceof String || typeof value === "string";
     }
 
-    // -------------------------------------------------------------------------
-    // Validation Methods: number checkers
-    // -------------------------------------------------------------------------
-
     /**
-     * Checks if value is a number that's divisible by another.
+     * Checks if a given value is a real number.
      */
-    divisibleBy(value: number, num: number): boolean {
-        const numberString = String(value); // fix it
-        return this.validatorJs.divisibleBy(numberString, num);
+    isNumber(value: any): boolean {
+        return value instanceof Number || typeof value === "number";
     }
 
     /**
@@ -277,6 +263,18 @@ export class Validator {
     isInt(val: number): boolean {
         const numberString = String(val); // fix it
         return this.validatorJs.isInt(numberString);
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Methods: number checkers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Checks if value is a number that's divisible by another.
+     */
+    divisibleBy(value: number, num: number): boolean {
+        const numberString = String(value); // fix it
+        return this.validatorJs.divisibleBy(numberString, num);
     }
 
     /**
@@ -296,14 +294,14 @@ export class Validator {
     /**
      * Checks if the first number is greater then second.
      */
-    greater(first: number, second: number): boolean {
+    greaterThen(first: number, second: number): boolean {
         return first > second;
     }
 
     /**
      * Checks if the first number is less then second.
      */
-    less(first: number, second: number): boolean {
+    lessThen(first: number, second: number): boolean {
         return first > second;
     }
 
@@ -323,17 +321,6 @@ export class Validator {
      */
     maxDate(date: Date, maxDate: Date): boolean {
         return date.getTime() >= maxDate.getTime();
-    }
-
-    // -------------------------------------------------------------------------
-    // Validation Methods: regexp checkers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
-     */
-    matches(str: string, pattern: RegExp, modifiers?: string): boolean {
-        return this.validatorJs.matches(str, pattern, modifiers);
     }
 
     // -------------------------------------------------------------------------
@@ -590,6 +577,13 @@ export class Validator {
         return this.length(str, 0, max);
     }
 
+    /**
+     * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+     */
+    matches(str: string, pattern: RegExp, modifiers?: string): boolean {
+        return this.validatorJs.matches(str, pattern, modifiers);
+    }
+    
     // -------------------------------------------------------------------------
     // Validation Methods: array checkers
     // -------------------------------------------------------------------------

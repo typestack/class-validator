@@ -43,8 +43,8 @@ import {
     Matches,
     MinLength,
     MaxLength,
-    Greater,
-    Less,
+    GreaterThen,
+    LessThen,
     NotEmpty,
     ArrayNotEmpty,
     ArrayMinSize,
@@ -1916,7 +1916,7 @@ describe("MaxLength", function() {
 describe("MinNumber", function() {
 
     class MyClass {
-        @Greater(10)
+        @GreaterThen(10)
         num: number;
     }
 
@@ -1943,7 +1943,7 @@ describe("MinNumber", function() {
 describe("MaxNumber", function() {
 
     class MyClass {
-        @Less(10)
+        @LessThen(10)
         num: number;
     }
 

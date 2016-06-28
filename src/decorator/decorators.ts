@@ -185,6 +185,21 @@ export function IsDate(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * Checks if a value is a string.
+ */
+export function IsString(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_STRING,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if a value is a number.
  */
 export function IsNumber(validationOptions?: ValidationOptions) {
@@ -200,12 +215,27 @@ export function IsNumber(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if a value is a string.
+ * Checks if the value is an integer number.
  */
-export function IsString(validationOptions?: ValidationOptions) {
+export function IsInt(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_STRING,
+            type: ValidationTypes.IS_INT,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Checks if the value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
+ */
+export function IsDecimal(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_DECIMAL,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
@@ -228,36 +258,6 @@ export function DivisibleBy(num: number, validationOptions?: ValidationOptions) 
             target: object.constructor,
             propertyName: propertyName,
             value1: num,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if the value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
- */
-export function IsDecimal(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_DECIMAL,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if the value is an integer number.
- */
-export function IsInt(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_INT,
-            target: object.constructor,
-            propertyName: propertyName,
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -296,10 +296,10 @@ export function IsNegative(validationOptions?: ValidationOptions) {
 /**
  * Checks if the given number is greater then given number.
  */
-export function Greater(min: number, validationOptions?: ValidationOptions) {
+export function GreaterThen(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.GREATER,
+            type: ValidationTypes.GREATER_THEN,
             target: object.constructor,
             propertyName: propertyName,
             value1: min,
@@ -312,10 +312,10 @@ export function Greater(min: number, validationOptions?: ValidationOptions) {
 /**
  * Checks if the given number is less then given number.
  */
-export function Less(max: number, validationOptions?: ValidationOptions) {
+export function LessThen(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.LESS,
+            type: ValidationTypes.LESS_THEN,
             target: object.constructor,
             propertyName: propertyName,
             value1: max,
@@ -361,35 +361,6 @@ export function MaxDate(date: Date, validationOptions?: ValidationOptions) {
     };
 }
 
-// -------------------------------------------------------------------------
-// Regexp checkers
-// -------------------------------------------------------------------------
-
-/**
- * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
- */
-export function Matches(pattern: RegExp, validationOptions?: ValidationOptions): Function;
-export function Matches(pattern: RegExp, modifiers?: string, validationOptions?: ValidationOptions): Function;
-export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationOptions, validationOptions?: ValidationOptions): Function {
-    let modifiers: string;
-    if (modifiersOrAnnotationOptions && modifiersOrAnnotationOptions instanceof Object && !validationOptions) {
-        validationOptions = modifiersOrAnnotationOptions as ValidationOptions;
-    } else {
-        modifiers = modifiersOrAnnotationOptions as string;
-    }
-
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.MATCHES,
-            target: object.constructor,
-            propertyName: propertyName,
-            value1: pattern,
-            value2: modifiers,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
 // -------------------------------------------------------------------------
 // String-as-types checkers
 // -------------------------------------------------------------------------
@@ -934,6 +905,32 @@ export function MaxLength(max: number, validationOptions?: ValidationOptions) {
             target: object.constructor,
             propertyName: propertyName,
             value1: max,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+ */
+export function Matches(pattern: RegExp, validationOptions?: ValidationOptions): Function;
+export function Matches(pattern: RegExp, modifiers?: string, validationOptions?: ValidationOptions): Function;
+export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationOptions, validationOptions?: ValidationOptions): Function {
+    let modifiers: string;
+    if (modifiersOrAnnotationOptions && modifiersOrAnnotationOptions instanceof Object && !validationOptions) {
+        validationOptions = modifiersOrAnnotationOptions as ValidationOptions;
+    } else {
+        modifiers = modifiersOrAnnotationOptions as string;
+    }
+
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.MATCHES,
+            target: object.constructor,
+            propertyName: propertyName,
+            value1: pattern,
+            value2: modifiers,
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
