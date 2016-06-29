@@ -1,3 +1,4 @@
+import {MessageArguments} from "./MessageArguments";
 /**
  * Validation types.
  */
@@ -94,14 +95,14 @@ export class ValidationTypes {
     /**
      * Gets default validation error message for the given validation type.
      */
-    static getMessage(type: string): string|((value?: any, constraints?: any[]) => string) {
+    static getMessage(type: string): string|((args: MessageArguments) => string) {
         switch (type) {
 
             /* common checkers */
             case this.EQUALS:
-                return "given value ($value) of $property is not equal to $constraint1";
+                return "$property must be equal to $constraint1";
             case this.NOT_EQUALS:
-                return "given value ($value) of $property should not be equal to $constraint1";
+                return "$property should not be equal to $constraint1";
             case this.EMPTY:
                 return "$property must be empty";
             case this.NOT_EMPTY:
@@ -130,6 +131,8 @@ export class ValidationTypes {
                 return "$property must be divisible by $constraint1";
             case this.IS_POSITIVE:
                 return "$property must be a positive number";
+            case this.IS_NEGATIVE:
+                return "$property must be a negative number";
             case this.GREATER_THEN:
                 return "$property must be greater then $constraint1";
             case this.LESS_THEN:
@@ -147,7 +150,7 @@ export class ValidationTypes {
             case this.IS_DATE_STRING:
                 return "$property must be a date string";
             case this.IS_NUMBER_STRING:
-                return "$property must be a number";
+                return "$property must be a number string";
 
             /* string checkers */
             case this.CONTAINS:
@@ -209,7 +212,14 @@ export class ValidationTypes {
             case this.IS_UPPERCASE:
                 return "$property must be uppercase";
             case this.LENGTH:
-                return () => { // todo
+                return (args: MessageArguments) => { // todo more complex object must come here (with target and propertyName)
+                    const isMinLength = args.constraints[0] !== null && args.constraints[0] !== undefined;
+                    const isMaxLength = args.constraints[1] !== null && args.constraints[1] !== undefined;
+                    if (isMinLength && (!args.value || args.value.length < args.constraints[0])) {
+                        return "$property must be longer then $constraint1";
+                    } else if (isMaxLength && (args.value.length > args.constraints[1])) {
+                        return "$property must be shorter then $constraint2";
+                    }
                     return "$property must be longer then $constraint1 and shorter then $constraint2";
                 };
             case this.MIN_LENGTH:
@@ -217,7 +227,7 @@ export class ValidationTypes {
             case this.MAX_LENGTH:
                 return "$property must be shorter then $constraint2";
             case this.MATCHES:
-                return "$property must much a given regular expression $constraint1";
+                return "$property must match $constraint1 regular expression";
 
             /* array checkers */
             case this.ARRAY_CONTAINS:
@@ -227,11 +237,11 @@ export class ValidationTypes {
             case this.ARRAY_NOT_EMPTY:
                 return "$property should not be empty";
             case this.ARRAY_MIN_SIZE:
-                return "$property's must contain at least $constraint1 elements";
+                return "$property must contain at least $constraint1 elements";
             case this.ARRAY_MAX_SIZE:
-                return "$property's must contain not more then $constraint1 elements";
+                return "$property must contain not more then $constraint1 elements";
             case this.ARRAY_UNIQUE:
-                return "all $property's elements must be unqiue";
+                return "All $property's elements must be unique";
         }
     }
     

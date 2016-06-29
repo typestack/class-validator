@@ -1,4 +1,5 @@
 import {ValidationMetadataArgs} from "./ValidationMetadataArgs";
+import {MessageArguments} from "../validation/MessageArguments";
 
 /**
  * This metadata contains validation rules.
@@ -37,7 +38,7 @@ export class ValidationMetadata {
     /**
      * Validation message to be shown in the case of error.
      */
-    message: string|((value?: any, constraints?: any[]) => string);
+    message: string|((args: MessageArguments) => string);
 
     /**
      * Validation groups used for this validation.

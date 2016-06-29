@@ -7,6 +7,7 @@ import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationTypes} from "./ValidationTypes";
 import {ValidatorConstraintInterface} from "./ValidatorConstraintInterface";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
+import {MessageArguments} from "./MessageArguments";
 
 /**
  * Executes validation over given object.
@@ -146,14 +147,23 @@ export class ValidationExecutor {
 
         let messageString: string;
         if (message instanceof Function) {
-            messageString = (message as ((value?: any, constraints?: any[]) => string))(value, metadata.constraints);
+            const messageArgs: MessageArguments = {
+                targetName: targetName,
+                property: metadata.propertyName,
+                object: target,
+                value: value,
+                constraints: metadata.constraints
+            };
+            messageString = (message as (args: MessageArguments) => string)(messageArgs);
 
         } else if (typeof message === "string") {
             messageString = message as string;
         }
         
         if (messageString && metadata.constraints instanceof Array)
-            metadata.constraints.forEach((constraint, index) => messageString.replace(new RegExp(`\$constraint${index}`, "g"), constraint));
+            metadata.constraints.forEach((constraint, index) => {
+                messageString = messageString.replace(new RegExp(`\\$constraint${index + 1}`, "g"), constraint);
+            });
         if (messageString && value !== undefined && value !== null)
             messageString = messageString.replace(/\$value/g, value);
         if (messageString)
