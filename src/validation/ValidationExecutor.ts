@@ -49,10 +49,10 @@ export class ValidationExecutor {
             const metadatas = groupedMetadatas[propertyName];
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
-            const notEmptyMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NOT_EMPTY);
+            const isDefinedMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
             
-            // handle NOT_EMPTY validation type the special way - it should work no matter skipMissingProperties is set or not
-            this.defaultValidations(object, value, notEmptyMetadatas);
+            // handle IS_DEFINED validation type the special way - it should work no matter skipMissingProperties is set or not
+            this.defaultValidations(object, value, isDefinedMetadatas);
             
             if (!value && this.validatorOptions && this.validatorOptions.skipMissingProperties === true)
                 return;
@@ -75,8 +75,6 @@ export class ValidationExecutor {
                 if (metadata.each) {
                     if (value instanceof Array) {
                         return !value.every((subValue: any) => this.validator.validateValueByMetadata(subValue, metadata));
-                        // } else {
-                        //     throw new Error(`Cannot validate ${(metadata.target as any).name}#${metadata.propertyName} because supplied value is not an array, however array is expected for validation.`);
                     }
 
                 } else {
@@ -160,10 +158,12 @@ export class ValidationExecutor {
             messageString = message as string;
         }
         
-        if (messageString && metadata.constraints instanceof Array)
+        if (messageString && metadata.constraints instanceof Array) {
             metadata.constraints.forEach((constraint, index) => {
                 messageString = messageString.replace(new RegExp(`\\$constraint${index + 1}`, "g"), constraint);
             });
+        }
+
         if (messageString && value !== undefined && value !== null)
             messageString = messageString.replace(/\$value/g, value);
         if (messageString)

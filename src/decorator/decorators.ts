@@ -122,6 +122,21 @@ export function NotEmpty(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * Checks if given value is defined (!== undefined).
+ */
+export function IsDefined(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_DEFINED,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if value is in a array of allowed values.
  */
 export function In(values: any[], validationOptions?: ValidationOptions) {

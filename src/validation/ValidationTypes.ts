@@ -1,4 +1,5 @@
 import {MessageArguments} from "./MessageArguments";
+
 /**
  * Validation types.
  */
@@ -9,6 +10,7 @@ export class ValidationTypes {
     static NESTED_VALIDATION = "nested_validation";
 
     /* common checkers */
+    static IS_DEFINED = "is_defined";
     static EQUALS = "equal";
     static NOT_EQUALS = "not_equal";
     static EMPTY = "empty";
@@ -99,6 +101,8 @@ export class ValidationTypes {
         switch (type) {
 
             /* common checkers */
+            case this.IS_DEFINED:
+                return "$property is missing, but its required";
             case this.EQUALS:
                 return "$property must be equal to $constraint1";
             case this.NOT_EQUALS:
@@ -192,7 +196,7 @@ export class ValidationTypes {
             case this.IS_ISIN:
                 return "$property must be an ISIN (stock/security identifier)";
             case this.IS_ISO8601:
-                return "$property must be a valid ISO 8601 date string.";
+                return "$property must be a valid ISO 8601 date string";
             case this.IS_JSON:
                 return "$property must be a json string";
             case this.IS_LOWERCASE:
@@ -212,7 +216,7 @@ export class ValidationTypes {
             case this.IS_UPPERCASE:
                 return "$property must be uppercase";
             case this.LENGTH:
-                return (args: MessageArguments) => { // todo more complex object must come here (with target and propertyName)
+                return (args: MessageArguments) => {
                     const isMinLength = args.constraints[0] !== null && args.constraints[0] !== undefined;
                     const isMaxLength = args.constraints[1] !== null && args.constraints[1] !== undefined;
                     if (isMinLength && (!args.value || args.value.length < args.constraints[0])) {
@@ -246,27 +250,3 @@ export class ValidationTypes {
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

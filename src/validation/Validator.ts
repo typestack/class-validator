@@ -40,6 +40,8 @@ export class Validator {
     validateValueByMetadata(value: any, metadata: ValidationMetadata): boolean {
         switch (metadata.type) {
             /* common checkers */
+            case ValidationTypes.IS_DEFINED:
+                return this.isDefined(value);
             case ValidationTypes.EQUALS:
                 return this.equals(value, metadata.constraints[0]);
             case ValidationTypes.NOT_EQUALS:
@@ -181,6 +183,13 @@ export class Validator {
     // -------------------------------------------------------------------------
     // Validation Methods: common checkers
     // -------------------------------------------------------------------------
+
+    /**
+     * Checks if value is defined (!==undefined).
+     */
+    isDefined(value: any): boolean {
+        return value !== undefined;
+    }
 
     /**
      * Checks if value matches ("===") the comparison.
