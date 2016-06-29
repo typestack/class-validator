@@ -209,7 +209,7 @@ describe("Equals", function() {
 
 });
 
-describe("IsAfter", function() {
+describe("MinDate", function() {
 
     class MyClass {
         @MinDate(new Date(1995, 11, 17))
@@ -314,7 +314,7 @@ describe("IsBase64", function() {
 
 });
 
-describe("IsBefore", function() {
+describe("MaxDate", function() {
 
     class MyClass {
         @MaxDate(new Date(1995, 11, 17))
@@ -653,12 +653,12 @@ describe("IsDivisibleBy", function() {
 
     class MyClass {
         @DivisibleBy(2)
-        name: string;
+        name: number;
     }
 
     it("should not fail validation if property is valid", function() {
         const object = new MyClass();
-        [ "2", "4", "100", "1000" ]
+        [ 2, 4, 100, 1000 ]
             .forEach(i => {
                 object.name = i;
                 return ifValid(object);
@@ -668,11 +668,10 @@ describe("IsDivisibleBy", function() {
     it("should fail validation if property is not valid", function() {
         const object = new MyClass();
         [
-            "1"
-            , "2.5"
-            , "101"
-            , "foo"
-            , ""
+            1
+            , 2.5
+            , 101
+            , undefined
         ]
             .forEach(i => {
                 object.name = i;

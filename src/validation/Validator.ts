@@ -298,7 +298,7 @@ export class Validator {
      */
     divisibleBy(value: number, num: number): boolean {
         const numberString = String(value); // fix it
-        return this.validatorJs.divisibleBy(numberString, num);
+        return this.validatorJs.isDivisibleBy(numberString, num);
     }
 
     /**
@@ -337,14 +337,14 @@ export class Validator {
      * Checks if the value is a date that's after the specified date.
      */
     minDate(date: Date, minDate: Date): boolean {
-        return date.getTime() <= minDate.getTime();
+        return date.getTime() >= minDate.getTime();
     }
 
     /**
      * Checks if the value is a date that's before the specified date.
      */
     maxDate(date: Date, maxDate: Date): boolean {
-        return date.getTime() >= maxDate.getTime();
+        return date.getTime() <= maxDate.getTime();
     }
 
     // -------------------------------------------------------------------------
