@@ -2,6 +2,7 @@ import {registerDecorator} from "../../src/index";
 import {ValidationOptions} from "../../src/decorator/ValidationOptions";
 import {ValidatorConstraintInterface} from "../../src/validation/ValidatorConstraintInterface";
 import {ValidatorConstraint} from "../../src/decorator/decorators";
+import {ValidationArguments} from "../../src/validation/ValidationArguments";
 
 export function IsLongerThen(property: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
@@ -12,10 +13,9 @@ export function IsLongerThen(property: string, validationOptions?: ValidationOpt
 @ValidatorConstraint("is_longer_then")
 export class IsLongerThenConstraint implements ValidatorConstraintInterface {
     
-    validate(value: any, object: Object, constraints: any[]) {
-        const [relatedPropertyName] = constraints;
-        const relatedValue = (object as any)[relatedPropertyName];
-        
+    validate(value: any, args: ValidationArguments) {
+        const [relatedPropertyName] = args.constraints;
+        const relatedValue = (args.object as any)[relatedPropertyName];
         return  typeof value === "string" && 
                 typeof relatedValue === "string" && 
                 value.length > relatedValue.length;

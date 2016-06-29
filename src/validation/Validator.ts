@@ -4,6 +4,7 @@ import {ValidationError} from "./ValidationError";
 import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
+import {ValidationOptions} from "../decorator/ValidationOptions";
 
 /**
  * Validator performs validation of the given object based on its metadata.
@@ -21,17 +22,24 @@ export class Validator {
     // -------------------------------------------------------------------------
 
     /**
-     * Performs validation of the given object based on annotations used in given object class.
+     * Performs validation of the given object based on decorators used in given object class.
      */
-    validate(object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
-        return new ValidationExecutor(this, validatorOptions).execute(object);
-    }
+    validate(object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
 
     /**
-     * Performs validation of the given object based on annotations used in given object class.
+     * Performs validation of the given object based on validation schema.
      */
-    validateBySchema(schemaName: string, object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
-        return new ValidationExecutor(this, validatorOptions).execute(object, schemaName);
+    validate(schemaName: string, object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
+
+    /**
+     * Performs validation of the given object based on decorators or validation schema.
+     */
+    validate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+        if (typeof objectOrSchemaName === "string") {
+            return new ValidationExecutor(this, maybeValidatorOptions).execute(objectOrValidationOptions as Object, objectOrSchemaName as string);
+        } else {
+            return new ValidationExecutor(this, objectOrValidationOptions as ValidationOptions).execute(objectOrSchemaName as Object);
+        }
     }
 
     /**

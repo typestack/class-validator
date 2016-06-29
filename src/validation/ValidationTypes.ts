@@ -1,4 +1,4 @@
-import {MessageArguments} from "./MessageArguments";
+import {ValidationArguments} from "./ValidationArguments";
 
 /**
  * Validation types.
@@ -97,7 +97,7 @@ export class ValidationTypes {
     /**
      * Gets default validation error message for the given validation type.
      */
-    static getMessage(type: string): string|((args: MessageArguments) => string) {
+    static getMessage(type: string): string|((args: ValidationArguments) => string) {
         switch (type) {
 
             /* common checkers */
@@ -216,7 +216,7 @@ export class ValidationTypes {
             case this.IS_UPPERCASE:
                 return "$property must be uppercase";
             case this.LENGTH:
-                return (args: MessageArguments) => {
+                return (args: ValidationArguments) => {
                     const isMinLength = args.constraints[0] !== null && args.constraints[0] !== undefined;
                     const isMaxLength = args.constraints[1] !== null && args.constraints[1] !== undefined;
                     if (isMinLength && (!args.value || args.value.length < args.constraints[0])) {

@@ -1,4 +1,3 @@
-import {Validator} from "./validation/Validator";
 import {ValidationError} from "./validation/ValidationError";
 import {ValidatorOptions} from "./validation/ValidatorOptions";
 import {ValidationSchema} from "./validation-schema/ValidationSchema";
@@ -8,6 +7,8 @@ import {ValidatorConstraintInterface} from "./validation/ValidatorConstraintInte
 import {ValidationMetadata} from "./metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "./metadata/ValidationMetadataArgs";
 import {ValidationTypes} from "./validation/ValidationTypes";
+import {Validator} from "./validation/Validator";
+import {ValidationArguments} from "./validation/ValidationArguments";
 
 // -------------------------------------------------------------------------
 // Global Container
@@ -53,8 +54,10 @@ export * from "./validation/ValidatorConstraintInterface";
 export * from "./validation/ValidationError";
 export * from "./validation/ValidationTypeOptions";
 export * from "./validation/ValidatorOptions";
-export * from "./validation-schema/ValidationSchema";
+export * from "./validation/ValidationArguments";
+export * from "./validation/ValidationTypes";
 export * from "./validation/Validator";
+export * from "./validation-schema/ValidationSchema";
 
 // -------------------------------------------------------------------------
 // Shortcut methods for api users
@@ -63,15 +66,22 @@ export * from "./validation/Validator";
 /**
  * Validates given object.
  */
-export function validate(object: any, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
-    return getFromContainer(Validator).validate(object, validatorOptions);
-}
+export function validate(object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
 
 /**
  * Validates given object by a given validation schema.
  */
-export function validateBySchema(schemaName: string, object: any, validatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
-    return getFromContainer(Validator).validateBySchema(schemaName, object, validatorOptions);
+export function validate(schemaName: string, object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
+
+/**
+ * Validates given object by object's decorators or given validation schema.
+ */
+export function validate(schemaNameOrObject: Object|string, objectOrValidationOptions?: Object|ValidatorOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+    if (typeof schemaNameOrObject === "string") {
+        return getFromContainer(Validator).validate(schemaNameOrObject as string, objectOrValidationOptions as Object, maybeValidatorOptions);
+    } else {
+        return getFromContainer(Validator).validate(schemaNameOrObject as Object, objectOrValidationOptions as ValidatorOptions);
+    }
 }
 
 /**
@@ -85,16 +95,16 @@ export function registerSchema(schema: ValidationSchema): void {
  * Registers a custom validation decorator.
  */
 export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], constraintCls: Function): void;
-export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationName: string, callback: (value?: any, object?: Object, constraints?: any[]) => boolean|Promise<boolean>): void;
-export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationNameOrConstraintCls: string|Function, callback?: (value?: any, object?: Object, constraints?: any[]) => boolean|Promise<boolean>): void {
+export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationName: string, callback: (value?: any, validationArguments?: ValidationArguments) => boolean|Promise<boolean>): void;
+export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationNameOrConstraintCls: string|Function, callback?: (value?: any, validationArguments?: ValidationArguments) => boolean|Promise<boolean>): void {
     
     let constraintCls: Function;
     if (validationNameOrConstraintCls instanceof Function) {
         constraintCls = validationNameOrConstraintCls as Function;
     } else {
         constraintCls = class CustomConstraint implements ValidatorConstraintInterface {
-            validate(value: any, object?: Object, constraints?: any[]): Promise<boolean>|boolean {
-                return callback(value, object, constraints);
+            validate(value: any, validationArguments?: ValidationArguments): Promise<boolean>|boolean {
+                return callback(value, validationArguments);
             }
         };
         getFromContainer(MetadataStorage).addConstraintMetadata(new ConstraintMetadata(constraintCls, validationNameOrConstraintCls as string));

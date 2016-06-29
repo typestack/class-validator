@@ -2,7 +2,7 @@
  * Arguments being sent to message builders - user can create message either by simply returning a string,
  * either by returning a function that accepts MessageArguments and returns a message string built based on these arguments.
  */
-export interface MessageArguments {
+export interface ValidationArguments {
 
     /**
      * Validating value.

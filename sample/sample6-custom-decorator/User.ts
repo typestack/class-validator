@@ -8,7 +8,7 @@ export class User {
     })
     firstName: string;
 
-    @IsLongerThen("name", {
+    @IsLongerThen("firstName", {
         message: "User's last name must be longer then firstName"
     })
     lastName: string;

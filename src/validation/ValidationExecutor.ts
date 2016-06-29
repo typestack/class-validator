@@ -7,7 +7,7 @@ import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationTypes} from "./ValidationTypes";
 import {ValidatorConstraintInterface} from "./ValidatorConstraintInterface";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
-import {MessageArguments} from "./MessageArguments";
+import {ValidationArguments} from "./ValidationArguments";
 
 /**
  * Executes validation over given object.
@@ -91,7 +91,15 @@ export class ValidationExecutor {
             getFromContainer(MetadataStorage)
                 .getTargetValidatorConstraints(metadata.constraintCls)
                 .forEach(customConstraintMetadata => {
-                    const validatedValue = customConstraintMetadata.instance.validate(value, object, metadata.constraints);
+
+                    const validationArguments: ValidationArguments = {
+                        targetName: object.constructor ? (object.constructor as any).name : undefined,
+                        property: metadata.propertyName,
+                        object: object,
+                        value: value,
+                        constraints: metadata.constraints
+                    };
+                    const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
                     if (validatedValue instanceof Promise) {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {
@@ -124,19 +132,26 @@ export class ValidationExecutor {
         });
     }
 
-    private createValidationError(target: Object,
+    private createValidationError(object: Object,
                                   value: any,
                                   metadata: ValidationMetadata,
                                   customValidatorMetadata?: ConstraintMetadata): ValidationError {
         
-        const targetName = target.constructor ? (target.constructor as any).name : undefined;
+        const targetName = object.constructor ? (object.constructor as any).name : undefined;
         const type = customValidatorMetadata && customValidatorMetadata.name ? customValidatorMetadata.name : metadata.type;
-        let message = metadata.message;
+        const validationArguments: ValidationArguments = {
+            targetName: targetName,
+            property: metadata.propertyName,
+            object: object,
+            value: value,
+            constraints: metadata.constraints
+        };
 
+        let message = metadata.message;
         if (!metadata.message && 
             (!this.validatorOptions || (this.validatorOptions && !this.validatorOptions.dismissDefaultMessages))) {
             if (customValidatorMetadata && customValidatorMetadata.instance.defaultMessage instanceof Function) {
-                message = customValidatorMetadata.instance.defaultMessage(value, metadata.constraints);
+                message = customValidatorMetadata.instance.defaultMessage(validationArguments);
             }
 
             if (!message)
@@ -145,14 +160,7 @@ export class ValidationExecutor {
 
         let messageString: string;
         if (message instanceof Function) {
-            const messageArgs: MessageArguments = {
-                targetName: targetName,
-                property: metadata.propertyName,
-                object: target,
-                value: value,
-                constraints: metadata.constraints
-            };
-            messageString = (message as (args: MessageArguments) => string)(messageArgs);
+            messageString = (message as (args: ValidationArguments) => string)(validationArguments);
 
         } else if (typeof message === "string") {
             messageString = message as string;

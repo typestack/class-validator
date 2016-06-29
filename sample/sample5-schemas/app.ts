@@ -119,7 +119,7 @@ post9.rating = 10; // should pass
 post9.email = "info@google.com"; // should pass
 post9.site = "google.com"; // should pass
 post9.createDate = new Date(); // should pass
-post9.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4", "abcd4"];
+post9.tags = ["a", "abcd1", "abcd2", "abcd3", "abcd4", "abcd4", "abcd4"];
 
 validateBySchema("post", post9).then(result => {
     console.log("9. should not pass: ", result); // should not pass
