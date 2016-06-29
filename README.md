@@ -596,7 +596,7 @@ You can defined your validation schemas without decorators:
 Here is an example of defining such objects:
 
 ```typescript
-import {registerSchema, ValidationSchema} from "class-validator";
+import {registerSchema, validate, ValidationSchema} from "class-validator";
 let schema: ValidationSchema = {
     name: "myUserSchema", // this is required, and must be unique
     properties: {
@@ -622,7 +622,7 @@ let schema: ValidationSchema = {
 registerSchema(schema); // if schema is in in .json file, then you can simply registerSchema(require("path-to-schema.json"));
 
 const user = { firstName: "Johny", secondName: "Cage", email: "johny@cage.com" };
-validateBySchema("myUserSchema", user).then(errors => {
+validate("myUserSchema", user).then(errors => {
     if (errors.length > 0) {
         console.log("Validation failed: ", errors);
     } else {
