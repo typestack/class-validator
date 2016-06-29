@@ -297,36 +297,37 @@ export class Validator {
      * Checks if value is a number that's divisible by another.
      */
     divisibleBy(value: number, num: number): boolean {
-        const numberString = String(value); // fix it
-        return this.validatorJs.isDivisibleBy(numberString, num);
+        return  typeof value === "number" && 
+                typeof num === "number" && 
+                this.validatorJs.isDivisibleBy(String(value), num);
     }
 
     /**
      * Checks if the value is a positive number.
      */
     isPositive(value: number): boolean {
-        return value > 0;
+        return typeof value === "number" && value > 0;
     }
 
     /**
      * Checks if the value is a negative number.
      */
     isNegative(value: number): boolean {
-        return value < 0;
+        return typeof value === "number" && value < 0;
     }
 
     /**
      * Checks if the first number is greater then second.
      */
     greaterThen(first: number, second: number): boolean {
-        return first > second;
+        return typeof first === "number" && typeof second === "number" && first > second;
     }
 
     /**
      * Checks if the first number is less then second.
      */
     lessThen(first: number, second: number): boolean {
-        return first > second;
+        return typeof first === "number" && typeof second === "number" && first < second;
     }
 
     // -------------------------------------------------------------------------
@@ -491,14 +492,14 @@ export class Validator {
     /**
      * Checks if the string is an IP (version 4 or 6).
      */
-    isIP(str: string, version?: number): boolean {
+    isIP(str: string, version?: "4"|"6"): boolean {
         return this.validatorJs.isIP(str, version);
     }
 
     /**
      * Checks if the string is an ISBN (version 10 or 13).
      */
-    isISBN(str: string, version?: number): boolean {
+    isISBN(str: string, version?: "10"|"13"): boolean {
         return this.validatorJs.isISBN(str, version);
     }
 
@@ -569,7 +570,7 @@ export class Validator {
     /**
      * Checks if the string is a UUID (version 3, 4 or 5).
      */
-    isUUID(str: string, version?: number): boolean {
+    isUUID(str: string, version?: "3"|"4"|"5"): boolean {
         return this.validatorJs.isUUID(str, version);
     }
 
