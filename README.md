@@ -185,7 +185,7 @@ validate(post, { skipMissingProperties: true });
 ```
 
 When skipping missing properties, sometimes you want not to skip all missing properties, some of them maybe required
-for you, even if skipMissingProperties is set to true. For such cases you should use `@IsDefined()` special decorator.
+for you, even if skipMissingProperties is set to true. For such cases you should use `@IsDefined()` decorator.
 `@IsDefined()` is the only decorator that ignores `skipMissingProperties` option.
 
 ## Validation groups
@@ -232,7 +232,7 @@ validate(user, {
 
 ## Custom validation classes
 
-If you have custom validation logic you have a way to do it - you can create a *Constraint classes*:
+If you have custom validation logic you have a way to do it - you can create a *Constraint class*:
 
 1. First create a file, lets say `CustomTextLength.ts`, and create there a new class:
 
@@ -253,7 +253,7 @@ If you have custom validation logic you have a way to do it - you can create a *
     }
     ```
 
-    First we marked our class with `@ValidatorConstraint` decorator.
+    We marked our class with `@ValidatorConstraint` decorator.
     You can also supply a validation constraint name - this name will be used as "error type" in ValidationError.
     If you will not supply a constraint name - it will be auto-generated.
 
@@ -310,6 +310,8 @@ export class Post {
 }
 ```
 
+And use them from `validationArguments` object:
+
 ```typescript
 import {ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
 
@@ -325,10 +327,10 @@ export class CustomTextLength implements ValidatorConstraintInterface {
 
 ## Custom validation decorators
 
-You can also create a custom decorator. Its the most elegant way of using a custom validations.
+You can also create a custom decorators. Its the most elegant way of using a custom validations.
 Lets create a decorator called `@IsLongerThen`:
 
-1. First lets create a decorator itself:
+1. Create a decorator itself:
 
     ```typescript
     import {registerDecorator, ValidationOptions} from "class-validator";
@@ -346,7 +348,7 @@ Lets create a decorator called `@IsLongerThen`:
     }
     ```
 
-2. Now lets put it on use:
+2. Put it on use:
 
     ```typescript
     import {IsLongerThen} from "./IsLongerThen";
@@ -367,7 +369,7 @@ Lets create a decorator called `@IsLongerThen`:
 In your custom decorators you can also use `ValidationConstraint`.
 Lets create another custom validation decorator called `IsUserAlreadyExist`:
 
-1. First lets create a ValidationConstraint and decorator:
+1. Create a ValidationConstraint and decorator:
 
     ```typescript
     import {registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
@@ -391,7 +393,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
     }
     ```
 
-2. Now lets put it on use:
+2. And put it on use:
 
     ```typescript
     import {IsUserAlreadyExist} from "./IsUserAlreadyExist";
@@ -420,7 +422,7 @@ useContainer(Container);
 let validator = Container.get(Validator);
 
 // now everywhere you can inject Validator class which will go from the container
-// also you can inject classes using constructor injection into your custom ValidatorConstraints
+// also you can inject classes using constructor injection into your custom ValidatorConstraint-s
 ```
 
 ## Manual validation
@@ -680,6 +682,11 @@ usages.
 * removed all other validation methods except `validator.validate`
 * finally validate method is async now, so custom async validations are supported now
 * added ability to validate inherited properties
+* added support of separate validation schemas
+* added support of default validation messages
+* added support of special tokens in validation messages
+* added support of message functions in validation options
+* added support of custom decorators
 
 **0.3.0**
 

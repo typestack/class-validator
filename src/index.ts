@@ -94,9 +94,33 @@ export function registerSchema(schema: ValidationSchema): void {
 /**
  * Registers a custom validation decorator.
  */
-export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], constraintCls: Function): void;
-export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationName: string, callback: (value?: any, validationArguments?: ValidationArguments) => boolean|Promise<boolean>): void;
-export function registerDecorator(object: Object, propertyName: string, validationOptions: ValidatorOptions, constraints: any[], validationNameOrConstraintCls: string|Function, callback?: (value?: any, validationArguments?: ValidationArguments) => boolean|Promise<boolean>): void {
+export function registerDecorator(object: Object,
+                                  propertyName: string,
+                                  validationOptions: ValidatorOptions,
+                                  constraints: any[],
+                                  constraintCls: Function): void;
+
+/**
+ * Registers a custom validation decorator.
+ */
+export function registerDecorator(object: Object,
+                                  propertyName: string,
+                                  validationOptions: ValidatorOptions,
+                                  constraints: any[],
+                                  validationName: string,
+                                  validateCallback: (value?: any, args?: ValidationArguments) => boolean|Promise<boolean>,
+                                  defaultMessageCallback?: (args?: ValidationArguments) => string): void;
+
+/**
+ * Registers a custom validation decorator.
+ */
+export function registerDecorator(object: Object,
+                                  propertyName: string,
+                                  validationOptions: ValidatorOptions,
+                                  constraints: any[],
+                                  validationNameOrConstraintCls: string|Function,
+                                  callback?: (value?: any, validationArguments?: ValidationArguments) => boolean|Promise<boolean>,
+                                  defaultMessageCallback?: (args?: ValidationArguments) => string): void {
     
     let constraintCls: Function;
     if (validationNameOrConstraintCls instanceof Function) {
@@ -105,6 +129,14 @@ export function registerDecorator(object: Object, propertyName: string, validati
         constraintCls = class CustomConstraint implements ValidatorConstraintInterface {
             validate(value: any, validationArguments?: ValidationArguments): Promise<boolean>|boolean {
                 return callback(value, validationArguments);
+            }
+
+            defaultMessage(validationArguments?: ValidationArguments) {
+                if (defaultMessageCallback) {
+                    return defaultMessageCallback(validationArguments);
+                }
+
+                return "";
             }
         };
         getFromContainer(MetadataStorage).addConstraintMetadata(new ConstraintMetadata(constraintCls, validationNameOrConstraintCls as string));
