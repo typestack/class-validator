@@ -1,21 +1,4 @@
 /**
- * Options passed to validator during validation.
- */
-export interface ValidatorOptions {
-
-    /**
-     * If set to true then validator will skip validation of all properties that are missing in the document.
-     */
-    skipMissingProperties?: boolean;
-
-    /**
-     * Groups to be used during validation of the object.
-     */
-    groups?: string[];
-
-}
-
-/**
  * Options to be passed to IsCurrency decorator.
  */
 export interface IsCurrencyOptions {
@@ -64,20 +47,4 @@ export interface IsFQDNOptions {
     require_tld?: boolean;
     allow_underscores?: boolean;
     allow_trailing_dot?: boolean;
-}
-
-/**
- * Options to be passed to IsFloat decorator.
- */
-export interface IsFloatOptions {
-    min?: number;
-    max?: number;
-}
-
-/**
- * Options to be passed to IsInt decorator.
- */
-export interface IsIntOptions {
-    min?: number;
-    max?: number;
 }

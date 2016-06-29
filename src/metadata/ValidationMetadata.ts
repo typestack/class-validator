@@ -1,17 +1,24 @@
+import {ValidationMetadataArgs} from "./ValidationMetadataArgs";
+import {ValidationArguments} from "../validation/ValidationArguments";
+
 /**
- * This metadata interface contains information for validation.
+ * This metadata contains validation rules.
  */
-export interface ValidationMetadata {
+export class ValidationMetadata {
+
+    // -------------------------------------------------------------------------
+    // Properties
+    // -------------------------------------------------------------------------
 
     /**
      * Validation type.
      */
-    type: number;
+    type: string;
 
     /**
-     * Object that is used to be validated.
+     * Target class to which this validation is applied.
      */
-    object: Object;
+    target: Function|string;
 
     /**
      * Property of the object to be validated.
@@ -19,33 +26,57 @@ export interface ValidationMetadata {
     propertyName: string;
 
     /**
-     * First extra validation metadata value.
+     * Constraint class that performs validation. Used only for custom validations.
      */
-    value1?: any;
+    constraintCls: Function;
 
     /**
-     * Second extra validation metadata value.
+     * Array of constraints of this validation.
      */
-    value2?: any;
+    constraints: any[];
 
     /**
      * Validation message to be shown in the case of error.
      */
-    message?: string;
+    message: string|((args: ValidationArguments) => string);
 
     /**
      * Validation groups used for this validation.
      */
-    groups?: string[];
+    groups: string[] = [];
 
     /**
      * Indicates if validation must be performed always, no matter of validation groups used.
      */
-    always?: boolean;
+    always: boolean = false;
 
     /**
      * Specifies if validated value is an array and each of its item must be validated.
      */
-    each?: boolean;
+    each: boolean = false;
+
+    /**
+     * Extra options specific to validation type.
+     */
+    validationTypeOptions: any;
+
+    // -------------------------------------------------------------------------
+    // Constructor
+    // -------------------------------------------------------------------------
+
+    constructor(args: ValidationMetadataArgs) {
+        this.type = args.type;
+        this.target = args.target;
+        this.propertyName = args.propertyName;
+        this.constraints = args.constraints;
+        this.constraintCls = args.constraintCls;
+        this.validationTypeOptions = args.validationTypeOptions;
+        if (args.validationOptions) {
+            this.message = args.validationOptions.message;
+            this.groups = args.validationOptions.groups;
+            this.always = args.validationOptions.always;
+            this.each = args.validationOptions.each;
+        }
+    }
     
 }

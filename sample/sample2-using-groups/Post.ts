@@ -1,12 +1,12 @@
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/decorators";
+import {Contains, IsInt, Length, IsEmail, IsFQDN, IsDate} from "../../src/decorator/decorators";
 
 export class Post {
 
-    @IsLength(10, 20, {
+    @Length(10, 20, {
         message: "Incorrect length!",
         groups: ["users", "moderators"]
     })
-    @IsLength(0, 20, {
+    @Length(0, 20, {
         message: "Incorrect length!",
         groups: ["admins"]
     })
@@ -18,15 +18,15 @@ export class Post {
     })
     text: string;
 
-    @IsInt({ min: 0, max: 10 })
+    @IsInt()
     rating: number;
 
-    @IsEmail(null, {
+    @IsEmail(undefined, {
         always: true
     })
     email: string;
 
-    @IsFQDN(null, {
+    @IsFQDN(undefined, {
         message: "Site address should be correct",
         groups: ["users"]
     })

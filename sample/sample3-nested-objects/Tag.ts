@@ -1,8 +1,8 @@
-import {Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "../../src/decorators";
+import {Contains, IsInt, Length, IsEmail, IsFQDN, IsDate} from "../../src/decorator/decorators";
 
 export class Tag {
 
-    @IsLength(10, 20, {
+    @Length(10, 20, {
         message: "Tag is too short or long"
     })
     name: string;

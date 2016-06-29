@@ -1,5 +1,11 @@
-import {validate} from "../../src/index";
+import {validate, registerSchema} from "../../src/index";
 import {Post} from "./Post";
+
+// load schema. we load it a bit tricky way because we output source code into separate directory, so our json resource left in another directory
+const postSchema = require(__dirname + "/../../../../sample/sample5-schemas/post.json");
+
+// register this schema
+registerSchema(postSchema);
 
 // Sample1. simple validation
 
@@ -12,7 +18,7 @@ post1.site = "google.com"; // should pass
 post1.createDate = new Date(); // should pass
 post1.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"]; // should pass
 
-validate(post1).then(result => {
+validate("post", post1).then(result => {
     console.log("1. should pass: ", result); // should pass completely, e.g. return empty array
 });
 
@@ -24,7 +30,7 @@ post2.email = "google.com"; // should not pass
 post2.site = "googlecom"; // should not pass
 // should not pass because date property is missing
 
-validate(post2).then(result => {
+validate("post", post2).then(result => {
     console.log("2. should not pass: ", result); // should not pass completely, must return array of ValidationError-s
 });
 
@@ -37,7 +43,7 @@ post3.rating = 11; // should not pass
 post3.email = "google.com"; // should not pass
 post3.site = "googlecom"; // should not pass
 
-validate(post3, { skipMissingProperties: true }).then(result => {
+validate("post", post3, { skipMissingProperties: true }).then(result => {
     console.log("3. should not pass: ", result); // should not pass, but returned ValidationError-s should not have error about date field
 });
 
@@ -48,7 +54,7 @@ post4.rating = 10; // should pass
 post4.email = "info@google.com"; // should pass
 post4.site = "google.com"; // should pass
 
-validate(post4, { skipMissingProperties: true }).then(result => {
+validate("post", post4, { skipMissingProperties: true }).then(result => {
     console.log("4. should pass: ", result); // should pass even if date is not set
 });
 
@@ -61,7 +67,7 @@ post5.rating = 10; // should pass
 post5.email = "info@google.com"; // should pass
 post5.site = "google.com"; // should pass
 
-validate(post5, { skipMissingProperties: true }).then(result => {
+validate("post", post5, { skipMissingProperties: true }).then(result => {
     console.log("5. should pass: ", result); // should pass even if date is not set
 });
 
@@ -76,7 +82,7 @@ post6.site = "google.com"; // should pass
 post6.createDate = new Date(); // should pass
 post6.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"];
 
-validate(post6).then(result => {
+validate("post", post6).then(result => {
     console.log("6. should pass: ", result); // should pass completely, e.g. return empty array
 });
 
@@ -89,7 +95,7 @@ post7.site = "google.com"; // should pass
 post7.createDate = new Date(); // should pass
 post7.tags = ["news", "a"];
 
-validate(post7).then(result => {
+validate("post", post7).then(result => {
     console.log("7. should not pass: ", result); // should not pass
 });
 
@@ -102,7 +108,7 @@ post8.site = "google.com"; // should pass
 post8.createDate = new Date(); // should pass
 post8.tags = [];
 
-validate(post8).then(result => {
+validate("post", post8).then(result => {
     console.log("8. should not pass: ", result); // should not pass
 });
 
@@ -113,9 +119,9 @@ post9.rating = 10; // should pass
 post9.email = "info@google.com"; // should pass
 post9.site = "google.com"; // should pass
 post9.createDate = new Date(); // should pass
-post9.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4", "abcd4"];
+post9.tags = ["a", "abcd1", "abcd2", "abcd3", "abcd4", "abcd4", "abcd4"];
 
-validate(post9).then(result => {
+validate("post", post9).then(result => {
     console.log("9. should not pass: ", result); // should not pass
 });
 
@@ -128,7 +134,7 @@ post10.site = "google.com"; // should pass
 post10.createDate = new Date(); // should pass
 post10.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"];
 
-validate(post10).then(result => {
+validate("post", post10).then(result => {
     console.log("10. should pass: ", result); // should pass
 });
 
@@ -141,6 +147,6 @@ post11.site = "google.com"; // should pass
 post11.createDate = new Date(); // should pass
 post11.tags = null;
 
-validate(post11).then(result => {
+validate("post", post11).then(result => {
     console.log("11. should not pass: ", result); // should not pass
 });

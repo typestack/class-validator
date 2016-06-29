@@ -1,14 +1,6 @@
 # class-validator
 
-Allows to use decorator and non-decorator based validation in your Typescript classes.
-Internally uses [validator.js][1] to perform validation.
-
-## Release Notes
-
-**0.3.0**
-
-* package has changed its name from `validator.ts` to `class-validator`.
-* sanitation functionality has been removed from this library. Use [class-sanitizer][3] instead.
+Allows to use decorator and non-decorator based validation. Internally uses [validator.js][1] to perform validation.
 
 ## Installation
 
@@ -16,20 +8,20 @@ Internally uses [validator.js][1] to perform validation.
 
     `npm install class-validator --save`
 
-2. Use [typings](https://github.com/typings/typings) to install all required definition dependencies.
-
-    `typings install`
-
-3. ES6 features are used, so you may want to install [es6-shim](https://github.com/paulmillr/es6-shim) too:
+2. ES6 features are used, so you may want to install [es6-shim](https://github.com/paulmillr/es6-shim) too:
 
     `npm install es6-shim --save`
 
-    if you are building nodejs app, you may want to `require("es6-shim");` in your app.
-    or if you are building web app, you man want to add `<script src="path-to-shim/es6-shim.js">` on your page.
+    and use it somewhere in the global place of your app:
+
+    * for nodejs: `require("es6-shim")` in your app's entry point (for example in `app.ts`)
+    * for browser: `<script src="node_modules/es6-shim/es6-shim.js">` in your `index.html`
+
+    For node.js users this step is only required if you are using old versions of node.
 
 ## Usage
 
-Create your class and put some validation decorators on its properties you want to validate:
+Create your class and put some validation decorators on the properties you want to validate:
 
 ```typescript
 import {validate, Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "class-validator";
@@ -39,7 +31,7 @@ export class Post {
     @IsLength(10, 20)
     title: string;
 
-    @Contains('hello')
+    @Contains("hello")
     text: string;
 
     @IsInt({ min: 0, max: 10 })
@@ -57,27 +49,25 @@ export class Post {
 }
 
 let post = new Post();
-post.title = 'Hello'; // should not pass
-post.text = 'this is a great post about hell world'; // should not pass
+post.title = "Hello"; // should not pass
+post.text = "this is a great post about hell world"; // should not pass
 post.rating = 11; // should not pass
-post.email = 'google.com'; // should not pass
-post.site = 'googlecom'; // should not pass
+post.email = "google.com"; // should not pass
+post.site = "googlecom"; // should not pass
 
-let errors = validate(post); // returns you array of errors
-```
-
-There are some additional functions you may want to use:
-
-```typescript
-validateAsync(post); // returns Promise<Post> if validation success, throws error if validation fail
-validateOrThrow(post); // performs validation and throws ValidationError if validation fail
-isValid(post); // simply checks if given object is valid. Returns true if it is, false otherwise
+validate(post).then(errors => { // errors is an array of validation errors
+    if (errors.length > 0) {
+        console.log("validation failed. errors: ", errors);
+    } else {
+        console.log("validation succeed");
+    }
+});
 ```
 
 ## Validation messages
 
-You can specify validation message to decorator options and this message will be returned in `ValidationError`
-object returned by `validate` method in the case if validation for this field fail.
+You can specify validation message in the decorator options and that message will be returned in `ValidationError`
+returned by `validate` method in the case if validation for this field fail.
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
@@ -94,10 +84,62 @@ export class Post {
 }
 ```
 
+There are few special tokens you can use in your messages:
+* `$value` - the value that is being validated right now
+* `$property` - name of the object's property being validated right now
+* `$target` - name of the object's class being validated right now
+* `$constraint1`, `$constraint2`, ... `$constraintN` - constraints defined by specific validation type
+
+Example of usage:
+
+```typescript
+import {MinLength, MaxLength} from "class-validator";
+
+export class Post {
+
+    @MinLength(10, { // here, $constraint1 will be replaced with "10", and $value with actual supplied value
+        message: "Title is too short. Minimal length is $constraint1 characters, but actual is $value"
+    })
+    @MaxLength(50, { // here, $constraint1 will be replaced with "50", and $value with actual supplied value
+        message: "Title is too long. Maximal length is $constraint1 characters, but actual is $value"
+    })
+    title: string;
+}
+```
+
+Also you can provide a function, that returns a message. This way allows to create more granular messages:
+
+```typescript
+import {MinLength, MaxLength, ValidationArguments} from "class-validator";
+
+export class Post {
+
+    @MinLength(10, {
+        message: (args: ValidationArguments) => {
+            if (args.value.length === 1) {
+                return "Too short, minimal length is 1 character";
+            } else {
+                return "Too short, minimal length is " + args.constraints[0] + " characters";
+            }
+        }
+    })
+    title: string;
+}
+```
+
+Message function accepts `ValidationArguments` which contains following information:
+* `value` - the value that is being validated right now
+* `constraints` - array of constraints defined by specific validation type
+* `targetName` - name of the object's class being validated right now
+* `object` - object that is being validated
+* `property` - name of the object's property being validated right now
+
+Values are being passed to this function, so
+
 ## Validating arrays
 
-If your field is an array and you want to perform validation of each item in the array you need to specify a
-special decorator option:
+If your field is an array and you want to perform validation of each item in the array you must specify a
+special `each: true` decorator option:
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
@@ -115,8 +157,8 @@ This will validate each item in `post.tags` array.
 
 ## Validating nested objects
 
-If your object contains nested objects and you want validator to perform validation of them too, then you need to
-use special decorator:
+If your object contains nested objects and you want validator to perform their validation too, then you need to
+use `@ValidateNested()` decorator:
 
 ```typescript
 import {ValidateNested} from "class-validator";
@@ -132,7 +174,7 @@ export class Post {
 ## Skipping missing properties
 
 Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is
-usually desirable when you want to update some parts of the document, and want to validate only updated parts,
+usually desirable when you want to update some parts of the object, and want to validate only updated parts,
 but skip everything else, e.g. skip missing properties.
 In such situations you need to pass a special flag to `validate` method:
 
@@ -141,6 +183,10 @@ import {validate} from "class-validator";
 // ...
 validate(post, { skipMissingProperties: true });
 ```
+
+When skipping missing properties, sometimes you want not to skip all missing properties, some of them maybe required
+for you, even if skipMissingProperties is set to true. For such cases you should use `@IsDefined()` decorator.
+`@IsDefined()` is the only decorator that ignores `skipMissingProperties` option.
 
 ## Validation groups
 
@@ -153,30 +199,30 @@ import {validate, MinNumber, Length} from "class-validator";
 export class User {
 
     @MinNumber(12, {
-        groups: ['registration']
+        groups: ["registration"]
     })
     age: number;
 
     @Length(2, 20, {
-        groups: ['registration', 'admin']
+        groups: ["registration", "admin"]
     })
     name: string;
 }
 
 let user = new User();
 user.age = 10;
-user.name = 'Alex';
+user.name = "Alex";
 
 validate(user, {
-    groups: ['registration']
+    groups: ["registration"]
 }); // this will not pass validation
 
 validate(user, {
-    groups: ['admin']
+    groups: ["admin"]
 }); // this will pass validation
 
 validate(user, {
-    groups: ['registration', 'admin']
+    groups: ["registration", "admin"]
 }); // this will not pass validation
 
 validate(user, {
@@ -186,25 +232,39 @@ validate(user, {
 
 ## Custom validation classes
 
-If you have custom validation logic you want to use as annotations you can do it this way:
+If you have custom validation logic you have a way to do it - you can create a *Constraint class*:
 
 1. First create a file, lets say `CustomTextLength.ts`, and create there a new class:
 
     ```typescript
-    import {ValidatorConstraint, ValidatorInterface} from "class-validator";
+    import {ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
 
     @ValidatorConstraint()
-    export class CustomTextLength implements ValidatorInterface {
+    export class CustomTextLength implements ValidatorConstraintInterface {
 
-        validate(text: string): boolean {
-            return text.length > 1 && text.length < 10;
+        validate(text: string, args: ValidationArguments) {
+            return text.length > 1 && text.length < 10; // for async validations you must return a Promise<boolean> here
+        }
+
+        defaultMessage(args: ValidationArguments) { // here you can provide default error message if validation failed
+            return "Text ($value) is too short or too long!";
         }
 
     }
     ```
 
-    Your class should implement `ValidatorInterface` interface and its `validate` method, which defines logic for data if
-    its valid or not.
+    We marked our class with `@ValidatorConstraint` decorator.
+    You can also supply a validation constraint name - this name will be used as "error type" in ValidationError.
+    If you will not supply a constraint name - it will be auto-generated.
+
+    Our class must implement `ValidatorConstraintInterface` interface and its `validate` method,
+    which defines validation logic. If validation succeed method return true, otherwise false.
+    Custom validator can be asynchronous, if you want to perform validation after some asynchronous
+    operations, simply return a promise with boolean inside in `validate` method.
+
+    Also we defined optional method `defaultMessage` which defines a default error message,
+    in the case if decorator's user didn't set error message.
+
 
 2. Then you can use your new validation constraint in your class:
 
@@ -215,7 +275,7 @@ If you have custom validation logic you want to use as annotations you can do it
     export class Post {
 
         @Validate(CustomTextLength, {
-            message: "Wrong post title"
+            message: "Title is too short or long!"
         })
         title: string;
 
@@ -224,12 +284,128 @@ If you have custom validation logic you want to use as annotations you can do it
 
     Here we set our newly created `CustomTextLength` validation constraint for `Post.title`.
 
-3. Now you can use validator as usual:
+3. And use validator as usual:
 
     ```typescript
     import {validate} from "class-validator";
 
-    validate(post);
+    validate(post).then(errors => {
+        // ...
+    });
+    ```
+
+You can also send constraints to your validator, like this:
+
+```typescript
+import {Validate} from "class-validator";
+import {CustomTextLength} from "./CustomTextLength";
+
+export class Post {
+
+    @Validate(CustomTextLength, [3, 20], {
+        message: "Wrong post title"
+    })
+    title: string;
+
+}
+```
+
+And use them from `validationArguments` object:
+
+```typescript
+import {ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
+
+@ValidatorConstraint()
+export class CustomTextLength implements ValidatorConstraintInterface {
+
+    validate(text: string, validationArguments: ValidationArguments) {
+        return text.length > validationArguments.constraints[0] && text.length < validationArguments.constraints[1];
+    }
+
+}
+```
+
+## Custom validation decorators
+
+You can also create a custom decorators. Its the most elegant way of using a custom validations.
+Lets create a decorator called `@IsLongerThen`:
+
+1. Create a decorator itself:
+
+    ```typescript
+    import {registerDecorator, ValidationOptions} from "class-validator";
+
+    export function IsLongerThen(property: string, validationOptions?: ValidationOptions) {
+       return function (object: Object, propertyName: string) {
+           registerDecorator(object, propertyName, validationOptions, [property], "is_longer_then", (value, args) => {
+               const [relatedPropertyName] = args.constraints;
+               const relatedValue = (args.object as any)[relatedPropertyName];
+               return  typeof value === "string" &&
+                       typeof relatedValue === "string" &&
+                       value.length > relatedValue.length; // you can return a Promise<boolean> here as well, if you want to make async validation
+           });
+       };
+    }
+    ```
+
+2. Put it on use:
+
+    ```typescript
+    import {IsLongerThen} from "./IsLongerThen";
+
+    export class Post {
+
+        title: string;
+
+        @IsLongerThen("title", {
+           /* you can also use additional validation options, like "each", "groups" in your custom validation decorators */
+           message: "Text must be longer the title"
+        })
+        text: string;
+
+    }
+    ```
+
+In your custom decorators you can also use `ValidationConstraint`.
+Lets create another custom validation decorator called `IsUserAlreadyExist`:
+
+1. Create a ValidationConstraint and decorator:
+
+    ```typescript
+    import {registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
+
+    @ValidatorConstraint()
+    export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
+
+        validate(userName: any, args: ValidationArguments) {
+            return UserRepository.findOneByName(userName).then(user => {
+                if (user) return false;
+                return true;
+            });
+        }
+
+    }
+
+    export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
+       return function (object: Object, propertyName: string) {
+           registerDecorator(object, propertyName, validationOptions, [], IsUserAlreadyExistConstraint);
+       };
+    }
+    ```
+
+2. And put it on use:
+
+    ```typescript
+    import {IsUserAlreadyExist} from "./IsUserAlreadyExist";
+
+    export class User {
+
+        @IsUserAlreadyExist({
+           message: "User $value already exist. Choose another name."
+        })
+        name: string;
+
+    }
     ```
 
 ## Using service container
@@ -239,14 +415,14 @@ classes. Here is example how to integrate it with [typedi][2]:
 
 ```typescript
 import {Container} from "typedi";
-import {Validator} from "class-validator";
+import {useContainer} from "class-validator";
 
 // do this somewhere in the global application level:
+useContainer(Container);
 let validator = Container.get(Validator);
-validator.container = Container;
 
 // now everywhere you can inject Validator class which will go from the container
-// also you can inject classes using constructor injection into your custom ValidatorConstraints
+// also you can inject classes using constructor injection into your custom ValidatorConstraint-s
 ```
 
 ## Manual validation
@@ -254,142 +430,267 @@ validator.container = Container;
 There are several method exist in the Validator that allows to perform non-decorator based validation:
 
 ```typescript
-import Validator from "class-validator";
+import {Validator} from "class-validator";
 
 // Validation methods
+const validator = new Validator();
 
-Validator.contains(str, seed);
-Validator.equals(str, comparison);
-Validator.isAfter(date, afterDate);
-Validator.isAlpha(str);
-Validator.isAlphanumeric(str);
-Validator.isAscii(str);
-Validator.isBase64(str);
-Validator.isBefore(date, beforeDate);
-Validator.isBoolean(str);
-Validator.isBooleanString(str);
-Validator.isByteLength(str, min, max);
-Validator.isCreditCard(str);
-Validator.isCurrency(str, options);
-Validator.isDate(str);
-Validator.isDecimal(str);
-Validator.isDivisibleBy(str, num);
-Validator.isEmail(str, options);
-Validator.isFQDN(str, options);
-Validator.isFloat(str, options);
-Validator.isFullWidth(str);
-Validator.isHalfWidth(str);
-Validator.isVariableWidth(str);
-Validator.isHexColor(str);
-Validator.isHexadecimal(str);
-Validator.isIP(str, version);
-Validator.isISBN(str, version);
-Validator.isISIN(str);
-Validator.isISO8601(str);
-Validator.isIn(str, values);
-Validator.isInt(str, options);
-Validator.isJSON(str);
-Validator.isLength(str, min, max);
-Validator.isLowercase(str);
-Validator.isMobilePhone(str, locale);
-Validator.isMongoId(str);
-Validator.isMultibyte(str);
-Validator.isNumeric(str);
-Validator.isSurrogatePair(str);
-Validator.isURL(str, options);
-Validator.isUUID(str, version);
-Validator.isUppercase(str);
-Validator.matches(str, pattern, modifiers);
+// common validation methods
+validator.isDefined(value); // Checks if value is defined ("!==undefined").
+validator.equals(value, comparison); // Checks if value matches ("===") the comparison.
+validator.notEquals(value, comparison); // Checks if value does not match ("!==") the comparison.
+validator.isEmpty(value); // Checks if given value is empty (=== '', === null, === undefined).
+validator.isNotEmpty(value); // Checks if given value is not empty (!== '', !== null, !== undefined).
+validator.isIn(value, possibleValues); // Checks if given value is in a array of allowed values.
+validator.isNotIn(value, possibleValues); // Checks if given value not in a array of allowed values.
 
+// type validation methods
+validator.isBoolean(value); // Checks if a given value is a real boolean.
+validator.isDate(value); // Checks if a given value is a real date.
+validator.isString(value); // Checks if a given value is a real string.
+validator.isNumber(value); // Checks if a given value is a real number.
+validator.isInt(value); // Checks if value is an integer.
+
+// number validation methods
+validator.isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
+validator.isPositive(value); // Checks if the value is a positive number.
+validator.isNegative(value); // Checks if the value is a negative number.
+validator.max(num, max); // Checks if the first number is greater then second.
+validator.min(num, min); // Checks if the first number is less then second.
+
+// date validation methods
+validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
+validator.maxDate(date, minDate); // Checks if the value is a date that's before the specified date.
+
+// string-type validation methods
+validator.isBooleanString(str); // Checks if a string is a boolean.
+validator.isDateString(str); // Checks if the string is a date.
+validator.isNumberString(str); // Checks if the string is numeric.
+
+// string validation methods
+validator.contains(str, seed); // Checks if the string contains the seed.
+validator.notContains(str, seed); // Checks if the string does not contain the seed.
+validator.isAlpha(str); // Checks if the string contains only letters (a-zA-Z).
+validator.isAlphanumeric(str); // Checks if the string contains only letters and numbers.
+validator.isAscii(str); // Checks if the string contains ASCII chars only.
+validator.isBase64(str); // Checks if a string is base64 encoded.
+validator.isByteLength(str, min, max); // Checks if the string's length (in bytes) falls in a range.
+validator.isCreditCard(str); // Checks if the string is a credit card.
+validator.isCurrency(str, options); // Checks if the string is a valid currency amount.
+validator.isEmail(str, options); // Checks if the string is an email.
+validator.isFQDN(str, options); // Checks if the string is a fully qualified domain name (e.g. domain.com).
+validator.isFullWidth(str); // Checks if the string contains any full-width chars.
+validator.isHalfWidth(str); // Checks if the string contains any half-width chars.
+validator.isVariableWidth(str); // Checks if the string contains variable-width chars.
+validator.isHexColor(str); // Checks if the string is a hexadecimal color.
+validator.isHexadecimal(str); // Checks if the string is a hexadecimal number.
+validator.isIP(str, version); // Checks if the string is an IP (version 4 or 6).
+validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
+validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
+validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
+validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
+validator.isLowercase(str); // Checks if the string is lowercase.
+validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
+validator.isMongoId(str); // Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
+validator.isMultibyte(str); // Checks if the string contains one or more multibyte chars.
+validator.isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
+validator.isURL(str, options); // Checks if the string is an url.
+validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4 or 5).
+validator.isUppercase(str); // Checks if the string is uppercase.
+validator.length(str, min, max); // Checks if the string's length falls in a range.
+validator.minLength(str, min); // Checks if the string's length is not less then given number.
+validator.maxLength(str, max); // Checks if the string's length is not more then given number.
+validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+
+// array validation methods
+validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
+validator.arrayNotContains(array, values); // Checks if array does not contain any of the given values.
+validator.arrayNotEmpty(array); // Checks if given array is not empty.
+validator.arrayMinSize(array, min); // Checks if array's length is as minimal this number.
+validator.arrayMaxSize(array, max); // Checks if array's length is as maximal this number.
+validator.arrayUnique(array); // Checks if all array's values are unique. Comparison for objects is reference-based.
 ```
 
 ## Validation decorators
 
-| Decorator                                       | Description                                                                                        |
-|-------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| `@Contains(seed: string)`                       | Checks if the string contains the seed.                                                            |
-| `@Equals(comparison: string)`                   | Checks if the string matches the comparison.                                                       |
-| `@IsAfter(date: Date)`                          | Checks if the string is a date that's after the specified date.                                    |
-| `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z).                                               |
-| `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers.                                            |
-| `@IsAscii()`                                    | Checks if the string contains ASCII chars only.                                                    |
-| `@IsBase64()`                                   | Checks if a string is base64 encoded.                                                              |
-| `@IsBefore(date: Date)`                         | Checks if the string is a date that's before the specified date.                                   |
-| `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                    |
-| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                       |
-| `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range.                                         |
-| `@IsCreditCard()`                               | Checks if the string is a credit card.                                                             |
-| `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount.                                                   |
-| `@IsDate()`                                     | Checks if the string is a date.                                                                    |
-| `@IsDecimal()`                                  | Checks if the string represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.         |
-| `@IsDivisibleBy(number: number)`                | Checks if the string is a number that's divisible by another.                                      |
-| `@IsEmail(options?: IsEmailOptions)`            | Checks if the string is an email.                                                                  |
-| `@IsFQDN(options?: IsFQDNOptions)`              | Checks if the string is a fully qualified domain name (e.g. domain.com).                           |
-| `@IsFloat(options?: IsFloatOptions)`            | Checks if the string is a float.                                                                   |
-| `@IsPositiveFloat(options?: IsFloatOptions)`    | Checks if the string is a positive float.                                                                   |
-| `@IsNegativeFloat(options?: IsFloatOptions)`    | Checks if the string is a negative float.                                                                   |
-| `@IsFullWidth()`                                | Checks if the string contains any full-width chars.                                                |
-| `@IsHalfWidth()`                                | Checks if the string contains any half-width chars.                                                |
-| `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                       |
-| `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                      |
-| `@IsIP(version?: number)`                       | Checks if the string is an IP (version 4 or 6).                                                    |
-| `@IsISBN(version?: number)`                     | Checks if the string is an ISBN (version 10 or 13).                                                |
-| `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                       |
-| `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                     |
-| `@IsIn(values: any[])`                          | Checks if the string is in a array of allowed values.                                              |
-| `@IsInt(options?: IsIntOptions)`                | Checks if the string is an integer.                                                                |
-| `@IsPositiveInt(options?: IsIntOptions)`        | Checks if the string is a positive integer.                                                                |
-| `@IsNegativeInt(options?: IsIntOptions)`        | Checks if the string is a negative integer.                                                                |
-| `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                |
-| `@IsLength(min: number, max?: number)`          | Checks if the string's length falls in a range.                                                    |
-| `@IsLowercase()`                                | Checks if the string is lowercase.                                                                 |
-| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                     |
-| `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                  |
-| `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                         |
-| `@IsNull()`                                     | Checks if the string is null.                                                                      |
-| `@IsNumeric()`                                  | Checks if the string is numeric.                                                                   |
-| `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                           |
-| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is a fully qualified domain name (e.g. domain.com).                           |
-| `@IsUUID(version?: number)`                     | Checks if the string is a UUID (version 3, 4 or 5).                                                |
-| `@IsUppercase()`                                | Checks if the string is uppercase.                                                                 |
-| `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                              |
-| `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i'). |
-| `@MinLength(min: number)`                       | Checks if the string's length is not less then given number.                                       |
-| `@MaxLength(max: number)`                       | Checks if the string's length is not more then given number.                                       |
-| `@MinNumber(min: number)`                       | Checks if the given number is not less then given number.                                          |
-| `@MaxNumber(max: number)`                       | Checks if the given number is not more then given number.                                          |
-| `@NotEmpty()`                                   | Checks if given value is not empty.                                                                |
-| `@NotEmptyArray()`                              | Checks if given array is not empty.                                                                |
-| `@MinSize(min: number)`                         | Checks if array's length is as minimal this number.                                                |
-| `@MaxSize(max: number)`                         | Checks if array's length is as maximal this number.                                                |
+| Decorator                                       | Description                                                                                                                      |
+|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| **Common validation decorators**                                                                                                                                                   |
+| `@IsDefined(value: any)`                        | Checks if value is defined (!== undefined, !== null). This is the only decorator that ignores skipMissingProperties option.      |
+| `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison.                                                                                       |
+| `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison.                                                                                    |
+| `@IsEmpty()`                                    | Checks if given value is empty (=== '', === null, === undefined).                                                                |
+| `@IsNotEmpty()`                                 | Checks if given value is not empty (!== '', !== null, !== undefined).                                                            |
+| `@IsIn(values: any[])`                          | Checks if value is in a array of allowed values.                                                                                 |
+| `@IsNotIn(values: any[])`                       | Checks if value is not in a array of disallowed values.                                                                          |
+| **Type validation decorators**                                                                                                                                                     |
+| `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                                                  |
+| `@IsDate()`                                     | Checks if the string is a date.                                                                                                  |
+| `@IsString()`                                   | Checks if the string is a string.                                                                                                |
+| `@IsNumber()`                                   | Checks if the string is a number.                                                                                                |
+| `@IsInt()`                                      | Checks if the value is an integer number.                                                                                        |
+| **Number validation decorators**                                                                                                                                                   |
+| `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
+| `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |
+| `@IsNegative()`                                 | Checks if the value is a negative number.                                                                                        |
+| `@Max(max: number)`                             | Checks if the given number is greater then given number.                                                                         |
+| `@Min(min: number)`                             | Checks if the given number is less then given number.                                                                            |
+| **Date validation decorators**                                                                                                                                                     |
+| `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date.                                                                   |
+| `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                                                  |                                                                                                                                                  |
+| **String-type validation decorators**                                                                                                                                              |
+| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                                                     |
+| `@IsDateString()`                               | Checks if a string is a date.                                                                                                    |
+| `@IsNumberString()`                             | Checks if a string is a number.                                                                                                  |
+| **String validation decorators**                                                                                                                                                   |
+| `@Contains(seed: string)`                       | Checks if the string contains the seed.                                                                                          |
+| `@NotContains(seed: string)`                    | Checks if the string not contains the seed.                                                                                      |
+| `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z).                                                                             |
+| `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers.                                                                          |
+| `@IsAscii()`                                    | Checks if the string contains ASCII chars only.                                                                                  |
+| `@IsBase64()`                                   | Checks if a string is base64 encoded.                                                                                            |
+| `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range.                                                                       |
+| `@IsCreditCard()`                               | Checks if the string is a credit card.                                                                                           |
+| `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount.                                                                                 |
+| `@IsEmail(options?: IsEmailOptions)`            | Checks if the string is an email.                                                                                                |
+| `@IsFQDN(options?: IsFQDNOptions)`              | Checks if the string is a fully qualified domain name (e.g. domain.com).                                                         |
+| `@IsFullWidth()`                                | Checks if the string contains any full-width chars.                                                                              |
+| `@IsHalfWidth()`                                | Checks if the string contains any half-width chars.                                                                              |
+| `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                                                            |
+| `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                                                     |
+| `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                                                    |
+| `@IsIP(version?: "4"|"6")`                      | Checks if the string is an IP (version 4 or 6).                                                                                  |
+| `@IsISBN(version?: "10"|"13")`                  | Checks if the string is an ISBN (version 10 or 13).                                                                              |
+| `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
+| `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
+| `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
+| `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
+| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                   |
+| `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                |
+| `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                                                       |
+| `@IsNumericString()`                            | Checks if the string is numeric.                                                                                                 |
+| `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                                                         |
+| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url.                                                                                                  |
+| `@IsUUID(version?: "3"|"4"|"5")`                | Checks if the string is a UUID (version 3, 4 or 5).                                                                              |
+| `@IsUppercase()`                                | Checks if the string is uppercase.                                                                                               |
+| `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range.                                                                                  |
+| `@MinLength(min: number)`                       | Checks if the string's length is not less then given number.                                                                     |
+| `@MaxLength(max: number)`                       | Checks if the string's length is not more then given number.                                                                     |
+| `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').                               |
+| **Array validation decorators**                                                                                                                                                    |
+| `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                              |
+| `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                                                        |
+| `@ArrayNotEmpty()`                              | Checks if given array is not empty.                                                                                              |
+| `@ArrayMinSize(min: number)`                    | Checks if array's length is as minimal this number.                                                                              |
+| `@ArrayMaxSize(max: number)`                    | Checks if array's length is as maximal this number.                                                                              |
+| `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based.                                              |
+
+## Defining validation schema without decorators
+
+You can define your validation schemas without decorators:
+
+* you can define it in the separate object
+* you can define it in the `.json` file
+
+This feature maybe useful in the cases if:
+
+* are using es5/es6 and don't have decorators available
+* you don't have a classes, and instead using interfaces
+* you don't want to use model at all
+* you want to have a validation schema separate of your model
+* you want beautiful json-schema based validation models
+* you simply hate decorators
+
+Here is an example of using it:
+
+1. Create a schema object:
+
+    ```typescript
+    import {ValidationSchema} from "class-validator";
+    export let UserValidationSchema: ValidationSchema = { // using interface here is not required, its just for type-safety
+        name: "myUserSchema", // this is required, and must be unique
+        properties: {
+            firstName: [{
+                type: "min_length", // validation type. All validation types are listed in ValidationTypes class.
+                constraints: [2]
+            }, {
+                type: "max_length",
+                constraints: [20]
+            }],
+            lastName: [{
+                type: "min_length",
+                constraints: [2]
+            }, {
+                type: "max_length",
+                constraints: [20]
+            }],
+            email: [{
+                type: "is_email"
+            }]
+        }
+    };
+    ```
+
+    Same schema can be provided in `.json` file, depend on your wish.
+
+2. Register your schema:
+
+    ```typescript
+    import {registerSchema} from "class-validator";
+    import {UserValidationSchema} from "./UserValidationSchema";
+    registerSchema(schema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
+    ```
+
+    Better to put this code in a global place, maybe when you bootstrap your application, for example in `app.ts`.
+
+3. Validate your object using validation schema:
+
+    ```typescript
+    import {validate} from "class-validator";
+    const user = { firstName: "Johny", secondName: "Cage", email: "johny@cage.com" };
+    validate("myUserSchema", user).then(errors => {
+        if (errors.length > 0) {
+            console.log("Validation failed: ", errors);
+        } else {
+            console.log("Validation succeed.");
+        }
+    });
+    ```
+
+    That's it. Here `"myUserSchema"` is the name of our validation schema.
+    `validate` method will perform validation based on this schema
 
 ## Samples
 
 Take a look on samples in [./sample](https://github.com/pleerock/class-validator/tree/master/sample) for more examples of
 usages.
 
-## FAQ
+## Release Notes
 
-* Which node version is supported?
+**0.4.0** *[BREAKING CHANGES]*
 
-    This module is tested on > node 4.0, so its highly recommended if you install the latest version of node.
-    If you are using old versions of node, the major dependency (afaik) of this module is on ES6 Promises, which are
-    supported by some of the old versions of node too. In the case if your node version does not support promises you
-    can try to npm install `es6-shim` module and include it to make promises work in your version of node.
+* everything should be imported from "class-validator" main entry point now
+* `ValidatorInterface` has been renamed to `ValidatorConstraintInterface`
+* contain can be set in the main entry point now
+* some decorator's names changed. Be aware of this
+* fixed all decorators that should not work only with strings
+* added few more non-string decorators
+* validator now returns array of ValidationError instead of ValidationErrorInterface. Removed old ValidationError
+* removed all other validation methods except `validator.validate`
+* finally validate method is async now, so custom async validations are supported now
+* added ability to validate inherited properties
+* added support of separate validation schemas
+* added support of default validation messages
+* added support of special tokens in validation messages
+* added support of message functions in validation options
+* added support of custom decorators
 
-* Is this library production-ready?
+**0.3.0**
 
-    The library is under active development, and needs better testing and contributions from community. If you want
-    to use it in production its highly recommended to fix library version that you use in your package.json file.
-    Personally I use it in production.
+* package has changed its name from `validator.ts` to `class-validator`.
+* sanitation functionality has been removed from this library. Use [class-sanitizer][3] instead.
 
-## Todos
-
-* cover with tests
-* more validation options
-* add support for json-schema based validation
-* use something better then validator.js and solve string-only validation issues
 
 [1]: https://github.com/chriso/validator.js
 [2]: https://github.com/pleerock/typedi
-[2]: https://github.com/pleerock/class-sanitizer
+[3]: https://github.com/pleerock/class-sanitizer

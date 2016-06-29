@@ -1,18 +1,43 @@
-import {ValidatorInterface} from "../ValidatorInterface";
+import {ValidatorConstraintInterface} from "../validation/ValidatorConstraintInterface";
+import {getFromContainer} from "../index";
 
 /**
  * This metadata interface contains information for custom validators.
  */
-export interface ConstraintMetadata {
+export class ConstraintMetadata {
+
+    // -------------------------------------------------------------------------
+    // Properties
+    // -------------------------------------------------------------------------
 
     /**
-     * Object class which performs validation.
+     * Target class which performs validation.
      */
-    object: Function;
+    target: Function;
 
     /**
-     * Instance of the object which performs validation.
+     * Custom validation's name, that will be used as validation error type.
      */
-    instance?: ValidatorInterface;
+    name: string;
+
+    // -------------------------------------------------------------------------
+    // Constructor
+    // -------------------------------------------------------------------------
+    
+    constructor(target: Function, name?: string) {
+        this.target = target;
+        this.name = name;
+    }
+
+    // -------------------------------------------------------------------------
+    // Accessors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Instance of the target custom validation class which performs validation.
+     */
+    get instance(): ValidatorConstraintInterface {
+        return getFromContainer<ValidatorConstraintInterface>(this.target);
+    }
     
 }

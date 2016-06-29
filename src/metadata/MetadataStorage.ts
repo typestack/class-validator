@@ -1,41 +1,32 @@
 import {ValidationMetadata} from "./ValidationMetadata";
-import {ValidatorInterface} from "../ValidatorInterface";
 import {ConstraintMetadata} from "./ConstraintMetadata";
+import {ValidationSchema} from "../validation-schema/ValidationSchema";
+import {ValidationSchemaToMetadataTransformer} from "../validation-schema/ValidationSchemaToMetadataTransformer";
 
 /**
- * Storage all metadatas of validations.
+ * Storage all metadatas.
  */
 export class MetadataStorage {
 
     // -------------------------------------------------------------------------
-    // Properties
+    // Private properties
     // -------------------------------------------------------------------------
 
-    private _validationMetadatas: ValidationMetadata[] = [];
-    private _constraintMetadatas: ConstraintMetadata[] = [];
+    private validationMetadatas: ValidationMetadata[] = [];
+    private constraintMetadatas: ConstraintMetadata[] = [];
 
     // -------------------------------------------------------------------------
-    // Getter Methods
+    // Public Methods
     // -------------------------------------------------------------------------
 
     /**
-     * Gets all validation metadatas saved in this storage.
+     * Adds a new validation metadata.
      */
-    get validationMetadatas(): ValidationMetadata[] {
-        return this._validationMetadatas;
+    addValidationSchema(schema: ValidationSchema) {
+        const validationMetadatas = new ValidationSchemaToMetadataTransformer().transform(schema);
+        validationMetadatas.forEach(validationMetadata => this.addValidationMetadata(validationMetadata));
     }
-
-    /**
-     * Gets all constraint metadatas saved in this storage.
-     */
-    get constraintMetadatas(): ConstraintMetadata[] {
-        return this._constraintMetadatas;
-    }
-
-    // -------------------------------------------------------------------------
-    // Adder Methods
-    // -------------------------------------------------------------------------
-
+    
     /**
      * Adds a new validation metadata.
      */
@@ -50,29 +41,65 @@ export class MetadataStorage {
         this.constraintMetadatas.push(metadata);
     }
 
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
+    /**
+     * Groups metadata by their property names.
+     */
+    groupByPropertyName(metadata: ValidationMetadata[]): { [propertyName: string]: ValidationMetadata[] } {
+        const grouped: { [propertyName: string]: ValidationMetadata[] } = {};
+        metadata.forEach(metadata => {
+            if (!grouped[metadata.propertyName])
+                grouped[metadata.propertyName] = [];
+            grouped[metadata.propertyName].push(metadata);
+        });
+        return grouped;
+    }
 
     /**
      * Gets all validation metadatas for the given object with the given groups.
      */
-    getValidationMetadatasForObject(object: Function, groups?: string[]): ValidationMetadata[] {
-        return this.validationMetadatas
-            .filter(metadata => metadata.object.constructor === object)
-            .filter(metadata => groups && groups.length > 0 ? metadata.always || (metadata.groups && metadata.groups.filter(g => groups.indexOf(g) !== -1).length > 0) : true);
+    getTargetValidationMetadatas(targetConstructor: Function, targetSchema: string, groups?: string[]): ValidationMetadata[] {
+        
+        // get directly related to a target metadatas
+        const originalMetadatas = this.validationMetadatas.filter(metadata => {
+            if (metadata.target !== targetConstructor && metadata.target !== targetSchema)
+                return false;
+            if (metadata.always) 
+                return true;
+            if (groups && groups.length > 0)
+                return metadata.groups && !!metadata.groups.find(group => groups.indexOf(group) !== -1);
+            
+            return true;
+        });
+        
+        // get metadatas for inherited classes
+        const inheritedMetadatas = this.validationMetadatas.filter(metadata => {
+            if (metadata.target instanceof Function && 
+                !(targetConstructor instanceof (metadata.target as Function)))
+                return false;
+            if (metadata.always) 
+                return true;
+            if (groups && groups.length > 0)
+                return metadata.groups && !!metadata.groups.find(group => groups.indexOf(group) !== -1);
+            
+            return true;
+        });
+        
+        // filter out duplicate metadatas, prefer original metadatas instead of inherited metadatas
+        const uniqueInheritedMetadatas = inheritedMetadatas.filter(inheritedMetadata => {
+            return !!originalMetadatas.find(originalMetadata => {
+                return  originalMetadata.propertyName === inheritedMetadata.propertyName && 
+                        originalMetadata.type === inheritedMetadata.type;
+            });
+        });
+        
+        return originalMetadatas.concat(uniqueInheritedMetadatas);
     }
 
     /**
      * Gets all validator constraints for the given object.
      */
-    getValidatorConstraintsForObject(object: Function): ConstraintMetadata[] {
-        return this.constraintMetadatas.filter(metadata => metadata.object === object);
+    getTargetValidatorConstraints(target: Function): ConstraintMetadata[] {
+        return this.constraintMetadatas.filter(metadata => metadata.target === target);
     }
 
 }
-
-/**
- * Default metadata storage used as singleton and can be used to storage all metadatas in the system.
- */
-export let defaultMetadataStorage = new MetadataStorage();
