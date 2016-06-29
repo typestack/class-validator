@@ -46,10 +46,10 @@ export class ValidationExecutor {
 
         Object.keys(groupedMetadatas).forEach(propertyName => {
             const value = (object as any)[propertyName];
-            const metadatas = groupedMetadatas[propertyName];
+            const isDefinedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
+            const metadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type !== ValidationTypes.IS_DEFINED);
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
-            const isDefinedMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
             
             // handle IS_DEFINED validation type the special way - it should work no matter skipMissingProperties is set or not
             this.defaultValidations(object, value, isDefinedMetadatas);

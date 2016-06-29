@@ -28,7 +28,7 @@ import {
     IsIP,
     IsISBN,
     IsISO8601,
-    In,
+    IsIn,
     IsInt,
     IsJSON,
     Length,
@@ -45,10 +45,10 @@ import {
     MaxLength,
     GreaterThen,
     LessThen,
-    NotEmpty,
+    IsNotEmpty,
     ArrayNotEmpty,
     ArrayMinSize,
-    ArrayMaxSize, NotEquals, IsDateString
+    ArrayMaxSize, NotEquals, IsDateString, IsEmpty, IsDefined
 } from "../../src/decorator/decorators";
 import {ValidatorConstraintInterface} from "../../src/validation/ValidatorConstraintInterface";
 import {Validator} from "../../src/validation/Validator";
@@ -186,6 +186,34 @@ describe("ValidateNested", function() {
 // Specifications: common decorators
 // -------------------------------------------------------------------------
 
+describe("IsDefined", function() {
+
+    const validValues = [0, 1, true, false, "", "0", "1234", -1];
+    const invalidValues: any[] = [null, undefined];
+
+    class MyClass {
+        @IsDefined()
+        property: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isDefined(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isDefined(value).should.be.false);
+    });
+
+});
+
 describe("Equals", function() {
 
     const constraint = "Alex";
@@ -244,14 +272,13 @@ describe("NotEquals", function() {
 
 });
 
-describe("NotEmpty", function() {
+describe("Empty", function() {
 
-    // const constraint = "";
-    const validValues = ["a", "abc"];
-    const invalidValues = ["", undefined, null];
+    const validValues = [null, undefined, ""];
+    const invalidValues = ["0", 0, 1, false, true];
 
     class MyClass {
-        @NotEmpty()
+        @IsEmpty()
         property: string;
     }
 
@@ -264,11 +291,39 @@ describe("NotEmpty", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.notEmpty(value).should.be.true);
+        validValues.forEach(value => validator.isEmpty(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.notEmpty(value).should.be.false);
+        invalidValues.forEach(value => validator.isEmpty(value).should.be.false);
+    });
+
+});
+
+describe("NotEmpty", function() {
+
+    const validValues = ["a", "abc"];
+    const invalidValues = ["", undefined, null];
+
+    class MyClass {
+        @IsNotEmpty()
+        property: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isNotEmpty(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isNotEmpty(value).should.be.false);
     });
 
 });
@@ -280,7 +335,7 @@ describe("In", function() {
     const invalidValues = ["foobar", "barfoo", ""];
 
     class MyClass {
-        @In(constraint)
+        @IsIn(constraint)
         property: string;
     }
 

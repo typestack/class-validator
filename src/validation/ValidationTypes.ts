@@ -13,10 +13,10 @@ export class ValidationTypes {
     static IS_DEFINED = "is_defined";
     static EQUALS = "equal";
     static NOT_EQUALS = "not_equal";
-    static EMPTY = "empty";
-    static NOT_EMPTY = "not_empty";
-    static IN = "in";
-    static NOT_IN = "not_in";
+    static IS_EMPTY = "is_empty";
+    static IS_NOT_EMPTY = "is_not_empty";
+    static IS_IN = "is_in";
+    static IS_NOT_IN = "is_not_in";
 
     /* type checkers */
     static IS_BOOLEAN = "is_boolean";
@@ -107,13 +107,13 @@ export class ValidationTypes {
                 return "$property must be equal to $constraint1";
             case this.NOT_EQUALS:
                 return "$property should not be equal to $constraint1";
-            case this.EMPTY:
+            case this.IS_EMPTY:
                 return "$property must be empty";
-            case this.NOT_EMPTY:
+            case this.IS_NOT_EMPTY:
                 return "$property should not be empty";
-            case this.IN:
+            case this.IS_IN:
                 return "$property must be one of the following values: $constraint1";
-            case this.NOT_IN:
+            case this.IS_NOT_IN:
                 return "$property should not be one of the following values: $constraint1";
 
             /* type checkers */

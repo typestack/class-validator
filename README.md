@@ -439,8 +439,8 @@ const validator = new Validator();
 validator.isDefined(value); // Checks if value is defined ("!==undefined").
 validator.equals(value, comparison); // Checks if value matches ("===") the comparison.
 validator.notEquals(value, comparison); // Checks if value does not match ("!==") the comparison.
-validator.empty(value); // Checks if given value is empty (=== '', === null, === undefined).
-validator.notEmpty(value); // Checks if given value is not empty (!== '', !== null, !== undefined).
+validator.isEmpty(value); // Checks if given value is empty (=== '', === null, === undefined).
+validator.isNotEmpty(value); // Checks if given value is not empty (!== '', !== null, !== undefined).
 validator.isIn(value, possibleValues); // Checks if given value is in a array of allowed values.
 validator.isNotIn(value, possibleValues); // Checks if given value not in a array of allowed values.
 
@@ -517,13 +517,13 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | Decorator                                       | Description                                                                                                                      |
 |-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | **Common validation decorators**                                                                                                                                                   |
-| `@IsDefined(value: any)`                        | Checks if value is defined ("!==undefined"). This is the only decorator that ignores skipMissingProperties validation option.    |
+| `@IsDefined(value: any)`                        | Checks if value is defined (!== undefined, !== null). This is the only decorator that ignores skipMissingProperties option.      |
 | `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison.                                                                                       |
 | `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison.                                                                                    |
-| `@Empty()`                                      | Checks if given value is empty (=== '', === null, === undefined).                                                                |
-| `@NotEmpty()`                                   | Checks if given value is not empty (!== '', !== null, !== undefined).                                                            |
-| `@In(values: any[])`                            | Checks if value is in a array of allowed values.                                                                                 |
-| `@NotIn(values: any[])`                         | Checks if value is not in a array of disallowed values.                                                                          |
+| `@IsEmpty()`                                    | Checks if given value is empty (=== '', === null, === undefined).                                                                |
+| `@IsNotEmpty()`                                 | Checks if given value is not empty (!== '', !== null, !== undefined).                                                            |
+| `@IsIn(values: any[])`                          | Checks if value is in a array of allowed values.                                                                                 |
+| `@IsNotIn(values: any[])`                       | Checks if value is not in a array of disallowed values.                                                                          |
 | **Type validation decorators**                                                                                                                                                     |
 | `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                                                  |
 | `@IsDate()`                                     | Checks if the string is a date.                                                                                                  |

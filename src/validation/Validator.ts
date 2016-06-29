@@ -54,13 +54,13 @@ export class Validator {
                 return this.equals(value, metadata.constraints[0]);
             case ValidationTypes.NOT_EQUALS:
                 return this.notEquals(value, metadata.constraints[0]);
-            case ValidationTypes.EMPTY:
-                return this.empty(value);
-            case ValidationTypes.NOT_EMPTY:
-                return this.notEmpty(value);
-            case ValidationTypes.IN:
+            case ValidationTypes.IS_EMPTY:
+                return this.isEmpty(value);
+            case ValidationTypes.IS_NOT_EMPTY:
+                return this.isNotEmpty(value);
+            case ValidationTypes.IS_IN:
                 return this.isIn(value, metadata.constraints[0]);
-            case ValidationTypes.NOT_IN:
+            case ValidationTypes.IS_NOT_IN:
                 return this.isNotIn(value, metadata.constraints[0]);
 
             /* type checkers */
@@ -193,10 +193,10 @@ export class Validator {
     // -------------------------------------------------------------------------
 
     /**
-     * Checks if value is defined (!==undefined).
+     * Checks if value is defined (!== undefined, !== null).
      */
     isDefined(value: any): boolean {
-        return value !== undefined;
+        return value !== undefined && value !== null;
     }
 
     /**
@@ -216,14 +216,14 @@ export class Validator {
     /**
      * Checks if given value is empty (=== '', === null, === undefined).
      */
-    empty(value: any): boolean {
+    isEmpty(value: any): boolean {
         return value === "" || value === null || value === undefined;
     }
 
     /**
      * Checks if given value is not empty (!== '', !== null, !== undefined).
      */
-    notEmpty(value: any): boolean {
+    isNotEmpty(value: any): boolean {
         return value !== "" && value !== null && value !== undefined;
     }
 

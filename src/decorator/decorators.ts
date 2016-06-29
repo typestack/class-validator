@@ -65,6 +65,21 @@ export function ValidateNested(validationOptions?: ValidationOptions) {
 // -------------------------------------------------------------------------
 
 /**
+ * Checks if given value is defined (!== undefined, !== null).
+ */
+export function IsDefined(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_DEFINED,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if the value match ("===") the comparison.
  */
 export function Equals(comparison: any, validationOptions?: ValidationOptions) {
@@ -99,10 +114,10 @@ export function NotEquals(comparison: any, validationOptions?: ValidationOptions
 /**
  * Checks if given value is empty (=== '', === null, === undefined).
  */
-export function Empty(validationOptions?: ValidationOptions) {
+export function IsEmpty(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.EMPTY,
+            type: ValidationTypes.IS_EMPTY,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
@@ -114,25 +129,10 @@ export function Empty(validationOptions?: ValidationOptions) {
 /**
  * Checks if given value is not empty (!== '', !== null, !== undefined).
  */
-export function NotEmpty(validationOptions?: ValidationOptions) {
+export function IsNotEmpty(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.NOT_EMPTY,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if given value is defined (!== undefined).
- */
-export function IsDefined(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_DEFINED,
+            type: ValidationTypes.IS_NOT_EMPTY,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
@@ -144,10 +144,10 @@ export function IsDefined(validationOptions?: ValidationOptions) {
 /**
  * Checks if value is in a array of allowed values.
  */
-export function In(values: any[], validationOptions?: ValidationOptions) {
+export function IsIn(values: any[], validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IN,
+            type: ValidationTypes.IS_IN,
             target: object.constructor,
             propertyName: propertyName,
             constraints: [values],
@@ -160,10 +160,10 @@ export function In(values: any[], validationOptions?: ValidationOptions) {
 /**
  * Checks if value is not in a array of disallowed values.
  */
-export function NotIn(values: any[], validationOptions?: ValidationOptions) {
+export function IsNotIn(values: any[], validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.NOT_IN,
+            type: ValidationTypes.IS_NOT_IN,
             target: object.constructor,
             propertyName: propertyName,
             constraints: [values],
