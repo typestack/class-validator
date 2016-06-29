@@ -601,7 +601,7 @@ This feature maybe useful in the cases if:
 * you don't want to use model at all
 * you want to have a validation schema separate of your model
 * you want beautiful json-schema based validation models
-* you simply hate decorators (why???)
+* you simply hate decorators
 
 Here is an example of using it:
 
@@ -671,7 +671,6 @@ usages.
 
 **0.4.0** *[BREAKING CHANGES]*
 
-* refactoring
 * everything should be imported from "class-validator" main entry point now
 * `ValidatorInterface` has been renamed to `ValidatorConstraintInterface`
 * contain can be set in the main entry point now
