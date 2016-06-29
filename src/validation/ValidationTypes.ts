@@ -23,15 +23,14 @@ export class ValidationTypes {
     static IS_DATE = "is_date";
     static IS_NUMBER = "is_number";
     static IS_STRING = "is_string";
-    static IS_DECIMAL = "is_decimal";
     static IS_INT = "is_int";
 
     /* number checkers */
-    static DIVISIBLE_BY = "divisible_by";
+    static IS_DIVISIBLE_BY = "divisible_by";
     static IS_POSITIVE = "is_positive";
     static IS_NEGATIVE = "is_negative";
-    static GREATER_THEN = "greater";
-    static LESS_THEN = "less";
+    static MIN = "min";
+    static MAX = "max";
 
     /* date checkers */
     static MIN_DATE = "min_date";
@@ -125,21 +124,19 @@ export class ValidationTypes {
                 return "$property must be a number";
             case this.IS_STRING:
                 return "$property must be a string";
-            case this.IS_DECIMAL:
-                return "$property must be a decimal number";
             case this.IS_INT:
                 return "$property must be an integer number";
 
             /* number checkers */
-            case this.DIVISIBLE_BY:
+            case this.IS_DIVISIBLE_BY:
                 return "$property must be divisible by $constraint1";
             case this.IS_POSITIVE:
                 return "$property must be a positive number";
             case this.IS_NEGATIVE:
                 return "$property must be a negative number";
-            case this.GREATER_THEN:
+            case this.MIN:
                 return "$property must be greater then $constraint1";
-            case this.LESS_THEN:
+            case this.MAX:
                 return "$property must be less then $constraint1";
 
             /* date checkers */

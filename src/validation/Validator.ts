@@ -74,20 +74,18 @@ export class Validator {
                 return this.isNumber(value);
             case ValidationTypes.IS_INT:
                 return this.isInt(value);
-            case ValidationTypes.IS_DECIMAL:
-                return this.isDecimal(value);
 
             /* number checkers */
-            case ValidationTypes.DIVISIBLE_BY:
-                return this.divisibleBy(value, metadata.constraints[0]);
+            case ValidationTypes.IS_DIVISIBLE_BY:
+                return this.isDivisibleBy(value, metadata.constraints[0]);
             case ValidationTypes.IS_POSITIVE:
                 return this.isPositive(value);
             case ValidationTypes.IS_NEGATIVE:
                 return this.isNegative(value);
-            case ValidationTypes.GREATER_THEN:
-                return this.greaterThen(value, metadata.constraints[0]);
-            case ValidationTypes.LESS_THEN:
-                return this.lessThen(value, metadata.constraints[0]);
+            case ValidationTypes.MIN:
+                return this.min(value, metadata.constraints[0]);
+            case ValidationTypes.MAX:
+                return this.max(value, metadata.constraints[0]);
 
             /* date checkers */
             case ValidationTypes.MIN_DATE:
@@ -274,14 +272,6 @@ export class Validator {
     }
 
     /**
-     * Checks if value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
-     */
-    isDecimal(value: number): boolean {
-        const numberString = String(value); // fix it
-        return this.validatorJs.isDecimal(numberString);
-    }
-
-    /**
      * Checks if value is an integer.
      */
     isInt(val: number): boolean {
@@ -296,7 +286,7 @@ export class Validator {
     /**
      * Checks if value is a number that's divisible by another.
      */
-    divisibleBy(value: number, num: number): boolean {
+    isDivisibleBy(value: number, num: number): boolean {
         return  typeof value === "number" && 
                 typeof num === "number" && 
                 this.validatorJs.isDivisibleBy(String(value), num);
@@ -319,15 +309,15 @@ export class Validator {
     /**
      * Checks if the first number is greater then second.
      */
-    greaterThen(first: number, second: number): boolean {
-        return typeof first === "number" && typeof second === "number" && first > second;
+    min(num: number, min: number): boolean {
+        return typeof num === "number" && typeof min === "number" && num >= min;
     }
 
     /**
      * Checks if the first number is less then second.
      */
-    lessThen(first: number, second: number): boolean {
-        return typeof first === "number" && typeof second === "number" && first < second;
+    max(num: number, max: number): boolean {
+        return typeof num === "number" && typeof max === "number" && num <= max;
     }
 
     // -------------------------------------------------------------------------
@@ -652,8 +642,8 @@ export class Validator {
      * Checks if all array's values are unique. Comparison for objects is reference-based.
      */
     arrayUnique(array: any[]) {
-        if (array instanceof Array)
-            return true;
+        if (!(array instanceof Array))
+            return false;
 
         const uniqueItems = array.filter((a, b, c) => c.indexOf(a) === b);
         return array.length === uniqueItems.length;

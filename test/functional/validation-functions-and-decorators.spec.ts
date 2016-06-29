@@ -16,8 +16,7 @@ import {
     IsCreditCard,
     IsCurrency,
     IsDate,
-    IsDecimal,
-    DivisibleBy,
+    IsDivisibleBy,
     IsEmail,
     IsFQDN,
     IsFullWidth,
@@ -43,40 +42,43 @@ import {
     Matches,
     MinLength,
     MaxLength,
-    GreaterThen,
-    LessThen,
+    Min,
+    Max,
     IsNotEmpty,
     ArrayNotEmpty,
     ArrayMinSize,
-    ArrayMaxSize, NotEquals, IsDateString, IsEmpty, IsDefined
+    ArrayMaxSize, NotEquals, IsDateString, IsEmpty, IsDefined, IsNotIn, IsNumber, IsString, NotContains, ArrayContains,
+    ArrayNotContains, ArrayUnique
 } from "../../src/decorator/decorators";
 import {ValidatorConstraintInterface} from "../../src/validation/ValidatorConstraintInterface";
 import {Validator} from "../../src/validation/Validator";
+import {ValidationOptions} from "../../src/decorator/ValidationOptions";
+import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
 
-function checkIfValid(object: any) {
+function checkIfValid(object: any, validatorOptions?: ValidatorOptions) {
     return validator
-        .validate(object)
+        .validate(object, validatorOptions)
         .then(errors => errors.length.should.be.equal(0));
 }
 
-function checkIfInvalid(object: any) {
+function checkIfInvalid(object: any, validatorOptions?: ValidatorOptions) {
     return validator
-        .validate(object)
+        .validate(object, validatorOptions)
         .then(errors => errors.length.should.be.equal(1));
 }
 
-function checkValidValues(object: { property: any }, values: any[], done: Function) {
+function checkValidValues(object: { property: any }, values: any[], done: Function, validatorOptions?: ValidatorOptions) {
     const promises = values.map(value => {
         object.property = value;
-        return checkIfValid(object);
+        return checkIfValid(object, validatorOptions);
     });
     Promise.all(promises).then(() => done(), err => done(err));
 }
 
-function checkInvalidValues(object: { property: any }, values: any[], done: Function) {
+function checkInvalidValues(object: { property: any }, values: any[], done: Function, validatorOptions?: ValidatorOptions) {
     const promises = values.map(value => {
         object.property = value;
-        return checkIfInvalid(object);
+        return checkIfInvalid(object, validatorOptions);
     });
     Promise.all(promises).then(() => done(), err => done(err));
 }
@@ -233,6 +235,14 @@ describe("Equals", function() {
         checkInvalidValues(new MyClass(), invalidValues, done);
     });
 
+    it("should not fail if validator.validate said that its valid with skipMissingProperties set to true", function(done) {
+        checkValidValues(new MyClass(), validValues, done, { skipMissingProperties: true });
+    });
+
+    it("should fail if validator.validate said that its invalid with skipMissingProperties set to true", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done, { skipMissingProperties: true });
+    });
+
     it("should not fail if method in validator said that its valid", function() {
         validValues.forEach(value => validator.equals(value, constraint).should.be.true);
     });
@@ -272,7 +282,7 @@ describe("NotEquals", function() {
 
 });
 
-describe("Empty", function() {
+describe("IsEmpty", function() {
 
     const validValues = [null, undefined, ""];
     const invalidValues = ["0", 0, 1, false, true];
@@ -300,7 +310,7 @@ describe("Empty", function() {
 
 });
 
-describe("NotEmpty", function() {
+describe("IsNotEmpty", function() {
 
     const validValues = ["a", "abc"];
     const invalidValues = ["", undefined, null];
@@ -328,7 +338,7 @@ describe("NotEmpty", function() {
 
 });
 
-describe("In", function() {
+describe("IsIn", function() {
 
     const constraint = ["foo", "bar"];
     const validValues = ["foo", "bar"];
@@ -353,6 +363,35 @@ describe("In", function() {
 
     it("should fail if method in validator said that its invalid", function() {
         invalidValues.forEach(value => validator.isIn(value, constraint).should.be.false);
+    });
+
+});
+
+describe("IsNotIn", function() {
+
+    const constraint = ["foo", "bar"];
+    const validValues = ["foobar", "barfoo", ""];
+    const invalidValues = ["foo", "bar"];
+
+    class MyClass {
+        @IsNotIn(constraint)
+        property: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isNotIn(value, constraint).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isNotIn(value, constraint).should.be.false);
     });
 
 });
@@ -389,14 +428,14 @@ describe("IsBoolean", function() {
 
 });
 
-/*describe("IsDecimal", function() {
+describe("IsDate", function() {
 
-    const validValues = ["123", "00123", "-00123", "0", "-0", "+123", "0.01", ".1", "1.0", "-.25", "-0", "0.0000000000001"];
-    const invalidValues = ["....", " ", "", "-", "+", ".", "0.1a", "a", "\n"];
+    const validValues = [new Date()];
+    const invalidValues = [1, true, false, "Mon Aug 17 2015 00:24:56 GMT-0500 (CDT)", "2009-05-19 14:39:22-06:00"];
 
     class MyClass {
-        @IsDecimal()
-        property: string;
+        @IsDate()
+        property: Date;
     }
 
     it("should not fail if validator.validate said that its valid", function(done) {
@@ -408,14 +447,42 @@ describe("IsBoolean", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isDecimal(value).should.be.true);
+        validValues.forEach(value => validator.isDate(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isDecimal(value).should.be.false);
+        invalidValues.forEach(value => validator.isDate(value).should.be.false);
     });
 
-});*/
+});
+
+describe("IsNumber", function() {
+
+    const validValues = [0, 1, 2, 3, 4, 5.4, -10];
+    const invalidValues = ["1", "0", true, false, "-100"];
+
+    class MyClass {
+        @IsNumber()
+        property: number;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isNumber(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isNumber(value).should.be.false);
+    });
+
+});
 
 describe("IsInt", function() {
 
@@ -455,18 +522,20 @@ describe("IsInt", function() {
 
 });
 
-// -------------------------------------------------------------------------
-// Specifications: number check
-// -------------------------------------------------------------------------
+describe("IsString", function() {
 
-describe("DivisibleBy", function() {
-
-    const constraint = 2;
-    const validValues = [ 2, 4, 100, 1000];
-    const invalidValues = ["", undefined, null];
+    const validValues = ["true", "false", "hello", "0", "", "1"];
+    const invalidValues = [
+        true,
+        false,
+        1,
+        2,
+        null,
+        undefined
+    ];
 
     class MyClass {
-        @DivisibleBy(constraint)
+        @IsString()
         property: string;
     }
 
@@ -479,11 +548,44 @@ describe("DivisibleBy", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.divisibleBy(value, constraint).should.be.true);
+        validValues.forEach(value => validator.isString(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.divisibleBy(value as any, constraint).should.be.false);
+        invalidValues.forEach(value => validator.isString(value as any).should.be.false);
+    });
+
+});
+
+// -------------------------------------------------------------------------
+// Specifications: number check
+// -------------------------------------------------------------------------
+
+describe("IsDivisibleBy", function() {
+
+    const constraint = 2;
+    const validValues = [ 2, 4, 100, 1000];
+    const invalidValues = ["", undefined, null];
+
+    class MyClass {
+        @IsDivisibleBy(constraint)
+        property: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isDivisibleBy(value, constraint).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isDivisibleBy(value as any, constraint).should.be.false);
     });
 
 });
@@ -589,14 +691,14 @@ describe("IsNegative", function() {
 
 });
 
-describe("GreaterThen", function() {
+describe("Min", function() {
 
     const constraint = 10;
-    const validValues = [11, 20, 30, 40];
-    const invalidValues = [10, 2, 3, 4, 5, 6, 7, 8, 9, -10];
+    const validValues = [10, 11, 20, 30, 40];
+    const invalidValues = [2, 3, 4, 5, 6, 7, 8, 9, -10];
 
     class MyClass {
-        @GreaterThen(constraint)
+        @Min(constraint)
         property: string;
     }
 
@@ -609,23 +711,23 @@ describe("GreaterThen", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.greaterThen(value, constraint).should.be.true);
+        validValues.forEach(value => validator.min(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.greaterThen(value, constraint).should.be.false);
+        invalidValues.forEach(value => validator.min(value, constraint).should.be.false);
     });
 
 });
 
-describe("LessThen", function() {
+describe("Max", function() {
 
     const constraint = 10;
-    const validValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, -10];
-    const invalidValues = [10, 11, 20, 30, 40];
+    const validValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, -10, 10];
+    const invalidValues = [11, 20, 30, 40];
 
     class MyClass {
-        @LessThen(constraint)
+        @Max(constraint)
         property: string;
     }
 
@@ -638,11 +740,11 @@ describe("LessThen", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.lessThen(value, constraint).should.be.true);
+        validValues.forEach(value => validator.max(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.lessThen(value, constraint).should.be.false);
+        invalidValues.forEach(value => validator.max(value, constraint).should.be.false);
     });
 
 });
@@ -713,6 +815,167 @@ describe("MaxDate", function() {
 // Specifications: string-as-type check
 // -------------------------------------------------------------------------
 
+describe("IsBooleanString", function() {
+
+    const validValues = [
+        "1",
+        "0",
+        "true",
+        "false"
+    ];
+    const invalidValues = [
+        "2",
+        "3",
+        "falze"
+    ];
+
+    class MyClass {
+        @IsBooleanString()
+        property: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isBooleanString(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isBooleanString(value).should.be.false);
+    });
+
+});
+
+describe("IsDateString", function() {
+
+    const validValues = [
+        "2011-08-04"
+        , "2011-09-30"
+        , "04. 08. 2011."
+        , "08/04/2011"
+        , "08/31/2011"
+        , "2011.08.04"
+        , "2/29/24"
+        , "2-29-24"
+        , "4. 8. 2011. GMT"
+        , "2. 28. 2011. GMT"
+        , "2. 29. 2008. GMT"
+        , "2011-08-04 12:00"
+        , "2/22/23"
+        , "2-23-22"
+        , "12"
+        , "11/2/23 12:24"
+        , "Mon Aug 17 2015 00:24:56 GMT-0500 (CDT)"
+        , "2/22/23 23:24:26"
+        , "2009-12T12:34"
+        , "2009"
+        , "2009-05-19"
+        , "2009-05-19"
+        , "2009-05"
+        , "2009-001"
+        , "2009-05-19"
+        , "2009-05-19 00:00"
+        , "2009-05-19 14:31"
+        , "2009-05-19 14:39:22"
+        , "2009-05-19T14:39Z"
+        , "2009-05-19 14:39:22-06:00"
+        , "2009-05-19 14:39:22+0600"
+        , "2009-05-19 14:39:22-01"
+        , "2015-10-20T00:53:09+08:00"
+        , "2015-10-20T00:53:09+09:00"
+        , "2015-10-20T00:53:09+10:00"
+        , "2015-10-20T00:53:09+11:00"
+        , "2015-10-20T00:53:09+12:00"
+        , "2007-04-06T00:00"
+        , "2010-02-18T16:23:48.5"
+        , "200905"
+        , "2009-"
+        , "2009-05-19 14:"
+        , "200912-01"
+        , "Fri, 21 Nov 1997 09:55:06 -0600"
+        , "Tue, 15 Nov 1994 12:45:26 GMT"
+        , "Tue, 1 Jul 2003 10:52:37 +0200"
+        , "Thu, 13 Feb 1969 23:32:54 -0330"
+        , "Mon, 24 Nov 1997 14:22:01 -0800"
+        , "Mon Sep 28 1964 00:05:49 GMT+1100 (AEDST)"
+        , "Mon Sep 28 1964 00:05:49 +1100 (AEDST)"
+        , "Mon Sep 28 1964 00:05:49 +1100"
+        , "Mon Sep 28 1964 00:05:49 \nGMT\n+1100\n"
+        , "Mon Sep 28 1964 00:05:49 \nGMT\n+1100\n(AEDST)"
+        , "Thu,          13\n     Feb\n  1969\n        23:32\n     -0330"
+        , "Thu,          13\n     Feb\n  1969\n        23:32\n     -0330 (Newfoundland Time)"
+        , "24 Nov 1997 14:22:01 -0800"
+        , "Thu,          29\n     Feb\n  1968\n        13:32\n     -0330"
+        , "Fri, 30 Nov 1997 09:55:06 -0600"
+        , "Wed, 10 Apr 2014 08:21:03 +0000"
+        , "Wed, 9 Apr 2014 10:21:03 +0200"
+        , "Wed, 9 Apr 2014 06:21:03 -0200"
+        , "Wed, 9 Apr 2014 08:21:03 +0000"
+    ];
+    const invalidValues = [
+        "foo"
+        , "2011-foo-04"
+        , "2011-09-31"
+        , "2. 29. 1987. GMT"
+        , "2. 29. 2011. GMT"
+        , "2/29/25"
+        , "2-29-25"
+        , "GMT"
+        , "2009367"
+        , "2007-04-05T24:50"
+        , "2009-000"
+        , "2009-M511"
+        , "2009M511"
+        , "2009-05-19T14a39r"
+        , "2009-05-19T14:3924"
+        , "2009-0519"
+        , "2009-05-1914:39"
+        , "2009-05-19r14:39"
+        , "2009-05-19 14a39a22"
+        , "2009-05-19 14:39:22+06a00"
+        , "2009-05-19 146922.500"
+        , "2010-02-18T16.5:23.35:48"
+        , "2010-02-18T16:23.35:48"
+        , "2010-02-18T16:23.35:48.45"
+        , "2009-05-19 14.5.44"
+        , "2010-02-18T16:23.33.600"
+        , "2010-02-18T16,25:23:48,444"
+        , "2009-02-30 14:"
+        , "200912-32"
+        // hackage RFC2822 variants with invalid end-of-month
+        , "Thu,          29\n     Feb\n  1969\n        13:32\n     -0330"
+        , "Fri, 31 Nov 1997 09:55:06 -0600"
+    ];
+
+    class MyClass {
+        @IsDateString()
+        property: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isDateString(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isDateString(value).should.be.false);
+    });
+
+});
+
 describe("IsNumberString", function() {
 
     const validValues = [
@@ -752,43 +1015,6 @@ describe("IsNumberString", function() {
 
 });
 
-describe("IsBooleanString", function() {
-
-    const validValues = [
-        "1",
-        "0",
-        "true",
-        "false"
-    ];
-    const invalidValues = [
-        "2",
-        "3",
-        "falze"
-    ];
-
-    class MyClass {
-        @IsBooleanString()
-        property: string;
-    }
-
-    it("should not fail if validator.validate said that its valid", function(done) {
-        checkValidValues(new MyClass(), validValues, done);
-    });
-
-    it("should fail if validator.validate said that its invalid", function(done) {
-        checkInvalidValues(new MyClass(), invalidValues, done);
-    });
-
-    it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isBooleanString(value).should.be.true);
-    });
-
-    it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isBooleanString(value).should.be.false);
-    });
-
-});
-
 // -------------------------------------------------------------------------
 // Specifications: string check
 // -------------------------------------------------------------------------
@@ -818,6 +1044,35 @@ describe("Contains", function() {
 
     it("should fail if method in validator said that its invalid", function() {
         invalidValues.forEach(value => validator.contains(value, constraint).should.be.false);
+    });
+
+});
+
+describe("NotContains", function() {
+    
+    const constraint = "hello";
+    const validValues = ["bye world"];
+    const invalidValues = ["hello world"];
+
+    class MyClass {
+        @NotContains(constraint)
+        property: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.notContains(value, constraint).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.notContains(value, constraint).should.be.false);
     });
 
 });
@@ -2160,27 +2415,91 @@ describe("Matches", function() {
 // Specifications: array check
 // -------------------------------------------------------------------------
 
-describe("ArrayNotEmpty", function() {
+describe("ArrayContains", function() {
+
+    const constraint = ["superman"];
+    const validValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
+    const invalidValues = [["world", "hello"]];
 
     class MyClass {
-        @ArrayNotEmpty()
-        tags: string[];
+        @ArrayContains(constraint)
+        property: string[];
     }
 
-    it("should not fail if validator.validate said that its valid", function() {
-        const object = new MyClass();
-        object.tags = ["world"];
-        return checkIfValid(object);
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
     });
 
-    it("should fail if validator.validate said that its invalid", function() {
-        const object = new MyClass();
-        object.tags = [];
-        return checkIfInvalid(object);
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.arrayContains(value, constraint).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.arrayContains(value, constraint).should.be.false);
     });
 
 });
 
+describe("ArrayNotContains", function() {
+
+    const constraint = ["superman"];
+    const validValues = [["world", "hello"]];
+    const invalidValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
+
+    class MyClass {
+        @ArrayNotContains(constraint)
+        property: string[];
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.arrayNotContains(value, constraint).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.arrayNotContains(value, constraint).should.be.false);
+    });
+
+});
+
+describe("ArrayNotEmpty", function() {
+
+    const validValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
+    const invalidValues: any[] = [];
+
+    class MyClass {
+        @ArrayNotEmpty()
+        property: string[];
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.arrayNotEmpty(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.arrayNotEmpty(value).should.be.false);
+    });
+
+});
 
 describe("ArrayMinSize", function() {
 
@@ -2236,6 +2555,34 @@ describe("ArrayMaxSize", function() {
 
     it("should fail if method in validator said that its invalid", function() {
         invalidValues.forEach(value => validator.arrayMaxSize(value, constraint).should.be.false);
+    });
+
+});
+
+describe("ArrayUnique", function() {
+
+    const validValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
+    const invalidValues: any[] = [["world", "hello", "hello"], ["world", "hello", "world"], ["1", "1", "1"]];
+
+    class MyClass {
+        @ArrayUnique()
+        property: string[];
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.arrayUnique(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.arrayUnique(value).should.be.false);
     });
 
 });

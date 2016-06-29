@@ -238,21 +238,6 @@ export function IsInt(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
- */
-export function IsDecimal(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_DECIMAL,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
  * Checks if a value is a string.
  */
 export function IsString(validationOptions?: ValidationOptions) {
@@ -274,10 +259,10 @@ export function IsString(validationOptions?: ValidationOptions) {
 /**
  * Checks if the value is a number that's divisible by another.
  */
-export function DivisibleBy(num: number, validationOptions?: ValidationOptions) {
+export function IsDivisibleBy(num: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.DIVISIBLE_BY,
+            type: ValidationTypes.IS_DIVISIBLE_BY,
             target: object.constructor,
             propertyName: propertyName,
             constraints: [num],
@@ -319,10 +304,10 @@ export function IsNegative(validationOptions?: ValidationOptions) {
 /**
  * Checks if the given number is greater then given number.
  */
-export function GreaterThen(min: number, validationOptions?: ValidationOptions) {
+export function Min(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.GREATER_THEN,
+            type: ValidationTypes.MIN,
             target: object.constructor,
             propertyName: propertyName,
             constraints: [min],
@@ -335,10 +320,10 @@ export function GreaterThen(min: number, validationOptions?: ValidationOptions) 
 /**
  * Checks if the given number is less then given number.
  */
-export function LessThen(max: number, validationOptions?: ValidationOptions) {
+export function Max(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.LESS_THEN,
+            type: ValidationTypes.MAX,
             target: object.constructor,
             propertyName: propertyName,
             constraints: [max],

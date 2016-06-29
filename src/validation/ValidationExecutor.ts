@@ -54,7 +54,7 @@ export class ValidationExecutor {
             // handle IS_DEFINED validation type the special way - it should work no matter skipMissingProperties is set or not
             this.defaultValidations(object, value, isDefinedMetadatas);
             
-            if (!value && this.validatorOptions && this.validatorOptions.skipMissingProperties === true)
+            if ((value === null || value === undefined) && this.validatorOptions && this.validatorOptions.skipMissingProperties === true)
                 return;
             
             this.defaultValidations(object, value, metadatas);

@@ -450,14 +450,13 @@ validator.isDate(value); // Checks if a given value is a real date.
 validator.isString(value); // Checks if a given value is a real string.
 validator.isNumber(value); // Checks if a given value is a real number.
 validator.isInt(value); // Checks if value is an integer.
-validator.isDecimal(value); // Checks if value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.
 
 // number validation methods
-validator.divisibleBy(value, num); // Checks if value is a number that's divisible by another.
+validator.isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
 validator.isPositive(value); // Checks if the value is a positive number.
 validator.isNegative(value); // Checks if the value is a negative number.
-validator.greaterThen(firstNumber, secondNumber); // Checks if the first number is greater then second.
-validator.lessThen(firstNumber, secondNumber); // Checks if the first number is less then second.
+validator.max(num, max); // Checks if the first number is greater then second.
+validator.min(num, min); // Checks if the first number is less then second.
 
 // date validation methods
 validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
@@ -530,13 +529,12 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | `@IsString()`                                   | Checks if the string is a string.                                                                                                |
 | `@IsNumber()`                                   | Checks if the string is a number.                                                                                                |
 | `@IsInt()`                                      | Checks if the value is an integer number.                                                                                        |
-| `@IsDecimal()`                                  | Checks if the value represents a decimal number, such as 0.1, .3, 1.1, 1.00003, 4.0, etc.                                        |
 | **Number validation decorators**                                                                                                                                                   |
-| `@DivisibleBy(num: number)`                     | Checks if the value is a number that's divisible by another.                                                                     |
+| `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
 | `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |
 | `@IsNegative()`                                 | Checks if the value is a negative number.                                                                                        |
-| `@GreaterThen(num: number)`                     | Checks if the given number is greater then given number.                                                                         |
-| `@LessThen(num: number)`                        | Checks if the given number is less then given number.                                                                            |
+| `@Max(max: number)`                             | Checks if the given number is greater then given number.                                                                         |
+| `@Min(min: number)`                             | Checks if the given number is less then given number.                                                                            |
 | **Date validation decorators**                                                                                                                                                     |
 | `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date.                                                                   |
 | `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                                                  |                                                                                                                                                  |
