@@ -1,7 +1,6 @@
 # class-validator
 
-Allows to use decorator and non-decorator based validation in your Typescript classes.
-Internally uses [validator.js][1] to perform validation.
+Allows to use decorator and non-decorator based validation. Internally uses [validator.js][1] to perform validation.
 
 ## Installation
 
@@ -16,13 +15,13 @@ Internally uses [validator.js][1] to perform validation.
     and use it somewhere in the global place of your app:
 
     * for nodejs: `require("es6-shim")` in your app's entry point (for example in `app.ts`)
-    * for browser: `<script src="path-to-shim/es6-shim.js">` in your `index.html`
+    * for browser: `<script src="node_modules/es6-shim/es6-shim.js">` in your `index.html`
 
     For node.js users this step is only required if you are using old versions of node.
 
 ## Usage
 
-Create your class and put some validation decorators on its properties you want to validate:
+Create your class and put some validation decorators on the properties you want to validate:
 
 ```typescript
 import {validate, Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "class-validator";
@@ -67,8 +66,8 @@ validate(post).then(errors => { // errors is an array of validation errors
 
 ## Validation messages
 
-You can specify validation message to decorator options and this message will be returned in `ValidationError`
-object returned by `validate` method in the case if validation for this field fail.
+You can specify validation message in the decorator options and that message will be returned in `ValidationError`
+returned by `validate` method in the case if validation for this field fail.
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
@@ -85,11 +84,11 @@ export class Post {
 }
 ```
 
-There are few special variables you can use:
-* `$value` - is the value that is being validated right now.
-* `$property` - name of the object's property being validated right now.
-* `$target` - name of the object's class being validated right now.
-* `$constraint1`, `$constraint2`, ... `$constraintN` - constraints defined by specific validation type.
+There are few special tokens you can use in your messages:
+* `$value` - the value that is being validated right now
+* `$property` - name of the object's property being validated right now
+* `$target` - name of the object's class being validated right now
+* `$constraint1`, `$constraint2`, ... `$constraintN` - constraints defined by specific validation type
 
 Example of usage:
 
@@ -108,15 +107,7 @@ export class Post {
 }
 ```
 
-Also you can provide a function, that should return message. This function accepts `ValidationArguments`,
-which contains following information:
-* `value` - is the value that is being validated right now.
-* `constraints` - array of constraints defined by specific validation type.
-* `targetName` - name of the object's class being validated right now.
-* `object` - object that is being validated.
-* `property` - name of the object's property being validated right now.
-
-Values are being passed to this function, so you can use that data to provide more granular messages:
+Also you can provide a function, that returns a message. This way allows to create more granular messages:
 
 ```typescript
 import {MinLength, MaxLength, ValidationArguments} from "class-validator";
@@ -125,7 +116,7 @@ export class Post {
 
     @MinLength(10, {
         message: (args: ValidationArguments) => {
-            if (args.constraints[0] === 1) {
+            if (args.value.length === 1) {
                 return "Too short, minimal length is 1 character";
             } else {
                 return "Too short, minimal length is " + args.constraints[0] + " characters";
@@ -136,10 +127,19 @@ export class Post {
 }
 ```
 
+Message function accepts `ValidationArguments` which contains following information:
+* `value` - the value that is being validated right now
+* `constraints` - array of constraints defined by specific validation type
+* `targetName` - name of the object's class being validated right now
+* `object` - object that is being validated
+* `property` - name of the object's property being validated right now
+
+Values are being passed to this function, so
+
 ## Validating arrays
 
 If your field is an array and you want to perform validation of each item in the array you must specify a
-special decorator option `each: true`:
+special `each: true` decorator option:
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
@@ -157,8 +157,8 @@ This will validate each item in `post.tags` array.
 
 ## Validating nested objects
 
-If your object contains nested objects and you want validator to perform validation of them too, then you need to
-use special decorator:
+If your object contains nested objects and you want validator to perform their validation too, then you need to
+use `@ValidateNested()` decorator:
 
 ```typescript
 import {ValidateNested} from "class-validator";
@@ -174,7 +174,7 @@ export class Post {
 ## Skipping missing properties
 
 Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is
-usually desirable when you want to update some parts of the document, and want to validate only updated parts,
+usually desirable when you want to update some parts of the object, and want to validate only updated parts,
 but skip everything else, e.g. skip missing properties.
 In such situations you need to pass a special flag to `validate` method:
 
@@ -186,6 +186,7 @@ validate(post, { skipMissingProperties: true });
 
 When skipping missing properties, sometimes you want not to skip all missing properties, some of them maybe required
 for you, even if skipMissingProperties is set to true. For such cases you should use `@IsDefined()` special decorator.
+`@IsDefined()` is the only decorator that ignores `skipMissingProperties` option.
 
 ## Validation groups
 
@@ -231,17 +232,17 @@ validate(user, {
 
 ## Custom validation classes
 
-If you have custom validation logic you have a way to do it:
+If you have custom validation logic you have a way to do it - you can create a *Constraint classes*:
 
 1. First create a file, lets say `CustomTextLength.ts`, and create there a new class:
 
     ```typescript
     import {ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
 
-    @ValidatorConstraint("custom_text_length")
+    @ValidatorConstraint()
     export class CustomTextLength implements ValidatorConstraintInterface {
 
-        validate(text: string) {
+        validate(text: string, args: ValidationArguments) {
             return text.length > 1 && text.length < 10; // for async validations you must return a Promise<boolean> here
         }
 
@@ -252,12 +253,18 @@ If you have custom validation logic you have a way to do it:
     }
     ```
 
-    Your class must implement `ValidatorConstraintInterface` interface and its `validate` method,
-    which defines validation logic. If validation succeed you must return true, otherwise false.
+    First we marked our class with `@ValidatorConstraint` decorator.
+    You can also supply a validation constraint name - this name will be used as "error type" in ValidationError.
+    If you will not supply a constraint name - it will be auto-generated.
+
+    Our class must implement `ValidatorConstraintInterface` interface and its `validate` method,
+    which defines validation logic. If validation succeed method return true, otherwise false.
     Custom validator can be asynchronous, if you want to perform validation after some asynchronous
     operations, simply return a promise with boolean inside in `validate` method.
 
-    You can also supply a validation constraint name - this name will be used as "error type" in ValidationError.
+    Also we defined optional method `defaultMessage` which defines a default error message,
+    in the case if decorator's user didn't set error message.
+
 
 2. Then you can use your new validation constraint in your class:
 
@@ -268,7 +275,7 @@ If you have custom validation logic you have a way to do it:
     export class Post {
 
         @Validate(CustomTextLength, {
-            message: "Wrong post title"
+            message: "Title is too short or long!"
         })
         title: string;
 
@@ -306,7 +313,7 @@ export class Post {
 ```typescript
 import {ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
 
-@ValidatorConstraint("custom_text_length")
+@ValidatorConstraint()
 export class CustomTextLength implements ValidatorConstraintInterface {
 
     validate(text: string, validationArguments: ValidationArguments) {
@@ -357,7 +364,8 @@ Lets create a decorator called `@IsLongerThen`:
     }
     ```
 
-In your custom decorators you can also use ValidationConstraints. Lets create another example called `IsUserAlreadyExist`:
+In your custom decorators you can also use `ValidationConstraint`.
+Lets create another custom validation decorator called `IsUserAlreadyExist`:
 
 1. First lets create a ValidationConstraint and decorator:
 
@@ -579,59 +587,78 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 
 ## Defining validation schema without decorators
 
-In the cases if:
+You can define your validation schemas without decorators:
+
+* you can define it in the separate object
+* you can define it in the `.json` file
+
+This feature maybe useful in the cases if:
 
 * are using es5/es6 and don't have decorators available
 * you don't have a classes, and instead using interfaces
 * you don't want to use model at all
 * you want to have a validation schema separate of your model
 * you want beautiful json-schema based validation models
-* you simply hate decorators (but why???)
+* you simply hate decorators (why???)
 
-You can defined your validation schemas without decorators:
+Here is an example of using it:
 
-* you can define it in the separate object
-* you can define it in the `.json` file
+1. Create a schema object:
 
-Here is an example of defining such objects:
+    ```typescript
+    import {ValidationSchema} from "class-validator";
+    export let UserValidationSchema: ValidationSchema = { // using interface here is not required, its just for type-safety
+        name: "myUserSchema", // this is required, and must be unique
+        properties: {
+            firstName: [{
+                type: "min_length", // validation type. All validation types are listed in ValidationTypes class.
+                constraints: [2]
+            }, {
+                type: "max_length",
+                constraints: [20]
+            }],
+            lastName: [{
+                type: "min_length",
+                constraints: [2]
+            }, {
+                type: "max_length",
+                constraints: [20]
+            }],
+            email: [{
+                type: "is_email"
+            }]
+        }
+    };
+    ```
 
-```typescript
-import {registerSchema, validate, ValidationSchema} from "class-validator";
-let schema: ValidationSchema = {
-    name: "myUserSchema", // this is required, and must be unique
-    properties: {
-        firstName: [{
-            type: "min_length", // validation type. All validation types are listed in ValidationTypes class.
-            constraints: [2]
-        }, {
-            type: "max_length",
-            constraints: [20]
-        }],
-        lastName: [{
-            type: "min_length",
-            constraints: [2]
-        }, {
-            type: "max_length",
-            constraints: [20]
-        }],
-        email: [{
-            type: "is_email"
-        }]
-    }
-};
-registerSchema(schema); // if schema is in in .json file, then you can simply registerSchema(require("path-to-schema.json"));
+    Same schema can be provided in `.json` file, depend on your wish.
 
-const user = { firstName: "Johny", secondName: "Cage", email: "johny@cage.com" };
-validate("myUserSchema", user).then(errors => {
-    if (errors.length > 0) {
-        console.log("Validation failed: ", errors);
-    } else {
-        console.log("Validation succeed.");
-    }
-});
-```
+2. Register your schema:
 
-That's it. Same schema can be provided in `.json` file without any changes.
+    ```typescript
+    import {registerSchema} from "class-validator";
+    import {UserValidationSchema} from "./UserValidationSchema";
+    registerSchema(schema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
+    ```
+
+    Better to put this code in a global place, maybe when you bootstrap your application, for example in `app.ts`.
+
+3. Validate your object using validation schema:
+
+    ```typescript
+    import {validate} from "class-validator";
+    const user = { firstName: "Johny", secondName: "Cage", email: "johny@cage.com" };
+    validate("myUserSchema", user).then(errors => {
+        if (errors.length > 0) {
+            console.log("Validation failed: ", errors);
+        } else {
+            console.log("Validation succeed.");
+        }
+    });
+    ```
+
+    That's it. Here `"myUserSchema"` is the name of our validation schema.
+    `validate` method will perform validation based on this schema
 
 ## Samples
 

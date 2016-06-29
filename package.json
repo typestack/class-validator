@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.4.0-alpha.1",
   "description": "Class-based validation in Typescript using decorators",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "readmeFilename": "README.md",
   "author": {
     "name": "Umed Khudoiberdiev",
