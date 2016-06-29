@@ -1,4 +1,4 @@
-import {validate, validateBySchema, registerSchema} from "../../src/index";
+import {validate, registerSchema} from "../../src/index";
 import {Post} from "./Post";
 
 // load schema. we load it a bit tricky way because we output source code into separate directory, so our json resource left in another directory
@@ -18,7 +18,7 @@ post1.site = "google.com"; // should pass
 post1.createDate = new Date(); // should pass
 post1.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"]; // should pass
 
-validateBySchema("post", post1).then(result => {
+validate("post", post1).then(result => {
     console.log("1. should pass: ", result); // should pass completely, e.g. return empty array
 });
 
@@ -30,7 +30,7 @@ post2.email = "google.com"; // should not pass
 post2.site = "googlecom"; // should not pass
 // should not pass because date property is missing
 
-validateBySchema("post", post2).then(result => {
+validate("post", post2).then(result => {
     console.log("2. should not pass: ", result); // should not pass completely, must return array of ValidationError-s
 });
 
@@ -43,7 +43,7 @@ post3.rating = 11; // should not pass
 post3.email = "google.com"; // should not pass
 post3.site = "googlecom"; // should not pass
 
-validateBySchema("post", post3, { skipMissingProperties: true }).then(result => {
+validate("post", post3, { skipMissingProperties: true }).then(result => {
     console.log("3. should not pass: ", result); // should not pass, but returned ValidationError-s should not have error about date field
 });
 
@@ -54,7 +54,7 @@ post4.rating = 10; // should pass
 post4.email = "info@google.com"; // should pass
 post4.site = "google.com"; // should pass
 
-validateBySchema("post", post4, { skipMissingProperties: true }).then(result => {
+validate("post", post4, { skipMissingProperties: true }).then(result => {
     console.log("4. should pass: ", result); // should pass even if date is not set
 });
 
@@ -67,7 +67,7 @@ post5.rating = 10; // should pass
 post5.email = "info@google.com"; // should pass
 post5.site = "google.com"; // should pass
 
-validateBySchema("post", post5, { skipMissingProperties: true }).then(result => {
+validate("post", post5, { skipMissingProperties: true }).then(result => {
     console.log("5. should pass: ", result); // should pass even if date is not set
 });
 
@@ -82,7 +82,7 @@ post6.site = "google.com"; // should pass
 post6.createDate = new Date(); // should pass
 post6.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"];
 
-validateBySchema("post", post6).then(result => {
+validate("post", post6).then(result => {
     console.log("6. should pass: ", result); // should pass completely, e.g. return empty array
 });
 
@@ -95,7 +95,7 @@ post7.site = "google.com"; // should pass
 post7.createDate = new Date(); // should pass
 post7.tags = ["news", "a"];
 
-validateBySchema("post", post7).then(result => {
+validate("post", post7).then(result => {
     console.log("7. should not pass: ", result); // should not pass
 });
 
@@ -108,7 +108,7 @@ post8.site = "google.com"; // should pass
 post8.createDate = new Date(); // should pass
 post8.tags = [];
 
-validateBySchema("post", post8).then(result => {
+validate("post", post8).then(result => {
     console.log("8. should not pass: ", result); // should not pass
 });
 
@@ -121,7 +121,7 @@ post9.site = "google.com"; // should pass
 post9.createDate = new Date(); // should pass
 post9.tags = ["a", "abcd1", "abcd2", "abcd3", "abcd4", "abcd4", "abcd4"];
 
-validateBySchema("post", post9).then(result => {
+validate("post", post9).then(result => {
     console.log("9. should not pass: ", result); // should not pass
 });
 
@@ -134,7 +134,7 @@ post10.site = "google.com"; // should pass
 post10.createDate = new Date(); // should pass
 post10.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"];
 
-validateBySchema("post", post10).then(result => {
+validate("post", post10).then(result => {
     console.log("10. should pass: ", result); // should pass
 });
 
@@ -147,6 +147,6 @@ post11.site = "google.com"; // should pass
 post11.createDate = new Date(); // should pass
 post11.tags = null;
 
-validateBySchema("post", post11).then(result => {
+validate("post", post11).then(result => {
     console.log("11. should not pass: ", result); // should not pass
 });
