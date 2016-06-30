@@ -135,9 +135,9 @@ export class ValidationTypes {
             case this.IS_NEGATIVE:
                 return "$property must be a negative number";
             case this.MIN:
-                return "$property must be greater then $constraint1";
+                return "$property must be greater than $constraint1";
             case this.MAX:
-                return "$property must be less then $constraint1";
+                return "$property must be less than $constraint1";
 
             /* date checkers */
             case this.MIN_DATE:
@@ -217,16 +217,16 @@ export class ValidationTypes {
                     const isMinLength = args.constraints[0] !== null && args.constraints[0] !== undefined;
                     const isMaxLength = args.constraints[1] !== null && args.constraints[1] !== undefined;
                     if (isMinLength && (!args.value || args.value.length < args.constraints[0])) {
-                        return "$property must be longer then $constraint1";
+                        return "$property must be longer than $constraint1";
                     } else if (isMaxLength && (args.value.length > args.constraints[1])) {
-                        return "$property must be shorter then $constraint2";
+                        return "$property must be shorter than $constraint2";
                     }
-                    return "$property must be longer then $constraint1 and shorter then $constraint2";
+                    return "$property must be longer than $constraint1 and shorter than $constraint2";
                 };
             case this.MIN_LENGTH:
-                return "$property must be longer then $constraint1";
+                return "$property must be longer than $constraint1";
             case this.MAX_LENGTH:
-                return "$property must be shorter then $constraint2";
+                return "$property must be shorter than $constraint1";
             case this.MATCHES:
                 return "$property must match $constraint1 regular expression";
 
@@ -240,7 +240,7 @@ export class ValidationTypes {
             case this.ARRAY_MIN_SIZE:
                 return "$property must contain at least $constraint1 elements";
             case this.ARRAY_MAX_SIZE:
-                return "$property must contain not more then $constraint1 elements";
+                return "$property must contain not more than $constraint1 elements";
             case this.ARRAY_UNIQUE:
                 return "All $property's elements must be unique";
         }

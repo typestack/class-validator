@@ -302,7 +302,7 @@ export function IsNegative(validationOptions?: ValidationOptions) {
     };
 }
 /**
- * Checks if the given number is greater then given number.
+ * Checks if the given number is greater than given number.
  */
 export function Min(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
@@ -318,7 +318,7 @@ export function Min(min: number, validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the given number is less then given number.
+ * Checks if the given number is less than given number.
  */
 export function Max(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
@@ -886,7 +886,7 @@ export function Length(min: number, max?: number, validationOptions?: Validation
 }
 
 /**
- * Checks if the string's length is not less then given number. Note: this function takes into account surrogate pairs.
+ * Checks if the string's length is not less than given number. Note: this function takes into account surrogate pairs.
  */
 export function MinLength(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
@@ -902,7 +902,7 @@ export function MinLength(min: number, validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the string's length is not more then given number. Note: this function takes into account surrogate pairs.
+ * Checks if the string's length is not more than given number. Note: this function takes into account surrogate pairs.
  */
 export function MaxLength(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {

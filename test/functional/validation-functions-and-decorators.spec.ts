@@ -2380,6 +2380,14 @@ describe("MaxLength", function() {
         invalidValues.forEach(value => validator.maxLength(value, constraint1).should.be.false);
     });
 
+    it("should create error message with property name and constraint substituted", function() {
+        const model = new MyClass();
+        model.property = "this string is too long";
+        return validator.validate(model).then((errors) => {
+            expect(errors[0].message).to.equal("property must be shorter than 10");
+        });
+    });
+
 });
 
 describe("Matches", function() {

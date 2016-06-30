@@ -1,6 +1,6 @@
 # class-validator
 
-Allows to use decorator and non-decorator based validation. Internally uses [validator.js][1] to perform validation.
+Allows use of decorator and non-decorator based validation. Internally uses [validator.js][1] to perform validation.
 
 ## Installation
 
@@ -67,7 +67,7 @@ validate(post).then(errors => { // errors is an array of validation errors
 ## Validation messages
 
 You can specify validation message in the decorator options and that message will be returned in `ValidationError`
-returned by `validate` method in the case if validation for this field fail.
+returned by `validate` method in the case that validation for this field fails.
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
@@ -85,9 +85,9 @@ export class Post {
 ```
 
 There are few special tokens you can use in your messages:
-* `$value` - the value that is being validated right now
-* `$property` - name of the object's property being validated right now
-* `$target` - name of the object's class being validated right now
+* `$value` - the value that is being validated
+* `$property` - name of the object's property being validated
+* `$target` - name of the object's class being validated
 * `$constraint1`, `$constraint2`, ... `$constraintN` - constraints defined by specific validation type
 
 Example of usage:
@@ -117,9 +117,9 @@ export class Post {
     @MinLength(10, {
         message: (args: ValidationArguments) => {
             if (args.value.length === 1) {
-                return "Too short, minimal length is 1 character";
+                return "Too short, minimum length is 1 character";
             } else {
-                return "Too short, minimal length is " + args.constraints[0] + " characters";
+                return "Too short, minimum length is " + args.constraints[0] + " characters";
             }
         }
     })
@@ -128,13 +128,11 @@ export class Post {
 ```
 
 Message function accepts `ValidationArguments` which contains following information:
-* `value` - the value that is being validated right now
+* `value` - the value that is being validated
 * `constraints` - array of constraints defined by specific validation type
-* `targetName` - name of the object's class being validated right now
+* `targetName` - name of the object's class being validated
 * `object` - object that is being validated
-* `property` - name of the object's property being validated right now
-
-Values are being passed to this function, so
+* `property` - name of the object's property being validated
 
 ## Validating arrays
 
@@ -157,8 +155,8 @@ This will validate each item in `post.tags` array.
 
 ## Validating nested objects
 
-If your object contains nested objects and you want validator to perform their validation too, then you need to
-use `@ValidateNested()` decorator:
+If your object contains nested objects and you want the validator to perform their validation too, then you need to
+use the `@ValidateNested()` decorator:
 
 ```typescript
 import {ValidateNested} from "class-validator";
@@ -176,7 +174,7 @@ export class Post {
 Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is
 usually desirable when you want to update some parts of the object, and want to validate only updated parts,
 but skip everything else, e.g. skip missing properties.
-In such situations you need to pass a special flag to `validate` method:
+In such situations you will need to pass a special flag to `validate` method:
 
 ```typescript
 import {validate} from "class-validator";
@@ -232,9 +230,9 @@ validate(user, {
 
 ## Custom validation classes
 
-If you have custom validation logic you have a way to do it - you can create a *Constraint class*:
+If you have custom validation logic you can create a *Constraint class*:
 
-1. First create a file, lets say `CustomTextLength.ts`, and create there a new class:
+1. First create a file, lets say `CustomTextLength.ts`, and define a new class:
 
     ```typescript
     import {ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
@@ -258,12 +256,12 @@ If you have custom validation logic you have a way to do it - you can create a *
     If you will not supply a constraint name - it will be auto-generated.
 
     Our class must implement `ValidatorConstraintInterface` interface and its `validate` method,
-    which defines validation logic. If validation succeed method return true, otherwise false.
+    which defines validation logic. If validation succeeds, method returns true, otherwise false.
     Custom validator can be asynchronous, if you want to perform validation after some asynchronous
     operations, simply return a promise with boolean inside in `validate` method.
 
     Also we defined optional method `defaultMessage` which defines a default error message,
-    in the case if decorator's user didn't set error message.
+    in the case that the decorator's implementation doesn't set an error message.
 
 
 2. Then you can use your new validation constraint in your class:
@@ -294,7 +292,7 @@ If you have custom validation logic you have a way to do it - you can create a *
     });
     ```
 
-You can also send constraints to your validator, like this:
+You can also pass constraints to your validator, like this:
 
 ```typescript
 import {Validate} from "class-validator";
@@ -328,16 +326,16 @@ export class CustomTextLength implements ValidatorConstraintInterface {
 ## Custom validation decorators
 
 You can also create a custom decorators. Its the most elegant way of using a custom validations.
-Lets create a decorator called `@IsLongerThen`:
+Lets create a decorator called `@IsLongerThan`:
 
 1. Create a decorator itself:
 
     ```typescript
     import {registerDecorator, ValidationOptions} from "class-validator";
 
-    export function IsLongerThen(property: string, validationOptions?: ValidationOptions) {
+    export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
        return function (object: Object, propertyName: string) {
-           registerDecorator(object, propertyName, validationOptions, [property], "is_longer_then", (value, args) => {
+           registerDecorator(object, propertyName, validationOptions, [property], "is_longer_than", (value, args) => {
                const [relatedPropertyName] = args.constraints;
                const relatedValue = (args.object as any)[relatedPropertyName];
                return  typeof value === "string" &&
@@ -348,18 +346,18 @@ Lets create a decorator called `@IsLongerThen`:
     }
     ```
 
-2. Put it on use:
+2. Put it to use:
 
     ```typescript
-    import {IsLongerThen} from "./IsLongerThen";
+    import {IsLongerThan} from "./IsLongerThan";
 
     export class Post {
 
         title: string;
 
-        @IsLongerThen("title", {
+        @IsLongerThan("title", {
            /* you can also use additional validation options, like "each", "groups" in your custom validation decorators */
-           message: "Text must be longer the title"
+           message: "Text must be longer than the title"
         })
         text: string;
 
@@ -393,7 +391,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
     }
     ```
 
-2. And put it on use:
+2. And put it to use:
 
     ```typescript
     import {IsUserAlreadyExist} from "./IsUserAlreadyExist";
@@ -401,7 +399,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
     export class User {
 
         @IsUserAlreadyExist({
-           message: "User $value already exist. Choose another name."
+           message: "User $value already exists. Choose another name."
         })
         name: string;
 
@@ -455,8 +453,8 @@ validator.isInt(value); // Checks if value is an integer.
 validator.isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
 validator.isPositive(value); // Checks if the value is a positive number.
 validator.isNegative(value); // Checks if the value is a negative number.
-validator.max(num, max); // Checks if the first number is greater then second.
-validator.min(num, min); // Checks if the first number is less then second.
+validator.max(num, max); // Checks if the first number is greater than second.
+validator.min(num, min); // Checks if the first number is less than second.
 
 // date validation methods
 validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
@@ -498,16 +496,16 @@ validator.isURL(str, options); // Checks if the string is an url.
 validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4 or 5).
 validator.isUppercase(str); // Checks if the string is uppercase.
 validator.length(str, min, max); // Checks if the string's length falls in a range.
-validator.minLength(str, min); // Checks if the string's length is not less then given number.
-validator.maxLength(str, max); // Checks if the string's length is not more then given number.
+validator.minLength(str, min); // Checks if the string's length is not less than given number.
+validator.maxLength(str, max); // Checks if the string's length is not more than given number.
 validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 
 // array validation methods
 validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
 validator.arrayNotContains(array, values); // Checks if array does not contain any of the given values.
 validator.arrayNotEmpty(array); // Checks if given array is not empty.
-validator.arrayMinSize(array, min); // Checks if array's length is as minimal this number.
-validator.arrayMaxSize(array, max); // Checks if array's length is as maximal this number.
+validator.arrayMinSize(array, min); // Checks if array's length is at least `min` number.
+validator.arrayMaxSize(array, max); // Checks if array's length is as most `max` number.
 validator.arrayUnique(array); // Checks if all array's values are unique. Comparison for objects is reference-based.
 ```
 
@@ -533,8 +531,8 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
 | `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |
 | `@IsNegative()`                                 | Checks if the value is a negative number.                                                                                        |
-| `@Max(max: number)`                             | Checks if the given number is greater then given number.                                                                         |
-| `@Min(min: number)`                             | Checks if the given number is less then given number.                                                                            |
+| `@Max(max: number)`                             | Checks if the given number is greater than given number.                                                                         |
+| `@Min(min: number)`                             | Checks if the given number is less than given number.                                                                            |
 | **Date validation decorators**                                                                                                                                                     |
 | `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date.                                                                   |
 | `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                                                  |                                                                                                                                                  |
@@ -574,8 +572,8 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | `@IsUUID(version?: "3"|"4"|"5")`                | Checks if the string is a UUID (version 3, 4 or 5).                                                                              |
 | `@IsUppercase()`                                | Checks if the string is uppercase.                                                                                               |
 | `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range.                                                                                  |
-| `@MinLength(min: number)`                       | Checks if the string's length is not less then given number.                                                                     |
-| `@MaxLength(max: number)`                       | Checks if the string's length is not more then given number.                                                                     |
+| `@MinLength(min: number)`                       | Checks if the string's length is not less than given number.                                                                     |
+| `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number.                                                                     |
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').                               |
 | **Array validation decorators**                                                                                                                                                    |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                              |
