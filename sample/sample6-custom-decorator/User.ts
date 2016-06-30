@@ -1,5 +1,5 @@
 import {IsUserAlreadyExist} from "./IsUserAlreadyExist";
-import {IsLongerThen} from "./IsLongerThen";
+import {IsLongerThan} from "./IsLongerThan";
 
 export class User {
 
@@ -8,8 +8,8 @@ export class User {
     })
     firstName: string;
 
-    @IsLongerThen("firstName", {
-        message: "User's last name must be longer then firstName"
+    @IsLongerThan("firstName", {
+        message: "User's last name must be longer than firstName"
     })
     lastName: string;
     

@@ -4,14 +4,14 @@ import {ValidatorConstraintInterface} from "../../src/validation/ValidatorConstr
 import {ValidatorConstraint} from "../../src/decorator/decorators";
 import {ValidationArguments} from "../../src/validation/ValidationArguments";
 
-export function IsLongerThen(property: string, validationOptions?: ValidationOptions) {
+export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
-        registerDecorator(object, propertyName, validationOptions, [property], IsLongerThenConstraint);
+        registerDecorator(object, propertyName, validationOptions, [property], IsLongerThanConstraint);
     };
 }
 
-@ValidatorConstraint("is_longer_then")
-export class IsLongerThenConstraint implements ValidatorConstraintInterface {
+@ValidatorConstraint("is_longer_than")
+export class IsLongerThanConstraint implements ValidatorConstraintInterface {
     
     validate(value: any, args: ValidationArguments) {
         const [relatedPropertyName] = args.constraints;

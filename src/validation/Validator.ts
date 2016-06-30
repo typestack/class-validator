@@ -307,14 +307,14 @@ export class Validator {
     }
 
     /**
-     * Checks if the first number is greater then second.
+     * Checks if the first number is greater than second.
      */
     min(num: number, min: number): boolean {
         return typeof num === "number" && typeof min === "number" && num >= min;
     }
 
     /**
-     * Checks if the first number is less then second.
+     * Checks if the first number is less than second.
      */
     max(num: number, max: number): boolean {
         return typeof num === "number" && typeof max === "number" && num <= max;
@@ -579,14 +579,14 @@ export class Validator {
     }
 
     /**
-     * Checks if the string's length is not less then given number. Note: this function takes into account surrogate pairs.
+     * Checks if the string's length is not less than given number. Note: this function takes into account surrogate pairs.
      */
     minLength(str: string, min: number) {
         return this.length(str, min);
     }
 
     /**
-     * Checks if the string's length is not more then given number. Note: this function takes into account surrogate pairs.
+     * Checks if the string's length is not more than given number. Note: this function takes into account surrogate pairs.
      */
     maxLength(str: string, max: number) {
         return this.length(str, 0, max);
