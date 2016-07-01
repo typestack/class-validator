@@ -2,6 +2,17 @@
  * Validation error description.
  */
 export interface ValidationError {
+
+    /**
+     * If this was a result of nested validation, this property will contain a parent from where this validation came.
+     */
+    parentTarget?: Object;
+
+    /**
+     * If this was a result of nested validation, this property will contain a name of the property in the parent of
+     * this validation.
+     */
+    parentProperty?: string;
     
     /**
      * Name of the target class that was validated.
