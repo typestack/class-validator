@@ -8,6 +8,7 @@ import {ValidationTypes} from "./ValidationTypes";
 import {ValidatorConstraintInterface} from "./ValidatorConstraintInterface";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
+import {ValidationUtils} from "./ValidationUtils";
 
 /**
  * Executes validation over given object.
@@ -158,26 +159,7 @@ export class ValidationExecutor {
                 message = ValidationTypes.getMessage(type);
         }
 
-        let messageString: string;
-        if (message instanceof Function) {
-            messageString = (message as (args: ValidationArguments) => string)(validationArguments);
-
-        } else if (typeof message === "string") {
-            messageString = message as string;
-        }
-        
-        if (messageString && metadata.constraints instanceof Array) {
-            metadata.constraints.forEach((constraint, index) => {
-                messageString = messageString.replace(new RegExp(`\\$constraint${index + 1}`, "g"), constraint);
-            });
-        }
-
-        if (messageString && value !== undefined && value !== null)
-            messageString = messageString.replace(/\$value/g, value);
-        if (messageString)
-            messageString = messageString.replace(/\$property/g, metadata.propertyName);
-        if (messageString)
-            messageString = messageString.replace(/\$target/g, targetName);
+        const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments);
 
         return {
             target: targetName,

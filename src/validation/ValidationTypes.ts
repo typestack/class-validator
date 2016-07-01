@@ -122,10 +122,10 @@ export class ValidationTypes {
                 return "$property must be a Date instance";
             case this.IS_NUMBER:
                 return "$property must be a number";
-            case this.IS_STRING:
-                return "$property must be a string";
             case this.IS_INT:
                 return "$property must be an integer number";
+            case this.IS_STRING:
+                return "$property must be a string";
 
             /* number checkers */
             case this.IS_DIVISIBLE_BY:
@@ -143,7 +143,7 @@ export class ValidationTypes {
             case this.MIN_DATE:
                 return "Minimal allowed date for $property is $constraint1";
             case this.MAX_DATE:
-                return "Minimal allowed date for $property is $constraint1";
+                return "Maximal allowed date for $property is $constraint1";
 
             /* string-as-type checkers */
             case this.IS_BOOLEAN_STRING:
@@ -244,6 +244,8 @@ export class ValidationTypes {
             case this.ARRAY_UNIQUE:
                 return "All $property's elements must be unique";
         }
+        
+        return "";
     }
     
 }
