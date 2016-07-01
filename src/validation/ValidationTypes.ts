@@ -11,8 +11,8 @@ export class ValidationTypes {
 
     /* common checkers */
     static IS_DEFINED = "is_defined";
-    static EQUALS = "equal";
-    static NOT_EQUALS = "not_equal";
+    static EQUALS = "equals";
+    static NOT_EQUALS = "not_equals";
     static IS_EMPTY = "is_empty";
     static IS_NOT_EMPTY = "is_not_empty";
     static IS_IN = "is_in";
@@ -26,7 +26,7 @@ export class ValidationTypes {
     static IS_INT = "is_int";
 
     /* number checkers */
-    static IS_DIVISIBLE_BY = "divisible_by";
+    static IS_DIVISIBLE_BY = "is_divisible_by";
     static IS_POSITIVE = "is_positive";
     static IS_NEGATIVE = "is_negative";
     static MIN = "min";
@@ -96,153 +96,154 @@ export class ValidationTypes {
     /**
      * Gets default validation error message for the given validation type.
      */
-    static getMessage(type: string): string|((args: ValidationArguments) => string) {
+    static getMessage(type: string, isEach: boolean): string|((args: ValidationArguments) => string) {
+        const eachPrefix = isEach ? "each value in " : "";
         switch (type) {
 
             /* common checkers */
             case this.IS_DEFINED:
-                return "$property is missing, but its required";
+                return eachPrefix + "$property should not be null or undefined";
             case this.EQUALS:
-                return "$property must be equal to $constraint1";
+                return eachPrefix + "$property must be equal to $constraint1";
             case this.NOT_EQUALS:
-                return "$property should not be equal to $constraint1";
+                return eachPrefix + "$property should not be equal to $constraint1";
             case this.IS_EMPTY:
-                return "$property must be empty";
+                return eachPrefix + "$property must be empty";
             case this.IS_NOT_EMPTY:
-                return "$property should not be empty";
+                return eachPrefix + "$property should not be empty";
             case this.IS_IN:
-                return "$property must be one of the following values: $constraint1";
+                return eachPrefix + "$property must be one of the following values: $constraint1";
             case this.IS_NOT_IN:
-                return "$property should not be one of the following values: $constraint1";
+                return eachPrefix + "$property should not be one of the following values: $constraint1";
 
             /* type checkers */
             case this.IS_BOOLEAN:
-                return "$property must be a boolean value";
+                return eachPrefix + "$property must be a boolean value";
             case this.IS_DATE:
-                return "$property must be a Date instance";
+                return eachPrefix + "$property must be a Date instance";
             case this.IS_NUMBER:
-                return "$property must be a number";
+                return eachPrefix + "$property must be a number";
             case this.IS_INT:
-                return "$property must be an integer number";
+                return eachPrefix + "$property must be an integer number";
             case this.IS_STRING:
-                return "$property must be a string";
+                return eachPrefix + "$property must be a string";
 
             /* number checkers */
             case this.IS_DIVISIBLE_BY:
-                return "$property must be divisible by $constraint1";
+                return eachPrefix + "$property must be divisible by $constraint1";
             case this.IS_POSITIVE:
-                return "$property must be a positive number";
+                return eachPrefix + "$property must be a positive number";
             case this.IS_NEGATIVE:
-                return "$property must be a negative number";
+                return eachPrefix + "$property must be a negative number";
             case this.MIN:
-                return "$property must be greater than $constraint1";
+                return eachPrefix + "$property must be greater than $constraint1";
             case this.MAX:
-                return "$property must be less than $constraint1";
+                return eachPrefix + "$property must be less than $constraint1";
 
             /* date checkers */
             case this.MIN_DATE:
-                return "Minimal allowed date for $property is $constraint1";
+                return "minimal allowed date for " + eachPrefix + "$property is $constraint1";
             case this.MAX_DATE:
-                return "Maximal allowed date for $property is $constraint1";
+                return "maximal allowed date for " + eachPrefix + "$property is $constraint1";
 
             /* string-as-type checkers */
             case this.IS_BOOLEAN_STRING:
-                return "$property must be a boolean string";
+                return eachPrefix + "$property must be a boolean string";
             case this.IS_DATE_STRING:
-                return "$property must be a date string";
+                return eachPrefix + "$property must be a date string";
             case this.IS_NUMBER_STRING:
-                return "$property must be a number string";
+                return eachPrefix + "$property must be a number string";
 
             /* string checkers */
             case this.CONTAINS:
-                return "$property must contain a $constraint1 string";
+                return eachPrefix + "$property must contain a $constraint1 string";
             case this.NOT_CONTAINS:
-                return "$property should not contain a $constraint1 string";
+                return eachPrefix + "$property should not contain a $constraint1 string";
             case this.IS_ALPHA:
-                return "$property must contain only letters (a-zA-Z)";
+                return eachPrefix + "$property must contain only letters (a-zA-Z)";
             case this.IS_ALPHANUMERIC:
-                return "$property must contain only letters and numbers";
+                return eachPrefix + "$property must contain only letters and numbers";
             case this.IS_ASCII:
-                return "$property must contain only ASCII characters";
+                return eachPrefix + "$property must contain only ASCII characters";
             case this.IS_BASE64:
-                return "$property must be base64 encoded";
+                return eachPrefix + "$property must be base64 encoded";
             case this.IS_BYTE_LENGTH:
-                return "$property's byte length must fall into ($constraint1, $constraint2) range";
+                return eachPrefix + "$property's byte length must fall into ($constraint1, $constraint2) range";
             case this.IS_CREDIT_CARD:
-                return "$property must be a credit card";
+                return eachPrefix + "$property must be a credit card";
             case this.IS_CURRENCY:
-                return "$property must be a currency";
+                return eachPrefix + "$property must be a currency";
             case this.IS_EMAIL:
-                return "$property must be an email";
+                return eachPrefix + "$property must be an email";
             case this.IS_FQDN:
-                return "$property must be a valid domain name";
+                return eachPrefix + "$property must be a valid domain name";
             case this.IS_FULL_WIDTH:
-                return "$property must contain a full-width characters";
+                return eachPrefix + "$property must contain a full-width characters";
             case this.IS_HALF_WIDTH:
-                return "$property must contain a half-width characters";
+                return eachPrefix + "$property must contain a half-width characters";
             case this.IS_VARIABLE_WIDTH:
-                return "$property must contain a full-width and half-width characters";
+                return eachPrefix + "$property must contain a full-width and half-width characters";
             case this.IS_HEX_COLOR:
-                return "$property must be a hexadecimal color";
+                return eachPrefix + "$property must be a hexadecimal color";
             case this.IS_HEXADECIMAL:
-                return "$property must be a hexadecimal number";
+                return eachPrefix + "$property must be a hexadecimal number";
             case this.IS_IP:
-                return "$property must be an ip address";
+                return eachPrefix + "$property must be an ip address";
             case this.IS_ISBN:
-                return "$property must be an ISBN";
+                return eachPrefix + "$property must be an ISBN";
             case this.IS_ISIN:
-                return "$property must be an ISIN (stock/security identifier)";
+                return eachPrefix + "$property must be an ISIN (stock/security identifier)";
             case this.IS_ISO8601:
-                return "$property must be a valid ISO 8601 date string";
+                return eachPrefix + "$property must be a valid ISO 8601 date string";
             case this.IS_JSON:
-                return "$property must be a json string";
+                return eachPrefix + "$property must be a json string";
             case this.IS_LOWERCASE:
-                return "$property must be a lowercase string";
+                return eachPrefix + "$property must be a lowercase string";
             case this.IS_MOBILE_PHONE:
-                return "$property must be a phone number";
+                return eachPrefix + "$property must be a phone number";
             case this.IS_MONGO_ID:
-                return "$property must be a mongodb id";
+                return eachPrefix + "$property must be a mongodb id";
             case this.IS_MULTIBYTE:
-                return "$property must contain one or more multibyte chars";
+                return eachPrefix + "$property must contain one or more multibyte chars";
             case this.IS_SURROGATE_PAIR:
-                return "$property must contain any surrogate pairs chars";
+                return eachPrefix + "$property must contain any surrogate pairs chars";
             case this.IS_URL:
-                return "$property must be an URL address";
+                return eachPrefix + "$property must be an URL address";
             case this.IS_UUID:
-                return "$property must be an UUID";
+                return eachPrefix + "$property must be an UUID";
             case this.IS_UPPERCASE:
-                return "$property must be uppercase";
+                return eachPrefix + "$property must be uppercase";
             case this.LENGTH:
                 return (args: ValidationArguments) => {
                     const isMinLength = args.constraints[0] !== null && args.constraints[0] !== undefined;
                     const isMaxLength = args.constraints[1] !== null && args.constraints[1] !== undefined;
                     if (isMinLength && (!args.value || args.value.length < args.constraints[0])) {
-                        return "$property must be longer than $constraint1";
+                        return eachPrefix + "$property must be longer than $constraint1";
                     } else if (isMaxLength && (args.value.length > args.constraints[1])) {
-                        return "$property must be shorter than $constraint2";
+                        return eachPrefix + "$property must be shorter than $constraint2";
                     }
-                    return "$property must be longer than $constraint1 and shorter than $constraint2";
+                    return eachPrefix + "$property must be longer than $constraint1 and shorter than $constraint2";
                 };
             case this.MIN_LENGTH:
-                return "$property must be longer than $constraint1";
+                return eachPrefix + "$property must be longer than $constraint1";
             case this.MAX_LENGTH:
-                return "$property must be shorter than $constraint1";
+                return eachPrefix + "$property must be shorter than $constraint1";
             case this.MATCHES:
-                return "$property must match $constraint1 regular expression";
+                return eachPrefix + "$property must match $constraint1 regular expression";
 
             /* array checkers */
             case this.ARRAY_CONTAINS:
-                return "$property must contain $constraint1 values";
+                return eachPrefix + "$property must contain $constraint1 values";
             case this.ARRAY_NOT_CONTAINS:
-                return "$property should not contain $constraint1 values";
+                return eachPrefix + "$property should not contain $constraint1 values";
             case this.ARRAY_NOT_EMPTY:
-                return "$property should not be empty";
+                return eachPrefix + "$property should not be empty";
             case this.ARRAY_MIN_SIZE:
-                return "$property must contain at least $constraint1 elements";
+                return eachPrefix + "$property must contain at least $constraint1 elements";
             case this.ARRAY_MAX_SIZE:
-                return "$property must contain not more than $constraint1 elements";
+                return eachPrefix + "$property must contain not more than $constraint1 elements";
             case this.ARRAY_UNIQUE:
-                return "All $property's elements must be unique";
+                return eachPrefix + "All $property's elements must be unique";
         }
         
         return "";

@@ -61,7 +61,6 @@ import {
     ArrayUnique
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
-import {ValidationTypes} from "../../src/validation/ValidationTypes";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
 
 // -------------------------------------------------------------------------
@@ -159,8 +158,8 @@ describe("IsDefined", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_DEFINED;
-        const message = "someProperty is missing, but its required";
+        const validationType = "is_defined";
+        const message = "someProperty should not be null or undefined";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
@@ -194,7 +193,7 @@ describe("Equals", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.EQUALS;
+        const validationType = "equals";
         const message = "someProperty must be equal to " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -229,7 +228,7 @@ describe("NotEquals", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.NOT_EQUALS;
+        const validationType = "not_equals";
         const message = "someProperty should not be equal to " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -263,7 +262,7 @@ describe("IsEmpty", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_EMPTY;
+        const validationType = "is_empty";
         const message = "someProperty must be empty";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -297,7 +296,7 @@ describe("IsNotEmpty", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_NOT_EMPTY;
+        const validationType = "is_not_empty";
         const message = "someProperty should not be empty";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -332,7 +331,7 @@ describe("IsIn", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_IN;
+        const validationType = "is_in";
         const message = "someProperty must be one of the following values: " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -367,7 +366,7 @@ describe("IsNotIn", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_NOT_IN;
+        const validationType = "is_not_in";
         const message = "someProperty should not be one of the following values: " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -405,7 +404,7 @@ describe("IsBoolean", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_BOOLEAN;
+        const validationType = "is_boolean";
         const message = "someProperty must be a boolean value";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -439,7 +438,7 @@ describe("IsDate", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_DATE;
+        const validationType = "is_date";
         const message = "someProperty must be a Date instance";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -473,7 +472,7 @@ describe("IsNumber", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_NUMBER;
+        const validationType = "is_number";
         const message = "someProperty must be a number";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -517,7 +516,7 @@ describe("IsInt", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_INT;
+        const validationType = "is_int";
         const message = "someProperty must be an integer number";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -558,7 +557,7 @@ describe("IsString", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_STRING;
+        const validationType = "is_string";
         const message = "someProperty must be a string";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -597,7 +596,7 @@ describe("IsDivisibleBy", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_DIVISIBLE_BY;
+        const validationType = "is_divisible_by";
         const message = "someProperty must be divisible by " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -653,7 +652,7 @@ describe("IsPositive", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_POSITIVE;
+        const validationType = "is_positive";
         const message = "someProperty must be a positive number";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -710,7 +709,7 @@ describe("IsNegative", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_NEGATIVE;
+        const validationType = "is_negative";
         const message = "someProperty must be a negative number";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -745,7 +744,7 @@ describe("Min", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.MIN;
+        const validationType = "min";
         const message = "someProperty must be greater than " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -780,7 +779,7 @@ describe("Max", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.MAX;
+        const validationType = "max";
         const message = "someProperty must be less than " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -819,8 +818,8 @@ describe("MinDate", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.MIN_DATE;
-        const message = "Minimal allowed date for someProperty is " + constraint;
+        const validationType = "min_date";
+        const message = "minimal allowed date for someProperty is " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
@@ -854,8 +853,8 @@ describe("MaxDate", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.MAX_DATE;
-        const message = "Maximal allowed date for someProperty is " + constraint;
+        const validationType = "max_date";
+        const message = "maximal allowed date for someProperty is " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
@@ -901,7 +900,7 @@ describe("IsBooleanString", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_BOOLEAN_STRING;
+        const validationType = "is_boolean_string";
         const message = "someProperty must be a boolean string";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1031,7 +1030,7 @@ describe("IsDateString", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_DATE_STRING;
+        const validationType = "is_date_string";
         const message = "someProperty must be a date string";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1076,7 +1075,7 @@ describe("IsNumberString", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_NUMBER_STRING;
+        const validationType = "is_number_string";
         const message = "someProperty must be a number string";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1091,7 +1090,7 @@ describe("Contains", function() {
     
     const constraint = "hello";
     const validValues = ["hello world"];
-    const invalidValues = ["bye world"];
+    const invalidValues = [null, undefined, "bye world"];
 
     class MyClass {
         @Contains(constraint)
@@ -1115,7 +1114,7 @@ describe("Contains", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.CONTAINS;
+        const validationType = "contains";
         const message = "someProperty must contain a " + constraint +  " string";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1126,7 +1125,7 @@ describe("NotContains", function() {
     
     const constraint = "hello";
     const validValues = ["bye world"];
-    const invalidValues = ["hello world"];
+    const invalidValues = [null, undefined, "hello world"];
 
     class MyClass {
         @NotContains(constraint)
@@ -1150,7 +1149,7 @@ describe("NotContains", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.NOT_CONTAINS;
+        const validationType = "not_contains";
         const message = "someProperty should not contain a " + constraint +  " string";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1161,7 +1160,7 @@ describe("IsAlpha", function() {
 
     const constraint = "";
     const validValues = ["hellomynameisalex"];
-    const invalidValues = ["hello1mynameisalex"];
+    const invalidValues = [null, undefined, "hello1mynameisalex"];
 
     class MyClass {
         @IsAlpha(constraint)
@@ -1185,7 +1184,7 @@ describe("IsAlpha", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_ALPHA;
+        const validationType = "is_alpha";
         const message = "someProperty must contain only letters (a-zA-Z)";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1196,7 +1195,7 @@ describe("IsAlphanumeric", function() {
 
     const constraint = "";
     const validValues = ["hellomyname1salex"];
-    const invalidValues = ["hell*mynameisalex"];
+    const invalidValues = [null, undefined, "hell*mynameisalex"];
 
     class MyClass {
         @IsAlphanumeric()
@@ -1220,7 +1219,7 @@ describe("IsAlphanumeric", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_ALPHANUMERIC;
+        const validationType = "is_alphanumeric";
         const message = "someProperty must contain only letters and numbers";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1231,7 +1230,7 @@ describe("IsAscii", function() {
 
     const constraint = "";
     const validValues = ["hellomyname1salex"];
-    const invalidValues = ["hell*mynameisлеха"];
+    const invalidValues = [null, undefined, "hell*mynameisлеха"];
 
     class MyClass {
         @IsAscii()
@@ -1255,7 +1254,7 @@ describe("IsAscii", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_ASCII;
+        const validationType = "is_ascii";
         const message = "someProperty must contain only ASCII characters";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1266,7 +1265,7 @@ describe("IsBase64", function() {
 
     const constraint = "";
     const validValues = ["aGVsbG8="];
-    const invalidValues = ["hell*mynameisalex"];
+    const invalidValues = [null, undefined, "hell*mynameisalex"];
 
     class MyClass {
         @IsBase64()
@@ -1290,7 +1289,7 @@ describe("IsBase64", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_BASE64;
+        const validationType = "is_base64";
         const message = "someProperty must be base64 encoded";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1302,7 +1301,7 @@ describe("IsByteLength", function() {
     const constraint1 = 2;
     const constraint2 = 20;
     const validValues = ["hellostring"];
-    const invalidValues = ["helloveryveryveryverylongstring"];
+    const invalidValues = [null, undefined, "helloveryveryveryverylongstring"];
 
     class MyClass {
         @IsByteLength(constraint1, constraint2)
@@ -1326,7 +1325,7 @@ describe("IsByteLength", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_BYTE_LENGTH;
+        const validationType = "is_byte_length";
         const message = "someProperty's byte length must fall into (" + constraint1 + ", " + constraint2 + ") range";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1343,7 +1342,7 @@ describe("IsCreditCard", function() {
         "4929 7226 5379 7141",
         "5398228707871527"
     ];
-    const invalidValues = ["foo", "foo", "5398228707871528"];
+    const invalidValues = [null, undefined, "foo", "foo", "5398228707871528"];
 
     class MyClass {
         @IsCreditCard()
@@ -1367,7 +1366,7 @@ describe("IsCreditCard", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_CREDIT_CARD;
+        const validationType = "is_credit_card";
         const message = "someProperty must be a credit card";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1397,7 +1396,9 @@ describe("IsCurrency", function() {
         , "-10123"
     ];
     const invalidValues = [
-        "1.234"
+        null
+        , undefined
+        , "1.234"
         , "$1.1"
         , "$ 32.50"
         , "500$"
@@ -1443,7 +1444,7 @@ describe("IsCurrency", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_CURRENCY;
+        const validationType = "is_currency";
         const message = "someProperty must be a currency";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1468,7 +1469,9 @@ describe("IsEmail", function() {
         , "\"foo\\@bar\"@example.com"
     ];
     const invalidValues = [
-        "invalidemail@"
+        null
+        , undefined
+        , "invalidemail@"
         , "invalid.com"
         , "@invalid.com"
         , "foo@bar.com."
@@ -1500,7 +1503,7 @@ describe("IsEmail", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_EMAIL;
+        const validationType = "is_email";
         const message = "someProperty must be an email";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1518,7 +1521,9 @@ describe("IsFQDN", function() {
         , "rebecca.blackfriday"
     ];
     const invalidValues = [
-        "abc"
+        null
+        , undefined
+        , "abc"
         , "256.0.0.0"
         , "_.com"
         , "*.some.com"
@@ -1549,7 +1554,7 @@ describe("IsFQDN", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_FQDN;
+        const validationType = "is_fqdn";
         const message = "someProperty must be a valid domain name";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1565,7 +1570,9 @@ describe("IsFullWidth", function() {
         , "Good＝Parts"
     ];
     const invalidValues = [
-        "abc"
+        null
+        , undefined
+        , "abc"
         , "abc123"
     ];
 
@@ -1591,7 +1598,7 @@ describe("IsFullWidth", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_FULL_WIDTH;
+        const validationType = "is_full_width";
         const message = "someProperty must contain a full-width characters";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1606,7 +1613,9 @@ describe("IsHalfWidth", function() {
         , "ｶﾀｶﾅﾞﾬ￩"
     ];
     const invalidValues = [
-        "あいうえお"
+        null
+        , undefined
+        , "あいうえお"
         , "００１１"
     ];
 
@@ -1632,7 +1641,7 @@ describe("IsHalfWidth", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_HALF_WIDTH;
+        const validationType = "is_half_width";
         const message = "someProperty must contain a half-width characters";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1648,7 +1657,9 @@ describe("IsVariableWidth", function() {
         , "Good＝Parts"
     ];
     const invalidValues = [
-        "abc"
+        null
+        , undefined
+        , "abc"
         , "abc123"
         , "!\"#$%&()<>/+=-_? ~^|.,@`{}[]"
         , "ひらがな・カタカナ、．漢字"
@@ -1678,7 +1689,7 @@ describe("IsVariableWidth", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_VARIABLE_WIDTH;
+        const validationType = "is_variable_width";
         const message = "someProperty must contain a full-width and half-width characters";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1694,7 +1705,9 @@ describe("IsHexColor", function() {
         , "#f00"
     ];
     const invalidValues = [
-        "#ff"
+        null
+        , undefined
+        , "#ff"
         , "fff0"
         , "#ff12FG"
     ];
@@ -1721,7 +1734,7 @@ describe("IsHexColor", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_HEX_COLOR;
+        const validationType = "is_hex_color";
         const message = "someProperty must be a hexadecimal color";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1735,7 +1748,9 @@ describe("IsHexadecimal", function() {
         , "ff0044"
     ];
     const invalidValues = [
-        "abcdefg"
+        null
+        , undefined
+        , "abcdefg"
         , ""
         , ".."
     ];
@@ -1762,7 +1777,7 @@ describe("IsHexadecimal", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_HEXADECIMAL;
+        const validationType = "is_hexadecimal";
         const message = "someProperty must be a hexadecimal number";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1790,7 +1805,9 @@ describe("IsIP", function() {
         , "0:0:0:0:0:ffff:127.0.0.1"
     ];
     const invalidValues = [
-        "abc"
+        null
+        , undefined
+        , "abc"
         , "256.0.0.0"
         , "0.0.0.256"
         , "26.0.0.256"
@@ -1831,7 +1848,7 @@ describe("IsIP", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_IP;
+        const validationType = "is_ip";
         const message = "someProperty must be an ip address";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1848,7 +1865,7 @@ describe("IsISBN version 10", function() {
         , "340101319X", "3-401-01319-X", "3 401 01319 X"
     ];
     const invalidValues = [
-        "3423214121", "3-423-21412-1", "3 423 21412 1"
+        null, undefined, "3423214121", "3-423-21412-1", "3 423 21412 1"
         , "978-3836221191", "9783836221191"
         , "123456789a", "foo"
     ];
@@ -1875,7 +1892,7 @@ describe("IsISBN version 10", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_ISBN;
+        const validationType = "is_isbn";
         const message = "someProperty must be an ISBN";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1890,7 +1907,7 @@ describe("IsISBN version 13", function() {
         , "9784873113685", "978-4-87311-368-5", "978 4 87311 368 5"
     ];
     const invalidValues = [
-        "9783836221190", "978-3-8362-2119-0", "978 3 8362 2119 0"
+        null, undefined, "9783836221190", "978-3-8362-2119-0", "978 3 8362 2119 0"
         , "3836221195", "3-8362-2119-5", "3 8362 2119 5"
         , "01234567890ab", "foo", ""
     ];
@@ -1917,7 +1934,7 @@ describe("IsISBN version 13", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_ISBN;
+        const validationType = "is_isbn";
         const message = "someProperty must be an ISBN";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -1969,7 +1986,9 @@ describe("IsISO8601", function() {
         , "2009-05-19 1439,55"
     ];
     const invalidValues = [
-        "200905"
+        null
+        , undefined
+        , "200905"
         , "2009367"
         , "2009-"
         , "2007-04-05T24:50"
@@ -2016,7 +2035,7 @@ describe("IsISO8601", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_ISO8601;
+        const validationType = "is_iso8601";
         const message = "someProperty must be a valid ISO 8601 date string";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2026,7 +2045,7 @@ describe("IsISO8601", function() {
 describe("IsJSON", function() {
 
     const validValues = ["{ \"key\": \"value\" }", "{}"];
-    const invalidValues = ["{ key: \"value\" }", "{ 'key': 'value' }", "null", "1234", "false", "\"nope\""];
+    const invalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "null", "1234", "false", "\"nope\""];
 
     class MyClass {
         @IsJSON()
@@ -2050,7 +2069,7 @@ describe("IsJSON", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_JSON;
+        const validationType = "is_json";
         const message = "someProperty must be a json string";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2066,7 +2085,9 @@ describe("IsLowercase", function() {
         , "tr竪s 端ber"
     ];
     const invalidValues = [
-        "fooBar"
+        null
+        , undefined
+        , "fooBar"
         , "123A"
     ];
 
@@ -2092,7 +2113,7 @@ describe("IsLowercase", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_LOWERCASE;
+        const validationType = "is_lowercase";
         const message = "someProperty must be a lowercase string";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2105,7 +2126,9 @@ describe("IsMongoId", function() {
         "507f1f77bcf86cd799439011"
     ];
     const invalidValues = [
-        "507f1f77bcf86cd7994390"
+        null
+        , undefined
+        , "507f1f77bcf86cd7994390"
         , "507f1f77bcf86cd79943901z"
         , ""
         , "507f1f77bcf86cd799439011 "
@@ -2133,7 +2156,7 @@ describe("IsMongoId", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_MONGO_ID;
+        const validationType = "is_mongo_id";
         const message = "someProperty must be a mongodb id";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2151,7 +2174,9 @@ describe("IsMultibyte", function() {
         , "中文"
     ];
     const invalidValues = [
-        "abc"
+        null
+        , undefined
+        , "abc"
         , "abc123"
         , "<>@\" *."
     ];
@@ -2178,7 +2203,7 @@ describe("IsMultibyte", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_MULTIBYTE;
+        const validationType = "is_multibyte";
         const message = "someProperty must contain one or more multibyte chars";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2193,7 +2218,9 @@ describe("IsSurrogatePair", function() {
         , "ABC千𥧄1-2-3"
     ];
     const invalidValues = [
-        "吉野竈"
+        null
+        , undefined
+        , "吉野竈"
         , "鮪"
         , "ABC1-2-3"
     ];
@@ -2220,7 +2247,7 @@ describe("IsSurrogatePair", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_SURROGATE_PAIR;
+        const validationType = "is_surrogate_pair";
         const message = "someProperty must contain any surrogate pairs chars";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2259,7 +2286,9 @@ describe("IsUrl", function() {
         , "http://xn--j1aac5a4g.xn--j1amh"
     ];
     const invalidValues = [
-        "xyz://foobar.com"
+        null
+        , undefined
+        , "xyz://foobar.com"
         , "invalid/"
         , "invalid.x"
         , "invalid."
@@ -2318,7 +2347,7 @@ describe("IsUrl", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_URL;
+        const validationType = "is_url";
         const message = "someProperty must be an URL address";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2333,7 +2362,9 @@ describe("IsUUID", function() {
         , "A987FBC9-4BED-5078-AF07-9141BA07C9F3"
     ];
     const invalidValues = [
-        ""
+        null
+        , undefined
+        , ""
         , "xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3"
         , "A987FBC9-4BED-3078-CF07-9141BA07C9F3xxx"
         , "A987FBC94BED3078CF079141BA07C9F3"
@@ -2364,7 +2395,7 @@ describe("IsUUID", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_UUID;
+        const validationType = "is_uuid";
         const message = "someProperty must be an UUID";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2377,7 +2408,9 @@ describe("IsUUID v3", function() {
         "A987FBC9-4BED-3078-CF07-9141BA07C9F3"
     ];
     const invalidValues = [
-        ""
+        null
+        , undefined
+        , ""
         , "xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3"
         , "934859"
         , "AAAAAAAA-1111-1111-AAAG-111111111111"
@@ -2407,7 +2440,7 @@ describe("IsUUID v3", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_UUID;
+        const validationType = "is_uuid";
         const message = "someProperty must be an UUID";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2423,7 +2456,9 @@ describe("IsUUID v4", function() {
         , "9c858901-8a57-4791-81fe-4c455b099bc9"
     ];
     const invalidValues = [
-        ""
+        null
+        , undefined
+        , ""
         , "xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3"
         , "934859"
         , "AAAAAAAA-1111-1111-AAAG-111111111111"
@@ -2453,7 +2488,7 @@ describe("IsUUID v4", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_UUID;
+        const validationType = "is_uuid";
         const message = "someProperty must be an UUID";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2469,12 +2504,14 @@ describe("IsUUID v5", function() {
         , "987FBC97-4BED-5078-9F07-9141BA07C9F3"
     ];
     const invalidValues = [
-        ""
+        null
+        , undefined
+        , ""
         , "xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3"
         , "934859"
         , "AAAAAAAA-1111-1111-AAAG-111111111111"
         , "9c858901-8a57-4791-81fe-4c455b099bc9"
-        , "A987FBC9-4BED-3078-CF07-9141BA07C9F3"
+        , "A987FBC9-4BED-3078-CF07-9141BA07C9F3",
     ];
 
     class MyClass {
@@ -2499,7 +2536,7 @@ describe("IsUUID v5", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_UUID;
+        const validationType = "is_uuid";
         const message = "someProperty must be an UUID";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2515,8 +2552,10 @@ describe("IsUppercase", function() {
         , "   ."
     ];
     const invalidValues = [
-        "fooBar"
-        , "123abc"
+        null, 
+        undefined,
+        "fooBar",
+        "123abc"
     ];
 
     class MyClass {
@@ -2541,7 +2580,7 @@ describe("IsUppercase", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.IS_UPPERCASE;
+        const validationType = "is_uppercase";
         const message = "someProperty must be uppercase";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2553,7 +2592,7 @@ describe("Length", function() {
     const constraint1 = 2;
     const constraint2 = 3;
     const validValues = ["abc", "de"];
-    const invalidValues = ["", "a", "abcd"];
+    const invalidValues = [null, undefined, "", "a", "abcd"];
 
     class MyClass {
         @Length(constraint1, constraint2)
@@ -2577,13 +2616,13 @@ describe("Length", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.LENGTH;
+        const validationType = "length";
         const message = "someProperty must be longer than " + constraint1;
         checkReturnedError(new MyClass(), ["", "a"], validationType, message, done);
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.LENGTH;
+        const validationType = "length";
         const message = "someProperty must be shorter than " + constraint2;
         checkReturnedError(new MyClass(), ["aaaa", "azzazza"], validationType, message, done);
     });
@@ -2594,7 +2633,7 @@ describe("MinLength", function() {
 
     const constraint1 = 10;
     const validValues = ["helloworld", "hello how are you"];
-    const invalidValues = ["hellowar", "howareyou"];
+    const invalidValues = [null, undefined, "hellowar", "howareyou"];
 
     class MyClass {
         @MinLength(constraint1)
@@ -2618,7 +2657,7 @@ describe("MinLength", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.MIN_LENGTH;
+        const validationType = "min_length";
         const message = "someProperty must be longer than " + constraint1;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2629,7 +2668,7 @@ describe("MaxLength", function() {
 
     const constraint1 = 10;
     const validValues = ["hellowar", "howareyou", "helloworld"];
-    const invalidValues = ["helloworld!", "hello how are you"];
+    const invalidValues = [null, undefined, "helloworld!", "hello how are you"];
 
     class MyClass {
         @MaxLength(constraint1)
@@ -2653,7 +2692,7 @@ describe("MaxLength", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.MAX_LENGTH;
+        const validationType = "max_length";
         const message = "someProperty must be shorter than " + constraint1;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2664,7 +2703,7 @@ describe("Matches", function() {
 
     const constraint = /abc/;
     const validValues = ["abc", "abcdef", "123abc"];
-    const invalidValues = ["acb", "Abc"];
+    const invalidValues = [null, undefined, "acb", "Abc"];
 
     class MyClass {
         @Matches(constraint)
@@ -2688,7 +2727,7 @@ describe("Matches", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.MATCHES;
+        const validationType = "matches";
         const message = "someProperty must match " + constraint + " regular expression";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2703,7 +2742,7 @@ describe("ArrayContains", function() {
 
     const constraint = ["superman"];
     const validValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
-    const invalidValues = [["world", "hello"]];
+    const invalidValues = [null, undefined, ["world", "hello"]];
 
     class MyClass {
         @ArrayContains(constraint)
@@ -2727,7 +2766,7 @@ describe("ArrayContains", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.ARRAY_CONTAINS;
+        const validationType = "array_contains";
         const message = "someProperty must contain " + constraint + " values";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2738,7 +2777,7 @@ describe("ArrayNotContains", function() {
 
     const constraint = ["superman"];
     const validValues = [["world", "hello"]];
-    const invalidValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
+    const invalidValues = [null, undefined, ["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
 
     class MyClass {
         @ArrayNotContains(constraint)
@@ -2762,7 +2801,7 @@ describe("ArrayNotContains", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.ARRAY_NOT_CONTAINS;
+        const validationType = "array_not_contains";
         const message = "someProperty should not contain " + constraint + " values";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2771,8 +2810,8 @@ describe("ArrayNotContains", function() {
 
 describe("ArrayNotEmpty", function() {
 
-    const validValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
-    const invalidValues: any[] = [];
+    const validValues = [[0], [""], [null], [undefined], [false], ["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
+    const invalidValues: any[] = [null, undefined, []];
 
     class MyClass {
         @ArrayNotEmpty()
@@ -2796,7 +2835,7 @@ describe("ArrayNotEmpty", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.ARRAY_NOT_EMPTY;
+        const validationType = "array_not_empty";
         const message = "someProperty should not be empty";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2807,7 +2846,7 @@ describe("ArrayMinSize", function() {
 
     const constraint = 2;
     const validValues = [["world", "hello"]];
-    const invalidValues = [["hi"]];
+    const invalidValues = [null, undefined, ["hi"]];
 
     class MyClass {
         @ArrayMinSize(constraint)
@@ -2831,7 +2870,7 @@ describe("ArrayMinSize", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.ARRAY_MIN_SIZE;
+        const validationType = "array_min_size";
         const message = "someProperty must contain at least " + constraint + " elements";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2842,7 +2881,7 @@ describe("ArrayMaxSize", function() {
 
     const constraint = 2;
     const validValues = [["world", "hello"]];
-    const invalidValues = [["hi", "hello", "javascript"]];
+    const invalidValues = [null, undefined, ["hi", "hello", "javascript"]];
 
     class MyClass {
         @ArrayMaxSize(constraint)
@@ -2866,7 +2905,7 @@ describe("ArrayMaxSize", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.ARRAY_MAX_SIZE;
+        const validationType = "array_max_size";
         const message = "someProperty must contain not more than " + constraint + " elements";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
@@ -2876,7 +2915,7 @@ describe("ArrayMaxSize", function() {
 describe("ArrayUnique", function() {
 
     const validValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
-    const invalidValues: any[] = [["world", "hello", "hello"], ["world", "hello", "world"], ["1", "1", "1"]];
+    const invalidValues: any[] = [null, undefined, ["world", "hello", "hello"], ["world", "hello", "world"], ["1", "1", "1"]];
 
     class MyClass {
         @ArrayUnique()
@@ -2900,7 +2939,7 @@ describe("ArrayUnique", function() {
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = ValidationTypes.ARRAY_UNIQUE;
+        const validationType = "array_unique";
         const message = "All someProperty's elements must be unique";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });

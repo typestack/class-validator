@@ -228,6 +228,9 @@ validate(user, {
 }); // this will pass validation
 ```
 
+There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
+must be applied always no matter which group is used.
+
 ## Custom validation classes
 
 If you have custom validation logic you can create a *Constraint class*:
@@ -682,6 +685,7 @@ usages.
 * added support of special tokens in validation messages
 * added support of message functions in validation options
 * added support of custom decorators
+* if no groups were specified, decorators with groups now are being ignored
 
 **0.3.0**
 

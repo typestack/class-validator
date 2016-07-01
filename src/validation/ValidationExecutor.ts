@@ -156,7 +156,7 @@ export class ValidationExecutor {
             }
 
             if (!message)
-                message = ValidationTypes.getMessage(type);
+                message = ValidationTypes.getMessage(type, metadata.each);
         }
 
         const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments);
