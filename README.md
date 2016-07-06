@@ -24,17 +24,19 @@ Allows use of decorator and non-decorator based validation. Internally uses [val
 Create your class and put some validation decorators on the properties you want to validate:
 
 ```typescript
-import {validate, Contains, IsInt, IsLength, IsEmail, IsFQDN, IsDate} from "class-validator";
+import {validate, Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, Min, Max} from "class-validator";
 
 export class Post {
 
-    @IsLength(10, 20)
+    @Length(10, 20)
     title: string;
 
     @Contains("hello")
     text: string;
 
-    @IsInt({ min: 0, max: 10 })
+    @IsInt()
+    @Min(0)
+    @Max(10)
     rating: number;
 
     @IsEmail()
@@ -70,20 +72,36 @@ validate(post).then(errors => { // errors is an array of validation errors
 
 ```typescript
 {
-    value: any; // Value of that target's property, that didn't pass a validation.
-    target: Object; // Target class that was validated.
-    property: string; // Target's property on which validation is applied.
-    errors: {
-        [type: string]: string // Object that contains a validation type as a key and validation message as a value
+    target: Object; // Object that was validated.
+    property: string; // Object's property that haven't pass validation.
+    value: any; // Value that haven't pass a validation.
+    constraints?: { // Constraints that failed validation with error messages.
+        [type: string]: string;
     };
-    childProperties: ValidationError[]; //  If property has nested validation, then all nested validations will be there
+    children?: ValidationError[]; // Contains all nested validation errors of the property
 }
 ```
 
 In our case, when we validated a Post object, we have such array of ValidationErrors:
 
 ```typescript
-
+[{
+    target: /* post object */,
+    property: "title",
+    value: "Hello",
+    constraints: {
+        length: ""
+    }
+}, {
+    target: /* post object */,
+    property: "text",
+    value: "this is a great post about hell world",
+    constraints: {
+        contains: ""
+    }
+},
+// and other errors
+]
 ```
 
 If you don't want a `target` to be exposed in validation errors, there is a special option when you use validator:
@@ -223,11 +241,11 @@ In different situations you may want to use different validation schemas of the 
  In such cases you can use validation groups.
 
 ```typescript
-import {validate, MinNumber, Length} from "class-validator";
+import {validate, Min, Length} from "class-validator";
 
 export class User {
 
-    @MinNumber(12, {
+    @Min(12, {
         groups: ["registration"]
     })
     age: number;
@@ -643,21 +661,21 @@ Here is an example of using it:
         name: "myUserSchema", // this is required, and must be unique
         properties: {
             firstName: [{
-                type: "min_length", // validation type. All validation types are listed in ValidationTypes class.
+                type: "minLength", // validation type. All validation types are listed in ValidationTypes class.
                 constraints: [2]
             }, {
-                type: "max_length",
+                type: "maxLength",
                 constraints: [20]
             }],
             lastName: [{
-                type: "min_length",
+                type: "minLength",
                 constraints: [2]
             }, {
-                type: "max_length",
+                type: "maxLength",
                 constraints: [20]
             }],
             email: [{
-                type: "is_email"
+                type: "isEmail"
             }]
         }
     };
@@ -700,7 +718,7 @@ usages.
 
 ## Release notes
 
-See release notes [there](https://github.com/pleerock/class-validator/tree/master/doc/release-notes.md).
+See information about breaking changes and release notes [here](https://github.com/pleerock/class-validator/tree/master/doc/release-notes.md).
 
 [1]: https://github.com/chriso/validator.js
 [2]: https://github.com/pleerock/typedi

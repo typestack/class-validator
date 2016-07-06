@@ -27,7 +27,7 @@ describe("Validation Options", function() {
             // model.someProperty = "hell no world";
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
-                errors[0].errors.should.be.eql({ contains: "String is not valid. You string must contain a hello word" });
+                errors[0].constraints.should.be.eql({ contains: "String is not valid. You string must contain a hello word" });
             });
         });
 
@@ -43,7 +43,7 @@ describe("Validation Options", function() {
             model.someProperty = "hell no world";
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
-                errors[0].errors.should.be.eql({ contains: "hell no world is not valid. You string must contain a hello word" });
+                errors[0].constraints.should.be.eql({ contains: "hell no world is not valid. You string must contain a hello word" });
             });
         });
 
@@ -59,7 +59,7 @@ describe("Validation Options", function() {
             model.someProperty = "hell no world";
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
-                errors[0].errors.should.be.eql({ contains: "String is not valid. You string must contain a hello word" });
+                errors[0].constraints.should.be.eql({ contains: "String is not valid. You string must contain a hello word" });
             });
         });
 
@@ -75,7 +75,7 @@ describe("Validation Options", function() {
             model.someProperty = "hell no world";
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
-                errors[0].errors.should.be.eql({ contains: "MyClass is not valid." });
+                errors[0].constraints.should.be.eql({ contains: "MyClass is not valid." });
             });
         });
 
@@ -91,7 +91,7 @@ describe("Validation Options", function() {
             model.someProperty = "hell no world";
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
-                errors[0].errors.should.be.eql({ contains: "someProperty is not valid." });
+                errors[0].constraints.should.be.eql({ contains: "someProperty is not valid." });
             });
         });
 
@@ -107,7 +107,7 @@ describe("Validation Options", function() {
             model.someProperty = "hell no world";
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
-                errors[0].errors.should.be.eql({ contains: "MyClass#someProperty is not valid: hell no world must contain a hello word" });
+                errors[0].constraints.should.be.eql({ contains: "MyClass#someProperty is not valid: hell no world must contain a hello word" });
             });
         });
 
@@ -127,7 +127,7 @@ describe("Validation Options", function() {
             model.someProperty = ["hell no world", "hello", "helo world", "hello world", "hello dear friend"];
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
-                errors[0].errors.should.be.eql({ contains: "each value in someProperty must contain a hello string" });
+                errors[0].constraints.should.be.eql({ contains: "each value in someProperty must contain a hello string" });
                 errors[0].value.should.be.equal(model.someProperty);
                 errors[0].target.should.be.equal(model);
                 errors[0].property.should.be.equal("someProperty");

@@ -6,83 +6,83 @@ import {ValidationArguments} from "./ValidationArguments";
 export class ValidationTypes {
     
     /* system */
-    static CUSTOM_VALIDATION = "custom_validation";
-    static NESTED_VALIDATION = "nested_validation";
+    static CUSTOM_VALIDATION = "customValidation";
+    static NESTED_VALIDATION = "nestedValidation";
 
     /* common checkers */
-    static IS_DEFINED = "is_defined";
+    static IS_DEFINED = "isDefined";
     static EQUALS = "equals";
-    static NOT_EQUALS = "not_equals";
-    static IS_EMPTY = "is_empty";
-    static IS_NOT_EMPTY = "is_not_empty";
-    static IS_IN = "is_in";
-    static IS_NOT_IN = "is_not_in";
+    static NOT_EQUALS = "notEquals";
+    static IS_EMPTY = "isEmpty";
+    static IS_NOT_EMPTY = "isNotEmpty";
+    static IS_IN = "isIn";
+    static IS_NOT_IN = "isNotIn";
 
     /* type checkers */
-    static IS_BOOLEAN = "is_boolean";
-    static IS_DATE = "is_date";
-    static IS_NUMBER = "is_number";
-    static IS_STRING = "is_string";
-    static IS_INT = "is_int";
+    static IS_BOOLEAN = "isBoolean";
+    static IS_DATE = "isDate";
+    static IS_NUMBER = "isNumber";
+    static IS_STRING = "isString";
+    static IS_INT = "isInt";
 
     /* number checkers */
-    static IS_DIVISIBLE_BY = "is_divisible_by";
-    static IS_POSITIVE = "is_positive";
-    static IS_NEGATIVE = "is_negative";
+    static IS_DIVISIBLE_BY = "isDivisibleBy";
+    static IS_POSITIVE = "isPositive";
+    static IS_NEGATIVE = "isNegative";
     static MIN = "min";
     static MAX = "max";
 
     /* date checkers */
-    static MIN_DATE = "min_date";
-    static MAX_DATE = "max_date";
+    static MIN_DATE = "minDate";
+    static MAX_DATE = "maxDate";
 
     /* string-as-type checkers */
-    static IS_BOOLEAN_STRING = "is_boolean_string";
-    static IS_DATE_STRING = "is_date_string";
-    static IS_NUMBER_STRING = "is_number_string";
+    static IS_BOOLEAN_STRING = "isBooleanString";
+    static IS_DATE_STRING = "isDateString";
+    static IS_NUMBER_STRING = "isNumberString";
 
     /* string checkers */
     static CONTAINS = "contains";
-    static NOT_CONTAINS = "not_contains";
-    static IS_ALPHA = "is_alpha";
-    static IS_ALPHANUMERIC = "is_alphanumeric";
-    static IS_ASCII = "is_ascii";
-    static IS_BASE64 = "is_base64";
-    static IS_BYTE_LENGTH = "is_byte_length";
-    static IS_CREDIT_CARD = "is_credit_card";
-    static IS_CURRENCY = "is_currency";
-    static IS_EMAIL = "is_email";
-    static IS_FQDN = "is_fqdn";
-    static IS_FULL_WIDTH = "is_full_width";
-    static IS_HALF_WIDTH = "is_half_width";
-    static IS_VARIABLE_WIDTH = "is_variable_width";
-    static IS_HEX_COLOR = "is_hex_color";
-    static IS_HEXADECIMAL = "is_hexadecimal";
-    static IS_IP = "is_ip";
-    static IS_ISBN = "is_isbn";
-    static IS_ISIN = "is_isin";
-    static IS_ISO8601 = "is_iso8601";
-    static IS_JSON = "is_json";
-    static IS_LOWERCASE = "is_lowercase";
-    static IS_MOBILE_PHONE = "is_mobile_phone";
-    static IS_MONGO_ID = "is_mongo_id";
-    static IS_MULTIBYTE = "is_multibyte";
-    static IS_SURROGATE_PAIR = "is_surrogate_pair";
-    static IS_URL = "is_url";
-    static IS_UUID = "is_uuid";
+    static NOT_CONTAINS = "notContains";
+    static IS_ALPHA = "isAlpha";
+    static IS_ALPHANUMERIC = "isAlphanumeric";
+    static IS_ASCII = "isAscii";
+    static IS_BASE64 = "isBase64";
+    static IS_BYTE_LENGTH = "isByteLength";
+    static IS_CREDIT_CARD = "isCreditCard";
+    static IS_CURRENCY = "isCurrency";
+    static IS_EMAIL = "isEmail";
+    static IS_FQDN = "isFqdn";
+    static IS_FULL_WIDTH = "isFullWidth";
+    static IS_HALF_WIDTH = "isHalfWidth";
+    static IS_VARIABLE_WIDTH = "isVariableWidth";
+    static IS_HEX_COLOR = "isHexColor";
+    static IS_HEXADECIMAL = "isHexadecimal";
+    static IS_IP = "isIp";
+    static IS_ISBN = "isIsbn";
+    static IS_ISIN = "isIsin";
+    static IS_ISO8601 = "isIso8601";
+    static IS_JSON = "isJson";
+    static IS_LOWERCASE = "isLowercase";
+    static IS_MOBILE_PHONE = "isMobilePhone";
+    static IS_MONGO_ID = "isMongoId";
+    static IS_MULTIBYTE = "isMultibyte";
+    static IS_SURROGATE_PAIR = "isSurrogatePair";
+    static IS_URL = "isUrl";
+    static IS_UUID = "isUuid";
     static LENGTH = "length";
-    static IS_UPPERCASE = "is_uppercase";
-    static MIN_LENGTH = "min_length";
-    static MAX_LENGTH = "max_length";
+    static IS_UPPERCASE = "isUppercase";
+    static MIN_LENGTH = "minLength";
+    static MAX_LENGTH = "maxLength";
     static MATCHES = "matches";
 
     /* array checkers */
-    static ARRAY_CONTAINS = "array_contains";
-    static ARRAY_NOT_CONTAINS = "array_not_contains";
-    static ARRAY_NOT_EMPTY = "array_not_empty";
-    static ARRAY_MIN_SIZE = "array_min_size";
-    static ARRAY_MAX_SIZE = "array_max_size";
-    static ARRAY_UNIQUE = "array_unique";
+    static ARRAY_CONTAINS = "arrayContains";
+    static ARRAY_NOT_CONTAINS = "arrayNotContains";
+    static ARRAY_NOT_EMPTY = "arrayNotEmpty";
+    static ARRAY_MIN_SIZE = "arrayMinSize";
+    static ARRAY_MAX_SIZE = "arrayMaxSize";
+    static ARRAY_UNIQUE = "arrayUnique";
 
     /**
      * Checks if validation type is valid.

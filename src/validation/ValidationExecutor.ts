@@ -65,20 +65,20 @@ export class ValidationExecutor {
                 validationError.value = value;
 
             validationError.property = propertyName;
-            validationError.childProperties = [];
-            validationError.errors = {};
+            validationError.children = [];
+            validationError.constraints = {};
             validationErrors.push(validationError);
 
             // handle IS_DEFINED validation type the special way - it should work no matter skipMissingProperties is set or not
-            this.defaultValidations(object, value, definedMetadatas, validationError.errors);
+            this.defaultValidations(object, value, definedMetadatas, validationError.constraints);
             
             if ((value === null || value === undefined) && this.validatorOptions && this.validatorOptions.skipMissingProperties === true) {
                 return;
             }
 
-            this.defaultValidations(object, value, metadatas, validationError.errors);
-            this.customValidations(object, value, customValidationMetadatas, validationError.errors);
-            this.nestedValidations(object, value, nestedValidationMetadatas, validationError.childProperties);
+            this.defaultValidations(object, value, metadatas, validationError.constraints);
+            this.customValidations(object, value, customValidationMetadatas, validationError.constraints);
+            this.nestedValidations(object, value, nestedValidationMetadatas, validationError.children);
         });
 
         return Promise.all(this.awaitingPromises).then(() => {
@@ -92,15 +92,15 @@ export class ValidationExecutor {
 
     private removeEmptyErrors(errors: ValidationError[]) {
         return errors.filter(error => {
-            if (error.childProperties) {
-                error.childProperties = this.removeEmptyErrors(error.childProperties);
+            if (error.children) {
+                error.children = this.removeEmptyErrors(error.children);
             }
 
-            if (Object.keys(error.errors).length === 0) {
-                if (error.childProperties.length === 0) {
+            if (Object.keys(error.constraints).length === 0) {
+                if (error.children.length === 0) {
                     return false;
                 } else {
-                    delete error.errors;
+                    delete error.constraints;
                 }
             }
 
