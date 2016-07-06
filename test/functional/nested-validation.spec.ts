@@ -56,7 +56,7 @@ describe("ValidateNested", function() {
             const subError1 = errors[1].children[0];
             subError1.target.should.be.equal(model.mySubClass);
             subError1.property.should.be.equal("name");
-            subError1.constraints.should.be.eql({ minLength: "name must be longer than 5" });
+            subError1.constraints.should.be.eql({ minLength: "name must be longer than 5 characters" });
             subError1.value.should.be.equal("my");
 
             errors[2].target.should.be.equal(model);
@@ -66,7 +66,7 @@ describe("ValidateNested", function() {
             const subError2 = errors[2].children[0];
             subError2.target.should.be.equal(model.mySubClasses[0]);
             subError2.property.should.be.equal("name");
-            subError2.constraints.should.be.eql({ minLength: "name must be longer than 5" });
+            subError2.constraints.should.be.eql({ minLength: "name must be longer than 5 characters" });
             subError2.value.should.be.equal("my");
         });
     });

@@ -68,7 +68,7 @@ validate(post).then(errors => { // errors is an array of validation errors
 
 ## Validation errors
 
-`validate` method returns you an array of `ValidationError`-s. Each ValidationError is:
+`validate` method returns you an array of `ValidationError` objects. Each `ValidationError` is:
 
 ```typescript
 {
@@ -90,14 +90,14 @@ In our case, when we validated a Post object, we have such array of ValidationEr
     property: "title",
     value: "Hello",
     constraints: {
-        length: ""
+        length: "$property must be shorter than 10 characters"
     }
 }, {
     target: /* post object */,
     property: "text",
     value: "this is a great post about hell world",
     constraints: {
-        contains: ""
+        contains: "text must contain a hello string"
     }
 },
 // and other errors

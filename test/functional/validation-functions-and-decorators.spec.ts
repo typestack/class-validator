@@ -2616,13 +2616,13 @@ describe("Length", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "length";
-        const message = "someProperty must be longer than " + constraint1;
+        const message = "someProperty must be longer than " + constraint1 + " characters";
         checkReturnedError(new MyClass(), ["", "a"], validationType, message, done);
     });
 
     it("should return error object with proper data", function(done) {
         const validationType = "length";
-        const message = "someProperty must be shorter than " + constraint2;
+        const message = "someProperty must be shorter than " + constraint2 + " characters";
         checkReturnedError(new MyClass(), ["aaaa", "azzazza"], validationType, message, done);
     });
 
@@ -2657,7 +2657,7 @@ describe("MinLength", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "minLength";
-        const message = "someProperty must be longer than " + constraint1;
+        const message = "someProperty must be longer than " + constraint1 + " characters";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
@@ -2692,7 +2692,7 @@ describe("MaxLength", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "maxLength";
-        const message = "someProperty must be shorter than " + constraint1;
+        const message = "someProperty must be shorter than " + constraint1 + " characters";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
