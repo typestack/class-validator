@@ -41,31 +41,33 @@ describe("ValidateNested", function() {
         model.mySubClasses[0].name = "my";
         model.mySubClasses[1].name = "not-short";
         return validator.validate(model).then(errors => {
+            console.log(errors);
             errors.length.should.be.equal(3);
 
-            errors[0].target.should.be.equal("MyClass");
+            errors[0].target.should.be.equal(model);
             errors[0].property.should.be.equal("title");
-            errors[0].type.should.be.equal("contains");
-            errors[0].message.should.be.equal("title must contain a hello string");
+            errors[0].errors.should.be.eql({ contains: "title must contain a hello string" });
             errors[0].value.should.be.equal("helo world");
-            expect(errors[0].parentProperty).to.be.empty;
-            expect(errors[0].parentTarget).to.be.empty;
 
-            errors[1].target.should.be.equal("MySubClass");
-            errors[1].property.should.be.equal("name");
-            errors[1].type.should.be.equal("min_length");
-            errors[1].message.should.be.equal("name must be longer than 5");
-            errors[1].value.should.be.equal("my");
-            errors[1].parentProperty.should.be.equal("mySubClass");
-            errors[1].parentTarget.should.be.equal(model);
+            errors[1].target.should.be.equal(model);
+            errors[1].property.should.be.equal("mySubClass");
+            errors[1].value.should.be.equal(model.mySubClass);
+            expect(errors[1].errors).to.be.undefined;
+            const subError1 = errors[1].childProperties[0];
+            subError1.target.should.be.equal(model.mySubClass);
+            subError1.property.should.be.equal("name");
+            subError1.errors.should.be.eql({ min_length: "name must be longer than 5" });
+            subError1.value.should.be.equal("my");
 
-            errors[2].target.should.be.equal("MySubClass");
-            errors[2].property.should.be.equal("name");
-            errors[2].type.should.be.equal("min_length");
-            errors[2].message.should.be.equal("name must be longer than 5");
-            errors[2].value.should.be.equal("my");
-            errors[2].parentProperty.should.be.equal("mySubClasses");
-            errors[2].parentTarget.should.be.equal(model);
+            errors[2].target.should.be.equal(model);
+            errors[2].property.should.be.equal("mySubClasses");
+            errors[2].value.should.be.equal(model.mySubClasses);
+            expect(errors[2].errors).to.be.undefined;
+            const subError2 = errors[2].childProperties[0];
+            subError2.target.should.be.equal(model.mySubClasses[0]);
+            subError2.property.should.be.equal("name");
+            subError2.errors.should.be.eql({ min_length: "name must be longer than 5" });
+            subError2.value.should.be.equal("my");
         });
     });
 

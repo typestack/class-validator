@@ -36,9 +36,9 @@ export class Validator {
      */
     validate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
         if (typeof objectOrSchemaName === "string") {
-            return new ValidationExecutor(this, maybeValidatorOptions).execute(objectOrValidationOptions as Object, objectOrSchemaName as string);
+            return new ValidationExecutor(this, maybeValidatorOptions).execute(objectOrValidationOptions as Object, objectOrSchemaName as string, []);
         } else {
-            return new ValidationExecutor(this, objectOrValidationOptions as ValidationOptions).execute(objectOrSchemaName as Object);
+            return new ValidationExecutor(this, objectOrValidationOptions as ValidationOptions).execute(objectOrSchemaName as Object, undefined, []);
         }
     }
 

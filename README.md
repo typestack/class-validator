@@ -64,6 +64,37 @@ validate(post).then(errors => { // errors is an array of validation errors
 });
 ```
 
+## Validation errors
+
+`validate` method returns you an array of `ValidationError`-s. Each ValidationError is:
+
+```typescript
+{
+    value: any; // Value of that target's property, that didn't pass a validation.
+    target: Object; // Target class that was validated.
+    property: string; // Target's property on which validation is applied.
+    errors: {
+        [type: string]: string // Object that contains a validation type as a key and validation message as a value
+    };
+    childProperties: ValidationError[]; //  If property has nested validation, then all nested validations will be there
+}
+```
+
+In our case, when we validated a Post object, we have such array of ValidationErrors:
+
+```typescript
+
+```
+
+If you don't want a `target` to be exposed in validation errors, there is a special option when you use validator:
+
+```typescript
+validator.validate(post, { error: { target: false } });
+```
+
+This is especially useful when you send errors back over http, and you most probably don't want to expose
+the whole target object.
+
 ## Validation messages
 
 You can specify validation message in the decorator options and that message will be returned in `ValidationError`
@@ -666,33 +697,10 @@ Here is an example of using it:
 Take a look on samples in [./sample](https://github.com/pleerock/class-validator/tree/master/sample) for more examples of
 usages.
 
-## Release Notes
 
-**0.4.0** *[BREAKING CHANGES]*
+## Release notes
 
-* everything should be imported from "class-validator" main entry point now
-* `ValidatorInterface` has been renamed to `ValidatorConstraintInterface`
-* contain can be set in the main entry point now
-* some decorator's names changed. Be aware of this
-* fixed all decorators that should not work only with strings
-* added few more non-string decorators
-* validator now returns array of ValidationError instead of ValidationErrorInterface. Removed old ValidationError
-* removed all other validation methods except `validator.validate`
-* finally validate method is async now, so custom async validations are supported now
-* added ability to validate inherited properties
-* added support of separate validation schemas
-* added support of default validation messages
-* added support of special tokens in validation messages
-* added support of message functions in validation options
-* added support of custom decorators
-* if no groups were specified, decorators with groups now are being ignored
-
-**0.3.0**
-
-* package has changed its name from `validator.ts` to `class-validator`.
-* sanitation functionality has been removed from this library. Use [class-sanitizer][3] instead.
-
+See release notes [there](https://github.com/pleerock/class-validator/tree/master/doc/release-notes.md).
 
 [1]: https://github.com/chriso/validator.js
 [2]: https://github.com/pleerock/typedi
-[3]: https://github.com/pleerock/class-sanitizer

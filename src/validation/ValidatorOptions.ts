@@ -19,4 +19,21 @@ export interface ValidatorOptions {
      */
     dismissDefaultMessages?: boolean;
 
+    /**
+     * ValidationError special options.
+     */
+    validationError?: {
+
+        /**
+         * Indicates if target should be exposed in ValidationError.
+         */
+        target?: boolean;
+
+        /**
+         * Indicates if validated value should be exposed in ValidationError.
+         */
+        value?: boolean;
+
+    };
+
 }

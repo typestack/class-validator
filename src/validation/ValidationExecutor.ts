@@ -5,7 +5,6 @@ import {MetadataStorage} from "../metadata/MetadataStorage";
 import {getFromContainer} from "../index";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationTypes} from "./ValidationTypes";
-import {ValidatorConstraintInterface} from "./ValidatorConstraintInterface";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
@@ -19,7 +18,6 @@ export class ValidationExecutor {
     // Properties
     // -------------------------------------------------------------------------
 
-    private errors: ValidationError[] = [];
     private awaitingPromises: Promise<any>[] = [];
 
     // -------------------------------------------------------------------------
@@ -40,41 +38,80 @@ export class ValidationExecutor {
     // Public Methods
     // -------------------------------------------------------------------------
     
-    execute(object: Object, targetSchema?: string, parentObject?: Object, parentMetadata?: ValidationMetadata) {
+    execute(object: Object, targetSchema: string, validationErrors: ValidationError[]) {
         const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
         const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
         Object.keys(groupedMetadatas).forEach(propertyName => {
             const value = (object as any)[propertyName];
-            const isDefinedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
+            const definedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
             const metadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type !== ValidationTypes.IS_DEFINED);
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
-            
+
+            const validationError = new ValidationError();
+
+            if (!this.validatorOptions ||
+                !this.validatorOptions.validationError ||
+                this.validatorOptions.validationError.target === undefined ||
+                this.validatorOptions.validationError.target === true)
+                validationError.target = object;
+
+            if (!this.validatorOptions ||
+                !this.validatorOptions.validationError ||
+                this.validatorOptions.validationError.value === undefined ||
+                this.validatorOptions.validationError.value === true)
+                validationError.value = value;
+
+            validationError.property = propertyName;
+            validationError.childProperties = [];
+            validationError.errors = {};
+            validationErrors.push(validationError);
+
             // handle IS_DEFINED validation type the special way - it should work no matter skipMissingProperties is set or not
-            this.defaultValidations(object, value, isDefinedMetadatas, parentMetadata);
+            this.defaultValidations(object, value, definedMetadatas, validationError.errors);
             
-            if ((value === null || value === undefined) && this.validatorOptions && this.validatorOptions.skipMissingProperties === true)
+            if ((value === null || value === undefined) && this.validatorOptions && this.validatorOptions.skipMissingProperties === true) {
                 return;
-            
-            this.defaultValidations(object, value, metadatas, parentObject, parentMetadata);
-            this.customValidations(object, value, customValidationMetadatas, parentObject, parentMetadata);
-            this.nestedValidations(object, value, nestedValidationMetadatas);
+            }
+
+            this.defaultValidations(object, value, metadatas, validationError.errors);
+            this.customValidations(object, value, customValidationMetadatas, validationError.errors);
+            this.nestedValidations(object, value, nestedValidationMetadatas, validationError.childProperties);
         });
 
-        return Promise.all(this.awaitingPromises).then(() => this.errors);
+        return Promise.all(this.awaitingPromises).then(() => {
+            return this.removeEmptyErrors(validationErrors);
+        });
     }
     
     // -------------------------------------------------------------------------
     // Private Methods
     // -------------------------------------------------------------------------
 
+    private removeEmptyErrors(errors: ValidationError[]) {
+        return errors.filter(error => {
+            if (error.childProperties) {
+                error.childProperties = this.removeEmptyErrors(error.childProperties);
+            }
+
+            if (Object.keys(error.errors).length === 0) {
+                if (error.childProperties.length === 0) {
+                    return false;
+                } else {
+                    delete error.errors;
+                }
+            }
+
+            return true;
+        });
+    }
+
     private defaultValidations(object: Object,
                                value: any,
                                metadatas: ValidationMetadata[],
-                               parentObject: Object,
-                               parentMetadata?: ValidationMetadata) {
+                               errorMap: { [key: string]: string }) {
         return metadatas
             .filter(metadata => {
                 if (metadata.each) {
@@ -87,15 +124,15 @@ export class ValidationExecutor {
                 }
             })
             .forEach(metadata => {
-                this.errors.push(this.createValidationError(object, value, metadata, undefined, parentObject, parentMetadata));
+                const [key, message] = this.createValidationError(object, value, metadata);
+                errorMap[key] = message;
             });
     }
 
     private customValidations(object: Object,
                               value: any,
                               metadatas: ValidationMetadata[],
-                              parentObject?: Object,
-                              parentMetadata?: ValidationMetadata) {
+                              errorMap: { [key: string]: string }) {
         metadatas.forEach(metadata => {
             getFromContainer(MetadataStorage)
                 .getTargetValidatorConstraints(metadata.constraintCls)
@@ -112,28 +149,31 @@ export class ValidationExecutor {
                     if (validatedValue instanceof Promise) {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {
-                                this.errors.push(this.createValidationError(object, value, metadata, customConstraintMetadata, parentObject, parentMetadata));
+                                const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+                                errorMap[type] = message;
                             }
                         });
                         this.awaitingPromises.push(promise);
                     } else {
-                        if (!validatedValue)
-                            this.errors.push(this.createValidationError(object, value, metadata, customConstraintMetadata, parentObject, parentMetadata));
+                        if (!validatedValue) {
+                            const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+                            errorMap[type] = message;
+                        }
                     }
                 });
         });
     }
     
-    private nestedValidations(object: Object, value: any, metadatas: ValidationMetadata[]) {
+    private nestedValidations(object: Object, value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
         metadatas.forEach(metadata => {
             if (metadata.type !== ValidationTypes.NESTED_VALIDATION) return;
             const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
 
             if (value instanceof Array) {
-                value.forEach((subValue: any) => this.awaitingPromises.push(this.execute(subValue, targetSchema, object, metadata)));
+                value.forEach((subValue: any) => this.awaitingPromises.push(this.execute(subValue, targetSchema, errors)));
 
             } else if (value instanceof Object) {
-                this.awaitingPromises.push(this.execute(value, targetSchema, object, metadata));
+                this.awaitingPromises.push(this.execute(value, targetSchema, errors));
 
             } else {
                 throw new Error("Only objects and arrays are supported to nested validation");
@@ -144,9 +184,7 @@ export class ValidationExecutor {
     private createValidationError(object: Object,
                                   value: any,
                                   metadata: ValidationMetadata,
-                                  customValidatorMetadata?: ConstraintMetadata,
-                                  parentObject?: Object,
-                                  parentMetadata?: ValidationMetadata): ValidationError {
+                                  customValidatorMetadata?: ConstraintMetadata): [string, string] {
         
         const targetName = object.constructor ? (object.constructor as any).name : undefined;
         const type = customValidatorMetadata && customValidatorMetadata.name ? customValidatorMetadata.name : metadata.type;
@@ -170,19 +208,7 @@ export class ValidationExecutor {
         }
 
         const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments);
-
-        const validationError: ValidationError = {
-            target: targetName,
-            property: metadata.propertyName,
-            type: type,
-            message: messageString,
-            value: value
-        };
-        if (parentMetadata && parentObject) {
-            validationError.parentTarget = parentObject;
-            validationError.parentProperty = parentMetadata.propertyName;
-        }
-        return validationError;
+        return [type, messageString];
     }
     
 }

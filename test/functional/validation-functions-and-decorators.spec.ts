@@ -103,11 +103,10 @@ export function checkReturnedError(object: { someProperty: any },
             .validate(object, validatorOptions)
             .then(errors => {
                 errors.length.should.be.equal(1);
-                errors[0].target.should.be.equal((object.constructor as any).name);
+                errors[0].target.should.be.equal(object);
                 errors[0].property.should.be.equal("someProperty");
-                errors[0].type.should.be.equal(validationType);
+                errors[0].errors.should.be.eql({ [validationType]: message });
                 expect(errors[0].value).to.be.equal(value);
-                errors[0].message.should.be.equal(message);
             });
     });
     Promise.all(promises).then(() => done(), err => done(err));

@@ -1,7 +1,7 @@
 {
   "name": "class-validator",
   "private": true,
-  "version": "0.4.0-alpha.3",
+  "version": "0.4.0-alpha.4",
   "description": "Class-based validation in Typescript using decorators",
   "license": "MIT",
   "readmeFilename": "README.md",
