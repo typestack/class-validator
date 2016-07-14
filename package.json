@@ -1,7 +1,7 @@
 {
   "name": "class-validator",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Class-based validation in Typescript using decorators",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -33,15 +33,17 @@
     "gulp-mocha": "^2.2.0",
     "gulp-replace": "^0.5.4",
     "gulp-shell": "^0.5.0",
-    "gulp-tslint": "^4.3.3",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^6.0.1",
+    "gulp-typescript": "^2.13.6",
     "gulpclass": "0.1.1",
-    "mocha": "^2.3.4",
+    "mocha": "^2.5.3",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
-    "tslint": "^3.12.1",
+    "tslint": "^3.13.0",
     "tslint-stylish": "^2.1.0-beta",
     "typescript": "^1.8.10",
-    "typings": "^1.3.0"
+    "typings": "^1.3.1"
   },
   "scripts": {
     "test": "gulp tests"
