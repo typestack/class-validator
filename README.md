@@ -465,7 +465,7 @@ classes. Here is example how to integrate it with [typedi][2]:
 
 ```typescript
 import {Container} from "typedi";
-import {useContainer} from "class-validator";
+import {useContainer, Validator} from "class-validator";
 
 // do this somewhere in the global application level:
 useContainer(Container);
