@@ -1,5 +1,9 @@
 # Release notes
 
+**0.4.1**
+
+* fixed issue with wrong source maps packaged
+
 **0.4.0** *[BREAKING CHANGES]*
 
 * everything should be imported from "class-validator" main entry point now
