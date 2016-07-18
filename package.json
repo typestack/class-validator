@@ -28,9 +28,11 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "chai-as-promised": "^5.3.0",
+    "codecov": "^1.0.1",
     "del": "^2.2.1",
     "es6-shim": "^0.35.1",
     "gulp": "^3.9.1",
+    "gulp-istanbul": "^1.0.0",
     "gulp-mocha": "^2.2.0",
     "gulp-replace": "^0.5.4",
     "gulp-shell": "^0.5.0",

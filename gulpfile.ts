@@ -11,6 +11,7 @@ const tslint = require("gulp-tslint");
 const stylish = require("tslint-stylish");
 const ts = require("gulp-typescript");
 const sourcemaps = require("gulp-sourcemaps");
+const istanbul = require("gulp-istanbul");
 
 @Gulpclass()
 export class Gulpfile {
@@ -174,6 +175,30 @@ export class Gulpfile {
         chai.use(require("chai-as-promised"));
         return gulp.src("./build/es5/test/**/*.js")
             .pipe(mocha());
+    }
+
+    /**
+     * Runs before test coverage, required step to perform a test coverage.
+     */
+    @Task()
+    preCoverage() {
+        return gulp.src(["./build/es5/src/**/*.js"])
+            .pipe(istanbul())
+            .pipe(istanbul.hookRequire());
+    }
+
+    /**
+     * Runs test coverage.
+     */
+    @Task("coverage", ["preCoverage"])
+    coverage() {
+        chai.should();
+        chai.use(require("sinon-chai"));
+        chai.use(require("chai-as-promised"));
+        
+        return gulp.src(["./build/es5/test/**/*.js"])
+            .pipe(mocha())
+            .pipe(istanbul.writeReports());
     }
 
     /**
