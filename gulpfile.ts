@@ -180,25 +180,51 @@ export class Gulpfile {
     /**
      * Runs before test coverage, required step to perform a test coverage.
      */
+    @MergedTask()
+    coverageCompile() {
+        const tsProject = ts.createProject("tsconfig.json");
+        const tsResult = gulp.src(["./src/**/*.ts", "./test/**/*.ts", "./typings/**/*.ts"])
+            .pipe(sourcemaps.init())
+            .pipe(ts(tsProject));
+
+        return [
+            tsResult.dts.pipe(gulp.dest("./")),
+            tsResult.js
+                .pipe(sourcemaps.write(".", { sourceRoot: "", includeContent: true }))
+                .pipe(gulp.dest("./"))
+        ];
+    }
+
+    /**
+     * Runs before test coverage, required step to perform a test coverage.
+     */
     @Task()
     preCoverage() {
-        return gulp.src(["./build/es5/src/**/*.js"])
+        return gulp.src(["./src/**/*.js"])
             .pipe(istanbul())
             .pipe(istanbul.hookRequire());
     }
 
     /**
-     * Runs test coverage.
+     * Runs post coverage operations.
      */
-    @Task("coverage", ["preCoverage"])
-    coverage() {
+    @Task("postCoverage", ["preCoverage"])
+    postCoverage() {
         chai.should();
         chai.use(require("sinon-chai"));
         chai.use(require("chai-as-promised"));
         
-        return gulp.src(["./build/es5/test/**/*.js"])
+        return gulp.src(["./test/**/*.js"])
             .pipe(mocha())
             .pipe(istanbul.writeReports());
+    }
+
+    /**
+     * Runs test coverage.
+     */
+    @SequenceTask()
+    coverage() {
+        return ["coverageCompile", "postCoverage"];
     }
 
     /**
