@@ -1,5 +1,7 @@
 # class-validator
 
+[![CircleCI](https://circleci.com/gh/pleerock/class-validator.svg?style=shield)](https://circleci.com/gh/pleerock/class-validator)
+
 Allows use of decorator and non-decorator based validation. Internally uses [validator.js][1] to perform validation.
 
 ## Installation
