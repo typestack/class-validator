@@ -12,6 +12,7 @@ const stylish = require("tslint-stylish");
 const ts = require("gulp-typescript");
 const sourcemaps = require("gulp-sourcemaps");
 const istanbul = require("gulp-istanbul");
+const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
 
 @Gulpclass()
 export class Gulpfile {
@@ -219,12 +220,19 @@ export class Gulpfile {
             .pipe(istanbul.writeReports());
     }
 
+    @Task()
+    coverageRemap() {
+        return gulp.src("./coverage/coverage-final.json")
+            .pipe(remapIstanbul())
+            .pipe(gulp.dest("./coverage"));
+    }
+
     /**
      * Runs test coverage.
      */
     @SequenceTask()
     coverage() {
-        return ["coverageCompile", "postCoverage"];
+        return ["coverageCompile", "postCoverage", "coverageRemap"];
     }
 
     /**
