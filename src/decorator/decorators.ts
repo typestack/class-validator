@@ -14,14 +14,15 @@ import {MetadataStorage} from "../metadata/MetadataStorage";
 /**
  * Registers custom validator class.
  */
-export function ValidatorConstraint(name?: string) {
+export function ValidatorConstraint(options?: { name?: string, async?: boolean }) {
     return function(target: Function) {
         if (!name) {
             name = (target as any).name;
             if (!name) // generate name if it was not given
                 name = name.replace(/\.?([A-Z]+)/g, (x, y) => "_" + y.toLowerCase()).replace(/^_/, "");
         }
-        getFromContainer(MetadataStorage).addConstraintMetadata(new ConstraintMetadata(target, name));
+        const metadata = new ConstraintMetadata(target, name, options && options.async ? true : false);
+        getFromContainer(MetadataStorage).addConstraintMetadata(metadata);
     };
 } 
 
