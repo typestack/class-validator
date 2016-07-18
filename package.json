@@ -51,6 +51,6 @@
   "scripts": {
     "postinstall": "typings install",
     "test": "gulp tests",
-    "coverage": "codecov -f coverage/*.json"
+    "coverage": "codecov -f coverage/coverage-final.json"
   }
 }
