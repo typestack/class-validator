@@ -227,19 +227,11 @@ export class Gulpfile {
     }
 
     /**
-     * Runs test coverage.
-     */
-    @SequenceTask()
-    coverage() {
-        return ["coveragePost", "coverageRemap"];
-    }
-
-    /**
      * Compiles the code and runs tests.
      */
     @SequenceTask()
     tests() {
-        return ["compile", "tslint", "unit"];
+        return ["compile", "tslint", "coveragePost", "coverageRemap"];
     }
 
 }

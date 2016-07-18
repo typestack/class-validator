@@ -51,6 +51,6 @@
   },
   "scripts": {
     "postinstall": "typings install",
-    "test": "gulp coverage"
+    "test": "gulp tests"
   }
 }
