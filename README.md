@@ -1,6 +1,10 @@
 # class-validator
 
-[![CircleCI](https://circleci.com/gh/pleerock/class-validator.svg?style=shield)](https://circleci.com/gh/pleerock/class-validator)
+[![Build Status](https://travis-ci.org/pleerock/class-validator.svg?branch=master)](https://travis-ci.org/pleerock/class-validator)
+[![codecov](https://codecov.io/gh/pleerock/class-validator/branch/master/graph/badge.svg)](https://codecov.io/gh/pleerock/class-validator)
+[![npm version](https://badge.fury.io/js/class-validator.svg)](https://badge.fury.io/js/class-validator)
+[![Dependency Status](https://david-dm.org/pleerock/class-validator.svg)](https://david-dm.org/pleerock/class-validator)
+[![devDependency Status](https://david-dm.org/pleerock/class-validator/dev-status.svg)](https://david-dm.org/pleerock/class-validator#info=devDependencies)
 
 Allows use of decorator and non-decorator based validation. Internally uses [validator.js][1] to perform validation.
 
