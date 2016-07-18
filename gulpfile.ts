@@ -1,5 +1,6 @@
 import {Gulpclass, Task, SequenceTask, MergedTask} from "gulpclass";
 import * as gulp from "gulp";
+import "es6-shim";
 
 const del = require("del");
 const shell = require("gulp-shell");
@@ -175,24 +176,6 @@ export class Gulpfile {
         chai.use(require("chai-as-promised"));
         return gulp.src("./build/es5/test/**/*.js")
             .pipe(mocha());
-    }
-
-    /**
-     * Runs before test coverage, required step to perform a test coverage.
-     */
-    @MergedTask()
-    coverageCompile() {
-        const tsProject = ts.createProject("tsconfig.json");
-        const tsResult = gulp.src(["./src/**/*.ts", "./test/**/*.ts", "./typings/**/*.ts"])
-            .pipe(sourcemaps.init())
-            .pipe(ts(tsProject));
-
-        return [
-            tsResult.dts.pipe(gulp.dest("./")),
-            tsResult.js
-                .pipe(sourcemaps.write(".", { sourceRoot: "", includeContent: true }))
-                .pipe(gulp.dest("./"))
-        ];
     }
 
     /**
