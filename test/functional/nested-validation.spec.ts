@@ -1,3 +1,4 @@
+import "es6-shim";
 import {Contains, MinLength, ValidateNested} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";

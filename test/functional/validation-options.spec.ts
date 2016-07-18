@@ -1,3 +1,4 @@
+import "es6-shim";
 import {Contains} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 

@@ -1,3 +1,4 @@
+import "es6-shim";
 import {expect} from "chai";
 import {
     IsBooleanString,
