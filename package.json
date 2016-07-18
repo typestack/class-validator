@@ -50,6 +50,7 @@
   },
   "scripts": {
     "postinstall": "typings install",
-    "test": "gulp tests"
+    "test": "gulp tests",
+    "coverage": "codecov -f coverage/*.json"
   }
 }
