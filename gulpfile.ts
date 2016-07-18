@@ -1,6 +1,5 @@
-import {Gulpclass, Task, SequenceTask} from "gulpclass/Decorators";
+import {Gulpclass, Task, SequenceTask, MergedTask} from "gulpclass";
 import * as gulp from "gulp";
-import {MergedTask} from "gulpclass/index";
 
 const del = require("del");
 const shell = require("gulp-shell");
@@ -200,8 +199,8 @@ export class Gulpfile {
      * Runs before test coverage, required step to perform a test coverage.
      */
     @Task()
-    preCoverage() {
-        return gulp.src(["./src/**/*.js"])
+    coveragePre() {
+        return gulp.src(["./build/es5/src/**/*.js"])
             .pipe(istanbul())
             .pipe(istanbul.hookRequire());
     }
@@ -209,13 +208,13 @@ export class Gulpfile {
     /**
      * Runs post coverage operations.
      */
-    @Task("postCoverage", ["preCoverage"])
-    postCoverage() {
+    @Task("coveragePost", ["coveragePre"])
+    coveragePost() {
         chai.should();
         chai.use(require("sinon-chai"));
         chai.use(require("chai-as-promised"));
         
-        return gulp.src(["./test/**/*.js"])
+        return gulp.src(["./build/es5/test/**/*.js"])
             .pipe(mocha())
             .pipe(istanbul.writeReports());
     }
@@ -232,7 +231,7 @@ export class Gulpfile {
      */
     @SequenceTask()
     coverage() {
-        return ["coverageCompile", "postCoverage", "coverageRemap"];
+        return ["coveragePost", "coverageRemap"];
     }
 
     /**
