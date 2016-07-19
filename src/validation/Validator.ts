@@ -71,6 +71,7 @@ export class Validator {
         executor.ignoreAsyncValidations = true;
         const validationErrors: ValidationError[] = [];
         executor.execute(object, schema, validationErrors);
+        executor.stripEmptyErrors(validationErrors);
         return validationErrors;
     }
 
