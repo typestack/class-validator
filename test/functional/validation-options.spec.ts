@@ -61,10 +61,10 @@ describe("validation options", function() {
             }
 
             const model = new MyClass();
-            model.name = "a";
+            model.name = "";
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
-                errors[0].constraints.should.be.eql({ minLength: "a is too short, minimum length is 2 characters name" });
+                errors[0].constraints.should.be.eql({ minLength: " is too short, minimum length is 2 characters name" });
             });
         });
 
