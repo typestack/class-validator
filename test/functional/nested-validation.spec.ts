@@ -14,7 +14,7 @@ const validator = new Validator();
 // Specifications: common decorators
 // -------------------------------------------------------------------------
 
-describe("ValidateNested", function() {
+describe("nested validation", function() {
 
     it("should validate nested objects", function() {
 

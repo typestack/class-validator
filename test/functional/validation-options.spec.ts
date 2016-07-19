@@ -1,5 +1,5 @@
 import "es6-shim";
-import {Contains} from "../../src/decorator/decorators";
+import {Contains, MinLength} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 
 // -------------------------------------------------------------------------
@@ -12,7 +12,7 @@ const validator = new Validator();
 // Specifications: common decorators
 // -------------------------------------------------------------------------
 
-describe("Validation Options", function() {
+describe("validation options", function() {
 
     describe("message", function() {
 
@@ -45,6 +45,26 @@ describe("Validation Options", function() {
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
                 errors[0].constraints.should.be.eql({ contains: "hell no world is not valid. You string must contain a hello word" });
+            });
+        });
+
+        it("$value token should be replaced in a custom message", function() {
+            class MyClass {
+                @MinLength(2, {
+                    message: args => {
+                        if (args.value.length < 2) {
+                            return "$value is too short, minimum length is $constraint1 characters $property";
+                        }
+                    }
+                })
+                name: string;
+            }
+
+            const model = new MyClass();
+            model.name = "a";
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(1);
+                errors[0].constraints.should.be.eql({ minLength: "a is too short, minimum length is 2 characters name" });
             });
         });
 
