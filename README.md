@@ -1,5 +1,7 @@
 # class-validator
 
+[![Join the chat at https://gitter.im/pleerock/class-validator](https://badges.gitter.im/pleerock/class-validator.svg)](https://gitter.im/pleerock/class-validator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/pleerock/class-validator.svg?branch=master)](https://travis-ci.org/pleerock/class-validator)
 [![codecov](https://codecov.io/gh/pleerock/class-validator/branch/master/graph/badge.svg)](https://codecov.io/gh/pleerock/class-validator)
 [![npm version](https://badge.fury.io/js/class-validator.svg)](https://badge.fury.io/js/class-validator)
