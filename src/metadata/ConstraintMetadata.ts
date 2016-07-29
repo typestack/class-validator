@@ -20,13 +20,19 @@ export class ConstraintMetadata {
      */
     name: string;
 
+    /**
+     * Indicates if this validation is asynchronous or not.
+     */
+    async: boolean;
+
     // -------------------------------------------------------------------------
     // Constructor
     // -------------------------------------------------------------------------
     
-    constructor(target: Function, name?: string) {
+    constructor(target: Function, name?: string, async: boolean = false) {
         this.target = target;
         this.name = name;
+        this.async = async;
     }
 
     // -------------------------------------------------------------------------

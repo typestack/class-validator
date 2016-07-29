@@ -42,7 +42,6 @@ describe("nested validation", function() {
         model.mySubClasses[0].name = "my";
         model.mySubClasses[1].name = "not-short";
         return validator.validate(model).then(errors => {
-            console.log(errors);
             errors.length.should.be.equal(3);
 
             errors[0].target.should.be.equal(model);

@@ -7,24 +7,45 @@
 [![devDependency Status](https://david-dm.org/pleerock/class-validator/dev-status.svg)](https://david-dm.org/pleerock/class-validator#info=devDependencies)
 [![Join the chat at https://gitter.im/pleerock/class-validator](https://badges.gitter.im/pleerock/class-validator.svg)](https://gitter.im/pleerock/class-validator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Allows use of decorator and non-decorator based validation. Internally uses [validator.js][1] to perform validation.
+Allows use of decorator and non-decorator based validation.
+Internally uses [validator.js][1] to perform validation.
+Class-validator works on both browser and node.js platforms.
 
 ## Installation
 
-1. Install module:
+Install module:
 
-    `npm install class-validator --save`
+`npm install class-validator --save`
 
-2. ES6 features are used, so you may want to install [es6-shim](https://github.com/paulmillr/es6-shim) too:
+#### Old versions of node.js/browser
 
-    `npm install es6-shim --save`
+ES6 features are used, if you are using old versions of node (or browser) you may want to install [es6-shim](https://github.com/paulmillr/es6-shim) too:
 
-    and use it somewhere in the global place of your app:
+`npm install es6-shim --save`
 
-    * for nodejs: `require("es6-shim")` (or `import "es6-shim";`) in your app's entry point (for example in `app.ts`)
-    * for browser: `<script src="node_modules/es6-shim/es6-shim.js">` in your `index.html`
+and use it somewhere in the global place of your app:
 
-    For node.js users this step is only required if you are using old versions of node.
+* for nodejs: `require("es6-shim")` (or `import "es6-shim";`) in your app's entry point (for example in `app.ts`)
+* for browser: `<script src="node_modules/es6-shim/es6-shim.js">` in your `index.html`
+
+This step is only required if you are using old versions of node/browser.
+
+#### Using in browser
+
+If you are using class-validator with system.js in browser then use following configuration:
+
+```javascript
+System.config({
+    map: {
+        'class-validator': 'vendor/class-validator',
+        'validator': 'vendor/validator'
+    },
+    packages: {
+        'class-validator': { 'defaultExtension': 'js', 'main': 'index.js' },
+        'validator': { 'defaultExtension': 'js', 'main': 'validator.js' },
+    }
+};
+```
 
 ## Usage
 
@@ -296,7 +317,7 @@ If you have custom validation logic you can create a *Constraint class*:
     ```typescript
     import {ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
 
-    @ValidatorConstraint()
+    @ValidatorConstraint({ name: "customText", async: false })
     export class CustomTextLength implements ValidatorConstraintInterface {
 
         validate(text: string, args: ValidationArguments) {
@@ -390,17 +411,25 @@ Lets create a decorator called `@IsLongerThan`:
 1. Create a decorator itself:
 
     ```typescript
-    import {registerDecorator, ValidationOptions} from "class-validator";
+    import {registerDecorator, ValidationOptions, ValidationArguments} from "class-validator";
 
     export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
        return function (object: Object, propertyName: string) {
-           registerDecorator(object, propertyName, validationOptions, [property], "is_longer_than", (value, args) => {
-               const [relatedPropertyName] = args.constraints;
-               const relatedValue = (args.object as any)[relatedPropertyName];
-               return  typeof value === "string" &&
-                       typeof relatedValue === "string" &&
-                       value.length > relatedValue.length; // you can return a Promise<boolean> here as well, if you want to make async validation
-           });
+            registerDecorator({
+                name: "isLongerThan",
+                target: object.constructor,
+                propertyName: propertyName,
+                options: validationOptions,
+                validator: {
+                    validate(value: any, args: ValidationArguments) {
+                        const [relatedPropertyName] = args.constraints;
+                        const relatedValue = (args.object as any)[relatedPropertyName];
+                        return  typeof value === "string" &&
+                               typeof relatedValue === "string" &&
+                               value.length > relatedValue.length; // you can return a Promise<boolean> here as well, if you want to make async validation
+                    }
+                }
+            });
        };
     }
     ```
@@ -431,7 +460,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
     ```typescript
     import {registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
 
-    @ValidatorConstraint()
+    @ValidatorConstraint({ async: true })
     export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
 
         validate(userName: any, args: ValidationArguments) {
@@ -445,10 +474,18 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
 
     export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
        return function (object: Object, propertyName: string) {
-           registerDecorator(object, propertyName, validationOptions, [], IsUserAlreadyExistConstraint);
+            registerDecorator({
+                target: object.constructor,
+                propertyName: propertyName,
+                options: validationOptions,
+                constraints: [],
+                validator: IsUserAlreadyExistConstraint
+            });
        };
     }
     ```
+
+    note that we marked our constraint that it will by async by adding `{ async: true }` in validation options.
 
 2. And put it to use:
 
@@ -481,6 +518,12 @@ let validator = Container.get(Validator);
 // now everywhere you can inject Validator class which will go from the container
 // also you can inject classes using constructor injection into your custom ValidatorConstraint-s
 ```
+
+## Synchronous validation
+
+If you want to perform a simple non async validation you can use `validateSync` method instead of regular `validate`
+ method. It has the same arguments as `validate` method. But note, this method **ignores** all async validations
+ you have.
 
 ## Manual validation
 

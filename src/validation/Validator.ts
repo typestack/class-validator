@@ -24,22 +24,54 @@ export class Validator {
     /**
      * Performs validation of the given object based on decorators used in given object class.
      */
-    validate(object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
+    validate(object: Object, options?: ValidatorOptions): Promise<ValidationError[]>;
 
     /**
      * Performs validation of the given object based on validation schema.
      */
-    validate(schemaName: string, object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
+    validate(schemaName: string, object: Object, options?: ValidatorOptions): Promise<ValidationError[]>;
 
     /**
      * Performs validation of the given object based on decorators or validation schema.
      */
     validate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
-        if (typeof objectOrSchemaName === "string") {
-            return new ValidationExecutor(this, maybeValidatorOptions).execute(objectOrValidationOptions as Object, objectOrSchemaName as string, []);
-        } else {
-            return new ValidationExecutor(this, objectOrValidationOptions as ValidationOptions).execute(objectOrSchemaName as Object, undefined, []);
-        }
+        const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Object : objectOrSchemaName as Object;
+        const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
+        const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName as string : undefined;
+
+        const executor = new ValidationExecutor(this, options);
+        const validationErrors: ValidationError[] = [];
+        executor.execute(object, schema, validationErrors);
+
+        return Promise.all(executor.awaitingPromises).then(() => {
+            return executor.stripEmptyErrors(validationErrors);
+        });
+    }
+    
+    /**
+     * Performs validation of the given object based on decorators used in given object class.
+     * NOTE: This method completely ignores all async validations.
+     */
+    validateSync(object: Object, options?: ValidatorOptions): ValidationError[];
+
+    /**
+     * Performs validation of the given object based on validation schema.
+     */
+    validateSync(schemaName: string, object: Object, options?: ValidatorOptions): ValidationError[];
+
+    /**
+     * Performs validation of the given object based on decorators or validation schema.
+     */
+    validateSync(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): ValidationError[] {
+        const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Object : objectOrSchemaName as Object;
+        const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
+        const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName as string : undefined;
+
+        const executor = new ValidationExecutor(this, options);
+        executor.ignoreAsyncValidations = true;
+        const validationErrors: ValidationError[] = [];
+        executor.execute(object, schema, validationErrors);
+        return executor.stripEmptyErrors(validationErrors);
     }
 
     /**

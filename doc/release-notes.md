@@ -1,10 +1,18 @@
 # Release notes
 
+**0.5.0**
+
+* async validations must be marked with `{ async: true }` option now.
+This is optional, but it helps to determine which decorators are async to prevent their execution in `validateSync` method.
+* added `validateSync` method that performs non asynchronous validation and ignores validations that marked with `async: true`.
+* there is a breaking change in `registerDecorator` method. Now it accepts options object.
+* breaking change with `@ValidatorConstraint` decorator. Now it accepts option object instead of single name.
+
 **0.4.1**
 
 * fixed issue with wrong source maps packaged
 
-**0.4.0** *[BREAKING CHANGES]*
+**0.4.0**
 
 * everything should be imported from "class-validator" main entry point now
 * `ValidatorInterface` has been renamed to `ValidatorConstraintInterface`

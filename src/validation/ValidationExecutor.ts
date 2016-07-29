@@ -18,7 +18,8 @@ export class ValidationExecutor {
     // Properties
     // -------------------------------------------------------------------------
 
-    private awaitingPromises: Promise<any>[] = [];
+    awaitingPromises: Promise<any>[] = [];
+    ignoreAsyncValidations: boolean = false;
 
     // -------------------------------------------------------------------------
     // Private Properties
@@ -78,22 +79,14 @@ export class ValidationExecutor {
 
             this.defaultValidations(object, value, metadatas, validationError.constraints);
             this.customValidations(object, value, customValidationMetadatas, validationError.constraints);
-            this.nestedValidations(object, value, nestedValidationMetadatas, validationError.children);
-        });
-
-        return Promise.all(this.awaitingPromises).then(() => {
-            return this.removeEmptyErrors(validationErrors);
+            this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
         });
     }
-    
-    // -------------------------------------------------------------------------
-    // Private Methods
-    // -------------------------------------------------------------------------
 
-    private removeEmptyErrors(errors: ValidationError[]) {
+    stripEmptyErrors(errors: ValidationError[]) {
         return errors.filter(error => {
             if (error.children) {
-                error.children = this.removeEmptyErrors(error.children);
+                error.children = this.stripEmptyErrors(error.children);
             }
 
             if (Object.keys(error.constraints).length === 0) {
@@ -107,6 +100,10 @@ export class ValidationExecutor {
             return true;
         });
     }
+    
+    // -------------------------------------------------------------------------
+    // Private Methods
+    // -------------------------------------------------------------------------
 
     private defaultValidations(object: Object,
                                value: any,
@@ -137,6 +134,8 @@ export class ValidationExecutor {
             getFromContainer(MetadataStorage)
                 .getTargetValidatorConstraints(metadata.constraintCls)
                 .forEach(customConstraintMetadata => {
+                    if (customConstraintMetadata.async && this.ignoreAsyncValidations)
+                        return;
 
                     const validationArguments: ValidationArguments = {
                         targetName: object.constructor ? (object.constructor as any).name : undefined,
@@ -164,16 +163,16 @@ export class ValidationExecutor {
         });
     }
     
-    private nestedValidations(object: Object, value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
+    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
         metadatas.forEach(metadata => {
             if (metadata.type !== ValidationTypes.NESTED_VALIDATION) return;
             const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
 
             if (value instanceof Array) {
-                value.forEach((subValue: any) => this.awaitingPromises.push(this.execute(subValue, targetSchema, errors)));
+                value.forEach((subValue: any) => this.execute(subValue, targetSchema, errors));
 
             } else if (value instanceof Object) {
-                this.awaitingPromises.push(this.execute(value, targetSchema, errors));
+                this.execute(value, targetSchema, errors);
 
             } else {
                 throw new Error("Only objects and arrays are supported to nested validation");
