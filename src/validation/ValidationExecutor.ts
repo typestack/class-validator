@@ -51,23 +51,7 @@ export class ValidationExecutor {
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
 
-            const validationError = new ValidationError();
-
-            if (!this.validatorOptions ||
-                !this.validatorOptions.validationError ||
-                this.validatorOptions.validationError.target === undefined ||
-                this.validatorOptions.validationError.target === true)
-                validationError.target = object;
-
-            if (!this.validatorOptions ||
-                !this.validatorOptions.validationError ||
-                this.validatorOptions.validationError.value === undefined ||
-                this.validatorOptions.validationError.value === true)
-                validationError.value = value;
-
-            validationError.property = propertyName;
-            validationError.children = [];
-            validationError.constraints = {};
+            const validationError = this.generateValidationError(object, value, propertyName);
             validationErrors.push(validationError);
 
             // handle IS_DEFINED validation type the special way - it should work no matter skipMissingProperties is set or not
@@ -104,6 +88,28 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
     // Private Methods
     // -------------------------------------------------------------------------
+
+    private generateValidationError(object: Object, value: any, propertyName: string) {
+        const validationError = new ValidationError();
+
+        if (!this.validatorOptions ||
+            !this.validatorOptions.validationError ||
+            this.validatorOptions.validationError.target === undefined ||
+            this.validatorOptions.validationError.target === true)
+            validationError.target = object;
+
+        if (!this.validatorOptions ||
+            !this.validatorOptions.validationError ||
+            this.validatorOptions.validationError.value === undefined ||
+            this.validatorOptions.validationError.value === true)
+            validationError.value = value;
+
+        validationError.property = propertyName;
+        validationError.children = [];
+        validationError.constraints = {};
+
+        return validationError;
+    }
 
     private defaultValidations(object: Object,
                                value: any,
@@ -170,26 +176,10 @@ export class ValidationExecutor {
 
             if (value instanceof Array) {
                 value.forEach((subValue: any, index: number) => {
-                    const validationError = new ValidationError();
-
-                    if (!this.validatorOptions ||
-                        !this.validatorOptions.validationError ||
-                        this.validatorOptions.validationError.target === undefined ||
-                        this.validatorOptions.validationError.target === true)
-                        validationError.target = value;
-
-                    if (!this.validatorOptions ||
-                        !this.validatorOptions.validationError ||
-                        this.validatorOptions.validationError.value === undefined ||
-                        this.validatorOptions.validationError.value === true)
-                        validationError.value = subValue;
-
-                    validationError.property = index.toString();
-                    validationError.children = [];
-                    validationError.constraints = {};
+                    const validationError = this.generateValidationError(value, subValue, index.toString());
                     errors.push(validationError);
 
-                    this.execute(subValue, targetSchema, validationError.children)
+                    this.execute(subValue, targetSchema, validationError.children);
                 });
 
             } else if (value instanceof Object) {
