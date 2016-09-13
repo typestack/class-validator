@@ -169,7 +169,28 @@ export class ValidationExecutor {
             const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
 
             if (value instanceof Array) {
-                value.forEach((subValue: any) => this.execute(subValue, targetSchema, errors));
+                value.forEach((subValue: any, index: number) => {
+                    const validationError = new ValidationError();
+
+                    if (!this.validatorOptions ||
+                        !this.validatorOptions.validationError ||
+                        this.validatorOptions.validationError.target === undefined ||
+                        this.validatorOptions.validationError.target === true)
+                        validationError.target = value;
+
+                    if (!this.validatorOptions ||
+                        !this.validatorOptions.validationError ||
+                        this.validatorOptions.validationError.value === undefined ||
+                        this.validatorOptions.validationError.value === true)
+                        validationError.value = subValue;
+
+                    validationError.property = index.toString();
+                    validationError.children = [];
+                    validationError.constraints = {};
+                    errors.push(validationError);
+
+                    this.execute(subValue, targetSchema, validationError.children)
+                });
 
             } else if (value instanceof Object) {
                 this.execute(value, targetSchema, errors);
