@@ -1,5 +1,9 @@
 # Release notes
 
+**0.6.0**
+
+* validation decorators can now be inherited from a base class using the `InheritValidation` decorator in the subclass.
+
 **0.5.0**
 
 * async validations must be marked with `{ async: true }` option now.

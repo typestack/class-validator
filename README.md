@@ -246,6 +246,18 @@ export class Post {
 }
 ```
 
+## Inheriting Validation decorators
+
+When you define a subclass which extends from another one, such subclass can inherit the parent's decorators by tagging it with @InheritValidation(ParentClass).
+```typescript
+import {InheritValidation} from "class-validator";
+
+@InheritValidation(User)
+class Admin extends User {
+
+}
+```
+
 ## Skipping missing properties
 
 Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is

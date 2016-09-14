@@ -63,6 +63,36 @@ export function ValidateNested(validationOptions?: ValidationOptions) {
     };
 }
 
+/**
+* Copies all validation metadatas from the parent to the child
+*/
+export function InheritValidation(parentClass: Function): any {
+    return function (childClass: Function) {
+
+        let parentValidationMetadatas: Array<ValidationMetadata> = getFromContainer(MetadataStorage).getTargetValidationMetadatas(parentClass, undefined);
+
+        parentValidationMetadatas.forEach(parentValidationMetadata => {
+            const args: ValidationMetadataArgs = {
+                type: parentValidationMetadata.type,
+                target: childClass, // assign the metadatas to the child class
+                propertyName: parentValidationMetadata.propertyName,
+                constraints: parentValidationMetadata.constraints,
+                constraintCls: parentValidationMetadata.constraintCls,
+                validationTypeOptions: parentValidationMetadata.validationTypeOptions
+            };
+
+            let childValidationMetadata: ValidationMetadata = new ValidationMetadata(args);
+            // copy options defined in validationOptions
+            childValidationMetadata.message = parentValidationMetadata.message;
+            childValidationMetadata.groups = parentValidationMetadata.groups;
+            childValidationMetadata.always = parentValidationMetadata.always;
+            childValidationMetadata.each = parentValidationMetadata.each;
+
+            getFromContainer(MetadataStorage).addValidationMetadata(childValidationMetadata);
+        });
+    };
+}
+
 // -------------------------------------------------------------------------
 // Common checkers
 // -------------------------------------------------------------------------
