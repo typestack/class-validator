@@ -10,5 +10,5 @@ post1.rating = 10; // should pass
 post1.email = "@google.com"; // should not pass
 
 validate(post1).then(result => {
-    console.log("1. should not pass: ", result); // should not pass completely, e.g. return empty array
+    console.log("1. should not pass: ", result); // should not pass completely
 });
