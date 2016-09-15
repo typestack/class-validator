@@ -55,7 +55,7 @@ export class ValidationExecutor {
             const validationError = this.generateValidationError(object, value, propertyName);
             validationErrors.push(validationError);
 
-            let canValidate = this.conditionalValidations(object, value, conditionalValidationMetadatas);
+            const canValidate = this.conditionalValidations(object, value, conditionalValidationMetadatas);
             if (!canValidate) {
                 return;
             }
