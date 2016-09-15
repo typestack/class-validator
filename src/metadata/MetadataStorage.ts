@@ -73,8 +73,10 @@ export class MetadataStorage {
         
         // get metadatas for inherited classes
         const inheritedMetadatas = this.validationMetadatas.filter(metadata => {
-            if (metadata.target instanceof Function && 
-                !(targetConstructor instanceof (metadata.target as Function)))
+            if (metadata.target === targetConstructor)
+                return false;
+            if (metadata.target instanceof Function &&
+                !(targetConstructor.prototype instanceof (metadata.target as Function)))
                 return false;
             if (metadata.always) 
                 return true;
@@ -83,15 +85,15 @@ export class MetadataStorage {
             
             return true;
         });
-        
+
         // filter out duplicate metadatas, prefer original metadatas instead of inherited metadatas
         const uniqueInheritedMetadatas = inheritedMetadatas.filter(inheritedMetadata => {
-            return !!originalMetadatas.find(originalMetadata => {
+            return !originalMetadatas.find(originalMetadata => {
                 return  originalMetadata.propertyName === inheritedMetadata.propertyName && 
                         originalMetadata.type === inheritedMetadata.type;
             });
         });
-        
+
         return originalMetadatas.concat(uniqueInheritedMetadatas);
     }
 
