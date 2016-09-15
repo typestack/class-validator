@@ -1,5 +1,9 @@
 # Release notes
 
+**0.6.0**
+
+* breaking change with `@ValidateNested` on arrays: Validator now groups the validation errors by sub-object, rather than them all being grouped together. See #32 for a demonstration of the updated structure.
+
 **0.5.0**
 
 * async validations must be marked with `{ async: true }` option now.
