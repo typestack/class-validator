@@ -3,6 +3,7 @@
 **0.6.0**
 
 * added `@ValidateIf` decorator, see conditional validation in docs.
+* breaking change with `@ValidateNested` on arrays: Validator now groups the validation errors by sub-object, rather than them all being grouped together. See #32 for a demonstration of the updated structure.
 
 **0.5.0**
 
