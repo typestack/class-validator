@@ -1,5 +1,9 @@
 # Release notes
 
+**0.6.0**
+
+* added `@ValidateIf` decorator, see conditional validation in docs.
+
 **0.5.0**
 
 * async validations must be marked with `{ async: true }` option now.
