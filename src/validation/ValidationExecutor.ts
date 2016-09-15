@@ -50,7 +50,7 @@ export class ValidationExecutor {
             const metadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type !== ValidationTypes.IS_DEFINED);
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
-            const conditionalValidationMetadatas = metadatas.filter(metadata => metadata.type == ValidationTypes.CONDITIONAL_VALIDATION);
+            const conditionalValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CONDITIONAL_VALIDATION);
 
             const validationError = this.generateValidationError(object, value, propertyName);
             validationErrors.push(validationError);
