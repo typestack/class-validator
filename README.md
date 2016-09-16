@@ -246,6 +246,26 @@ export class Post {
 }
 ```
 
+## Conditional validation
+
+The conditional validation decorator (`@ValidateIf`) can be used to ignore the validators on a property when the provided condition function returns false. The condition function takes the object being validated and must return a `boolean`.
+
+```typescript
+import {ValidateIf, IsNotEmpty} from "class-validator";
+
+export class Post {
+    otherProperty:string;
+    
+    @ValidateIf(o => o.otherProperty === "value")
+    @IsNotEmpty()
+    example:string;
+}
+```
+
+In the example above, the validation rules applied to `example` won't be run unless the object's `otherProperty` is `"value"`.
+
+Note that when the condition is false all validation decorators are ignored, including `isDefined`.
+
 ## Skipping missing properties
 
 Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is
