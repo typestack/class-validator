@@ -50,25 +50,15 @@ export class ValidationExecutor {
             const metadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type !== ValidationTypes.IS_DEFINED);
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
+            const conditionalValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CONDITIONAL_VALIDATION);
 
-            const validationError = new ValidationError();
-
-            if (!this.validatorOptions ||
-                !this.validatorOptions.validationError ||
-                this.validatorOptions.validationError.target === undefined ||
-                this.validatorOptions.validationError.target === true)
-                validationError.target = object;
-
-            if (!this.validatorOptions ||
-                !this.validatorOptions.validationError ||
-                this.validatorOptions.validationError.value === undefined ||
-                this.validatorOptions.validationError.value === true)
-                validationError.value = value;
-
-            validationError.property = propertyName;
-            validationError.children = [];
-            validationError.constraints = {};
+            const validationError = this.generateValidationError(object, value, propertyName);
             validationErrors.push(validationError);
+
+            const canValidate = this.conditionalValidations(object, value, conditionalValidationMetadatas);
+            if (!canValidate) {
+                return;
+            }
 
             // handle IS_DEFINED validation type the special way - it should work no matter skipMissingProperties is set or not
             this.defaultValidations(object, value, definedMetadatas, validationError.constraints);
@@ -104,6 +94,36 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
     // Private Methods
     // -------------------------------------------------------------------------
+
+    private generateValidationError(object: Object, value: any, propertyName: string) {
+        const validationError = new ValidationError();
+
+        if (!this.validatorOptions ||
+            !this.validatorOptions.validationError ||
+            this.validatorOptions.validationError.target === undefined ||
+            this.validatorOptions.validationError.target === true)
+            validationError.target = object;
+
+        if (!this.validatorOptions ||
+            !this.validatorOptions.validationError ||
+            this.validatorOptions.validationError.value === undefined ||
+            this.validatorOptions.validationError.value === true)
+            validationError.value = value;
+
+        validationError.property = propertyName;
+        validationError.children = [];
+        validationError.constraints = {};
+
+        return validationError;
+    }
+
+    private conditionalValidations(object: Object,
+                                   value: any,
+                                   metadatas: ValidationMetadata[]) {
+        return metadatas
+            .map(metadata => metadata.constraints[0](object, value))
+            .reduce((resultA, resultB) => resultA && resultB, true);
+    }
 
     private defaultValidations(object: Object,
                                value: any,
@@ -169,7 +189,12 @@ export class ValidationExecutor {
             const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
 
             if (value instanceof Array) {
-                value.forEach((subValue: any) => this.execute(subValue, targetSchema, errors));
+                value.forEach((subValue: any, index: number) => {
+                    const validationError = this.generateValidationError(value, subValue, index.toString());
+                    errors.push(validationError);
+
+                    this.execute(subValue, targetSchema, validationError.children);
+                });
 
             } else if (value instanceof Object) {
                 this.execute(value, targetSchema, errors);
