@@ -246,6 +246,39 @@ export class Post {
 }
 ```
 
+## Inheriting Validation decorators
+
+When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators.
+```typescript
+import {validate} from "class-validator";
+
+class BaseContent {
+
+    @IsEmail()
+    email: string;
+}
+
+class Post extends BaseContent {
+
+    @MinLength(10)
+    @MaxLength(20)
+    title: string;
+
+    @Contains("hello")
+    text: string;
+}
+
+let post = new Post();
+post.email = "invalid email";  // inherited property
+post.title = "not valid";
+post.text = "helo";
+
+validate(post).then(errors => {
+    // ...
+});  // it will return errors for email, title and text properties
+
+```
+
 ## Conditional validation
 
 The conditional validation decorator (`@ValidateIf`) can be used to ignore the validators on a property when the provided condition function returns false. The condition function takes the object being validated and must return a `boolean`.
