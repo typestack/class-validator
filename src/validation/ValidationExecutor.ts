@@ -69,7 +69,7 @@ export class ValidationExecutor {
 
             this.defaultValidations(object, value, metadatas, validationError.constraints);
             this.customValidations(object, value, customValidationMetadatas, validationError.constraints);
-            this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
+            this.nestedValidations(object, value, nestedValidationMetadatas, validationError.children);
         });
     }
 
@@ -183,21 +183,27 @@ export class ValidationExecutor {
         });
     }
     
-    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
+    private nestedValidations(object: any, value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
         metadatas.forEach(metadata => {
             if (metadata.type !== ValidationTypes.NESTED_VALIDATION) return;
             const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
+            const [options] = metadata.constraints;
+            options.parentProperty = options.parentProperty || "parent";
 
             if (value instanceof Array) {
                 value.forEach((subValue: any, index: number) => {
                     const validationError = this.generateValidationError(value, subValue, index.toString());
                     errors.push(validationError);
 
+                    subValue[options.parentProperty] = object;
                     this.execute(subValue, targetSchema, validationError.children);
+                    delete subValue[options.parentProperty];
                 });
 
             } else if (value instanceof Object) {
+                value[options.parentProperty] = object;
                 this.execute(value, targetSchema, errors);
+                delete value[options.parentProperty];
 
             } else {
                 throw new Error("Only objects and arrays are supported to nested validation");

@@ -6,6 +6,7 @@ import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {getFromContainer} from "../index";
 import {MetadataStorage} from "../metadata/MetadataStorage";
+import {NestedValidationOptions} from "./NestedValidationOptions";
 
 // -------------------------------------------------------------------------
 // System
@@ -51,13 +52,14 @@ export function Validate(constraintClass: Function, constraintsOrValidationOptio
 /**
  * Objects / object arrays marked with this decorator will also be validated.
  */
-export function ValidateNested(validationOptions?: ValidationOptions) {
+export function ValidateNested(nestedValidationOptions?: NestedValidationOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.NESTED_VALIDATION,
             target: object.constructor,
             propertyName: propertyName,
-            validationOptions: validationOptions
+            constraints: [nestedValidationOptions || {}],
+            validationOptions: validationOptions,
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
