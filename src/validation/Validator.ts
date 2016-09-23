@@ -102,6 +102,8 @@ export class Validator {
                 return this.isDate(value);
             case ValidationTypes.IS_STRING:
                 return this.isString(value);
+            case ValidationTypes.IS_ARRAY:
+                return this.isArray(value);
             case ValidationTypes.IS_NUMBER:
                 return this.isNumber(value);
             case ValidationTypes.IS_INT:
@@ -294,6 +296,13 @@ export class Validator {
      */
     isString(value: any): boolean {
         return value instanceof String || typeof value === "string";
+    }
+
+    /**
+     * Checks if a given value is an array
+     */
+    isArray(value: any): boolean {
+        return value instanceof Array;
     }
 
     /**

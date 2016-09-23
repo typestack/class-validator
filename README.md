@@ -601,6 +601,7 @@ validator.isNotIn(value, possibleValues); // Checks if given value not in a arra
 validator.isBoolean(value); // Checks if a given value is a real boolean.
 validator.isDate(value); // Checks if a given value is a real date.
 validator.isString(value); // Checks if a given value is a real string.
+validator.isArray(value); // Checks if a given value is an array.
 validator.isNumber(value); // Checks if a given value is a real number.
 validator.isInt(value); // Checks if value is an integer.
 
@@ -682,6 +683,7 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | `@IsString()`                                   | Checks if the string is a string.                                                                                                |
 | `@IsNumber()`                                   | Checks if the string is a number.                                                                                                |
 | `@IsInt()`                                      | Checks if the value is an integer number.                                                                                        |
+| `@IsArray()`                                    | Checks if the string is an array                                                                                                 |
 | **Number validation decorators**                                                                                                                                                   |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
 | `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |
