@@ -1,5 +1,9 @@
 # Release notes
 
+**0.6.1**
+
+* added `@IsArray` decorator.
+
 **0.6.0**
 
 * added `@ValidateIf` decorator, see conditional validation in docs.
