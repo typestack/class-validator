@@ -24,6 +24,7 @@ export class ValidationTypes {
     static IS_DATE = "isDate";
     static IS_NUMBER = "isNumber";
     static IS_STRING = "isString";
+    static IS_ARRAY = "isArray";
     static IS_INT = "isInt";
 
     /* number checkers */
@@ -128,6 +129,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be an integer number";
             case this.IS_STRING:
                 return eachPrefix + "$property must be a string";
+            case this.IS_ARRAY:
+                return eachPrefix + "$property must be an array";
 
             /* number checkers */
             case this.IS_DIVISIBLE_BY:

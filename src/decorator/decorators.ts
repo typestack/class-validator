@@ -271,6 +271,21 @@ export function IsString(validationOptions?: ValidationOptions) {
     };
 }
 
+/**
+ * Checks if a value is an array.
+ */
+export function IsArray(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_ARRAY,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
 // -------------------------------------------------------------------------
 // Number checkers
 // -------------------------------------------------------------------------
