@@ -47,6 +47,34 @@ export class Validator {
             return executor.stripEmptyErrors(validationErrors);
         });
     }
+
+    /**
+     * Performs validation of the given object based on decorators used in given object class.
+     */
+    restrictValidate(object: Object, options?: ValidatorOptions): Promise<void>;
+
+    /**
+     * Performs validation of the given object based on validation schema.
+     */
+    restrictValidate(schemaName: string, object: Object, options?: ValidatorOptions): Promise<void>;
+
+    /**
+     * Performs validation of the given object based on decorators or validation schema.
+     */
+    restrictValidate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<void> {
+        const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Object : objectOrSchemaName as Object;
+        const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
+        const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName as string : undefined;
+
+        const executor = new ValidationExecutor(this, options);
+        const validationErrors: ValidationError[] = [];
+        executor.execute(object, schema, validationErrors);
+
+        return Promise.all(executor.awaitingPromises).then(() => {
+            const errors = executor.stripEmptyErrors(validationErrors);
+            return errors.length ? Promise.reject(errors) : Promise.resolve();
+        });
+    }
     
     /**
      * Performs validation of the given object based on decorators used in given object class.
