@@ -1,7 +1,7 @@
 {
-    "version": "1.8.0",
+    "version": "2.0.3",
     "compilerOptions": {
-        "outDir": "build/es5",
+        "outDir": "build/compiled",
         "target": "es5",
         "module": "commonjs",
         "moduleResolution": "node",
@@ -13,8 +13,6 @@
     },
     "exclude": [
         "build",
-        "node_modules",
-        "typings/browser.d.ts",
-        "typings/browser"
+        "node_modules"
     ]
 }
