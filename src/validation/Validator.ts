@@ -228,6 +228,8 @@ export class Validator {
                 return this.maxLength(value, metadata.constraints[0]);
             case ValidationTypes.MATCHES:
                 return this.matches(value, metadata.constraints[0], metadata.constraints[1]);
+            case ValidationTypes.IS_MILITARY_TIME:
+                return this.isMilitaryTime(value);
 
             /* array checkers */
             case ValidationTypes.ARRAY_CONTAINS:
@@ -703,6 +705,14 @@ export class Validator {
      */
     matches(value: string, pattern: RegExp, modifiers?: string): boolean {
         return typeof value === "string" && this.validatorJs.matches(value, pattern, modifiers);
+    }
+
+    /**
+     * Checks if the string represents a time without a given timezone in the format HH:MM (military)
+     * If the given value does not match the pattern HH:MM, then it returns false.
+     */
+    isMilitaryTime(value: string): boolean {
+        return this.matches(value, /^([01]\d|2[0-3]):?([0-5]\d)$/);
     }
     
     // -------------------------------------------------------------------------

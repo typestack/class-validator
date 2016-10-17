@@ -976,6 +976,21 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
     };
 }
 
+/**
+ * Checks if the string correctly represents a time in the format HH:MM 
+ */
+export function IsMilitaryTime(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_MILITARY_TIME,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
 // -------------------------------------------------------------------------
 // Array checkers
 // -------------------------------------------------------------------------
