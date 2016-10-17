@@ -17,6 +17,24 @@ export class Validator {
 
     private validatorJs = require("validator");
 
+    /**
+     * Performs validation of the given object based on decorators or validation schema.
+     * Common method for `validateOrReject` and `validate` methods.
+     */
+    private coreValidate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+        const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Object : objectOrSchemaName as Object;
+        const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
+        const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName as string : undefined;
+
+        const executor = new ValidationExecutor(this, options);
+        const validationErrors: ValidationError[] = [];
+        executor.execute(object, schema, validationErrors);
+
+        return Promise.all(executor.awaitingPromises).then(() => {
+            return executor.stripEmptyErrors(validationErrors);
+        });
+    }
+
     // -------------------------------------------------------------------------
     // Public Methods
     // -------------------------------------------------------------------------
@@ -35,17 +53,25 @@ export class Validator {
      * Performs validation of the given object based on decorators or validation schema.
      */
     validate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
-        const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Object : objectOrSchemaName as Object;
-        const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
-        const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName as string : undefined;
+        return this.coreValidate(objectOrSchemaName, objectOrValidationOptions, maybeValidatorOptions);
+    }
 
-        const executor = new ValidationExecutor(this, options);
-        const validationErrors: ValidationError[] = [];
-        executor.execute(object, schema, validationErrors);
+    /**
+     * Performs validation of the given object based on decorators used in given object class and reject on error.
+     */
+    validateOrReject(object: Object, options?: ValidatorOptions): Promise<void>;
 
-        return Promise.all(executor.awaitingPromises).then(() => {
-            return executor.stripEmptyErrors(validationErrors);
-        });
+    /**
+     * Performs validation of the given object based on validation schema and reject on error.
+     */
+    validateOrReject(schemaName: string, object: Object, options?: ValidatorOptions): Promise<void>;
+
+    /**
+     * Performs validation of the given object based on decorators or validation schema and reject on error.
+     */
+    validateOrReject(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<void> {
+        return this.coreValidate(objectOrSchemaName, objectOrValidationOptions, maybeValidatorOptions)
+            .then((validationErorrs: ValidationError[]) => (validationErorrs.length > 0) ? Promise.reject(validationErorrs) : Promise.resolve());
     }
     
     /**
