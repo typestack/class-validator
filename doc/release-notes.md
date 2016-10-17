@@ -1,5 +1,9 @@
 # Release notes
 
+**0.6.2**
+
+* added `validateOrReject` method which rejects promise instead of returning array of errors in resolved result
+
 **0.6.1**
 
 * added `@IsArray` decorator.
