@@ -342,6 +342,9 @@ export class Validator {
      * Checks if value is an integer.
      */
     isInt(val: number): boolean {
+        if (!this.isNumber(val))
+            return false;
+
         const numberString = String(val); // fix it
         return this.validatorJs.isInt(numberString);
     }
