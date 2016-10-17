@@ -67,7 +67,7 @@ export class Gulpfile {
         const tsProject = ts.createProject("tsconfig.json");
         const tsResult = gulp.src(["./src/**/*.ts"])
             .pipe(sourcemaps.init())
-            .pipe(ts(tsProject));
+            .pipe(tsProject());
 
         return [
             tsResult.dts.pipe(gulp.dest("./build/package")),
