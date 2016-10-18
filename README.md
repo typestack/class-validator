@@ -655,6 +655,7 @@ validator.length(str, min, max); // Checks if the string's length falls in a ran
 validator.minLength(str, min); // Checks if the string's length is not less than given number.
 validator.maxLength(str, max); // Checks if the string's length is not more than given number.
 validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+validator.IsMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
 
 // array validation methods
 validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
@@ -731,7 +732,8 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range.                                                                                  |
 | `@MinLength(min: number)`                       | Checks if the string's length is not less than given number.                                                                     |
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number.                                                                     |
-| `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').                               |
+| `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+| `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM.
 | **Array validation decorators**                                                                                                                                                    |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                              |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                                                        |
