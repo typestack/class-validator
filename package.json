@@ -43,7 +43,7 @@
     "gulp-mocha": "^3.0.1",
     "gulp-replace": "^0.5.4",
     "gulp-shell": "^0.5.0",
-    "gulp-sourcemaps": "^2.1.1",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-tslint": "^6.1.2",
     "gulp-typescript": "^3.0.2",
     "gulpclass": "0.1.1",
