@@ -655,7 +655,7 @@ validator.length(str, min, max); // Checks if the string's length falls in a ran
 validator.minLength(str, min); // Checks if the string's length is not less than given number.
 validator.maxLength(str, max); // Checks if the string's length is not more than given number.
 validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
-validator.IsMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
+validator.isMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
 
 // array validation methods
 validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
