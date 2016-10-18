@@ -3,6 +3,7 @@
 **0.6.3**
 
 * added `validateOrReject` method which rejects promise instead of returning array of errors in resolved result
+* added `@IsMilitaryTime` decorator.
 
 **0.6.1**
 
