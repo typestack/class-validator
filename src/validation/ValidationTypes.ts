@@ -77,6 +77,7 @@ export class ValidationTypes {
     static MIN_LENGTH = "minLength";
     static MAX_LENGTH = "maxLength";
     static MATCHES = "matches";
+    static IS_MILITARY_TIME = "isMilitaryTime";
 
     /* array checkers */
     static ARRAY_CONTAINS = "arrayContains";

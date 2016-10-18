@@ -46,6 +46,7 @@ import {
     Min,
     Max,
     IsNotEmpty,
+    IsMilitaryTime,
     ArrayNotEmpty,
     ArrayMinSize,
     ArrayMaxSize,
@@ -2772,6 +2773,30 @@ describe("Matches", function() {
         const validationType = "matches";
         const message = "someProperty must match " + constraint + " regular expression";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsMilitaryTime", function() {
+
+    class MyClass {
+        @IsMilitaryTime()
+        someProperty: string;
+    }
+
+    it("should not fail for a valid time in the format HH:MM", function(done) {
+        const validValues = ["10:22", "12:03", "16:32", "23:59", "00:00"];
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail for invalid time format", function(done) {
+        const invalidValues = ["23:61", "25:00", "08:08 pm", "04:00am"];
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should fail for invalid values", function(done) {
+        const invalidValues = [undefined, null, "23:00 and invalid counterpart"];
+        checkInvalidValues(new MyClass(), invalidValues, done);
     });
 
 });
