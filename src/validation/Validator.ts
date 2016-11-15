@@ -179,11 +179,11 @@ export class Validator {
             case ValidationTypes.IS_CREDIT_CARD:
                 return this.isCreditCard(value);
             case ValidationTypes.IS_CURRENCY:
-                return this.isCurrency(value, metadata.validationTypeOptions);
+                return this.isCurrency(value, metadata.constraints[0]);
             case ValidationTypes.IS_EMAIL:
-                return this.isEmail(value, metadata.validationTypeOptions);
+                return this.isEmail(value, metadata.constraints[0]);
             case ValidationTypes.IS_FQDN:
-                return this.isFQDN(value, metadata.validationTypeOptions);
+                return this.isFQDN(value, metadata.constraints[0]);
             case ValidationTypes.IS_FULL_WIDTH:
                 return this.isFullWidth(value);
             case ValidationTypes.IS_HALF_WIDTH:
@@ -215,7 +215,7 @@ export class Validator {
             case ValidationTypes.IS_SURROGATE_PAIR:
                 return this.isSurrogatePair(value);
             case ValidationTypes.IS_URL:
-                return this.isURL(value, metadata.validationTypeOptions);
+                return this.isURL(value, metadata.constraints[0]);
             case ValidationTypes.IS_UUID:
                 return this.isUUID(value, metadata.constraints[0]);
             case ValidationTypes.IS_UPPERCASE:

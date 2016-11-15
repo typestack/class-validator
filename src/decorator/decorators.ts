@@ -588,7 +588,7 @@ export function IsCurrency(options?: IsCurrencyOptions, validationOptions?: Vali
             type: ValidationTypes.IS_CURRENCY,
             target: object.constructor,
             propertyName: propertyName,
-            validationTypeOptions: options,
+            constraints: [options],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -604,7 +604,7 @@ export function IsEmail(options?: IsEmailOptions, validationOptions?: Validation
             type: ValidationTypes.IS_EMAIL,
             target: object.constructor,
             propertyName: propertyName,
-            validationTypeOptions: options,
+            constraints: [options],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -620,7 +620,7 @@ export function IsFQDN(options?: IsFQDNOptions, validationOptions?: ValidationOp
             type: ValidationTypes.IS_FQDN,
             target: object.constructor,
             propertyName: propertyName,
-            validationTypeOptions: options,
+            constraints: [options],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
