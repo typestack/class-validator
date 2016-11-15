@@ -1,5 +1,9 @@
 # Release notes
 
+**0.6.5-0.6.6**
+
+* fixed bugs with `@IsUrl`, `@IsEmail` and several other decorators
+
 **0.6.4**
 
 * added `@IsMilitaryTime` decorator.
