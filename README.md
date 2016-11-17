@@ -135,7 +135,7 @@ In our case, when we validated a Post object, we have such array of ValidationEr
 If you don't want a `target` to be exposed in validation errors, there is a special option when you use validator:
 
 ```typescript
-validator.validate(post, { error: { target: false } });
+validator.validate(post, { validationError: { target: false } });
 ```
 
 This is especially useful when you send errors back over http, and you most probably don't want to expose
