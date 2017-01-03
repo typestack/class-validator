@@ -1,7 +1,7 @@
 {
-  "name": "class-validator",
+  "name": "sw-class-validator",
   "private": true,
-  "version": "0.7.0",
+  "version": "1.0.0",
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pleerock/class-validator.git"
+    "url": "https://github.com/swanest/class-validator.git"
   },
   "bugs": {
-    "url": "https://github.com/pleerock/class-validator/issues"
+    "url": "https://github.com/swanest/class-validator/issues"
   },
   "tags": [
     "validator",
