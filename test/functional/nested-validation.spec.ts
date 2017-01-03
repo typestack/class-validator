@@ -14,9 +14,36 @@ const validator = new Validator();
 // Specifications: common decorators
 // -------------------------------------------------------------------------
 
-describe("nested validation", function() {
+describe("nested validation", function () {
 
-    it("should validate nested objects", function() {
+    it("should not validate missing nested objects", function () {
+
+        class MySubClass {
+            @MinLength(5)
+            name: string;
+        }
+
+        class MyClass {
+            @Contains("hello")
+            title: string;
+
+            @ValidateNested()
+            mySubClass: MySubClass;
+        }
+
+        const model: any = new MyClass();
+
+        model.title = "helo";
+        return validator.validate(model).then(errors => {
+            errors[1].target.should.be.equal(model);
+            expect(errors[1].value).to.be.undefined;
+            errors[1].property.should.be.equal("mySubClass");
+            errors[1].constraints.should.be.eql({isDefined: "mySubClass should not be null or undefined"});
+        });
+    });
+
+
+    it("should validate nested objects", function () {
 
         class MySubClass {
             @MinLength(5)
