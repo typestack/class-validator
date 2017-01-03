@@ -53,7 +53,6 @@ export function Validate(constraintClass: Function, constraintsOrValidationOptio
  */
 export function ValidateNested(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
-        IsDefined()(object, propertyName);
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.NESTED_VALIDATION,
             target: object.constructor,
