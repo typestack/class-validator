@@ -55,6 +55,9 @@
     "tslint-stylish": "^2.1.0-beta",
     "typescript": "^2.0.3"
   },
+  "ambientDependencies": {
+    "es6-shim": "registry:dt/es6-shim#0.31.2+20160215162030"
+  },
   "scripts": {
     "test": "gulp tests"
   }
