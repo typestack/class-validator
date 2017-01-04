@@ -1,7 +1,7 @@
 {
   "name": "class-validator",
   "private": true,
-  "version": "0.7.0",
+  "version": "0.6.6",
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
   "license": "MIT",
   "readmeFilename": "README.md",
