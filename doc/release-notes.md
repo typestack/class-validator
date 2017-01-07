@@ -1,5 +1,9 @@
 # Release notes
 
+**0.6.7-0.6.8**
+
+* fixed issue with `@ValidateNested` when nested property is not defined and it throw an error (#59)
+
 **0.6.5-0.6.6**
 
 * fixed bugs with `@IsUrl`, `@IsEmail` and several other decorators
