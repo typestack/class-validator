@@ -184,6 +184,11 @@ export class ValidationExecutor {
     }
     
     private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
+
+        if (value === void 0) {
+            return;
+        }
+
         metadatas.forEach(metadata => {
             if (metadata.type !== ValidationTypes.NESTED_VALIDATION) return;
             const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
