@@ -817,11 +817,17 @@ Here is an example of using it:
     That's it. Here `"myUserSchema"` is the name of our validation schema.
     `validate` method will perform validation based on this schema
 
+## Validating plain objects
+Due to nature of the decorators, the validated object has to be instantiated using `new Class()` syntax. If you have your class defined using class-validator decorators and you want to validate plain JS object (literal object or returned by JSON.parse), you need to transform it to the class instance (e.g. using [class-transformer](https://github.com/pleerock/class-transformer)) or just use the [class-transformer-validator](https://github.com/19majkel94/class-transformer-validator) extension which can do that for you.
+
 ## Samples
 
 Take a look on samples in [./sample](https://github.com/pleerock/class-validator/tree/master/sample) for more examples of
 usages.
 
+## Extensions
+There are several extensions that simplify class-validator integration with other modules:
+- [class-validator integration](https://github.com/19majkel94/class-transformer-validator) with [class-transformer](https://github.com/pleerock/class-transformer)
 
 ## Release notes
 
