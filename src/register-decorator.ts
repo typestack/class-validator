@@ -33,7 +33,7 @@ export interface ValidationDecoratorOptions {
     /**
      * Validator options.
      */
-    options: ValidatorOptions;
+    options?: ValidatorOptions;
 
     /**
      * Array of validation constraints.
