@@ -286,6 +286,23 @@ export function IsArray(validationOptions?: ValidationOptions) {
     };
 }
 
+/**
+ * Checks if a value is a number enum.
+ */
+export function IsEnum(entity: Object, validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_ENUM,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [entity],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+
 // -------------------------------------------------------------------------
 // Number checkers
 // -------------------------------------------------------------------------

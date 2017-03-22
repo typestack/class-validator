@@ -604,6 +604,7 @@ validator.isString(value); // Checks if a given value is a real string.
 validator.isArray(value); // Checks if a given value is an array.
 validator.isNumber(value); // Checks if a given value is a real number.
 validator.isInt(value); // Checks if value is an integer.
+validator.isEnum(value, entity); // Checks if value is valid for a certain enum entity.
 
 // number validation methods
 validator.isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
@@ -685,6 +686,7 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | `@IsNumber()`                                   | Checks if the string is a number.                                                                                                |
 | `@IsInt()`                                      | Checks if the value is an integer number.                                                                                        |
 | `@IsArray()`                                    | Checks if the string is an array                                                                                                 |
+| `@Enum(entity: object)`                         | Checks if the value is an valid enum                                                                                             |
 | **Number validation decorators**                                                                                                                                                   |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
 | `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |

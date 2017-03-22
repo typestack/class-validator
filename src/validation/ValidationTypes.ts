@@ -26,6 +26,7 @@ export class ValidationTypes {
     static IS_STRING = "isString";
     static IS_ARRAY = "isArray";
     static IS_INT = "isInt";
+    static IS_ENUM = "isEnum";
 
     /* number checkers */
     static IS_DIVISIBLE_BY = "isDivisibleBy";
@@ -132,6 +133,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a string";
             case this.IS_ARRAY:
                 return eachPrefix + "$property must be an array";
+            case this.IS_ENUM:
+                return eachPrefix + "$property must be a valid enum value";
 
             /* number checkers */
             case this.IS_DIVISIBLE_BY:

@@ -1,5 +1,5 @@
 import {validate} from "../../src/index";
-import {Post} from "./Post";
+import {Post, PostType} from "./Post";
 
 // Sample1. simple validation
 
@@ -11,6 +11,7 @@ post1.email = "info@google.com"; // should pass
 post1.site = "google.com"; // should pass
 post1.createDate = new Date(); // should pass
 post1.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"]; // should pass
+post1.type = PostType.Private;
 
 validate(post1).then(result => {
     console.log("1. should pass: ", result); // should pass completely, e.g. return empty array
@@ -22,6 +23,7 @@ post2.text = "this is a great post about hell world"; // should not pass
 post2.rating = 11; // should not pass
 post2.email = "google.com"; // should not pass
 post2.site = "googlecom"; // should not pass
+post2.type = PostType.Private;
 // should not pass because date property is missing
 
 validate(post2).then(result => {
@@ -36,6 +38,7 @@ post3.text = "this is a great post about hell world"; // should not pass
 post3.rating = 11; // should not pass
 post3.email = "google.com"; // should not pass
 post3.site = "googlecom"; // should not pass
+post3.type = PostType.Private;
 
 validate(post3, { skipMissingProperties: true }).then(result => {
     console.log("3. should not pass: ", result); // should not pass, but returned ValidationError-s should not have error about date field
@@ -47,6 +50,7 @@ post4.text = "this is a great post about hello world"; // should pass
 post4.rating = 10; // should pass
 post4.email = "info@google.com"; // should pass
 post4.site = "google.com"; // should pass
+post4.type = PostType.Private;
 
 validate(post4, { skipMissingProperties: true }).then(result => {
     console.log("4. should pass: ", result); // should pass even if date is not set
@@ -60,6 +64,7 @@ post5.text = "this is a great post about hello world"; // should pass
 post5.rating = 10; // should pass
 post5.email = "info@google.com"; // should pass
 post5.site = "google.com"; // should pass
+post5.type = PostType.Private;
 
 validate(post5, { skipMissingProperties: true }).then(result => {
     console.log("5. should pass: ", result); // should pass even if date is not set
@@ -75,6 +80,7 @@ post6.email = "info@google.com"; // should pass
 post6.site = "google.com"; // should pass
 post6.createDate = new Date(); // should pass
 post6.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"];
+post6.type = PostType.Private;
 
 validate(post6).then(result => {
     console.log("6. should pass: ", result); // should pass completely, e.g. return empty array
@@ -88,6 +94,7 @@ post7.email = "info@google.com"; // should pass
 post7.site = "google.com"; // should pass
 post7.createDate = new Date(); // should pass
 post7.tags = ["news", "a"];
+post7.type = PostType.Private;
 
 validate(post7).then(result => {
     console.log("7. should not pass: ", result); // should not pass
@@ -101,6 +108,7 @@ post8.email = "info@google.com"; // should pass
 post8.site = "google.com"; // should pass
 post8.createDate = new Date(); // should pass
 post8.tags = [];
+post8.type = PostType.Private;
 
 validate(post8).then(result => {
     console.log("8. should not pass: ", result); // should not pass
@@ -114,6 +122,7 @@ post9.email = "info@google.com"; // should pass
 post9.site = "google.com"; // should pass
 post9.createDate = new Date(); // should pass
 post9.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4", "abcd4"];
+post9.type = PostType.Private;
 
 validate(post9).then(result => {
     console.log("9. should not pass: ", result); // should not pass
@@ -127,6 +136,7 @@ post10.email = "info@google.com"; // should pass
 post10.site = "google.com"; // should pass
 post10.createDate = new Date(); // should pass
 post10.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"];
+post10.type = PostType.Private
 
 validate(post10).then(result => {
     console.log("10. should pass: ", result); // should pass
@@ -140,7 +150,22 @@ post11.email = "info@google.com"; // should pass
 post11.site = "google.com"; // should pass
 post11.createDate = new Date(); // should pass
 post11.tags = null;
+post11.type = PostType.Private;
 
 validate(post11).then(result => {
     console.log("11. should not pass: ", result); // should not pass
+});
+
+let post12 = new Post();
+post12.title = "Hello world"; // should pass
+post12.text = "this is a great post about hello world"; // should pass
+post12.rating = 10; // should pass
+post12.email = "info@google.com"; // should pass
+post12.site = "google.com"; // should pass
+post12.createDate = new Date(); // should pass
+post12.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"]; // should pass
+post12.type = 99; // should not pass
+
+validate(post1).then(result => {
+    console.log("12. should not pass: ", result); // should not pass as type is not a valid enum
 });
