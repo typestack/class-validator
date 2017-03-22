@@ -136,7 +136,7 @@ post10.email = "info@google.com"; // should pass
 post10.site = "google.com"; // should pass
 post10.createDate = new Date(); // should pass
 post10.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"];
-post10.type = PostType.Private
+post10.type = PostType.Private;
 
 validate(post10).then(result => {
     console.log("10. should pass: ", result); // should pass
