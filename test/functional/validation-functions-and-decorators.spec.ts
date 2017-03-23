@@ -19,6 +19,7 @@ import {
     IsDate,
     IsDivisibleBy,
     IsEmail,
+    IsEnum,
     IsFQDN,
     IsFullWidth,
     IsHalfWidth,
@@ -606,6 +607,55 @@ describe("IsArray", function() {
     });
 
 });
+
+
+describe.only("IsEnum", function() {
+
+    enum MyEnum {
+        First   = 1,
+        Second  = 999
+    }
+
+    const validValues = [MyEnum.First, MyEnum.Second];
+    const invalidValues = [
+        true,
+        false,
+        0,
+        {},
+        null,
+        undefined,
+        "First"
+    ];
+
+    class MyClass {
+        @IsEnum(MyEnum)
+        someProperty: MyEnum;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isEnum(value, MyEnum).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isEnum(value, MyEnum).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isEnum";
+        const message = "someProperty must be a valid enum value";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
 
 // -------------------------------------------------------------------------
 // Specifications: number check

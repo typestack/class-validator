@@ -134,6 +134,8 @@ export class Validator {
                 return this.isNumber(value);
             case ValidationTypes.IS_INT:
                 return this.isInt(value);
+            case ValidationTypes.IS_ENUM:
+                return this.isEnum(value, metadata.constraints[0]);
 
             /* number checkers */
             case ValidationTypes.IS_DIVISIBLE_BY:
@@ -331,6 +333,16 @@ export class Validator {
      */
     isArray(value: any): boolean {
         return value instanceof Array;
+    }
+
+     /**
+     * Checks if a given value is an enum
+     */
+    isEnum(value: any, entity: any): boolean {
+        const enumValues = Object.keys(entity)
+            .map(k => entity[k])
+            .filter(v => typeof v === "number") as number[];
+        return enumValues.indexOf(value) >= 0;
     }
 
     /**

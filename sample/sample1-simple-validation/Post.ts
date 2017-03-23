@@ -1,4 +1,9 @@
-import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, ArrayNotEmpty, ArrayMinSize, ArrayMaxSize} from "../../src/decorator/decorators";
+import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, ArrayNotEmpty, ArrayMinSize, ArrayMaxSize, IsEnum} from "../../src/decorator/decorators";
+
+export enum PostType {
+    Public,
+    Private
+}
 
 export class Post {
 
@@ -28,4 +33,6 @@ export class Post {
     @MaxLength(50, { each: true, message: "Tag is too long. Maximal length is $value characters" })
     tags: string[];
 
+    @IsEnum(PostType)
+    type: PostType;
 }
