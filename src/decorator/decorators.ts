@@ -440,21 +440,6 @@ export function IsBooleanString(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the string is a date.
- */
-export function IsDateString(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_DATE_STRING,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
  * Checks if the string is a number.
  */
 export function IsNumberString(validationOptions?: ValidationOptions) {

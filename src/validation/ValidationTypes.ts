@@ -156,8 +156,6 @@ export class ValidationTypes {
             /* string-as-type checkers */
             case this.IS_BOOLEAN_STRING:
                 return eachPrefix + "$property must be a boolean string";
-            case this.IS_DATE_STRING:
-                return eachPrefix + "$property must be a date string";
             case this.IS_NUMBER_STRING:
                 return eachPrefix + "$property must be a number string";
 
