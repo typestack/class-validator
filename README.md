@@ -620,7 +620,6 @@ validator.maxDate(date, minDate); // Checks if the value is a date that's before
 
 // string-type validation methods
 validator.isBooleanString(str); // Checks if a string is a boolean.
-validator.isDateString(str); // Checks if the string is a date.
 validator.isNumberString(str); // Checks if the string is numeric.
 
 // string validation methods

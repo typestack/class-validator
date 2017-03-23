@@ -1,6 +1,5 @@
 import {Gulpclass, Task, SequenceTask, MergedTask} from "gulpclass";
 import * as gulp from "gulp";
-import "es6-shim";
 
 const del = require("del");
 const shell = require("gulp-shell");

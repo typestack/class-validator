@@ -41,7 +41,6 @@ export class ValidationTypes {
 
     /* string-as-type checkers */
     static IS_BOOLEAN_STRING = "isBooleanString";
-    static IS_DATE_STRING = "isDateString";
     static IS_NUMBER_STRING = "isNumberString";
 
     /* string checkers */

@@ -158,8 +158,6 @@ export class Validator {
             /* string-as-type checkers */
             case ValidationTypes.IS_BOOLEAN_STRING:
                 return this.isBooleanString(value);
-            case ValidationTypes.IS_DATE_STRING:
-                return this.isDateString(value);
             case ValidationTypes.IS_NUMBER_STRING:
                 return this.isNumberString(value);
 
@@ -432,14 +430,6 @@ export class Validator {
      */
     isBooleanString(value: string): boolean {
         return typeof value === "string" && this.validatorJs.isBoolean(value);
-    }
-
-    /**
-     * Checks if the string is a date.
-     * If given value is not a string, then it returns false.
-     */
-    isDateString(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isDate(value);
     }
 
     /**
