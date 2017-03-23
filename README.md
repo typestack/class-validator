@@ -472,6 +472,7 @@ Lets create a decorator called `@IsLongerThan`:
                 name: "isLongerThan",
                 target: object.constructor,
                 propertyName: propertyName,
+                constraints: [property],
                 options: validationOptions,
                 validator: {
                     validate(value: any, args: ValidationArguments) {
