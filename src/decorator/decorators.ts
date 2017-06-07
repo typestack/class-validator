@@ -192,6 +192,24 @@ export function IsNotIn(values: any[], validationOptions?: ValidationOptions) {
     };
 }
 
+/**
+ * Checks if value is missing and if so, ignores all validators.
+ */
+export function IsOptional(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.CONDITIONAL_VALIDATION,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [(object: any, value: any) => {
+                return object[propertyName] !== "" && object[propertyName] !== null;
+            }],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
 // -------------------------------------------------------------------------
 // Type checkers
 // -------------------------------------------------------------------------
