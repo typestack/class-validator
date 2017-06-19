@@ -699,7 +699,7 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                                                  |                                                                                                                                                  |
 | **String-type validation decorators**                                                                                                                                              |
 | `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                                                     |
-| `@IsDateString()`                               | Checks if a string is a date.                                                                                                    |
+| `@IsDateString()`                               | Checks if a string is a date (e.g. "2017-06-07T14:34:08.700Z" or "2017-06-07T14:34:08.700").                                                                                                    |
 | `@IsNumberString()`                             | Checks if a string is a number.                                                                                                  |
 | **String validation decorators**                                                                                                                                                   |
 | `@Contains(seed: string)`                       | Checks if the string contains the seed.                                                                                          |

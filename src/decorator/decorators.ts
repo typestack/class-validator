@@ -26,10 +26,10 @@ export function ValidatorConstraint(options?: { name?: string, async?: boolean }
         const metadata = new ConstraintMetadata(target, name, isAsync);
         getFromContainer(MetadataStorage).addConstraintMetadata(metadata);
     };
-} 
+}
 
 /**
- * Performs validation based on the given custom validation class. 
+ * Performs validation based on the given custom validation class.
  * Validation class must be decorated with ValidatorConstraint decorator.
  */
 export function Validate(constraintClass: Function, validationOptions?: ValidationOptions): Function;
@@ -281,6 +281,18 @@ export function IsString(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_STRING,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+export function IsDateString(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_DATE_STRING,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
@@ -997,7 +1009,7 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
 }
 
 /**
- * Checks if the string correctly represents a time in the format HH:MM 
+ * Checks if the string correctly represents a time in the format HH:MM
  */
 export function IsMilitaryTime(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {

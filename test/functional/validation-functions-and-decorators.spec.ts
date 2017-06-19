@@ -61,7 +61,8 @@ import {
     ArrayContains,
     ArrayNotContains,
     ArrayUnique,
-    IsArray
+    IsArray,
+    IsDateString
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -566,6 +567,48 @@ describe("IsString", function() {
 
 });
 
+describe("IsDateString", function() {
+
+    const validValues = ["2017-06-06T17:04:42.081Z", "2017-06-06T17:04:42.081"];
+    const invalidValues = [
+        true,
+        false,
+        1,
+        2,
+        null,
+        undefined,
+        "text"
+    ];
+
+    class MyClass {
+        @IsDateString()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => expect(validator.isDateString(value)).be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => expect(validator.isDateString(value as any)).be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isDateString";
+        const message = "someProperty deve ser um texto de data";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
 describe("IsArray", function() {
 
     const validValues = [[], [1, 2, 3], [0, 0, 0], [""], [0], [undefined], [{}], new Array()];
@@ -1049,7 +1092,7 @@ describe("IsNumberString", function() {
 // -------------------------------------------------------------------------
 
 describe("Contains", function() {
-    
+
     const constraint = "hello";
     const validValues = ["hello world"];
     const invalidValues = [null, undefined, "bye world"];
@@ -1084,7 +1127,7 @@ describe("Contains", function() {
 });
 
 describe("NotContains", function() {
-    
+
     const constraint = "hello";
     const validValues = ["bye world"];
     const invalidValues = [null, undefined, "hello world"];
@@ -1295,9 +1338,9 @@ describe("IsByteLength", function() {
 });
 
 describe("IsCreditCard", function() {
-    
+
     const validValues = [
-        "375556917985515", 
+        "375556917985515",
         "36050234196908",
         "4716461583322103",
         "4716-2210-5188-5662",
@@ -1336,7 +1379,7 @@ describe("IsCreditCard", function() {
 });
 
 describe("IsCurrency", function() {
-    
+
     const validValues = [
         "-$10,123.45"
         , "$10,123.45"
@@ -2514,7 +2557,7 @@ describe("IsUppercase", function() {
         , "   ."
     ];
     const invalidValues = [
-        null, 
+        null,
         undefined,
         "fooBar",
         "123abc"
@@ -2895,7 +2938,7 @@ describe("ArrayMaxSize", function() {
         const message = "someProperty must contain not more than " + constraint + " elements";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
-    
+
 });
 
 describe("ArrayUnique", function() {

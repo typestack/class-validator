@@ -74,7 +74,7 @@ export class Validator {
         if (errors.length)
             return Promise.reject(errors);
     }
-    
+
     /**
      * Performs validation of the given object based on decorators used in given object class.
      * NOTE: This method completely ignores all async validations.
@@ -129,6 +129,8 @@ export class Validator {
                 return this.isDate(value);
             case ValidationTypes.IS_STRING:
                 return this.isString(value);
+            case ValidationTypes.IS_DATE_STRING:
+                return this.isDateString(value);
             case ValidationTypes.IS_ARRAY:
                 return this.isArray(value);
             case ValidationTypes.IS_NUMBER:
@@ -328,13 +330,21 @@ export class Validator {
     }
 
     /**
+     * Checks if a given value is a ISOString date.
+     */
+    isDateString(value: any): boolean {
+        const regex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+Z?/g;
+        return this.isString(value) && regex.test(value);
+    }
+
+    /**
      * Checks if a given value is an array
      */
     isArray(value: any): boolean {
         return value instanceof Array;
     }
 
-     /**
+    /**
      * Checks if a given value is an enum
      */
     isEnum(value: any, entity: any): boolean {
@@ -370,9 +380,9 @@ export class Validator {
      * Checks if value is a number that's divisible by another.
      */
     isDivisibleBy(value: number, num: number): boolean {
-        return  typeof value === "number" && 
-                typeof num === "number" && 
-                this.validatorJs.isDivisibleBy(String(value), num);
+        return  typeof value === "number" &&
+            typeof num === "number" &&
+            this.validatorJs.isDivisibleBy(String(value), num);
     }
 
     /**
@@ -717,7 +727,7 @@ export class Validator {
     isMilitaryTime(value: string): boolean {
         return this.matches(value, /^([01]\d|2[0-3]):?([0-5]\d)$/);
     }
-    
+
     // -------------------------------------------------------------------------
     // Validation Methods: array checkers
     // -------------------------------------------------------------------------
@@ -729,7 +739,7 @@ export class Validator {
     arrayContains(array: any[], values: any[]) {
         if (!(array instanceof Array))
             return false;
-        
+
         return !array || values.every(value => array.indexOf(value) !== -1);
     }
 
@@ -740,7 +750,7 @@ export class Validator {
     arrayNotContains(array: any[], values: any[]) {
         if (!(array instanceof Array))
             return false;
-        
+
         return !array || values.every(value => array.indexOf(value) === -1);
     }
 
@@ -751,7 +761,7 @@ export class Validator {
     arrayNotEmpty(array: any[]) {
         if (!(array instanceof Array))
             return false;
-        
+
         return array instanceof Array && array.length > 0;
     }
 
@@ -762,7 +772,7 @@ export class Validator {
     arrayMinSize(array: any[], min: number) {
         if (!(array instanceof Array))
             return false;
-        
+
         return array instanceof Array && array.length >= min;
     }
 
@@ -773,7 +783,7 @@ export class Validator {
     arrayMaxSize(array: any[], max: number) {
         if (!(array instanceof Array))
             return false;
-        
+
         return array instanceof Array && array.length <= max;
     }
 
