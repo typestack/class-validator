@@ -118,7 +118,7 @@ In our case, when we validated a Post object, we have such array of ValidationEr
     property: "title",
     value: "Hello",
     constraints: {
-        length: "title must be shorter than 10 characters"
+        length: "$property must be shorter than 10 characters"
     }
 }, {
     target: /* post object */,
