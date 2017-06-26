@@ -658,7 +658,13 @@ describe("IsEnum", function() {
         Second  = 999
     }
 
+    enum MyStringEnum {
+        First   = <any>"first",
+        Second  = <any>"second"
+    }
+
     const validValues = [MyEnum.First, MyEnum.Second];
+    const validStringValues = [MyStringEnum.First, MyStringEnum.Second];
     const invalidValues = [
         true,
         false,
@@ -674,26 +680,53 @@ describe("IsEnum", function() {
         someProperty: MyEnum;
     }
 
+    class MyClass2 {
+        @IsEnum(MyStringEnum)
+        someProperty: MyStringEnum;
+    }
+
     it("should not fail if validator.validate said that its valid", function(done) {
         checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should not fail if validator.validate said that its valid (string enum)", function(done) {
+        checkValidValues(new MyClass2(), validStringValues, done);
     });
 
     it("should fail if validator.validate said that its invalid", function(done) {
         checkInvalidValues(new MyClass(), invalidValues, done);
     });
 
+    it("should fail if validator.validate said that its invalid (string enum)", function(done) {
+        checkInvalidValues(new MyClass2(), invalidValues, done);
+    });
+
     it("should not fail if method in validator said that its valid", function() {
         validValues.forEach(value => validator.isEnum(value, MyEnum).should.be.true);
+    });
+
+    it("should not fail if method in validator said that its valid (string enum)", function() {
+        validStringValues.forEach(value => validator.isEnum(value, MyStringEnum).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
         invalidValues.forEach(value => validator.isEnum(value, MyEnum).should.be.false);
     });
 
+    it("should fail if method in validator said that its invalid (string enum)", function() {
+        invalidValues.forEach(value => validator.isEnum(value, MyStringEnum).should.be.false);
+    });
+
     it("should return error object with proper data", function(done) {
         const validationType = "isEnum";
         const message = "someProperty must be a valid enum value";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+    it("should return error object with proper data (string enum)", function(done) {
+        const validationType = "isEnum";
+        const message = "someProperty must be a valid enum value";
+        checkReturnedError(new MyClass2(), invalidValues, validationType, message, done);
     });
 
 });

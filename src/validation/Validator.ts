@@ -349,8 +349,7 @@ export class Validator {
      */
     isEnum(value: any, entity: any): boolean {
         const enumValues = Object.keys(entity)
-            .map(k => entity[k])
-            .filter(v => typeof v === "number") as number[];
+            .map(k => entity[k]);
         return enumValues.indexOf(value) >= 0;
     }
 
