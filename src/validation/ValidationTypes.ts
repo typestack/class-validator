@@ -233,9 +233,9 @@ export class ValidationTypes {
                     return eachPrefix + "$property must be longer than $constraint1 and shorter than $constraint2 characters";
                 };
             case this.MIN_LENGTH:
-                return eachPrefix + "$property must be longer than $constraint1 characters";
+                return eachPrefix + "$property must be longer than or equal to $constraint1 characters";
             case this.MAX_LENGTH:
-                return eachPrefix + "$property must be shorter than $constraint1 characters";
+                return eachPrefix + "$property must be shorter than or equal to $constraint1 characters";
             case this.MATCHES:
                 return eachPrefix + "$property must match $constraint1 regular expression";
 
