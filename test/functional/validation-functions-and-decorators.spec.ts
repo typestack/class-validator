@@ -603,7 +603,8 @@ describe("IsDateString", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "isDateString";
-        const message = "someProperty deve ser um texto de data";
+        // const message = "someProperty deve ser um texto de data";
+        const message = "someProperty must be a ISOString";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
@@ -2663,7 +2664,7 @@ describe("MinLength", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "minLength";
-        const message = "someProperty must be longer than " + constraint1 + " characters";
+        const message = "someProperty must be longer than or equal to " + constraint1 + " characters";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
@@ -2698,7 +2699,7 @@ describe("MaxLength", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "maxLength";
-        const message = "someProperty must be shorter than " + constraint1 + " characters";
+        const message = "someProperty must be shorter than or equal to " + constraint1 + " characters";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
