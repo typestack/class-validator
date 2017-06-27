@@ -35,7 +35,7 @@ describe("inherited validation", function() {
             // subclass own props are validated first
             errors[0].target.should.be.equal(model);
             errors[0].property.should.be.equal("name");
-            errors[0].constraints.should.be.eql({ minLength: "name must be longer than 5 characters" });
+            errors[0].constraints.should.be.eql({ minLength: "name must be longer than or equal to 5 characters" });
             errors[0].value.should.be.equal("my");
 
             // parent props are validated afterwards

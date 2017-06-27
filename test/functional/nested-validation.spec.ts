@@ -83,7 +83,7 @@ describe("nested validation", function () {
             const subError1 = errors[1].children[0];
             subError1.target.should.be.equal(model.mySubClass);
             subError1.property.should.be.equal("name");
-            subError1.constraints.should.be.eql({ minLength: "name must be longer than 5 characters" });
+            subError1.constraints.should.be.eql({ minLength: "name must be longer than or equal to 5 characters" });
             subError1.value.should.be.equal("my");
 
             errors[2].target.should.be.equal(model);
@@ -97,7 +97,7 @@ describe("nested validation", function () {
             const subSubError = subError2.children[0];
             subSubError.target.should.be.equal(model.mySubClasses[0]);
             subSubError.property.should.be.equal("name");
-            subSubError.constraints.should.be.eql({ minLength: "name must be longer than 5 characters" });
+            subSubError.constraints.should.be.eql({ minLength: "name must be longer than or equal to 5 characters" });
             subSubError.value.should.be.equal("my");
         });
     });
