@@ -21,6 +21,7 @@ export * from "./validation/ValidationTypes";
 export * from "./validation/Validator";
 export * from "./validation-schema/ValidationSchema";
 export * from "./register-decorator";
+export * from "./metadata/MetadataStorage";
 
 // -------------------------------------------------------------------------
 // Shortcut methods for api users
@@ -39,8 +40,8 @@ export function validate(schemaName: string, object: Object, validatorOptions?: 
 /**
  * Validates given object by object's decorators or given validation schema.
  */
-export function validate(schemaNameOrObject: Object|string, 
-                         objectOrValidationOptions?: Object|ValidatorOptions, 
+export function validate(schemaNameOrObject: Object|string,
+                         objectOrValidationOptions?: Object|ValidatorOptions,
                          maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
     if (typeof schemaNameOrObject === "string") {
         return getFromContainer(Validator).validate(schemaNameOrObject as string, objectOrValidationOptions as Object, maybeValidatorOptions);
@@ -62,8 +63,8 @@ export function validateOrReject(schemaName: string, object: Object, validatorOp
 /**
  * Validates given object by object's decorators or given validation schema and reject on error.
  */
-export function validateOrReject(schemaNameOrObject: Object|string, 
-                         objectOrValidationOptions?: Object|ValidatorOptions, 
+export function validateOrReject(schemaNameOrObject: Object|string,
+                         objectOrValidationOptions?: Object|ValidatorOptions,
                          maybeValidatorOptions?: ValidatorOptions): Promise<void> {
     if (typeof schemaNameOrObject === "string") {
         return getFromContainer(Validator).validateOrReject(schemaNameOrObject as string, objectOrValidationOptions as Object, maybeValidatorOptions);
@@ -73,7 +74,7 @@ export function validateOrReject(schemaNameOrObject: Object|string,
 }
 
 /**
- * Performs sync validation of the given object. 
+ * Performs sync validation of the given object.
  * Note that this method completely ignores async validations.
  * If you want to properly perform validation you need to call validate method instead.
  */
@@ -91,8 +92,8 @@ export function validateSync(schemaName: string, object: Object, validatorOption
  * Note that this method completely ignores async validations.
  * If you want to properly perform validation you need to call validate method instead.
  */
-export function validateSync(schemaNameOrObject: Object|string, 
-                             objectOrValidationOptions?: Object|ValidatorOptions, 
+export function validateSync(schemaNameOrObject: Object|string,
+                             objectOrValidationOptions?: Object|ValidatorOptions,
                              maybeValidatorOptions?: ValidatorOptions): ValidationError[] {
     if (typeof schemaNameOrObject === "string") {
         return getFromContainer(Validator).validateSync(schemaNameOrObject as string, objectOrValidationOptions as Object, maybeValidatorOptions);
