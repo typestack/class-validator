@@ -673,7 +673,7 @@ describe("IsEnum", function() {
         {},
         null,
         undefined,
-        "First"
+        "F2irst"
     ];
 
     class MyClass {
