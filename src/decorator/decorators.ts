@@ -42,7 +42,7 @@ export function Validate(constraintClass: Function, constraintsOrValidationOptio
             propertyName: propertyName,
             constraintCls: constraintClass,
             constraints: constraintsOrValidationOptions instanceof Array ? constraintsOrValidationOptions as any[] : undefined,
-            validationOptions: !(constraintsOrValidationOptions instanceof Array) ? constraintsOrValidationOptions as any[] : maybeValidationOptions
+            validationOptions: !(constraintsOrValidationOptions instanceof Array) ? constraintsOrValidationOptions as ValidationOptions : maybeValidationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };

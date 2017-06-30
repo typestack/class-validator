@@ -1202,7 +1202,7 @@ describe("IsAlpha", function() {
     const invalidValues = [null, undefined, "hello1mynameisalex"];
 
     class MyClass {
-        @IsAlpha(constraint)
+        @IsAlpha()
         someProperty: string;
     }
 
