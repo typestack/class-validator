@@ -2,7 +2,7 @@ import {Validator} from "./Validator";
 import {ValidationError} from "./ValidationError";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {MetadataStorage} from "../metadata/MetadataStorage";
-import {getFromContainer} from "../index";
+import {getFromContainer} from "../container";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
@@ -34,11 +34,11 @@ export class ValidationExecutor {
     constructor(private validator: Validator,
                 private validatorOptions?: ValidatorOptions) {
     }
-    
+
     // -------------------------------------------------------------------------
     // Public Methods
     // -------------------------------------------------------------------------
-    
+
     execute(object: Object, targetSchema: string, validationErrors: ValidationError[]) {
         const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
         const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
@@ -62,7 +62,7 @@ export class ValidationExecutor {
 
             // handle IS_DEFINED validation type the special way - it should work no matter skipMissingProperties is set or not
             this.defaultValidations(object, value, definedMetadatas, validationError.constraints);
-            
+
             if ((value === null || value === undefined) && this.validatorOptions && this.validatorOptions.skipMissingProperties === true) {
                 return;
             }
@@ -90,7 +90,7 @@ export class ValidationExecutor {
             return true;
         });
     }
-    
+
     // -------------------------------------------------------------------------
     // Private Methods
     // -------------------------------------------------------------------------
@@ -182,7 +182,7 @@ export class ValidationExecutor {
                 });
         });
     }
-    
+
     private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
 
         if (value === void 0) {
@@ -214,7 +214,7 @@ export class ValidationExecutor {
                                   value: any,
                                   metadata: ValidationMetadata,
                                   customValidatorMetadata?: ConstraintMetadata): [string, string] {
-        
+
         const targetName = object.constructor ? (object.constructor as any).name : undefined;
         const type = customValidatorMetadata && customValidatorMetadata.name ? customValidatorMetadata.name : metadata.type;
         const validationArguments: ValidationArguments = {
@@ -226,7 +226,7 @@ export class ValidationExecutor {
         };
 
         let message = metadata.message;
-        if (!metadata.message && 
+        if (!metadata.message &&
             (!this.validatorOptions || (this.validatorOptions && !this.validatorOptions.dismissDefaultMessages))) {
             if (customValidatorMetadata && customValidatorMetadata.instance.defaultMessage instanceof Function) {
                 message = customValidatorMetadata.instance.defaultMessage(validationArguments);
@@ -239,5 +239,5 @@ export class ValidationExecutor {
         const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments);
         return [type, messageString];
     }
-    
+
 }

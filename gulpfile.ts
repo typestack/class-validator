@@ -39,7 +39,7 @@ export class Gulpfile {
      */
     @Task()
     compile() {
-        return gulp.src("*.js", { read: false })
+        return gulp.src("*.ts", { read: false })
             .pipe(shell(["tsc"]));
     }
 
@@ -186,7 +186,7 @@ export class Gulpfile {
         chai.should();
         chai.use(require("sinon-chai"));
         chai.use(require("chai-as-promised"));
-        
+
         return gulp.src(["./build/compiled/test/**/*.js"])
             .pipe(mocha())
             .pipe(istanbul.writeReports());

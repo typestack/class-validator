@@ -673,7 +673,7 @@ describe("IsEnum", function() {
         {},
         null,
         undefined,
-        "First"
+        "F2irst"
     ];
 
     class MyClass {
@@ -1202,7 +1202,7 @@ describe("IsAlpha", function() {
     const invalidValues = [null, undefined, "hello1mynameisalex"];
 
     class MyClass {
-        @IsAlpha(constraint)
+        @IsAlpha()
         someProperty: string;
     }
 
