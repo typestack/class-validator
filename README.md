@@ -285,7 +285,7 @@ import {ValidateIf, IsNotEmpty} from "class-validator";
 
 export class Post {
     otherProperty:string;
-    
+
     @ValidateIf(o => o.otherProperty === "value")
     @IsNotEmpty()
     example:string;
@@ -670,7 +670,7 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 |-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | **Common validation decorators**                                                                                                                                                   |
 | `@IsDefined(value: any)`                        | Checks if value is defined (!== undefined, !== null). This is the only decorator that ignores skipMissingProperties option.      |
-| `@IsOptional()`                                 | Checks if given value is empty (=== '', === null) and if so, ignores all the validators on the property.                         |
+| `@IsOptional()`                                 | Checks if given value is empty (=== '', === null, === undefined) and if so, ignores all the validators on the property.                         |
 | `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison.                                                                                       |
 | `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison.                                                                                    |
 | `@IsEmpty()`                                    | Checks if given value is empty (=== '', === null, === undefined).                                                                |

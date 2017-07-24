@@ -202,7 +202,7 @@ export function IsOptional(validationOptions?: ValidationOptions) {
             target: object.constructor,
             propertyName: propertyName,
             constraints: [(object: any, value: any) => {
-                return object[propertyName] !== "" && object[propertyName] !== null;
+                return object[propertyName] !== "" && object[propertyName] !== null && object[propertyName] !== undefined;
             }],
             validationOptions: validationOptions
         };
