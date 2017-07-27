@@ -75,7 +75,7 @@ describe("conditional validation", function() {
             errors[0].target.should.be.equal(model);
             errors[0].property.should.be.equal("title");
             errors[0].constraints.should.be.eql({ equals: "title must be equal to test" });
-            errors[0].value.should.be.equal("bad_value");
+            errors[0].value.should.be.equal("");
         });
     });
 
