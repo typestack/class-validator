@@ -296,6 +296,37 @@ In the example above, the validation rules applied to `example` won't be run unl
 
 Note that when the condition is false all validation decorators are ignored, including `isDefined`.
 
+## Additional properties
+
+Even if your object is an instance of a validation class it can contain additional properties that are not defined. 
+If you want to have an error thrown when these unwanted properties are present add `@Allowed()` decorator to 
+all defined properties:  
+
+```typescript
+import {validate} from "class-validator";
+
+export class Post {
+    
+    @Allowed()
+    title: string;
+    
+    @Allowed()
+    views: number;
+    
+}
+
+let post = new Post();
+post.title = 'Hello world!';
+post.views = 420;
+
+(post as any).unallowedProperty = 69;
+
+validate(post).then(errors => {
+  ...
+}); // will return error for unallowedProperty 
+
+```
+
 ## Skipping missing properties
 
 Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is

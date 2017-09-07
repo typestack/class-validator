@@ -9,6 +9,7 @@ export class ValidationTypes {
     static CUSTOM_VALIDATION = "customValidation";
     static NESTED_VALIDATION = "nestedValidation";
     static CONDITIONAL_VALIDATION = "conditionalValidation";
+    static ALLOWED = "allowedValidation";
 
     /* common checkers */
     static IS_DEFINED = "isDefined";

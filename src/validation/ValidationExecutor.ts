@@ -44,10 +44,31 @@ export class ValidationExecutor {
         const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
+        let performAllowedValidation = false;
+        let notAllowedProperties: string[] = [];
+
+        Object.keys(object).forEach(propertyName => {
+            const allowedMetadatas = groupedMetadatas[propertyName] ? groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.ALLOWED) : [];
+
+            performAllowedValidation = performAllowedValidation || allowedMetadatas.length > 0;
+            if (allowedMetadatas.length === 0)
+                notAllowedProperties.push(propertyName);
+        });
+
+        if (performAllowedValidation && notAllowedProperties.length > 0) {
+            notAllowedProperties.forEach(property => {
+                validationErrors.push({
+                    target: object, property, value: (object as any)[property], children: undefined,
+                    constraints: { [ValidationTypes.ALLOWED]: `property ${property} is not allowed` }
+                });
+            });
+        }
+
         Object.keys(groupedMetadatas).forEach(propertyName => {
             const value = (object as any)[propertyName];
             const definedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
-            const metadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type !== ValidationTypes.IS_DEFINED);
+            const metadatas = groupedMetadatas[propertyName].filter(
+              metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.ALLOWED);
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
             const conditionalValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CONDITIONAL_VALIDATION);
