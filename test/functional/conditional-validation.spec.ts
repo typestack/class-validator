@@ -62,7 +62,7 @@ describe("conditional validation", function() {
         });
     });
 
-    it("should not validate a property when value is empty", function () {
+    it("should validate a property when value is empty", function () {
         class MyClass {
             @IsOptional()
             @Equals("test")
@@ -71,7 +71,11 @@ describe("conditional validation", function() {
 
         const model = new MyClass();
         return validator.validate(model).then(errors => {
-            errors.length.should.be.equal(0);
+            errors.length.should.be.equal(1);
+            errors[0].target.should.be.equal(model);
+            errors[0].property.should.be.equal("title");
+            errors[0].constraints.should.be.eql({ equals: "title must be equal to test" });
+            errors[0].value.should.be.equal("");
         });
     });
 
