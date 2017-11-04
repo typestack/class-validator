@@ -42,6 +42,31 @@ describe("nested validation", function () {
         });
     });
 
+    it("should not validate null nested objects", function () {
+        class MySubClass {
+            @MinLength(5)
+            name: string;
+        }
+
+        class MyClass {
+            @Contains("hello")
+            title: string;
+
+            @ValidateNested() @IsDefined()
+            mySubClass: MySubClass;
+        }
+
+        const model = new MyClass();
+
+        model.title = "helo";
+        model.mySubClass = null;
+        return validator.validate(model).then(errors => {
+            errors[1].target.should.be.equal(model);
+            expect(errors[1].value).to.be.null;
+            errors[1].property.should.be.equal("mySubClass");
+            errors[1].constraints.should.be.eql({isDefined: "mySubClass should not be null or undefined"});
+        });
+    });
 
     it("should validate nested objects", function () {
 
