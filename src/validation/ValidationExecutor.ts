@@ -204,8 +204,6 @@ export class ValidationExecutor {
             } else if (value instanceof Object) {
                 this.execute(value, targetSchema, errors);
 
-            } else {
-                throw new Error("Only objects and arrays are supported to nested validation");
             }
         });
     }
