@@ -1,8 +1,8 @@
 # class-validator
 
-[![Build Status](https://travis-ci.org/pleerock/class-validator.svg?branch=master)](https://travis-ci.org/pleerock/class-validator)
+[![Build Status](https://travis-ci.org/typestack/class-validator.svg?branch=master)](https://travis-ci.org/typestack/class-validator)
 [![npm version](https://badge.fury.io/js/class-validator.svg)](https://badge.fury.io/js/class-validator)
-[![Join the chat at https://gitter.im/pleerock/class-validator](https://badges.gitter.im/pleerock/class-validator.svg)](https://gitter.im/pleerock/class-validator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/typestack/class-validator](https://badges.gitter.im/typestack/class-validator.svg)](https://gitter.im/typestack/class-validator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Allows use of decorator and non-decorator based validation.
 Internally uses [validator.js][1] to perform validation.
