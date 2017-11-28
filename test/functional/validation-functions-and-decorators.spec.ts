@@ -2656,13 +2656,13 @@ describe("Length", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "length";
-        const message = "someProperty must be longer than " + constraint1 + " characters";
+        const message = "someProperty must be longer than or equal to " + constraint1 + " characters";
         checkReturnedError(new MyClass(), ["", "a"], validationType, message, done);
     });
 
     it("should return error object with proper data", function(done) {
         const validationType = "length";
-        const message = "someProperty must be shorter than " + constraint2 + " characters";
+        const message = "someProperty must be shorter than or equal to " + constraint2 + " characters";
         checkReturnedError(new MyClass(), ["aaaa", "azzazza"], validationType, message, done);
     });
 
