@@ -104,6 +104,9 @@ export class ValidationTypes {
         const eachPrefix = isEach ? "each value in " : "";
         switch (type) {
 
+            /* system chceck */
+            case this.NESTED_VALIDATION:
+                return eachPrefix + "nested property $property must be either object or array";
             /* common checkers */
             case this.IS_DEFINED:
                 return eachPrefix + "$property should not be null or undefined";

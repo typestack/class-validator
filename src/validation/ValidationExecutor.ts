@@ -205,7 +205,15 @@ export class ValidationExecutor {
                 this.execute(value, targetSchema, errors);
 
             } else {
-                throw new Error("Only objects and arrays are supported to nested validation");
+                const error = new ValidationError();
+                error.value = value;
+                error.property = metadata.propertyName;
+                error.target = metadata.target;
+                const [type, message] = this.createValidationError(metadata.target, value, metadata);
+                error.constraints = {
+                    [type]: message
+                };
+                errors.push(error);
             }
         });
     }
