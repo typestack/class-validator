@@ -44,31 +44,14 @@ export class ValidationExecutor {
         const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
-        let performAllowedValidation = false;
-        let notAllowedProperties: string[] = [];
+        this.executeAllowedValidation(object, groupedMetadatas, validationErrors);
 
-        Object.keys(object).forEach(propertyName => {
-            const allowedMetadatas = groupedMetadatas[propertyName] ? groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.ALLOWED) : [];
-
-            performAllowedValidation = performAllowedValidation || allowedMetadatas.length > 0;
-            if (allowedMetadatas.length === 0)
-                notAllowedProperties.push(propertyName);
-        });
-
-        if (performAllowedValidation && notAllowedProperties.length > 0) {
-            notAllowedProperties.forEach(property => {
-                validationErrors.push({
-                    target: object, property, value: (object as any)[property], children: undefined,
-                    constraints: { [ValidationTypes.ALLOWED]: `property ${property} is not allowed` }
-                });
-            });
-        }
-
+        // General validation
         Object.keys(groupedMetadatas).forEach(propertyName => {
             const value = (object as any)[propertyName];
             const definedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
             const metadatas = groupedMetadatas[propertyName].filter(
-              metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.ALLOWED);
+              metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.ALLOW);
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
             const conditionalValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CONDITIONAL_VALIDATION);
@@ -92,6 +75,49 @@ export class ValidationExecutor {
             this.customValidations(object, value, customValidationMetadatas, validationError.constraints);
             this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
         });
+    }
+
+    executeAllowedValidation(object: any,
+                             groupedMetadatas: { [propertyName: string]: ValidationMetadata[] },
+                             validationErrors: ValidationError[]) {
+        let performAllowedValidation = false;
+        let notAllowedProperties: string[] = [];
+
+        Object.keys(object).forEach(propertyName => {
+            let allowedMetadatas = 0;
+
+            // count allowed decorators on this property
+            if (groupedMetadatas[propertyName])
+                allowedMetadatas = groupedMetadatas[propertyName]
+                    .filter(metadata => metadata.type === ValidationTypes.ALLOW).length ;
+
+            // perform validation if any of the properties has more than zero allowed decorators
+            performAllowedValidation = performAllowedValidation || allowedMetadatas > 0;
+
+            // is this property not allowed?
+            if (allowedMetadatas === 0)
+                notAllowedProperties.push(propertyName);
+        });
+
+        if (performAllowedValidation && notAllowedProperties.length > 0) {
+
+            if (this.validatorOptions.forbidNotAllowedProperties) {
+
+                // throw errors
+                notAllowedProperties.forEach(property => {
+                    validationErrors.push({
+                        target: object, property, value: (object as any)[property], children: undefined,
+                        constraints: { [ValidationTypes.ALLOW]: `property ${property} is not allowed` }
+                    });
+                });
+
+            } else {
+
+                // strip non allowed properties
+                notAllowedProperties.forEach(property => delete (object as any)[property]);
+
+            }
+        }
     }
 
     stripEmptyErrors(errors: ValidationError[]) {

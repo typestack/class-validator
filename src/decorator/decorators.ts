@@ -66,10 +66,10 @@ export function ValidateNested(validationOptions?: ValidationOptions) {
 /**
  * If object has both allowed and not allowed properties a validation error will be thrown.
  */
-export function Allowed(validationOptions?: ValidationOptions) {
+export function Allow(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     const args: ValidationMetadataArgs = {
-      type: ValidationTypes.ALLOWED,
+      type: ValidationTypes.ALLOW,
       target: object.constructor,
       propertyName: propertyName,
       validationOptions: validationOptions

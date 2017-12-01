@@ -296,21 +296,20 @@ In the example above, the validation rules applied to `example` won't be run unl
 
 Note that when the condition is false all validation decorators are ignored, including `isDefined`.
 
-## Additional properties
+## Non-defined properties
 
 Even if your object is an instance of a validation class it can contain additional properties that are not defined. 
-If you want to have an error thrown when these unwanted properties are present add `@Allowed()` decorator to 
-all defined properties:  
+If you do not want to have such properties on your object, add `@Allow()` decorator to all defined properties:
 
 ```typescript
-import {validate} from "class-validator";
+import {validate, Allow} from "class-validator";
 
 export class Post {
     
-    @Allowed()
+    @Allow()
     title: string;
     
-    @Allowed()
+    @Allow()
     views: number;
     
 }
@@ -322,10 +321,21 @@ post.views = 420;
 (post as any).unallowedProperty = 69;
 
 validate(post).then(errors => {
-  ...
-}); // will return error for unallowedProperty 
-
+  ...    
+}); // (post as any).unallowedProperty is not undefined
 ```
+
+> If there none of the properties have `@Allow` decorator non-allowed properties will not be stripped.
+
+If you would rather to have an error thrown when any un-allowed properties are present, pass special flag to `validate`
+method:
+
+```typescript
+import {validate} from "class-validator";
+// ...
+validate(post, { forbidNotAllowedProperties: true });
+```
+  
 
 ## Skipping missing properties
 

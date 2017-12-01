@@ -1,5 +1,5 @@
 import "es6-shim";
-import {Allowed, ValidateNested} from "../../src/decorator/decorators";
+import {Allow, ValidateNested} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {expect} from "chai";
 import {ValidationTypes} from "../../src/validation/ValidationTypes";
@@ -19,10 +19,10 @@ describe("allowed validation", function () {
     it("should fail if an object has both allowed and not allowed properties", function () {
 
         class MyClass {
-            @Allowed()
+            @Allow()
             title: string;
 
-            @Allowed()
+            @Allow()
             views: number;
         }
 
@@ -30,11 +30,11 @@ describe("allowed validation", function () {
 
         model.title = "hello";
         model.unallowedProperty = 42;
-        return validator.validate(model).then(errors => {
+        return validator.validate(model, { forbidNotAllowedProperties: true }).then(errors => {
             expect(errors.length).to.be.equal(1);
             errors[0].target.should.be.equal(model);
             errors[0].property.should.be.equal("unallowedProperty");
-            errors[0].constraints.should.haveOwnProperty(ValidationTypes.ALLOWED);
+            errors[0].constraints.should.haveOwnProperty(ValidationTypes.ALLOW);
         });
     });
 
@@ -57,9 +57,9 @@ describe("allowed validation", function () {
   it("should succeed if an object only allowed properties", function () {
 
     class MyClass {
-      @Allowed()
+      @Allow()
       title: string;
-      @Allowed()
+      @Allow()
       views: number;
     }
 
@@ -74,7 +74,7 @@ describe("allowed validation", function () {
   it("should validate only nested object if parent has no allowed decorators", function () {
 
     class SubClass {
-      @Allowed()
+      @Allow()
       title: string;
     }
 
@@ -91,12 +91,12 @@ describe("allowed validation", function () {
     model.sub = new SubClass();
     model.sub.title = "world!\n";
     model.sub.unallowedProperty = 42;
-    return validator.validate(model).then(errors => {
+    return validator.validate(model, { forbidNotAllowedProperties: true }).then(errors => {
       errors.should.have.lengthOf(1);
       errors[0].children.should.have.lengthOf(1);
       errors[0].children[0].target.should.be.equal(model.sub);
       errors[0].children[0].property.should.be.equal("unallowedProperty");
-      errors[0].children[0].constraints.should.haveOwnProperty(ValidationTypes.ALLOWED);
+      errors[0].children[0].constraints.should.haveOwnProperty(ValidationTypes.ALLOW);
     });
   });
 

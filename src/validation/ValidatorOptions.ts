@@ -9,6 +9,14 @@ export interface ValidatorOptions {
     skipMissingProperties?: boolean;
 
     /**
+     * If set to true validator will throw an error if any of the properties are missing @Allow decorator.
+     * If set to false, all the properties that are missing @Allow decorator will be stripped.
+     *
+     * **If no properties have @Allow decorator no error will be thrown and no properties will be stripped**
+     */
+    forbidNotAllowedProperties?: boolean;
+
+    /**
      * Groups to be used during validation of the object.
      */
     groups?: string[];
