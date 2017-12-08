@@ -69,7 +69,7 @@ export function ValidateNested(validationOptions?: ValidationOptions) {
 export function Allow(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     const args: ValidationMetadataArgs = {
-      type: ValidationTypes.ALLOW,
+      type: ValidationTypes.WHITELIST,
       target: object.constructor,
       propertyName: propertyName,
       validationOptions: validationOptions

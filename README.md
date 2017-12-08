@@ -296,44 +296,55 @@ In the example above, the validation rules applied to `example` won't be run unl
 
 Note that when the condition is false all validation decorators are ignored, including `isDefined`.
 
-## Non-defined properties
+## Whitelisting
 
 Even if your object is an instance of a validation class it can contain additional properties that are not defined. 
-If you do not want to have such properties on your object, add `@Allow()` decorator to all defined properties:
+If you do not want to have such properties on your object, pass special flag to `validate` method:
 
 ```typescript
-import {validate, Allow} from "class-validator";
+import {validate} from "class-validator";
+// ...
+validate(post, { whitelist: true });
+```
+
+This will strip all properties that don't have any decorators. If no other decorator is suitable for your property, 
+you can use @Allow decorator: 
+
+```typescript
+import {validate, Allow, Min} from "class-validator";
 
 export class Post {
     
     @Allow()
     title: string;
     
-    @Allow()
+    @Min(0)
     views: number;
     
+    nonWhitelistedProperty: number;
 }
 
 let post = new Post();
 post.title = 'Hello world!';
 post.views = 420;
 
-(post as any).unallowedProperty = 69;
+post.nonWhitelistedProperty = 69;
+(post as any).anotherNonWhitelistedProperty = "something";
 
 validate(post).then(errors => {
+  // post.nonWhitelistedProperty is not defined
+  // (post as any).anotherNonWhitelistedProperty is not defined
   ...    
-}); // (post as any).unallowedProperty is not undefined
-```
+}); 
+````
 
-> If there none of the properties have `@Allow` decorator non-allowed properties will not be stripped.
-
-If you would rather to have an error thrown when any un-allowed properties are present, pass special flag to `validate`
-method:
+If you would rather to have an error thrown when any non-whitelisted properties are present, pass another flag to 
+`validate` method:
 
 ```typescript
 import {validate} from "class-validator";
 // ...
-validate(post, { forbidNotAllowedProperties: true });
+validate(post, { whitelist: true, forbidNonWhitelisted: true });
 ```
   
 

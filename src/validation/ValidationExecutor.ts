@@ -44,14 +44,15 @@ export class ValidationExecutor {
         const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
-        this.executeAllowedValidation(object, groupedMetadatas, validationErrors);
+        if (this.validatorOptions && this.validatorOptions.whitelist)
+            this.whitelist(object, groupedMetadatas, validationErrors);
 
         // General validation
         Object.keys(groupedMetadatas).forEach(propertyName => {
             const value = (object as any)[propertyName];
             const definedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
             const metadatas = groupedMetadatas[propertyName].filter(
-              metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.ALLOW);
+              metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.WHITELIST);
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
             const conditionalValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CONDITIONAL_VALIDATION);
@@ -77,37 +78,26 @@ export class ValidationExecutor {
         });
     }
 
-    executeAllowedValidation(object: any,
-                             groupedMetadatas: { [propertyName: string]: ValidationMetadata[] },
-                             validationErrors: ValidationError[]) {
-        let performAllowedValidation = false;
+    whitelist(object: any,
+              groupedMetadatas: { [propertyName: string]: ValidationMetadata[] },
+              validationErrors: ValidationError[]) {
         let notAllowedProperties: string[] = [];
 
         Object.keys(object).forEach(propertyName => {
-            let allowedMetadatas = 0;
-
-            // count allowed decorators on this property
-            if (groupedMetadatas[propertyName])
-                allowedMetadatas = groupedMetadatas[propertyName]
-                    .filter(metadata => metadata.type === ValidationTypes.ALLOW).length ;
-
-            // perform validation if any of the properties has more than zero allowed decorators
-            performAllowedValidation = performAllowedValidation || allowedMetadatas > 0;
-
-            // is this property not allowed?
-            if (allowedMetadatas === 0)
+            // does this property have no metadata?
+            if (!groupedMetadatas[propertyName] || groupedMetadatas[propertyName].length === 0)
                 notAllowedProperties.push(propertyName);
         });
 
-        if (performAllowedValidation && notAllowedProperties.length > 0) {
+        if (notAllowedProperties.length > 0) {
 
-            if (this.validatorOptions.forbidNotAllowedProperties) {
+            if (this.validatorOptions && this.validatorOptions.forbidNonWhitelisted) {
 
                 // throw errors
                 notAllowedProperties.forEach(property => {
                     validationErrors.push({
                         target: object, property, value: (object as any)[property], children: undefined,
-                        constraints: { [ValidationTypes.ALLOW]: `property ${property} is not allowed` }
+                        constraints: { [ValidationTypes.WHITELIST]: `property ${property} should not exist` }
                     });
                 });
 

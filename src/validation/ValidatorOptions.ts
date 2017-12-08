@@ -9,12 +9,16 @@ export interface ValidatorOptions {
     skipMissingProperties?: boolean;
 
     /**
-     * If set to true validator will throw an error if any of the properties are missing @Allow decorator.
-     * If set to false, all the properties that are missing @Allow decorator will be stripped.
+     * If set to true validator will strip validated object of any properties that do not have any decorators.
      *
-     * **If no properties have @Allow decorator no error will be thrown and no properties will be stripped**
+     * Tip: if no other decorator is suitable for your property use @Allow decorator.
      */
-    forbidNotAllowedProperties?: boolean;
+    whitelist?: false;
+
+    /**
+     * If set to true, instead of stripping non-whitelisted properties validator will throw an error
+     */
+    forbidNonWhitelisted?: false;
 
     /**
      * Groups to be used during validation of the object.
