@@ -41,7 +41,12 @@ export class ValidationExecutor {
 
     execute(object: Object, targetSchema: string, validationErrors: ValidationError[]) {
         const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
-        const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
+        const strictGroups = this.validatorOptions && this.validatorOptions.strictGroups || false;
+        const alwaysDefault = this.validatorOptions && this.validatorOptions.alwaysDefault || false;
+
+        const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(
+            object.constructor, targetSchema, alwaysDefault, strictGroups, groups
+        );
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
         Object.keys(groupedMetadatas).forEach(propertyName => {

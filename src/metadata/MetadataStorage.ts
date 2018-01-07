@@ -57,14 +57,26 @@ export class MetadataStorage {
     /**
      * Gets all validation metadatas for the given object with the given groups.
      */
-    getTargetValidationMetadatas(targetConstructor: Function, targetSchema: string, groups?: string[]): ValidationMetadata[] {
-        
+    getTargetValidationMetadatas(targetConstructor: Function, targetSchema: string, alwaysDefault: boolean, strictGroups: boolean, groups?: string[]): ValidationMetadata[] {
+        const alwaysIncludeMetadata = (metadata: ValidationMetadata): boolean => {
+            if (typeof metadata.always !== "undefined") {
+                return metadata.always;
+            }
+
+            return metadata.groups && metadata.groups.length ? false : alwaysDefault;
+        };
+
+        const ignoreMetadataBecauseOfStrictGroups = (metadata: ValidationMetadata): boolean =>
+            strictGroups && (!groups || !groups.length) && !!metadata.groups;
+
         // get directly related to a target metadatas
         const originalMetadatas = this.validationMetadatas.filter(metadata => {
             if (metadata.target !== targetConstructor && metadata.target !== targetSchema)
                 return false;
-            if (metadata.always) 
+            if (alwaysIncludeMetadata(metadata))
                 return true;
+            if (ignoreMetadataBecauseOfStrictGroups(metadata))
+                return false;
             if (groups && groups.length > 0)
                 return metadata.groups && !!metadata.groups.find(group => groups.indexOf(group) !== -1);
             
@@ -78,8 +90,10 @@ export class MetadataStorage {
             if (metadata.target instanceof Function &&
                 !(targetConstructor.prototype instanceof (metadata.target as Function)))
                 return false;
-            if (metadata.always) 
+            if (alwaysIncludeMetadata(metadata))
                 return true;
+            if (ignoreMetadataBecauseOfStrictGroups(metadata))
+                return false;
             if (groups && groups.length > 0)
                 return metadata.groups && !!metadata.groups.find(group => groups.indexOf(group) !== -1);
             
