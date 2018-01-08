@@ -1,10 +1,15 @@
 # Release notes
 
-**0.6.7-0.6.8**
+**0.7.4**
+
+* fixed issue with `@IsDateString` now it allow dates without fraction seconds to be set
+* fixed issue with `@IsDateString` now it allow dates without with timezones to be set
+
+**0.6.7**
 
 * fixed issue with `@ValidateNested` when nested property is not defined and it throw an error (#59)
 
-**0.6.5-0.6.6**
+**0.6.5**
 
 * fixed bugs with `@IsUrl`, `@IsEmail` and several other decorators
 

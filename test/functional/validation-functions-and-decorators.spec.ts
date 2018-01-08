@@ -569,7 +569,14 @@ describe("IsString", function() {
 
 describe("IsDateString", function() {
 
-    const validValues = ["2017-06-06T17:04:42.081Z", "2017-06-06T17:04:42.081"];
+    const validValues = [
+        "2017-06-06T17:04:42.081Z",
+        "2017-06-06T17:04:42.081",
+        "2018-01-04T08:15:30",
+        "2018-01-04T08:15:30Z",
+        "2018-01-04T08:15:30+04:00",
+        "2018-01-04T08:15:30+04",
+    ];
     const invalidValues = [
         true,
         false,
