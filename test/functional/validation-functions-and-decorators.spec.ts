@@ -2360,6 +2360,7 @@ describe("IsUrl", function() {
         , "http://www.foobar.com/\t"
         , "http://\n@www.foobar.com/"
         , ""
+        , "http://localhost:61500this is an invalid url!!!!"
         , "http://foobar.com/" + new Array(2083).join("f")
         , "http://*.foo.com"
         , "*.foo.com"
@@ -2397,8 +2398,6 @@ describe("IsUrl", function() {
     it("should pass on localhost with require_tld option", function () {
         validator.isURL("http://localhost:3000/", { require_tld: false }).should.be.true;
     });
-
-    // "http://localhost:61500this is an invalid url!!!!"
 
     it("should return error object with proper data", function(done) {
         const validationType = "isUrl";
