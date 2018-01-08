@@ -7,6 +7,12 @@
 
 * updated [validator.js][2] from 7.0.0 to 9.2.0 (Check it's [changelog][3] for what has changed.)
 
+  This caused breaking change, if you used the `IsUrl` decorator to validate `localhost` as a valid url, from now you must use the `require_tld: false` option.
+  ```ts
+  @IsUrl({ require_tld: false})
+  url: string;
+  ```
+
 #### Fixes
 
 * fixed issue with `@IsDateString` now it allow dates without fraction seconds to be set
