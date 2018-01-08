@@ -2321,7 +2321,6 @@ describe("IsUrl", function() {
         , "http://189.123.14.13/"
         , "http://duckduckgo.com/?q=%2F"
         , "http://foobar.com/t$-_.+!*\"(),"
-        , "http://localhost:3000/"
         , "http://foobar.com/?foo=bar#baz=qux"
         , "http://foobar.com?foo=bar"
         , "http://foobar.com#baz=qux"
@@ -2361,12 +2360,12 @@ describe("IsUrl", function() {
         , "http://www.foobar.com/\t"
         , "http://\n@www.foobar.com/"
         , ""
+        , "http://localhost:61500this is an invalid url!!!!"
         , "http://foobar.com/" + new Array(2083).join("f")
         , "http://*.foo.com"
         , "*.foo.com"
         , "!.foo.com"
         , "http://example.com."
-        , "http://localhost:61500this is an invalid url!!!!"
         , "////foobar.com"
         , "http:////foobar.com"
     ];
@@ -2390,6 +2389,14 @@ describe("IsUrl", function() {
 
     it("should fail if method in validator said that its invalid", function() {
         invalidValues.forEach(value => validator.isURL(value).should.be.false);
+    });
+
+    it("should fail on localhost without require_tld option", function () {
+        validator.isURL("http://localhost:3000/").should.be.false;
+    });
+
+    it("should pass on localhost with require_tld option", function () {
+        validator.isURL("http://localhost:3000/", { require_tld: false }).should.be.true;
     });
 
     it("should return error object with proper data", function(done) {
