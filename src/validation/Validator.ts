@@ -319,7 +319,7 @@ export class Validator {
      * Checks if a given value is a real date.
      */
     isDate(value: any): boolean {
-        return value instanceof Date;
+        return value instanceof Date && !isNaN(value.getTime());
     }
 
     /**
