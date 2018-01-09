@@ -134,7 +134,7 @@ export class Validator {
             case ValidationTypes.IS_ARRAY:
                 return this.isArray(value);
             case ValidationTypes.IS_NUMBER:
-                return this.isNumber(value);
+                return this.isNumber(value, metadata.constraints[0]);
             case ValidationTypes.IS_INT:
                 return this.isInt(value);
             case ValidationTypes.IS_ENUM:
@@ -357,21 +357,21 @@ export class Validator {
     }
 
     /**
-     * Checks if a given value is a real number.
+     * Checks if a given value is a number.
      */
-    isNumber(value: any): boolean {
-        return value instanceof Number || typeof value === "number";
+    isNumber(value: any, allowNaN: boolean = false): boolean {
+        if (allowNaN) {
+            return typeof value === "number" || value instanceof Number;
+        } else {
+            return Number.isFinite(value);
+        }
     }
 
     /**
      * Checks if value is an integer.
      */
     isInt(val: number): boolean {
-        if (!this.isNumber(val))
-            return false;
-
-        const numberString = String(val); // fix it
-        return this.validatorJs.isInt(numberString);
+        return Number.isInteger(val);
     }
 
     // -------------------------------------------------------------------------

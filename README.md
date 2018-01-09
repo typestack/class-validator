@@ -682,12 +682,12 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsNotIn(values: any[])`                       | Checks if value is not in a array of disallowed values.                                                                          |
 | **Type validation decorators**                                                                                                                                                     |
 | `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                                                  |
-| `@IsDate()`                                     | Checks if the string is a date.                                                                                                  |
+| `@IsDate()`                                     | Checks if the value is a date.                                                                                                   |
 | `@IsString()`                                   | Checks if the string is a string.                                                                                                |
-| `@IsNumber()`                                   | Checks if the string is a number.                                                                                                |
+| `@IsNumber(allowNaN: boolean = false)`          | Checks if the value is a number.                                                                                                 |
 | `@IsInt()`                                      | Checks if the value is an integer number.                                                                                        |
-| `@IsArray()`                                    | Checks if the string is an array                                                                                                 |
-| `@IsEnum(entity: object)`                         | Checks if the value is an valid enum                                                                                             |
+| `@IsArray()`                                    | Checks if the value is an array                                                                                                  |
+| `@IsEnum(entity: object)`                         | Checks if the value is an valid enum                                                                                           |
 | **Number validation decorators**                                                                                                                                                   |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
 | `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |

@@ -452,12 +452,25 @@ describe("IsDate", function() {
 describe("IsNumber", function() {
 
     const validValues = [0, 1, 2, 3, 4, 5.4, -10];
-    const invalidValues = ["1", "0", true, false, "-100"];
+    const invalidValues = ["1", "0", true, false, "-100", "abc", undefined, null];
 
     class MyClass {
         @IsNumber()
         someProperty: number;
     }
+
+    class NaNTestClass {
+        @IsNumber(true)
+        someProperty: number;
+    }
+
+    it("should fail if NaN passed without allowing NaN values", function (done) {
+        checkInvalidValues(new MyClass(), [NaN], done);
+    });
+
+    it("should not fail if NaN passed and NaN values are allowed", function (done) {
+        checkValidValues(new NaNTestClass(), [NaN], done);
+    });
 
     it("should not fail if validator.validate said that its valid", function(done) {
         checkValidValues(new MyClass(), validValues, done);

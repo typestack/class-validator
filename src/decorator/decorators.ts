@@ -247,12 +247,13 @@ export function IsDate(validationOptions?: ValidationOptions) {
 /**
  * Checks if a value is a number.
  */
-export function IsNumber(validationOptions?: ValidationOptions) {
+export function IsNumber(allowNan: boolean = false, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NUMBER,
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [allowNan],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
