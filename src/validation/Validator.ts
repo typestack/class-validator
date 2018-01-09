@@ -247,6 +247,9 @@ export class Validator {
                 return this.arrayMaxSize(value, metadata.constraints[0]);
             case ValidationTypes.ARRAY_UNIQUE:
                 return this.arrayUnique(value);
+
+            case ValidationTypes.IS_INSTANCE:
+                return this.isInstance(value, metadata.constraints[0]);
         }
         return true;
     }
@@ -796,6 +799,15 @@ export class Validator {
 
         const uniqueItems = array.filter((a, b, c) => c.indexOf(a) === b);
         return array.length === uniqueItems.length;
+    }
+
+    /**
+     * Checks if the value is an instance of the specified object.
+     */
+    isInstance(object: any, targetTypeConstructor: new (...args: any[]) => any) {
+        return targetTypeConstructor
+            && typeof targetTypeConstructor === "function"
+            && object instanceof targetTypeConstructor;
     }
 
 }

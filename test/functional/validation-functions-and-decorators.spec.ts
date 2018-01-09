@@ -62,7 +62,8 @@ import {
     ArrayNotContains,
     ArrayUnique,
     IsArray,
-    IsDateString
+    IsDateString,
+    IsInstance
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -2989,7 +2990,7 @@ describe("ArrayMaxSize", function() {
 
 });
 
-describe("ArrayUnique", function() {
+describe("ArrayUnique", function () {
 
     const validValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
     const invalidValues: any[] = [null, undefined, ["world", "hello", "hello"], ["world", "hello", "world"], ["1", "1", "1"]];
@@ -2998,6 +2999,43 @@ describe("ArrayUnique", function() {
         @ArrayUnique()
         someProperty: string[];
     }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function () {
+        validValues.forEach(value => validator.arrayUnique(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function () {
+        invalidValues.forEach(value => validator.arrayUnique(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function (done) {
+        const validationType = "arrayUnique";
+        const message = "All someProperty's elements must be unique";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("isInstance", function () {
+
+    class MySubClass { }
+    class WrongSubClass {}
+
+    class MyClass {
+        @IsInstance(MySubClass)
+        someProperty: MySubClass;
+    }
+
+    const validValues = [new MySubClass()];
+    const invalidValues = [null, undefined, 15, "something", new WrongSubClass(), () => <any>null];
 
     it("should not fail if validator.validate said that its valid", function(done) {
         checkValidValues(new MyClass(), validValues, done);
@@ -3008,16 +3046,16 @@ describe("ArrayUnique", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayUnique(value).should.be.true);
+        validValues.forEach(value => validator.isInstance(value, MySubClass).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayUnique(value).should.be.false);
+        invalidValues.forEach(value => validator.isInstance(value, MySubClass).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
-        const validationType = "arrayUnique";
-        const message = "All someProperty's elements must be unique";
+        const validationType = "isInstance";
+        const message = "someProperty must be an instance of MySubClass";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 

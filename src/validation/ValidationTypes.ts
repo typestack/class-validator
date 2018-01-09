@@ -88,6 +88,9 @@ export class ValidationTypes {
     static ARRAY_MAX_SIZE = "arrayMaxSize";
     static ARRAY_UNIQUE = "arrayUnique";
 
+    /* object chekers */
+    static IS_INSTANCE = "isInstance";
+
     /**
      * Checks if validation type is valid.
      */
@@ -252,6 +255,15 @@ export class ValidationTypes {
                 return eachPrefix + "$property must contain not more than $constraint1 elements";
             case this.ARRAY_UNIQUE:
                 return eachPrefix + "All $property's elements must be unique";
+
+            case this.IS_INSTANCE:
+                return (args: ValidationArguments) => {
+                    if (args.constraints[0]) {
+                        return eachPrefix + `$property must be an instance of ${args.constraints[0].name}`;
+                    } else {
+                        return eachPrefix + `${this.IS_INSTANCE} decorator expects and object as value, but got falsy value.`;
+                    }
+                };
         }
 
         return "";

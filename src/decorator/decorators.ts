@@ -1120,3 +1120,19 @@ export function ArrayUnique(validationOptions?: ValidationOptions) {
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
+
+/**
+ * Checks if all array's values are unique. Comparison for objects is reference-based.
+ */
+export function IsInstance(targetType: new (...args: any[]) => any, validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_INSTANCE,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [targetType],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
