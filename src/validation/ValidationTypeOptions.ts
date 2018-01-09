@@ -1,4 +1,12 @@
 /**
+ * Options to be passed to IsURL decorator.
+ */
+export interface IsNumberOptions {
+    allowNaN?: boolean;
+    allowInfinity?: boolean;
+}
+
+/**
  * Options to be passed to IsCurrency decorator.
  */
 export interface IsCurrencyOptions {

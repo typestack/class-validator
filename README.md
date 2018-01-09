@@ -600,7 +600,7 @@ validator.isBoolean(value); // Checks if a given value is a real boolean.
 validator.isDate(value); // Checks if a given value is a real date.
 validator.isString(value); // Checks if a given value is a real string.
 validator.isArray(value); // Checks if a given value is an array.
-validator.isNumber(value); // Checks if a given value is a real number.
+validator.isNumber(value, options); // Checks if a given value is a real number.
 validator.isInt(value); // Checks if value is an integer.
 validator.isEnum(value, entity); // Checks if value is valid for a certain enum entity.
 
@@ -684,7 +684,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsBoolean()`                                  | Checks if a value is a boolean.                                                                                                  |
 | `@IsDate()`                                     | Checks if the value is a date.                                                                                                   |
 | `@IsString()`                                   | Checks if the string is a string.                                                                                                |
-| `@IsNumber(allowNaN: boolean = false)`          | Checks if the value is a number.                                                                                                 |
+| `@IsNumber(options: IsNumberOptions)`           | Checks if the value is a number.                                                                                                 |
 | `@IsInt()`                                      | Checks if the value is an integer number.                                                                                        |
 | `@IsArray()`                                    | Checks if the value is an array                                                                                                  |
 | `@IsEnum(entity: object)`                         | Checks if the value is an valid enum                                                                                           |

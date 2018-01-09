@@ -1,7 +1,7 @@
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationTypes} from "./ValidationTypes";
 import {ValidationError} from "./ValidationError";
-import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions} from "./ValidationTypeOptions";
+import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions, IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 import {ValidationOptions} from "../decorator/ValidationOptions";
@@ -359,12 +359,16 @@ export class Validator {
     /**
      * Checks if a given value is a number.
      */
-    isNumber(value: any, allowNaN: boolean = false): boolean {
-        if (allowNaN) {
-            return typeof value === "number" || value instanceof Number;
-        } else {
-            return Number.isFinite(value);
+    isNumber(value: any, options: IsNumberOptions = {}): boolean {
+        if (value === Infinity || value === -Infinity) {
+            return options.allowInfinity;
         }
+
+        if (Number.isNaN(value)) {
+            return options.allowNaN;
+        }
+
+        return Number.isFinite(value);
     }
 
     /**

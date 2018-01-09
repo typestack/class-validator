@@ -460,7 +460,12 @@ describe("IsNumber", function() {
     }
 
     class NaNTestClass {
-        @IsNumber(true)
+        @IsNumber({ allowNaN: true })
+        someProperty: number;
+    }
+
+    class InfinityTestClass {
+        @IsNumber({ allowInfinity: true })
         someProperty: number;
     }
 
@@ -468,8 +473,16 @@ describe("IsNumber", function() {
         checkInvalidValues(new MyClass(), [NaN], done);
     });
 
-    it("should not fail if NaN passed and NaN values are allowed", function (done) {
+    it("should fail if Infinity passed without allowing NaN values", function (done) {
+        checkInvalidValues(new MyClass(), [Infinity, -Infinity], done);
+    });
+
+    it("should not fail if NaN passed and NaN as value is allowed", function (done) {
         checkValidValues(new NaNTestClass(), [NaN], done);
+    });
+
+    it("should not fail if Infinity passed and Infinity as value is allowed", function (done) {
+        checkValidValues(new InfinityTestClass(), [Infinity, -Infinity], done);
     });
 
     it("should not fail if validator.validate said that its valid", function(done) {

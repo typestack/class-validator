@@ -1,5 +1,5 @@
 import {ValidationTypes} from "../validation/ValidationTypes";
-import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions} from "../validation/ValidationTypeOptions";
+import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions, IsNumberOptions} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
@@ -247,13 +247,13 @@ export function IsDate(validationOptions?: ValidationOptions) {
 /**
  * Checks if a value is a number.
  */
-export function IsNumber(allowNan: boolean = false, validationOptions?: ValidationOptions) {
+export function IsNumber(options: IsNumberOptions = {}, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NUMBER,
             target: object.constructor,
             propertyName: propertyName,
-            constraints: [allowNan],
+            constraints: [options],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));

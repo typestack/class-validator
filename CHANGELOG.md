@@ -13,7 +13,7 @@
   url: string;
   ```
 * added `@IsInstance` decorator and `validator.isInstance(value, target)` methods.
-* changed `@IsNumber` decorator has been changed to `@IsNumber(allowNaN: boolean = false)`
+* changed `@IsNumber` decorator has been changed to `@IsNumber(options: IsNumberOptions)`
 
 #### Fixes
 
