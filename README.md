@@ -662,6 +662,9 @@ validator.arrayNotEmpty(array); // Checks if given array is not empty.
 validator.arrayMinSize(array, min); // Checks if array's length is at least `min` number.
 validator.arrayMaxSize(array, max); // Checks if array's length is as most `max` number.
 validator.arrayUnique(array); // Checks if all array's values are unique. Comparison for objects is reference-based.
+
+// object validation methods
+validator.isInstance(value, target); // Checks value is an instance of the target.
 ```
 
 ## Validation decorators
@@ -733,14 +736,16 @@ validator.arrayUnique(array); // Checks if all array's values are unique. Compar
 | `@MinLength(min: number)`                       | Checks if the string's length is not less than given number.                                                                     |
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number.                                                                     |
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
-| `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM.
+| `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM.                                         |
 | **Array validation decorators**                                                                                                                                                    |
-| `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                              |
+| `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                           |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                                                        |
 | `@ArrayNotEmpty()`                              | Checks if given array is not empty.                                                                                              |
 | `@ArrayMinSize(min: number)`                    | Checks if array's length is as minimal this number.                                                                              |
 | `@ArrayMaxSize(max: number)`                    | Checks if array's length is as maximal this number.                                                                              |
-| `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based.                                              |
+| `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based.                                       |
+| **Object validation decorators**                                                                                                                                                   |
+| `@IsInstance(value: any)`                       | Checks if the property is an instance of the passed value.                                                                       |
 
 ## Defining validation schema without decorators
 
