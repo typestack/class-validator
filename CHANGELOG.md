@@ -22,6 +22,12 @@
 
 ### 0.6.7
 
+#### Features
+
+_no new features in this release_
+
+#### Fixes
+
 * fixed issue with `@ValidateNested` when nested property is not defined and it throw an error (#59)
 
 ### 0.6.5
