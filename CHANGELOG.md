@@ -12,6 +12,7 @@
   @IsUrl({ require_tld: false})
   url: string;
   ```
+* added `@IsInstance` decorator and `validator.isInstance(value, target)` methods.
 
 #### Fixes
 
