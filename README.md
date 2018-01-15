@@ -352,7 +352,7 @@ validate(user, {
 
 validate(user, {
     groups: []
-}); // this will pass validation
+}); // this will not pass validation
 ```
 
 There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
