@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import {getFromContainer} from "../../container";
 import {MetadataStorage} from "../../metadata/MetadataStorage";
+import {ValidationMetadata} from "../../metadata/ValidationMetadata";
 
 /**
  * Allow copying validation metadatas set by `class-validator` from
@@ -32,7 +33,7 @@ function InheritValidation(
   const metadataStorage = getFromContainer(MetadataStorage);
   const validationMetadatas = metadataStorage.getTargetValidationMetadatas(
       fromClass,
-      undefined,
+      typeof fromClass,
   );
 
   /**
@@ -43,7 +44,11 @@ function InheritValidation(
    * @param toClass    Class owning the decorated property.
    * @param toProperty Name of the decorated property.
    */
-  return (toClass: object, toProperty: string) => {
+  return (toClass: object, toProperty: string | symbol) => {
+    const toPropertyName: string = toProperty instanceof Symbol ?
+      typeof toProperty :
+      toProperty;
+
     const sourceProperty = fromProperty || toProperty;
 
     const metadatasCopy = _.cloneDeep(
@@ -53,9 +58,9 @@ function InheritValidation(
         ),
     );
 
-    metadatasCopy.forEach((vm) => {
+    metadatasCopy.forEach((vm: ValidationMetadata) => {
         vm.target = toClass.constructor;
-        vm.propertyName = toProperty;
+        vm.propertyName = toPropertyName;
         metadataStorage.addValidationMetadata(vm);
     });
   };
