@@ -1,9 +1,9 @@
 import "es6-shim";
-import {Contains, MinLength, ValidateNested, IsDefined} from "../../src/decorator/decorators";
+import {Contains, IsDefined, MinLength, ValidateNested} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
-import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
 import {expect} from "chai";
-
+import {inspect} from "util";
+import {ValidationTypes} from "../../src/validation/ValidationTypes";
 // -------------------------------------------------------------------------
 // Setup
 // -------------------------------------------------------------------------
@@ -73,7 +73,7 @@ describe("nested validation", function () {
 
             errors[0].target.should.be.equal(model);
             errors[0].property.should.be.equal("title");
-            errors[0].constraints.should.be.eql({ contains: "title must contain a hello string" });
+            errors[0].constraints.should.be.eql({contains: "title must contain a hello string"});
             errors[0].value.should.be.equal("helo world");
 
             errors[1].target.should.be.equal(model);
@@ -83,7 +83,7 @@ describe("nested validation", function () {
             const subError1 = errors[1].children[0];
             subError1.target.should.be.equal(model.mySubClass);
             subError1.property.should.be.equal("name");
-            subError1.constraints.should.be.eql({ minLength: "name must be longer than or equal to 5 characters" });
+            subError1.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
             subError1.value.should.be.equal("my");
 
             errors[2].target.should.be.equal(model);
@@ -97,9 +97,37 @@ describe("nested validation", function () {
             const subSubError = subError2.children[0];
             subSubError.target.should.be.equal(model.mySubClasses[0]);
             subSubError.property.should.be.equal("name");
-            subSubError.constraints.should.be.eql({ minLength: "name must be longer than or equal to 5 characters" });
+            subSubError.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
             subSubError.value.should.be.equal("my");
         });
+    });
+
+    it("should validate when nested is not object", () => {
+
+        class MySubClass {
+            @MinLength(5)
+            name: string;
+        }
+
+        class MyClass {
+            @ValidateNested()
+            mySubClass: MySubClass;
+
+        }
+
+        const model = new MyClass();
+        model.mySubClass = <any> "invalidnested object";
+
+        return validator.validate(model).then(errors => {
+
+            expect(errors[0].target).to.equal(model);
+            expect(errors[0].property).to.equal("mySubClass");
+            expect(errors[0].children.length).to.equal(1);
+
+            const subError = errors[0].children[0];
+            subError.constraints.should.be.eql({[ValidationTypes.NESTED_VALIDATION]: "nested property mySubClass must be either object or array"});
+        });
+
     });
 
 });
