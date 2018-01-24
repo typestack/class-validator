@@ -22,6 +22,7 @@
 
 * fixed issue with `@IsDateString` now it allow dates without fraction seconds to be set
 * fixed issue with `@IsDateString` now it allow dates without with timezones to be set
+* `@ValidateNested` correctly generates validation error on non object and non array values.
 
 ### 0.6.7
 
