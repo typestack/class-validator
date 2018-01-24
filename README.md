@@ -798,6 +798,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based.                                       |
 | **Object validation decorators**                                                                                                                                                   |
 | `@IsInstance(value: any)`                       | Checks if the property is an instance of the passed value.                                                                       |
+ **Other decorators**                                                                                                                                                   |
 | `@Allow()`                       | Prevent stripping off the property when no other constraint is specified for it.                                                                       |
 
 ## Defining validation schema without decorators
