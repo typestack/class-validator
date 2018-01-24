@@ -13,12 +13,12 @@ export interface ValidatorOptions {
      *
      * Tip: if no other decorator is suitable for your property use @Allow decorator.
      */
-    whitelist?: false;
+    whitelist?: boolean;
 
     /**
      * If set to true, instead of stripping non-whitelisted properties validator will throw an error
      */
-    forbidNonWhitelisted?: false;
+    forbidNonWhitelisted?: boolean;
 
     /**
      * Groups to be used during validation of the object.
