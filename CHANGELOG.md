@@ -14,6 +14,9 @@
   ```
 * added `@IsInstance` decorator and `validator.isInstance(value, target)` method.
 * changed `@IsNumber` decorator has been changed to `@IsNumber(options: IsNumberOptions)`
+* added option to strip unknown properties (`whitelist: true`)
+* added option to throw error on unknown properties (`forbidNonWhitelisted: true`)
+* added `@Allow` decorator to prevent stripping properties without other constraint
 
 #### Fixes
 
