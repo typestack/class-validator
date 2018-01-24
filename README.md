@@ -296,6 +296,58 @@ In the example above, the validation rules applied to `example` won't be run unl
 
 Note that when the condition is false all validation decorators are ignored, including `isDefined`.
 
+## Whitelisting
+
+Even if your object is an instance of a validation class it can contain additional properties that are not defined. 
+If you do not want to have such properties on your object, pass special flag to `validate` method:
+
+```typescript
+import {validate} from "class-validator";
+// ...
+validate(post, { whitelist: true });
+```
+
+This will strip all properties that don't have any decorators. If no other decorator is suitable for your property, 
+you can use @Allow decorator: 
+
+```typescript
+import {validate, Allow, Min} from "class-validator";
+
+export class Post {
+    
+    @Allow()
+    title: string;
+    
+    @Min(0)
+    views: number;
+    
+    nonWhitelistedProperty: number;
+}
+
+let post = new Post();
+post.title = 'Hello world!';
+post.views = 420;
+
+post.nonWhitelistedProperty = 69;
+(post as any).anotherNonWhitelistedProperty = "something";
+
+validate(post).then(errors => {
+  // post.nonWhitelistedProperty is not defined
+  // (post as any).anotherNonWhitelistedProperty is not defined
+  ...    
+}); 
+````
+
+If you would rather to have an error thrown when any non-whitelisted properties are present, pass another flag to 
+`validate` method:
+
+```typescript
+import {validate} from "class-validator";
+// ...
+validate(post, { whitelist: true, forbidNonWhitelisted: true });
+```
+  
+
 ## Skipping missing properties
 
 Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is

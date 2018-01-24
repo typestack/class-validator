@@ -64,6 +64,22 @@ export function ValidateNested(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * If object has both allowed and not allowed properties a validation error will be thrown.
+ */
+export function Allow(validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    const args: ValidationMetadataArgs = {
+      type: ValidationTypes.WHITELIST,
+      target: object.constructor,
+      propertyName: propertyName,
+      validationOptions: validationOptions
+    };
+    getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+  };
+}
+
+
+/**
  * Objects / object arrays marked with this decorator will also be validated.
  */
 export function ValidateIf(condition: (object: any, value: any) => boolean, validationOptions?: ValidationOptions) {

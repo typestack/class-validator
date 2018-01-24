@@ -44,10 +44,15 @@ export class ValidationExecutor {
         const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
+        if (this.validatorOptions && this.validatorOptions.whitelist)
+            this.whitelist(object, groupedMetadatas, validationErrors);
+
+        // General validation
         Object.keys(groupedMetadatas).forEach(propertyName => {
             const value = (object as any)[propertyName];
             const definedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
-            const metadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type !== ValidationTypes.IS_DEFINED);
+            const metadatas = groupedMetadatas[propertyName].filter(
+              metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.WHITELIST);
             const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
             const conditionalValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CONDITIONAL_VALIDATION);
@@ -71,6 +76,38 @@ export class ValidationExecutor {
             this.customValidations(object, value, customValidationMetadatas, validationError.constraints);
             this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
         });
+    }
+
+    whitelist(object: any,
+              groupedMetadatas: { [propertyName: string]: ValidationMetadata[] },
+              validationErrors: ValidationError[]) {
+        let notAllowedProperties: string[] = [];
+
+        Object.keys(object).forEach(propertyName => {
+            // does this property have no metadata?
+            if (!groupedMetadatas[propertyName] || groupedMetadatas[propertyName].length === 0)
+                notAllowedProperties.push(propertyName);
+        });
+
+        if (notAllowedProperties.length > 0) {
+
+            if (this.validatorOptions && this.validatorOptions.forbidNonWhitelisted) {
+
+                // throw errors
+                notAllowedProperties.forEach(property => {
+                    validationErrors.push({
+                        target: object, property, value: (object as any)[property], children: undefined,
+                        constraints: { [ValidationTypes.WHITELIST]: `property ${property} should not exist` }
+                    });
+                });
+
+            } else {
+
+                // strip non allowed properties
+                notAllowedProperties.forEach(property => delete (object as any)[property]);
+
+            }
+        }
     }
 
     stripEmptyErrors(errors: ValidationError[]) {
