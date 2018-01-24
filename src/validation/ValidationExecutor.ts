@@ -222,7 +222,7 @@ export class ValidationExecutor {
 
     private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
 
-        if (value === void 0) {
+        if (value == null) {
             return;
         }
 
