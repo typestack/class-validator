@@ -298,7 +298,7 @@ Note that when the condition is false all validation decorators are ignored, inc
 
 ## Whitelisting
 
-Even if your object is an instance of a validation class it can contain additional properties that are not defined. 
+Even if your object is an instance of a validation class it can contain additional properties that are not defined.
 If you do not want to have such properties on your object, pass special flag to `validate` method:
 
 ```typescript
@@ -307,20 +307,20 @@ import {validate} from "class-validator";
 validate(post, { whitelist: true });
 ```
 
-This will strip all properties that don't have any decorators. If no other decorator is suitable for your property, 
-you can use @Allow decorator: 
+This will strip all properties that don't have any decorators. If no other decorator is suitable for your property,
+you can use @Allow decorator:
 
 ```typescript
 import {validate, Allow, Min} from "class-validator";
 
 export class Post {
-    
+
     @Allow()
     title: string;
-    
+
     @Min(0)
     views: number;
-    
+
     nonWhitelistedProperty: number;
 }
 
@@ -334,11 +334,11 @@ post.nonWhitelistedProperty = 69;
 validate(post).then(errors => {
   // post.nonWhitelistedProperty is not defined
   // (post as any).anotherNonWhitelistedProperty is not defined
-  ...    
-}); 
+  ...
+});
 ````
 
-If you would rather to have an error thrown when any non-whitelisted properties are present, pass another flag to 
+If you would rather to have an error thrown when any non-whitelisted properties are present, pass another flag to
 `validate` method:
 
 ```typescript
@@ -346,7 +346,7 @@ import {validate} from "class-validator";
 // ...
 validate(post, { whitelist: true, forbidNonWhitelisted: true });
 ```
-  
+
 
 ## Skipping missing properties
 
@@ -798,6 +798,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based.                                       |
 | **Object validation decorators**                                                                                                                                                   |
 | `@IsInstance(value: any)`                       | Checks if the property is an instance of the passed value.                                                                       |
+| `@Allow()`                       | Prevent stripping off the property when no other constraint is specified for it.                                                                       |
 
 ## Defining validation schema without decorators
 
