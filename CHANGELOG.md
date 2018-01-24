@@ -1,7 +1,7 @@
 # Changelog and release notes
 
 
-### 0.8.0 [BREAKING CHANGE] (to be released)
+### 0.8.0 [BREAKING CHANGE]
 
 #### Features
 
