@@ -1,5 +1,14 @@
 # Changelog and release notes
 
+### 8.0.1
+
+#### Features
+
+_no new features in this release_
+
+#### Fixes
+
+* fixed wrong type info in ValidatorOptions
 
 ### 0.8.0 [BREAKING CHANGE]
 
