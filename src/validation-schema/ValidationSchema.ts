@@ -27,7 +27,7 @@ export interface ValidationSchema {
             /**
              * Constraints set by validation type.
              */
-            constraints: any[];
+            constraints?: any[];
 
             /**
              * Error message used to be used on validation fail.
@@ -57,7 +57,7 @@ export interface ValidationSchema {
             /**
              * Specific validation type options.
              */
-            options: any;
+            options?: any;
             
         }[];
     };
