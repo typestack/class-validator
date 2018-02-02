@@ -890,7 +890,8 @@ There are several extensions that simplify class-validator integration with othe
 
 ## Release notes
 
-See information about breaking changes and release notes [here](https://github.com/pleerock/class-validator/tree/master/doc/release-notes.md).
+See information about breaking changes and release notes [here][3].
 
 [1]: https://github.com/chriso/validator.js
 [2]: https://github.com/pleerock/typedi
+[3]: CHANGELOG.md
