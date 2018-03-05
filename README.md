@@ -8,6 +8,33 @@ Allows use of decorator and non-decorator based validation.
 Internally uses [validator.js][1] to perform validation.
 Class-validator works on both browser and node.js platforms.
 
+## Table of Contents
+
+ * [Installation](#installation)
+     - [Old versions of node.js/browser](#old-versions-of-nodejsbrowser)
+     - [Using in browser](#using-in-browser)
+ * [Usage](#usage)
+    + [Validation errors](#validation-errors)
+    + [Validation messages](#validation-messages)
+    + [Validating arrays](#validating-arrays)
+    + [Validating nested objects](#validating-nested-objects)
+    + [Inheriting Validation decorators](#inheriting-validation-decorators)
+    + [Conditional validation](#conditional-validation)
+    + [Whitelisting](#whitelisting)
+    + [Skipping missing properties](#skipping-missing-properties)
+    + [Validation groups](#validation-groups)
+    + [Custom validation classes](#custom-validation-classes)
+    + [Custom validation decorators](#custom-validation-decorators)
+    + [Using service container](#using-service-container)
+    + [Synchronous validation](#synchronous-validation)
+    + [Manual validation](#manual-validation)
+    + [Validation decorators](#validation-decorators)
+    + [Defining validation schema without decorators](#defining-validation-schema-without-decorators)
+    + [Validating plain objects](#validating-plain-objects)
+ * [Samples](#samples)
+ * [Extensions](#extensions)
+ * [Release notes](#release-notes)
+
 ## Installation
 
 Install module:
