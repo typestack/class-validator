@@ -58,7 +58,6 @@ export interface ValidationSchema {
              * Specific validation type options.
              */
             options?: any;
-            
         }[];
     };
 }
