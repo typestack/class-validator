@@ -10,6 +10,7 @@ _no new features in this release_
 
 * fixed wrong type info in `ValidatorOptions`
 * fixed wrong type info in `ValidationSchema` (the `options` key now is optional)
+* corrected `IsNumericString` to `IsNumberString` in the README
 
 ### 0.8.0 [BREAKING CHANGE]
 

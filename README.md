@@ -806,7 +806,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                   |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                                                       |
-| `@IsNumericString()`                            | Checks if the string is numeric.                                                                                                 |
+| `@IsNumberString()`                             | Checks if the string is numeric.                                                                                                 |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                                                         |
 | `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url.                                                                                                  |
 | `@IsUUID(version?: "3"\|"4"\|"5")`              | Checks if the string is a UUID (version 3, 4 or 5).                                                                              |
