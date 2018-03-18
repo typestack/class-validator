@@ -4,7 +4,8 @@
 
 #### Features
 
-_no new features in this release_
+* added `ValidationError.toString()` method for easier debugging
+* added `printError` method to pretty-print errors in NodeJS or the browser
 
 #### Fixes
 
