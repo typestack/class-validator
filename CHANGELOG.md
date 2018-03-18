@@ -1,6 +1,6 @@
 # Changelog and release notes
 
-### 0.8.1
+### 0.8.2
 
 #### Features
 
@@ -13,6 +13,16 @@
 * fixed wrong type info in `ValidationSchema` (the `options` key now is optional)
 * corrected `IsNumericString` to `IsNumberString` in the README
 * fixed type of `host_whitelist` and `host_backlist` in `IsURLOptions`.
+
+### 0.8.1
+
+#### Features
+
+_no new features in this release_
+
+#### Fixes
+
+* fixed wrong type info in `ValidatorOptions`
 
 ### 0.8.0 [BREAKING CHANGE]
 
