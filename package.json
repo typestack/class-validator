@@ -23,6 +23,7 @@
     "typescript-validator"
   ],
   "dependencies": {
+    "ansicolor": "1.1.71",
     "validator": "9.2.0"
   },
   "devDependencies": {
