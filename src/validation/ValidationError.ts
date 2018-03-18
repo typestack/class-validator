@@ -5,8 +5,10 @@ export class ValidationError {
 
     /**
      * Object that was validated.
+     *
+     * OPTIONAL - configurable via the ValidatorOptions.validationError.target option
      */
-    target: Object;
+    target?: Object;
 
     /**
      * Object's property that haven't pass validation.
@@ -15,8 +17,10 @@ export class ValidationError {
 
     /**
      * Value that haven't pass a validation.
+     *
+     * OPTIONAL - configurable via the ValidatorOptions.validationError.value option
      */
-    value: any;
+    value?: any;
 
     /**
      * Constraints that failed validation with error messages.
@@ -42,7 +46,7 @@ export class ValidationError {
         const propConstraintFailed = (propertyName: string): string => ` - property ${boldStart}${parentPath}${propertyName}${boldEnd} has failed the following constraints: ${boldStart}${Object.keys(this.constraints).join(`, `)}${boldEnd} \n`;
 
         if (!hasParent) {
-            return `An instance of ${boldStart}${this.target.constructor.name}${boldEnd} has failed the validation:\n` +
+            return `An instance of ${boldStart}${this.target ? this.target.constructor.name : "an object"}${boldEnd} has failed the validation:\n` +
                 (this.constraints ? propConstraintFailed(this.property) : ``) +
                 this.children
                     .map(childError => childError.toString(shouldDecorate, true, this.property))
