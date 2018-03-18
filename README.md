@@ -60,15 +60,17 @@ If you are using class-validator with system.js in browser then use following co
 
 ```javascript
 System.config({
-    map: {
-        'class-validator': 'vendor/class-validator',
-        'validator': 'vendor/validator'
-    },
-    packages: {
-        'class-validator': { 'defaultExtension': 'js', 'main': 'index.js' },
-        'validator': { 'defaultExtension': 'js', 'main': 'validator.js' },
-    }
-};
+          map: {
+            'class-validator': 'vendor/class-validator',
+            'validator': 'vendor/validator',
+            'ansicolor': 'vendor/ansicolor',
+          },
+          packages: {
+            'class-validator': { 'defaultExtension': 'js', 'main': 'index.js' },
+            'validator': { 'defaultExtension': 'js', 'main': 'validator.js' },
+            'ansicolor': { 'defaultExtension': 'js', 'main': 'ansicolor.js' },
+          }
+        });
 ```
 
 ## Usage
