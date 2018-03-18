@@ -1,5 +1,15 @@
 # Changelog and release notes
 
+### 0.8.3
+
+#### Features
+
+_no new features in this release_
+
+#### Fixes
+
+* handle when `target` property is undefined when calling `ValidationError.toString()`
+
 ### 0.8.2
 
 #### Features
@@ -12,13 +22,13 @@
 * fixed wrong type info in `ValidatorOptions`
 * fixed wrong type info in `ValidationSchema` (the `options` key now is optional)
 * corrected `IsNumericString` to `IsNumberString` in the README
-* fixed type of `host_whitelist` and `host_backlist` in `IsURLOptions`.
+* fixed type of `host_whitelist` and `host_backlist` in `IsURLOptions`
 
 ### 0.8.1
 
 #### Features
 
-_no new features in this release_
+
 
 #### Fixes
 
@@ -30,7 +40,7 @@ _no new features in this release_
 
 * updated [validator.js][2] from 7.0.0 to 9.2.0 (Check it's [changelog][3] for what has changed.)
 
-  This caused breaking change, if you used the `IsUrl` decorator to validate `localhost` as a valid url, from now you must use the `require_tld: false` option.
+  This caused breaking change, if you used the `IsUrl` decorator to validate `localhost` as a valid url, from now you must use the `require_tld: false` option
   ```ts
   @IsUrl({ require_tld: false})
   url: string;
@@ -45,7 +55,7 @@ _no new features in this release_
 
 * fixed issue with `@IsDateString` now it allow dates without fraction seconds to be set
 * fixed issue with `@IsDateString` now it allow dates without with timezones to be set
-* `@ValidateNested` correctly generates validation error on non object and non array values.
+* `@ValidateNested` correctly generates validation error on non object and non array values
 
 ### 0.6.7
 
