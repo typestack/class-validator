@@ -120,6 +120,29 @@ validate(post).then(errors => { // errors is an array of validation errors
 });
 ```
 
+### Passing options
+
+The `validate` function optionally expects a `ValidatorOptions` object as a second parameter.
+
+```ts
+export interface ValidatorOptions {
+
+    skipMissingProperties?: boolean;
+    whitelist?: boolean;
+    forbidNonWhitelisted?: boolean;
+    groups?: string[];
+    dismissDefaultMessages?: boolean;
+    validationError?: {
+        target?: boolean;
+        value?: boolean;
+    };
+
+    forbidUnknownValues?: boolean;
+}
+```
+
+> It's highly advised to enable on `forbidUnknownValues` what prevent unknown objects to pass validation.
+
 ## Validation errors
 
 `validate` method returns you an array of `ValidationError` objects. Each `ValidationError` is:
