@@ -48,4 +48,9 @@ export interface ValidatorOptions {
 
     };
 
+    /**
+     * Settings true will cause fail validation of unknown objects.
+     */
+    forbidUnknownValues?: boolean;
+
 }

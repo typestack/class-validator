@@ -44,6 +44,25 @@ export class ValidationExecutor {
         const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
+        if (this.validatorOptions && this.validatorOptions.forbidUnknownValues && !targetMetadatas.length) {
+            const validationError = new ValidationError();
+
+            if (!this.validatorOptions ||
+                !this.validatorOptions.validationError ||
+                this.validatorOptions.validationError.target === undefined ||
+                this.validatorOptions.validationError.target === true)
+                validationError.target = object;
+
+            validationError.value = undefined;
+            validationError.property = undefined;
+            validationError.children = [];
+            validationError.constraints = { unknownValue: "an unknown value was passed to the validate function"};
+
+            validationErrors.push(validationError);
+
+            return;
+        }
+
         if (this.validatorOptions && this.validatorOptions.whitelist)
             this.whitelist(object, groupedMetadatas, validationErrors);
 
