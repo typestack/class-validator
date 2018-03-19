@@ -1,5 +1,17 @@
 # Changelog and release notes
 
+### 0.8.4
+
+#### Features
+
+* `ValidatorOptions` now has a `forbidUnknownValues` key to prevent unknown objects to pass validation
+  * it's highly advised to turn this option on
+  * now this option defaults to `false` but will be default to `true` after the **1.0** release
+
+#### Fixes
+
+_no fixes in this release_
+
 ### 0.8.3
 
 #### Features
