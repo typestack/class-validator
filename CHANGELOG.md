@@ -1,5 +1,11 @@
 # Changelog and release notes
 
+### 0.8.5
+
+#### Fixes
+
+* remove `ansicolor` package, because it's incompatible with IE
+
 ### 0.8.4
 
 #### Features
