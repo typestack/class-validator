@@ -22,7 +22,6 @@ export * from "./validation/Validator";
 export * from "./validation-schema/ValidationSchema";
 export * from "./register-decorator";
 export * from "./metadata/MetadataStorage";
-export * from "./util/print-error";
 
 // -------------------------------------------------------------------------
 // Shortcut methods for api users
