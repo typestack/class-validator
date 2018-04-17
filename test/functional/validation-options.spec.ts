@@ -1,6 +1,7 @@
 import "es6-shim";
-import {Contains, MinLength} from "../../src/decorator/decorators";
+import {Contains, MinLength, Length} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
+import { should } from "chai";
 
 // -------------------------------------------------------------------------
 // Setup
@@ -293,6 +294,88 @@ describe("validation options", function() {
         it("should always validate a marked field no matter if group is specified", function() {
             return validator.validate(model2, { groups: ["text-validation"] }).then(errors => {
                 errors.length.should.be.equal(0);
+            });
+        });
+
+    });
+
+    describe("context", function() {
+
+        it("should map context", function() {
+            class MyClass {
+                @Contains("hello", {
+                    message: "String is not valid. You string must contain a hello word",
+                    context: {
+                        hi: "there"
+                    }
+                })
+                someProperty: string;
+
+                @Contains("bye", {
+                    message: "String is not valid. You string must contain a bye word",
+                    context: {
+                        bye: "now"
+                    }
+                })
+                someOtherProperty: string;
+            }
+
+            const model = new MyClass();
+            // model.someProperty = "hell no world";
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(2);
+                errors[0].contexts["contains"].should.be.eql({ hi: "there" });
+                errors[1].contexts["contains"].should.be.eql({ bye: "now" });
+            });
+        });
+
+        it("should map multiple context on a single property for different constraints", function() {
+            class MyClass {
+                @Contains("hello", {
+                    message: "String is not valid. You string must contain a hello word",
+                    context: {
+                        hi: "there"
+                    }
+                })
+                @MinLength(20, {
+                    context: {
+                        whats: "up"
+                    }
+                })
+                someProperty: string;
+            }
+
+            const model = new MyClass();
+            model.someProperty = "bippity";
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(1);
+                errors[0].contexts["contains"].should.be.eql({ hi: "there" });
+                errors[0].contexts["minLength"].should.be.eql({ whats: "up" });
+            });
+        });
+
+        it("should not map no context", function() {
+            class MyClass {
+                @Contains("hello", {
+                    message: "String is not valid. You string must contain a hello word"
+                })
+                someProperty: string;
+
+                @Contains("bye", {
+                    message: "String is not valid. You string must contain a bye word",
+                    context: {
+                        bye: "now"
+                    }
+                })
+                someOtherProperty: string;
+            }
+
+            const model = new MyClass();
+            // model.someProperty = "hell no world";
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(2);
+                should().equal(errors[0].contexts, undefined);
+                errors[1].contexts["contains"].should.be.eql({ bye: "now" });
             });
         });
 
