@@ -211,16 +211,21 @@ export function IsNotIn(values: any[], validationOptions?: ValidationOptions) {
 /**
  * Checks if value is missing and if so, ignores all validators.
  */
-export function IsOptional(validationOptions?: ValidationOptions) {
+export function IsOptional(condition?: (object: any, value: any) => boolean, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.CONDITIONAL_VALIDATION,
             target: object.constructor,
             propertyName: propertyName,
             constraints: [(object: any, value: any) => {
+                if (typeof condition === "function") {
+                    if (!condition(object, value)) {
+                        return true;
+                    }
+                }
                 return object[propertyName] !== null && object[propertyName] !== undefined;
             }],
-            validationOptions: validationOptions
+            validationOptions: typeof condition === "object" ? condition : validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };

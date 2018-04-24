@@ -348,6 +348,26 @@ In the example above, the validation rules applied to `example` won't be run unl
 
 Note that when the condition is false all validation decorators are ignored, including `isDefined`.
 
+### Conditional `IsOptional`
+
+Following the same process, the decorator `IsOptional` accepts a condition function which allows to remove the `IsOptional` when returning false.
+```typescript
+import {IsOptional} from "class-validator";
+
+export class Place {
+    @IsOptional(o => o.latitude === undefined)
+    @IsNotEmpty()
+    @IsNumber()
+    longitude: number;
+
+    @IsOptional(o => o.longitude === undefined)
+    @IsNotEmpty()
+    @IsNumber()
+    latitude: number;
+}
+```
+
+
 ## Whitelisting
 
 Even if your object is an instance of a validation class it can contain additional properties that are not defined.
@@ -777,7 +797,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 |-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | **Common validation decorators**                                                                                                                                                   |
 | `@IsDefined(value: any)`                        | Checks if value is defined (!== undefined, !== null). This is the only decorator that ignores skipMissingProperties option.      |
-| `@IsOptional()`                                 | Checks if given value is empty (=== null, === undefined) and if so, ignores all the validators on the property.                         |
+| `@IsOptional(condition?: function)`             | Checks if given value is empty (=== null, === undefined) and if so, ignores all the validators on the property.                  |
 | `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison.                                                                                       |
 | `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison.                                                                                    |
 | `@IsEmpty()`                                    | Checks if given value is empty (=== '', === null, === undefined).                                                                |
@@ -791,7 +811,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsNumber(options: IsNumberOptions)`           | Checks if the value is a number.                                                                                                 |
 | `@IsInt()`                                      | Checks if the value is an integer number.                                                                                        |
 | `@IsArray()`                                    | Checks if the value is an array                                                                                                  |
-| `@IsEnum(entity: object)`                         | Checks if the value is an valid enum                                                                                           |
+| `@IsEnum(entity: object)`                       | Checks if the value is an valid enum                                                                                             |
 | **Number validation decorators**                                                                                                                                                   |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
 | `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |
