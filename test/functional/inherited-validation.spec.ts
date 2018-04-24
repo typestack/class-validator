@@ -46,4 +46,31 @@ describe("inherited validation", function() {
         });
     });
 
+    it.only("should add validators to inherited properties, but not override them", function() {
+
+      class MyClass {
+          @Contains("hello")
+          title: string;
+      }
+
+      class MySubClass extends MyClass {
+          @MinLength(15)
+          title: string;
+      }
+
+      const model = new MySubClass();
+      model.title = "helo world";
+      return validator.validate(model).then(errors => {
+          errors.length.should.be.equal(1);
+
+          errors[0].target.should.be.equal(model);
+          errors[0].property.should.be.equal("title");
+          errors[0].constraints.should.be.eql({
+            contains: "title must contain a hello string",
+            minLength: "title must be longer than or equal to 15 characters"
+          });
+          errors[0].value.should.be.equal("helo world");
+      });
+  });
+
 });
