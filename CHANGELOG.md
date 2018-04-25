@@ -1,4 +1,4 @@
-# Changelog and release notes
+# Changelog
 
 ### 0.8.5
 
@@ -14,15 +14,7 @@
   * it's highly advised to turn this option on
   * now this option defaults to `false` but will be default to `true` after the **1.0** release
 
-#### Fixes
-
-_no fixes in this release_
-
 ### 0.8.3
-
-#### Features
-
-_no new features in this release_
 
 #### Fixes
 
@@ -43,10 +35,6 @@ _no new features in this release_
 * fixed type of `host_whitelist` and `host_backlist` in `IsURLOptions`
 
 ### 0.8.1
-
-#### Features
-
-
 
 #### Fixes
 
@@ -77,19 +65,11 @@ _no new features in this release_
 
 ### 0.6.7
 
-#### Features
-
-_no new features in this release_
-
 #### Fixes
 
 * fixed issue with `@ValidateNested` when nested property is not defined and it throw an error (#59)
 
 ### 0.6.5
-
-#### Features
-
-_no new features in this release_
 
 #### Fixes
 
@@ -101,19 +81,11 @@ _no new features in this release_
 
 * added `@IsMilitaryTime` decorator.
 
-#### Fixes
-
-_no fixes in this release._
-
 ### 0.6.3
 
 #### Features
 
 * added `validateOrReject` method which rejects promise instead of returning array of errors in resolved result
-
-#### Fixes
-
-_no fixes in this release._
 
 ### 0.6.1
 
@@ -121,20 +93,12 @@ _no fixes in this release._
 
 * added `@IsArray` decorator.
 
-#### Fixes
-
-_no fixes in this release._
-
 ### 0.6.0 [BREAKING CHANGE]
 
 #### Features
 
 * breaking change with `@ValidateNested` on arrays: Validator now groups the validation errors by sub-object, rather than them all being grouped together. See #32 for a demonstration of the updated structure.
 * added `@ValidateIf` decorator, see conditional validation in docs.
-
-#### Fixes
-
-_no fixes in this release._
 
 ### 0.5.0 [BREAKING CHANGE]
 
@@ -147,15 +111,7 @@ _no fixes in this release._
 * there is a breaking change in `registerDecorator` method. Now it accepts options object.
 * breaking change with `@ValidatorConstraint` decorator. Now it accepts option object instead of single name.
 
-#### Fixes
-
-_no fixes in this release._
-
 ### 0.4.1
-
-#### Features
-
-_no new features in this release_
 
 #### Fixes
 
@@ -192,10 +148,6 @@ _no new features in this release_
 
 * package has changed its name from `validator.ts` to `class-validator`.
 * sanitation functionality has been removed from this library. Use [class-sanitizer][1] instead.
-
-#### Fixes
-
-_no fixes in this release._
 
 [1]: https://github.com/pleerock/class-sanitizer
 [2]: https://github.com/chriso/validator.js
