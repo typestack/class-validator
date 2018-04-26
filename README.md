@@ -599,7 +599,7 @@ Lets create a decorator called `@IsLongerThan`:
         title: string;
 
         @IsLongerThan("title", {
-           /* you can also use additional validation options, like "each", "groups" in your custom validation decorators */
+           /* you can also use additional validation options, like "groups" in your custom validation decorators. "each" is not supported */
            message: "Text must be longer than the title"
         })
         text: string;
