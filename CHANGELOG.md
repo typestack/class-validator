@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.6 [unreleased]
+
+### Fixes
+
+* added a console warning when no metadata decorator is found as it's possibly not intended
+
 ## 0.8.5
 
 #### Fixes
