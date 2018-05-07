@@ -406,14 +406,14 @@ export class Validator {
     }
 
     /**
-     * Checks if the first number is greater than second.
+     * Checks if the first number is greater than or equal to the second.
      */
     min(num: number, min: number): boolean {
         return typeof num === "number" && typeof min === "number" && num >= min;
     }
 
     /**
-     * Checks if the first number is less than second.
+     * Checks if the first number is less than or equal to the second.
      */
     max(num: number, max: number): boolean {
         return typeof num === "number" && typeof max === "number" && num <= max;

@@ -948,7 +948,7 @@ describe("Min", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "min";
-        const message = "someProperty must be greater than " + constraint;
+        const message = "someProperty must not be less than " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
@@ -983,7 +983,7 @@ describe("Max", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "max";
-        const message = "someProperty must be less than " + constraint;
+        const message = "someProperty must not be greater than " + constraint;
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 

@@ -153,9 +153,9 @@ export class ValidationTypes {
             case this.IS_NEGATIVE:
                 return eachPrefix + "$property must be a negative number";
             case this.MIN:
-                return eachPrefix + "$property must be greater than $constraint1";
+                return eachPrefix + "$property must not be less than $constraint1";
             case this.MAX:
-                return eachPrefix + "$property must be less than $constraint1";
+                return eachPrefix + "$property must not be greater than $constraint1";
 
             /* date checkers */
             case this.MIN_DATE:
