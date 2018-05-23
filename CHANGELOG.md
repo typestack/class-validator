@@ -4,6 +4,7 @@
 
 ### Fixes
 
+* update `IsURLOptions` to match underlying validator host list options
 * added a console warning when no metadata decorator is found as it's possibly not intended
 
 ## 0.8.5
