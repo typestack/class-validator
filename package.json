@@ -23,7 +23,7 @@
     "typescript-validator"
   ],
   "dependencies": {
-    "validator": "9.2.0"
+    "validator": "10.2.0"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
