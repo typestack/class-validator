@@ -1114,6 +1114,7 @@ describe("IsNumberString", function() {
 
     const validValues = [
         "123"
+        , "123.123"
         , "00123"
         , "-00123"
         , "0"
@@ -1121,8 +1122,7 @@ describe("IsNumberString", function() {
         , "+123"
     ];
     const invalidValues = [
-        "123.123"
-        , " "
+        " "
         , "."
     ];
 
@@ -1536,7 +1536,6 @@ describe("IsEmail", function() {
         , "test|123@m端ller.com"
         , "test+ext@gmail.com"
         , "some.name.midd.leNa.me.+extension@GoogleMail.com"
-        , "gmail...ignores...dots...@gmail.com"
         , "\"foobar\"@example.com"
         , "\"  foo  m端ller \"@example.com"
         , "\"foo\\@bar\"@example.com"
@@ -1551,6 +1550,7 @@ describe("IsEmail", function() {
         , "somename@ｇｍａｉｌ.com"
         , "foo@bar.co.uk."
         , "z@co.c"
+        , "gmail...toomany...dots...@gmail.com"
         , "ｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌ@gmail.com"
     ];
 
