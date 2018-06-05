@@ -455,8 +455,12 @@ validate(user, {
 }); // this will not pass validation
 
 validate(user, {
+    groups: undefined // the default
+}); // this will not pass validation since all properties get validated regardless of their groups 
+
+validate(user, {
     groups: []
-}); // this will not pass validation
+}); // this will not pass validation, (equivalent to 'groups: undefined', see above)
 ```
 
 There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
