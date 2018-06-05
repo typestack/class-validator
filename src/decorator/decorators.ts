@@ -861,6 +861,25 @@ export function IsMobilePhone(locale: string, validationOptions?: ValidationOpti
 }
 
 /**
+ * Checks if the string is a valid phone number.
+ * @param {string} region 2 characters uppercase country code (e.g. DE, US, CH).
+ * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
+ * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
+ */
+export function IsPhoneNumber(region: string, validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_PHONE_NUMBER,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [region],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
  */
 export function IsMongoId(validationOptions?: ValidationOptions) {
