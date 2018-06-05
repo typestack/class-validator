@@ -15,6 +15,10 @@ export class MetadataStorage {
     private validationMetadatas: ValidationMetadata[] = [];
     private constraintMetadatas: ConstraintMetadata[] = [];
 
+    get hasValidationMetaData() {
+        return !!this.validationMetadatas.length;
+    }
+
     // -------------------------------------------------------------------------
     // Public Methods
     // -------------------------------------------------------------------------

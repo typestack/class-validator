@@ -30,7 +30,7 @@
     "@types/chai-as-promised": "0.0.30",
     "@types/gulp": "^4.0.2",
     "@types/mocha": "^2.2.40",
-    "@types/node": "^7.0.10",
+    "@types/node": "^8.10.11",
     "@types/sinon": "^1.16.36",
     "chai": "^3.4.1",
     "chai-as-promised": "^6.0.0",
@@ -56,6 +56,7 @@
     "typescript": "^2.2.1"
   },
   "scripts": {
+    "build": "gulp package",
     "test": "gulp tests"
   }
 }
