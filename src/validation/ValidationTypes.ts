@@ -69,6 +69,7 @@ export class ValidationTypes {
     static IS_JSON = "isJson";
     static IS_LOWERCASE = "isLowercase";
     static IS_MOBILE_PHONE = "isMobilePhone";
+    static IS_PHONE_NUMBER = "isPhoneNumber";
     static IS_MONGO_ID = "isMongoId";
     static IS_MULTIBYTE = "isMultibyte";
     static IS_SURROGATE_PAIR = "isSurrogatePair";
@@ -216,6 +217,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a lowercase string";
             case this.IS_MOBILE_PHONE:
                 return eachPrefix + "$property must be a phone number";
+            case this.IS_PHONE_NUMBER:
+                return eachPrefix + "$property must be a valid phone number";
             case this.IS_MONGO_ID:
                 return eachPrefix + "$property must be a mongodb id";
             case this.IS_MULTIBYTE:

@@ -63,7 +63,7 @@ import {
     ArrayUnique,
     IsArray,
     IsDateString,
-    IsInstance
+    IsInstance, IsMobilePhone, IsPhoneNumber
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -78,7 +78,7 @@ export function checkValidValues(object: { someProperty: any }, values: any[], d
         object.someProperty = value;
         return validator
             .validate(object, validatorOptions)
-            .then(errors => errors.length.should.be.equal(0));
+            .then(errors => errors.length.should.be.equal(0, `Unexpected errors: ${JSON.stringify(errors)}`));
     });
     Promise.all(promises).then(() => done(), err => done(err));
 }
@@ -2837,6 +2837,57 @@ describe("IsMilitaryTime", function() {
     });
 
 });
+
+describe("isPhoneNumber", function() {
+    describe("with region", function() {
+        const validValues = [
+            "0311111111", "031 633 60 01", "079 4 666 666", "075 416 20 30",
+            "+41 311111111", "+41 31 633 60 01", "+41 79 4 666 666", "+41 75 416 20 30",
+            "+41 (0)311111111", "+41 (0)31 633 60 01", "+41 (0)79 4 666 666", "+41 (0)75 416 20 30",
+            "+49 9072 1111"
+        ];
+        const invalidValues = [undefined, null, "asdf", "1"];
+
+        class MyClass {
+            @IsPhoneNumber("CH")
+            someProperty: string;
+        }
+
+        it("should not fail if validator.validate said that its valid", function(done) {
+            checkValidValues(new MyClass(), validValues, done);
+        });
+
+        it("should fail if validator.validate said that its invalid", function(done) {
+            checkInvalidValues(new MyClass(), invalidValues, done);
+        });
+    });
+
+    describe("no region", function() {
+        const validValues = [
+            "+41 311111111", "+41 31 633 60 01", "+41 79 4 666 666", "+41 75 416 20 30",
+            "+41 (0)311111111", "+41 (0)31 633 60 01", "+41 (0)79 4 666 666", "+41 (0)75 416 20 30",
+            "+49 9072 1111"
+        ];
+        const invalidValues = [
+            "0311111111", "031 633 60 01", "079 4 666 666", "075 416 20 30",
+            undefined, null, "asdf", "1"
+        ];
+
+        class MyClass {
+            @IsPhoneNumber(null)
+            someProperty: string;
+        }
+
+        it("should not fail if validator.validate said that its valid", function(done) {
+            checkValidValues(new MyClass(), validValues, done);
+        });
+
+        it("should fail if validator.validate said that its invalid", function(done) {
+            checkInvalidValues(new MyClass(), invalidValues, done);
+        });
+    });
+});
+
 
 // -------------------------------------------------------------------------
 // Specifications: array check
