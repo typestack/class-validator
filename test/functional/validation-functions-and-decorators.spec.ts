@@ -63,7 +63,8 @@ import {
     ArrayUnique,
     IsArray,
     IsDateString,
-    IsInstance, IsMobilePhone, IsPhoneNumber
+    IsInstance,
+    IsPhoneNumber
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
