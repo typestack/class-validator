@@ -1,6 +1,7 @@
 import "es6-shim";
-import {Contains, MinLength} from "../../src/decorator/decorators";
+import {Contains, MinLength, ValidateNested} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
+import {ValidationError} from "../../src";
 
 // -------------------------------------------------------------------------
 // Setup
@@ -265,37 +266,117 @@ describe("validation options", function() {
 
         class MyClass {
             @Contains("hello", {
-                groups: ["title-validation"]
+                groups: ["sometimes"]
             })
             title: string;
 
             @Contains("bye", {
-                groups: ["text-validation"],
+                groups: ["always"],
                 always: true
             })
             text: string;
         }
 
-        const model1 = new MyClass();
-        model1.title = "hello world";
-        model1.text = "hello world";
+        const model = new MyClass();
 
-        const model2 = new MyClass();
-        model2.title = "bye world";
-        model2.text = "bye world";
+        function expectTitle(error: ValidationError) {
+            error.constraints.should.eql({ contains: "title must contain a hello string" });
+        }
+        function expectText(error: ValidationError) {
+            error.constraints.should.eql({ contains: "text must contain a bye string" });
+        }
 
-        it("should always validate a marked field no matter if group is specified", function() {
-            return validator.validate(model1, { groups: ["title-validation"] }).then(errors => {
+        it("should always validate a marked field even if another group is specified", function() {
+            return validator.validate(model, { groups: ["sometimes"] }).then(errors => {
+                errors.length.should.be.equal(2);
+                expectTitle(errors[0]);
+                expectText(errors[1]);
+            });
+        });
+
+        it("should always validate a marked field if its group is specified (doubly enabled)", function() {
+            return validator.validate(model, { groups: ["always"] }).then(errors => {
                 errors.length.should.be.equal(1);
+                expectText(errors[0]);
+            });
+        });
+
+        it("should still validate other fields/groups", function() {
+            return validator.validate(model, { groups: ["always"] }).then(errors => {
+                errors.length.should.be.equal(1);
+                expectText(errors[0]);
+            });
+        });
+
+        it("should always validate a marked field if group is not specified", function() {
+            return validator.validate(model, { groups: undefined }).then(errors => {
+                errors.length.should.be.equal(2);
+                expectTitle(errors[0]);
+                expectText(errors[1]);
             });
         });
 
         it("should always validate a marked field no matter if group is specified", function() {
-            return validator.validate(model2, { groups: ["text-validation"] }).then(errors => {
-                errors.length.should.be.equal(0);
+            return validator.validate(model, { groups: undefined }).then(errors => {
+                errors.length.should.be.equal(2);
+                expectTitle(errors[0]);
+                expectText(errors[1]);
             });
         });
 
     });
 
+    describe("groups - nested", function() {
+        class Nested {
+            @Contains("hello", {
+                groups: ["always"],
+                always: true
+            })
+            text: string;
+        }
+
+        class Root {
+            @ValidateNested({ groups: ["always"], always: true })
+            always = new Nested;
+
+            @ValidateNested({ groups: ["sometimes"] })
+            sometimes = new Nested;
+
+            @ValidateNested({ groups: ["other"] })
+            other = new Nested;
+        }
+
+        const model = new Root();
+
+        function expectChildConstraint(error: ValidationError, childName: string) {
+            error.property.should.be.equal(childName);
+            error.children.length.should.be.equal(1);
+            error.children[0].property.should.be.equal("text");
+            error.children[0].constraints.should.eql({ contains: "text must contain a hello string" });
+        }
+
+        it("should validate all children if no group is given", function() {
+            return validator.validate(model, { groups: undefined }).then(errors => {
+                errors.length.should.be.equal(3);
+                expectChildConstraint(errors[0], "always");
+                expectChildConstraint(errors[1], "sometimes");
+                expectChildConstraint(errors[2], "other");
+            });
+        });
+
+        it("should validate only the given group + always", function() {
+            return validator.validate(model, { groups: ["sometimes"] }).then(errors => {
+                errors.length.should.be.equal(2);
+                expectChildConstraint(errors[0], "always");
+                expectChildConstraint(errors[1], "sometimes");
+            });
+        });
+
+        it("should validate only the given group + always", function() {
+            return validator.validate(model, { groups: ["always"] }).then(errors => {
+                errors.length.should.be.equal(1);
+                expectChildConstraint(errors[0], "always");
+            });
+        });
+    });
 });
