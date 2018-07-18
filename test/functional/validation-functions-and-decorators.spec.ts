@@ -69,6 +69,13 @@ import {
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
 
+import {should, use } from "chai";
+
+import * as chaiAsPromised from "chai-as-promised";
+
+should();
+use(chaiAsPromised);
+
 // -------------------------------------------------------------------------
 // Helper functions
 // -------------------------------------------------------------------------
@@ -1525,7 +1532,7 @@ describe("IsCurrency", function() {
 
 });
 
-describe.only("IsEmail", function() {
+describe("IsEmail", function() {
 
     const validValues = [
         "foo@bar.com"
