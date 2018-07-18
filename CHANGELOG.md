@@ -5,7 +5,8 @@
 #### Features
 
 * updated [validator.js][validator-js] from 9.2.0 to 10.4.0 (Check it's [changelog][validator-js-release-notes] for what has changed.)
-  * This causes a breaking change, until now fractional numbers was not allowed in the `IsNumberString` decorator, now they are allowed
+  * until now fractional numbers was not allowed in the `IsNumberString` decorator, now they are allowed
+  * until now Gmail addresses could contain multiple dots or random text after a `+` symbol, this is not allowed anymore 
 
 ### Fixes
 
