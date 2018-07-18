@@ -7,6 +7,7 @@
 * updated [validator.js][validator-js] from 9.2.0 to 10.4.0 (Check it's [changelog][validator-js-release-notes] for what has changed.)
   * until now fractional numbers was not allowed in the `IsNumberString` decorator, now they are allowed
   * until now Gmail addresses could contain multiple dots or random text after a `+` symbol, this is not allowed anymore 
+* `IsPhoneNumber` decorator has been added which uses the [google-libphonenumber][google-libphonenumber] libary to validate international phone numbers accurately (contribution by @HonoluluHenk)
 
 ### Fixes
 
@@ -171,3 +172,4 @@ _no fixes in this release._
 [1]: https://github.com/pleerock/class-sanitizer
 [validator-js]: https://github.com/chriso/validator.js
 [validator-js-release-notes]: https://github.com/chriso/validator.js/blob/master/CHANGELOG.md
+[google-libphonenumber]: https://github.com/ruimarinho/google-libphonenumber
