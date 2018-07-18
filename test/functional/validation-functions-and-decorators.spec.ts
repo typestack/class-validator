@@ -1114,6 +1114,7 @@ describe("IsNumberString", function() {
 
     const validValues = [
         "123"
+        , "123.123"
         , "00123"
         , "-00123"
         , "0"
@@ -1121,8 +1122,7 @@ describe("IsNumberString", function() {
         , "+123"
     ];
     const invalidValues = [
-        "123.123"
-        , " "
+        " "
         , "."
     ];
 
@@ -1524,7 +1524,7 @@ describe("IsCurrency", function() {
 
 });
 
-describe("IsEmail", function() {
+describe.only("IsEmail", function() {
 
     const validValues = [
         "foo@bar.com"
@@ -1534,9 +1534,6 @@ describe("IsEmail", function() {
         , "hans.m端ller@test.com"
         , "hans@m端ller.com"
         , "test|123@m端ller.com"
-        , "test+ext@gmail.com"
-        , "some.name.midd.leNa.me.+extension@GoogleMail.com"
-        , "gmail...ignores...dots...@gmail.com"
         , "\"foobar\"@example.com"
         , "\"  foo  m端ller \"@example.com"
         , "\"foo\\@bar\"@example.com"
@@ -1551,6 +1548,9 @@ describe("IsEmail", function() {
         , "somename@ｇｍａｉｌ.com"
         , "foo@bar.co.uk."
         , "z@co.c"
+        , "test+ext@gmail.com"
+        , "some.name.midd.leNa.me.+extension@GoogleMail.com"
+        , "gmail...ignores...dots...@gmail.com"
         , "ｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌ@gmail.com"
     ];
 
@@ -1568,7 +1568,10 @@ describe("IsEmail", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isEmail(value).should.be.true);
+        validValues.forEach(value => {
+            console.log(value, validator.isEmail(value));
+            return validator.isEmail(value).should.be.true;
+        });
     });
 
     it("should fail if method in validator said that its invalid", function() {
