@@ -1,12 +1,17 @@
 # Changelog
 
-## 0.8.6 [unreleased]
+### 0.9.0 [BREAKING CHANGE] [Unreleased]
+
+#### Features
+
+* updated [validator.js][validator-js] from 9.2.0 to 10.4.0 (Check it's [changelog][validator-js-release-notes] for what has changed.)
+  * This causes a breaking change, until now fractional numbers was not allowed in the `IsNumberString` decorator, now they are allowed
 
 ### Fixes
 
 * added a console warning when no metadata decorator is found as it's possibly not intended
 
-## 0.8.5
+### 0.8.5
 
 #### Fixes
 
@@ -50,7 +55,7 @@
 
 #### Features
 
-* updated [validator.js](https://github.com/chriso/validator.js) from 7.0.0 to 9.2.0 \(Check it's [changelog](https://github.com/chriso/validator.js/blob/master/CHANGELOG.md) for what has changed.\)
+* updated [validator.js][validator-js] from 7.0.0 to 9.2.0 (Check it's [changelog][validator-js-release-notes] for what has changed.)
 
   This caused breaking change, if you used the `IsUrl` decorator to validate `localhost` as a valid url, from now you must use the `require_tld: false` option
 
@@ -156,4 +161,12 @@
 #### Features
 
 * package has changed its name from `validator.ts` to `class-validator`.
-* sanitation functionality has been removed from this library. Use [class-sanitizer](https://github.com/pleerock/class-sanitizer) instead.
+* sanitation functionality has been removed from this library. Use [class-sanitizer][1] instead.
+
+#### Fixes
+
+_no fixes in this release._
+
+[1]: https://github.com/pleerock/class-sanitizer
+[validator-js]: https://github.com/chriso/validator.js
+[validator-js-release-notes]: https://github.com/chriso/validator.js/blob/master/CHANGELOG.md
