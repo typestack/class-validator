@@ -55,6 +55,11 @@ export class ValidationMetadata {
      */
     each: boolean = false;
 
+    /*
+     * A transient set of data passed through to the validation result for response mapping
+     */
+    context?: any = undefined;
+
     /**
      * Extra options specific to validation type.
      */
@@ -76,7 +81,8 @@ export class ValidationMetadata {
             this.groups = args.validationOptions.groups;
             this.always = args.validationOptions.always;
             this.each = args.validationOptions.each;
+            this.context = args.validationOptions.context;
         }
     }
-    
+
 }
