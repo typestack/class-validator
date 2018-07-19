@@ -337,6 +337,30 @@ validate(user).then(errors => {
 
 ```
 
+Redefining property in a child class does override parent's decorators, but adds new ones on top
+```typescript
+import {validate} from "class-validator";
+
+class BaseContent {
+
+    @IsEmail()
+    email: string;
+}
+
+class Post extends BaseContent {
+
+    @MinLength(20)
+    email: string; // Email wil be validated not only against MinLength, but against IsEmail as well
+}
+
+let post = new Post();
+post.email = "invalid email";  // inherited property
+
+validate(post).then(errors => {
+    // ...
+});  // it will return errors for email not beaing an actual email and for being shorter than 20 characters
+
+
 ## Conditional validation
 
 The conditional validation decorator (`@ValidateIf`) can be used to ignore the validators on a property when the provided condition function returns false. The condition function takes the object being validated and must return a `boolean`.
