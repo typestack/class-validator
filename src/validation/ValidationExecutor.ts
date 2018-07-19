@@ -66,7 +66,7 @@ export class ValidationExecutor {
             validationError.value = undefined;
             validationError.property = undefined;
             validationError.children = [];
-            validationError.constraints = { unknownValue: "an unknown value was passed to the validate function"};
+            validationError.constraints = { unknownValue: "an unknown value was passed to the validate function" };
 
             validationErrors.push(validationError);
 
@@ -104,6 +104,8 @@ export class ValidationExecutor {
             this.defaultValidations(object, value, metadatas, validationError.constraints);
             this.customValidations(object, value, customValidationMetadatas, validationError.constraints);
             this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
+
+            this.mapContexts(object, value, metadatas, validationError);
         });
     }
 
@@ -216,6 +218,7 @@ export class ValidationExecutor {
                               value: any,
                               metadatas: ValidationMetadata[],
                               errorMap: { [key: string]: string }) {
+
         metadatas.forEach(metadata => {
             getFromContainer(MetadataStorage)
                 .getTargetValidatorConstraints(metadata.constraintCls)
@@ -284,13 +287,34 @@ export class ValidationExecutor {
         });
     }
 
+    private mapContexts(object: Object,
+                        value: any,
+                        metadatas: ValidationMetadata[],
+                        error: ValidationError) {
+
+        return metadatas
+            .forEach(metadata => {
+                if (metadata.context) {
+                    const type = this.getConstraintType(metadata);
+
+                    if (error.constraints[type]) {
+                        if (!error.contexts) {
+                            error.contexts = {};
+                        }
+
+                        error.contexts[type] = Object.assign((error.contexts[type] || {}), metadata.context);
+                    }
+                }
+            });
+    }
+
     private createValidationError(object: Object,
                                   value: any,
                                   metadata: ValidationMetadata,
                                   customValidatorMetadata?: ConstraintMetadata): [string, string] {
 
         const targetName = object.constructor ? (object.constructor as any).name : undefined;
-        const type = customValidatorMetadata && customValidatorMetadata.name ? customValidatorMetadata.name : metadata.type;
+        const type = this.getConstraintType(metadata, customValidatorMetadata);
         const validationArguments: ValidationArguments = {
             targetName: targetName,
             property: metadata.propertyName,
@@ -312,6 +336,11 @@ export class ValidationExecutor {
 
         const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments);
         return [type, messageString];
+    }
+
+    private getConstraintType(metadata: ValidationMetadata, customValidatorMetadata?: ConstraintMetadata): string {
+        const type = customValidatorMetadata && customValidatorMetadata.name ? customValidatorMetadata.name : metadata.type;
+        return type;
     }
 
 }

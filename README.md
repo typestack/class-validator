@@ -21,6 +21,7 @@ Class-validator works on both browser and node.js platforms.
     + [Inheriting Validation decorators](#inheriting-validation-decorators)
     + [Conditional validation](#conditional-validation)
     + [Whitelisting](#whitelisting)
+    + [Passing context to decorators](#passing-context-to-decorators)
     + [Skipping missing properties](#skipping-missing-properties)
     + [Validation groups](#validation-groups)
     + [Custom validation classes](#custom-validation-classes)
@@ -37,41 +38,11 @@ Class-validator works on both browser and node.js platforms.
 
 ## Installation
 
-Install module:
-
-`npm install class-validator --save`
-
-#### Old versions of node.js/browser
-
-ES6 features are used, if you are using old versions of node (or browser) you may want to install [es6-shim](https://github.com/paulmillr/es6-shim) too:
-
-`npm install es6-shim --save`
-
-and use it somewhere in the global place of your app:
-
-* for nodejs: `require("es6-shim")` (or `import "es6-shim";`) in your app's entry point (for example in `app.ts`)
-* for browser: `<script src="node_modules/es6-shim/es6-shim.js">` in your `index.html`
-
-This step is only required if you are using old versions of node/browser.
-
-#### Using in browser
-
-If you are using class-validator with system.js in browser then use following configuration:
-
-```javascript
-System.config({
-          map: {
-            'class-validator': 'vendor/class-validator',
-            'validator': 'vendor/validator',
-            'ansicolor': 'vendor/ansicolor',
-          },
-          packages: {
-            'class-validator': { 'defaultExtension': 'js', 'main': 'index.js' },
-            'validator': { 'defaultExtension': 'js', 'main': 'validator.js' },
-            'ansicolor': { 'defaultExtension': 'js', 'main': 'ansicolor.js' },
-          }
-        });
 ```
+npm install class-validator --save
+```
+
+> Note: Please use at least npm@6 when using class-validator as from npm@6 the dependency tree is flatterned what is good for us.
 
 ## Usage
 
@@ -297,7 +268,8 @@ export class Post {
 
 ## Inheriting Validation decorators
 
-When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators.
+When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant class decorators will be applied on it both from that and the base class.
+
 ```typescript
 import {validate} from "class-validator";
 
@@ -305,24 +277,32 @@ class BaseContent {
 
     @IsEmail()
     email: string;
+
+    @IsString()
+    password: string;
 }
 
-class Post extends BaseContent {
+class User extends BaseContent {
 
     @MinLength(10)
     @MaxLength(20)
-    title: string;
+    name: string;
 
     @Contains("hello")
-    text: string;
+    welcome: string;
+
+    @MinLength(20)
+    password: string; /
 }
 
-let post = new Post();
-post.email = "invalid email";  // inherited property
-post.title = "not valid";
-post.text = "helo";
+let user = new User();
 
-validate(post).then(errors => {
+user.email = "invalid email";  // inherited property
+user.password = "too short" // password wil be validated not only against IsString, but against MinLength as well
+user.name = "not valid";
+user.welcome = "helo";
+
+validate(user).then(errors => {
     // ...
 });  // it will return errors for email, title and text properties
 
@@ -399,6 +379,30 @@ import {validate} from "class-validator";
 validate(post, { whitelist: true, forbidNonWhitelisted: true });
 ```
 
+## Passing context to decorators
+
+It's possible to pass a custom object to decorators which will be accessible on the `ValidationError` instance of the property if validation failed.
+
+```ts
+import { validate } from 'class-validator';
+
+class MyClass {
+	@MinLength(32, {
+		message: "EIC code must be at least 32 charatcers",
+		context: {
+			errorCode: 1003,
+			developerNote: "The validated string must contain 32 or more characters."
+		}
+	})
+	eicCode: string;
+}
+
+const model = new MyClass();
+
+validate(model).then(errors => {
+    //errors[0].contexts['minLength'].errorCode === 1003
+});
+```
 
 ## Skipping missing properties
 
@@ -599,7 +603,7 @@ Lets create a decorator called `@IsLongerThan`:
         title: string;
 
         @IsLongerThan("title", {
-           /* you can also use additional validation options, like "each", "groups" in your custom validation decorators */
+           /* you can also use additional validation options, like "groups" in your custom validation decorators. "each" is not supported */
            message: "Text must be longer than the title"
         })
         text: string;
@@ -712,8 +716,8 @@ validator.isEnum(value, entity); // Checks if value is valid for a certain enum 
 validator.isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
 validator.isPositive(value); // Checks if the value is a positive number.
 validator.isNegative(value); // Checks if the value is a negative number.
-validator.max(num, max); // Checks if the first number is greater than second.
-validator.min(num, min); // Checks if the first number is less than second.
+validator.min(num, min); // Checks if the first number is greater than or equal to the second.
+validator.max(num, max); // Checks if the first number is less than or equal to the second.
 
 // date validation methods
 validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
@@ -796,8 +800,8 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
 | `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |
 | `@IsNegative()`                                 | Checks if the value is a negative number.                                                                                        |
-| `@Max(max: number)`                             | Checks if the given number is greater than given number.                                                                         |
-| `@Min(min: number)`                             | Checks if the given number is less than given number.                                                                            |
+| `@Min(min: number)`                             | Checks if the given number is greater than or equal to given number.                                                             |
+| `@Max(max: number)`                             | Checks if the given number is less than or equal to given number.                                                                |
 | **Date validation decorators**                                                                                                                                                     |
 | `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date.                                                                   |
 | `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                                                  |                                                                                                                                                  |

@@ -34,6 +34,14 @@ export class ValidationError {
      */
     children: ValidationError[];
 
+
+    /*
+     * A transient set of data passed through to the validation result for response mapping
+     */
+    contexts?: {
+        [type: string]: any
+    };
+
     /**
      *
      * @param shouldDecorate decorate the message with ANSI formatter escape codes for better readability
