@@ -712,8 +712,8 @@ validator.isEnum(value, entity); // Checks if value is valid for a certain enum 
 validator.isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
 validator.isPositive(value); // Checks if the value is a positive number.
 validator.isNegative(value); // Checks if the value is a negative number.
-validator.max(num, max); // Checks if the first number is greater than second.
-validator.min(num, min); // Checks if the first number is less than second.
+validator.min(num, min); // Checks if the first number is greater than or equal to the second.
+validator.max(num, max); // Checks if the first number is less than or equal to the second.
 
 // date validation methods
 validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
@@ -796,8 +796,8 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
 | `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |
 | `@IsNegative()`                                 | Checks if the value is a negative number.                                                                                        |
-| `@Max(max: number)`                             | Checks if the given number is greater than given number.                                                                         |
-| `@Min(min: number)`                             | Checks if the given number is less than given number.                                                                            |
+| `@Min(min: number)`                             | Checks if the given number is greater than or equal to given number.                                                             |
+| `@Max(max: number)`                             | Checks if the given number is less than or equal to given number.                                                                |
 | **Date validation decorators**                                                                                                                                                     |
 | `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date.                                                                   |
 | `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                                                  |                                                                                                                                                  |

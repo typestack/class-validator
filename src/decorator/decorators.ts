@@ -400,7 +400,7 @@ export function IsNegative(validationOptions?: ValidationOptions) {
     };
 }
 /**
- * Checks if the given number is greater than given number.
+ * Checks if the given number is greater than or equal to given number.
  */
 export function Min(min: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
@@ -416,7 +416,7 @@ export function Min(min: number, validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the given number is less than given number.
+ * Checks if the given number is less than or equal to given number.
  */
 export function Max(max: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
