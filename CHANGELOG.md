@@ -1,7 +1,6 @@
 # Changelog
 
-
-### 0.9.1 [UNRELEASED]
+### 0.9.1
 
 #### Features
 
