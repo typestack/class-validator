@@ -77,7 +77,8 @@ export class MetadataStorage {
         
         // get metadatas for inherited classes
         const inheritedMetadatas = this.validationMetadatas.filter(metadata => {
-              if (typeof metadata.target === "string")
+            // if target is a string it's means we validate agains a schema, and there is no inheritance support for schemas
+            if (typeof metadata.target === "string")
                 return false;
             if (metadata.target === targetConstructor)
                 return false;

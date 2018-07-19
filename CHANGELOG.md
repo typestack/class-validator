@@ -7,6 +7,10 @@
 
 * added option to pass custom context for the decorators
 
+### Fixes
+
+* validating against a schema will validate against that one instead of every registered one
+
 ### 0.9.0 [BREAKING CHANGE]
 
 #### Features
