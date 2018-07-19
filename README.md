@@ -297,7 +297,8 @@ export class Post {
 
 ## Inheriting Validation decorators
 
-When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators.
+When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant class decorators will be applied on it both from that and the base class.
+
 ```typescript
 import {validate} from "class-validator";
 
@@ -305,24 +306,32 @@ class BaseContent {
 
     @IsEmail()
     email: string;
+
+    @IsString()
+    password: string;
 }
 
-class Post extends BaseContent {
+class User extends BaseContent {
 
     @MinLength(10)
     @MaxLength(20)
-    title: string;
+    name: string;
 
     @Contains("hello")
-    text: string;
+    welcome: string;
+
+    @MinLength(20)
+    password: string; /
 }
 
-let post = new Post();
-post.email = "invalid email";  // inherited property
-post.title = "not valid";
-post.text = "helo";
+let user = new User();
 
-validate(post).then(errors => {
+user.email = "invalid email";  // inherited property
+user.password = "too short" // password wil be validated not only against IsString, but against MinLength as well
+user.name = "not valid";
+user.welcome = "helo";
+
+validate(user).then(errors => {
     // ...
 });  // it will return errors for email, title and text properties
 
