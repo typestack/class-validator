@@ -37,41 +37,11 @@ Class-validator works on both browser and node.js platforms.
 
 ## Installation
 
-Install module:
-
-`npm install class-validator --save`
-
-#### Old versions of node.js/browser
-
-ES6 features are used, if you are using old versions of node (or browser) you may want to install [es6-shim](https://github.com/paulmillr/es6-shim) too:
-
-`npm install es6-shim --save`
-
-and use it somewhere in the global place of your app:
-
-* for nodejs: `require("es6-shim")` (or `import "es6-shim";`) in your app's entry point (for example in `app.ts`)
-* for browser: `<script src="node_modules/es6-shim/es6-shim.js">` in your `index.html`
-
-This step is only required if you are using old versions of node/browser.
-
-#### Using in browser
-
-If you are using class-validator with system.js in browser then use following configuration:
-
-```javascript
-System.config({
-          map: {
-            'class-validator': 'vendor/class-validator',
-            'validator': 'vendor/validator',
-            'ansicolor': 'vendor/ansicolor',
-          },
-          packages: {
-            'class-validator': { 'defaultExtension': 'js', 'main': 'index.js' },
-            'validator': { 'defaultExtension': 'js', 'main': 'validator.js' },
-            'ansicolor': { 'defaultExtension': 'js', 'main': 'ansicolor.js' },
-          }
-        });
 ```
+npm install class-validator --save
+```
+
+> Note: Please use at least npm@6 when using class-validator as from npm@6 the dependency tree is flatterned what is good for us.
 
 ## Usage
 
