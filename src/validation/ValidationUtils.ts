@@ -19,7 +19,7 @@ export class ValidationUtils {
             });
         }
 
-        if (messageString && validationArguments.value !== undefined && validationArguments.value !== null)
+        if (messageString && validationArguments.value !== undefined && validationArguments.value !== null && typeof validationArguments.value === "string")
             messageString = messageString.replace(/\$value/g, validationArguments.value);
         if (messageString)
             messageString = messageString.replace(/\$property/g, validationArguments.property);
