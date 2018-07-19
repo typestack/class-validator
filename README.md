@@ -21,6 +21,7 @@ Class-validator works on both browser and node.js platforms.
     + [Inheriting Validation decorators](#inheriting-validation-decorators)
     + [Conditional validation](#conditional-validation)
     + [Whitelisting](#whitelisting)
+    + [Passing context to decorators](#passing-context-to-decorators)
     + [Skipping missing properties](#skipping-missing-properties)
     + [Validation groups](#validation-groups)
     + [Custom validation classes](#custom-validation-classes)
@@ -378,6 +379,30 @@ import {validate} from "class-validator";
 validate(post, { whitelist: true, forbidNonWhitelisted: true });
 ```
 
+## Passing context to decorators
+
+It's possible to pass a custom object to decorators which will be accessible on the `ValidationError` instance of the property if validation failed.
+
+```ts
+import { validate } from 'class-validator';
+
+class MyClass {
+	@MinLength(32, {
+		message: "EIC code must be at least 32 charatcers",
+		context: {
+			errorCode: 1003,
+			developerNote: "The validated string must contain 32 or more characters."
+		}
+	})
+	eicCode: string;
+}
+
+const model = new MyClass();
+
+validate(model).then(errors => {
+    //errors[0].contexts['minLength'].errorCode === 1003
+});
+```
 
 ## Skipping missing properties
 
