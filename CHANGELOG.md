@@ -1,6 +1,6 @@
 # Changelog
 
-### 0.9.0 [BREAKING CHANGE] [Unreleased]
+### 0.9.0 [BREAKING CHANGE]
 
 #### Features
 
