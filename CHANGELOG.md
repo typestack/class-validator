@@ -12,6 +12,7 @@
 ### Fixes
 
 * added a console warning when no metadata decorator is found as it's possibly not intended
+* the `Min` and `Max` decorator will corectly show an inclusive error message when failing
 
 ### 0.8.5
 
