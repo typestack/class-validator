@@ -77,6 +77,8 @@ export class MetadataStorage {
         
         // get metadatas for inherited classes
         const inheritedMetadatas = this.validationMetadatas.filter(metadata => {
+              if (typeof metadata.target === "string")
+                return false;
             if (metadata.target === targetConstructor)
                 return false;
             if (metadata.target instanceof Function &&
