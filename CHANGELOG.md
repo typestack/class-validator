@@ -7,13 +7,14 @@
 * updated [validator.js][validator-js] from 9.2.0 to 10.4.0 (Check it's [changelog][validator-js-release-notes] for what has changed.)
   * until now fractional numbers was not allowed in the `IsNumberString` decorator, now they are allowed
   * until now Gmail addresses could contain multiple dots or random text after a `+` symbol, this is not allowed anymore 
-* `IsPhoneNumber` decorator has been added which uses the [google-libphonenumber][google-libphonenumber] libary to validate international phone numbers accurately (contribution by @HonoluluHenk)
+* `IsPhoneNumber` decorator has been added which uses the [google-libphonenumber][google-libphonenumber] libary to validate international phone numbers accurately
 
 ### Fixes
 
 * update `IsURLOptions` to match underlying validator host list options
 * added a console warning when no metadata decorator is found as it's possibly not intended
 * the `Min` and `Max` decorator will corectly show an inclusive error message when failing
+* fixed a runtime error when `validationArguments.value` is not a string
 
 ### 0.8.5
 
