@@ -1,5 +1,12 @@
 # Changelog
 
+
+### 0.9.1 [UNRELEASED]
+
+#### Features
+
+* added option to pass custom context for the decorators
+
 ### 0.9.0 [BREAKING CHANGE]
 
 #### Features
