@@ -1,7 +1,6 @@
 import "es6-shim";
 import {Contains, MinLength} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
-import {should} from "chai";
 
 import {should, use } from "chai";
 
