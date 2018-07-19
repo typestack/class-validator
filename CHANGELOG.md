@@ -1,4 +1,20 @@
-# Changelog and release notes
+# Changelog
+
+### 0.9.0 [BREAKING CHANGE]
+
+#### Features
+
+* updated [validator.js][validator-js] from 9.2.0 to 10.4.0 (Check it's [changelog][validator-js-release-notes] for what has changed.)
+  * until now fractional numbers was not allowed in the `IsNumberString` decorator, now they are allowed
+  * until now Gmail addresses could contain multiple dots or random text after a `+` symbol, this is not allowed anymore 
+* `IsPhoneNumber` decorator has been added which uses the [google-libphonenumber][google-libphonenumber] libary to validate international phone numbers accurately
+
+### Fixes
+
+* update `IsURLOptions` to match underlying validator host list options
+* added a console warning when no metadata decorator is found as it's possibly not intended
+* the `Min` and `Max` decorator will corectly show an inclusive error message when failing
+* fixed a runtime error when `validationArguments.value` is not a string
 
 ### 0.8.5
 
@@ -6,7 +22,7 @@
 
 * remove `ansicolor` package, because it's incompatible with IE
 
-### 0.8.4
+## 0.8.4
 
 #### Features
 
@@ -14,21 +30,13 @@
   * it's highly advised to turn this option on
   * now this option defaults to `false` but will be default to `true` after the **1.0** release
 
-#### Fixes
-
-_no fixes in this release_
-
-### 0.8.3
-
-#### Features
-
-_no new features in this release_
+## 0.8.3
 
 #### Fixes
 
 * handle when `target` property is undefined when calling `ValidationError.toString()`
 
-### 0.8.2
+## 0.8.2
 
 #### Features
 
@@ -38,35 +46,33 @@ _no new features in this release_
 #### Fixes
 
 * fixed wrong type info in `ValidatorOptions`
-* fixed wrong type info in `ValidationSchema` (the `options` key now is optional)
+* fixed wrong type info in `ValidationSchema` \(the `options` key now is optional\)
 * corrected `IsNumericString` to `IsNumberString` in the README
 * fixed type of `host_whitelist` and `host_backlist` in `IsURLOptions`
 
-### 0.8.1
-
-#### Features
-
-
+## 0.8.1
 
 #### Fixes
 
 * fixed wrong type info in `ValidatorOptions`
 
-### 0.8.0 [BREAKING CHANGE]
+## 0.8.0 \[BREAKING CHANGE\]
 
 #### Features
 
-* updated [validator.js][2] from 7.0.0 to 9.2.0 (Check it's [changelog][3] for what has changed.)
+* updated [validator.js][validator-js] from 7.0.0 to 9.2.0 (Check it's [changelog][validator-js-release-notes] for what has changed.)
 
   This caused breaking change, if you used the `IsUrl` decorator to validate `localhost` as a valid url, from now you must use the `require_tld: false` option
-  ```ts
+
+  ```typescript
   @IsUrl({ require_tld: false})
   url: string;
   ```
+
 * added `@IsInstance` decorator and `validator.isInstance(value, target)` method.
 * changed `@IsNumber` decorator has been changed to `@IsNumber(options: IsNumberOptions)`
-* added option to strip unknown properties (`whitelist: true`)
-* added option to throw error on unknown properties (`forbidNonWhitelisted: true`)
+* added option to strip unknown properties \(`whitelist: true`\)
+* added option to throw error on unknown properties \(`forbidNonWhitelisted: true`\)
 * added `@Allow` decorator to prevent stripping properties without other constraint
 
 #### Fixes
@@ -75,93 +81,62 @@ _no new features in this release_
 * fixed issue with `@IsDateString` now it allow dates without with timezones to be set
 * `@ValidateNested` correctly generates validation error on non object and non array values
 
-### 0.6.7
-
-#### Features
-
-_no new features in this release_
+## 0.6.7
 
 #### Fixes
 
-* fixed issue with `@ValidateNested` when nested property is not defined and it throw an error (#59)
+* fixed issue with `@ValidateNested` when nested property is not defined and it throw an error \(\#59\)
 
-### 0.6.5
-
-#### Features
-
-_no new features in this release_
+## 0.6.5
 
 #### Fixes
 
 * fixed bugs with `@IsUrl`, `@IsEmail` and several other decorators
 
-### 0.6.4
+## 0.6.4
 
 #### Features
 
 * added `@IsMilitaryTime` decorator.
 
-#### Fixes
-
-_no fixes in this release._
-
-### 0.6.3
+## 0.6.3
 
 #### Features
 
 * added `validateOrReject` method which rejects promise instead of returning array of errors in resolved result
 
-#### Fixes
-
-_no fixes in this release._
-
-### 0.6.1
+## 0.6.1
 
 #### Features
 
 * added `@IsArray` decorator.
 
-#### Fixes
-
-_no fixes in this release._
-
-### 0.6.0 [BREAKING CHANGE]
+## 0.6.0 \[BREAKING CHANGE\]
 
 #### Features
 
-* breaking change with `@ValidateNested` on arrays: Validator now groups the validation errors by sub-object, rather than them all being grouped together. See #32 for a demonstration of the updated structure.
+* breaking change with `@ValidateNested` on arrays: Validator now groups the validation errors by sub-object, rather than them all being grouped together. See \#32 for a demonstration of the updated structure.
 * added `@ValidateIf` decorator, see conditional validation in docs.
 
-#### Fixes
-
-_no fixes in this release._
-
-### 0.5.0 [BREAKING CHANGE]
+## 0.5.0 \[BREAKING CHANGE\]
 
 #### Features
 
 * async validations must be marked with `{ async: true }` option now.
 
   This is optional, but it helps to determine which decorators are async to prevent their execution in `validateSync` method.
+
 * added `validateSync` method that performs non asynchronous validation and ignores validations that marked with `async: true`.
 * there is a breaking change in `registerDecorator` method. Now it accepts options object.
 * breaking change with `@ValidatorConstraint` decorator. Now it accepts option object instead of single name.
 
-#### Fixes
-
-_no fixes in this release._
-
-### 0.4.1
-
-#### Features
-
-_no new features in this release_
+## 0.4.1
 
 #### Fixes
 
 * fixed issue with wrong source maps packaged
 
-### 0.4.0 [BREAKING CHANGE]
+## 0.4.0 \[BREAKING CHANGE\]
 
 #### Features
 
@@ -186,7 +161,7 @@ _no new features in this release_
 
 * fixed all decorators that should not work only with strings
 
-### 0.3.0
+## 0.3.0
 
 #### Features
 
@@ -198,5 +173,6 @@ _no new features in this release_
 _no fixes in this release._
 
 [1]: https://github.com/pleerock/class-sanitizer
-[2]: https://github.com/chriso/validator.js
-[3]: https://github.com/chriso/validator.js/blob/master/CHANGELOG.md
+[validator-js]: https://github.com/chriso/validator.js
+[validator-js-release-notes]: https://github.com/chriso/validator.js/blob/master/CHANGELOG.md
+[google-libphonenumber]: https://github.com/ruimarinho/google-libphonenumber

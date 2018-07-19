@@ -33,8 +33,8 @@ export interface IsURLOptions {
     require_protocol?: boolean;
     require_valid_protocol?: boolean;
     allow_underscores?: boolean;
-    host_whitelist?: false | string[];
-    host_blacklist?: false | string[];
+    host_whitelist?: false | (string | RegExp)[];
+    host_blacklist?: false | (string | RegExp)[];
     allow_trailing_dot?: boolean;
     allow_protocol_relative_urls?: boolean;
 }

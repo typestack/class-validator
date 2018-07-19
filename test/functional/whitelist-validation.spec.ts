@@ -4,6 +4,13 @@ import {Validator} from "../../src/validation/Validator";
 import {expect} from "chai";
 import {ValidationTypes} from "../../src/validation/ValidationTypes";
 
+import {should, use } from "chai";
+
+import * as chaiAsPromised from "chai-as-promised";
+
+should();
+use(chaiAsPromised);
+
 // -------------------------------------------------------------------------
 // Setup
 // -------------------------------------------------------------------------

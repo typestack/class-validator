@@ -6,6 +6,13 @@ import {ValidationOptions} from "../../src/decorator/ValidationOptions";
 import {ValidatorConstraint, Validate, IsNotEmpty} from "../../src/decorator/decorators";
 import {ValidatorConstraintInterface} from "../../src/validation/ValidatorConstraintInterface";
 
+import {should, use } from "chai";
+
+import * as chaiAsPromised from "chai-as-promised";
+
+should();
+use(chaiAsPromised);
+
 // -------------------------------------------------------------------------
 // Setup
 // -------------------------------------------------------------------------

@@ -3,6 +3,13 @@ import {Contains, MinLength} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {should} from "chai";
 
+import {should, use } from "chai";
+
+import * as chaiAsPromised from "chai-as-promised";
+
+should();
+use(chaiAsPromised);
+
 // -------------------------------------------------------------------------
 // Setup
 // -------------------------------------------------------------------------

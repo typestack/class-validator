@@ -40,6 +40,16 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
 
     execute(object: Object, targetSchema: string, validationErrors: ValidationError[]) {
+        /**
+         * If there is no metadata registered it means possibly the dependencies are not flatterned and
+         * more than one instance is used.
+         * 
+         * TODO: This needs proper handling, forcing to use the same container or some other proper solution.
+         */
+        if (!this.metadataStorage.hasValidationMetaData) {
+            console.warn(`No metadata found. There is more than once class-validator version installed probably. You need to flatten your dependencies.`);
+        }
+
         const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
         const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
