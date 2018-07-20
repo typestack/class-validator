@@ -195,7 +195,7 @@ export class ValidationExecutor {
     }
 
     private buildExtendedMessage(metadata: ValidationMetadata, message: string, customConstraintMetadata?: ConstraintMetadata): string | ExtendedMessage {
-        if (this.validatorOptions.validationError && this.validatorOptions.validationError.detailedMessage) {
+        if (this.validatorOptions.validationError && this.validatorOptions.validationError.extendedMessage) {
             const type = this.getConstraintType(metadata, customConstraintMetadata);
             return new ExtendedMessage(type, message, metadata.constraints || []);
         } else {

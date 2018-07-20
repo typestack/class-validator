@@ -1,5 +1,10 @@
 import "es6-shim";
-import {ValidationArguments, Validator, ValidatorConstraint, ValidatorConstraintInterface} from "../../src";
+import {
+    ValidationArguments,
+    Validator,
+    ValidatorConstraint,
+    ValidatorConstraintInterface, ValidatorOptions
+} from "../../src";
 import {MinLength} from "../../src";
 
 import {should, use} from "chai";
@@ -11,7 +16,7 @@ should();
 use(chaiAsPromised);
 
 const validator = new Validator();
-const DETAILS_ENABLED = {validationError: {detailedMessage: true}};
+const DETAILS_ENABLED: ValidatorOptions = {validationError: {extendedMessage: true}};
 
 class StandardValidation {
     @MinLength(10)
@@ -47,7 +52,7 @@ describe("ExtendedMessage", () => {
             // given
             const fixture = new StandardValidation();
             // when
-            const errors = validator.validateSync(fixture, {validationError: {detailedMessage: false}});
+            const errors = validator.validateSync(fixture, {validationError: {extendedMessage: false}});
             // then
             errors[0].constraints.should.be.eql({minLength: "text must be longer than or equal to 10 characters"});
         });
