@@ -46,11 +46,16 @@ export interface ValidatorOptions {
          */
         value?: boolean;
 
+        /**
+         * use ExtendedMessage instead of sring message in ValidationError
+         */
+         extendedMessage?: boolean;
     };
 
     /**
      * Settings true will cause fail validation of unknown objects.
      */
     forbidUnknownValues?: boolean;
+
 
 }

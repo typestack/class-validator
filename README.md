@@ -124,7 +124,7 @@ export interface ValidatorOptions {
     property: string; // Object's property that haven't pass validation.
     value: any; // Value that haven't pass a validation.
     constraints?: { // Constraints that failed validation with error messages.
-        [type: string]: string;
+        [type: string]: string | ExtendedMessage;
     };
     children?: ValidationError[]; // Contains all nested validation errors of the property
 }
@@ -151,6 +151,37 @@ In our case, when we validated a Post object, we have such array of ValidationEr
 // and other errors
 ]
 ```
+
+If you want to build your own error messages (e.g. in an internationalized app), the ExtendedMessage comes into play: 
+you get back all constraint parameters:
+```typescript
+validator.validate(data, { validationError: { extendedMessage: true } });
+```
+The parameter 'detailedMessage' will cause all constraints to have an ExtendedError instead of the plain string message.
+
+So an input of this type:
+```typescript
+export class Post {
+    @MinLength(10)
+    title: string = "Hello"
+}
+```
+will yield e.g.:
+```typescript
+[{
+    target: /* post object */,
+    property: "title",
+    value: "Hello",
+    constraints: {
+        minLength: {
+            type: "minLength",
+            args: [10],
+            message: "title must be longer than or equal to 10 characters"
+        }
+    }
+}]
+```
+Together with [passing context to decorators](#passing-context-to-decorators), the error messages are fully customizable.
 
 If you don't want a `target` to be exposed in validation errors, there is a special option when you use validator:
 

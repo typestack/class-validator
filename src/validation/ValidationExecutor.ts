@@ -8,6 +8,7 @@ import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
+import {ExtendedMessage} from "./ExtendedMessage";
 
 /**
  * Executes validation over given object.
@@ -21,6 +22,8 @@ export class ValidationExecutor {
     awaitingPromises: Promise<any>[] = [];
     ignoreAsyncValidations: boolean = false;
 
+    private readonly validatorOptions: ValidatorOptions;
+
     // -------------------------------------------------------------------------
     // Private Properties
     // -------------------------------------------------------------------------
@@ -32,7 +35,8 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
 
     constructor(private validator: Validator,
-                private validatorOptions?: ValidatorOptions) {
+                validatorOptions?: ValidatorOptions) {
+        this.validatorOptions = validatorOptions || {};
     }
 
     // -------------------------------------------------------------------------
@@ -50,15 +54,14 @@ export class ValidationExecutor {
             console.warn(`No metadata found. There is more than once class-validator version installed probably. You need to flatten your dependencies.`);
         }
 
-        const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
+        const groups = this.validatorOptions.groups;
         const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
-        if (this.validatorOptions && this.validatorOptions.forbidUnknownValues && !targetMetadatas.length) {
+        if (this.validatorOptions.forbidUnknownValues && !targetMetadatas.length) {
             const validationError = new ValidationError();
 
-            if (!this.validatorOptions ||
-                !this.validatorOptions.validationError ||
+            if (!this.validatorOptions.validationError ||
                 this.validatorOptions.validationError.target === undefined ||
                 this.validatorOptions.validationError.target === true)
                 validationError.target = object;
@@ -73,7 +76,7 @@ export class ValidationExecutor {
             return;
         }
 
-        if (this.validatorOptions && this.validatorOptions.whitelist)
+        if (this.validatorOptions.whitelist)
             this.whitelist(object, groupedMetadatas, validationErrors);
 
         // General validation
@@ -97,7 +100,7 @@ export class ValidationExecutor {
             // handle IS_DEFINED validation type the special way - it should work no matter skipMissingProperties is set or not
             this.defaultValidations(object, value, definedMetadatas, validationError.constraints);
 
-            if ((value === null || value === undefined) && this.validatorOptions && this.validatorOptions.skipMissingProperties === true) {
+            if ((value === null || value === undefined) && this.validatorOptions.skipMissingProperties === true) {
                 return;
             }
 
@@ -122,7 +125,7 @@ export class ValidationExecutor {
 
         if (notAllowedProperties.length > 0) {
 
-            if (this.validatorOptions && this.validatorOptions.forbidNonWhitelisted) {
+            if (this.validatorOptions.forbidNonWhitelisted) {
 
                 // throw errors
                 notAllowedProperties.forEach(property => {
@@ -166,14 +169,12 @@ export class ValidationExecutor {
     private generateValidationError(object: Object, value: any, propertyName: string) {
         const validationError = new ValidationError();
 
-        if (!this.validatorOptions ||
-            !this.validatorOptions.validationError ||
+        if (!this.validatorOptions.validationError ||
             this.validatorOptions.validationError.target === undefined ||
             this.validatorOptions.validationError.target === true)
             validationError.target = object;
 
-        if (!this.validatorOptions ||
-            !this.validatorOptions.validationError ||
+        if (!this.validatorOptions.validationError ||
             this.validatorOptions.validationError.value === undefined ||
             this.validatorOptions.validationError.value === true)
             validationError.value = value;
@@ -193,10 +194,19 @@ export class ValidationExecutor {
             .reduce((resultA, resultB) => resultA && resultB, true);
     }
 
+    private buildExtendedMessage(metadata: ValidationMetadata, message: string, customConstraintMetadata?: ConstraintMetadata): string | ExtendedMessage {
+        if (this.validatorOptions.validationError && this.validatorOptions.validationError.detailedMessage) {
+            const type = this.getConstraintType(metadata, customConstraintMetadata);
+            return new ExtendedMessage(type, message, metadata.constraints || []);
+        } else {
+            return message;
+        }
+    }
+
     private defaultValidations(object: Object,
                                value: any,
                                metadatas: ValidationMetadata[],
-                               errorMap: { [key: string]: string }) {
+                               errorMap: { [key: string]: string | ExtendedMessage }) {
         return metadatas
             .filter(metadata => {
                 if (metadata.each) {
@@ -210,14 +220,14 @@ export class ValidationExecutor {
             })
             .forEach(metadata => {
                 const [key, message] = this.createValidationError(object, value, metadata);
-                errorMap[key] = message;
+                errorMap[key] = this.buildExtendedMessage(metadata, message);
             });
     }
 
     private customValidations(object: Object,
                               value: any,
                               metadatas: ValidationMetadata[],
-                              errorMap: { [key: string]: string }) {
+                              errorMap: { [key: string]: string | ExtendedMessage }) {
 
         metadatas.forEach(metadata => {
             getFromContainer(MetadataStorage)
@@ -238,14 +248,14 @@ export class ValidationExecutor {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {
                                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-                                errorMap[type] = message;
+                                errorMap[type] = this.buildExtendedMessage(metadata, message, customConstraintMetadata);
                             }
                         });
                         this.awaitingPromises.push(promise);
                     } else {
                         if (!validatedValue) {
                             const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-                            errorMap[type] = message;
+                            errorMap[type] = this.buildExtendedMessage(metadata, message, customConstraintMetadata);
                         }
                     }
                 });
@@ -324,8 +334,7 @@ export class ValidationExecutor {
         };
 
         let message = metadata.message;
-        if (!metadata.message &&
-            (!this.validatorOptions || (this.validatorOptions && !this.validatorOptions.dismissDefaultMessages))) {
+        if (!metadata.message && !this.validatorOptions.dismissDefaultMessages) {
             if (customValidatorMetadata && customValidatorMetadata.instance.defaultMessage instanceof Function) {
                 message = customValidatorMetadata.instance.defaultMessage(validationArguments);
             }

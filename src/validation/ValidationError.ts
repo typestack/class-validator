@@ -1,6 +1,8 @@
 /**
  * Validation error description.
  */
+import {ExtendedMessage} from "./ExtendedMessage";
+
 export class ValidationError {
 
     /**
@@ -26,7 +28,7 @@ export class ValidationError {
      * Constraints that failed validation with error messages.
      */
     constraints: {
-        [type: string]: string
+        [type: string]: string | ExtendedMessage
     };
 
     /**
