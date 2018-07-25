@@ -174,6 +174,10 @@ describe("validation options", function() {
             error.constraints.should.eql({ contains: "text must contain a bye string" });
         }
 
+        function expectNameContains(error: ValidationError) {
+            error.constraints.should.eql({ contains: "name must contain a fred string" });
+        }
+
         class MyClass {
             @Contains("hello", {
                 groups: ["title-validation"]
@@ -184,23 +188,35 @@ describe("validation options", function() {
                 groups: ["text-validation"]
             })
             text: string;
+
+            @Contains("fred")
+            name: string;
         }
 
         const validTitle = new MyClass();
         validTitle.title = "hello world";
         validTitle.text = "hello world";
+        validTitle.name = "cactus";
 
         const validText = new MyClass();
         validText.title = "bye world";
         validText.text = "bye world";
+        validText.name = "cactus";
 
-        const validBoth = new MyClass();
-        validBoth.title = "hello world";
-        validBoth.text = "bye world";
+        const validAll = new MyClass();
+        validAll.title = "hello world";
+        validAll.text = "bye world";
+        validAll.name = "fred";
 
         const validNone = new MyClass();
         validNone.title = "bye world";
         validNone.text = "hello world";
+        validNone.name = "cactus";
+
+        const invalidName = new MyClass();
+        invalidName.title = "hello world";
+        invalidName.text = "bye world";
+        invalidName.name = "cactus";
 
         describe("should validate only properties of the given group: title-validation", function() {
             it("with valid title", function() {
@@ -216,8 +232,8 @@ describe("validation options", function() {
                 });
             });
 
-            it("with both valid", function() {
-                return validator.validate(validBoth, { groups: ["title-validation"] }).then(errors => {
+            it("with all valid", function() {
+                return validator.validate(validAll, { groups: ["title-validation"] }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
@@ -226,6 +242,12 @@ describe("validation options", function() {
                 return validator.validate(validNone, { groups: ["title-validation"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTitleContains(errors[0]);
+                });
+            });
+
+            it("with invalid name", function() {
+                return validator.validate(invalidName, { groups: ["title-validation"] }).then(errors => {
+                    errors.length.should.be.equal(0);
                 });
             });
 
@@ -245,8 +267,8 @@ describe("validation options", function() {
                 });
             });
 
-            it("with both valid", function() {
-                return validator.validate(validBoth, { groups: ["text-validation"] }).then(errors => {
+            it("with all valid", function() {
+                return validator.validate(validAll, { groups: ["text-validation"] }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
@@ -255,6 +277,13 @@ describe("validation options", function() {
                 return validator.validate(validNone, { groups: ["text-validation"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTextContains(errors[0]);
+                });
+            });
+
+            it("with invalid name", function() {
+                return validator.validate(invalidName, { groups: ["text-validation"] }).then(errors => {
+                    console.log(errors);
+                    errors.length.should.be.equal(0);
                 });
             });
 
@@ -275,8 +304,8 @@ describe("validation options", function() {
                 });
             });
 
-            it("with both valid", function() {
-                return validator.validate(validBoth, { groups: ["title-validation", "text-validation"] }).then(errors => {
+            it("with all valid", function() {
+                return validator.validate(validAll, { groups: ["title-validation", "text-validation"] }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
@@ -288,65 +317,169 @@ describe("validation options", function() {
                     expectTextContains(errors[1]);
                 });
             });
+
+            it("with invalid name", function() {
+                return validator.validate(invalidName, { groups: ["title-validation", "text-validation"] }).then(errors => {
+                    errors.length.should.be.equal(0);
+                });
+            });
         });
 
         describe("should validate all if no group is given", function() {
             it("with valid title", function() { // todo: all or without? what is better expected behaviour?
                 return validator.validate(validTitle).then(errors => {
-                    errors.length.should.be.equal(1);
+                    errors.length.should.be.equal(2);
                     expectTextContains(errors[0]);
+                    expectNameContains(errors[1]);
                 });
             });
 
             it("with valid text", function() { // todo: all or without? what is better expected behaviour?
                 return validator.validate(validText).then(errors => {
-                    errors.length.should.be.equal(1);
+                    errors.length.should.be.equal(2);
                     expectTitleContains(errors[0]);
+                    expectNameContains(errors[1]);
                 });
             });
 
-            it("with both valid", function() { // todo: all or without? what is better expected behaviour?
-                return validator.validate(validBoth).then(errors => {
+            it("with all valid", function() { // todo: all or without? what is better expected behaviour?
+                return validator.validate(validAll).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
 
             it("with none valid", function() { // todo: all or without? what is better expected behaviour?
                 return validator.validate(validNone).then(errors => {
-                    errors.length.should.be.equal(2);
+                    errors.length.should.be.equal(3);
                     expectTitleContains(errors[0]);
                     expectTextContains(errors[1]);
+                    expectNameContains(errors[2]);
+                });
+            });
+
+            it("with invalid name", function() {
+                return validator.validate(invalidName).then(errors => {
+                    errors.length.should.be.equal(1);
+                    expectNameContains(errors[0]);
                 });
             });
 
         });
 
         describe("should validate all groups if empty group array is given", function() {
-            it("with valid title", function() {
-                return validator.validate(validTitle, { groups: [] }).then(errors => {
-                    errors.length.should.be.equal(1);
+            it("with valid title", function() { // todo: all or without? what is better expected behaviour?
+                return validator.validate(validTitle).then(errors => {
+                    errors.length.should.be.equal(2);
                     expectTextContains(errors[0]);
+                    expectNameContains(errors[1]);
+                });
+            });
+
+            it("with valid text", function() { // todo: all or without? what is better expected behaviour?
+                return validator.validate(validText).then(errors => {
+                    errors.length.should.be.equal(2);
+                    expectTitleContains(errors[0]);
+                    expectNameContains(errors[1]);
+                });
+            });
+
+            it("with all valid", function() { // todo: all or without? what is better expected behaviour?
+                return validator.validate(validAll).then(errors => {
+                    errors.length.should.be.equal(0);
+                });
+            });
+
+            it("with none valid", function() { // todo: all or without? what is better expected behaviour?
+                return validator.validate(validNone).then(errors => {
+                    errors.length.should.be.equal(3);
+                    expectTitleContains(errors[0]);
+                    expectTextContains(errors[1]);
+                    expectNameContains(errors[2]);
+                });
+            });
+
+            it("with invalid name", function() {
+                return validator.validate(invalidName, { groups: [] }).then(errors => {
+                    errors.length.should.be.equal(1);
+                    expectNameContains(errors[0]);
+                });
+            });
+        });
+
+        describe("should validate validators with empty groups if group and option is given", function() {
+            it("with valid title", function() {
+                return validator.validate(validTitle, { groups: ["text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
+                    errors.length.should.be.equal(2);
+                    expectTextContains(errors[0]);
+                    expectNameContains(errors[1]);
                 });
             });
 
             it("with valid text", function() {
-                return validator.validate(validText, { groups: [] }).then(errors => {
+                return validator.validate(validText, { groups: ["text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
                     errors.length.should.be.equal(1);
-                    expectTitleContains(errors[0]);
+                    expectNameContains(errors[0]);
                 });
             });
 
-            it("with both valid", function() {
-                return validator.validate(validBoth, { groups: [] }).then(errors => {
+            it("with all valid", function() {
+                return validator.validate(validAll, { groups: ["text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
 
             it("with none valid", function() {
-                return validator.validate(validNone, { groups: [] }).then(errors => {
+                return validator.validate(validNone, { groups: ["text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
+                    errors.length.should.be.equal(2);
+                    expectTextContains(errors[0]);
+                    expectNameContains(errors[1]);
+                });
+            });
+
+            it("with invalid name", function() {
+                return validator.validate(invalidName, { groups: ["text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
+                    errors.length.should.be.equal(1);
+                    expectNameContains(errors[0]);
+                });
+            });
+        });
+
+        describe("should validate validators with empty groups if multiple groups and option is given", function() {
+            it("with valid title", function() {
+                return validator.validate(validTitle, { groups: ["title-validation", "text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
+                    errors.length.should.be.equal(2);
+                    expectTextContains(errors[0]);
+                    expectNameContains(errors[1]);
+                });
+            });
+
+            it("with valid text", function() {
+                return validator.validate(validText, { groups: ["title-validation", "text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
                     errors.length.should.be.equal(2);
                     expectTitleContains(errors[0]);
+                    expectNameContains(errors[1]);
+                });
+            });
+
+            it("with all valid", function() {
+                return validator.validate(validAll, { groups: ["title-validation", "text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
+                    errors.length.should.be.equal(0);
+                });
+            });
+
+            it("with none valid", function() {
+                return validator.validate(validNone, { groups: ["title-validation", "text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
+                    errors.length.should.be.equal(3);
+                    expectTitleContains(errors[0]);
                     expectTextContains(errors[1]);
+                    expectNameContains(errors[2]);
+                });
+            });
+
+            it("with invalid name", function() {
+                return validator.validate(invalidName, { groups: ["title-validation", "text-validation"], includeValidatorsWithNoGroups: true }).then(errors => {
+                    errors.length.should.be.equal(1);
+                    expectNameContains(errors[0]);
                 });
             });
         });

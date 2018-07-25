@@ -74,3 +74,17 @@ validator.validate(post4, { groups: ["users"] }).then(result => {
 validator.validate(post4).then(result => {
     console.log("4.2. should not pass: ", result);
 });
+
+let post5 = new Post();
+post5.title = "Hello world"; // should pass
+post5.text = "this is a great post about hello world"; // should pass
+post5.rating = "foobar" as any; // should not pass
+post5.email = "a@a.com"; // should  pass
+post5.site = "google.com"; // should pass
+post5.createDate = new Date(); // should pass
+
+validator
+    .validate(post5, { groups: ["users"], includeValidatorsWithNoGroups: true })
+    .then(result => {
+        console.log("5.1. should not pass: ", result);
+    });

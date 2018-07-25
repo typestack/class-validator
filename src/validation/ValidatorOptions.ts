@@ -26,6 +26,14 @@ export interface ValidatorOptions {
     groups?: string[];
 
     /**
+     * If groups is passed, by default validators with no groups are skipped.
+     * This option includes validators that have no groups.
+     * Useful in scenarios where you want a special validator for one group or two groups,
+     * but you also want those groups to run default validators (validators with no groups).
+     */
+    includeValidatorsWithNoGroups?: boolean;
+
+    /**
      * If set to true, the validation will not use default messages.
      * Error message always will be undefined if its not explicitly set.
      */

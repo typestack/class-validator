@@ -43,7 +43,7 @@ export class ValidationExecutor {
         /**
          * If there is no metadata registered it means possibly the dependencies are not flatterned and
          * more than one instance is used.
-         * 
+         *
          * TODO: This needs proper handling, forcing to use the same container or some other proper solution.
          */
         if (!this.metadataStorage.hasValidationMetaData) {
@@ -51,7 +51,8 @@ export class ValidationExecutor {
         }
 
         const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
-        const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups);
+        const includeDefaultGroups = this.validatorOptions ? this.validatorOptions.includeValidatorsWithNoGroups : undefined;
+        const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(object.constructor, targetSchema, groups, includeDefaultGroups);
         const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
         if (this.validatorOptions && this.validatorOptions.forbidUnknownValues && !targetMetadatas.length) {
