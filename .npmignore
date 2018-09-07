@@ -1,0 +1,8 @@
+build/
+node_modules/
+coverage/
+npm-debug.log
+*.iml
+.idea/
+
+*.js.map
