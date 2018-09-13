@@ -1,6 +1,5 @@
-import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, IsNotEmpty, ArrayNotEmpty, ArrayMinSize, ArrayMaxSize} from "../../src/decorator/decorators";
-import {Validate} from "../../src/decorator/decorators";
 import {CustomTextLength} from "./CustomTextLength";
+import {Validate} from "../../src/decorator/Validate";
 
 export class Post {
 

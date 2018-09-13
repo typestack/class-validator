@@ -10,18 +10,10 @@ export class ValidationTypes {
     static NESTED_VALIDATION = "nestedValidation";
     static CONDITIONAL_VALIDATION = "conditionalValidation";
     static WHITELIST = "whitelistValidation";
-
-    /* common checkers */
+    // FIXME: delete
     static IS_DEFINED = "isDefined";
-    static EQUALS = "equals";
-    static NOT_EQUALS = "notEquals";
-    static IS_EMPTY = "isEmpty";
-    static IS_NOT_EMPTY = "isNotEmpty";
-    static IS_IN = "isIn";
-    static IS_NOT_IN = "isNotIn";
 
     /* type checkers */
-    static IS_BOOLEAN = "isBoolean";
     static IS_DATE = "isDate";
     static IS_NUMBER = "isNumber";
     static IS_STRING = "isString";
@@ -69,7 +61,6 @@ export class ValidationTypes {
     static IS_JSON = "isJson";
     static IS_LOWERCASE = "isLowercase";
     static IS_MOBILE_PHONE = "isMobilePhone";
-    static IS_PHONE_NUMBER = "isPhoneNumber";
     static IS_MONGO_ID = "isMongoId";
     static IS_MULTIBYTE = "isMultibyte";
     static IS_SURROGATE_PAIR = "isSurrogatePair";
@@ -112,25 +103,10 @@ export class ValidationTypes {
             /* system chceck */
             case this.NESTED_VALIDATION:
                 return eachPrefix + "nested property $property must be either object or array";
-            /* common checkers */
             case this.IS_DEFINED:
                 return eachPrefix + "$property should not be null or undefined";
-            case this.EQUALS:
-                return eachPrefix + "$property must be equal to $constraint1";
-            case this.NOT_EQUALS:
-                return eachPrefix + "$property should not be equal to $constraint1";
-            case this.IS_EMPTY:
-                return eachPrefix + "$property must be empty";
-            case this.IS_NOT_EMPTY:
-                return eachPrefix + "$property should not be empty";
-            case this.IS_IN:
-                return eachPrefix + "$property must be one of the following values: $constraint1";
-            case this.IS_NOT_IN:
-                return eachPrefix + "$property should not be one of the following values: $constraint1";
 
             /* type checkers */
-            case this.IS_BOOLEAN:
-                return eachPrefix + "$property must be a boolean value";
             case this.IS_DATE:
                 return eachPrefix + "$property must be a Date instance";
             case this.IS_NUMBER:
@@ -217,8 +193,6 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a lowercase string";
             case this.IS_MOBILE_PHONE:
                 return eachPrefix + "$property must be a phone number";
-            case this.IS_PHONE_NUMBER:
-                return eachPrefix + "$property must be a valid phone number";
             case this.IS_MONGO_ID:
                 return eachPrefix + "$property must be a mongodb id";
             case this.IS_MULTIBYTE:
@@ -271,9 +245,9 @@ export class ValidationTypes {
                         return eachPrefix + `${this.IS_INSTANCE} decorator expects and object as value, but got falsy value.`;
                     }
                 };
+            default:
+                return "";
         }
-
-        return "";
     }
 
 }

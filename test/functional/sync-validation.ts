@@ -3,7 +3,9 @@ import {Validator} from "../../src/validation/Validator";
 import {ValidationArguments} from "../../src/validation/ValidationArguments";
 import {registerDecorator} from "../../src/register-decorator";
 import {ValidationOptions} from "../../src/decorator/ValidationOptions";
-import {ValidatorConstraint, Validate, IsNotEmpty} from "../../src/decorator/decorators";
+import {IsNotEmpty} from "../../src/decorator/IsNotEmpty";
+import {Validate} from "../../src/decorator/Validate";
+import {ValidatorConstraint} from "../../src/decorator/ValidatorConstraint";
 import {ValidatorConstraintInterface} from "../../src/validation/ValidatorConstraintInterface";
 
 import {should, use } from "chai";

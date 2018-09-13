@@ -1,7 +1,7 @@
 import {registerDecorator} from "../../src/index";
 import {ValidationOptions} from "../../src/decorator/ValidationOptions";
 import {ValidatorConstraintInterface} from "../../src/validation/ValidatorConstraintInterface";
-import {ValidatorConstraint} from "../../src/decorator/decorators";
+import {ValidatorConstraint} from "../../src/decorator/ValidatorConstraint";
 import {ValidationArguments} from "../../src/validation/ValidationArguments";
 
 export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {

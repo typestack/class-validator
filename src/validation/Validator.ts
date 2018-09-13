@@ -16,9 +16,6 @@ export class Validator {
     // -------------------------------------------------------------------------
 
     private validatorJs = require("validator");
-    private libPhoneNumber = {
-        phoneUtil: require("google-libphonenumber").PhoneNumberUtil.getInstance(),
-    };
 
     /**
      * Performs validation of the given object based on decorators or validation schema.
@@ -112,22 +109,8 @@ export class Validator {
             /* common checkers */
             case ValidationTypes.IS_DEFINED:
                 return this.isDefined(value);
-            case ValidationTypes.EQUALS:
-                return this.equals(value, metadata.constraints[0]);
-            case ValidationTypes.NOT_EQUALS:
-                return this.notEquals(value, metadata.constraints[0]);
-            case ValidationTypes.IS_EMPTY:
-                return this.isEmpty(value);
-            case ValidationTypes.IS_NOT_EMPTY:
-                return this.isNotEmpty(value);
-            case ValidationTypes.IS_IN:
-                return this.isIn(value, metadata.constraints[0]);
-            case ValidationTypes.IS_NOT_IN:
-                return this.isNotIn(value, metadata.constraints[0]);
 
             /* type checkers */
-            case ValidationTypes.IS_BOOLEAN:
-                return this.isBoolean(value);
             case ValidationTypes.IS_DATE:
                 return this.isDate(value);
             case ValidationTypes.IS_STRING:
@@ -214,8 +197,6 @@ export class Validator {
                 return this.isLowercase(value);
             case ValidationTypes.IS_MOBILE_PHONE:
                 return this.isMobilePhone(value, metadata.constraints[0]);
-            case ValidationTypes.IS_PHONE_NUMBER:
-                return this.isPhoneNumber(value, metadata.constraints[0]);
             case ValidationTypes.IS_MONGO_ID:
                 return this.isMongoId(value);
             case ValidationTypes.IS_MULTIBYTE:
@@ -270,58 +251,9 @@ export class Validator {
         return value !== undefined && value !== null;
     }
 
-    /**
-     * Checks if value matches ("===") the comparison.
-     */
-    equals(value: any, comparison: any): boolean {
-        return value === comparison;
-    }
-
-    /**
-     * Checks if value does not match ("!==") the comparison.
-     */
-    notEquals(value: any, comparison: any): boolean {
-        return value !== comparison;
-    }
-
-    /**
-     * Checks if given value is empty (=== '', === null, === undefined).
-     */
-    isEmpty(value: any): boolean {
-        return value === "" || value === null || value === undefined;
-    }
-
-    /**
-     * Checks if given value is not empty (!== '', !== null, !== undefined).
-     */
-    isNotEmpty(value: any): boolean {
-        return value !== "" && value !== null && value !== undefined;
-    }
-
-    /**
-     * Checks if given value is in a array of allowed values.
-     */
-    isIn(value: any, possibleValues: any[]): boolean {
-        return !(possibleValues instanceof Array) || possibleValues.some(possibleValue => possibleValue === value);
-    }
-
-    /**
-     * Checks if given value not in a array of allowed values.
-     */
-    isNotIn(value: any, possibleValues: any[]): boolean {
-        return !(possibleValues instanceof Array) || !possibleValues.some(possibleValue => possibleValue === value);
-    }
-
     // -------------------------------------------------------------------------
     // Validation Methods: type checkers
     // -------------------------------------------------------------------------
-
-    /**
-     * Checks if a given value is a real boolean.
-     */
-    isBoolean(value: any): boolean {
-        return value instanceof Boolean || typeof value === "boolean";
-    }
 
     /**
      * Checks if a given value is a real date.
@@ -649,23 +581,6 @@ export class Validator {
      */
     isMobilePhone(value: string, locale: ValidatorJS.MobilePhoneLocale): boolean {
         return typeof value === "string" && this.validatorJs.isMobilePhone(value, locale);
-    }
-
-    /**
-     * Checks if the string is a valid phone number.
-     * @param value the potential phone number string to test
-     * @param {string} region 2 characters uppercase country code (e.g. DE, US, CH).
-     * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
-     * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
-     */
-    isPhoneNumber(value: string, region: string): boolean {
-        try {
-            const phoneNum = this.libPhoneNumber.phoneUtil.parseAndKeepRawInput(value, region);
-            return this.libPhoneNumber.phoneUtil.isValidNumber(phoneNum);
-        } catch (error) {
-            // logging?
-            return false;
-        }
     }
 
     /**

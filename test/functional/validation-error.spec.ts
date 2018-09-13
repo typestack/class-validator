@@ -1,11 +1,12 @@
 import "es6-shim";
-import { IsNotEmpty, IsString, IsUrl, IsOptional, ValidateNested, MinLength } from "../../src/decorator/decorators";
+import { IsString, IsUrl, IsOptional, ValidateNested, MinLength } from "../../src/decorator/decorators";
 import { Validator } from "../../src/validation/Validator";
 import { expect } from "chai";
 
 import {should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
+import {IsNotEmpty} from "../../src/decorator/IsNotEmpty";
 
 should();
 use(chaiAsPromised);

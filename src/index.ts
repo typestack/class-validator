@@ -108,3 +108,11 @@ export function validateSync(schemaNameOrObject: Object|string,
 export function registerSchema(schema: ValidationSchema): void {
     getFromContainer(MetadataStorage).addValidationSchema(schema);
 }
+export {Equals} from "./decorator/Equals";
+export {NotEquals} from "./decorator/NotEquals";
+export {IsEmpty} from "./decorator/IsEmpty";
+export {IsNotEmpty} from "./decorator/IsNotEmpty";
+export {IsIn} from "./decorator/IsIn";
+export {IsNotIn} from "./decorator/IsNotIn";
+export {IsPhoneNumber} from "./decorator/IsPhoneNumber";
+export {IsBoolean} from "./decorator/IsBoolean";

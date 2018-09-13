@@ -1,53 +1,19 @@
 import {ValidationTypes} from "../validation/ValidationTypes";
-import {IsNumberOptions} from "../validation/ValidationTypeOptions";
+import {
+    IsCurrencyOptions,
+    IsEmailOptions,
+    IsFQDNOptions,
+    IsNumberOptions,
+    IsURLOptions
+} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
-import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {getFromContainer} from "../container";
 import {MetadataStorage} from "../metadata/MetadataStorage";
 
 // -------------------------------------------------------------------------
 // System
-// -------------------------------------------------------------------------
-
-/**
- * Registers custom validator class.
- */
-export function ValidatorConstraint(options?: { name?: string, async?: boolean }) {
-    return function(target: Function) {
-        const isAsync = options && options.async ? true : false;
-        let name = options && options.name ? options.name : "";
-        if (!name) {
-            name = (target as any).name;
-            if (!name) // generate name if it was not given
-                name = name.replace(/\.?([A-Z]+)/g, (x, y) => "_" + y.toLowerCase()).replace(/^_/, "");
-        }
-        const metadata = new ConstraintMetadata(target, name, isAsync);
-        getFromContainer(MetadataStorage).addConstraintMetadata(metadata);
-    };
-}
-
-/**
- * Performs validation based on the given custom validation class.
- * Validation class must be decorated with ValidatorConstraint decorator.
- */
-export function Validate(constraintClass: Function, validationOptions?: ValidationOptions): Function;
-export function Validate(constraintClass: Function, constraints?: any[], validationOptions?: ValidationOptions): Function;
-export function Validate(constraintClass: Function, constraintsOrValidationOptions?: any[]|ValidationOptions, maybeValidationOptions?: ValidationOptions): Function {
-    return function(object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.CUSTOM_VALIDATION,
-            target: object.constructor,
-            propertyName: propertyName,
-            constraintCls: constraintClass,
-            constraints: constraintsOrValidationOptions instanceof Array ? constraintsOrValidationOptions as any[] : undefined,
-            validationOptions: !(constraintsOrValidationOptions instanceof Array) ? constraintsOrValidationOptions as ValidationOptions : maybeValidationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
 /**
  * Objects / object arrays marked with this decorator will also be validated.
  */
@@ -67,17 +33,16 @@ export function ValidateNested(validationOptions?: ValidationOptions) {
  * If object has both allowed and not allowed properties a validation error will be thrown.
  */
 export function Allow(validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
-    const args: ValidationMetadataArgs = {
-      type: ValidationTypes.WHITELIST,
-      target: object.constructor,
-      propertyName: propertyName,
-      validationOptions: validationOptions
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.WHITELIST,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
-    getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-  };
 }
-
 
 /**
  * Objects / object arrays marked with this decorator will also be validated.
@@ -95,10 +60,6 @@ export function ValidateIf(condition: (object: any, value: any) => boolean, vali
     };
 }
 
-// -------------------------------------------------------------------------
-// Common checkers
-// -------------------------------------------------------------------------
-
 /**
  * Checks if given value is defined (!== undefined, !== null).
  */
@@ -108,100 +69,6 @@ export function IsDefined(validationOptions?: ValidationOptions) {
             type: ValidationTypes.IS_DEFINED,
             target: object.constructor,
             propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if the value match ("===") the comparison.
- */
-export function Equals(comparison: any, validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.EQUALS,
-            target: object.constructor,
-            propertyName: propertyName,
-            constraints: [comparison],
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if the value does not match ("!==") the comparison.
- */
-export function NotEquals(comparison: any, validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.NOT_EQUALS,
-            target: object.constructor,
-            propertyName: propertyName,
-            constraints: [comparison],
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if given value is empty (=== '', === null, === undefined).
- */
-export function IsEmpty(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_EMPTY,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if given value is not empty (!== '', !== null, !== undefined).
- */
-export function IsNotEmpty(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NOT_EMPTY,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if value is in a array of allowed values.
- */
-export function IsIn(values: any[], validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_IN,
-            target: object.constructor,
-            propertyName: propertyName,
-            constraints: [values],
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if value is not in a array of disallowed values.
- */
-export function IsNotIn(values: any[], validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NOT_IN,
-            target: object.constructor,
-            propertyName: propertyName,
-            constraints: [values],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -229,21 +96,6 @@ export function IsOptional(validationOptions?: ValidationOptions) {
 // -------------------------------------------------------------------------
 // Type checkers
 // -------------------------------------------------------------------------
-
-/**
- * Checks if a value is a boolean.
- */
-export function IsBoolean(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_BOOLEAN,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
 
 /**
  * Checks if a value is a date.
@@ -399,6 +251,7 @@ export function IsNegative(validationOptions?: ValidationOptions) {
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
+
 /**
  * Checks if the given number is greater than or equal to given number.
  */
@@ -754,7 +607,7 @@ export function IsHexadecimal(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is an IP (version 4 or 6).
  */
-export function IsIP(version?: "4"|"6", validationOptions?: ValidationOptions) {
+export function IsIP(version?: "4" | "6", validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_IP,
@@ -770,7 +623,7 @@ export function IsIP(version?: "4"|"6", validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is an ISBN (version 10 or 13).
  */
-export function IsISBN(version?: "10"|"13", validationOptions?: ValidationOptions) {
+export function IsISBN(version?: "10" | "13", validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ISBN,
@@ -861,25 +714,6 @@ export function IsMobilePhone(locale: string, validationOptions?: ValidationOpti
 }
 
 /**
- * Checks if the string is a valid phone number.
- * @param {string} region 2 characters uppercase country code (e.g. DE, US, CH).
- * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
- * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
- */
-export function IsPhoneNumber(region: string, validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_PHONE_NUMBER,
-            target: object.constructor,
-            propertyName: propertyName,
-            constraints: [region],
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
  * Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
  */
 export function IsMongoId(validationOptions?: ValidationOptions) {
@@ -943,7 +777,7 @@ export function IsUrl(options?: ValidatorJS.IsURLOptions, validationOptions?: Va
 /**
  * Checks if the string is a UUID (version 3, 4 or 5).
  */
-export function IsUUID(version?: "3"|"4"|"5", validationOptions?: ValidationOptions) {
+export function IsUUID(version?: "3" | "4" | "5", validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_UUID,
@@ -1024,7 +858,7 @@ export function MaxLength(max: number, validationOptions?: ValidationOptions) {
  */
 export function Matches(pattern: RegExp, validationOptions?: ValidationOptions): Function;
 export function Matches(pattern: RegExp, modifiers?: string, validationOptions?: ValidationOptions): Function;
-export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationOptions, validationOptions?: ValidationOptions): Function {
+export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string | ValidationOptions, validationOptions?: ValidationOptions): Function {
     let modifiers: string;
     if (modifiersOrAnnotationOptions && modifiersOrAnnotationOptions instanceof Object && !validationOptions) {
         validationOptions = modifiersOrAnnotationOptions as ValidationOptions;
