@@ -1,5 +1,5 @@
 import {ValidationTypes} from "../validation/ValidationTypes";
-import {IsEmailOptions, IsURLOptions, IsNumberOptions} from "../validation/ValidationTypeOptions";
+import {IsEmailOptions, IsNumberOptions} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
@@ -927,7 +927,7 @@ export function IsSurrogatePair(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is an url.
  */
-export function IsUrl(options?: IsURLOptions, validationOptions?: ValidationOptions) {
+export function IsUrl(options?: ValidatorJS.IsURLOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_URL,
