@@ -1,5 +1,5 @@
 import {ValidationTypes} from "../validation/ValidationTypes";
-import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions, IsNumberOptions} from "../validation/ValidationTypeOptions";
+import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsNumberOptions} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
@@ -631,7 +631,7 @@ export function IsCreditCard(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is a valid currency amount.
  */
-export function IsCurrency(options?: IsCurrencyOptions, validationOptions?: ValidationOptions) {
+export function IsCurrency(options?: ValidatorJS.IsCurrencyOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_CURRENCY,
