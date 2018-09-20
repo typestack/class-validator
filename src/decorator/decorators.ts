@@ -1,5 +1,5 @@
 import {ValidationTypes} from "../validation/ValidationTypes";
-import {IsEmailOptions, IsNumberOptions} from "../validation/ValidationTypeOptions";
+import {IsNumberOptions} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
@@ -647,7 +647,7 @@ export function IsCurrency(options?: ValidatorJS.IsCurrencyOptions, validationOp
 /**
  * Checks if the string is an email.
  */
-export function IsEmail(options?: IsEmailOptions, validationOptions?: ValidationOptions) {
+export function IsEmail(options?: ValidatorJS.IsEmailOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_EMAIL,
