@@ -1,7 +1,7 @@
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationTypes} from "./ValidationTypes";
 import {ValidationError} from "./ValidationError";
-import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions, IsNumberOptions} from "./ValidationTypeOptions";
+import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 import {ValidationOptions} from "../decorator/ValidationOptions";
@@ -534,7 +534,7 @@ export class Validator {
      * Checks if the string is a valid currency amount.
      * If given value is not a string, then it returns false.
      */
-    isCurrency(value: string, options?: IsCurrencyOptions): boolean {
+    isCurrency(value: string, options?: ValidatorJS.IsCurrencyOptions): boolean {
         return typeof value === "string" && this.validatorJs.isCurrency(value, options);
     }
 
