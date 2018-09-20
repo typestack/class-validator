@@ -1,5 +1,5 @@
 import {ValidationTypes} from "../validation/ValidationTypes";
-import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsNumberOptions} from "../validation/ValidationTypeOptions";
+import {IsEmailOptions, IsURLOptions, IsNumberOptions} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
@@ -663,7 +663,7 @@ export function IsEmail(options?: IsEmailOptions, validationOptions?: Validation
 /**
  * Checks if the string is a fully qualified domain name (e.g. domain.com).
  */
-export function IsFQDN(options?: IsFQDNOptions, validationOptions?: ValidationOptions) {
+export function IsFQDN(options?: ValidatorJS.IsFQDNOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_FQDN,

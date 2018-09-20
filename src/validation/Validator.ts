@@ -1,7 +1,7 @@
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationTypes} from "./ValidationTypes";
 import {ValidationError} from "./ValidationError";
-import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsNumberOptions} from "./ValidationTypeOptions";
+import {IsEmailOptions, IsURLOptions, IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 import {ValidationOptions} from "../decorator/ValidationOptions";
@@ -550,7 +550,7 @@ export class Validator {
      * Checks if the string is a fully qualified domain name (e.g. domain.com).
      * If given value is not a string, then it returns false.
      */
-    isFQDN(value: string, options?: IsFQDNOptions): boolean {
+    isFQDN(value: string, options?: ValidatorJS.IsFQDNOptions): boolean {
         return typeof value === "string" && this.validatorJs.isFQDN(value, options);
     }
 

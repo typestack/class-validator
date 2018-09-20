@@ -29,12 +29,3 @@ export interface IsEmailOptions {
     allow_utf8_local_part?: boolean;
     require_tld?: boolean;
 }
-
-/**
- * Options to be passed to IsFQDN decorator.
- */
-export interface IsFQDNOptions {
-    require_tld?: boolean;
-    allow_underscores?: boolean;
-    allow_trailing_dot?: boolean;
-}
