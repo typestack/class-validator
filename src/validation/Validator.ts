@@ -1,7 +1,7 @@
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationTypes} from "./ValidationTypes";
 import {ValidationError} from "./ValidationError";
-import {IsEmailOptions, IsURLOptions, IsNumberOptions} from "./ValidationTypeOptions";
+import {IsEmailOptions, IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 import {ValidationOptions} from "../decorator/ValidationOptions";
@@ -696,7 +696,7 @@ export class Validator {
      * Checks if the string is an url.
      * If given value is not a string, then it returns false.
      */
-    isURL(value: string, options?: IsURLOptions): boolean {
+    isURL(value: string, options?: ValidatorJS.IsURLOptions): boolean {
         return typeof value === "string" && this.validatorJs.isURL(value, options);
     }
 
