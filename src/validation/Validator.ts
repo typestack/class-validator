@@ -458,8 +458,8 @@ export class Validator {
      * Checks if the string is numeric.
      * If given value is not a string, then it returns false.
      */
-    isNumberString(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isNumeric(value);
+    isNumberString(value: string, options?: ValidatorJS.IsNumericOptions): boolean {
+        return typeof value === "string" && this.validatorJs.isNumeric(value, options);
     }
 
     // -------------------------------------------------------------------------
