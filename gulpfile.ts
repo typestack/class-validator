@@ -204,7 +204,7 @@ export class Gulpfile {
      */
     @SequenceTask()
     tests() {
-        return ["compile", "tslint", "coveragePost", "coverageRemap"];
+        return ["tslint", "compile", "coveragePost", "coverageRemap"];
     }
 
 }
