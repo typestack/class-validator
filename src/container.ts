@@ -5,7 +5,7 @@ type DefaultContainer = {
     isEmpty(): boolean;
 };
 
-type Entry = { type: Function, object: any };
+export type Entry = { type: Function, object: any };
 
 /**
  * Container options.
@@ -26,7 +26,7 @@ export interface UseContainerOptions {
      * If the default container has registered instances this function allow to class-validator to expose the current state.
      * @param instances 
      */
-    registerExistingInstances(instances: Entry[]): void;
+    registerExistingInstances?: (instances: Entry[]) => void;
 }
 
 /**
