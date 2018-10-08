@@ -1,4 +1,4 @@
-import {Gulpclass, Task, SequenceTask, MergedTask} from "gulpclass";
+import { Gulpclass, Task, SequenceTask, MergedTask } from "gulpclass";
 import * as gulp from "gulp";
 
 const del = require("del");
@@ -204,7 +204,7 @@ export class Gulpfile {
      */
     @SequenceTask()
     tests() {
-        return ["compile", "tslint", "coveragePost", "coverageRemap"];
+        return ["clean", "tslint", "compile", "coveragePost", "coverageRemap"];
     }
 
 }
