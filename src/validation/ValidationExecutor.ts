@@ -1,13 +1,12 @@
 import {Validator} from "./Validator";
 import {ValidationError} from "./ValidationError";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
-import {MetadataStorage} from "../metadata/MetadataStorage";
-import {getFromContainer} from "../container";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
+import {getMetadataStorage} from "..";
 
 /**
  * Executes validation over given object.
@@ -25,7 +24,7 @@ export class ValidationExecutor {
     // Private Properties
     // -------------------------------------------------------------------------
 
-    private metadataStorage = getFromContainer(MetadataStorage);
+    private metadataStorage = getMetadataStorage();
 
     // -------------------------------------------------------------------------
     // Constructor
@@ -220,7 +219,7 @@ export class ValidationExecutor {
                               errorMap: { [key: string]: string }) {
 
         metadatas.forEach(metadata => {
-            getFromContainer(MetadataStorage)
+            getMetadataStorage()
                 .getTargetValidatorConstraints(metadata.constraintCls)
                 .forEach(customConstraintMetadata => {
                     if (customConstraintMetadata.async && this.ignoreAsyncValidations)

@@ -103,8 +103,19 @@ export function validateSync(schemaNameOrObject: Object|string,
 }
 
 /**
+ * Gets metadata args storage.
+ * Metadata args storage follows the best practices and stores metadata in a global variable.
+ */
+export function getMetadataStorage(): MetadataStorage {
+    if (!(global as any).classValidatorMetadataStorage)
+        (global as any).classValidatorMetadataStorage = new MetadataStorage();
+
+    return (global as any).classValidatorMetadataStorage;
+}
+
+/**
  * Registers a new validation schema.
  */
 export function registerSchema(schema: ValidationSchema): void {
-    getFromContainer(MetadataStorage).addValidationSchema(schema);
+    getMetadataStorage().addValidationSchema(schema);
 }
