@@ -2850,8 +2850,8 @@ describe("IsMilitaryTime", function() {
 
 });
 
-describe.only("isPhoneNumber", function() {
-    describe.only("with region", function() {
+describe("isPhoneNumber", function() {
+    describe("with region", function() {
         const validValues = [
             "0311111111", "031 633 60 01", "079 4 666 666", "075 416 20 30",
             "+41 311111111", "+41 31 633 60 01", "+41 79 4 666 666", "+41 75 416 20 30",
@@ -2865,7 +2865,7 @@ describe.only("isPhoneNumber", function() {
             someProperty: string;
         }
 
-        it.only("should not fail if validator.validate said that its valid", function(done) {
+        it("should not fail if validator.validate said that its valid", function(done) {
             checkValidValues(new MyClass(), validValues, done);
         });
 
