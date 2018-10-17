@@ -1,9 +1,5 @@
 import {ValidationOptions} from "./ValidationOptions";
-import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
-import {getFromContainer, MetadataStorage, ValidationTypes} from "..";
-import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {buildMessage, ValidateBy} from "./ValidateBy";
-import {equals} from "./Equals";
 
 /**
  * Checks if given value is in a array of allowed values.

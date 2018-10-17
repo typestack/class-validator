@@ -1,15 +1,15 @@
-import {ValidationTypes} from "..";
+import {ValidationTypes} from "../validation/ValidationTypes";
 import {
     IsCurrencyOptions,
     IsEmailOptions,
     IsFQDNOptions,
     IsURLOptions
-} from "..";
+} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
 import {getFromContainer} from "../container";
-import {MetadataStorage} from "..";
+import {MetadataStorage} from "../metadata/MetadataStorage";
 
 // -------------------------------------------------------------------------
 // System

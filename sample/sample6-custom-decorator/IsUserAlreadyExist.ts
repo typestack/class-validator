@@ -1,6 +1,6 @@
-import {registerDecorator} from "../../src/index";
 import {ValidationOptions} from "../../src/decorator/ValidationOptions";
 import {ValidationArguments} from "../../src/validation/ValidationArguments";
+import {registerDecorator} from "../../src/register-decorator";
 
 export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {

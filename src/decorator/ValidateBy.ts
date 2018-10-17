@@ -1,8 +1,8 @@
-// -------------------------------------------------------------------------
 import {ValidationFunction} from "./ValidationFunction";
 import {ValidationOptions} from "./ValidationOptions";
 import {registerDecorator} from "../register-decorator";
-import {ValidationArguments, ValidatorConstraintInterface} from "..";
+import {ValidationArguments} from "../validation/ValidationArguments";
+import {ValidatorConstraintInterface} from "../validation/ValidatorConstraintInterface";
 
 export function buildMessage(impl: (eachPrefix: string) => string, validationOptions?: ValidationOptions):
     (validationArguments?: ValidationArguments) => string {

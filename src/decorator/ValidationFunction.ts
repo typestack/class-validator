@@ -1,4 +1,4 @@
-import {ValidationArguments} from "../index";
+import {ValidationArguments} from "../validation/ValidationArguments";
 
 export interface ValidationFunction {
     name: string;

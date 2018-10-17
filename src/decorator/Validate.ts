@@ -1,7 +1,9 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
-import {getFromContainer, MetadataStorage, ValidationTypes} from "..";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
+import {MetadataStorage} from "../metadata/MetadataStorage";
+import {ValidationTypes} from "../validation/ValidationTypes";
+import {getFromContainer} from "../container";
 
 /**
  * Performs validation based on the given custom validation class.

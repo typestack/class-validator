@@ -4,7 +4,7 @@ import {ValidationError} from "./ValidationError";
 import {IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
-import {ValidationOptions} from "..";
+import {ValidationOptions} from "../decorator/ValidationOptions";
 
 /**
  * Validator performs validation of the given object based on its metadata.

@@ -1,4 +1,4 @@
-import {ValidationOptions} from "..";
+import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 
 /**

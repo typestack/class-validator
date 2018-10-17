@@ -1,6 +1,6 @@
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {getFromContainer} from "../container";
-import {MetadataStorage} from "..";
+import {MetadataStorage} from "../metadata/MetadataStorage";
 
 /**
  * Registers custom validator class.
