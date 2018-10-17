@@ -1,4 +1,7 @@
-import {Contains, IsInt, MinLength, MaxLength, IsEmail, IsFQDN, IsDate, ArrayNotEmpty, ArrayMinSize, ArrayMaxSize, IsEnum} from "../../src/decorator/decorators";
+import {Contains, MinLength, MaxLength, IsEmail, IsFQDN, ArrayNotEmpty, ArrayMinSize, ArrayMaxSize} from "../../src/decorator/decorators";
+import {IsDate} from "../../src/decorator/IsDate";
+import {IsInt} from "../../src/decorator/IsInt";
+import {IsEnum} from "../../src/decorator/IsEnum";
 
 export enum PostType {
     Public,

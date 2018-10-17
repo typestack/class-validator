@@ -19,9 +19,8 @@ export function isBoolean(value: any): boolean {
 export function IsBoolean(validationOptions?: ValidationOptions) {
     return ValidateBy({
             name: "isBoolean",
-            validate: (value, args) => isBoolean(value),
-            defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be a boolean value", validationOptions),
-
+            validate: (value) => isBoolean(value),
+            defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be a boolean value", validationOptions)
         },
         validationOptions
     );

@@ -1,5 +1,6 @@
-import {Contains, IsInt, MinLength, MaxLength} from "../../src/decorator/decorators";
+import {Contains, MinLength, MaxLength} from "../../src/decorator/decorators";
 import {BaseContent} from "./BaseContent";
+import {IsInt} from "../../src/decorator/IsInt";
 
 export class Post extends BaseContent {
 

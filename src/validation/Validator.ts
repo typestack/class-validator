@@ -4,7 +4,7 @@ import {ValidationError} from "./ValidationError";
 import {IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
-import {ValidationOptions} from "../decorator/ValidationOptions";
+import {ValidationOptions} from "..";
 
 /**
  * Validator performs validation of the given object based on its metadata.
@@ -15,6 +15,7 @@ export class Validator {
     // Private Properties
     // -------------------------------------------------------------------------
 
+    // FIXME: other goal of modularization: remove this!!!!
     private validatorJs = require("validator");
 
     /**
@@ -109,40 +110,6 @@ export class Validator {
             /* common checkers */
             case ValidationTypes.IS_DEFINED:
                 return this.isDefined(value);
-
-            /* type checkers */
-            case ValidationTypes.IS_DATE:
-                return this.isDate(value);
-            case ValidationTypes.IS_STRING:
-                return this.isString(value);
-            case ValidationTypes.IS_DATE_STRING:
-                return this.isDateString(value);
-            case ValidationTypes.IS_ARRAY:
-                return this.isArray(value);
-            case ValidationTypes.IS_NUMBER:
-                return this.isNumber(value, metadata.constraints[0]);
-            case ValidationTypes.IS_INT:
-                return this.isInt(value);
-            case ValidationTypes.IS_ENUM:
-                return this.isEnum(value, metadata.constraints[0]);
-
-            /* number checkers */
-            case ValidationTypes.IS_DIVISIBLE_BY:
-                return this.isDivisibleBy(value, metadata.constraints[0]);
-            case ValidationTypes.IS_POSITIVE:
-                return this.isPositive(value);
-            case ValidationTypes.IS_NEGATIVE:
-                return this.isNegative(value);
-            case ValidationTypes.MIN:
-                return this.min(value, metadata.constraints[0]);
-            case ValidationTypes.MAX:
-                return this.max(value, metadata.constraints[0]);
-
-            /* date checkers */
-            case ValidationTypes.MIN_DATE:
-                return this.minDate(value, metadata.constraints[0]);
-            case ValidationTypes.MAX_DATE:
-                return this.maxDate(value, metadata.constraints[0]);
 
             /* string-as-type checkers */
             case ValidationTypes.IS_BOOLEAN_STRING:
@@ -249,129 +216,6 @@ export class Validator {
      */
     isDefined(value: any): boolean {
         return value !== undefined && value !== null;
-    }
-
-    // -------------------------------------------------------------------------
-    // Validation Methods: type checkers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Checks if a given value is a real date.
-     */
-    isDate(value: any): boolean {
-        return value instanceof Date && !isNaN(value.getTime());
-    }
-
-    /**
-     * Checks if a given value is a real string.
-     */
-    isString(value: any): boolean {
-        return value instanceof String || typeof value === "string";
-    }
-
-    /**
-     * Checks if a given value is a ISOString date.
-     */
-    isDateString(value: any): boolean {
-        const regex = /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|\+[0-2]\d(?:\:[0-5]\d)?)?$/g;
-        return this.isString(value) && regex.test(value);
-    }
-
-    /**
-     * Checks if a given value is an array
-     */
-    isArray(value: any): boolean {
-        return value instanceof Array;
-    }
-
-    /**
-     * Checks if a given value is an enum
-     */
-    isEnum(value: any, entity: any): boolean {
-        const enumValues = Object.keys(entity)
-            .map(k => entity[k]);
-        return enumValues.indexOf(value) >= 0;
-    }
-
-    /**
-     * Checks if a given value is a number.
-     */
-    isNumber(value: any, options: IsNumberOptions = {}): boolean {
-        if (value === Infinity || value === -Infinity) {
-            return options.allowInfinity;
-        }
-
-        if (Number.isNaN(value)) {
-            return options.allowNaN;
-        }
-
-        return Number.isFinite(value);
-    }
-
-    /**
-     * Checks if value is an integer.
-     */
-    isInt(val: number): boolean {
-        return Number.isInteger(val);
-    }
-
-    // -------------------------------------------------------------------------
-    // Validation Methods: number checkers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Checks if value is a number that's divisible by another.
-     */
-    isDivisibleBy(value: number, num: number): boolean {
-        return  typeof value === "number" &&
-            typeof num === "number" &&
-            this.validatorJs.isDivisibleBy(String(value), num);
-    }
-
-    /**
-     * Checks if the value is a positive number.
-     */
-    isPositive(value: number): boolean {
-        return typeof value === "number" && value > 0;
-    }
-
-    /**
-     * Checks if the value is a negative number.
-     */
-    isNegative(value: number): boolean {
-        return typeof value === "number" && value < 0;
-    }
-
-    /**
-     * Checks if the first number is greater than or equal to the second.
-     */
-    min(num: number, min: number): boolean {
-        return typeof num === "number" && typeof min === "number" && num >= min;
-    }
-
-    /**
-     * Checks if the first number is less than or equal to the second.
-     */
-    max(num: number, max: number): boolean {
-        return typeof num === "number" && typeof max === "number" && num <= max;
-    }
-
-    // -------------------------------------------------------------------------
-    // Validation Methods: date checkers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Checks if the value is a date that's after the specified date.
-     */
-    minDate(date: Date, minDate: Date): boolean {
-        return date && date.getTime() >= minDate.getTime();
-    }
-
-    /**
-     * Checks if the value is a date that's before the specified date.
-     */
-    maxDate(date: Date, maxDate: Date): boolean {
-        return date && date.getTime() <= maxDate.getTime();
     }
 
     // -------------------------------------------------------------------------

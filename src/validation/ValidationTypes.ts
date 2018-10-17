@@ -13,26 +13,6 @@ export class ValidationTypes {
     // FIXME: delete
     static IS_DEFINED = "isDefined";
 
-    /* type checkers */
-    static IS_DATE = "isDate";
-    static IS_NUMBER = "isNumber";
-    static IS_STRING = "isString";
-    static IS_DATE_STRING = "isDateString";
-    static IS_ARRAY = "isArray";
-    static IS_INT = "isInt";
-    static IS_ENUM = "isEnum";
-
-    /* number checkers */
-    static IS_DIVISIBLE_BY = "isDivisibleBy";
-    static IS_POSITIVE = "isPositive";
-    static IS_NEGATIVE = "isNegative";
-    static MIN = "min";
-    static MAX = "max";
-
-    /* date checkers */
-    static MIN_DATE = "minDate";
-    static MAX_DATE = "maxDate";
-
     /* string-as-type checkers */
     static IS_BOOLEAN_STRING = "isBooleanString";
     static IS_NUMBER_STRING = "isNumberString";
@@ -105,40 +85,6 @@ export class ValidationTypes {
                 return eachPrefix + "nested property $property must be either object or array";
             case this.IS_DEFINED:
                 return eachPrefix + "$property should not be null or undefined";
-
-            /* type checkers */
-            case this.IS_DATE:
-                return eachPrefix + "$property must be a Date instance";
-            case this.IS_NUMBER:
-                return eachPrefix + "$property must be a number";
-            case this.IS_INT:
-                return eachPrefix + "$property must be an integer number";
-            case this.IS_STRING:
-                return eachPrefix + "$property must be a string";
-            case this.IS_DATE_STRING:
-                return eachPrefix + "$property must be a ISOString";
-            case this.IS_ARRAY:
-                return eachPrefix + "$property must be an array";
-            case this.IS_ENUM:
-                return eachPrefix + "$property must be a valid enum value";
-
-            /* number checkers */
-            case this.IS_DIVISIBLE_BY:
-                return eachPrefix + "$property must be divisible by $constraint1";
-            case this.IS_POSITIVE:
-                return eachPrefix + "$property must be a positive number";
-            case this.IS_NEGATIVE:
-                return eachPrefix + "$property must be a negative number";
-            case this.MIN:
-                return eachPrefix + "$property must not be less than $constraint1";
-            case this.MAX:
-                return eachPrefix + "$property must not be greater than $constraint1";
-
-            /* date checkers */
-            case this.MIN_DATE:
-                return "minimal allowed date for " + eachPrefix + "$property is $constraint1";
-            case this.MAX_DATE:
-                return "maximal allowed date for " + eachPrefix + "$property is $constraint1";
 
             /* string-as-type checkers */
             case this.IS_BOOLEAN_STRING:
