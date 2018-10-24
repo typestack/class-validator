@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "google-libphonenumber": "^3.1.6",
-    "validator": "10.4.0"
+    "validator": "10.8.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",
@@ -46,15 +46,15 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-tslint": "^8.1.3",
     "gulp-typescript": "^5.0.0-alpha.3",
-    "gulpclass": "^0.1.1",
+    "gulpclass": "^0.2.0",
     "mocha": "^5.2.0",
-    "remap-istanbul": "^0.11.1",
-    "sinon": "^6.1.3",
+    "remap-istanbul": "^0.12.0",
+    "sinon": "^7.0.0",
     "sinon-chai": "^3.2.0",
     "ts-node": "^7.0.0",
     "tslint": "^5.11.0",
     "tslint-stylish": "^2.1.0",
-    "typescript": "^2.9.2"
+    "typescript": "^3.1.3"
   },
   "scripts": {
     "build": "gulp package",
