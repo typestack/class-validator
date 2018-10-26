@@ -12,15 +12,18 @@ post1.site = "google.com"; // should pass
 post1.createDate = new Date(); // should pass
 post1.tags = ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"]; // should pass
 post1.type = PostType.Private;
+console.log("Created post1 successfully");
 
 
 let post2 = new Post();
-
+const post2errors = [];
 try {
     post2.title = "Hello"; // should not pass
     throw new Error("Assignment should not pass");
 } catch (error) {
-    if (!(error instanceof ValidationError)) {
+    if (error instanceof ValidationError) {
+        post2errors.push(error);
+    } else {
         throw error;
     }
 }
@@ -28,7 +31,9 @@ try {
     post2.text = "this is a great post about hell world"; // should not pass
     throw new Error("Assignment should not pass");
 } catch (error) {
-    if (!(error instanceof ValidationError)) {
+    if (error instanceof ValidationError) {
+        post2errors.push(error);
+    } else {
         throw error;
     }
 }
@@ -36,7 +41,9 @@ try {
     post2.rating = 1.1; // should not pass
     throw new Error("Assignment should not pass");
 } catch (error) {
-    if (!(error instanceof ValidationError)) {
+    if (error instanceof ValidationError) {
+        post2errors.push(error);
+    } else {
         throw error;
     }
 }
@@ -44,7 +51,9 @@ try {
     post2.email = "google.com"; // should not pass
     throw new Error("Assignment should not pass");
 } catch (error) {
-    if (!(error instanceof ValidationError)) {
+    if (error instanceof ValidationError) {
+        post2errors.push(error);
+    } else {
         throw error;
     }
 }
@@ -52,7 +61,37 @@ try {
     post2.site = "googlecom"; // should not pass
     throw new Error("Assignment should not pass");
 } catch (error) {
-    if (!(error instanceof ValidationError)) {
+    if (error instanceof ValidationError) {
+        post2errors.push(error);
+    } else {
         throw error;
     }
 }
+
+try {
+    post2.createDate = undefined; // should not pass
+    throw new Error("Assignment should not pass");
+} catch (error) {
+    if (error instanceof ValidationError) {
+        post2errors.push(error);
+    } else {
+        throw error;
+    }
+}
+
+console.log("Post 2 successfully got validation errors", post2errors);
+
+
+let post3 = new Post();
+Object.assign(post3, {
+    title: "Hello world",
+    text: "this is a great post about hello world",
+    rating: 10,
+    email: "info@google.com",
+    site: "google.com",
+    createDate: new Date(),
+    tags: ["abcd1", "abcd2", "abcd3", "abcd4", "abcd4"],
+    type: PostType.Private,
+});
+
+console.log("Created post3 successfully");
