@@ -95,3 +95,20 @@ Object.assign(post3, {
 });
 
 console.log("Created post3 successfully");
+
+
+let post4 = new Post();
+try {
+    // Should fail on the first attempted property assignment
+    Object.assign(post4, {
+        title: "Hello",
+        text: "this is a great post about hell world",
+        rating: 1.1,
+        email: "google.com",
+        site: "googlecom",
+        createDate: undefined,
+        tags: ["JS"]
+    });
+} catch (error) {
+    console.log("Post 4 successfully got validation errors", error);
+}
