@@ -174,6 +174,7 @@ export function AutoValidate() {
                             error.target = this;
                             error.property = property;
                             error.constraints = {};
+                            error.children = [];
 
                             for (const [type, messageString] of errors) {
                                 error.constraints[type] = messageString;
