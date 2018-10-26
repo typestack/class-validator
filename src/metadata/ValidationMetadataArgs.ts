@@ -18,7 +18,7 @@ export interface ValidationMetadataArgs {
     /**
      * Property of the object to be validated.
      */
-    propertyName: string;
+    propertyName?: string;
 
     /**
      * Constraint class that performs validation. Used only for custom validations.
