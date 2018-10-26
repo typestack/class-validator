@@ -20,12 +20,12 @@ validate(post1).then(result => {
 let post2 = new Post();
 post2.title = "Hello"; // should not pass
 post2.text = "this is a great post about hell world"; // should not pass
-post2.rating = 11; // should not pass
+post2.rating = 1.1; // should not pass
 post2.email = "google.com"; // should not pass
 post2.site = "googlecom"; // should not pass
-post2.type = PostType.Private;
-// should not pass because date property is missing
+post2.type = PostType.Private; // should pass
 
+// should not pass because date property is missing
 validate(post2).then(result => {
     console.log("2. should not pass: ", result); // should not pass completely, must return array of ValidationError-s
 });
@@ -35,7 +35,7 @@ validate(post2).then(result => {
 let post3 = new Post();
 post3.title = "Hello"; // should not pass
 post3.text = "this is a great post about hell world"; // should not pass
-post3.rating = 11; // should not pass
+post3.rating = 1.1; // should not pass
 post3.email = "google.com"; // should not pass
 post3.site = "googlecom"; // should not pass
 post3.type = PostType.Private;
