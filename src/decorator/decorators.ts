@@ -124,8 +124,6 @@ export function AutoValidate() {
                 propertyValidatorMap[propertyName].push(validationMetadata);
             }
 
-            targetClass.prototype.__validatedProperties = {};
-
             /**
              * For each property which holds a validator annotation, define custom
              * setter and getter, and store it in a private data store
@@ -135,6 +133,10 @@ export function AutoValidate() {
 
                 Object.defineProperty(targetClass.prototype, property, {
                     set: function (val) {
+                        if (this.__validatedProperties === undefined) {
+                            this.__validatedProperties = {};
+                        }
+
                         const errors = validators.map(validatorMetadata => {
                             let isValid: boolean;
 
@@ -187,6 +189,9 @@ export function AutoValidate() {
                         return val;
                     },
                     get: function () {
+                        if (this.__validatedProperties === undefined) {
+                            this.__validatedProperties = {};
+                        }
                         return this.__validatedProperties[property];
                     }
                 });

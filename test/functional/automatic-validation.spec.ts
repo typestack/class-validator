@@ -76,5 +76,4 @@ describe("Automatic validation", function () {
         errorText.should.be.equal("An instance of TestClass has failed the validation:\n" +
         " - property tags has failed the following constraints: minLength, arrayMinSize \n");
     });
-
 });
