@@ -755,7 +755,7 @@ validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
 validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
 validator.isLowercase(str); // Checks if the string is lowercase.
 validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
-validator.isISO31661Alpha3(str); // Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.
+validator.isISO31661Alpha3(str); // Check if the string is a valid ISO 3166-1 alpha-3
 validator.isMongoId(str); // Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
 validator.isMultibyte(str); // Checks if the string contains one or more multibyte chars.
 validator.isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
@@ -837,7 +837,8 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
-| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                   |
+| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                    |
+| `@IsISO31661Alpha3()`                           | Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                                                       |
 | `@IsNumberString()`                             | Checks if the string is numeric.                                                                                                 |
