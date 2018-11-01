@@ -216,6 +216,8 @@ export class Validator {
                 return this.isMobilePhone(value, metadata.constraints[0]);
             case ValidationTypes.IS_PHONE_NUMBER:
                 return this.isPhoneNumber(value, metadata.constraints[0]);
+            case ValidationTypes.IS_ISO31661_ALPHA_3:
+                return this.isISO31661Alpha3(value, metadata.constraints[0]);
             case ValidationTypes.IS_MONGO_ID:
                 return this.isMongoId(value);
             case ValidationTypes.IS_MULTIBYTE:
