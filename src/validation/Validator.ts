@@ -667,6 +667,13 @@ export class Validator {
             return false;
         }
     }
+    
+    /**
+     * Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.
+     */
+    isISO31661Alpha3(value: string): boolean {
+        return typeof value === "string" && this.validatorJs.isISO31661Alpha3(value);
+    }
 
     /**
      * Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
