@@ -756,6 +756,7 @@ validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
 validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
 validator.isLowercase(str); // Checks if the string is lowercase.
 validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
+validator.isPhoneNumber(str, region); // Checks if the string is a valid phone number.
 validator.isMongoId(str); // Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
 validator.isMultibyte(str); // Checks if the string contains one or more multibyte chars.
 validator.isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
@@ -837,7 +838,8 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
-| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                   |
+| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                    |
+| `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number. "region" accepts 2 characters uppercase country code (e.g. DE, US, CH).If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region. See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github](https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33)                                                                                  |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                                                       |
 | `@IsNumberString()`                             | Checks if the string is numeric.                                                                                                 |
