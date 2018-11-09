@@ -203,6 +203,8 @@ export class Validator {
                 return this.isHexadecimal(value);
             case ValidationTypes.IS_IP:
                 return this.isIP(value, metadata.constraints[0]);
+            case ValidationTypes.IS_PORT:
+                return this.isPort(value);
             case ValidationTypes.IS_ISBN:
                 return this.isISBN(value, metadata.constraints[0]);
             case ValidationTypes.IS_ISIN:
@@ -382,13 +384,6 @@ export class Validator {
      */
     isInt(val: number): boolean {
         return Number.isInteger(val);
-    }
-
-    /**
-     * Check if the string is a valid port number.
-     */
-    isPort(val: string): boolean {
-        return this.validatorJs.isPort(val);
     }
 
     // -------------------------------------------------------------------------
@@ -608,6 +603,13 @@ export class Validator {
      */
     isIP(value: string, version?: number): boolean {
         return typeof value === "string" && this.validatorJs.isIP(value, version);
+    }
+
+    /**
+     * Check if the string is a valid port number.
+     */
+    isPort(value: string): boolean {
+        return this.validatorJs.isPort(value);
     }
 
     /**

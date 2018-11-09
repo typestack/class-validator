@@ -767,6 +767,22 @@ export function IsIP(version?: number, validationOptions?: ValidationOptions) {
     };
 }
 
+
+/**
+ * Check if the string is a valid port number.
+ */
+export function IsPort(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_PORT,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
 /**
  * Checks if the string is an ISBN (version 10 or 13).
  */

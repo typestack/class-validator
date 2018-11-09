@@ -63,6 +63,7 @@ export class ValidationTypes {
     static IS_HEX_COLOR = "isHexColor";
     static IS_HEXADECIMAL = "isHexadecimal";
     static IS_IP = "isIp";
+    static IS_PORT = "isPort";
     static IS_ISBN = "isIsbn";
     static IS_ISIN = "isIsin";
     static IS_ISO8601 = "isIso8601";
