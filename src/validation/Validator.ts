@@ -384,6 +384,9 @@ export class Validator {
         return Number.isInteger(val);
     }
 
+    /**
+     * Check if the string is a valid port number.
+     */
     isPort(val: string): boolean {
         return this.validatorJs.isPort(val);
     }
