@@ -603,7 +603,7 @@ export class Validator {
      * Checks if the string is an IP (version 4 or 6).
      * If given value is not a string, then it returns false.
      */
-    isIP(value: string, version?: "4"|"6"): boolean {
+    isIP(value: string, version?: number): boolean {
         return typeof value === "string" && this.validatorJs.isIP(value, version);
     }
 
@@ -611,7 +611,7 @@ export class Validator {
      * Checks if the string is an ISBN (version 10 or 13).
      * If given value is not a string, then it returns false.
      */
-    isISBN(value: string, version?: "10"|"13"): boolean {
+    isISBN(value: string, version?: number): boolean {
         return typeof value === "string" && this.validatorJs.isISBN(value, version);
     }
 
