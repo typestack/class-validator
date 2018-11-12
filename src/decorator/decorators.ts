@@ -1,10 +1,4 @@
 import {ValidationTypes} from "../validation/ValidationTypes";
-import {
-    IsCurrencyOptions,
-    IsEmailOptions,
-    IsFQDNOptions,
-    IsURLOptions
-} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
