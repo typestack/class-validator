@@ -53,4 +53,9 @@ export interface ValidatorOptions {
      */
     forbidUnknownValues?: boolean;
 
+    /**
+     * A transient set of data passed through to the validation result for response mapping
+     */
+    context?: any;
+
 }

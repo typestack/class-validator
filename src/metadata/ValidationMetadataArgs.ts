@@ -39,4 +39,10 @@ export interface ValidationMetadataArgs {
      * Extra options specific to validation type.
      */
     validationTypeOptions?: any;
+
+    /**
+     * A transient set of data passed through to the validation result for response mapping
+     */
+    context?: any;
+
 }

@@ -51,11 +51,18 @@ export interface ValidationDecoratorOptions {
  */
 export function registerDecorator(options: ValidationDecoratorOptions): void {
 
+    let name;
     let constraintCls: Function;
     if (options.validator instanceof Function) {
         constraintCls = options.validator as Function;
+        const constraintClasses = getFromContainer(MetadataStorage).getTargetValidatorConstraints(options.validator);
+        if (constraintClasses.length !== 1) {
+            throw `More than one implementation of ValidatorConstraintInterface found for validator on: ${options.target}:${options.propertyName}`;
+        }
+        name = options.name || constraintClasses[0].name;
     } else {
         const validator = options.validator as ValidatorConstraintInterface;
+        name = options.name;
         constraintCls = class CustomConstraint implements ValidatorConstraintInterface {
             validate(value: any, validationArguments?: ValidationArguments): Promise<boolean>|boolean {
                 return validator.validate(value, validationArguments);
@@ -73,12 +80,13 @@ export function registerDecorator(options: ValidationDecoratorOptions): void {
     }
 
     const validationMetadataArgs: ValidationMetadataArgs = {
-        type: ValidationTypes.CUSTOM_VALIDATION,
+        type: name || ValidationTypes.CUSTOM_VALIDATION,
         target: options.target,
         propertyName: options.propertyName,
         validationOptions: options.options,
         constraintCls: constraintCls,
-        constraints: options.constraints
+        constraints: options.constraints,
+        context: (options.options || {}).context
     };
     getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(validationMetadataArgs));
 }

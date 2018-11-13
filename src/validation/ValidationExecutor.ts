@@ -43,7 +43,7 @@ export class ValidationExecutor {
         /**
          * If there is no metadata registered it means possibly the dependencies are not flatterned and
          * more than one instance is used.
-         * 
+         *
          * TODO: This needs proper handling, forcing to use the same container or some other proper solution.
          */
         if (!this.metadataStorage.hasValidationMetaData) {
@@ -60,29 +60,39 @@ export class ValidationExecutor {
             if (!this.validatorOptions ||
                 !this.validatorOptions.validationError ||
                 this.validatorOptions.validationError.target === undefined ||
-                this.validatorOptions.validationError.target === true)
+                this.validatorOptions.validationError.target === true) {
                 validationError.target = object;
+            }
 
             validationError.value = undefined;
             validationError.property = undefined;
             validationError.children = [];
-            validationError.constraints = { unknownValue: "an unknown value was passed to the validate function" };
+            validationError.constraints = {unknownValue: "an unknown value was passed to the validate function"};
 
             validationErrors.push(validationError);
 
             return;
         }
 
-        if (this.validatorOptions && this.validatorOptions.whitelist)
+        if (this.validatorOptions && this.validatorOptions.whitelist) {
             this.whitelist(object, groupedMetadatas, validationErrors);
+        }
+
+        const PREDEFINED_VALIDATION_TYPES = [
+            ValidationTypes.NESTED_VALIDATION,
+            ValidationTypes.CONDITIONAL_VALIDATION,
+            ValidationTypes.WHITELIST,
+            ValidationTypes.IS_DEFINED
+        ];
 
         // General validation
         Object.keys(groupedMetadatas).forEach(propertyName => {
+
             const value = (object as any)[propertyName];
             const definedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
             const metadatas = groupedMetadatas[propertyName].filter(
-              metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.WHITELIST);
-            const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
+                metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.WHITELIST);
+            const customValidationMetadatas = metadatas.filter(metadata => PREDEFINED_VALIDATION_TYPES.indexOf(metadata.type) === -1);
             const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
             const conditionalValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CONDITIONAL_VALIDATION);
 
@@ -128,7 +138,7 @@ export class ValidationExecutor {
                 notAllowedProperties.forEach(property => {
                     validationErrors.push({
                         target: object, property, value: (object as any)[property], children: undefined,
-                        constraints: { [ValidationTypes.WHITELIST]: `property ${property} should not exist` }
+                        constraints: {[ValidationTypes.WHITELIST]: `property ${property} should not exist`}
                     });
                 });
 
