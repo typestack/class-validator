@@ -10,15 +10,10 @@ export class ValidationTypes {
     static NESTED_VALIDATION = "nestedValidation";
     static CONDITIONAL_VALIDATION = "conditionalValidation";
     static WHITELIST = "whitelistValidation";
-    // FIXME: delete
+    // FIXME: delete?
     static IS_DEFINED = "isDefined";
 
-    /* string-as-type checkers */
-    static IS_BOOLEAN_STRING = "isBooleanString";
-    static IS_NUMBER_STRING = "isNumberString";
-
     /* string checkers */
-    static CONTAINS = "contains";
     static NOT_CONTAINS = "notContains";
     static IS_ALPHA = "isAlpha";
     static IS_ALPHANUMERIC = "isAlphanumeric";
@@ -86,15 +81,7 @@ export class ValidationTypes {
             case this.IS_DEFINED:
                 return eachPrefix + "$property should not be null or undefined";
 
-            /* string-as-type checkers */
-            case this.IS_BOOLEAN_STRING:
-                return eachPrefix + "$property must be a boolean string";
-            case this.IS_NUMBER_STRING:
-                return eachPrefix + "$property must be a number string";
-
             /* string checkers */
-            case this.CONTAINS:
-                return eachPrefix + "$property must contain a $constraint1 string";
             case this.NOT_CONTAINS:
                 return eachPrefix + "$property should not contain a $constraint1 string";
             case this.IS_ALPHA:

@@ -1,13 +1,13 @@
 import "es6-shim";
-import {Contains, IsDefined, MinLength, ValidateNested} from "../../src/decorator/decorators";
+import {IsDefined, MinLength, ValidateNested} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {expect} from "chai";
-import {inspect} from "util";
 import {ValidationTypes} from "../../src/validation/ValidationTypes";
 
 import {should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
+import {Contains} from "../../src/decorator/Contains";
 
 should();
 use(chaiAsPromised);

@@ -87,58 +87,9 @@ export function IsOptional(validationOptions?: ValidationOptions) {
 }
 
 // -------------------------------------------------------------------------
-// String-as-types checkers
-// -------------------------------------------------------------------------
-
-/**
- * Checks if a string is a boolean.
- */
-export function IsBooleanString(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_BOOLEAN_STRING,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
- * Checks if the string is a number.
- */
-export function IsNumberString(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_NUMBER_STRING,
-            target: object.constructor,
-            propertyName: propertyName,
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-// -------------------------------------------------------------------------
 // String checkers
 // -------------------------------------------------------------------------
 
-/**
- * Checks if the string contains the seed.
- */
-export function Contains(seed: string, validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.CONTAINS,
-            target: object.constructor,
-            propertyName: propertyName,
-            constraints: [seed],
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
 
 /**
  * Checks if the string does not contain the seed.

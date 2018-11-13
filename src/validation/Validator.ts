@@ -111,15 +111,7 @@ export class Validator {
             case ValidationTypes.IS_DEFINED:
                 return this.isDefined(value);
 
-            /* string-as-type checkers */
-            case ValidationTypes.IS_BOOLEAN_STRING:
-                return this.isBooleanString(value);
-            case ValidationTypes.IS_NUMBER_STRING:
-                return this.isNumberString(value);
-
             /* string checkers */
-            case ValidationTypes.CONTAINS:
-                return this.contains(value, metadata.constraints[0]);
             case ValidationTypes.NOT_CONTAINS:
                 return this.notContains(value, metadata.constraints[0]);
             case ValidationTypes.IS_ALPHA:
@@ -219,36 +211,9 @@ export class Validator {
     }
 
     // -------------------------------------------------------------------------
-    // Validation Methods: string-as-type checkers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Checks if a string is a boolean.
-     * If given value is not a string, then it returns false.
-     */
-    isBooleanString(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isBoolean(value);
-    }
-
-    /**
-     * Checks if the string is numeric.
-     * If given value is not a string, then it returns false.
-     */
-    isNumberString(value: string, options?: ValidatorJS.IsNumericOptions): boolean {
-        return typeof value === "string" && this.validatorJs.isNumeric(value, options);
-    }
-
-    // -------------------------------------------------------------------------
     // Validation Methods: string checkers
     // -------------------------------------------------------------------------
 
-    /**
-     * Checks if the string contains the seed.
-     * If given value is not a string, then it returns false.
-     */
-    contains(value: string, seed: string): boolean {
-        return typeof value === "string" && this.validatorJs.contains(value, seed);
-    }
 
     /**
      * Checks if the string does not contain the seed.

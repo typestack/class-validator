@@ -1,6 +1,7 @@
-import {Contains, Length, IsEmail, IsFQDN} from "../../src/decorator/decorators";
+import {Length, IsEmail, IsFQDN} from "../../src/decorator/decorators";
 import {IsDate} from "../../src/decorator/IsDate";
 import {IsInt} from "../../src/decorator/IsInt";
+import {Contains} from "../../src/decorator/Contains";
 
 export class Post {
 
