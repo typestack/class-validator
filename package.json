@@ -1,7 +1,7 @@
 {
   "name": "class-validator",
   "private": true,
-  "version": "1.0.0-rc",
+  "version": "1.0.0-rc1",
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -33,7 +33,7 @@
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.5.2",
     "@types/sinon": "^5.0.1",
-    "@types/validator": "^9.4.3",
+    "@types/validator": "^9.4.2",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.0.4",
