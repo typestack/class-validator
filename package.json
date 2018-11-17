@@ -33,7 +33,7 @@
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.5.2",
     "@types/sinon": "^5.0.1",
-    "@types/validator": "^9.4.2",
+    "@types/validator": "^9.4.3",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.0.4",

@@ -14,24 +14,6 @@ export class ValidationTypes {
     static IS_DEFINED = "isDefined";
 
     /* string checkers */
-    static NOT_CONTAINS = "notContains";
-    static IS_ALPHA = "isAlpha";
-    static IS_ALPHANUMERIC = "isAlphanumeric";
-    static IS_ASCII = "isAscii";
-    static IS_BASE64 = "isBase64";
-    static IS_BYTE_LENGTH = "isByteLength";
-    static IS_CREDIT_CARD = "isCreditCard";
-    static IS_CURRENCY = "isCurrency";
-    static IS_EMAIL = "isEmail";
-    static IS_FQDN = "isFqdn";
-    static IS_FULL_WIDTH = "isFullWidth";
-    static IS_HALF_WIDTH = "isHalfWidth";
-    static IS_VARIABLE_WIDTH = "isVariableWidth";
-    static IS_HEX_COLOR = "isHexColor";
-    static IS_HEXADECIMAL = "isHexadecimal";
-    static IS_IP = "isIp";
-    static IS_ISBN = "isIsbn";
-    static IS_ISIN = "isIsin";
     static IS_ISO8601 = "isIso8601";
     static IS_JSON = "isJson";
     static IS_LOWERCASE = "isLowercase";
@@ -82,42 +64,6 @@ export class ValidationTypes {
                 return eachPrefix + "$property should not be null or undefined";
 
             /* string checkers */
-            case this.NOT_CONTAINS:
-                return eachPrefix + "$property should not contain a $constraint1 string";
-            case this.IS_ALPHA:
-                return eachPrefix + "$property must contain only letters (a-zA-Z)";
-            case this.IS_ALPHANUMERIC:
-                return eachPrefix + "$property must contain only letters and numbers";
-            case this.IS_ASCII:
-                return eachPrefix + "$property must contain only ASCII characters";
-            case this.IS_BASE64:
-                return eachPrefix + "$property must be base64 encoded";
-            case this.IS_BYTE_LENGTH:
-                return eachPrefix + "$property's byte length must fall into ($constraint1, $constraint2) range";
-            case this.IS_CREDIT_CARD:
-                return eachPrefix + "$property must be a credit card";
-            case this.IS_CURRENCY:
-                return eachPrefix + "$property must be a currency";
-            case this.IS_EMAIL:
-                return eachPrefix + "$property must be an email";
-            case this.IS_FQDN:
-                return eachPrefix + "$property must be a valid domain name";
-            case this.IS_FULL_WIDTH:
-                return eachPrefix + "$property must contain a full-width characters";
-            case this.IS_HALF_WIDTH:
-                return eachPrefix + "$property must contain a half-width characters";
-            case this.IS_VARIABLE_WIDTH:
-                return eachPrefix + "$property must contain a full-width and half-width characters";
-            case this.IS_HEX_COLOR:
-                return eachPrefix + "$property must be a hexadecimal color";
-            case this.IS_HEXADECIMAL:
-                return eachPrefix + "$property must be a hexadecimal number";
-            case this.IS_IP:
-                return eachPrefix + "$property must be an ip address";
-            case this.IS_ISBN:
-                return eachPrefix + "$property must be an ISBN";
-            case this.IS_ISIN:
-                return eachPrefix + "$property must be an ISIN (stock/security identifier)";
             case this.IS_ISO8601:
                 return eachPrefix + "$property must be a valid ISO 8601 date string";
             case this.IS_JSON:
