@@ -2,6 +2,8 @@ import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 import {isString} from "./IsString";
 
+export const IS_DATE_STRING = "isDateString";
+
 /**
  * Checks if a given value is a ISOString date.
  */
@@ -12,7 +14,7 @@ export function isDateString(value: any): boolean {
 
 export function IsDateString(validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isDateString",
+            name: IS_DATE_STRING,
             validate: (value) => isDateString(value),
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be a ISOString", validationOptions)
         },

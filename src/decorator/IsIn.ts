@@ -1,6 +1,8 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 
+export const IS_IN = "isIn";
+
 /**
  * Checks if given value is in a array of allowed values.
  */
@@ -13,7 +15,7 @@ export function isIn(value: any, possibleValues: any[]): boolean {
  */
 export function IsIn(values: any[], validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isIn",
+            name: IS_IN,
             constraints: [values],
             validate: (value, args) => isIn(value, args.constraints[0]),
             defaultMessage: buildMessage(

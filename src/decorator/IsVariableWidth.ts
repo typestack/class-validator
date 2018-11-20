@@ -1,7 +1,8 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
-
 import validatorJsIsVariableWidth = require("validator/lib/isVariableWidth");
+
+export const IS_VARIABLE_WIDTH = "isVariableWidth";
 
 /**
  * Checks if the string contains variable-width chars.
@@ -16,7 +17,7 @@ export function isVariableWidth(value: string): boolean {
  */
 export function IsVariableWidth(validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isVariableWidth",
+            name: IS_VARIABLE_WIDTH,
             validate: (value) => isVariableWidth(value),
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must contain a full-width and half-width characters", validationOptions)
         },

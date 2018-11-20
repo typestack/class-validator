@@ -1,6 +1,8 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 
+export const IS_DATE = "isDate";
+
 /**
  * Checks if a given value is a real date.
  */
@@ -13,7 +15,7 @@ export function isDate(value: any): boolean {
  */
 export function IsDate(validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isDate",
+            name: IS_DATE,
             validate: (value) => isDate(value),
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be a Date instance", validationOptions)
         },

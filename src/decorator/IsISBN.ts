@@ -2,6 +2,7 @@ import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 import validatorJsIsISBN = require("validator/lib/isISBN");
 
+export const IS_ISBN = "isIsbn";
 
 /**
  * Checks if the string is an ISBN (version 10 or 13).
@@ -18,7 +19,7 @@ export function isISBN(value: string, version?: "10" | "13"): boolean {
  */
 export function IsISBN(version?: "10" | "13", validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isIsbn",
+            name: IS_ISBN,
             validate: (value, args) => isISBN(value, args.constraints[0]),
             constraints: [version],
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be an ISBN", validationOptions)

@@ -1,20 +1,6 @@
 import "es6-shim";
 import {expect} from "chai";
 import {
-    IsISO8601,
-    IsJSON,
-    Length,
-    IsLowercase,
-    IsMongoId,
-    IsMultibyte,
-    IsSurrogatePair,
-    IsUrl,
-    IsUUID,
-    IsUppercase,
-    Matches,
-    MinLength,
-    MaxLength,
-    IsMilitaryTime,
     ArrayNotEmpty,
     ArrayMinSize,
     ArrayMaxSize,
@@ -73,6 +59,21 @@ import {isHexadecimal, IsHexadecimal} from "../../src/decorator/IsHexadecimal";
 import {isIP, IsIP} from "../../src/decorator/IsIP";
 import {isISBN, IsISBN} from "../../src/decorator/IsISBN";
 import {isISIN, IsISIN} from "../../src/decorator/IsISIN";
+import {IsISO8601, isISO8601} from "../../src/decorator/IsISO8601";
+import {IsJSON, isJSON} from "../../src/decorator/IsJSON";
+import {isLowercase, IsLowercase} from "../../src/decorator/IsLowercase";
+import {IsMobilePhone} from "../../src/decorator/IsMobilePhone";
+import {isMongoId, IsMongoId} from "../../src/decorator/IsMongoId";
+import {IsMultibyte, isMultibyte} from "../../src/decorator/IsMultibyte";
+import {isSurrogatePair, IsSurrogatePair} from "../../src/decorator/IsSurrogatePair";
+import {IsUrl, isURL} from "../../src/decorator/IsUrl";
+import {IsUUID, isUUID} from "../../src/decorator/IsUUID";
+import {IsUppercase, isUppercase} from "../../src/decorator/IsUppercase";
+import {length, Length} from "../../src/decorator/Length";
+import {MinLength, minLength} from "../../src/decorator/MinLength";
+import {maxLength, MaxLength} from "../../src/decorator/MaxLength";
+import {Matches, matches} from "../../src/decorator/Matches";
+import {IsMilitaryTime} from "../../src/decorator/IsMilitaryTime";
 
 should();
 use(chaiAsPromised);
@@ -98,7 +99,7 @@ export function checkInvalidValues(object: { someProperty: any }, values: any[],
         object.someProperty = value;
         return validator
             .validate(object, validatorOptions)
-            .then(errors => errors.length.should.be.equal(1));
+            .then(errors => errors.length.should.be.equal(1, `no errors (unexpectedly) on value: ${value}`));
     });
     Promise.all(promises).then(() => done(), err => done(err));
 }
@@ -2173,11 +2174,11 @@ describe("IsISO8601", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isISO8601(value).should.be.true);
+        validValues.forEach(value => isISO8601(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isISO8601(value).should.be.false);
+        invalidValues.forEach(value => isISO8601(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2207,11 +2208,11 @@ describe("IsJSON", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isJSON(value).should.be.true);
+        validValues.forEach(value => isJSON(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isJSON(value).should.be.false);
+        invalidValues.forEach(value => isJSON(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2251,11 +2252,11 @@ describe("IsLowercase", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isLowercase(value).should.be.true);
+        validValues.forEach(value => isLowercase(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isLowercase(value).should.be.false);
+        invalidValues.forEach(value => isLowercase(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2294,11 +2295,11 @@ describe("IsMongoId", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isMongoId(value).should.be.true);
+        validValues.forEach(value => isMongoId(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isMongoId(value).should.be.false);
+        invalidValues.forEach(value => isMongoId(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2341,11 +2342,11 @@ describe("IsMultibyte", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isMultibyte(value).should.be.true);
+        validValues.forEach(value => isMultibyte(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isMultibyte(value).should.be.false);
+        invalidValues.forEach(value => isMultibyte(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2385,11 +2386,11 @@ describe("IsSurrogatePair", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isSurrogatePair(value).should.be.true);
+        validValues.forEach(value => isSurrogatePair(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isSurrogatePair(value).should.be.false);
+        invalidValues.forEach(value => isSurrogatePair(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2484,19 +2485,19 @@ describe("IsUrl", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isURL(value).should.be.true);
+        validValues.forEach(value => isURL(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isURL(value).should.be.false);
+        invalidValues.forEach(value => isURL(value).should.be.false);
     });
 
     it("should fail on localhost without require_tld option", function () {
-        validator.isURL("http://localhost:3000/").should.be.false;
+        isURL("http://localhost:3000/").should.be.false;
     });
 
     it("should pass on localhost with require_tld option", function () {
-        validator.isURL("http://localhost:3000/", { require_tld: false }).should.be.true;
+        isURL("http://localhost:3000/", { require_tld: false }).should.be.true;
     });
 
     it("should return error object with proper data", function(done) {
@@ -2540,11 +2541,11 @@ describe("IsUUID", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUUID(value).should.be.true);
+        validValues.forEach(value => isUUID(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUUID(value).should.be.false);
+        invalidValues.forEach(value => isUUID(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2585,11 +2586,11 @@ describe("IsUUID v3", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUUID(value, "3").should.be.true);
+        validValues.forEach(value => isUUID(value, "3").should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUUID(value, "3").should.be.false);
+        invalidValues.forEach(value => isUUID(value, "3").should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2633,11 +2634,11 @@ describe("IsUUID v4", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUUID(value, "4").should.be.true);
+        validValues.forEach(value => isUUID(value, "4").should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUUID(value, "4").should.be.false);
+        invalidValues.forEach(value => isUUID(value, "4").should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2681,11 +2682,11 @@ describe("IsUUID v5", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUUID(value, "5").should.be.true);
+        validValues.forEach(value => isUUID(value, "5").should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUUID(value, "5").should.be.false);
+        invalidValues.forEach(value => isUUID(value, "5").should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2725,11 +2726,11 @@ describe("IsUppercase", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUppercase(value).should.be.true);
+        validValues.forEach(value => isUppercase(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUppercase(value).should.be.false);
+        invalidValues.forEach(value => isUppercase(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2761,11 +2762,11 @@ describe("Length", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.length(value, constraint1, constraint2).should.be.true);
+        validValues.forEach(value => length(value, constraint1, constraint2).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.length(value, constraint1, constraint2).should.be.false);
+        invalidValues.forEach(value => length(value, constraint1, constraint2).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2802,11 +2803,11 @@ describe("MinLength", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.minLength(value, constraint1).should.be.true);
+        validValues.forEach(value => minLength(value, constraint1).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.minLength(value, constraint1).should.be.false);
+        invalidValues.forEach(value => minLength(value, constraint1).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2837,11 +2838,11 @@ describe("MaxLength", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.maxLength(value, constraint1).should.be.true);
+        validValues.forEach(value => maxLength(value, constraint1).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.maxLength(value, constraint1).should.be.false);
+        invalidValues.forEach(value => maxLength(value, constraint1).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2872,11 +2873,11 @@ describe("Matches", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.matches(value, constraint).should.be.true);
+        validValues.forEach(value => matches(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.matches(value, constraint).should.be.false);
+        invalidValues.forEach(value => matches(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2910,6 +2911,57 @@ describe("IsMilitaryTime", function() {
     });
 
 });
+
+describe("isMobilePhone", function() {
+    describe("with region", function() {
+        const validValues = [
+            "01517551023", "0151 755 10 23",
+            "+491517551023", "+49 151 755 10 23",
+            "+49 (0) 1517551023", "+49 151 755 10 23",
+        ];
+        const invalidValues = [undefined, null, "asdf", "1"];
+
+        class MyClass {
+            @IsMobilePhone("de-DE")
+            someProperty: string;
+        }
+
+        it("should not fail if validator.validate said that its valid", function(done) {
+            checkValidValues(new MyClass(), validValues, done);
+        });
+
+        it("should fail if validator.validate said that its invalid", function(done) {
+            checkInvalidValues(new MyClass(), invalidValues, done);
+        });
+    });
+
+    describe("no region", function() {
+        const validValues = [
+            "+491517551023", "+49 151 755 10 23",
+            "+49 (0) 1517551023", "+49 151 755 10 23"
+        ];
+        const invalidValues = [
+            // most numbers are valid in any of the supported locales..
+            // so choosing failing fixtures is hard.
+            "12345678901234567894654321",
+            undefined, null, "asdf", "1"
+        ];
+
+        class MyClass {
+            @IsMobilePhone("any")
+            someProperty: string;
+        }
+
+        it("should not fail if validator.validate said that its valid", function(done) {
+            checkValidValues(new MyClass(), validValues, done);
+        });
+
+        it("should fail if validator.validate said that its invalid", function(done) {
+            checkInvalidValues(new MyClass(), invalidValues, done);
+        });
+    });
+});
+
 
 describe("isPhoneNumber", function() {
     describe("with region", function() {

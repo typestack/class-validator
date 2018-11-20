@@ -4,13 +4,15 @@ import {registerDecorator} from "../register-decorator";
 import {ValidationArguments} from "../validation/ValidationArguments";
 import {ValidatorConstraintInterface} from "../validation/ValidatorConstraintInterface";
 
-export function buildMessage(impl: (eachPrefix: string) => string, validationOptions?: ValidationOptions):
-    (validationArguments?: ValidationArguments) => string {
-    return () => {
+export function buildMessage(
+    impl: (eachPrefix: string, args?: ValidationArguments) => string,
+    validationOptions?: ValidationOptions)
+    : (validationArguments?: ValidationArguments) => string {
+    return (validationArguments?: ValidationArguments) => {
         const eachPrefix = validationOptions && validationOptions.each
             ? "each value in "
             : "";
-        return impl(eachPrefix);
+        return impl(eachPrefix, validationArguments);
     };
 }
 

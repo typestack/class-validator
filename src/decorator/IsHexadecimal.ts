@@ -2,6 +2,7 @@ import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 import validatorJsIsHexadecimal = require("validator/lib/isHexadecimal");
 
+export const IS_HEXADECIMAL = "isHexadecimal";
 
 /**
  * Checks if the string is a hexadecimal number.
@@ -16,7 +17,7 @@ export function isHexadecimal(value: string): boolean {
  */
 export function IsHexadecimal(validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isHexadecimal",
+            name: IS_HEXADECIMAL,
             validate: (value) => isHexadecimal(value),
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be a hexadecimal number", validationOptions)
         },

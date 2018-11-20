@@ -1,6 +1,8 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 
+export const EQUALS = "equals";
+
 /**
  * Checks if value matches ("===") the comparison.
  */
@@ -13,7 +15,7 @@ export function equals(value: any, comparison: any): boolean {
  */
 export function Equals(comparison: any, validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "equals",
+            name: EQUALS,
             validate: (value, args) => equals(value, args.constraints[0]),
             constraints: [comparison],
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be equal to $constraint1", validationOptions),

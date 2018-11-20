@@ -1,6 +1,8 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 
+export const IS_EMPTY = "isEmpty";
+
 /**
  * Checks if given value is empty (=== '', === null, === undefined).
  */
@@ -13,7 +15,7 @@ export function isEmpty(value: any): boolean {
  */
 export function IsEmpty(validationOptions?: ValidationOptions) {
     return ValidateBy({
-        name: "isEmpty",
+        name: IS_EMPTY,
         validate: (value, args) => isEmpty(value),
         defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be empty", validationOptions),
 

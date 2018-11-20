@@ -2,6 +2,8 @@ import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 import validatorJsIsCreditCard = require("validator/lib/isCreditCard");
 
+export const IS_CREDIT_CARD = "isCreditCard";
+
 /**
  * Checks if the string is a credit card.
  * If given value is not a string, then it returns false.
@@ -16,7 +18,7 @@ export function isCreditCard(value: string): boolean {
  */
 export function IsCreditCard(validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isCreditCard",
+            name: IS_CREDIT_CARD,
             validate: (value) => isCreditCard(value),
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be a credit card", validationOptions)
         },

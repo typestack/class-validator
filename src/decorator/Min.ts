@@ -1,6 +1,8 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 
+export const MIN = "min";
+
 /**
  * Checks if the first number is greater than or equal to the second/reference.
  */
@@ -13,7 +15,7 @@ export function min(num: number, reference: number): boolean {
  */
 export function Min(reference: number, validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "min",
+            name: MIN,
             validate: (value, args) => min(value, args.constraints[0]),
             constraints: [reference],
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must not be less than $constraint1", validationOptions)

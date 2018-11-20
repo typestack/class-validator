@@ -1,9 +1,10 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
-
 import * as libphonenumber from "google-libphonenumber";
 
 const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+
+export const IS_PHONE_NUMBER = "isPhoneNumber";
 
 /**
  * Checks if the string is a valid phone number.
@@ -23,7 +24,6 @@ export function isPhoneNumber(value: string, region: string | null): boolean {
     }
 }
 
-
 /**
  * Checks if the string is a valid phone number.
  * @param region 2 characters uppercase country code (e.g. DE, US, CH).
@@ -32,7 +32,7 @@ export function isPhoneNumber(value: string, region: string | null): boolean {
  */
 export function IsPhoneNumber(region: string | null, validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isPhoneNumber",
+            name: IS_PHONE_NUMBER,
             constraints: [region],
             validate: (value, args) => isPhoneNumber(value, args.constraints[0]),
             defaultMessage: buildMessage(

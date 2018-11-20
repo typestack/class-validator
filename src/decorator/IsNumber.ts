@@ -1,6 +1,8 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 
+export const IS_NUMBER = "isNumber";
+
 /**
  * Options to be passed to IsNumber decorator.
  */
@@ -29,7 +31,7 @@ export function isNumber(value: any, options: IsNumberOptions = {}): boolean {
  */
 export function IsNumber(options: IsNumberOptions = {}, validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isNumber",
+            name: IS_NUMBER,
             validate: (value, args) => isNumber(value, args.constraints[0]),
             constraints: [options],
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be a number", validationOptions)

@@ -1,6 +1,8 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 
+export const IS_NOT_IN = "isNotIn";
+
 /**
  * Checks if given value not in a array of allowed values.
  */
@@ -13,7 +15,7 @@ export function isNotIn(value: any, possibleValues: any[]): boolean {
  */
 export function IsNotIn(values: any[], validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isNotIn",
+            name: IS_NOT_IN,
             validate: (value, args) => isNotIn(value, args.constraints[0]),
             constraints: [values],
             defaultMessage: buildMessage(

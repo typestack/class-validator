@@ -2,6 +2,7 @@ import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 import validatorJsIsCurrency = require("validator/lib/isCurrency");
 
+export const IS_CURRENCY = "isCurrency";
 
 /**
  * Checks if the string is a valid currency amount.
@@ -16,7 +17,7 @@ export function isCurrency(value: string, options?: ValidatorJS.IsCurrencyOption
  */
 export function IsCurrency(options?: ValidatorJS.IsCurrencyOptions, validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isCurrency",
+            name: IS_CURRENCY,
             validate: (value, args) => isCurrency(value, args.constraints[0]),
             constraints: [options],
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be a currency", validationOptions)

@@ -2,6 +2,7 @@ import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 import validatorJsIsIP = require("validator/lib/isIP");
 
+export const IS_IP = "isIp";
 
 /**
  * Checks if the string is an IP (version 4 or 6).
@@ -18,7 +19,7 @@ export function isIP(value: string, version?: "4" | "6"): boolean {
  */
 export function IsIP(version?: "4" | "6", validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isIp",
+            name: IS_IP,
             validate: (value, args) => isIP(value, args.constraints[0]),
             constraints: [version],
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be an ip address", validationOptions)

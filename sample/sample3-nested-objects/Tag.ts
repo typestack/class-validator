@@ -1,4 +1,4 @@
-import {Length} from "../../src/decorator/decorators";
+import {Length} from "../../src/decorator/Length";
 
 export class Tag {
 

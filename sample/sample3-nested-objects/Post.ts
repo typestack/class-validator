@@ -1,5 +1,6 @@
-import {Length, ValidateNested} from "../../src/decorator/decorators";
+import {ValidateNested} from "../../src/decorator/decorators";
 import {Tag} from "./Tag";
+import {Length} from "../../src/decorator/Length";
 
 export class Post {
 

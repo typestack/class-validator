@@ -1,6 +1,8 @@
 import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 
+export const MAX = "max";
+
 /**
  * Checks if the first number is less than or equal to the second/reference.
  */
@@ -13,7 +15,7 @@ export function max(num: number, reference: number): boolean {
  */
 export function Max(reference: number, validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "max",
+            name: MAX,
             validate: (value, args) => max(value, args.constraints[0]),
             constraints: [reference],
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must not be greater than $constraint1", validationOptions)

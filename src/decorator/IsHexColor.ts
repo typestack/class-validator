@@ -2,6 +2,7 @@ import {ValidationOptions} from "./ValidationOptions";
 import {buildMessage, ValidateBy} from "./ValidateBy";
 import validatorJsIsHexColor = require("validator/lib/isHexColor");
 
+export const IS_HEX_COLOR = "isHexColor";
 
 /**
  * Checks if the string is a hexadecimal color.
@@ -16,7 +17,7 @@ export function isHexColor(value: string): boolean {
  */
 export function IsHexColor(validationOptions?: ValidationOptions) {
     return ValidateBy({
-            name: "isHexColor",
+            name: IS_HEX_COLOR,
             validate: (value) => isHexColor(value),
             defaultMessage: buildMessage((eachPrefix) => eachPrefix + "$property must be a hexadecimal color", validationOptions)
         },
