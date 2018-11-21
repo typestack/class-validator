@@ -1,4 +1,4 @@
-import {IsEmail} from "../../src/decorator/IsEmail";
+import {IsEmail} from "../../src/decorator/string/IsEmail";
 
 export class BaseContent {
 

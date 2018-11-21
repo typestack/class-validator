@@ -4,8 +4,8 @@ import {Validator} from "../../src/validation/Validator";
 import {should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
-import {Contains} from "../../src/decorator/Contains";
-import {MinLength} from "../../src/decorator/MinLength";
+import {Contains} from "../../src/decorator/string/Contains";
+import {MinLength} from "../../src/decorator/string/MinLength";
 
 should();
 use(chaiAsPromised);

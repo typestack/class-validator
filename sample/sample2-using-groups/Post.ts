@@ -1,9 +1,9 @@
-import {IsDate} from "../../src/decorator/IsDate";
-import {IsInt} from "../../src/decorator/IsInt";
-import {Contains} from "../../src/decorator/Contains";
-import {IsEmail} from "../../src/decorator/IsEmail";
-import {IsFQDN} from "../../src/decorator/IsFQDN";
-import {Length} from "../../src/decorator/Length";
+import {IsDate} from "../../src/decorator/typechecker/IsDate";
+import {IsInt} from "../../src/decorator/typechecker/IsInt";
+import {Contains} from "../../src/decorator/string/Contains";
+import {IsEmail} from "../../src/decorator/string/IsEmail";
+import {IsFQDN} from "../../src/decorator/string/IsFQDN";
+import {Length} from "../../src/decorator/string/Length";
 
 export class Post {
 

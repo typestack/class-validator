@@ -1,79 +1,77 @@
 import "es6-shim";
 import {expect} from "chai";
-import {
-    ArrayNotEmpty,
-    ArrayMinSize,
-    ArrayMaxSize,
-    IsDefined,
-    ArrayContains,
-    ArrayNotContains,
-    ArrayUnique,
-    IsInstance
-} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
 
 import {should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
-import {equals, Equals} from "../../src/decorator/Equals";
-import {notEquals, NotEquals} from "../../src/decorator/NotEquals";
-import {IsEmpty, isEmpty} from "../../src/decorator/IsEmpty";
-import {isNotEmpty, IsNotEmpty} from "../../src/decorator/IsNotEmpty";
-import {IsIn, isIn} from "../../src/decorator/IsIn";
-import {IsNotIn, isNotIn} from "../../src/decorator/IsNotIn";
-import {IsPhoneNumber} from "../../src/decorator/IsPhoneNumber";
-import {IsBoolean, isBoolean} from "../../src/decorator/IsBoolean";
-import {IsDate, isDate} from "../../src/decorator/IsDate";
-import {IsNumber, isNumber} from "../../src/decorator/IsNumber";
-import {IsInt, isInt} from "../../src/decorator/IsInt";
-import {IsString, isString} from "../../src/decorator/IsString";
-import {IsDateString, isDateString} from "../../src/decorator/IsDateString";
-import {IsArray, isArray} from "../../src/decorator/IsArray";
-import {isEnum, IsEnum} from "../../src/decorator/IsEnum";
-import {IsDivisibleBy, isDivisibleBy} from "../../src/decorator/IsDivisibleBy";
-import {IsPositive, isPositive} from "../../src/decorator/IsPositive";
-import {isNegative, IsNegative} from "../../src/decorator/IsNegative";
-import {Min, min} from "../../src/decorator/Min";
-import {Max, max} from "../../src/decorator/Max";
-import {minDate, MinDate} from "../../src/decorator/MinDate";
-import {maxDate, MaxDate} from "../../src/decorator/MaxDate";
-import {isBooleanString, IsBooleanString} from "../../src/decorator/IsBooleanString";
-import {IsNumberString, isNumberString} from "../../src/decorator/IsNumberString";
-import {Contains, contains} from "../../src/decorator/Contains";
-import {NotContains, notContains} from "../../src/decorator/NotContains";
-import {IsAlpha, isAlpha} from "../../src/decorator/IsAlpha";
-import {isAlphanumeric, IsAlphanumeric} from "../../src/decorator/IsAlphanumeric";
-import {IsAscii, isAscii} from "../../src/decorator/IsAscii";
-import {IsBase64, isBase64} from "../../src/decorator/IsBase64";
-import {IsByteLength, isByteLength} from "../../src/decorator/IsByteLength";
-import {IsCreditCard, isCreditCard} from "../../src/decorator/IsCreditCard";
-import {IsCurrency, isCurrency} from "../../src/decorator/IsCurrency";
-import {IsEmail, isEmail} from "../../src/decorator/IsEmail";
-import {isFQDN, IsFQDN} from "../../src/decorator/IsFQDN";
-import {isFullWidth, IsFullWidth} from "../../src/decorator/IsFullWidth";
-import {isHalfWidth, IsHalfWidth} from "../../src/decorator/IsHalfWidth";
-import {IsVariableWidth, isVariableWidth} from "../../src/decorator/IsVariableWidth";
-import {isHexColor, IsHexColor} from "../../src/decorator/IsHexColor";
-import {isHexadecimal, IsHexadecimal} from "../../src/decorator/IsHexadecimal";
-import {isIP, IsIP} from "../../src/decorator/IsIP";
-import {isISBN, IsISBN} from "../../src/decorator/IsISBN";
-import {isISIN, IsISIN} from "../../src/decorator/IsISIN";
-import {IsISO8601, isISO8601} from "../../src/decorator/IsISO8601";
-import {IsJSON, isJSON} from "../../src/decorator/IsJSON";
-import {isLowercase, IsLowercase} from "../../src/decorator/IsLowercase";
-import {IsMobilePhone} from "../../src/decorator/IsMobilePhone";
-import {isMongoId, IsMongoId} from "../../src/decorator/IsMongoId";
-import {IsMultibyte, isMultibyte} from "../../src/decorator/IsMultibyte";
-import {isSurrogatePair, IsSurrogatePair} from "../../src/decorator/IsSurrogatePair";
-import {IsUrl, isURL} from "../../src/decorator/IsUrl";
-import {IsUUID, isUUID} from "../../src/decorator/IsUUID";
-import {IsUppercase, isUppercase} from "../../src/decorator/IsUppercase";
-import {length, Length} from "../../src/decorator/Length";
-import {MinLength, minLength} from "../../src/decorator/MinLength";
-import {maxLength, MaxLength} from "../../src/decorator/MaxLength";
-import {Matches, matches} from "../../src/decorator/Matches";
-import {IsMilitaryTime} from "../../src/decorator/IsMilitaryTime";
+import {equals, Equals} from "../../src/decorator/common/Equals";
+import {notEquals, NotEquals} from "../../src/decorator/common/NotEquals";
+import {IsEmpty, isEmpty} from "../../src/decorator/common/IsEmpty";
+import {isNotEmpty, IsNotEmpty} from "../../src/decorator/common/IsNotEmpty";
+import {IsIn, isIn} from "../../src/decorator/common/IsIn";
+import {IsNotIn, isNotIn} from "../../src/decorator/common/IsNotIn";
+import {IsPhoneNumber} from "../../src/decorator/string/IsPhoneNumber";
+import {IsBoolean, isBoolean} from "../../src/decorator/typechecker/IsBoolean";
+import {IsDate, isDate} from "../../src/decorator/typechecker/IsDate";
+import {IsNumber, isNumber} from "../../src/decorator/typechecker/IsNumber";
+import {IsInt, isInt} from "../../src/decorator/typechecker/IsInt";
+import {IsString, isString} from "../../src/decorator/typechecker/IsString";
+import {IsDateString, isDateString} from "../../src/decorator/string-as-type/IsDateString";
+import {IsArray, isArray} from "../../src/decorator/typechecker/IsArray";
+import {isEnum, IsEnum} from "../../src/decorator/typechecker/IsEnum";
+import {IsDivisibleBy, isDivisibleBy} from "../../src/decorator/number/IsDivisibleBy";
+import {IsPositive, isPositive} from "../../src/decorator/number/IsPositive";
+import {isNegative, IsNegative} from "../../src/decorator/number/IsNegative";
+import {Min, min} from "../../src/decorator/number/Min";
+import {Max, max} from "../../src/decorator/number/Max";
+import {minDate, MinDate} from "../../src/decorator/date/MinDate";
+import {maxDate, MaxDate} from "../../src/decorator/date/MaxDate";
+import {isBooleanString, IsBooleanString} from "../../src/decorator/string-as-type/IsBooleanString";
+import {IsNumberString, isNumberString} from "../../src/decorator/string-as-type/IsNumberString";
+import {Contains, contains} from "../../src/decorator/string/Contains";
+import {NotContains, notContains} from "../../src/decorator/string/NotContains";
+import {IsAlpha, isAlpha} from "../../src/decorator/string/IsAlpha";
+import {isAlphanumeric, IsAlphanumeric} from "../../src/decorator/string/IsAlphanumeric";
+import {IsAscii, isAscii} from "../../src/decorator/string/IsAscii";
+import {IsBase64, isBase64} from "../../src/decorator/string/IsBase64";
+import {IsByteLength, isByteLength} from "../../src/decorator/string/IsByteLength";
+import {IsCreditCard, isCreditCard} from "../../src/decorator/string/IsCreditCard";
+import {IsCurrency, isCurrency} from "../../src/decorator/string/IsCurrency";
+import {IsEmail, isEmail} from "../../src/decorator/string/IsEmail";
+import {isFQDN, IsFQDN} from "../../src/decorator/string/IsFQDN";
+import {isFullWidth, IsFullWidth} from "../../src/decorator/string/IsFullWidth";
+import {isHalfWidth, IsHalfWidth} from "../../src/decorator/string/IsHalfWidth";
+import {IsVariableWidth, isVariableWidth} from "../../src/decorator/string/IsVariableWidth";
+import {isHexColor, IsHexColor} from "../../src/decorator/string/IsHexColor";
+import {isHexadecimal, IsHexadecimal} from "../../src/decorator/string/IsHexadecimal";
+import {isIP, IsIP} from "../../src/decorator/string/IsIP";
+import {isISBN, IsISBN} from "../../src/decorator/string/IsISBN";
+import {isISIN, IsISIN} from "../../src/decorator/string/IsISIN";
+import {IsISO8601, isISO8601} from "../../src/decorator/string/IsISO8601";
+import {IsJSON, isJSON} from "../../src/decorator/string/IsJSON";
+import {isLowercase, IsLowercase} from "../../src/decorator/string/IsLowercase";
+import {IsMobilePhone} from "../../src/decorator/string/IsMobilePhone";
+import {isMongoId, IsMongoId} from "../../src/decorator/string/IsMongoId";
+import {IsMultibyte, isMultibyte} from "../../src/decorator/string/IsMultibyte";
+import {isSurrogatePair, IsSurrogatePair} from "../../src/decorator/string/IsSurrogatePair";
+import {IsUrl, isURL} from "../../src/decorator/string/IsUrl";
+import {IsUUID, isUUID} from "../../src/decorator/string/IsUUID";
+import {IsUppercase, isUppercase} from "../../src/decorator/string/IsUppercase";
+import {length, Length} from "../../src/decorator/string/Length";
+import {MinLength, minLength} from "../../src/decorator/string/MinLength";
+import {maxLength, MaxLength} from "../../src/decorator/string/MaxLength";
+import {Matches, matches} from "../../src/decorator/string/Matches";
+import {IsMilitaryTime} from "../../src/decorator/string/IsMilitaryTime";
+import {ArrayContains, arrayContains} from "../../src/decorator/array/ArrayContains";
+import {ArrayNotContains, arrayNotContains} from "../../src/decorator/array/ArrayNotContains";
+import {arrayNotEmpty, ArrayNotEmpty} from "../../src/decorator/array/ArrayNotEmpty";
+import {arrayMinSize, ArrayMinSize} from "../../src/decorator/array/ArrayMinSize";
+import {ArrayMaxSize, arrayMaxSize} from "../../src/decorator/array/ArrayMaxSize";
+import {ArrayUnique, arrayUnique} from "../../src/decorator/array/ArrayUnique";
+import {IsInstance, isInstance} from "../../src/decorator/typechecker/IsInstance";
+import {isDefined, IsDefined} from "../../src/decorator/system/IsDefined";
 
 should();
 use(chaiAsPromised);
@@ -164,11 +162,11 @@ describe("IsDefined", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isDefined(value).should.be.true);
+        validValues.forEach(value => isDefined(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isDefined(value).should.be.false);
+        invalidValues.forEach(value => isDefined(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -3038,11 +3036,11 @@ describe("ArrayContains", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayContains(value, constraint).should.be.true);
+        validValues.forEach(value => arrayContains(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayContains(value, constraint).should.be.false);
+        invalidValues.forEach(value => arrayContains(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -3073,11 +3071,11 @@ describe("ArrayNotContains", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayNotContains(value, constraint).should.be.true);
+        validValues.forEach(value => arrayNotContains(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayNotContains(value, constraint).should.be.false);
+        invalidValues.forEach(value => arrayNotContains(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -3107,11 +3105,11 @@ describe("ArrayNotEmpty", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayNotEmpty(value).should.be.true);
+        validValues.forEach(value => arrayNotEmpty(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayNotEmpty(value).should.be.false);
+        invalidValues.forEach(value => arrayNotEmpty(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -3142,11 +3140,11 @@ describe("ArrayMinSize", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayMinSize(value, constraint).should.be.true);
+        validValues.forEach(value => arrayMinSize(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayMinSize(value, constraint).should.be.false);
+        invalidValues.forEach(value => arrayMinSize(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -3177,11 +3175,11 @@ describe("ArrayMaxSize", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayMaxSize(value, constraint).should.be.true);
+        validValues.forEach(value => arrayMaxSize(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayMaxSize(value, constraint).should.be.false);
+        invalidValues.forEach(value => arrayMaxSize(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -3211,11 +3209,11 @@ describe("ArrayUnique", function () {
     });
 
     it("should not fail if method in validator said that its valid", function () {
-        validValues.forEach(value => validator.arrayUnique(value).should.be.true);
+        validValues.forEach(value => arrayUnique(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function () {
-        invalidValues.forEach(value => validator.arrayUnique(value).should.be.false);
+        invalidValues.forEach(value => arrayUnique(value).should.be.false);
     });
 
     it("should return error object with proper data", function (done) {
@@ -3248,11 +3246,11 @@ describe("isInstance", function () {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isInstance(value, MySubClass).should.be.true);
+        validValues.forEach(value => isInstance(value, MySubClass).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isInstance(value, MySubClass).should.be.false);
+        invalidValues.forEach(value => isInstance(value, MySubClass).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {

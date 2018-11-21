@@ -1,12 +1,14 @@
-import {ArrayNotEmpty, ArrayMinSize, ArrayMaxSize} from "../../src/decorator/decorators";
-import {IsDate} from "../../src/decorator/IsDate";
-import {IsInt} from "../../src/decorator/IsInt";
-import {IsEnum} from "../../src/decorator/IsEnum";
-import {Contains} from "../../src/decorator/Contains";
-import {IsEmail} from "../../src/decorator/IsEmail";
-import {IsFQDN} from "../../src/decorator/IsFQDN";
-import {MinLength} from "../../src/decorator/MinLength";
-import {MaxLength} from "../../src/decorator/MaxLength";
+import {IsDate} from "../../src/decorator/typechecker/IsDate";
+import {IsInt} from "../../src/decorator/typechecker/IsInt";
+import {IsEnum} from "../../src/decorator/typechecker/IsEnum";
+import {Contains} from "../../src/decorator/string/Contains";
+import {IsEmail} from "../../src/decorator/string/IsEmail";
+import {IsFQDN} from "../../src/decorator/string/IsFQDN";
+import {MinLength} from "../../src/decorator/string/MinLength";
+import {MaxLength} from "../../src/decorator/string/MaxLength";
+import {ArrayNotEmpty} from "../../src/decorator/array/ArrayNotEmpty";
+import {ArrayMinSize} from "../../src/decorator/array/ArrayMinSize";
+import {ArrayMaxSize} from "../../src/decorator/array/ArrayMaxSize";
 
 export enum PostType {
     Public,

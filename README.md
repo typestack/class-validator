@@ -50,7 +50,15 @@ npm install class-validator --save
 Create your class and put some validation decorators on the properties you want to validate:
 
 ```typescript
-import {validate, Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, Min, Max} from "class-validator";
+import {validate} from "class-validator";
+import {Length} from "class-validator/decorator/string/Length";
+import {Contains} from "class-validator/decorator/string/Contains";
+import {IsInt} from "class-validator/decorator/typechecker/IsInt";
+import {Min} from "class-validator/decorator/number/Min";
+import {Max} from "class-validator/decorator/number/Max";
+import {IsEmail} from "class-validator/decorator/string/IsEmail";
+import {IsFQDN} from "class-validator/decorator/string/IsFQDN";
+import {IsDate} from "class-validator/decorator/typechecker/IsDate";
 
 export class Post {
 
@@ -168,7 +176,8 @@ You can specify validation message in the decorator options and that message wil
 returned by `validate` method in the case that validation for this field fails.
 
 ```typescript
-import {MinLength, MaxLength} from "class-validator";
+import {MaxLength} from "class-validator/decorator/string/MaxLength";
+import {MinLength} from "class-validator/decorator/string/MinLength";
 
 export class Post {
 
@@ -191,7 +200,8 @@ There are few special tokens you can use in your messages:
 Example of usage:
 
 ```typescript
-import {MinLength, MaxLength} from "class-validator";
+import {MaxLength} from "class-validator/decorator/string/MaxLength";
+import {MinLength} from "class-validator/decorator/string/MinLength";
 
 export class Post {
 
@@ -208,7 +218,9 @@ export class Post {
 Also you can provide a function, that returns a message. This way allows to create more granular messages:
 
 ```typescript
-import {MinLength, MaxLength, ValidationArguments} from "class-validator";
+import {MaxLength} from "class-validator/decorator/string/MaxLength";
+import {MinLength} from "class-validator/decorator/string/MinLength";
+import {ValidationArguments} from "class-validator/validation/ValidationArguments";
 
 export class Post {
 
@@ -238,7 +250,8 @@ If your field is an array and you want to perform validation of each item in the
 special `each: true` decorator option:
 
 ```typescript
-import {MinLength, MaxLength} from "class-validator";
+import {MaxLength} from "class-validator/decorator/string/MaxLength";
+import {MinLength} from "class-validator/decorator/string/MinLength";
 
 export class Post {
 
@@ -257,7 +270,7 @@ If your object contains nested objects and you want the validator to perform the
 use the `@ValidateNested()` decorator:
 
 ```typescript
-import {ValidateNested} from "class-validator";
+import {ValidateNested} from "class-validator/decorator/system/ValidateNested";
 
 export class Post {
 
@@ -314,7 +327,8 @@ validate(user).then(errors => {
 The conditional validation decorator (`@ValidateIf`) can be used to ignore the validators on a property when the provided condition function returns false. The condition function takes the object being validated and must return a `boolean`.
 
 ```typescript
-import {ValidateIf, IsNotEmpty} from "class-validator";
+import {ValidateIf} from "class-validator/decorator/system/ValidateIf";
+import {IsNotEmpty} from "class-validator/decorator/common/IsNotEmpty";
 
 export class Post {
     otherProperty:string;
@@ -344,7 +358,9 @@ This will strip all properties that don't have any decorators. If no other decor
 you can use @Allow decorator:
 
 ```typescript
-import {validate, Allow, Min} from "class-validator";
+import {Allow} from "class-validator/decorator/system/Allow";
+import {Min} from "class-validator/decorator/number/Min";
+import {validate} from "class-validator";
 
 export class Post {
 
@@ -428,7 +444,9 @@ In different situations you may want to use different validation schemas of the 
  In such cases you can use validation groups.
 
 ```typescript
-import {validate, Min, Length} from "class-validator";
+import {validate} from "class-validator";
+import {Length} from "class-validator/decorator/string/Length";
+import {Min} from "class-validator/decorator/number/Min";
 
 export class User {
 
@@ -478,7 +496,9 @@ If you have custom validation logic you can create a *Constraint class*:
 1. First create a file, lets say `CustomTextLength.ts`, and define a new class:
 
     ```typescript
-    import {ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
+    import {ValidatorConstraintInterface} from "class-validator/validation/ValidatorConstraintInterface";
+    import {ValidationArguments} from "class-validator/validation/ValidationArguments";
+    import {ValidatorConstraint} from "class-validator/decorator/ValidatorConstraint";
 
     @ValidatorConstraint({ name: "customText", async: false })
     export class CustomTextLength implements ValidatorConstraintInterface {
@@ -554,7 +574,9 @@ export class Post {
 And use them from `validationArguments` object:
 
 ```typescript
-import {ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
+import {ValidatorConstraintInterface} from "class-validator/validation/ValidatorConstraintInterface";
+import {ValidationArguments} from "class-validator/validation/ValidationArguments";
+import {ValidatorConstraint} from "class-validator/decorator/ValidatorConstraint";
 
 @ValidatorConstraint()
 export class CustomTextLength implements ValidatorConstraintInterface {
@@ -574,7 +596,9 @@ Lets create a decorator called `@IsLongerThan`:
 1. Create a decorator itself:
 
     ```typescript
-    import {registerDecorator, ValidationOptions, ValidationArguments} from "class-validator";
+    import {registerDecorator} from "class-validator/register-decorator";
+    import {ValidationOptions} from "class-validator/decorator/ValidationOptions";
+    import {ValidationArguments} from "class-validator/validation/ValidationArguments";
 
     export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
        return function (object: Object, propertyName: string) {
@@ -622,20 +646,24 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
 1. Create a ValidationConstraint and decorator:
 
     ```typescript
-    import {registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
-
+    import {registerDecorator} from "class-validator/register-decorator";
+    import {ValidationOptions} from "class-validator/decorator/ValidationOptions";
+    import {ValidatorConstraint} from "class-validator/decorator/ValidatorConstraint";
+    import {ValidatorConstraintInterface} from "class-validator/validation/ValidatorConstraintInterface";
+    import {ValidationArguments} from "class-validator/validation/ValidationArguments";
+    
     @ValidatorConstraint({ async: true })
     export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
-
+    
         validate(userName: any, args: ValidationArguments) {
             return UserRepository.findOneByName(userName).then(user => {
                 if (user) return false;
                 return true;
             });
         }
-
+    
     }
-
+    
     export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
        return function (object: Object, propertyName: string) {
             registerDecorator({
@@ -673,7 +701,8 @@ classes. Here is example how to integrate it with [typedi][2]:
 
 ```typescript
 import {Container} from "typedi";
-import {useContainer, Validator} from "class-validator";
+import {useContainer} from "class-validator/container";
+import {Validator} from "class-validator/validation/Validator";
 
 // do this somewhere in the global application level:
 useContainer(Container);
@@ -691,94 +720,98 @@ If you want to perform a simple non async validation you can use `validateSync` 
 
 ## Manual validation
 
-There are several method exist in the Validator that allows to perform non-decorator based validation:
+There are several method exist in the Validator that allows to perform non-decorator based validation that is 
+compatible to the respective decorator.
+
+Each method is exported from the same module as the decorator.
 
 ```typescript
-import {Validator} from "class-validator";
-
-// Validation methods
-const validator = new Validator();
 
 // common validation methods
-validator.isDefined(value); // Checks if value is defined ("!==undefined").
-validator.equals(value, comparison); // Checks if value matches ("===") the comparison.
-validator.notEquals(value, comparison); // Checks if value does not match ("!==") the comparison.
-validator.isEmpty(value); // Checks if given value is empty (=== '', === null, === undefined).
-validator.isNotEmpty(value); // Checks if given value is not empty (!== '', !== null, !== undefined).
-validator.isIn(value, possibleValues); // Checks if given value is in a array of allowed values.
-validator.isNotIn(value, possibleValues); // Checks if given value not in a array of allowed values.
+// import {fooValidation} from "class-validator/decorator/common/FooValidation";
+isDefined(value); // Checks if value is defined ("!==undefined").
+equals(value, comparison); // Checks if value matches ("===") the comparison.
+notEquals(value, comparison); // Checks if value does not match ("!==") the comparison.
+isEmpty(value); // Checks if given value is empty (=== '', === null, === undefined).
+isNotEmpty(value); // Checks if given value is not empty (!== '', !== null, !== undefined).
+isIn(value, possibleValues); // Checks if given value is in a array of allowed values.
+isNotIn(value, possibleValues); // Checks if given value not in a array of allowed values.
 
 // type validation methods
-validator.isBoolean(value); // Checks if a given value is a real boolean.
-validator.isDate(value); // Checks if a given value is a real date.
-validator.isString(value); // Checks if a given value is a real string.
-validator.isArray(value); // Checks if a given value is an array.
-validator.isNumber(value, options); // Checks if a given value is a real number.
-validator.isInt(value); // Checks if value is an integer.
-validator.isEnum(value, entity); // Checks if value is valid for a certain enum entity.
+// import {fooValidation} from "class-validator/decorator/typechecker/FooValidation";
+isBoolean(value); // Checks if a given value is a real boolean.
+isDate(value); // Checks if a given value is a real date.
+isString(value); // Checks if a given value is a real string.
+isArray(value); // Checks if a given value is an array.
+isNumber(value, options); // Checks if a given value is a real number.
+isInt(value); // Checks if value is an integer.
+isEnum(value, entity); // Checks if value is valid for a certain enum entity.
+isInstance(value, target); // Checks value is an instance of the target.
 
 // number validation methods
-validator.isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
-validator.isPositive(value); // Checks if the value is a positive number.
-validator.isNegative(value); // Checks if the value is a negative number.
-validator.min(num, min); // Checks if the first number is greater than or equal to the second.
-validator.max(num, max); // Checks if the first number is less than or equal to the second.
+// import {fooValidation} from "class-validator/decorator/number/FooValidation";
+isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
+isPositive(value); // Checks if the value is a positive number.
+isNegative(value); // Checks if the value is a negative number.
+min(num, min); // Checks if the first number is greater than or equal to the second.
+max(num, max); // Checks if the first number is less than or equal to the second.
 
 // date validation methods
-validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
-validator.maxDate(date, minDate); // Checks if the value is a date that's before the specified date.
+// import {fooValidation} from "class-validator/decorator/date/FooValidation";
+minDate(date, minDate); // Checks if the value is a date that's after the specified date.
+maxDate(date, minDate); // Checks if the value is a date that's before the specified date.
 
 // string-type validation methods
-validator.isBooleanString(str); // Checks if a string is a boolean.
-validator.isNumberString(str); // Checks if the string is numeric.
+// import {fooValidation} from "class-validator/decorator/string-as-type/FooValidation";
+isBooleanString(str); // Checks if a string is a boolean.
+isNumberString(str); // Checks if the string is numeric.
 
 // string validation methods
-validator.contains(str, seed); // Checks if the string contains the seed.
-validator.notContains(str, seed); // Checks if the string does not contain the seed.
-validator.isAlpha(str); // Checks if the string contains only letters (a-zA-Z).
-validator.isAlphanumeric(str); // Checks if the string contains only letters and numbers.
-validator.isAscii(str); // Checks if the string contains ASCII chars only.
-validator.isBase64(str); // Checks if a string is base64 encoded.
-validator.isByteLength(str, min, max); // Checks if the string's length (in bytes) falls in a range.
-validator.isCreditCard(str); // Checks if the string is a credit card.
-validator.isCurrency(str, options); // Checks if the string is a valid currency amount.
-validator.isEmail(str, options); // Checks if the string is an email.
-validator.isFQDN(str, options); // Checks if the string is a fully qualified domain name (e.g. domain.com).
-validator.isFullWidth(str); // Checks if the string contains any full-width chars.
-validator.isHalfWidth(str); // Checks if the string contains any half-width chars.
-validator.isVariableWidth(str); // Checks if the string contains variable-width chars.
-validator.isHexColor(str); // Checks if the string is a hexadecimal color.
-validator.isHexadecimal(str); // Checks if the string is a hexadecimal number.
-validator.isIP(str, version); // Checks if the string is an IP (version 4 or 6).
-validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
-validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
-validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
-validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
-validator.isLowercase(str); // Checks if the string is lowercase.
-validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
-validator.isPhoneNumber(str, region); // Checks if the string is a valid phone number.
-validator.isMongoId(str); // Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
-validator.isMultibyte(str); // Checks if the string contains one or more multibyte chars.
-validator.isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
-validator.isURL(str, options); // Checks if the string is an url.
-validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4 or 5).
-validator.isUppercase(str); // Checks if the string is uppercase.
-validator.length(str, min, max); // Checks if the string's length falls in a range.
-validator.minLength(str, min); // Checks if the string's length is not less than given number.
-validator.maxLength(str, max); // Checks if the string's length is not more than given number.
-validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
-validator.isMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
+// import {fooValidation} from "class-validator/decorator/string/FooValidation";
+contains(str, seed); // Checks if the string contains the seed.
+notContains(str, seed); // Checks if the string does not contain the seed.
+isAlpha(str); // Checks if the string contains only letters (a-zA-Z).
+isAlphanumeric(str); // Checks if the string contains only letters and numbers.
+isAscii(str); // Checks if the string contains ASCII chars only.
+isBase64(str); // Checks if a string is base64 encoded.
+isByteLength(str, min, max); // Checks if the string's length (in bytes) falls in a range.
+isCreditCard(str); // Checks if the string is a credit card.
+isCurrency(str, options); // Checks if the string is a valid currency amount.
+isEmail(str, options); // Checks if the string is an email.
+isFQDN(str, options); // Checks if the string is a fully qualified domain name (e.g. domain.com).
+isFullWidth(str); // Checks if the string contains any full-width chars.
+isHalfWidth(str); // Checks if the string contains any half-width chars.
+isVariableWidth(str); // Checks if the string contains variable-width chars.
+isHexColor(str); // Checks if the string is a hexadecimal color.
+isHexadecimal(str); // Checks if the string is a hexadecimal number.
+isIP(str, version); // Checks if the string is an IP (version 4 or 6).
+isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
+isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
+isISO8601(str); // Checks if the string is a valid ISO 8601 date.
+isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
+isLowercase(str); // Checks if the string is lowercase.
+isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
+isPhoneNumber(str, region); // Checks if the string is a valid phone number.
+isMongoId(str); // Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
+isMultibyte(str); // Checks if the string contains one or more multibyte chars.
+isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
+isURL(str, options); // Checks if the string is an url.
+isUUID(str, version); // Checks if the string is a UUID (version 3, 4 or 5).
+isUppercase(str); // Checks if the string is uppercase.
+length(str, min, max); // Checks if the string's length falls in a range.
+minLength(str, min); // Checks if the string's length is not less than given number.
+maxLength(str, max); // Checks if the string's length is not more than given number.
+matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+isMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
 
 // array validation methods
-validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
-validator.arrayNotContains(array, values); // Checks if array does not contain any of the given values.
-validator.arrayNotEmpty(array); // Checks if given array is not empty.
-validator.arrayMinSize(array, min); // Checks if array's length is at least `min` number.
-validator.arrayMaxSize(array, max); // Checks if array's length is as most `max` number.
-validator.arrayUnique(array); // Checks if all array's values are unique. Comparison for objects is reference-based.
-
-// object validation methods
-validator.isInstance(value, target); // Checks value is an instance of the target.
+// import {fooValidation} from "class-validator/decorator/array/FooValidation";
+arrayContains(array, values); // Checks if array contains all values from the given array of values.
+arrayNotContains(array, values); // Checks if array does not contain any of the given values.
+arrayNotEmpty(array); // Checks if given array is not empty.
+arrayMinSize(array, min); // Checks if array's length is at least `min` number.
+arrayMaxSize(array, max); // Checks if array's length is as most `max` number.
+arrayUnique(array); // Checks if all array's values are unique. Comparison for objects is reference-based.
 ```
 
 ## Validation decorators
@@ -885,7 +918,7 @@ Here is an example of using it:
 1. Create a schema object:
 
     ```typescript
-    import {ValidationSchema} from "class-validator";
+    import {ValidationSchema} from "class-validator/validation-schema/ValidationSchema";
     export let UserValidationSchema: ValidationSchema = { // using interface here is not required, its just for type-safety
         name: "myUserSchema", // this is required, and must be unique
         properties: {

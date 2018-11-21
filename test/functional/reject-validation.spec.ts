@@ -7,7 +7,7 @@ import { expect } from "chai";
 import {should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
-import {Contains} from "../../src/decorator/Contains";
+import {Contains} from "../../src/decorator/string/Contains";
 
 should();
 use(chaiAsPromised);

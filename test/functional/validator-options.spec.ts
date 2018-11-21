@@ -1,5 +1,5 @@
 import "es6-shim";
-import {IsNotEmpty} from "../../src/decorator/IsNotEmpty";
+import {IsNotEmpty} from "../../src/decorator/common/IsNotEmpty";
 import {Validator} from "../../src/validation/Validator";
 import {expect} from "chai";
 
