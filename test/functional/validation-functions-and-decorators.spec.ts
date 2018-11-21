@@ -620,7 +620,9 @@ describe("IsDateString", function() {
         2,
         null,
         undefined,
-        "text"
+        "text",
+        "text2018-01-04T08:15:30+04",
+        "2018-01-04T08:15:30Ztext",
     ];
 
     class MyClass {

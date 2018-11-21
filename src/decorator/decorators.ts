@@ -1,5 +1,5 @@
 import {ValidationTypes} from "../validation/ValidationTypes";
-import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions, IsNumberOptions} from "../validation/ValidationTypeOptions";
+import {IsNumberOptions} from "../validation/ValidationTypeOptions";
 import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
@@ -631,7 +631,7 @@ export function IsCreditCard(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is a valid currency amount.
  */
-export function IsCurrency(options?: IsCurrencyOptions, validationOptions?: ValidationOptions) {
+export function IsCurrency(options?: ValidatorJS.IsCurrencyOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_CURRENCY,
@@ -647,7 +647,7 @@ export function IsCurrency(options?: IsCurrencyOptions, validationOptions?: Vali
 /**
  * Checks if the string is an email.
  */
-export function IsEmail(options?: IsEmailOptions, validationOptions?: ValidationOptions) {
+export function IsEmail(options?: ValidatorJS.IsEmailOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_EMAIL,
@@ -663,7 +663,7 @@ export function IsEmail(options?: IsEmailOptions, validationOptions?: Validation
 /**
  * Checks if the string is a fully qualified domain name (e.g. domain.com).
  */
-export function IsFQDN(options?: IsFQDNOptions, validationOptions?: ValidationOptions) {
+export function IsFQDN(options?: ValidatorJS.IsFQDNOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_FQDN,
@@ -944,7 +944,7 @@ export function IsSurrogatePair(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is an url.
  */
-export function IsUrl(options?: IsURLOptions, validationOptions?: ValidationOptions) {
+export function IsUrl(options?: ValidatorJS.IsURLOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_URL,

@@ -1,7 +1,7 @@
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationTypes} from "./ValidationTypes";
 import {ValidationError} from "./ValidationError";
-import {IsEmailOptions, IsFQDNOptions, IsURLOptions, IsCurrencyOptions, IsNumberOptions} from "./ValidationTypeOptions";
+import {IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 import {ValidationOptions} from "../decorator/ValidationOptions";
@@ -343,7 +343,7 @@ export class Validator {
      * Checks if a given value is a ISOString date.
      */
     isDateString(value: any): boolean {
-        const regex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|\+[0-2]\d(?:\:[0-5]\d)?)?/g;
+        const regex = /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|\+[0-2]\d(?:\:[0-5]\d)?)?$/g;
         return this.isString(value) && regex.test(value);
     }
 
@@ -460,8 +460,8 @@ export class Validator {
      * Checks if the string is numeric.
      * If given value is not a string, then it returns false.
      */
-    isNumberString(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isNumeric(value);
+    isNumberString(value: string, options?: ValidatorJS.IsNumericOptions): boolean {
+        return typeof value === "string" && this.validatorJs.isNumeric(value, options);
     }
 
     // -------------------------------------------------------------------------
@@ -536,7 +536,7 @@ export class Validator {
      * Checks if the string is a valid currency amount.
      * If given value is not a string, then it returns false.
      */
-    isCurrency(value: string, options?: IsCurrencyOptions): boolean {
+    isCurrency(value: string, options?: ValidatorJS.IsCurrencyOptions): boolean {
         return typeof value === "string" && this.validatorJs.isCurrency(value, options);
     }
 
@@ -544,7 +544,7 @@ export class Validator {
      * Checks if the string is an email.
      * If given value is not a string, then it returns false.
      */
-    isEmail(value: string, options?: IsEmailOptions): boolean {
+    isEmail(value: string, options?: ValidatorJS.IsEmailOptions): boolean {
         return typeof value === "string" && this.validatorJs.isEmail(value, options);
     }
 
@@ -552,7 +552,7 @@ export class Validator {
      * Checks if the string is a fully qualified domain name (e.g. domain.com).
      * If given value is not a string, then it returns false.
      */
-    isFQDN(value: string, options?: IsFQDNOptions): boolean {
+    isFQDN(value: string, options?: ValidatorJS.IsFQDNOptions): boolean {
         return typeof value === "string" && this.validatorJs.isFQDN(value, options);
     }
 
@@ -649,7 +649,7 @@ export class Validator {
      * 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
      * If given value is not a string, then it returns false.
      */
-    isMobilePhone(value: string, locale: string): boolean {
+    isMobilePhone(value: string, locale: ValidatorJS.MobilePhoneLocale): boolean {
         return typeof value === "string" && this.validatorJs.isMobilePhone(value, locale);
     }
 
@@ -705,7 +705,7 @@ export class Validator {
      * Checks if the string is an url.
      * If given value is not a string, then it returns false.
      */
-    isURL(value: string, options?: IsURLOptions): boolean {
+    isURL(value: string, options?: ValidatorJS.IsURLOptions): boolean {
         return typeof value === "string" && this.validatorJs.isURL(value, options);
     }
 
