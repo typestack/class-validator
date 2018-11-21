@@ -2910,12 +2910,12 @@ describe("IsISO31661Alpha3", function() {
     }
 
     it("should not fail for a valid ISO31661 Alpha3 code", function(done) {
-        const validValues = ['ABW', 'HND', 'KHM', 'RWA'];
+        const validValues = ["ABW", "HND", "KHM", "RWA"];
         checkValidValues(new MyClass(), validValues, done);
     });
 
     it("should fail for invalid values", function(done) {
-        const invalidValues = [undefined, null, '', 'FR', 'fR', 'GB', 'PT', 'CM', 'JP', 'PM', 'ZW'];
+        const invalidValues = [undefined, null, "", "FR", "fR", "GB", "PT", "CM", "JP", "PM", "ZW"];
         checkInvalidValues(new MyClass(), invalidValues, done);
     });
 
