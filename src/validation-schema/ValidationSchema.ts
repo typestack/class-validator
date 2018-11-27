@@ -30,6 +30,11 @@ export interface ValidationSchema {
             constraints?: any[];
 
             /**
+             * ConstraintsCls set by validation type. Custom validation function
+             */
+            constraintCls?: Function
+
+            /**
              * Error message used to be used on validation fail.
              * You can use "$value" to use value that was failed by validation.
              * You can use "$constraint1" and "$constraint2" keys in the message string,

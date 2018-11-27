@@ -27,6 +27,7 @@ export class ValidationSchemaToMetadataTransformer {
                     target: schema.name,
                     propertyName: property,
                     constraints: validation.constraints,
+                    constraintCls: validation.constraintCls,
                     validationTypeOptions: validation.options,
                     validationOptions: validationOptions
                 };
