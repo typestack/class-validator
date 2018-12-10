@@ -1,9 +1,9 @@
 import "es6-shim";
-import {Contains, Matches, MinLength, ValidateNested} from "../../src/decorator/decorators";
-import {Validator} from "../../src/validation/Validator";
-import {ValidationError} from "../../src";
+import { Contains, Matches, MinLength, ValidateNested, ValidatorConstraint, Validate } from "../../src/decorator/decorators";
+import { Validator } from "../../src/validation/Validator";
+import { ValidationError, ValidatorConstraintInterface } from "../../src";
 
-import {should, use } from "chai";
+import { should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
 
@@ -20,11 +20,11 @@ const validator = new Validator();
 // Specifications: common decorators
 // -------------------------------------------------------------------------
 
-describe("validation options", function() {
+describe("validation options", function () {
 
-    describe("message", function() {
+    describe("message", function () {
 
-        it("should contain a custom message", function() {
+        it("should contain a custom message", function () {
             class MyClass {
                 @Contains("hello", {
                     message: "String is not valid. You string must contain a hello word"
@@ -40,7 +40,7 @@ describe("validation options", function() {
             });
         });
 
-        it("$value token should be replaced in a custom message", function() {
+        it("$value token should be replaced in a custom message", function () {
             class MyClass {
                 @Contains("hello", {
                     message: "$value is not valid. You string must contain a hello word"
@@ -56,7 +56,7 @@ describe("validation options", function() {
             });
         });
 
-        it("$value token should be replaced in a custom message", function() {
+        it("$value token should be replaced in a custom message", function () {
             class MyClass {
                 @MinLength(2, {
                     message: args => {
@@ -76,7 +76,7 @@ describe("validation options", function() {
             });
         });
 
-        it("$constraint1 token should be replaced in a custom message", function() {
+        it("$constraint1 token should be replaced in a custom message", function () {
             class MyClass {
                 @Contains("hello", {
                     message: "String is not valid. You string must contain a $constraint1 word"
@@ -92,7 +92,7 @@ describe("validation options", function() {
             });
         });
 
-        it("$target token should be replaced in a custom message", function() {
+        it("$target token should be replaced in a custom message", function () {
             class MyClass {
                 @Contains("hello", {
                     message: "$target is not valid."
@@ -108,7 +108,7 @@ describe("validation options", function() {
             });
         });
 
-        it("$property token should be replaced in a custom message", function() {
+        it("$property token should be replaced in a custom message", function () {
             class MyClass {
                 @Contains("hello", {
                     message: "$property is not valid."
@@ -124,7 +124,7 @@ describe("validation options", function() {
             });
         });
 
-        it("should replace all token", function() {
+        it("should replace all token", function () {
             class MyClass {
                 @Contains("hello", {
                     message: "$target#$property is not valid: $value must contain a $constraint1 word"
@@ -142,9 +142,9 @@ describe("validation options", function() {
 
     });
 
-    describe("each", function() {
+    describe("each", function () {
 
-        it("should apply validation to each item in the array", function() {
+        it("should apply validation to each item in the array", function () {
             class MyClass {
                 @Contains("hello", {
                     each: true
@@ -163,9 +163,113 @@ describe("validation options", function() {
             });
         });
 
+        it("should apply validation via custom constraint class to array items (but not array itself)", function () {
+            @ValidatorConstraint({ name: "customIsNotArrayConstraint", async: false })
+            class CustomIsNotArrayConstraint implements ValidatorConstraintInterface {
+                validate(value: any) {
+                    return !(value instanceof Array);
+                }
+            }
+
+            class MyClass {
+                @Validate(CustomIsNotArrayConstraint, {
+                    each: true
+                })
+                someNotArrayProperty: string[];
+            }
+
+            const model = new MyClass();
+            model.someNotArrayProperty = ["not array", "also not array", "not array at all"];
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(0);
+            });
+        });
+
+        it("should apply validation via custom constraint class with synchronous logic to each item in the array", function () {
+            @ValidatorConstraint({ name: "customContainsHelloConstraint", async: false })
+            class CustomContainsHelloConstraint implements ValidatorConstraintInterface {
+                validate(value: any) {
+                    return !(value instanceof Array) && String(value).includes("hello");
+                }
+            }
+
+            class MyClass {
+                @Validate(CustomContainsHelloConstraint, {
+                    each: true
+                })
+                someProperty: string[];
+            }
+
+            const model = new MyClass();
+            model.someProperty = ["hell no world", "hello", "helo world", "hello world", "hello dear friend"];
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(1);
+                errors[0].constraints.should.be.eql({ customContainsHelloConstraint: "" });
+                errors[0].value.should.be.equal(model.someProperty);
+                errors[0].target.should.be.equal(model);
+                errors[0].property.should.be.equal("someProperty");
+            });
+        });
+
+        it("should apply validation via custom constraint class with async logic to each item in the array", function () {
+            @ValidatorConstraint({ name: "customAsyncContainsHelloConstraint", async: true })
+            class CustomAsyncContainsHelloConstraint implements ValidatorConstraintInterface {
+                validate(value: any) {
+                    const isValid = !(value instanceof Array) && String(value).includes("hello");
+
+                    return Promise.resolve(isValid);
+                }
+            }
+
+            class MyClass {
+                @Validate(CustomAsyncContainsHelloConstraint, {
+                    each: true
+                })
+                someProperty: string[];
+            }
+
+            const model = new MyClass();
+            model.someProperty = ["hell no world", "hello", "helo world", "hello world", "hello dear friend"];
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(1);
+                errors[0].constraints.should.be.eql({ customAsyncContainsHelloConstraint: "" });
+                errors[0].value.should.be.equal(model.someProperty);
+                errors[0].target.should.be.equal(model);
+                errors[0].property.should.be.equal("someProperty");
+            });
+        });
+
+        it("should apply validation via custom constraint class with mixed (synchronous + async) logic to each item in the array", function () {
+            @ValidatorConstraint({ name: "customMixedContainsHelloConstraint", async: true })
+            class CustomMixedContainsHelloConstraint implements ValidatorConstraintInterface {
+                validate(value: any) {
+                    const isValid = !(value instanceof Array) && String(value).includes("hello");
+
+                    return isValid ? isValid : Promise.resolve(isValid);
+                }
+            }
+
+            class MyClass {
+                @Validate(CustomMixedContainsHelloConstraint, {
+                    each: true
+                })
+                someProperty: string[];
+            }
+
+            const model = new MyClass();
+            model.someProperty = ["hell no world", "hello", "helo world", "hello world", "hello dear friend"];
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(1);
+                errors[0].constraints.should.be.eql({ customMixedContainsHelloConstraint: "" });
+                errors[0].value.should.be.equal(model.someProperty);
+                errors[0].target.should.be.equal(model);
+                errors[0].property.should.be.equal("someProperty");
+            });
+        });
+
     });
 
-    describe("groups", function() {
+    describe("groups", function () {
         function expectTitleContains(error: ValidationError) {
             error.constraints.should.eql({ contains: "title must contain a hello string" });
         }
@@ -202,27 +306,27 @@ describe("validation options", function() {
         validNone.title = "bye world";
         validNone.text = "hello world";
 
-        describe("should validate only properties of the given group: title-validation", function() {
-            it("with valid title", function() {
+        describe("should validate only properties of the given group: title-validation", function () {
+            it("with valid title", function () {
                 return validator.validate(validTitle, { groups: ["title-validation"] }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
 
-            it("with valid text", function() {
+            it("with valid text", function () {
                 return validator.validate(validText, { groups: ["title-validation"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTitleContains(errors[0]);
                 });
             });
 
-            it("with both valid", function() {
+            it("with both valid", function () {
                 return validator.validate(validBoth, { groups: ["title-validation"] }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
 
-            it("with none valid", function() {
+            it("with none valid", function () {
                 return validator.validate(validNone, { groups: ["title-validation"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTitleContains(errors[0]);
@@ -231,27 +335,27 @@ describe("validation options", function() {
 
         });
 
-        describe("should validate only properties of the given group: text-validation", function() {
-            it("with valid title", function() {
+        describe("should validate only properties of the given group: text-validation", function () {
+            it("with valid title", function () {
                 return validator.validate(validTitle, { groups: ["text-validation"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTextContains(errors[0]);
                 });
             });
 
-            it("with valid text", function() {
+            it("with valid text", function () {
                 return validator.validate(validText, { groups: ["text-validation"] }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
 
-            it("with both valid", function() {
+            it("with both valid", function () {
                 return validator.validate(validBoth, { groups: ["text-validation"] }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
 
-            it("with none valid", function() {
+            it("with none valid", function () {
                 return validator.validate(validNone, { groups: ["text-validation"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTextContains(errors[0]);
@@ -260,28 +364,28 @@ describe("validation options", function() {
 
         });
 
-        describe("should validate only properties of the given groups: both groups", function() {
-            it("with valid title", function() {
+        describe("should validate only properties of the given groups: both groups", function () {
+            it("with valid title", function () {
                 return validator.validate(validTitle, { groups: ["title-validation", "text-validation"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTextContains(errors[0]);
                 });
             });
 
-            it("with valid text", function() {
+            it("with valid text", function () {
                 return validator.validate(validText, { groups: ["title-validation", "text-validation"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTitleContains(errors[0]);
                 });
             });
 
-            it("with both valid", function() {
+            it("with both valid", function () {
                 return validator.validate(validBoth, { groups: ["title-validation", "text-validation"] }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
 
-            it("with none valid", function() {
+            it("with none valid", function () {
                 return validator.validate(validNone, { groups: ["title-validation", "text-validation"] }).then(errors => {
                     errors.length.should.be.equal(2);
                     expectTitleContains(errors[0]);
@@ -290,28 +394,28 @@ describe("validation options", function() {
             });
         });
 
-        describe("should validate all if no group is given", function() {
-            it("with valid title", function() { // todo: all or without? what is better expected behaviour?
+        describe("should validate all if no group is given", function () {
+            it("with valid title", function () { // todo: all or without? what is better expected behaviour?
                 return validator.validate(validTitle).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTextContains(errors[0]);
                 });
             });
 
-            it("with valid text", function() { // todo: all or without? what is better expected behaviour?
+            it("with valid text", function () { // todo: all or without? what is better expected behaviour?
                 return validator.validate(validText).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTitleContains(errors[0]);
                 });
             });
 
-            it("with both valid", function() { // todo: all or without? what is better expected behaviour?
+            it("with both valid", function () { // todo: all or without? what is better expected behaviour?
                 return validator.validate(validBoth).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
 
-            it("with none valid", function() { // todo: all or without? what is better expected behaviour?
+            it("with none valid", function () { // todo: all or without? what is better expected behaviour?
                 return validator.validate(validNone).then(errors => {
                     errors.length.should.be.equal(2);
                     expectTitleContains(errors[0]);
@@ -321,28 +425,28 @@ describe("validation options", function() {
 
         });
 
-        describe("should validate all groups if empty group array is given", function() {
-            it("with valid title", function() {
+        describe("should validate all groups if empty group array is given", function () {
+            it("with valid title", function () {
                 return validator.validate(validTitle, { groups: [] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTextContains(errors[0]);
                 });
             });
 
-            it("with valid text", function() {
+            it("with valid text", function () {
                 return validator.validate(validText, { groups: [] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTitleContains(errors[0]);
                 });
             });
 
-            it("with both valid", function() {
+            it("with both valid", function () {
                 return validator.validate(validBoth, { groups: [] }).then(errors => {
                     errors.length.should.be.equal(0);
                 });
             });
 
-            it("with none valid", function() {
+            it("with none valid", function () {
                 return validator.validate(validNone, { groups: [] }).then(errors => {
                     errors.length.should.be.equal(2);
                     expectTitleContains(errors[0]);
@@ -351,7 +455,7 @@ describe("validation options", function() {
             });
         });
 
-        describe("multiple groups per property", function() {
+        describe("multiple groups per property", function () {
             class MyClass {
                 @Contains("hello", { groups: ["contains"] })
                 @Matches(/.*stranger.*/, { groups: ["matches"] })
@@ -374,27 +478,27 @@ describe("validation options", function() {
             const validNone = new MyClass();
             validNone.title = "howdy rowdy";
 
-            describe("group: contains", function() {
-                it("with valid contains", function() {
+            describe("group: contains", function () {
+                it("with valid contains", function () {
                     return validator.validate(validContains, { groups: ["contains"] }).then(errors => {
                         errors.length.should.be.equal(0);
                     });
                 });
 
-                it("with valid matches", function() {
+                it("with valid matches", function () {
                     return validator.validate(validMatches, { groups: ["contains"] }).then(errors => {
                         errors.length.should.be.equal(1);
                         expectTitleContains(errors[0]);
                     });
                 });
 
-                it("with valid both", function() {
+                it("with valid both", function () {
                     return validator.validate(validBoth, { groups: ["contains"] }).then(errors => {
                         errors.length.should.be.equal(0);
                     });
                 });
 
-                it("with valid none", function() {
+                it("with valid none", function () {
                     return validator.validate(validNone, { groups: ["contains"] }).then(errors => {
                         errors.length.should.be.equal(1);
                         expectTitleContains(errors[0]);
@@ -403,28 +507,28 @@ describe("validation options", function() {
 
             });
 
-            describe("group: matches", function() {
+            describe("group: matches", function () {
 
-                it("with valid contains", function() {
+                it("with valid contains", function () {
                     return validator.validate(validContains, { groups: ["matches"] }).then(errors => {
                         errors.length.should.be.equal(1);
                         expectTitleMatches(errors[0]);
                     });
                 });
 
-                it("with valid matches", function() {
+                it("with valid matches", function () {
                     return validator.validate(validMatches, { groups: ["matches"] }).then(errors => {
                         errors.length.should.be.equal(0);
                     });
                 });
 
-                it("with valid both", function() {
+                it("with valid both", function () {
                     return validator.validate(validBoth, { groups: ["matches"] }).then(errors => {
                         errors.length.should.be.equal(0);
                     });
                 });
 
-                it("with valid none", function() {
+                it("with valid none", function () {
                     return validator.validate(validNone, { groups: ["matches"] }).then(errors => {
                         errors.length.should.be.equal(1);
                         expectTitleMatches(errors[0]);
@@ -433,28 +537,28 @@ describe("validation options", function() {
 
             });
 
-            describe("groups: contains & matches", function() {
-                it("with valid contains", function() {
+            describe("groups: contains & matches", function () {
+                it("with valid contains", function () {
                     return validator.validate(validContains, { groups: ["contains", "matches"] }).then(errors => {
                         errors.length.should.be.equal(1);
                         expectTitleMatches(errors[0]);
                     });
                 });
 
-                it("with valid matches", function() {
+                it("with valid matches", function () {
                     return validator.validate(validMatches, { groups: ["contains", "matches"] }).then(errors => {
                         errors.length.should.be.equal(1);
                         expectTitleContains(errors[0]);
                     });
                 });
 
-                it("with valid both", function() {
+                it("with valid both", function () {
                     return validator.validate(validBoth, { groups: ["contains", "matches"] }).then(errors => {
                         errors.length.should.be.equal(0);
                     });
                 });
 
-                it("with valid none", function() {
+                it("with valid none", function () {
                     return validator.validate(validNone, { groups: ["contains", "matches"] }).then(errors => {
                         errors.length.should.be.equal(1);
                         errors[0].constraints.should.be.eql({
@@ -468,7 +572,7 @@ describe("validation options", function() {
 
         });
 
-        describe("always", function() {
+        describe("always", function () {
 
             class MyClass {
                 @Contains("hello", {
@@ -485,7 +589,7 @@ describe("validation options", function() {
 
             const model = new MyClass();
 
-            it("should always validate a marked field even if another group is specified", function() {
+            it("should always validate a marked field even if another group is specified", function () {
                 return validator.validate(model, { groups: ["sometimes"] }).then(errors => {
                     errors.length.should.be.equal(2);
                     expectTitleContains(errors[0]);
@@ -493,14 +597,14 @@ describe("validation options", function() {
                 });
             });
 
-            it("should always validate a marked field if its group is specified also (doubly enabled)", function() {
+            it("should always validate a marked field if its group is specified also (doubly enabled)", function () {
                 return validator.validate(model, { groups: ["always"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectTextContains(errors[0]);
                 });
             });
 
-            it("should always validate *all* fields if group is not specified", function() {
+            it("should always validate *all* fields if group is not specified", function () {
                 return validator.validate(model, { groups: undefined }).then(errors => {
                     errors.length.should.be.equal(2);
                     expectTitleContains(errors[0]);
@@ -508,7 +612,7 @@ describe("validation options", function() {
                 });
             });
 
-            it("should always validate *all* fields if groups array is empty", function() {
+            it("should always validate *all* fields if groups array is empty", function () {
                 return validator.validate(model, { groups: [] }).then(errors => {
                     errors.length.should.be.equal(2);
                     expectTitleContains(errors[0]);
@@ -518,7 +622,7 @@ describe("validation options", function() {
 
         });
 
-        describe("groups - nested", function() {
+        describe("groups - nested", function () {
             class Nested {
                 @Contains("hello", {
                     groups: ["always"],
@@ -547,7 +651,7 @@ describe("validation options", function() {
                 error.children[0].constraints.should.eql({ contains: "text must contain a hello string" });
             }
 
-            it("should validate all children if no group is given", function() {
+            it("should validate all children if no group is given", function () {
                 return validator.validate(model, { groups: undefined }).then(errors => {
                     errors.length.should.be.equal(3);
                     expectChildConstraint(errors[0], "always");
@@ -556,7 +660,7 @@ describe("validation options", function() {
                 });
             });
 
-            it("should validate only the given group + always", function() {
+            it("should validate only the given group + always", function () {
                 return validator.validate(model, { groups: ["sometimes"] }).then(errors => {
                     errors.length.should.be.equal(2);
                     expectChildConstraint(errors[0], "always");
@@ -564,7 +668,7 @@ describe("validation options", function() {
                 });
             });
 
-            it("should validate only the given group + always", function() {
+            it("should validate only the given group + always", function () {
                 return validator.validate(model, { groups: ["always"] }).then(errors => {
                     errors.length.should.be.equal(1);
                     expectChildConstraint(errors[0], "always");
@@ -573,9 +677,9 @@ describe("validation options", function() {
         });
     });
 
-    describe("context", function() {
+    describe("context", function () {
 
-        it("should map context", function() {
+        it("should map context", function () {
             class MyClass {
                 @Contains("hello", {
                     message: "String is not valid. You string must contain a hello word",
@@ -603,7 +707,7 @@ describe("validation options", function() {
             });
         });
 
-        it("should map multiple context on a single property for different constraints", function() {
+        it("should map multiple context on a single property for different constraints", function () {
             class MyClass {
                 @Contains("hello", {
                     message: "String is not valid. You string must contain a hello word",
@@ -628,7 +732,7 @@ describe("validation options", function() {
             });
         });
 
-        it("should not map no context", function() {
+        it("should not map no context", function () {
             class MyClass {
                 @Contains("hello", {
                     message: "String is not valid. You string must contain a hello word"
