@@ -1,5 +1,5 @@
 import "es6-shim";
-import {Contains, Matches, MinLength, ValidateNested} from "../../src/decorator/decorators";
+import {Contains, Matches, MinLength, ValidateNested, IsDefined} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidationError} from "../../src";
 
@@ -592,14 +592,21 @@ describe("validation options", function() {
                     }
                 })
                 someOtherProperty: string;
+
+                @IsDefined({
+                    context: {
+                        foo: "bar"
+                    }
+                })
+                requiredProperty: string;
             }
 
             const model = new MyClass();
-            // model.someProperty = "hell no world";
             return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(2);
+                errors.length.should.be.equal(3);
                 errors[0].contexts["contains"].should.be.eql({ hi: "there" });
                 errors[1].contexts["contains"].should.be.eql({ bye: "now" });
+                errors[2].contexts["isDefined"].should.be.eql({ foo: "bar" });
             });
         });
 
