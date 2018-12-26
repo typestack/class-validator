@@ -1,5 +1,5 @@
 import "es6-shim";
-import {IsNotEmpty, ValidateIf, IsOptional, Equals} from "../../src/decorator/decorators";
+import {IsNotEmpty, ValidateIf, IsOptional, Equals, ValidateNested} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
 import {expect, should, use } from "chai";
@@ -98,6 +98,80 @@ describe("conditional validation", function() {
             errors[0].property.should.be.equal("title");
             errors[0].constraints.should.be.eql({ equals: "title must be equal to test" });
             errors[0].value.should.be.equal("bad_value");
+        });
+    });
+
+
+    it("shouldn't validate a nested property", function() {
+        class MySubClass {
+            @ValidateIf((_obj, _prop, entryPoint) => !!entryPoint.hasName)
+            @IsNotEmpty()
+            name: string;
+        }
+
+        class MyClass {
+            @IsNotEmpty()
+            hasName: boolean;
+
+            @ValidateNested()
+            mySubClass: MySubClass;
+        }
+
+        const model = new MyClass();
+        model.hasName = false;
+        model.mySubClass = new MySubClass();
+
+        return validator.validate(model).then(errors => {
+            errors.length.should.be.equal(0);
+        });
+    });
+
+    it("should validate a nested property (1 error)", function() {
+        class MySubClass {
+            @ValidateIf((_obj, _prop, entryPoint) => entryPoint.hasName)
+            @IsNotEmpty()
+            name: string;
+        }
+
+        class MyClass {
+            @IsNotEmpty()
+            hasName: boolean;
+
+            @ValidateNested()
+            mySubClass: MySubClass;
+        }
+
+        const model = new MyClass();
+        model.hasName = true;
+        model.mySubClass = new MySubClass();
+
+        return validator.validate(model).then(errors => {
+            errors.length.should.be.equal(1);
+        });
+    });
+
+    it("should validate a nested property (0 error)", function() {
+        class MySubClass {
+            @ValidateIf((_obj, _prop, entryPoint) => entryPoint.hasName)
+            @IsNotEmpty()
+            name: string;
+        }
+
+        class MyClass {
+            @IsNotEmpty()
+            hasName: boolean;
+
+            @ValidateNested()
+            mySubClass: MySubClass;
+        }
+
+        const model = new MyClass();
+        model.hasName = true;
+        model.mySubClass = new MySubClass();
+        model.mySubClass.name = "name";
+
+        return validator.validate(model).then(errors => {
+            errors.length.should.be.equal(0);
         });
     });
 });

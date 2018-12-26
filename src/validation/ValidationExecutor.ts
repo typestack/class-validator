@@ -39,11 +39,11 @@ export class ValidationExecutor {
     // Public Methods
     // -------------------------------------------------------------------------
 
-    execute(object: Object, targetSchema: string, validationErrors: ValidationError[]) {
+    execute(object: Object, targetSchema: string, validationErrors: ValidationError[], entryPoint?: any) {
         /**
          * If there is no metadata registered it means possibly the dependencies are not flatterned and
          * more than one instance is used.
-         * 
+         *
          * TODO: This needs proper handling, forcing to use the same container or some other proper solution.
          */
         if (!this.metadataStorage.hasValidationMetaData) {
@@ -89,7 +89,7 @@ export class ValidationExecutor {
             const validationError = this.generateValidationError(object, value, propertyName);
             validationErrors.push(validationError);
 
-            const canValidate = this.conditionalValidations(object, value, conditionalValidationMetadatas);
+            const canValidate = this.conditionalValidations(object, value, conditionalValidationMetadatas, entryPoint);
             if (!canValidate) {
                 return;
             }
@@ -103,7 +103,7 @@ export class ValidationExecutor {
 
             this.defaultValidations(object, value, metadatas, validationError.constraints);
             this.customValidations(object, value, customValidationMetadatas, validationError.constraints);
-            this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
+            this.nestedValidations(value, nestedValidationMetadatas, validationError.children, entryPoint || object);
 
             this.mapContexts(object, value, metadatas, validationError);
         });
@@ -187,9 +187,10 @@ export class ValidationExecutor {
 
     private conditionalValidations(object: Object,
                                    value: any,
-                                   metadatas: ValidationMetadata[]) {
+                                   metadatas: ValidationMetadata[],
+                                   entryPoint?: any) {
         return metadatas
-            .map(metadata => metadata.constraints[0](object, value))
+            .map(metadata => metadata.constraints[0](object, value, entryPoint))
             .reduce((resultA, resultB) => resultA && resultB, true);
     }
 
@@ -252,7 +253,7 @@ export class ValidationExecutor {
         });
     }
 
-    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
+    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[], entryPoint?: any) {
 
         if (value === void 0) {
             return;
@@ -267,11 +268,11 @@ export class ValidationExecutor {
                     const validationError = this.generateValidationError(value, subValue, index.toString());
                     errors.push(validationError);
 
-                    this.execute(subValue, targetSchema, validationError.children);
+                    this.execute(subValue, targetSchema, validationError.children, entryPoint);
                 });
 
             } else if (value instanceof Object) {
-                this.execute(value, targetSchema, errors);
+                this.execute(value, targetSchema, errors, entryPoint);
 
             } else {
                 const error = new ValidationError();

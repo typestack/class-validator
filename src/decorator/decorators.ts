@@ -82,7 +82,7 @@ export function Allow(validationOptions?: ValidationOptions) {
 /**
  * Objects / object arrays marked with this decorator will also be validated.
  */
-export function ValidateIf(condition: (object: any, value: any) => boolean, validationOptions?: ValidationOptions) {
+export function ValidateIf(condition: (object: any, value: any, entryPoint?: any) => boolean, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.CONDITIONAL_VALIDATION,
