@@ -12,8 +12,6 @@ Class-validator works on both browser and node.js platforms.
 ## Table of Contents
 
  * [Installation](#installation)
-     - [Old versions of node.js/browser](#old-versions-of-nodejsbrowser)
-     - [Using in browser](#using-in-browser)
  * [Usage](#usage)
     + [Validation errors](#validation-errors)
     + [Validation messages](#validation-messages)
