@@ -8,6 +8,7 @@ import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
+import {isPromise} from "@typed/is-promise"
 
 /**
  * Executes validation over given object.
@@ -66,7 +67,7 @@ export class ValidationExecutor {
             validationError.value = undefined;
             validationError.property = undefined;
             validationError.children = [];
-            validationError.constraints = { unknownValue: "an unknown value was passed to the validate function" };
+            validationError.constraints = { unknownVxalue: "an unknown value was passed to the validate function" };
 
             validationErrors.push(validationError);
 
@@ -234,7 +235,7 @@ export class ValidationExecutor {
                         constraints: metadata.constraints
                     };
                     const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
-                    if (validatedValue instanceof Promise) {
+                    if (isPromise(validatedValue)) {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {
                                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
