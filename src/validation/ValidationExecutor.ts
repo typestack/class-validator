@@ -67,7 +67,7 @@ export class ValidationExecutor {
             validationError.value = undefined;
             validationError.property = undefined;
             validationError.children = [];
-            validationError.constraints = { unknownVxalue: "an unknown value was passed to the validate function" };
+            validationError.constraints = { unknownValue: "an unknown value was passed to the validate function" };
 
             validationErrors.push(validationError);
 
