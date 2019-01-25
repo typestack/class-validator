@@ -8,7 +8,7 @@ import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
-import {isPromise} from "@typed/is-promise"
+import {isPromise} from "@typed/is-promise";
 
 /**
  * Executes validation over given object.
