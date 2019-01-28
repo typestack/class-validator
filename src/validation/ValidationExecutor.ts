@@ -8,6 +8,7 @@ import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
+import { isPromise } from "@typed/is-promise";
 
 /**
  * Executes validation over given object.
@@ -234,7 +235,7 @@ export class ValidationExecutor {
                         constraints: metadata.constraints
                     };
                     const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
-                    if (validatedValue instanceof Promise) {
+                    if (isPromise(validatedValue)) {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {
                                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
