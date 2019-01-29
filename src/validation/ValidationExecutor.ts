@@ -350,7 +350,13 @@ export class ValidationExecutor {
         return metadatas
             .forEach(metadata => {
                 if (metadata.context) {
-                    const type = this.getConstraintType(metadata);
+                    let customConstraint;
+                    if (metadata.type === ValidationTypes.CUSTOM_VALIDATION) {
+                        const customConstraints = this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls);
+                        customConstraint = customConstraints[0];
+                    }
+
+                    const type = this.getConstraintType(metadata, customConstraint);
 
                     if (error.constraints[type]) {
                         if (!error.contexts) {
