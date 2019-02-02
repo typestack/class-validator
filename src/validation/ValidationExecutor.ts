@@ -40,6 +40,9 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
 
     execute(object: Object, targetSchema: string, validationErrors: ValidationError[]) {
+        if (object === undefined || object === null) {
+            return;
+        }
         /**
          * If there is no metadata registered it means possibly the dependencies are not flatterned and
          * more than one instance is used.
