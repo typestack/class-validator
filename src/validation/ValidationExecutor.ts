@@ -40,7 +40,7 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
 
     execute(object: Object, targetSchema: string, validationErrors: ValidationError[]) {
-        if (object === undefined || object === null) {
+        if (object !== Object(object)) {
             return;
         }
         /**

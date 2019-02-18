@@ -146,7 +146,7 @@ describe("nested validation", function () {
         }
 
         class MyClass {
-            @ValidateNested()
+            @ValidateNested({ each: true })
             mySubClasses: MySubClass[];
         }
 
@@ -165,4 +165,30 @@ describe("nested validation", function () {
         });
     });
 
+    it("should not fail when stripping non whitelisted properties", () => {
+
+        class MySubClass {
+            @MinLength(5)
+            name: string;
+        }
+
+        class MyClass {
+            @ValidateNested({ each: true })
+            mySubClasses: MySubClass[];
+        }
+
+        const model = new MyClass();
+        model.mySubClasses = <any> ["test", new MySubClass(), 3, null, undefined, true];
+        model.mySubClasses[1].name = "my";
+
+        return validator.validate(model, { whitelist: true }).then(errors => {
+            expect(errors[0].target).to.equal(model);
+            expect(errors[0].property).to.equal("mySubClasses");
+            expect(errors[0].children.length).to.equal(1);
+            expect(errors[0].children[0].children.length).to.equal(1);
+
+            const subError = errors[0].children[0].children[0];
+            subError.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
+        });
+    });
 });
