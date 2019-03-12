@@ -221,6 +221,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a phone number";
             case this.IS_PHONE_NUMBER:
                 return eachPrefix + "$property must be a valid phone number";
+            case this.IS_ISO31661_ALPHA_2:
+                return eachPrefix + "$property must be a valid ISO31661 Alpha2 code";
             case this.IS_ISO31661_ALPHA_3:
                 return eachPrefix + "$property must be a valid ISO31661 Alpha3 code";
             case this.IS_MONGO_ID:
