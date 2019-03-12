@@ -756,6 +756,7 @@ validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
 validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
 validator.isLowercase(str); // Checks if the string is lowercase.
 validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
+validator.isISO31661Alpha2(str); // Check if the string is a valid ISO 3166-1 alpha-2
 validator.isISO31661Alpha3(str); // Check if the string is a valid ISO 3166-1 alpha-3
 validator.isPhoneNumber(str, region); // Checks if the string is a valid phone number.
 validator.isMongoId(str); // Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.

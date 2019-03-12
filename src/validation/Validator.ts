@@ -216,6 +216,8 @@ export class Validator {
                 return this.isMobilePhone(value, metadata.constraints[0]);
             case ValidationTypes.IS_PHONE_NUMBER:
                 return this.isPhoneNumber(value, metadata.constraints[0]);
+            case ValidationTypes.IS_ISO31661_ALPHA_2:
+                return this.isISO31661Alpha2(value);
             case ValidationTypes.IS_ISO31661_ALPHA_3:
                 return this.isISO31661Alpha3(value);
             case ValidationTypes.IS_MONGO_ID:
@@ -669,7 +671,14 @@ export class Validator {
             return false;
         }
     }
-    
+
+    /**
+     * Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.
+     */
+    isISO31661Alpha2(value: string): boolean {
+        return typeof value === "string" && this.validatorJs.isISO31661Alpha2(value);
+    }
+
     /**
      * Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.
      */
