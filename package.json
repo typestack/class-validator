@@ -25,7 +25,7 @@
   "dependencies": {
     "@types/validator": "9.4.2",
     "google-libphonenumber": "^3.1.6",
-    "validator": "10.4.0"
+    "validator": "10.5.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",

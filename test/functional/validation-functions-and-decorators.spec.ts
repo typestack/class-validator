@@ -1539,6 +1539,9 @@ describe("IsEmail", function() {
     const validValues = [
         "foo@bar.com"
         , "x@x.au"
+        , "andre@gmail.com" // https://github.com/typestack/class-validator/issues/321
+        , "test+ext@gmail.com" // Gmail allows `+` extension
+        , "some.name.midd.leNa.me.+extension@GoogleMail.com" // Gmail allows `+` extension
         , "foo@bar.com.au"
         , "foo+bar@bar.com"
         , "hans.m端ller@test.com"
@@ -1558,8 +1561,6 @@ describe("IsEmail", function() {
         , "somename@ｇｍａｉｌ.com"
         , "foo@bar.co.uk."
         , "z@co.c"
-        , "test+ext@gmail.com"
-        , "some.name.midd.leNa.me.+extension@GoogleMail.com"
         , "gmail...ignores...dots...@gmail.com"
         , "ｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌ@gmail.com"
     ];
