@@ -32,6 +32,8 @@ import {
     IsIn,
     IsInt,
     IsJSON,
+    IsObject,
+    IsNotEmptyObject,
     Length,
     IsLowercase,
     IsMongoId,
@@ -2157,6 +2159,74 @@ describe("IsJSON", function() {
     it("should return error object with proper data", function(done) {
         const validationType = "isJson";
         const message = "someProperty must be a json string";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsObject", function() {
+
+    const validValues = [{ "key": "value" }, { key: "value" }, {}];
+    const invalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false];
+
+    class MyClass {
+        @IsObject()
+        someProperty: object;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isObject(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isObject(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isObject";
+        const message = "someProperty must be an object";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsNotEmptyObject", function() {
+
+    const validValues = [{ "key": "value" }, { key: "value" }];
+    const invalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, {}];
+
+    class MyClass {
+        @IsNotEmptyObject()
+        someProperty: object;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isNotEmptyObject(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isNotEmptyObject(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isNotEmptyObject";
+        const message = "someProperty must be a non-empty object";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
