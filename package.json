@@ -1,17 +1,13 @@
 {
-  "name": "class-validator",
+  "name": "@minuscode/class-validator",
   "private": true,
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
   "license": "MIT",
-  "readmeFilename": "README.md",
-  "author": {
-    "name": "Umed Khudoiberdiev",
-    "email": "pleerock.me@gmail.com"
-  },
+  "author": "Umed Khudoiberdiev <pleerock.me@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pleerock/class-validator.git"
+    "url": "git+https://github.com/pleerock/class-validator.git"
   },
   "bugs": {
     "url": "https://github.com/pleerock/class-validator/issues"
@@ -25,7 +21,7 @@
   "dependencies": {
     "@types/validator": "9.4.2",
     "google-libphonenumber": "^3.1.6",
-    "validator": "10.4.0"
+    "validator": "11.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",
@@ -60,5 +56,11 @@
   "scripts": {
     "build": "gulp package",
     "test": "gulp tests"
-  }
+  },
+  "homepage": "https://github.com/pleerock/class-validator#readme",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "main": "index.js"
 }
