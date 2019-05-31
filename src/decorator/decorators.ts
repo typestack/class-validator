@@ -568,6 +568,22 @@ export function IsAlphanumeric(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * Checks if the given number is a valid decimal.
+ */
+export function IsDecimal(options?: ValidatorJS.IsDecimalOptions, validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_DECIMAL,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [options],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if the string contains ASCII chars only.
  */
 export function IsAscii(validationOptions?: ValidationOptions) {
