@@ -9,7 +9,7 @@ export interface ValidatorOptions {
     skipUndefinedProperties?: boolean;
 
     /**
-     * If set to true than validator will skip validation of all properties that are missing in the validating object.
+     * If set to true than validator will skip validation of all properties that are null or undefined in the validating object.
      */
     skipMissingProperties?: boolean;
 
