@@ -90,6 +90,31 @@ validate(post).then(errors => { // errors is an array of validation errors
 });
 ```
 
+or with `Validator` instance (which allows you to use `.then`/`.catch` handlers
+
+```
+import { Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, Min, Max, Validator} from "class-validator";
+
+export class Post {
+  // same as above
+}
+
+let post = new Post();
+post.title = "Hello"; // should not pass
+post.text = "this is a great post about hell world"; // should not pass
+post.rating = 11; // should not pass
+post.email = "google.com"; // should not pass
+post.site = "googlecom"; // should not pass
+
+
+new Validator().validateOrReject(post)
+  .then(() => {
+    console.log("validation succeed");
+  }).catch((errors) => { // errors is an array of validation errors
+    console.log("validation failed. errors: ", errors);
+  });
+```
+
 ### Passing options
 
 The `validate` function optionally expects a `ValidatorOptions` object as a second parameter.
