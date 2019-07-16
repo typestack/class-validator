@@ -262,9 +262,9 @@ export class ValidationExecutor {
             if (metadata.type !== ValidationTypes.NESTED_VALIDATION) return;
             const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
 
-            if (value instanceof Array) {
-                value.forEach((subValue: any, index: number) => {
-                    const validationError = this.generateValidationError(value, subValue, index.toString());
+            if (value instanceof Array || value instanceof Map) {
+                value.forEach((subValue: any, key: any) => {
+                    const validationError = this.generateValidationError(value, subValue, key.toString());
                     errors.push(validationError);
 
                     this.execute(subValue, targetSchema, validationError.children);
@@ -279,14 +279,6 @@ export class ValidationExecutor {
                     this.execute(subValue, targetSchema, validationError.children);
 
                     ++index;
-                });
-
-            } else if (value instanceof Map) {
-                value.forEach((subValue: any, key: any) => {
-                    const validationError = this.generateValidationError(value, subValue, key.toString());
-                    errors.push(validationError);
-
-                    this.execute(subValue, targetSchema, validationError.children);
                 });
 
             } else if (value instanceof Object) {
