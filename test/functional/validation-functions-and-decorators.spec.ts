@@ -2914,7 +2914,7 @@ describe("IsISO31661Alpha2", function() {
     });
 
     it("should fail for invalid values", function(done) {
-        const invalidValues = [undefined, null, "", "AFR", "aD"];
+        const invalidValues = [undefined, null, "", "AFR"];
         checkInvalidValues(new MyClass(), invalidValues, done);
     });
 
