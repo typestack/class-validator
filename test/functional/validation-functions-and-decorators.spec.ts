@@ -1558,8 +1558,6 @@ describe("IsEmail", function() {
         , "somename@ｇｍａｉｌ.com"
         , "foo@bar.co.uk."
         , "z@co.c"
-        , "test+ext@gmail.com"
-        , "some.name.midd.leNa.me.+extension@GoogleMail.com"
         , "gmail...ignores...dots...@gmail.com"
         , "ｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌ@gmail.com"
     ];
