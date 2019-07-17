@@ -48,7 +48,7 @@ npm install class-validator --save
 Create your class and put some validation decorators on the properties you want to validate:
 
 ```typescript
-import {validate, Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, Min, Max} from "class-validator";
+import {validate, validateOrReject, Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, Min, Max} from "class-validator";
 
 export class Post {
 
@@ -88,6 +88,18 @@ validate(post).then(errors => { // errors is an array of validation errors
         console.log("validation succeed");
     }
 });
+
+validateOrReject(post).catch(errors => {
+    console.log("Promise rejected (validation failed). Errors: ", errors);
+});
+// or
+async function validateOrRejectExample(input) {
+    try {
+        await validateOrReject(input);
+    } catch (errors) {
+        console.log("Caught promise rejection (validation failed). Errors: ", errors)
+    }
+}
 ```
 
 ### Passing options

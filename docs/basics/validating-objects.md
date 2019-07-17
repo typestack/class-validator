@@ -1,7 +1,7 @@
 # Validating objects
 
 ```ts
-import { validate, IsString, IsInt, IsDate, MaxLength, Min, Max} from "class-validator";
+import { validate, validateOrReject, IsString, IsInt, IsDate, MaxLength, Min, Max, ValidationError} from "class-validator";
 
 export class Book {
 
@@ -24,17 +24,30 @@ export class Book {
 }
 
 const book = new Book();
-post.title = 'Don Quixote';
-post.author = 'Miguel De Cervantes';
-post.rating = 11;
-post.publishDate = 1615;
+book.title = 'Don Quixote';
+book.author = 'Miguel De Cervantes';
+book.rating = 11;
+book.publishDate = new Date();
 
-validate(book).then(errors => { 
-  // errors is an array of ValidationErrors
+validate(book).then((errors: ValidationError[]) => {
   if (errors.length > 0) {
-    console.warn("validation failed. errors: ", errors);
+    console.warn("validate() - Validation failed. Errors: ", errors);
   }
 });
+
+validateOrReject(book).catch((errors: ValidationError[]) => {
+  console.warn("validateOrReject() - Validation failed. Errors: ", errors);
+});
+
+awaitExample();
+
+async function awaitExample() {
+  try {
+    await validateOrReject(book);
+  } catch (errors) {
+    console.warn("Async validateOrReject() - Validation failed. Errors: ", errors);
+  }
+}
 ```
 
-Run this example on [Stackblitz](https://stackblitz.com/edit/class-validator-simple-example)
+Run this example on [Stackblitz](https://stackblitz.com/edit/class-validator-simple-example-u9h1ve?file=index.ts)
