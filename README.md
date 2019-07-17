@@ -927,7 +927,7 @@ Here is an example of using it:
     ```typescript
     import {registerSchema} from "class-validator";
     import {UserValidationSchema} from "./UserValidationSchema";
-    registerSchema(schema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
+    registerSchema(UserValidationSchema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
     ```
 
     Better to put this code in a global place, maybe when you bootstrap your application, for example in `app.ts`.
