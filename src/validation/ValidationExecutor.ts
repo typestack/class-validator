@@ -270,6 +270,25 @@ export class ValidationExecutor {
                     this.execute(subValue, targetSchema, validationError.children);
                 });
 
+            } else if (value instanceof Set) {
+                let index = 0;
+                value.forEach((subValue: any) => {
+                    const validationError = this.generateValidationError(value, subValue, index.toString());
+                    errors.push(validationError);
+
+                    this.execute(subValue, targetSchema, validationError.children);
+
+                    ++index;
+                });
+
+            } else if (value instanceof Map) {
+                value.forEach((subValue: any, key: any) => {
+                    const validationError = this.generateValidationError(value, subValue, key.toString());
+                    errors.push(validationError);
+
+                    this.execute(subValue, targetSchema, validationError.children);
+                });
+
             } else if (value instanceof Object) {
                 this.execute(value, targetSchema, errors);
 

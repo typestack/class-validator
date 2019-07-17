@@ -138,4 +138,138 @@ describe("nested validation", function () {
 
     });
 
+    it("should validate nested set", () => {
+
+        class MySubClass {
+            @MinLength(5)
+            name: string;
+        }
+
+        class MyClass {
+            @Contains("hello")
+            title: string;
+
+            @ValidateNested()
+            mySubClass: MySubClass;
+
+            @ValidateNested()
+            mySubClasses: Set<MySubClass>;
+        }
+
+        const model = new MyClass();
+        model.title = "helo world";
+        model.mySubClass = new MySubClass();
+        model.mySubClass.name = "my";
+        model.mySubClasses = new Set();
+
+        const submodel1 = new MySubClass();
+        submodel1.name = "my";
+        model.mySubClasses.add(submodel1);
+
+        const submodel2 = new MySubClass();
+        submodel2.name = "not-short";
+        model.mySubClasses.add(submodel2);
+
+        return validator.validate(model).then(errors => {
+            errors.length.should.be.equal(3);
+
+            errors[0].target.should.be.equal(model);
+            errors[0].property.should.be.equal("title");
+            errors[0].constraints.should.be.eql({contains: "title must contain a hello string"});
+            errors[0].value.should.be.equal("helo world");
+
+            errors[1].target.should.be.equal(model);
+            errors[1].property.should.be.equal("mySubClass");
+            errors[1].value.should.be.equal(model.mySubClass);
+            expect(errors[1].constraints).to.be.undefined;
+            const subError1 = errors[1].children[0];
+            subError1.target.should.be.equal(model.mySubClass);
+            subError1.property.should.be.equal("name");
+            subError1.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
+            subError1.value.should.be.equal("my");
+
+            errors[2].target.should.be.equal(model);
+            errors[2].property.should.be.equal("mySubClasses");
+            errors[2].value.should.be.equal(model.mySubClasses);
+            expect(errors[2].constraints).to.be.undefined;
+            const subError2 = errors[2].children[0];
+            subError2.target.should.be.equal(model.mySubClasses);
+            subError2.value.should.be.equal(submodel1);
+            subError2.property.should.be.equal("0");
+            const subSubError = subError2.children[0];
+            subSubError.target.should.be.equal(submodel1);
+            subSubError.property.should.be.equal("name");
+            subSubError.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
+            subSubError.value.should.be.equal("my");
+        });
+
+    });
+
+    it("should validate nested map", () => {
+
+        class MySubClass {
+            @MinLength(5)
+            name: string;
+        }
+
+        class MyClass {
+            @Contains("hello")
+            title: string;
+
+            @ValidateNested()
+            mySubClass: MySubClass;
+
+            @ValidateNested()
+            mySubClasses: Map<string, MySubClass>;
+        }
+
+        const model = new MyClass();
+        model.title = "helo world";
+        model.mySubClass = new MySubClass();
+        model.mySubClass.name = "my";
+        model.mySubClasses = new Map();
+
+        const submodel1 = new MySubClass();
+        submodel1.name = "my";
+        model.mySubClasses.set("key1", submodel1);
+
+        const submodel2 = new MySubClass();
+        submodel2.name = "not-short";
+        model.mySubClasses.set("key2", submodel2);
+
+        return validator.validate(model).then(errors => {
+            errors.length.should.be.equal(3);
+
+            errors[0].target.should.be.equal(model);
+            errors[0].property.should.be.equal("title");
+            errors[0].constraints.should.be.eql({contains: "title must contain a hello string"});
+            errors[0].value.should.be.equal("helo world");
+
+            errors[1].target.should.be.equal(model);
+            errors[1].property.should.be.equal("mySubClass");
+            errors[1].value.should.be.equal(model.mySubClass);
+            expect(errors[1].constraints).to.be.undefined;
+            const subError1 = errors[1].children[0];
+            subError1.target.should.be.equal(model.mySubClass);
+            subError1.property.should.be.equal("name");
+            subError1.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
+            subError1.value.should.be.equal("my");
+
+            errors[2].target.should.be.equal(model);
+            errors[2].property.should.be.equal("mySubClasses");
+            errors[2].value.should.be.equal(model.mySubClasses);
+            expect(errors[2].constraints).to.be.undefined;
+            const subError2 = errors[2].children[0];
+            subError2.target.should.be.equal(model.mySubClasses);
+            subError2.value.should.be.equal(submodel1);
+            subError2.property.should.be.equal("key1");
+            const subSubError = subError2.children[0];
+            subSubError.target.should.be.equal(submodel1);
+            subSubError.property.should.be.equal("name");
+            subSubError.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
+            subSubError.value.should.be.equal("my");
+        });
+
+    });
+
 });
