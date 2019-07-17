@@ -17,6 +17,7 @@ Class-validator works on both browser and node.js platforms.
     + [Validation messages](#validation-messages)
     + [Validating arrays](#validating-arrays)
     + [Validating nested objects](#validating-nested-objects)
+    + [Validating promises](#validating-promises)
     + [Inheriting Validation decorators](#inheriting-validation-decorators)
     + [Conditional validation](#conditional-validation)
     + [Whitelisting](#whitelisting)
@@ -273,6 +274,36 @@ export class Post {
 
     @ValidateNested()
     user: User;
+
+}
+```
+
+## Validating promises
+
+If your object contains property with `Promise`-returned value that should be validated, then you need to use the `@ValidatePromise()` decorator:
+
+```typescript
+import {ValidatePromise, Min} from "class-validator";
+
+export class Post {
+
+    @Min(0)
+    @ValidatePromise()
+    userId: Promise<number>;
+
+}
+```
+
+It also works great with `@ValidateNested` decorator:
+
+```typescript
+import {ValidateNested, ValidatePromise} from "class-validator";
+
+export class Post {
+
+    @ValidateNested()
+    @ValidatePromise()
+    user: Promise<User>;
 
 }
 ```
