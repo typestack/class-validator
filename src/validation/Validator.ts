@@ -5,6 +5,7 @@ import {IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 import {ValidationOptions} from "../decorator/ValidationOptions";
+import * as validator from "validator";
 
 /**
  * Validator performs validation of the given object based on its metadata.
@@ -15,7 +16,7 @@ export class Validator {
     // Private Properties
     // -------------------------------------------------------------------------
 
-    private validatorJs: ValidatorJS.ValidatorStatic = require("validator");
+    private validatorJs = validator;
     private libPhoneNumber = {
         phoneUtil: require("google-libphonenumber").PhoneNumberUtil.getInstance(),
     };
