@@ -64,7 +64,9 @@ import {
     IsArray,
     IsDateString,
     IsInstance,
-    IsPhoneNumber
+    IsPhoneNumber,
+    IsISO31661Alpha2,
+    IsISO31661Alpha3,
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -1558,8 +1560,6 @@ describe("IsEmail", function() {
         , "somename@ｇｍａｉｌ.com"
         , "foo@bar.co.uk."
         , "z@co.c"
-        , "test+ext@gmail.com"
-        , "some.name.midd.leNa.me.+extension@GoogleMail.com"
         , "gmail...ignores...dots...@gmail.com"
         , "ｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌ@gmail.com"
     ];
@@ -2899,6 +2899,44 @@ describe("isPhoneNumber", function() {
             checkInvalidValues(new MyClass(), invalidValues, done);
         });
     });
+});
+
+describe("IsISO31661Alpha2", function() {
+
+    class MyClass {
+        @IsISO31661Alpha2()
+        someProperty: string;
+    }
+
+    it("should not fail for a valid ISO31661 Alpha2 code", function(done) {
+        const validValues = ["AD", "AE", "AF", "AG"];
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail for invalid values", function(done) {
+        const invalidValues = [undefined, null, "", "AFR"];
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+});
+
+describe("IsISO31661Alpha3", function() {
+
+    class MyClass {
+        @IsISO31661Alpha3()
+        someProperty: string;
+    }
+
+    it("should not fail for a valid ISO31661 Alpha3 code", function(done) {
+        const validValues = ["ABW", "HND", "KHM", "RWA"];
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail for invalid values", function(done) {
+        const invalidValues = [undefined, null, "", "FR", "fR", "GB", "PT", "CM", "JP", "PM", "ZW"];
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
 });
 
 
