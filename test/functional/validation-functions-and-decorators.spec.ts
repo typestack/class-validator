@@ -518,7 +518,7 @@ describe("IsNumber", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "isNumber";
-        const message = "someProperty must be a number";
+        const message = "someProperty must be a number conforming to the specified constraints";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
