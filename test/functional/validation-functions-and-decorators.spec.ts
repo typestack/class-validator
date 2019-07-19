@@ -479,6 +479,11 @@ describe("IsNumber", function() {
         someProperty: number;
     }
 
+    class MaxDecimalPlacesTest {
+        @IsNumber({ maxDecimalPlaces: 3 })
+        someProperty: number;
+    }
+
     it("should fail if NaN passed without allowing NaN values", function (done) {
         checkInvalidValues(new MyClass(), [NaN], done);
     });
@@ -515,6 +520,14 @@ describe("IsNumber", function() {
         const validationType = "isNumber";
         const message = "someProperty must be a number";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+    it("should pass if number of decimal places within maxDecimalPlaces", function(done) {
+        checkValidValues(new MaxDecimalPlacesTest(), [1.123], done);
+    });
+
+    it("should fail if number of decimal places exceeds maxDecimalPlaces", function(done) {
+        checkInvalidValues(new MaxDecimalPlacesTest(), [1.1234], done);
     });
 
 });
