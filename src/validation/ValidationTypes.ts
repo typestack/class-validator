@@ -136,7 +136,7 @@ export class ValidationTypes {
             case this.IS_DATE:
                 return eachPrefix + "$property must be a Date instance";
             case this.IS_NUMBER:
-                return eachPrefix + "$property must be a number";
+                return eachPrefix + "$property must be a number conforming to the specified constraints";
             case this.IS_INT:
                 return eachPrefix + "$property must be an integer number";
             case this.IS_STRING:
