@@ -176,6 +176,8 @@ export class Validator {
                 return this.isAlpha(value);
             case ValidationTypes.IS_ALPHANUMERIC:
                 return this.isAlphanumeric(value);
+            case ValidationTypes.IS_DECIMAL:
+                return this.isDecimal(value, metadata.constraints[0]);
             case ValidationTypes.IS_ASCII:
                 return this.isAscii(value);
             case ValidationTypes.IS_BASE64:
@@ -501,6 +503,15 @@ export class Validator {
     isAlphanumeric(value: string): boolean {
         return typeof value === "string" && this.validatorJs.isAlphanumeric(value);
     }
+
+    /**
+     * Checks if the string is a valid decimal.
+     * If given value is not a string, then it returns false.
+     */
+    isDecimal(value: string, options?: ValidatorJS.IsDecimalOptions): boolean {
+        return typeof value === "string" && this.validatorJs.isDecimal(value, options);
+    }
+
 
     /**
      * Checks if the string contains ASCII chars only.

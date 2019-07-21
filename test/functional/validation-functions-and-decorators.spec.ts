@@ -11,6 +11,7 @@ import {
     IsAlpha,
     IsAlphanumeric,
     IsAscii,
+    IsDecimal,
     IsBase64,
     IsBoolean,
     IsByteLength,
@@ -74,6 +75,7 @@ import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
 import {should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
+import IsDecimalOptions = ValidatorJS.IsDecimalOptions;
 
 should();
 use(chaiAsPromised);
@@ -1346,6 +1348,74 @@ describe("IsAscii", function() {
 
 });
 
+describe("IsDecimal", function() {
+
+    const validValues = [
+        "100.0",
+        "100.1",
+        "100.3",
+        "100.4",
+        "100.5",
+        "100.6",
+        "100.7",
+        "100.8",
+        "100.9",
+        "1.9",
+        "-1.9",
+        "-124.1"
+    ];
+
+    const invalidValues = [
+        null,
+        undefined,
+        "hello",
+        "",
+        "1",
+        "1.",
+        "1,",
+        "-1",
+        "100",
+        "100,100",
+        "100.23",
+        "100.214141",
+        "100,23",
+        "100,2143192"
+    ];
+
+    const IsDecimalOptions: IsDecimalOptions = {
+        force_decimal: true,
+        decimal_digits: "1",
+        locale: "en-US"
+    };
+
+    class MyClass {
+        @IsDecimal(IsDecimalOptions)
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isDecimal(value, IsDecimalOptions).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isDecimal(value, IsDecimalOptions).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isDecimal";
+        const message = "someProperty is not a valid decimal number.";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
 describe("IsBase64", function() {
 
     const constraint = "";
