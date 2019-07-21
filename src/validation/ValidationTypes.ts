@@ -51,6 +51,7 @@ export class ValidationTypes {
     static NOT_CONTAINS = "notContains";
     static IS_ALPHA = "isAlpha";
     static IS_ALPHANUMERIC = "isAlphanumeric";
+    static IS_DECIMAL = "isDecimal";
     static IS_ASCII = "isAscii";
     static IS_BASE64 = "isBase64";
     static IS_BYTE_LENGTH = "isByteLength";
@@ -71,6 +72,8 @@ export class ValidationTypes {
     static IS_LOWERCASE = "isLowercase";
     static IS_MOBILE_PHONE = "isMobilePhone";
     static IS_PHONE_NUMBER = "isPhoneNumber";
+    static IS_ISO31661_ALPHA_2 = "isISO31661Alpha2";
+    static IS_ISO31661_ALPHA_3 = "isISO31661Alpha3";
     static IS_MONGO_ID = "isMongoId";
     static IS_MULTIBYTE = "isMultibyte";
     static IS_SURROGATE_PAIR = "isSurrogatePair";
@@ -180,6 +183,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must contain only letters (a-zA-Z)";
             case this.IS_ALPHANUMERIC:
                 return eachPrefix + "$property must contain only letters and numbers";
+            case this.IS_DECIMAL:
+                return eachPrefix + "$property is not a valid decimal number.";
             case this.IS_ASCII:
                 return eachPrefix + "$property must contain only ASCII characters";
             case this.IS_BASE64:
@@ -220,6 +225,10 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a phone number";
             case this.IS_PHONE_NUMBER:
                 return eachPrefix + "$property must be a valid phone number";
+            case this.IS_ISO31661_ALPHA_2:
+                return eachPrefix + "$property must be a valid ISO31661 Alpha2 code";
+            case this.IS_ISO31661_ALPHA_3:
+                return eachPrefix + "$property must be a valid ISO31661 Alpha3 code";
             case this.IS_MONGO_ID:
                 return eachPrefix + "$property must be a mongodb id";
             case this.IS_MULTIBYTE:

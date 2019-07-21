@@ -11,6 +11,7 @@ import {
     IsAlpha,
     IsAlphanumeric,
     IsAscii,
+    IsDecimal,
     IsBase64,
     IsBoolean,
     IsByteLength,
@@ -64,7 +65,9 @@ import {
     IsArray,
     IsDateString,
     IsInstance,
-    IsPhoneNumber
+    IsPhoneNumber,
+    IsISO31661Alpha2,
+    IsISO31661Alpha3,
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -72,6 +75,7 @@ import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
 import {should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
+import IsDecimalOptions = ValidatorJS.IsDecimalOptions;
 
 should();
 use(chaiAsPromised);
@@ -1344,6 +1348,74 @@ describe("IsAscii", function() {
 
 });
 
+describe("IsDecimal", function() {
+
+    const validValues = [
+        "100.0",
+        "100.1",
+        "100.3",
+        "100.4",
+        "100.5",
+        "100.6",
+        "100.7",
+        "100.8",
+        "100.9",
+        "1.9",
+        "-1.9",
+        "-124.1"
+    ];
+
+    const invalidValues = [
+        null,
+        undefined,
+        "hello",
+        "",
+        "1",
+        "1.",
+        "1,",
+        "-1",
+        "100",
+        "100,100",
+        "100.23",
+        "100.214141",
+        "100,23",
+        "100,2143192"
+    ];
+
+    const IsDecimalOptions: IsDecimalOptions = {
+        force_decimal: true,
+        decimal_digits: "1",
+        locale: "en-US"
+    };
+
+    class MyClass {
+        @IsDecimal(IsDecimalOptions)
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isDecimal(value, IsDecimalOptions).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isDecimal(value, IsDecimalOptions).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isDecimal";
+        const message = "someProperty is not a valid decimal number.";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
 describe("IsBase64", function() {
 
     const constraint = "";
@@ -1558,8 +1630,6 @@ describe("IsEmail", function() {
         , "somename@ｇｍａｉｌ.com"
         , "foo@bar.co.uk."
         , "z@co.c"
-        , "test+ext@gmail.com"
-        , "some.name.midd.leNa.me.+extension@GoogleMail.com"
         , "gmail...ignores...dots...@gmail.com"
         , "ｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌｇｍａｉｌ@gmail.com"
     ];
@@ -2899,6 +2969,44 @@ describe("isPhoneNumber", function() {
             checkInvalidValues(new MyClass(), invalidValues, done);
         });
     });
+});
+
+describe("IsISO31661Alpha2", function() {
+
+    class MyClass {
+        @IsISO31661Alpha2()
+        someProperty: string;
+    }
+
+    it("should not fail for a valid ISO31661 Alpha2 code", function(done) {
+        const validValues = ["AD", "AE", "AF", "AG"];
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail for invalid values", function(done) {
+        const invalidValues = [undefined, null, "", "AFR"];
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+});
+
+describe("IsISO31661Alpha3", function() {
+
+    class MyClass {
+        @IsISO31661Alpha3()
+        someProperty: string;
+    }
+
+    it("should not fail for a valid ISO31661 Alpha3 code", function(done) {
+        const validValues = ["ABW", "HND", "KHM", "RWA"];
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail for invalid values", function(done) {
+        const invalidValues = [undefined, null, "", "FR", "fR", "GB", "PT", "CM", "JP", "PM", "ZW"];
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
 });
 
 
