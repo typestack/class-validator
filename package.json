@@ -23,7 +23,7 @@
     "typescript-validator"
   ],
   "dependencies": {
-    "@types/validator": "10.11.1",
+    "@types/validator": "10.11.2",
     "google-libphonenumber": "^3.1.6",
     "validator": "11.1.0"
   },
