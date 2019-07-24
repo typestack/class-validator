@@ -374,7 +374,7 @@ export class Validator {
      * Checks if a given value is a number.
      */
     isNumber(value: unknown, options: IsNumberOptions = {}): boolean {
-        if (typeof value !== 'number') {
+        if (typeof value !== "number") {
             return false;
         }
         
@@ -393,7 +393,7 @@ export class Validator {
      * Checks if value is an integer.
      */
     isInt(val: unknown): boolean {
-        return typeof val === 'number' && Number.isInteger(val);
+        return typeof val === "number" && Number.isInteger(val);
     }
 
     // -------------------------------------------------------------------------
@@ -628,7 +628,7 @@ export class Validator {
      * Check if the string is a valid port number.
      */
     isPort(value: unknown): boolean {
-        return typeof value === 'string' && this.validatorJs.isPort(value);
+        return typeof value === "string" && this.validatorJs.isPort(value);
     }
 
     /**
