@@ -8,6 +8,7 @@ export class ValidationTypes {
     /* system */
     static CUSTOM_VALIDATION = "customValidation";
     static NESTED_VALIDATION = "nestedValidation";
+    static PROMISE_VALIDATION = "promiseValidation";
     static CONDITIONAL_VALIDATION = "conditionalValidation";
     static WHITELIST = "whitelistValidation";
 
