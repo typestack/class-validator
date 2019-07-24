@@ -2027,7 +2027,7 @@ describe("IsISBN version 10", function() {
     ];
 
     class MyClass {
-        @IsISBN("10")
+        @IsISBN(10)
         someProperty: string;
     }
 
@@ -2040,11 +2040,11 @@ describe("IsISBN version 10", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isISBN(value, "10").should.be.true);
+        validValues.forEach(value => validator.isISBN(value, 10).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isISBN(value, "10").should.be.false);
+        invalidValues.forEach(value => validator.isISBN(value, 10).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2069,7 +2069,7 @@ describe("IsISBN version 13", function() {
     ];
 
     class MyClass {
-        @IsISBN("13")
+        @IsISBN(13)
         someProperty: string;
     }
 
@@ -2082,11 +2082,11 @@ describe("IsISBN version 13", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isISBN(value, "13").should.be.true);
+        validValues.forEach(value => validator.isISBN(value, 13).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isISBN(value, "13").should.be.false);
+        invalidValues.forEach(value => validator.isISBN(value, 13).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {

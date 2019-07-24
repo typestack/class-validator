@@ -770,7 +770,7 @@ export function IsHexadecimal(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is an IP (version 4 or 6).
  */
-export function IsIP(version?: "4"|"6", validationOptions?: ValidationOptions) {
+export function IsIP(version?: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_IP,
@@ -783,10 +783,26 @@ export function IsIP(version?: "4"|"6", validationOptions?: ValidationOptions) {
     };
 }
 
+
+/**
+ * Check if the string is a valid port number.
+ */
+export function IsPort(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_PORT,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
 /**
  * Checks if the string is an ISBN (version 10 or 13).
  */
-export function IsISBN(version?: "10"|"13", validationOptions?: ValidationOptions) {
+export function IsISBN(version?: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ISBN,
