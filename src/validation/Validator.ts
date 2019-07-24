@@ -623,8 +623,8 @@ export class Validator {
     /**
      * Check if the string is a valid port number.
      */
-    isPort(value: string): boolean {
-        return this.validatorJs.isPort(value);
+    isPort(value: unknown): boolean {
+        return typeof value === 'string' && this.validatorJs.isPort(value);
     }
 
     /**
