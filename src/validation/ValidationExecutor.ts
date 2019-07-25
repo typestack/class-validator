@@ -8,6 +8,7 @@ import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
+import {isPromise} from "../utils";
 
 /**
  * Executes validation over given object.
@@ -43,7 +44,7 @@ export class ValidationExecutor {
         /**
          * If there is no metadata registered it means possibly the dependencies are not flatterned and
          * more than one instance is used.
-         * 
+         *
          * TODO: This needs proper handling, forcing to use the same container or some other proper solution.
          */
         if (!this.metadataStorage.hasValidationMetaData) {
@@ -250,7 +251,7 @@ export class ValidationExecutor {
                         constraints: metadata.constraints
                     };
                     const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
-                    if (validatedValue instanceof Promise) {
+                    if (isPromise(validatedValue)) {
                         const promise = validatedValue.then(isValid => {
                             if (!isValid) {
                                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
