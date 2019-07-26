@@ -3,22 +3,22 @@
 
 ### Bug Fixes
 
-* add correct signature for custom error message handler ([249c41d](https://github.com/typestack/class-validator/class-validator/commit/249c41d))
+* add correct signature for custom error message handler ([249c41d](https://github.com/typestack/class-validator/commit/249c41d))
 
 ### Features
 
-* add `IsISO31661Alpha3` and `IsISO31661Alpha2` validators ([#273](https://github.com/typestack/class-validator/class-validator/issues/273)) ([55c57b3](https://github.com/typestack/class-validator/class-validator/commit/55c57b3))
-* **IsDecimal:** implement `IsDecimal` from validatorjs ([#359](https://github.com/typestack/class-validator/class-validator/issues/359)) ([b4c8e21](https://github.com/typestack/class-validator/class-validator/commit/b4c8e21))
-* add `isPort` decorator ([#282](https://github.com/typestack/class-validator/class-validator/issues/282)) ([36684ec](https://github.com/typestack/class-validator/class-validator/commit/36684ec))
-* allow validate Map/Set ([#365](https://github.com/typestack/class-validator/class-validator/issues/365)) ([f6fcdc5](https://github.com/typestack/class-validator/class-validator/commit/f6fcdc5))
-* new `ValidatePromise` decorator - resolve promise before validate ([#369](https://github.com/typestack/class-validator/class-validator/issues/369)) ([35ec04d](https://github.com/typestack/class-validator/class-validator/commit/35ec04d))
-* replace instanceof Promise and support Promise/A+  ([#310](https://github.com/typestack/class-validator/class-validator/issues/310)) ([59eac09](https://github.com/typestack/class-validator/class-validator/commit/59eac09))
-* `isNumberString` now accept validator.js `IsNumericOptions` as second parameter ([#262](https://github.com/typestack/class-validator/class-validator/issues/262))
+* add `IsISO31661Alpha3` and `IsISO31661Alpha2` validators ([#273](https://github.com/typestack/class-validator/issues/273)) ([55c57b3](https://github.com/typestack/class-validator/commit/55c57b3))
+* **IsDecimal:** implement `IsDecimal` from validatorjs ([#359](https://github.com/typestack/class-validator/issues/359)) ([b4c8e21](https://github.com/typestack/class-validator/commit/b4c8e21))
+* add `isPort` decorator ([#282](https://github.com/typestack/class-validator/issues/282)) ([36684ec](https://github.com/typestack/class-validator/commit/36684ec))
+* allow validate Map/Set ([#365](https://github.com/typestack/class-validator/issues/365)) ([f6fcdc5](https://github.com/typestack/class-validator/commit/f6fcdc5))
+* new `ValidatePromise` decorator - resolve promise before validate ([#369](https://github.com/typestack/class-validator/issues/369)) ([35ec04d](https://github.com/typestack/class-validator/commit/35ec04d))
+* replace instanceof Promise and support Promise/A+  ([#310](https://github.com/typestack/class-validator/issues/310)) ([59eac09](https://github.com/typestack/class-validator/commit/59eac09))
+* `isNumberString` now accept validator.js `IsNumericOptions` as second parameter ([#262](https://github.com/typestack/class-validator/issues/262))
 
 ### BREAKING CHANGES
 
-* update @types/validator from 10.4.0 to version 10.11.2 - please check it's [changelog][validator-js-release-notes] ([cb960dd](https://github.com/typestack/class-validator/class-validator/commit/cb960dd))
-* `isDateString` now check to match only entire ISO Date ([#275](https://github.com/typestack/class-validator/class-validator/issues/275)) ([5012464](https://github.com/typestack/class-validator/class-validator/commit/5012464))
+* update @types/validator from 10.4.0 to version 10.11.2 - please check it's [changelog][validator-js-release-notes] ([cb960dd](https://github.com/typestack/class-validator/commit/cb960dd))
+* `isDateString` now check to match only entire ISO Date ([#275](https://github.com/typestack/class-validator/issues/275)) ([5012464](https://github.com/typestack/class-validator/commit/5012464))
 * remove `IsCurrencyOptions`, `IsURLOptions`, `IsEmailOptions`, `IsFQDNOptions` interfaces and replace with interfaces from `@types/validator`
 
 
