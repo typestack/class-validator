@@ -1,7 +1,7 @@
 {
   "name": "class-validator",
   "private": true,
-  "version": "0.9.1",
+  "version": "0.10.0-rc.0",
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pleerock/class-validator.git"
+    "url": "https://github.com/typestack/class-validator.git"
   },
   "bugs": {
-    "url": "https://github.com/pleerock/class-validator/issues"
+    "url": "https://github.com/typestack/class-validator/issues"
   },
   "tags": [
     "validator",
@@ -42,9 +42,12 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.0.4",
+    "conventional-changelog-angular": "^5.0.3",
+    "conventional-changelog-cli": "^2.0.21",
     "del": "^5.0.0",
     "es6-shim": "^0.35.3",
     "gulp": "^4.0.2",
+    "gulp-conventional-changelog": "^2.0.19",
     "gulp-istanbul": "^1.1.3",
     "gulp-mocha": "^6.0.0",
     "gulp-replace": "^1.0.0",
@@ -64,6 +67,7 @@
   },
   "scripts": {
     "build": "gulp package",
-    "test": "gulp tests"
+    "test": "gulp tests",
+    "changelog": "gulp changelog"
   }
 }
