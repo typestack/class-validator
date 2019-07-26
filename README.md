@@ -1037,6 +1037,7 @@ usages.
 ## Extensions
 There are several extensions that simplify class-validator integration with other modules:
 - [class-validator integration](https://github.com/19majkel94/class-transformer-validator) with [class-transformer](https://github.com/pleerock/class-transformer)
+- [class-validator-rule](https://github.com/yantrab/class-validator-rule)
 
 ## Release notes
 
