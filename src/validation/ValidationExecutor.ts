@@ -83,7 +83,7 @@ export class ValidationExecutor {
             const definedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
             const metadatas = groupedMetadatas[propertyName].filter(
               metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.WHITELIST);
-            
+
             if (value instanceof Promise && metadatas.find(metadata => metadata.type === ValidationTypes.PROMISE_VALIDATION)) {
                 this.awaitingPromises.push(value.then((resolvedValue) => {
                     this.performValidations(object, resolvedValue, propertyName, definedMetadatas, metadatas, validationErrors);
@@ -274,7 +274,7 @@ export class ValidationExecutor {
         if (!(value instanceof Promise)) {
             return;
         }
-        
+
         this.awaitingPromises.push(
             value.then(resolvedValue => this.nestedValidations(resolvedValue, metadatas, errors))
         );
@@ -299,7 +299,6 @@ export class ValidationExecutor {
             if (value instanceof Array) {
                 value.forEach((subValue: any, index: number) => {
                     const validationError = this.generateValidationError(value, subValue, index.toString());
-                    console.log("VE", validationError);
                     errors.push(validationError);
 
                     this.execute(subValue, targetSchema, validationError.children);

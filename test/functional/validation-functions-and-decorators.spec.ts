@@ -1649,7 +1649,6 @@ describe("IsEmail", function() {
 
     it("should not fail if method in validator said that its valid", function() {
         validValues.forEach(value => {
-            console.log(value, validator.isEmail(value));
             return validator.isEmail(value).should.be.true;
         });
     });
