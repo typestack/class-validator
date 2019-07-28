@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/typestack/class-validator.svg?branch=master)](https://travis-ci.org/typestack/class-validator)
 [![npm version](https://badge.fury.io/js/class-validator.svg)](https://badge.fury.io/js/class-validator)
 [![install size](https://packagephobia.now.sh/badge?p=class-validator)](https://packagephobia.now.sh/result?p=class-validator)
-[![Join the chat at https://gitter.im/typestack/class-validator](https://badges.gitter.im/typestack/class-validator.svg)](https://gitter.im/typestack/class-validator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/typestack/class-validator](https://badges.gitter.im/typestack/class-validator.svg)](https://gitter.im/typestack/class-validator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Greenkeeper badge](https://badges.greenkeeper.io/typestack/class-validator.svg)](https://greenkeeper.io/)
 
 Allows use of decorator and non-decorator based validation.
 Internally uses [validator.js][1] to perform validation.
@@ -16,7 +16,10 @@ Class-validator works on both browser and node.js platforms.
     + [Validation errors](#validation-errors)
     + [Validation messages](#validation-messages)
     + [Validating arrays](#validating-arrays)
+    + [Validating sets](#validating-sets)
+    + [Validating maps](#validating-maps)
     + [Validating nested objects](#validating-nested-objects)
+    + [Validating promises](#validating-promises)
     + [Inheriting Validation decorators](#inheriting-validation-decorators)
     + [Conditional validation](#conditional-validation)
     + [Whitelisting](#whitelisting)
@@ -48,7 +51,7 @@ npm install class-validator --save
 Create your class and put some validation decorators on the properties you want to validate:
 
 ```typescript
-import {validate, Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, Min, Max} from "class-validator";
+import {validate, validateOrReject, Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, Min, Max} from "class-validator";
 
 export class Post {
 
@@ -88,6 +91,18 @@ validate(post).then(errors => { // errors is an array of validation errors
         console.log("validation succeed");
     }
 });
+
+validateOrReject(post).catch(errors => {
+    console.log("Promise rejected (validation failed). Errors: ", errors);
+});
+// or
+async function validateOrRejectExample(input) {
+    try {
+        await validateOrReject(input);
+    } catch (errors) {
+        console.log("Caught promise rejection (validation failed). Errors: ", errors)
+    }
+}
 ```
 
 ### Passing options
@@ -249,6 +264,44 @@ export class Post {
 
 This will validate each item in `post.tags` array.
 
+## Validating sets
+
+If your field is a set and you want to perform validation of each item in the set you must specify a
+special `each: true` decorator option:
+
+```typescript
+import {MinLength, MaxLength} from "class-validator";
+
+export class Post {
+
+    @MaxLength(20, {
+        each: true
+    })
+    tags: Set<string>;
+}
+```
+
+This will validate each item in `post.tags` set.
+
+## Validating maps
+
+If your field is a map and you want to perform validation of each item in the map you must specify a
+special `each: true` decorator option:
+
+```typescript
+import {MinLength, MaxLength} from "class-validator";
+
+export class Post {
+
+    @MaxLength(20, {
+        each: true
+    })
+    tags: Map<string, string>;
+}
+```
+
+This will validate each item in `post.tags` map.
+
 ## Validating nested objects
 
 If your object contains nested objects and you want the validator to perform their validation too, then you need to
@@ -261,6 +314,36 @@ export class Post {
 
     @ValidateNested()
     user: User;
+
+}
+```
+
+## Validating promises
+
+If your object contains property with `Promise`-returned value that should be validated, then you need to use the `@ValidatePromise()` decorator:
+
+```typescript
+import {ValidatePromise, Min} from "class-validator";
+
+export class Post {
+
+    @Min(0)
+    @ValidatePromise()
+    userId: Promise<number>;
+
+}
+```
+
+It also works great with `@ValidateNested` decorator:
+
+```typescript
+import {ValidateNested, ValidatePromise} from "class-validator";
+
+export class Post {
+
+    @ValidateNested()
+    @ValidatePromise()
+    user: Promise<User>;
 
 }
 ```
@@ -735,6 +818,7 @@ validator.contains(str, seed); // Checks if the string contains the seed.
 validator.notContains(str, seed); // Checks if the string does not contain the seed.
 validator.isAlpha(str); // Checks if the string contains only letters (a-zA-Z).
 validator.isAlphanumeric(str); // Checks if the string contains only letters and numbers.
+validator.isDecimal(str, options); // Checks if the string is a valid decimal value.
 validator.isAscii(str); // Checks if the string contains ASCII chars only.
 validator.isBase64(str); // Checks if a string is base64 encoded.
 validator.isByteLength(str, min, max); // Checks if the string's length (in bytes) falls in a range.
@@ -756,6 +840,8 @@ validator.isObject(object); // Checks if the object is valid Object (null, funct
 validator.isNotEmptyObject(object); // Checks if the object is not empty
 validator.isLowercase(str); // Checks if the string is lowercase.
 validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
+validator.isISO31661Alpha2(str); // Check if the string is a valid ISO 3166-1 alpha-2
+validator.isISO31661Alpha3(str); // Check if the string is a valid ISO 3166-1 alpha-3
 validator.isPhoneNumber(str, region); // Checks if the string is a valid phone number.
 validator.isMongoId(str); // Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
 validator.isMultibyte(str); // Checks if the string contains one or more multibyte chars.
@@ -819,7 +905,8 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@Contains(seed: string)`                       | Checks if the string contains the seed.                                                                                          |
 | `@NotContains(seed: string)`                    | Checks if the string not contains the seed.                                                                                      |
 | `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z).                                                                             |
-| `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers.                                                                          |
+| `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers.  
+| `@IsDecimal(options?: IsDecimalOptions)`        | Checks if the string is a valid decimal value. Default IsDecimalOptions are `force_decimal=False`, `decimal_digits: '1,'`, `locale: 'en-US',`                                                                             |
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only.                                                                                  |
 | `@IsBase64()`                                   | Checks if a string is base64 encoded.                                                                                            |
 | `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range.                                                                       |
@@ -841,6 +928,8 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsNotEmptyObject()`                           | Checks if the object is not empty.                                                                                              |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
 | `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                    |
+| `@IsISO31661Alpha2()`                           | Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.                                                                                 |
+| `@IsISO31661Alpha3()`                           | Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
 | `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number. "region" accepts 2 characters uppercase country code (e.g. DE, US, CH).If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region. See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github](https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33)                                                                                  |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                                                       |
@@ -919,7 +1008,7 @@ Here is an example of using it:
     ```typescript
     import {registerSchema} from "class-validator";
     import {UserValidationSchema} from "./UserValidationSchema";
-    registerSchema(schema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
+    registerSchema(UserValidationSchema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
     ```
 
     Better to put this code in a global place, maybe when you bootstrap your application, for example in `app.ts`.
@@ -952,6 +1041,8 @@ usages.
 ## Extensions
 There are several extensions that simplify class-validator integration with other modules:
 - [class-validator integration](https://github.com/19majkel94/class-transformer-validator) with [class-transformer](https://github.com/pleerock/class-transformer)
+- [class-validator-rule](https://github.com/yantrab/class-validator-rule)
+- [ngx-dynamic-form-builder](https://github.com/EndyKaufman/ngx-dynamic-form-builder)
 
 ## Release notes
 

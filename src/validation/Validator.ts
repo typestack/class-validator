@@ -5,6 +5,7 @@ import {IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 import {ValidationOptions} from "../decorator/ValidationOptions";
+import * as validator from "validator";
 
 /**
  * Validator performs validation of the given object based on its metadata.
@@ -15,7 +16,7 @@ export class Validator {
     // Private Properties
     // -------------------------------------------------------------------------
 
-    private validatorJs = require("validator");
+    private validatorJs = validator;
     private libPhoneNumber = {
         phoneUtil: require("google-libphonenumber").PhoneNumberUtil.getInstance(),
     };
@@ -185,6 +186,8 @@ export class Validator {
                 return this.isAlpha(value);
             case ValidationTypes.IS_ALPHANUMERIC:
                 return this.isAlphanumeric(value);
+            case ValidationTypes.IS_DECIMAL:
+                return this.isDecimal(value, metadata.constraints[0]);
             case ValidationTypes.IS_ASCII:
                 return this.isAscii(value);
             case ValidationTypes.IS_BASE64:
@@ -211,6 +214,8 @@ export class Validator {
                 return this.isHexadecimal(value);
             case ValidationTypes.IS_IP:
                 return this.isIP(value, metadata.constraints[0]);
+            case ValidationTypes.IS_PORT:
+                return this.isPort(value);
             case ValidationTypes.IS_ISBN:
                 return this.isISBN(value, metadata.constraints[0]);
             case ValidationTypes.IS_ISIN:
@@ -229,6 +234,10 @@ export class Validator {
                 return this.isMobilePhone(value, metadata.constraints[0]);
             case ValidationTypes.IS_PHONE_NUMBER:
                 return this.isPhoneNumber(value, metadata.constraints[0]);
+            case ValidationTypes.IS_ISO31661_ALPHA_2:
+                return this.isISO31661Alpha2(value);
+            case ValidationTypes.IS_ISO31661_ALPHA_3:
+                return this.isISO31661Alpha3(value);
             case ValidationTypes.IS_MONGO_ID:
                 return this.isMongoId(value);
             case ValidationTypes.IS_MULTIBYTE:
@@ -512,6 +521,15 @@ export class Validator {
     }
 
     /**
+     * Checks if the string is a valid decimal.
+     * If given value is not a string, then it returns false.
+     */
+    isDecimal(value: string, options?: ValidatorJS.IsDecimalOptions): boolean {
+        return typeof value === "string" && this.validatorJs.isDecimal(value, options);
+    }
+
+
+    /**
      * Checks if the string contains ASCII chars only.
      * If given value is not a string, then it returns false.
      */
@@ -611,15 +629,22 @@ export class Validator {
      * Checks if the string is an IP (version 4 or 6).
      * If given value is not a string, then it returns false.
      */
-    isIP(value: string, version?: "4"|"6"): boolean {
+    isIP(value: string, version?: number): boolean {
         return typeof value === "string" && this.validatorJs.isIP(value, version);
+    }
+
+    /**
+     * Check if the string is a valid port number.
+     */
+    isPort(value: string): boolean {
+        return this.validatorJs.isPort(value);
     }
 
     /**
      * Checks if the string is an ISBN (version 10 or 13).
      * If given value is not a string, then it returns false.
      */
-    isISBN(value: string, version?: "10"|"13"): boolean {
+    isISBN(value: string, version?: number): boolean {
         return typeof value === "string" && this.validatorJs.isISBN(value, version);
     }
 
@@ -695,6 +720,20 @@ export class Validator {
             // logging?
             return false;
         }
+    }
+
+    /**
+     * Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.
+     */
+    isISO31661Alpha2(value: string): boolean {
+        return typeof value === "string" && this.validatorJs.isISO31661Alpha2(value);
+    }
+
+    /**
+     * Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.
+     */
+    isISO31661Alpha3(value: string): boolean {
+        return typeof value === "string" && this.validatorJs.isISO31661Alpha3(value);
     }
 
     /**

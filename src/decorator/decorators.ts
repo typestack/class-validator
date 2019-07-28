@@ -64,6 +64,21 @@ export function ValidateNested(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * Objects / object arrays marked with this decorator will also be validated.
+ */
+export function ValidatePromise(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.PROMISE_VALIDATION,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * If object has both allowed and not allowed properties a validation error will be thrown.
  */
 export function Allow(validationOptions?: ValidationOptions) {
@@ -568,6 +583,22 @@ export function IsAlphanumeric(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * Checks if the given number is a valid decimal.
+ */
+export function IsDecimal(options?: ValidatorJS.IsDecimalOptions, validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_DECIMAL,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [options],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if the string contains ASCII chars only.
  */
 export function IsAscii(validationOptions?: ValidationOptions) {
@@ -754,7 +785,7 @@ export function IsHexadecimal(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is an IP (version 4 or 6).
  */
-export function IsIP(version?: "4"|"6", validationOptions?: ValidationOptions) {
+export function IsIP(version?: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_IP,
@@ -767,10 +798,26 @@ export function IsIP(version?: "4"|"6", validationOptions?: ValidationOptions) {
     };
 }
 
+
+/**
+ * Check if the string is a valid port number.
+ */
+export function IsPort(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_PORT,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
 /**
  * Checks if the string is an ISBN (version 10 or 13).
  */
-export function IsISBN(version?: "10"|"13", validationOptions?: ValidationOptions) {
+export function IsISBN(version?: number, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ISBN,
@@ -903,6 +950,40 @@ export function IsPhoneNumber(region: string, validationOptions?: ValidationOpti
             target: object.constructor,
             propertyName: propertyName,
             constraints: [region],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Check if the string is a valid ISO 3166-1 alpha-2.
+ * See heck if [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.
+ */
+export function IsISO31661Alpha2(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_ISO31661_ALPHA_2,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Check if the string is a valid ISO 3166-1 alpha-3.
+ * See heck if [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.
+ */
+export function IsISO31661Alpha3(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_ISO31661_ALPHA_3,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));

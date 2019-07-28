@@ -35,7 +35,7 @@ describe("sync validation", function() {
             }
 
         }
-        
+
         function IsLonger(property: string, validationOptions?: ValidationOptions) {
             return function (object: Object, propertyName: string) {
                 registerDecorator({
@@ -53,17 +53,17 @@ describe("sync validation", function() {
                 });
             };
         }
-        
+
         class SecondClass {
             @IsLonger("lastName")
             firstName: string;
-            
+
             @Validate(IsShortenThanConstraint)
             lastName: string;
-            
+
             @IsNotEmpty({ message: "name should not be empty" })
             name: string;
-            
+
             @IsNotEmpty()
             alwaysWithValue: string = "this field always has a value";
         }
@@ -74,7 +74,6 @@ describe("sync validation", function() {
             model.firstName = "to recursion";
             model.name = "Umed";
             const errors = validator.validateSync(model);
-            console.log(errors);
             errors.length.should.be.equal(0);
         });
 
@@ -87,7 +86,7 @@ describe("sync validation", function() {
             errors.length.should.be.equal(1);
             errors[0].constraints.should.be.eql({ isNotEmpty: "name should not be empty" });
         });
-        
+
     });
 
 });

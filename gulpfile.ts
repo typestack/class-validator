@@ -1,16 +1,16 @@
-import {Gulpclass, Task, SequenceTask, MergedTask} from "gulpclass";
+import { Gulpclass, Task, SequenceTask, MergedTask } from "gulpclass";
 import * as gulp from "gulp";
+import * as del from "del";
+import * as shell from "gulp-shell";
+import * as replace from "gulp-replace";
+import * as mocha from "gulp-mocha";
+import * as chai from "chai";
+import tslintPlugin from "gulp-tslint";
+import * as ts from "gulp-typescript";
+import * as sourcemaps from "gulp-sourcemaps";
+import * as istanbul from "gulp-istanbul";
 
-const del = require("del");
-const shell = require("gulp-shell");
-const replace = require("gulp-replace");
-const mocha = require("gulp-mocha");
-const chai = require("chai");
-const tslint = require("gulp-tslint");
-const stylish = require("tslint-stylish");
-const ts = require("gulp-typescript");
-const sourcemaps = require("gulp-sourcemaps");
-const istanbul = require("gulp-istanbul");
+const conventionalChangelog = require("gulp-conventional-changelog");
 const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
 
 @Gulpclass()
@@ -24,14 +24,14 @@ export class Gulpfile {
      * Cleans build folder.
      */
     @Task()
-    clean(cb: Function) {
+    clean() {
         return del([
             "build/**",
             "!build",
             "!build/package",
             "!build/package/node_modules",
             "!build/package/node_modules/**"
-        ], cb);
+        ]);
     }
 
     /**
@@ -46,6 +46,24 @@ export class Gulpfile {
     // -------------------------------------------------------------------------
     // Packaging and Publishing tasks
     // -------------------------------------------------------------------------
+
+    @Task()
+    changelog() {
+        return gulp.src("CHANGELOG.md")
+            .pipe(conventionalChangelog({
+                // conventional-changelog options go here
+                preset: "angular"
+            }, {
+                    // context goes here
+                }, {
+                    // git-raw-commits options go here
+                }, {
+                    // conventional-commits-parser options go here
+                }, {
+                    // conventional-changelog-writer options go here
+                }))
+            .pipe(gulp.dest("./"));
+    }
 
     /**
      * Publishes a package to npm from ./build/package directory.
@@ -92,7 +110,7 @@ export class Gulpfile {
     packageClearCompileDirectory(cb: Function) {
         return del([
             "build/package/src/**"
-        ], cb);
+        ]);
     }
 
     /**
@@ -148,11 +166,9 @@ export class Gulpfile {
     @Task()
     tslint() {
         return gulp.src(["./src/**/*.ts", "./test/**/*.ts", "./sample/**/*.ts"])
-            .pipe(tslint())
-            .pipe(tslint.report(stylish, {
-                emitError: true,
-                sort: true,
-                bell: true
+            .pipe(tslintPlugin())
+            .pipe(tslintPlugin.report({
+                emitError: true
             }));
     }
 
@@ -181,7 +197,7 @@ export class Gulpfile {
     /**
      * Runs post coverage operations.
      */
-    @Task("coveragePost", ["coveragePre"])
+    @Task("coveragePost")
     coveragePost() {
         chai.should();
         chai.use(require("sinon-chai"));
@@ -204,7 +220,7 @@ export class Gulpfile {
      */
     @SequenceTask()
     tests() {
-        return ["compile", "tslint", "coveragePost", "coverageRemap"];
+        return ["compile", "tslint", "coveragePre", "coveragePost", "coverageRemap"];
     }
 
 }
