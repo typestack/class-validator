@@ -2167,7 +2167,7 @@ describe("IsJSON", function() {
 describe("IsObject", function() {
 
     const validValues = [{ "key": "value" }, { key: "value" }, {}];
-    const invalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false];
+    const invalidValues: any[] = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, "[]", [], [{ key: "value" }]];
 
     class MyClass {
         @IsObject()
@@ -2201,7 +2201,7 @@ describe("IsObject", function() {
 describe("IsNotEmptyObject", function() {
 
     const validValues = [{ "key": "value" }, { key: "value" }];
-    const invalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, {}];
+    const invalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, {}, [], [{ key: "value" }]];
 
     class MyClass {
         @IsNotEmptyObject()

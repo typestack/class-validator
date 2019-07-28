@@ -652,7 +652,7 @@ export class Validator {
      * Returns false if the value is not an object.
      */
     isObject(value: any): boolean {
-        return value != null && (typeof value === "object" || typeof value === "function");
+        return value != null && (typeof value === "object" || typeof value === "function") && !Array.isArray(value);
     }
 
     /**
