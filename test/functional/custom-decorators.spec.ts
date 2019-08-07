@@ -42,9 +42,15 @@ describe("custom decorators", function() {
                             if (relatedValue === undefined || relatedValue === null)
                                 return true;
                             
-                            return typeof value === "string" &&
+                            const result = typeof value === "string" &&
                                 typeof relatedValue === "string" &&
                                 value.length > relatedValue.length;
+
+                            const asPromise = validationOptions &&
+                                validationOptions.context &&
+                                validationOptions.context.promise;
+
+                            return asPromise ? Promise.resolve(result) : result;
                         }
                     }
                 });
@@ -54,6 +60,16 @@ describe("custom decorators", function() {
         class MyClass {
             @IsLongerThan("lastName", {
                 context: { foo: "bar" },
+                message: "$property must be longer then $constraint1. Given value: $value"
+            })
+            firstName: string;
+            
+            lastName: string;
+        }
+
+        class MyClassWithAsyncValidator {
+            @IsLongerThan("lastName", {
+                context: { foo: "bar", promise: true },
                 message: "$property must be longer then $constraint1. Given value: $value"
             })
             firstName: string;
@@ -91,11 +107,18 @@ describe("custom decorators", function() {
 
         it("should include context", function() {
             const model = new MyClass();
-            model.firstName = "Li";
-            model.lastName = "Kim";
+            const modelWithAsyncValidator = new MyClassWithAsyncValidator();
+            model.firstName = modelWithAsyncValidator.firstName = "Li";
+            model.lastName = modelWithAsyncValidator.lastName = "Kim";
+            
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
                 errors[0].contexts.should.be.eql({ isLongerThan: { foo: "bar" } });
+
+                return validator.validate(modelWithAsyncValidator).then(errors => {
+                    errors.length.should.be.equal(1);
+                    errors[0].contexts.should.have.nested.property("isLongerThan.foo", "bar");
+                });
             });
         });
         
