@@ -161,7 +161,10 @@ export class ValidationExecutor {
         const validationError = this.generateValidationError(object, value, propertyName);
         validationErrors.push(validationError);
 
-        const canValidate = this.conditionalValidations(object, value, conditionalValidationMetadatas);
+        const canValidate = this.conditionalValidations(object, value, [
+            ...conditionalValidationMetadatas,
+            ...customValidationMetadatas
+        ]);
         if (!canValidate) {
             return;
         }
@@ -206,7 +209,13 @@ export class ValidationExecutor {
                                    value: any,
                                    metadatas: ValidationMetadata[]) {
         return metadatas
-            .map(metadata => metadata.constraints[0](object, value))
+            .map(metadata => {
+                if (metadata.constraints && metadata.constraints[0] && metadata.constraints[0] instanceof Function) {
+                    return metadata.constraints[0](object, value);
+                }
+                
+                return true;
+            })
             .reduce((resultA, resultB) => resultA && resultB, true);
     }
 
