@@ -28,8 +28,8 @@
     "validator": "11.1.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.4",
-    "@types/chai-as-promised": "^7.1.0",
+    "@types/chai": "^4.2.0",
+    "@types/chai-as-promised": "^7.1.2",
     "@types/del": "^4.0.0",
     "@types/gulp": "^4.0.2",
     "@types/gulp-istanbul": "^0.9.32",
@@ -37,9 +37,9 @@
     "@types/gulp-replace": "0.0.31",
     "@types/gulp-sourcemaps": "0.0.32",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^12.6.3",
+    "@types/node": "^12.7.1",
     "@types/sinon": "^7.0.13",
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.0.4",
     "conventional-changelog-angular": "^5.0.3",
