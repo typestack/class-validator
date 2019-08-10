@@ -1,5 +1,5 @@
 
-# [0.10.0-rc.1](https://github.com/typestack/class-validator/compare/v0.9.1...v0.10.0-rc.1) (2019-07-26)
+# [0.10.0](https://github.com/typestack/class-validator/compare/v0.9.1...v0.10.0) (2019-08-10)
 
 ### Bug Fixes
 
