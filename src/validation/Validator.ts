@@ -173,6 +173,8 @@ export class Validator {
                 return this.contains(value, metadata.constraints[0]);
             case ValidationTypes.NOT_CONTAINS:
                 return this.notContains(value, metadata.constraints[0]);
+            case ValidationTypes.ARRAY_SHOULD_BE_IN:
+                return this.arrayShouldBeIn(value, metadata.constraints[0]);
             case ValidationTypes.IS_ALPHA:
                 return this.isAlpha(value);
             case ValidationTypes.IS_ALPHANUMERIC:
@@ -819,6 +821,17 @@ export class Validator {
             return false;
 
         return !array || values.every(value => array.indexOf(value) === -1);
+    }
+
+    /**
+     * Checks if the array does not contain any other values ​​than the given array.
+     * If null or undefined is given then this function returns false.
+     */
+    arrayShouldBeIn(array: any[], values: any[]) {
+        if (!(array instanceof Array))
+            return false;
+
+        return !array || array.every(value => values.indexOf(value) !== -1);
     }
 
     /**

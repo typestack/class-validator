@@ -89,6 +89,7 @@ export class ValidationTypes {
 
     /* array checkers */
     static ARRAY_CONTAINS = "arrayContains";
+    static ARRAY_SHOULD_BE_IN = "arrayShouldBeIn";
     static ARRAY_NOT_CONTAINS = "arrayNotContains";
     static ARRAY_NOT_EMPTY = "arrayNotEmpty";
     static ARRAY_MIN_SIZE = "arrayMinSize";
@@ -263,6 +264,8 @@ export class ValidationTypes {
             /* array checkers */
             case this.ARRAY_CONTAINS:
                 return eachPrefix + "$property must contain $constraint1 values";
+            case this.ARRAY_SHOULD_BE_IN:
+                return eachPrefix + "$property should be $constraint1 values";
             case this.ARRAY_NOT_CONTAINS:
                 return eachPrefix + "$property should not contain $constraint1 values";
             case this.ARRAY_NOT_EMPTY:

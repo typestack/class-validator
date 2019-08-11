@@ -1161,6 +1161,22 @@ export function ArrayContains(values: any[], validationOptions?: ValidationOptio
 }
 
 /**
+ * Checks if array contains all values from the given array of values.
+ */
+export function ArrayShouldBeIn(values: any[], validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.ARRAY_SHOULD_BE_IN,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [values],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if array does not contain any of the given values.
  */
 export function ArrayNotContains(values: any[], validationOptions?: ValidationOptions) {
