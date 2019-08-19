@@ -1,4 +1,4 @@
-import {ValidationArguments} from "./ValidationArguments";
+import { ValidationArguments } from "./ValidationArguments";
 
 /**
  * Validation types.
@@ -102,7 +102,7 @@ export class ValidationTypes {
      * Checks if validation type is valid.
      */
     static isValid(type: string) {
-        return  type !== "isValid" &&
+        return type !== "isValid" &&
             type !== "getMessage" &&
             Object.keys(this).map(key => (this as any)[key]).indexOf(type) !== -1;
     }
@@ -110,7 +110,7 @@ export class ValidationTypes {
     /**
      * Gets default validation error message for the given validation type.
      */
-    static getMessage(type: string, isEach: boolean): string|((args: ValidationArguments) => string) {
+    static getMessage(type: string, isEach: boolean): string | ((args: ValidationArguments) => string) {
         const eachPrefix = isEach ? "each value in " : "";
         switch (type) {
 
@@ -132,6 +132,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be one of the following values: $constraint1";
             case this.IS_NOT_IN:
                 return eachPrefix + "$property should not be one of the following values: $constraint1";
+            case this.IS_PORT:
+                return eachPrefix + "$property must be a port";
 
             /* type checkers */
             case this.IS_BOOLEAN:
