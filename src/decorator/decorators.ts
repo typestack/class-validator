@@ -504,12 +504,13 @@ export function IsBooleanString(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is a number.
  */
-export function IsNumberString(validationOptions?: ValidationOptions) {
+export function IsNumberString(validationOptions?: ValidationOptions, NumberOptions?: IsNumberOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NUMBER_STRING,
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [NumberOptions],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
