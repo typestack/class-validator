@@ -555,7 +555,7 @@ export function NotContains(seed: string, validationOptions?: ValidationOptions)
 /**
  * Checks if the string contains only letters (a-zA-Z).
  */
-export function IsAlpha(locale: string = "en-US", validationOptions?: ValidationOptions) {
+export function IsAlpha(locale?: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ALPHA,
@@ -571,7 +571,7 @@ export function IsAlpha(locale: string = "en-US", validationOptions?: Validation
 /**
  * Checks if the string contains only letters and numbers.
  */
-export function IsAlphanumeric(locale: string = "en-US", validationOptions?: ValidationOptions) {
+export function IsAlphanumeric(locale?: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ALPHANUMERIC,

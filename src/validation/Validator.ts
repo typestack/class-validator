@@ -495,7 +495,7 @@ export class Validator {
      * Checks if the string contains only letters (a-zA-Z).
      * If given value is not a string, then it returns false.
      */
-    isAlpha(value: string, locale: ValidatorJS.AlphaLocale = "en-US"): boolean {
+    isAlpha(value: string, locale?: ValidatorJS.AlphaLocale): boolean {
         return typeof value === "string" && this.validatorJs.isAlpha(value, locale);
     }
 
@@ -503,7 +503,7 @@ export class Validator {
      * Checks if the string contains only letters and numbers.
      * If given value is not a string, then it returns false.
      */
-    isAlphanumeric(value: string, locale: ValidatorJS.AlphanumericLocale = "en-US"): boolean {
+    isAlphanumeric(value: string, locale?: ValidatorJS.AlphanumericLocale): boolean {
         return typeof value === "string" && this.validatorJs.isAlphanumeric(value, locale);
     }
 
