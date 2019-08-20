@@ -174,9 +174,9 @@ export class Validator {
             case ValidationTypes.NOT_CONTAINS:
                 return this.notContains(value, metadata.constraints[0]);
             case ValidationTypes.IS_ALPHA:
-                return this.isAlpha(value);
+                return this.isAlpha(value, metadata.constraints[0]);
             case ValidationTypes.IS_ALPHANUMERIC:
-                return this.isAlphanumeric(value);
+                return this.isAlphanumeric(value, metadata.constraints[0]);
             case ValidationTypes.IS_DECIMAL:
                 return this.isDecimal(value, metadata.constraints[0]);
             case ValidationTypes.IS_ASCII:
@@ -495,16 +495,16 @@ export class Validator {
      * Checks if the string contains only letters (a-zA-Z).
      * If given value is not a string, then it returns false.
      */
-    isAlpha(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isAlpha(value);
+    isAlpha(value: string, locale: ValidatorJS.AlphaLocale = "en-US"): boolean {
+        return typeof value === "string" && this.validatorJs.isAlpha(value, locale);
     }
 
     /**
      * Checks if the string contains only letters and numbers.
      * If given value is not a string, then it returns false.
      */
-    isAlphanumeric(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isAlphanumeric(value);
+    isAlphanumeric(value: string, locale: ValidatorJS.AlphanumericLocale = "en-US"): boolean {
+        return typeof value === "string" && this.validatorJs.isAlphanumeric(value, locale);
     }
 
     /**
