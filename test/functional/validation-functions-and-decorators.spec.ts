@@ -1245,7 +1245,7 @@ describe("NotContains", function() {
 
 describe("IsAlpha", function() {
 
-    const constraint = "";
+    const constraint = "en-GB";
     const validValues = ["hellomynameisalex"];
     const invalidValues = [null, undefined, "hello1mynameisalex"];
 
@@ -1263,11 +1263,11 @@ describe("IsAlpha", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isAlpha(value).should.be.true);
+        validValues.forEach(value => validator.isAlpha(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isAlpha(value).should.be.false);
+        invalidValues.forEach(value => validator.isAlpha(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
