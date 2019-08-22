@@ -261,7 +261,7 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be shorter than or equal to $constraint1 characters";
             case this.MATCHES:
                 return eachPrefix + "$property must match $constraint1 regular expression";
-            case thise.IS_MILITARY_TIME:
+            case this.IS_MILITARY_TIME:
                 return eachPrefix + "$property must be a valid representation of military time in the format HH:MM";
                 
             /* array checkers */
