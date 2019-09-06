@@ -157,6 +157,22 @@ describe("IsDefined", function() {
         checkInvalidValues(new MyClass(), invalidValues, done);
     });
 
+    it("should not fail if validator.validate said that its valid with skipUndefinedProperties set to true", function(done) {
+        checkValidValues(new MyClass(), validValues, done, { skipUndefinedProperties: true });
+    });
+
+    it("should fail if validator.validate said that its invalid with skipUndefinedProperties set to true", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done, { skipUndefinedProperties: true });
+    });
+
+    it("should not fail if validator.validate said that its valid with skipNullProperties set to true", function(done) {
+        checkValidValues(new MyClass(), validValues, done, { skipNullProperties: true });
+    });
+
+    it("should fail if validator.validate said that its invalid with skipNullProperties set to true", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done, { skipNullProperties: true });
+    });
+
     it("should not fail if validator.validate said that its valid with skipMissingProperties set to true", function(done) {
         checkValidValues(new MyClass(), validValues, done, { skipMissingProperties: true });
     });
