@@ -470,7 +470,7 @@ import { validate } from 'class-validator';
 
 class MyClass {
 	@MinLength(32, {
-		message: "EIC code must be at least 32 charatcers",
+		message: "EIC code must be at least 32 characters",
 		context: {
 			errorCode: 1003,
 			developerNote: "The validated string must contain 32 or more characters."
