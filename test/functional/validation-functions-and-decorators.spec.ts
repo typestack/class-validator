@@ -2944,7 +2944,7 @@ describe("isPhoneNumber", function() {
             "+41 (0)311111111", "+41 (0)31 633 60 01", "+41 (0)79 4 666 666", "+41 (0)75 416 20 30",
             "+49 9072 1111"
         ];
-        const invalidValues = [undefined, null, "asdf", "1"];
+        const invalidValues = [undefined, null, "asdf", "1", "+41 9072 2222+-=-=", "+49 (9072 1111", "+41 ( )9073 4161"];
 
         class MyClass {
             @IsPhoneNumber("CH")
