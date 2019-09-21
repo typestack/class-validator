@@ -686,7 +686,7 @@ export class Validator {
     isPhoneNumber(value: string, region: string): boolean {
         try {
             const phoneNum = this.libPhoneNumber.phoneUtil.parseAndKeepRawInput(value, region);
-            return this.libPhoneNumber.phoneUtil.isValidNumber(phoneNum);
+            return /^\+?[\d\s]*(\([\d\s]*[\d][\d\s]*\))?[\d\s]*[\d]$/.test(phoneNum.values_["5"]) && this.libPhoneNumber.phoneUtil.isValidNumber(phoneNum);
         } catch (error) {
             // logging?
             return false;
