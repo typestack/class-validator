@@ -504,12 +504,13 @@ export function IsBooleanString(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is a number.
  */
-export function IsNumberString(validationOptions?: ValidationOptions) {
+export function IsNumberString(validationOptions?: ValidationOptions, NumberOptions?: IsNumberOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NUMBER_STRING,
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [NumberOptions],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -555,12 +556,13 @@ export function NotContains(seed: string, validationOptions?: ValidationOptions)
 /**
  * Checks if the string contains only letters (a-zA-Z).
  */
-export function IsAlpha(validationOptions?: ValidationOptions) {
+export function IsAlpha(locale?: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ALPHA,
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [locale], 
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -570,12 +572,13 @@ export function IsAlpha(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string contains only letters and numbers.
  */
-export function IsAlphanumeric(validationOptions?: ValidationOptions) {
+export function IsAlphanumeric(locale?: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ALPHANUMERIC,
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [locale], 
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
