@@ -1,3 +1,18 @@
+## [0.10.1](https://github.com/typestack/class-validator/compare/0.10.0...0.10.1) (2019-09-25)
+
+
+### Bug Fixes
+
+* add default message for isMilitaryTime validator ([#411](https://github.com/typestack/class-validator/issues/411)) ([204b7df](https://github.com/typestack/class-validator/commit/204b7df)), closes [#287](https://github.com/typestack/class-validator/issues/287)
+* add default message for isPort validator ([#404](https://github.com/typestack/class-validator/issues/404)) ([74e568c](https://github.com/typestack/class-validator/commit/74e568c))
+* add locale parameter for isAlpha and isAlphanumeric validat… ([#406](https://github.com/typestack/class-validator/issues/406)) ([2f4bf4e](https://github.com/typestack/class-validator/commit/2f4bf4e))
+
+
+### Features
+
+* add `skipUndefinedProperties`, `skipNullProperties` options ([#414](https://github.com/typestack/class-validator/issues/414)) ([76c948a](https://github.com/typestack/class-validator/commit/76c948a)), closes [#308](https://github.com/typestack/class-validator/issues/308)
+
+
 
 # [0.10.0](https://github.com/typestack/class-validator/compare/v0.9.1...v0.10.0) (2019-08-10)
 
