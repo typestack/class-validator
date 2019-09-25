@@ -1,4 +1,4 @@
-## [0.10.1](https://github.com/typestack/class-validator/compare/0.10.0...0.10.1) (2019-09-25)
+## [0.10.1](https://github.com/typestack/class-validator/compare/v0.10.0...v0.10.1) (2019-09-25)
 
 
 ### Bug Fixes
