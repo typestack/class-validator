@@ -3,6 +3,7 @@ import {expect} from "chai";
 import {
     IsBooleanString,
     IsPositive,
+    IsLatLong,
     IsNegative,
     Contains,
     Equals,
@@ -440,6 +441,29 @@ describe("IsBoolean", function() {
         const message = "someProperty must be a boolean value";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
+
+});
+// -------------------------------------------------------------------------
+// Specifications: type check
+// -------------------------------------------------------------------------
+
+describe("IsLatLong", function () {
+
+    const validValues = ["27.6945311,85.3446311", "27.675509,85.2100893"];
+    const invalidValues = [ "276945311,853446311" , "asas,as.as12" ];
+
+    class MyClass {
+        @IsLatLong()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    }); 
 
 });
 

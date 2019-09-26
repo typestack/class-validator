@@ -127,6 +127,8 @@ export class Validator {
                 return this.isNotIn(value, metadata.constraints[0]);
 
             /* type checkers */
+            case ValidationTypes.IS_LATLONG:
+                return this.isLatLong(value);
             case ValidationTypes.IS_BOOLEAN:
                 return this.isBoolean(value);
             case ValidationTypes.IS_DATE:
@@ -330,6 +332,17 @@ export class Validator {
      */
     isBoolean(value: any): boolean {
         return value instanceof Boolean || typeof value === "boolean";
+    }
+
+    isLatLong(value: any): boolean {
+
+        const lat = /^\(?[+-]?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/;
+        const long = /^\s?[+-]?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)\)?$/;
+        if (!value.includes(",")) return false;
+        const pair = value.split(",");
+        if ((pair[0].startsWith("(") && !pair[1].endsWith(")"))
+            || (pair[1].endsWith(")") && !pair[0].startsWith("("))) return false;
+        return lat.test(pair[0]) && long.test(pair[1]);
     }
 
     /**
