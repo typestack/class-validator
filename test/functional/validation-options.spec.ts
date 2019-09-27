@@ -175,11 +175,11 @@ describe("validation options", function() {
                 @Validate(CustomIsNotArrayConstraint, {
                     each: true
                 })
-                someNotArrayProperty: string[];
+                someArrayOfNonArrayItems: string[];
             }
 
             const model = new MyClass();
-            model.someNotArrayProperty = ["not array", "also not array", "not array at all"];
+            model.someArrayOfNonArrayItems = ["not array", "also not array", "not array at all"];
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(0);
             });
