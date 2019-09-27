@@ -1,14 +1,14 @@
-import { Validator } from "./Validator";
-import { ValidationError } from "./ValidationError";
-import { ValidationMetadata } from "../metadata/ValidationMetadata";
-import { MetadataStorage } from "../metadata/MetadataStorage";
-import { getFromContainer } from "../container";
-import { ValidatorOptions } from "./ValidatorOptions";
-import { ValidationTypes } from "./ValidationTypes";
-import { ConstraintMetadata } from "../metadata/ConstraintMetadata";
-import { ValidationArguments } from "./ValidationArguments";
-import { ValidationUtils } from "./ValidationUtils";
-import { isPromise } from "../utils";
+import {Validator} from "./Validator";
+import {ValidationError} from "./ValidationError";
+import {ValidationMetadata} from "../metadata/ValidationMetadata";
+import {MetadataStorage} from "../metadata/MetadataStorage";
+import {getFromContainer} from "../container";
+import {ValidatorOptions} from "./ValidatorOptions";
+import {ValidationTypes} from "./ValidationTypes";
+import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
+import {ValidationArguments} from "./ValidationArguments";
+import {ValidationUtils} from "./ValidationUtils";
+import {isPromise} from "../utils";
 
 /**
  * Executes validation over given object.
@@ -33,7 +33,7 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
 
     constructor(private validator: Validator,
-        private validatorOptions?: ValidatorOptions) {
+                private validatorOptions?: ValidatorOptions) {
     }
 
     // -------------------------------------------------------------------------
@@ -82,7 +82,7 @@ export class ValidationExecutor {
             const value = (object as any)[propertyName];
             const definedMetadatas = groupedMetadatas[propertyName].filter(metadata => metadata.type === ValidationTypes.IS_DEFINED);
             const metadatas = groupedMetadatas[propertyName].filter(
-                metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.WHITELIST);
+              metadata => metadata.type !== ValidationTypes.IS_DEFINED && metadata.type !== ValidationTypes.WHITELIST);
 
             if (value instanceof Promise && metadatas.find(metadata => metadata.type === ValidationTypes.PROMISE_VALIDATION)) {
                 this.awaitingPromises.push(value.then((resolvedValue) => {
@@ -95,8 +95,8 @@ export class ValidationExecutor {
     }
 
     whitelist(object: any,
-        groupedMetadatas: { [propertyName: string]: ValidationMetadata[] },
-        validationErrors: ValidationError[]) {
+              groupedMetadatas: { [propertyName: string]: ValidationMetadata[] },
+              validationErrors: ValidationError[]) {
         let notAllowedProperties: string[] = [];
 
         Object.keys(object).forEach(propertyName => {
@@ -149,10 +149,10 @@ export class ValidationExecutor {
     // -------------------------------------------------------------------------
 
     private performValidations(object: any,
-        value: any, propertyName: string,
-        definedMetadatas: ValidationMetadata[],
-        metadatas: ValidationMetadata[],
-        validationErrors: ValidationError[]) {
+                               value: any, propertyName: string,
+                               definedMetadatas: ValidationMetadata[],
+                               metadatas: ValidationMetadata[],
+                               validationErrors: ValidationError[]) {
 
         const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
         const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
@@ -211,17 +211,17 @@ export class ValidationExecutor {
     }
 
     private conditionalValidations(object: Object,
-        value: any,
-        metadatas: ValidationMetadata[]) {
+                                   value: any,
+                                   metadatas: ValidationMetadata[]) {
         return metadatas
             .map(metadata => metadata.constraints[0](object, value))
             .reduce((resultA, resultB) => resultA && resultB, true);
     }
 
     private defaultValidations(object: Object,
-        value: any,
-        metadatas: ValidationMetadata[],
-        errorMap: { [key: string]: string }) {
+                               value: any,
+                               metadatas: ValidationMetadata[],
+                               errorMap: { [key: string]: string }) {
         return metadatas
             .filter(metadata => {
                 if (metadata.each) {
@@ -383,9 +383,9 @@ export class ValidationExecutor {
     }
 
     private mapContexts(object: Object,
-        value: any,
-        metadatas: ValidationMetadata[],
-        error: ValidationError) {
+                        value: any,
+                        metadatas: ValidationMetadata[],
+                        error: ValidationError) {
 
         return metadatas
             .forEach(metadata => {
@@ -404,9 +404,9 @@ export class ValidationExecutor {
     }
 
     private createValidationError(object: Object,
-        value: any,
-        metadata: ValidationMetadata,
-        customValidatorMetadata?: ConstraintMetadata): [string, string] {
+                                  value: any,
+                                  metadata: ValidationMetadata,
+                                  customValidatorMetadata?: ConstraintMetadata): [string, string] {
 
         const targetName = object.constructor ? (object.constructor as any).name : undefined;
         const type = this.getConstraintType(metadata, customValidatorMetadata);
