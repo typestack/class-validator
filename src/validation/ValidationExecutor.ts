@@ -148,11 +148,11 @@ export class ValidationExecutor {
     // Private Methods
     // -------------------------------------------------------------------------
 
-    private performValidations(object: any,
-                               value: any, propertyName: string,
-                               definedMetadatas: ValidationMetadata[],
-                               metadatas: ValidationMetadata[],
-                               validationErrors: ValidationError[]) {
+    private performValidations (object: any,
+                                value: any, propertyName: string,
+                                definedMetadatas: ValidationMetadata[],
+                                metadatas: ValidationMetadata[],
+                                validationErrors: ValidationError[]) {
 
         const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
         const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
@@ -240,9 +240,9 @@ export class ValidationExecutor {
     }
 
     private customValidations(object: Object,
-        value: any,
-        metadatas: ValidationMetadata[],
-        errorMap: { [key: string]: string }) {
+                              value: any,
+                              metadatas: ValidationMetadata[],
+                              errorMap: { [key: string]: string }) {
 
         metadatas.forEach(metadata => {
             getFromContainer(MetadataStorage)
