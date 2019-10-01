@@ -1,9 +1,9 @@
 import "es6-shim";
-import {Contains, Matches, MinLength, ValidateNested} from "../../src/decorator/decorators";
+import {Contains, Matches, MinLength, ValidateNested, ValidatorConstraint, Validate } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
-import {ValidationError} from "../../src";
+import {ValidationError, ValidatorConstraintInterface} from "../../src";
 
-import {should, use } from "chai";
+import {should, use} from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
 
@@ -157,6 +157,110 @@ describe("validation options", function() {
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
                 errors[0].constraints.should.be.eql({ contains: "each value in someProperty must contain a hello string" });
+                errors[0].value.should.be.equal(model.someProperty);
+                errors[0].target.should.be.equal(model);
+                errors[0].property.should.be.equal("someProperty");
+            });
+        });
+
+        it("should apply validation via custom constraint class to array items (but not array itself)", function() {
+            @ValidatorConstraint({ name: "customIsNotArrayConstraint", async: false })
+            class CustomIsNotArrayConstraint implements ValidatorConstraintInterface {
+                validate(value: any) {
+                    return !(value instanceof Array);
+                }
+            }
+
+            class MyClass {
+                @Validate(CustomIsNotArrayConstraint, {
+                    each: true
+                })
+                someArrayOfNonArrayItems: string[];
+            }
+
+            const model = new MyClass();
+            model.someArrayOfNonArrayItems = ["not array", "also not array", "not array at all"];
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(0);
+            });
+        });
+
+        it("should apply validation via custom constraint class with synchronous logic to each item in the array", function() {
+            @ValidatorConstraint({ name: "customContainsHelloConstraint", async: false })
+            class CustomContainsHelloConstraint implements ValidatorConstraintInterface {
+                validate(value: any) {
+                    return !(value instanceof Array) && String(value).includes("hello");
+                }
+            }
+
+            class MyClass {
+                @Validate(CustomContainsHelloConstraint, {
+                    each: true
+                })
+                someProperty: string[];
+            }
+
+            const model = new MyClass();
+            model.someProperty = ["hell no world", "hello", "helo world", "hello world", "hello dear friend"];
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(1);
+                errors[0].constraints.should.be.eql({ customContainsHelloConstraint: "" });
+                errors[0].value.should.be.equal(model.someProperty);
+                errors[0].target.should.be.equal(model);
+                errors[0].property.should.be.equal("someProperty");
+            });
+        });
+
+        it("should apply validation via custom constraint class with async logic to each item in the array", function() {
+            @ValidatorConstraint({ name: "customAsyncContainsHelloConstraint", async: true })
+            class CustomAsyncContainsHelloConstraint implements ValidatorConstraintInterface {
+                validate(value: any) {
+                    const isValid = !(value instanceof Array) && String(value).includes("hello");
+
+                    return Promise.resolve(isValid);
+                }
+            }
+
+            class MyClass {
+                @Validate(CustomAsyncContainsHelloConstraint, {
+                    each: true
+                })
+                someProperty: string[];
+            }
+
+            const model = new MyClass();
+            model.someProperty = ["hell no world", "hello", "helo world", "hello world", "hello dear friend"];
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(1);
+                errors[0].constraints.should.be.eql({ customAsyncContainsHelloConstraint: "" });
+                errors[0].value.should.be.equal(model.someProperty);
+                errors[0].target.should.be.equal(model);
+                errors[0].property.should.be.equal("someProperty");
+            });
+        });
+
+        it("should apply validation via custom constraint class with mixed (synchronous + async) logic to each item in the array", function() {
+            @ValidatorConstraint({ name: "customMixedContainsHelloConstraint", async: true })
+            class CustomMixedContainsHelloConstraint implements ValidatorConstraintInterface {
+                validate(value: any) {
+                    const isValid = !(value instanceof Array) && String(value).includes("hello");
+
+                    return isValid ? isValid : Promise.resolve(isValid);
+                }
+            }
+
+            class MyClass {
+                @Validate(CustomMixedContainsHelloConstraint, {
+                    each: true
+                })
+                someProperty: string[];
+            }
+
+            const model = new MyClass();
+            model.someProperty = ["hell no world", "hello", "helo world", "hello world", "hello dear friend"];
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(1);
+                errors[0].constraints.should.be.eql({ customMixedContainsHelloConstraint: "" });
                 errors[0].value.should.be.equal(model.someProperty);
                 errors[0].target.should.be.equal(model);
                 errors[0].property.should.be.equal("someProperty");

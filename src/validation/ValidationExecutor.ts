@@ -258,20 +258,54 @@ export class ValidationExecutor {
                         value: value,
                         constraints: metadata.constraints
                     };
-                    const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
-                    if (isPromise(validatedValue)) {
-                        const promise = validatedValue.then(isValid => {
-                            if (!isValid) {
+
+                    if (!metadata.each || !(value instanceof Array)) {
+                        const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
+                        if (isPromise(validatedValue)) {
+                            const promise = validatedValue.then(isValid => {
+                                if (!isValid) {
+                                    const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+                                    errorMap[type] = message;
+                                }
+                            });
+                            this.awaitingPromises.push(promise);
+                        } else {
+                            if (!validatedValue) {
                                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
                                 errorMap[type] = message;
                             }
-                        });
-                        this.awaitingPromises.push(promise);
-                    } else {
-                        if (!validatedValue) {
-                            const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-                            errorMap[type] = message;
                         }
+
+                        return;
+                    }
+
+                    // Validation needs to be applied to each array item
+                    const validatedSubValues = value.map((subValue: any) => customConstraintMetadata.instance.validate(subValue, validationArguments));
+                    const validationIsAsync = validatedSubValues
+                        .some((validatedSubValue: boolean | Promise<boolean>) => isPromise(validatedSubValue));
+
+                    if (validationIsAsync) {
+                        // Wrap plain values (if any) in promises, so that all are async
+                        const asyncValidatedSubValues = validatedSubValues
+                            .map((validatedSubValue: boolean | Promise<boolean>) => isPromise(validatedSubValue) ? validatedSubValue : Promise.resolve(validatedSubValue));
+                        const asyncValidationIsFinishedPromise = Promise.all(asyncValidatedSubValues)
+                            .then((flatValidatedValues: boolean[]) => {
+                                const validationResult = flatValidatedValues.every((isValid: boolean) => isValid);
+                                if (!validationResult) {
+                                    const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+                                    errorMap[type] = message;
+                                }
+                            });
+
+                        this.awaitingPromises.push(asyncValidationIsFinishedPromise);
+
+                        return;
+                    }
+
+                    const validationResult = validatedSubValues.every((isValid: boolean) => isValid);
+                    if (!validationResult) {
+                        const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+                        errorMap[type] = message;
                     }
                 });
         });
