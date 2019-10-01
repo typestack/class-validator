@@ -848,6 +848,7 @@ validator.isURL(str, options); // Checks if the string is an url.
 validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4 or 5).
 validator.isUppercase(str); // Checks if the string is uppercase.
 validator.length(str, min, max); // Checks if the string's length falls in a range.
+validator.isLatLong(str); // check if the string is a valid latitude-longitude coordinate in the format lat,long or lat, long         
 validator.minLength(str, min); // Checks if the string's length is not less than given number.
 validator.maxLength(str, max); // Checks if the string's length is not more than given number.
 validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
@@ -923,6 +924,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
+| `@IsLatLong()`                                | Checks if the string is lat,long or lat, long.                                                                                               |
 | `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                    |
 | `@IsISO31661Alpha2()`                           | Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.                                                                                 |
 | `@IsISO31661Alpha3()`                           | Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
