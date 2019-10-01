@@ -233,6 +233,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a valid ISO31661 Alpha2 code";
             case this.IS_ISO31661_ALPHA_3:
                 return eachPrefix + "$property must be a valid ISO31661 Alpha3 code";
+            case this.IS_LATLONG:
+                return eachPrefix + "$property must be a latitude,longitude string";
             case this.IS_MONGO_ID:
                 return eachPrefix + "$property must be a mongodb id";
             case this.IS_MULTIBYTE:
