@@ -342,21 +342,27 @@ export class Validator {
     }
 
 
-/**
-* Checks if a given value is a latitude.
-*/
+    /**
+    * Checks if a given value is a latitude.
+    */
+    
     isLatLong(value: any): boolean {
 
         return this.validatorJs.isLatLong(value);
     }
 
+    /**
+    * Checks if a given value is a latitude.
+    */
+
+
     isLatitude(value: any): boolean {
         return (typeof value === "number" || this.isString(value)) && this.isLatLong(`0,${value}`);
     }
 
-/**
-* Checks if a given value is a longitude.
-*/
+    /**
+    * Checks if a given value is a longitude.
+    */
 
     isLongitude(value: any): boolean {
         return (typeof value === "number" || this.isString(value)) && this.isLatLong(`${value},0`);
