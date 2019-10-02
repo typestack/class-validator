@@ -3,6 +3,9 @@ import {expect} from "chai";
 import {
     IsBooleanString,
     IsPositive,
+    IsLatLong,
+    IsLongitude,
+    IsLatitude,
     IsNegative,
     Contains,
     Equals,
@@ -33,6 +36,8 @@ import {
     IsIn,
     IsInt,
     IsJSON,
+    IsObject,
+    IsNotEmptyObject,
     Length,
     IsLowercase,
     IsMongoId,
@@ -155,6 +160,22 @@ describe("IsDefined", function() {
 
     it("should fail if validator.validate said that its invalid", function(done) {
         checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if validator.validate said that its valid with skipUndefinedProperties set to true", function(done) {
+        checkValidValues(new MyClass(), validValues, done, { skipUndefinedProperties: true });
+    });
+
+    it("should fail if validator.validate said that its invalid with skipUndefinedProperties set to true", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done, { skipUndefinedProperties: true });
+    });
+
+    it("should not fail if validator.validate said that its valid with skipNullProperties set to true", function(done) {
+        checkValidValues(new MyClass(), validValues, done, { skipNullProperties: true });
+    });
+
+    it("should fail if validator.validate said that its invalid with skipNullProperties set to true", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done, { skipNullProperties: true });
     });
 
     it("should not fail if validator.validate said that its valid with skipMissingProperties set to true", function(done) {
@@ -423,6 +444,68 @@ describe("IsBoolean", function() {
         const validationType = "isBoolean";
         const message = "someProperty must be a boolean value";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+// -------------------------------------------------------------------------
+// Specifications: type check
+// -------------------------------------------------------------------------
+
+describe("IsLatLong", function () {
+
+    const validValues = ["27.6945311,85.3446311", "27.675509,85.2100893"];
+    const invalidValues = [ "276945311,853446311" , "asas,as.as12" ];
+
+    class MyClass {
+        @IsLatLong()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    }); 
+
+});
+describe("IsLatitude", function () {
+
+    const validValues = ["27.6945311", "27.675509", 27.675509];
+    const invalidValues = ["276945311", "asas", 1234222, 5678921];
+
+    class MyClass {
+        @IsLatitude()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+});
+
+describe("IsLongitude", function () {
+
+    const validValues = ["85.3446311", "85.2100893", 85.2100893];
+    const invalidValues = ["853446311", "as.as12", 12345 , 737399];
+
+    class MyClass {
+        @IsLongitude()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
     });
 
 });
@@ -1245,7 +1328,7 @@ describe("NotContains", function() {
 
 describe("IsAlpha", function() {
 
-    const constraint = "";
+    const constraint = "en-GB";
     const validValues = ["hellomynameisalex"];
     const invalidValues = [null, undefined, "hello1mynameisalex"];
 
@@ -1263,11 +1346,11 @@ describe("IsAlpha", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isAlpha(value).should.be.true);
+        validValues.forEach(value => validator.isAlpha(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isAlpha(value).should.be.false);
+        invalidValues.forEach(value => validator.isAlpha(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1649,7 +1732,6 @@ describe("IsEmail", function() {
 
     it("should not fail if method in validator said that its valid", function() {
         validValues.forEach(value => {
-            console.log(value, validator.isEmail(value));
             return validator.isEmail(value).should.be.true;
         });
     });
@@ -2227,6 +2309,74 @@ describe("IsJSON", function() {
     it("should return error object with proper data", function(done) {
         const validationType = "isJson";
         const message = "someProperty must be a json string";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsObject", function() {
+
+    const validValues = [{ "key": "value" }, { key: "value" }, {}];
+    const invalidValues: any[] = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, "[]", [], [{ key: "value" }]];
+
+    class MyClass {
+        @IsObject()
+        someProperty: object;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isObject(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isObject(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isObject";
+        const message = "someProperty must be an object";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsNotEmptyObject", function() {
+
+    const validValues = [{ "key": "value" }, { key: "value" }];
+    const invalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, {}, [], [{ key: "value" }]];
+
+    class MyClass {
+        @IsNotEmptyObject()
+        someProperty: object;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isNotEmptyObject(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isNotEmptyObject(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isNotEmptyObject";
+        const message = "someProperty must be a non-empty object";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 

@@ -261,6 +261,51 @@ export function IsBoolean(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * Checks if a value is a latitude,longitude.
+ */
+export function IsLatLong(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_LATLONG,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Checks if a value is a latitude,longitude.
+ */
+export function IsLatitude(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_LONGITUDE,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Checks if a value is a latitude,longitude.
+ */
+export function IsLongitude(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_LATITUDE,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if a value is a date.
  */
 export function IsDate(validationOptions?: ValidationOptions) {
@@ -504,12 +549,13 @@ export function IsBooleanString(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string is a number.
  */
-export function IsNumberString(validationOptions?: ValidationOptions) {
+export function IsNumberString(validationOptions?: ValidationOptions, NumberOptions?: IsNumberOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NUMBER_STRING,
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [NumberOptions],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -555,12 +601,13 @@ export function NotContains(seed: string, validationOptions?: ValidationOptions)
 /**
  * Checks if the string contains only letters (a-zA-Z).
  */
-export function IsAlpha(validationOptions?: ValidationOptions) {
+export function IsAlpha(locale?: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ALPHA,
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [locale], 
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -570,12 +617,13 @@ export function IsAlpha(validationOptions?: ValidationOptions) {
 /**
  * Checks if the string contains only letters and numbers.
  */
-export function IsAlphanumeric(validationOptions?: ValidationOptions) {
+export function IsAlphanumeric(locale?: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ALPHANUMERIC,
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [locale], 
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -867,6 +915,36 @@ export function IsJSON(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_JSON,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Checks if the value is a valid object.
+ */
+export function IsObject(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_OBJECT,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Checks if the value is a valid object & not empty.
+ */
+export function IsNotEmptyObject(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_NOT_EMPTY_OBJECT,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions

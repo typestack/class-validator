@@ -20,6 +20,15 @@ export class Validator {
     private libPhoneNumber = {
         phoneUtil: require("google-libphonenumber").PhoneNumberUtil.getInstance(),
     };
+    private _isEmptyObject = function(object: object) {
+        for (const key in object) {
+            if (object.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+
+        return true;
+    };
 
     /**
      * Performs validation of the given object based on decorators or validation schema.
@@ -127,6 +136,12 @@ export class Validator {
                 return this.isNotIn(value, metadata.constraints[0]);
 
             /* type checkers */
+            case ValidationTypes.IS_LATLONG:
+                return this.isLatLong(value);
+            case ValidationTypes.IS_LATITUDE:
+                return this.isLatitude(value);
+            case ValidationTypes.IS_LONGITUDE:
+                return this.isLongitude(value);
             case ValidationTypes.IS_BOOLEAN:
                 return this.isBoolean(value);
             case ValidationTypes.IS_DATE:
@@ -174,9 +189,9 @@ export class Validator {
             case ValidationTypes.NOT_CONTAINS:
                 return this.notContains(value, metadata.constraints[0]);
             case ValidationTypes.IS_ALPHA:
-                return this.isAlpha(value);
+                return this.isAlpha(value, metadata.constraints[0]);
             case ValidationTypes.IS_ALPHANUMERIC:
-                return this.isAlphanumeric(value);
+                return this.isAlphanumeric(value, metadata.constraints[0]);
             case ValidationTypes.IS_DECIMAL:
                 return this.isDecimal(value, metadata.constraints[0]);
             case ValidationTypes.IS_ASCII:
@@ -215,6 +230,10 @@ export class Validator {
                 return this.isISO8601(value);
             case ValidationTypes.IS_JSON:
                 return this.isJSON(value);
+            case ValidationTypes.IS_OBJECT:
+                return this.isObject(value);
+            case ValidationTypes.IS_NOT_EMPTY_OBJECT:
+                return this.isNotEmptyObject(value);
             case ValidationTypes.IS_LOWERCASE:
                 return this.isLowercase(value);
             case ValidationTypes.IS_MOBILE_PHONE:
@@ -332,6 +351,28 @@ export class Validator {
         return value instanceof Boolean || typeof value === "boolean";
     }
 
+
+    /**
+    * Checks if a given value is a latitude.
+    */
+    isLatLong(value: any): boolean {
+        return this.validatorJs.isLatLong(value);
+    }
+
+    /**
+    * Checks if a given value is a latitude.
+    */
+    isLatitude(value: any): boolean {
+        return (typeof value === "number" || this.isString(value)) && this.isLatLong(`0,${value}`);
+    }
+
+    /**
+    * Checks if a given value is a longitude.
+    */
+    isLongitude(value: any): boolean {
+        return (typeof value === "number" || this.isString(value)) && this.isLatLong(`${value},0`);
+    }
+
     /**
      * Checks if a given value is a real date.
      */
@@ -377,7 +418,7 @@ export class Validator {
         if (typeof value !== "number") {
             return false;
         }
-        
+
         if (value === Infinity || value === -Infinity) {
             return options.allowInfinity;
         }
@@ -499,16 +540,16 @@ export class Validator {
      * Checks if the string contains only letters (a-zA-Z).
      * If given value is not a string, then it returns false.
      */
-    isAlpha(value: unknown): boolean {
-        return typeof value === "string" && this.validatorJs.isAlpha(value);
+    isAlpha(value: unknown, locale?: ValidatorJS.AlphaLocale): boolean {
+        return typeof value === "string" && this.validatorJs.isAlpha(value, locale);
     }
 
     /**
      * Checks if the string contains only letters and numbers.
      * If given value is not a string, then it returns false.
      */
-    isAlphanumeric(value: unknown): boolean {
-        return typeof value === "string" && this.validatorJs.isAlphanumeric(value);
+    isAlphanumeric(value: unknown, locale?: ValidatorJS.AlphanumericLocale): boolean {
+        return typeof value === "string" && this.validatorJs.isAlphanumeric(value, locale);
     }
 
     /**
@@ -661,6 +702,22 @@ export class Validator {
      */
     isJSON(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isJSON(value);
+    }
+
+    /**
+     * Checks if the value is valid Object.
+     * Returns false if the value is not an object.
+     */
+    isObject(value: any): boolean {
+        return value != null && (typeof value === "object" || typeof value === "function") && !Array.isArray(value);
+    }
+
+    /**
+     * Checks if the value is valid Object & not empty.
+     * Returns false if the value is not an object or an empty valid object.
+     */
+    isNotEmptyObject(value: any): boolean {
+        return this.isObject(value) && !this._isEmptyObject(value);
     }
 
     /**

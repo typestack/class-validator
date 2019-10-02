@@ -10,6 +10,7 @@ import * as ts from "gulp-typescript";
 import * as sourcemaps from "gulp-sourcemaps";
 import * as istanbul from "gulp-istanbul";
 
+const conventionalChangelog = require("gulp-conventional-changelog");
 const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
 
 @Gulpclass()
@@ -45,6 +46,24 @@ export class Gulpfile {
     // -------------------------------------------------------------------------
     // Packaging and Publishing tasks
     // -------------------------------------------------------------------------
+
+    @Task()
+    changelog() {
+        return gulp.src("CHANGELOG.md")
+            .pipe(conventionalChangelog({
+                // conventional-changelog options go here
+                preset: "angular"
+            }, {
+                    // context goes here
+                }, {
+                    // git-raw-commits options go here
+                }, {
+                    // conventional-commits-parser options go here
+                }, {
+                    // conventional-changelog-writer options go here
+                }))
+            .pipe(gulp.dest("./"));
+    }
 
     /**
      * Publishes a package to npm from ./build/package directory.
