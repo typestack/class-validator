@@ -26,6 +26,8 @@ export class ValidationTypes {
     static IS_DATE = "isDate";
     static IS_NUMBER = "isNumber";
     static IS_LATLONG = "isLatLong";
+    static IS_LATITUDE = "isLatitude";
+    static IS_LONGITUDE = "isLongitude";
     static IS_STRING = "isString";
     static IS_DATE_STRING = "isDateString";
     static IS_ARRAY = "isArray";

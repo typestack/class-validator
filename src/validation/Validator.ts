@@ -129,6 +129,13 @@ export class Validator {
             /* type checkers */
             case ValidationTypes.IS_LATLONG:
                 return this.isLatLong(value);
+
+            case ValidationTypes.IS_LATITUDE:
+                return this.isLatitude(value);
+
+            case ValidationTypes.IS_LONGITUDE:
+                return this.isLongitude(value);
+
             case ValidationTypes.IS_BOOLEAN:
                 return this.isBoolean(value);
             case ValidationTypes.IS_DATE:
@@ -334,9 +341,28 @@ export class Validator {
         return value instanceof Boolean || typeof value === "boolean";
     }
 
+
+/**
+* Checks if a given value is a latitude.
+*/
     isLatLong(value: any): boolean {
 
         return validator.isLatLong(value);
+    }
+
+    isLatitude(value: any): boolean {
+        const lat = /^\(?[+-]?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/;
+   
+        return lat.test(value);
+    }
+
+/**
+* Checks if a given value is a longitude.
+*/
+
+    isLongitude(value: any): boolean {
+        const long = /^\s?[+-]?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)\)?$/;
+        return long.test(value);
     }
 
     /**
