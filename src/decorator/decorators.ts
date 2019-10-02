@@ -260,7 +260,6 @@ export function IsBoolean(validationOptions?: ValidationOptions) {
     };
 }
 
-
 /**
  * Checks if a value is a latitude,longitude.
  */
@@ -291,7 +290,6 @@ export function IsLatitude(validationOptions?: ValidationOptions) {
     };
 }
 
-
 /**
  * Checks if a value is a latitude,longitude.
  */
@@ -306,8 +304,6 @@ export function IsLongitude(validationOptions?: ValidationOptions) {
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
 }
-
-
 
 /**
  * Checks if a value is a date.
