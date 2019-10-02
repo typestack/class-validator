@@ -25,6 +25,9 @@ export class ValidationTypes {
     static IS_BOOLEAN = "isBoolean";
     static IS_DATE = "isDate";
     static IS_NUMBER = "isNumber";
+    static IS_LATLONG = "isLatLong";
+    static IS_LATITUDE = "isLatitude";
+    static IS_LONGITUDE = "isLongitude";
     static IS_STRING = "isString";
     static IS_DATE_STRING = "isDateString";
     static IS_ARRAY = "isArray";
@@ -232,6 +235,12 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a valid ISO31661 Alpha2 code";
             case this.IS_ISO31661_ALPHA_3:
                 return eachPrefix + "$property must be a valid ISO31661 Alpha3 code";
+            case this.IS_LATLONG:
+                return eachPrefix + "$property must be a latitude,longitude string";
+            case this.IS_LATITUDE:
+                return eachPrefix + "$property must be a latitude string or number";
+            case this.IS_LONGITUDE:
+                return eachPrefix + "$property must be a longitude string or number";
             case this.IS_MONGO_ID:
                 return eachPrefix + "$property must be a mongodb id";
             case this.IS_MULTIBYTE:

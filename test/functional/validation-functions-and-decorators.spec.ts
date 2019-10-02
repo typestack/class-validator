@@ -3,6 +3,9 @@ import {expect} from "chai";
 import {
     IsBooleanString,
     IsPositive,
+    IsLatLong,
+    IsLongitude,
+    IsLatitude,
     IsNegative,
     Contains,
     Equals,
@@ -439,6 +442,68 @@ describe("IsBoolean", function() {
         const validationType = "isBoolean";
         const message = "someProperty must be a boolean value";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+// -------------------------------------------------------------------------
+// Specifications: type check
+// -------------------------------------------------------------------------
+
+describe("IsLatLong", function () {
+
+    const validValues = ["27.6945311,85.3446311", "27.675509,85.2100893"];
+    const invalidValues = [ "276945311,853446311" , "asas,as.as12" ];
+
+    class MyClass {
+        @IsLatLong()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    }); 
+
+});
+describe("IsLatitude", function () {
+
+    const validValues = ["27.6945311", "27.675509", 27.675509];
+    const invalidValues = ["276945311", "asas", 1234222, 5678921];
+
+    class MyClass {
+        @IsLatitude()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+});
+
+describe("IsLongitude", function () {
+
+    const validValues = ["85.3446311", "85.2100893", 85.2100893];
+    const invalidValues = ["853446311", "as.as12", 12345 , 737399];
+
+    class MyClass {
+        @IsLongitude()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
     });
 
 });

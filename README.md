@@ -922,7 +922,10 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
-| `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
+| `@IsLowercase()`                                | Checks if the string is lowercase.  
+| `@IsLatLong()`                                  | check if the string is a valid latitude-longitude coordinate in the format lat,long 
+| `@IsLatitude()`                                  | check if the string or number is a valid latitude coordinate
+| `@IsLongitude()`                                  | check if the string or number is a valid longitude coordinate
 | `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                    |
 | `@IsISO31661Alpha2()`                           | Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.                                                                                 |
 | `@IsISO31661Alpha3()`                           | Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
