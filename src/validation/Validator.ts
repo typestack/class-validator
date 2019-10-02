@@ -20,6 +20,15 @@ export class Validator {
     private libPhoneNumber = {
         phoneUtil: require("google-libphonenumber").PhoneNumberUtil.getInstance(),
     };
+    private _isEmptyObject = function(object: object) {
+        for (const key in object) {
+            if (object.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+
+        return true;
+    };
 
     /**
      * Performs validation of the given object based on decorators or validation schema.
@@ -221,6 +230,10 @@ export class Validator {
                 return this.isISO8601(value);
             case ValidationTypes.IS_JSON:
                 return this.isJSON(value);
+            case ValidationTypes.IS_OBJECT:
+                return this.isObject(value);
+            case ValidationTypes.IS_NOT_EMPTY_OBJECT:
+                return this.isNotEmptyObject(value);
             case ValidationTypes.IS_LOWERCASE:
                 return this.isLowercase(value);
             case ValidationTypes.IS_MOBILE_PHONE:
@@ -685,6 +698,22 @@ export class Validator {
      */
     isJSON(value: string): boolean {
         return typeof value === "string" && this.validatorJs.isJSON(value);
+    }
+
+    /**
+     * Checks if the value is valid Object.
+     * Returns false if the value is not an object.
+     */
+    isObject(value: any): boolean {
+        return value != null && (typeof value === "object" || typeof value === "function") && !Array.isArray(value);
+    }
+
+    /**
+     * Checks if the value is valid Object & not empty.
+     * Returns false if the value is not an object or an empty valid object.
+     */
+    isNotEmptyObject(value: any): boolean {
+        return this.isObject(value) && !this._isEmptyObject(value);
     }
 
     /**

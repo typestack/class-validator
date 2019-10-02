@@ -924,6 +924,36 @@ export function IsJSON(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * Checks if the value is a valid object.
+ */
+export function IsObject(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_OBJECT,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Checks if the value is a valid object & not empty.
+ */
+export function IsNotEmptyObject(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_NOT_EMPTY_OBJECT,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if the string is lowercase.
  */
 export function IsLowercase(validationOptions?: ValidationOptions) {
