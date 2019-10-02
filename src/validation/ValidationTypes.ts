@@ -152,7 +152,7 @@ export class ValidationTypes {
             case this.IS_STRING:
                 return eachPrefix + "$property must be a string";
             case this.IS_DATE_STRING:
-                return eachPrefix + "$property must be a ISOString or a date expressed as string";
+                return eachPrefix + "$property must be a ISOString";
             case this.IS_ARRAY:
                 return eachPrefix + "$property must be an array";
             case this.IS_ENUM:
