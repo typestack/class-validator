@@ -355,21 +355,21 @@ export class Validator {
     /**
     * Checks if a given value is a latitude.
     */
-    isLatLong(value: any): boolean {
-        return this.validatorJs.isLatLong(value);
+    isLatLong(value: unknown): boolean {
+        return typeof value === "string" && this.validatorJs.isLatLong(value);
     }
 
     /**
     * Checks if a given value is a latitude.
     */
-    isLatitude(value: any): boolean {
+    isLatitude(value: unknown): boolean {
         return (typeof value === "number" || this.isString(value)) && this.isLatLong(`0,${value}`);
     }
 
     /**
     * Checks if a given value is a longitude.
     */
-    isLongitude(value: any): boolean {
+    isLongitude(value: unknown): boolean {
         return (typeof value === "number" || this.isString(value)) && this.isLatLong(`${value},0`);
     }
 
@@ -708,7 +708,7 @@ export class Validator {
      * Checks if the value is valid Object.
      * Returns false if the value is not an object.
      */
-    isObject(value: any): boolean {
+    isObject(value: unknown): value is object {
         return value != null && (typeof value === "object" || typeof value === "function") && !Array.isArray(value);
     }
 
@@ -716,7 +716,7 @@ export class Validator {
      * Checks if the value is valid Object & not empty.
      * Returns false if the value is not an object or an empty valid object.
      */
-    isNotEmptyObject(value: any): boolean {
+    isNotEmptyObject(value: unknown): boolean {
         return this.isObject(value) && !this._isEmptyObject(value);
     }
 
