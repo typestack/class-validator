@@ -837,6 +837,9 @@ validator.isISIN(str); // Checks if the string is an ISIN (stock/security identi
 validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
 validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
 validator.isLowercase(str); // Checks if the string is lowercase.
+validator.isLatLong(str); // Checks if the string is lowercase.
+validator.isLatitude(str); // Checks if the string is lowercase.
+validator.isLongtitude(str); // Checks if the string is lowercase.
 validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
 validator.isISO31661Alpha2(str); // Check if the string is a valid ISO 3166-1 alpha-2
 validator.isISO31661Alpha3(str); // Check if the string is a valid ISO 3166-1 alpha-3
@@ -922,13 +925,13 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
-| `@IsLowercase()`                                | Checks if the string is lowercase.  
-| `@IsLatLong()`                                  | check if the string is a valid latitude-longitude coordinate in the format lat,long 
-| `@IsLatitude()`                                  | check if the string or number is a valid latitude coordinate
-| `@IsLongitude()`                                  | check if the string or number is a valid longitude coordinate
-| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                    |
-| `@IsISO31661Alpha2()`                           | Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.                                                                                 |
-| `@IsISO31661Alpha3()`                           | Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
+| `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
+| `@IsLatLong()`                                  | Checks if the string is a valid latitude-longitude coordinate in the format lat,long                                             |
+| `@IsLatitude()`                                 | Checks if the string or number is a valid latitude coordinate                                                                    |
+| `@IsLongitude()`                                | Checks if the string or number is a valid longitude coordinate                                                                   |
+| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                   |
+| `@IsISO31661Alpha2()`                           | Checks if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.                                                                                 |
+| `@IsISO31661Alpha3()`                           | Checks if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
 | `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number. "region" accepts 2 characters uppercase country code (e.g. DE, US, CH).If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region. See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github](https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33)                                                                                  |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                                                       |

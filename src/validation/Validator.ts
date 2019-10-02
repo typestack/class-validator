@@ -343,7 +343,6 @@ export class Validator {
     * Checks if a given value is a latitude.
     */
     isLatLong(value: any): boolean {
-
         return this.validatorJs.isLatLong(value);
     }
 
