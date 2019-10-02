@@ -8,7 +8,7 @@ import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
-import {isPromise} from "../utils";
+import {isPromise, convertToArray} from "../utils";
 
 /**
  * Executes validation over given object.
@@ -225,8 +225,9 @@ export class ValidationExecutor {
         return metadatas
             .filter(metadata => {
                 if (metadata.each) {
-                    if (value instanceof Array) {
-                        return !value.every((subValue: any) => this.validator.validateValueByMetadata(subValue, metadata));
+                    if (value instanceof Array || value instanceof Set || value instanceof Map) {
+                        const arrayValue = convertToArray(value);
+                        return !arrayValue.every((subValue: any) => this.validator.validateValueByMetadata(subValue, metadata));
                     }
 
                 } else {
@@ -259,7 +260,7 @@ export class ValidationExecutor {
                         constraints: metadata.constraints
                     };
 
-                    if (!metadata.each || !(value instanceof Array)) {
+                    if (!metadata.each || !(value instanceof Array || value instanceof Set || value instanceof Map)) {
                         const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
                         if (isPromise(validatedValue)) {
                             const promise = validatedValue.then(isValid => {
@@ -279,8 +280,10 @@ export class ValidationExecutor {
                         return;
                     }
 
+                    // convert set and map into array
+                    const arrayValue = convertToArray(value);
                     // Validation needs to be applied to each array item
-                    const validatedSubValues = value.map((subValue: any) => customConstraintMetadata.instance.validate(subValue, validationArguments));
+                    const validatedSubValues = arrayValue.map((subValue: any) => customConstraintMetadata.instance.validate(subValue, validationArguments));
                     const validationIsAsync = validatedSubValues
                         .some((validatedSubValue: boolean | Promise<boolean>) => isPromise(validatedSubValue));
 
@@ -338,28 +341,11 @@ export class ValidationExecutor {
 
             const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
 
-            if (value instanceof Array) {
-                value.forEach((subValue: any, index: number) => {
+            if (value instanceof Array || value instanceof Set || value instanceof Map) {
+                // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
+                const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
+                arrayLikeValue.forEach((subValue: any, index: any) => {
                     const validationError = this.generateValidationError(value, subValue, index.toString());
-                    errors.push(validationError);
-
-                    this.execute(subValue, targetSchema, validationError.children);
-                });
-
-            } else if (value instanceof Set) {
-                let index = 0;
-                value.forEach((subValue: any) => {
-                    const validationError = this.generateValidationError(value, subValue, index.toString());
-                    errors.push(validationError);
-
-                    this.execute(subValue, targetSchema, validationError.children);
-
-                    ++index;
-                });
-
-            } else if (value instanceof Map) {
-                value.forEach((subValue: any, key: any) => {
-                    const validationError = this.generateValidationError(value, subValue, key.toString());
                     errors.push(validationError);
 
                     this.execute(subValue, targetSchema, validationError.children);
