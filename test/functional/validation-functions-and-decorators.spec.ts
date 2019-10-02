@@ -470,8 +470,8 @@ describe("IsLatLong", function () {
 });
 describe("IsLatitude", function () {
 
-    const validValues = ["27.6945311", "27.675509"];
-    const invalidValues = ["276945311", "asas"];
+    const validValues = ["27.6945311", "27.675509", 27.675509];
+    const invalidValues = ["276945311", "asas", 1234222, 5678921];
 
     class MyClass {
         @IsLatitude()
@@ -490,8 +490,8 @@ describe("IsLatitude", function () {
 
 describe("IsLongitude", function () {
 
-    const validValues = ["85.3446311", "85.2100893"];
-    const invalidValues = ["853446311", "as.as12"];
+    const validValues = ["85.3446311", "85.2100893", 85.2100893];
+    const invalidValues = ["853446311", "as.as12", 12345 , 737399];
 
     class MyClass {
         @IsLongitude()
@@ -507,22 +507,6 @@ describe("IsLongitude", function () {
     });
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 describe("IsDate", function() {
 
