@@ -347,13 +347,11 @@ export class Validator {
 */
     isLatLong(value: any): boolean {
 
-        return validator.isLatLong(value);
+        return this.validatorJs.isLatLong(value);
     }
 
     isLatitude(value: any): boolean {
-        const lat = /^\(?[+-]?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/;
-   
-        return lat.test(value);
+        return (typeof value === "number" || this.isString(value)) && this.isLatLong(`0,${value}`);
     }
 
 /**
@@ -361,8 +359,8 @@ export class Validator {
 */
 
     isLongitude(value: any): boolean {
-        const long = /^\s?[+-]?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)\)?$/;
-        return long.test(value);
+        return (typeof value === "number" || this.isString(value)) && this.isLatLong(`${value},0`);
+
     }
 
     /**
