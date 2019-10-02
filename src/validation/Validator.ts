@@ -392,7 +392,8 @@ export class Validator {
      */
     isDateString(value: any): boolean {
         const regex = /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|\+[0-2]\d(?:\:[0-5]\d)?)?$/g;
-        return this.isString(value) && regex.test(value);
+        const regexDateOnly = /([12]\d{3}[-\/.](0[1-9]|1[0-2])[-\/.](0[1-9]|[12]\d|3[01]))$/gm;
+        return this.isString(value) && (regex.test(value) || regexDateOnly.test(value));
     }
 
     /**

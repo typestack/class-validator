@@ -698,6 +698,8 @@ describe("IsDateString", function() {
         "2018-01-04T08:15:30Z",
         "2018-01-04T08:15:30+04:00",
         "2018-01-04T08:15:30+04",
+        "2018-09-10",
+        "1998-09-31",
     ];
     const invalidValues = [
         true,
@@ -708,6 +710,8 @@ describe("IsDateString", function() {
         undefined,
         "text",
         "text2018-01-04T08:15:30+04",
+        "2018-10-32",
+        "2019-15-10",
         "2018-01-04T08:15:30Ztext",
     ];
 
