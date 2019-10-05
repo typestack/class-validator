@@ -294,49 +294,49 @@ export class Validator {
     /**
      * Checks if value is defined (!== undefined, !== null).
      */
-    isDefined(value: any): boolean {
+    isDefined(value: unknown): boolean {
         return value !== undefined && value !== null;
     }
 
     /**
      * Checks if value matches ("===") the comparison.
      */
-    equals(value: any, comparison: any): boolean {
+    equals(value: unknown, comparison: unknown): boolean {
         return value === comparison;
     }
 
     /**
      * Checks if value does not match ("!==") the comparison.
      */
-    notEquals(value: any, comparison: any): boolean {
+    notEquals(value: unknown, comparison: unknown): boolean {
         return value !== comparison;
     }
 
     /**
      * Checks if given value is empty (=== '', === null, === undefined).
      */
-    isEmpty(value: any): boolean {
+    isEmpty(value: unknown): boolean {
         return value === "" || value === null || value === undefined;
     }
 
     /**
      * Checks if given value is not empty (!== '', !== null, !== undefined).
      */
-    isNotEmpty(value: any): boolean {
+    isNotEmpty(value: unknown): boolean {
         return value !== "" && value !== null && value !== undefined;
     }
 
     /**
      * Checks if given value is in a array of allowed values.
      */
-    isIn(value: any, possibleValues: any[]): boolean {
+    isIn(value: unknown, possibleValues: unknown[]): boolean {
         return !(possibleValues instanceof Array) || possibleValues.some(possibleValue => possibleValue === value);
     }
 
     /**
      * Checks if given value not in a array of allowed values.
      */
-    isNotIn(value: any, possibleValues: any[]): boolean {
+    isNotIn(value: unknown, possibleValues: unknown[]): boolean {
         return !(possibleValues instanceof Array) || !possibleValues.some(possibleValue => possibleValue === value);
     }
 
@@ -347,7 +347,7 @@ export class Validator {
     /**
      * Checks if a given value is a real boolean.
      */
-    isBoolean(value: any): boolean {
+    isBoolean(value: unknown): boolean {
         return value instanceof Boolean || typeof value === "boolean";
     }
 
@@ -355,42 +355,42 @@ export class Validator {
     /**
     * Checks if a given value is a latitude.
     */
-    isLatLong(value: any): boolean {
-        return this.validatorJs.isLatLong(value);
+    isLatLong(value: unknown): boolean {
+        return typeof value === "string" && this.validatorJs.isLatLong(value);
     }
 
     /**
     * Checks if a given value is a latitude.
     */
-    isLatitude(value: any): boolean {
+    isLatitude(value: unknown): boolean {
         return (typeof value === "number" || this.isString(value)) && this.isLatLong(`0,${value}`);
     }
 
     /**
     * Checks if a given value is a longitude.
     */
-    isLongitude(value: any): boolean {
+    isLongitude(value: unknown): boolean {
         return (typeof value === "number" || this.isString(value)) && this.isLatLong(`${value},0`);
     }
 
     /**
      * Checks if a given value is a real date.
      */
-    isDate(value: any): boolean {
+    isDate(value: unknown): boolean {
         return value instanceof Date && !isNaN(value.getTime());
     }
 
     /**
      * Checks if a given value is a real string.
      */
-    isString(value: any): boolean {
+    isString(value: unknown): value is string {
         return value instanceof String || typeof value === "string";
     }
 
     /**
      * Checks if a given value is a ISOString date.
      */
-    isDateString(value: any): boolean {
+    isDateString(value: unknown): boolean {
         const regex = /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|\+[0-2]\d(?:\:[0-5]\d)?)?$/g;
         const regexDateOnly = /([12]\d{3}[-\/.](0[1-9]|1[0-2])[-\/.](0[1-9]|[12]\d|3[01]))$/gm;
         return this.isString(value) && (regex.test(value) || regexDateOnly.test(value));
@@ -399,14 +399,14 @@ export class Validator {
     /**
      * Checks if a given value is an array
      */
-    isArray(value: any): boolean {
+    isArray(value: unknown): boolean {
         return value instanceof Array;
     }
 
     /**
      * Checks if a given value is an enum
      */
-    isEnum(value: any, entity: any): boolean {
+    isEnum(value: unknown, entity: any): boolean {
         const enumValues = Object.keys(entity)
             .map(k => entity[k]);
         return enumValues.indexOf(value) >= 0;
@@ -415,7 +415,11 @@ export class Validator {
     /**
      * Checks if a given value is a number.
      */
-    isNumber(value: any, options: IsNumberOptions = {}): boolean {
+    isNumber(value: unknown, options: IsNumberOptions = {}): boolean {
+        if (typeof value !== "number") {
+            return false;
+        }
+
         if (value === Infinity || value === -Infinity) {
             return options.allowInfinity;
         }
@@ -430,8 +434,8 @@ export class Validator {
     /**
      * Checks if value is an integer.
      */
-    isInt(val: number): boolean {
-        return Number.isInteger(val);
+    isInt(val: unknown): boolean {
+        return typeof val === "number" && Number.isInteger(val);
     }
 
     // -------------------------------------------------------------------------
@@ -441,7 +445,7 @@ export class Validator {
     /**
      * Checks if value is a number that's divisible by another.
      */
-    isDivisibleBy(value: number, num: number): boolean {
+    isDivisibleBy(value: unknown, num: number): boolean {
         return  typeof value === "number" &&
             typeof num === "number" &&
             this.validatorJs.isDivisibleBy(String(value), num);
@@ -450,28 +454,28 @@ export class Validator {
     /**
      * Checks if the value is a positive number.
      */
-    isPositive(value: number): boolean {
+    isPositive(value: unknown): boolean {
         return typeof value === "number" && value > 0;
     }
 
     /**
      * Checks if the value is a negative number.
      */
-    isNegative(value: number): boolean {
+    isNegative(value: unknown): boolean {
         return typeof value === "number" && value < 0;
     }
 
     /**
      * Checks if the first number is greater than or equal to the second.
      */
-    min(num: number, min: number): boolean {
+    min(num: unknown, min: number): boolean {
         return typeof num === "number" && typeof min === "number" && num >= min;
     }
 
     /**
      * Checks if the first number is less than or equal to the second.
      */
-    max(num: number, max: number): boolean {
+    max(num: unknown, max: number): boolean {
         return typeof num === "number" && typeof max === "number" && num <= max;
     }
 
@@ -482,15 +486,15 @@ export class Validator {
     /**
      * Checks if the value is a date that's after the specified date.
      */
-    minDate(date: Date, minDate: Date): boolean {
-        return date && date.getTime() >= minDate.getTime();
+    minDate(date: unknown, minDate: Date): boolean {
+        return date instanceof Date && date.getTime() >= minDate.getTime();
     }
 
     /**
      * Checks if the value is a date that's before the specified date.
      */
-    maxDate(date: Date, maxDate: Date): boolean {
-        return date && date.getTime() <= maxDate.getTime();
+    maxDate(date: unknown, maxDate: Date): boolean {
+        return date instanceof Date && date.getTime() <= maxDate.getTime();
     }
 
     // -------------------------------------------------------------------------
@@ -501,7 +505,7 @@ export class Validator {
      * Checks if a string is a boolean.
      * If given value is not a string, then it returns false.
      */
-    isBooleanString(value: string): boolean {
+    isBooleanString(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isBoolean(value);
     }
 
@@ -509,7 +513,7 @@ export class Validator {
      * Checks if the string is numeric.
      * If given value is not a string, then it returns false.
      */
-    isNumberString(value: string, options?: ValidatorJS.IsNumericOptions): boolean {
+    isNumberString(value: unknown, options?: ValidatorJS.IsNumericOptions): boolean {
         return typeof value === "string" && this.validatorJs.isNumeric(value, options);
     }
 
@@ -521,7 +525,7 @@ export class Validator {
      * Checks if the string contains the seed.
      * If given value is not a string, then it returns false.
      */
-    contains(value: string, seed: string): boolean {
+    contains(value: unknown, seed: string): boolean {
         return typeof value === "string" && this.validatorJs.contains(value, seed);
     }
 
@@ -529,7 +533,7 @@ export class Validator {
      * Checks if the string does not contain the seed.
      * If given value is not a string, then it returns false.
      */
-    notContains(value: string, seed: string): boolean {
+    notContains(value: unknown, seed: string): boolean {
         return typeof value === "string" && !this.validatorJs.contains(value, seed);
     }
 
@@ -537,7 +541,7 @@ export class Validator {
      * Checks if the string contains only letters (a-zA-Z).
      * If given value is not a string, then it returns false.
      */
-    isAlpha(value: string, locale?: ValidatorJS.AlphaLocale): boolean {
+    isAlpha(value: unknown, locale?: ValidatorJS.AlphaLocale): boolean {
         return typeof value === "string" && this.validatorJs.isAlpha(value, locale);
     }
 
@@ -545,7 +549,7 @@ export class Validator {
      * Checks if the string contains only letters and numbers.
      * If given value is not a string, then it returns false.
      */
-    isAlphanumeric(value: string, locale?: ValidatorJS.AlphanumericLocale): boolean {
+    isAlphanumeric(value: unknown, locale?: ValidatorJS.AlphanumericLocale): boolean {
         return typeof value === "string" && this.validatorJs.isAlphanumeric(value, locale);
     }
 
@@ -553,7 +557,7 @@ export class Validator {
      * Checks if the string is a valid decimal.
      * If given value is not a string, then it returns false.
      */
-    isDecimal(value: string, options?: ValidatorJS.IsDecimalOptions): boolean {
+    isDecimal(value: unknown, options?: ValidatorJS.IsDecimalOptions): boolean {
         return typeof value === "string" && this.validatorJs.isDecimal(value, options);
     }
 
@@ -562,7 +566,7 @@ export class Validator {
      * Checks if the string contains ASCII chars only.
      * If given value is not a string, then it returns false.
      */
-    isAscii(value: string): boolean {
+    isAscii(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isAscii(value);
     }
 
@@ -570,7 +574,7 @@ export class Validator {
      * Checks if a string is base64 encoded.
      * If given value is not a string, then it returns false.
      */
-    isBase64(value: string): boolean {
+    isBase64(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isBase64(value);
     }
 
@@ -578,7 +582,7 @@ export class Validator {
      * Checks if the string's length (in bytes) falls in a range.
      * If given value is not a string, then it returns false.
      */
-    isByteLength(value: string, min: number, max?: number): boolean {
+    isByteLength(value: unknown, min: number, max?: number): boolean {
         return typeof value === "string" && this.validatorJs.isByteLength(value, min, max);
     }
 
@@ -586,7 +590,7 @@ export class Validator {
      * Checks if the string is a credit card.
      * If given value is not a string, then it returns false.
      */
-    isCreditCard(value: string): boolean {
+    isCreditCard(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isCreditCard(value);
     }
 
@@ -594,7 +598,7 @@ export class Validator {
      * Checks if the string is a valid currency amount.
      * If given value is not a string, then it returns false.
      */
-    isCurrency(value: string, options?: ValidatorJS.IsCurrencyOptions): boolean {
+    isCurrency(value: unknown, options?: ValidatorJS.IsCurrencyOptions): boolean {
         return typeof value === "string" && this.validatorJs.isCurrency(value, options);
     }
 
@@ -602,7 +606,7 @@ export class Validator {
      * Checks if the string is an email.
      * If given value is not a string, then it returns false.
      */
-    isEmail(value: string, options?: ValidatorJS.IsEmailOptions): boolean {
+    isEmail(value: unknown, options?: ValidatorJS.IsEmailOptions): boolean {
         return typeof value === "string" && this.validatorJs.isEmail(value, options);
     }
 
@@ -610,7 +614,7 @@ export class Validator {
      * Checks if the string is a fully qualified domain name (e.g. domain.com).
      * If given value is not a string, then it returns false.
      */
-    isFQDN(value: string, options?: ValidatorJS.IsFQDNOptions): boolean {
+    isFQDN(value: unknown, options?: ValidatorJS.IsFQDNOptions): boolean {
         return typeof value === "string" && this.validatorJs.isFQDN(value, options);
     }
 
@@ -618,7 +622,7 @@ export class Validator {
      * Checks if the string contains any full-width chars.
      * If given value is not a string, then it returns false.
      */
-    isFullWidth(value: string): boolean {
+    isFullWidth(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isFullWidth(value);
     }
 
@@ -626,7 +630,7 @@ export class Validator {
      * Checks if the string contains any half-width chars.
      * If given value is not a string, then it returns false.
      */
-    isHalfWidth(value: string): boolean {
+    isHalfWidth(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isHalfWidth(value);
     }
 
@@ -634,7 +638,7 @@ export class Validator {
      * Checks if the string contains variable-width chars.
      * If given value is not a string, then it returns false.
      */
-    isVariableWidth(value: string): boolean {
+    isVariableWidth(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isVariableWidth(value);
     }
 
@@ -642,7 +646,7 @@ export class Validator {
      * Checks if the string is a hexadecimal color.
      * If given value is not a string, then it returns false.
      */
-    isHexColor(value: string): boolean {
+    isHexColor(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isHexColor(value);
     }
 
@@ -650,7 +654,7 @@ export class Validator {
      * Checks if the string is a hexadecimal number.
      * If given value is not a string, then it returns false.
      */
-    isHexadecimal(value: string): boolean {
+    isHexadecimal(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isHexadecimal(value);
     }
 
@@ -658,22 +662,22 @@ export class Validator {
      * Checks if the string is an IP (version 4 or 6).
      * If given value is not a string, then it returns false.
      */
-    isIP(value: string, version?: number): boolean {
+    isIP(value: unknown, version?: number): boolean {
         return typeof value === "string" && this.validatorJs.isIP(value, version);
     }
 
     /**
      * Check if the string is a valid port number.
      */
-    isPort(value: string): boolean {
-        return this.validatorJs.isPort(value);
+    isPort(value: unknown): boolean {
+        return typeof value === "string" && this.validatorJs.isPort(value);
     }
 
     /**
      * Checks if the string is an ISBN (version 10 or 13).
      * If given value is not a string, then it returns false.
      */
-    isISBN(value: string, version?: number): boolean {
+    isISBN(value: unknown, version?: number): boolean {
         return typeof value === "string" && this.validatorJs.isISBN(value, version);
     }
 
@@ -681,7 +685,7 @@ export class Validator {
      * Checks if the string is an ISIN (stock/security identifier).
      * If given value is not a string, then it returns false.
      */
-    isISIN(value: string): boolean {
+    isISIN(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isISIN(value);
     }
 
@@ -689,7 +693,7 @@ export class Validator {
      * Checks if the string is a valid ISO 8601 date.
      * If given value is not a string, then it returns false.
      */
-    isISO8601(value: string): boolean {
+    isISO8601(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isISO8601(value);
     }
 
@@ -697,7 +701,7 @@ export class Validator {
      * Checks if the string is valid JSON (note: uses JSON.parse).
      * If given value is not a string, then it returns false.
      */
-    isJSON(value: string): boolean {
+    isJSON(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isJSON(value);
     }
 
@@ -705,7 +709,7 @@ export class Validator {
      * Checks if the value is valid Object.
      * Returns false if the value is not an object.
      */
-    isObject(value: any): boolean {
+    isObject(value: unknown): value is object {
         return value != null && (typeof value === "object" || typeof value === "function") && !Array.isArray(value);
     }
 
@@ -713,7 +717,7 @@ export class Validator {
      * Checks if the value is valid Object & not empty.
      * Returns false if the value is not an object or an empty valid object.
      */
-    isNotEmptyObject(value: any): boolean {
+    isNotEmptyObject(value: unknown): boolean {
         return this.isObject(value) && !this._isEmptyObject(value);
     }
 
@@ -721,7 +725,7 @@ export class Validator {
      * Checks if the string is lowercase.
      * If given value is not a string, then it returns false.
      */
-    isLowercase(value: string): boolean {
+    isLowercase(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isLowercase(value);
     }
 
@@ -730,7 +734,7 @@ export class Validator {
      * 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
      * If given value is not a string, then it returns false.
      */
-    isMobilePhone(value: string, locale: ValidatorJS.MobilePhoneLocale): boolean {
+    isMobilePhone(value: unknown, locale: ValidatorJS.MobilePhoneLocale): boolean {
         return typeof value === "string" && this.validatorJs.isMobilePhone(value, locale);
     }
 
@@ -741,7 +745,7 @@ export class Validator {
      * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
      * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
      */
-    isPhoneNumber(value: string, region: string): boolean {
+    isPhoneNumber(value: unknown, region: string): boolean {
         try {
             const phoneNum = this.libPhoneNumber.phoneUtil.parseAndKeepRawInput(value, region);
             return this.libPhoneNumber.phoneUtil.isValidNumber(phoneNum);
@@ -754,14 +758,14 @@ export class Validator {
     /**
      * Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.
      */
-    isISO31661Alpha2(value: string): boolean {
+    isISO31661Alpha2(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isISO31661Alpha2(value);
     }
 
     /**
      * Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.
      */
-    isISO31661Alpha3(value: string): boolean {
+    isISO31661Alpha3(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isISO31661Alpha3(value);
     }
 
@@ -769,7 +773,7 @@ export class Validator {
      * Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
      * If given value is not a string, then it returns false.
      */
-    isMongoId(value: string): boolean {
+    isMongoId(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isMongoId(value);
     }
 
@@ -777,7 +781,7 @@ export class Validator {
      * Checks if the string contains one or more multibyte chars.
      * If given value is not a string, then it returns false.
      */
-    isMultibyte(value: string): boolean {
+    isMultibyte(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isMultibyte(value);
     }
 
@@ -785,7 +789,7 @@ export class Validator {
      * Checks if the string contains any surrogate pairs chars.
      * If given value is not a string, then it returns false.
      */
-    isSurrogatePair(value: string): boolean {
+    isSurrogatePair(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isSurrogatePair(value);
     }
 
@@ -793,7 +797,7 @@ export class Validator {
      * Checks if the string is an url.
      * If given value is not a string, then it returns false.
      */
-    isURL(value: string, options?: ValidatorJS.IsURLOptions): boolean {
+    isURL(value: unknown, options?: ValidatorJS.IsURLOptions): boolean {
         return typeof value === "string" && this.validatorJs.isURL(value, options);
     }
 
@@ -801,7 +805,7 @@ export class Validator {
      * Checks if the string is a UUID (version 3, 4 or 5).
      * If given value is not a string, then it returns false.
      */
-    isUUID(value: string, version?: "3"|"4"|"5"): boolean {
+    isUUID(value: unknown, version?: "3"|"4"|"5"): boolean {
         return typeof value === "string" && this.validatorJs.isUUID(value, version);
     }
 
@@ -809,7 +813,7 @@ export class Validator {
      * Checks if the string is uppercase.
      * If given value is not a string, then it returns false.
      */
-    isUppercase(value: string): boolean {
+    isUppercase(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isUppercase(value);
     }
 
@@ -817,7 +821,7 @@ export class Validator {
      * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
      * If given value is not a string, then it returns false.
      */
-    length(value: string, min: number, max?: number): boolean {
+    length(value: unknown, min: number, max?: number): boolean {
         return typeof value === "string" && this.validatorJs.isLength(value, min, max);
     }
 
@@ -825,7 +829,7 @@ export class Validator {
      * Checks if the string's length is not less than given number. Note: this function takes into account surrogate pairs.
      * If given value is not a string, then it returns false.
      */
-    minLength(value: string, min: number) {
+    minLength(value: unknown, min: number) {
         return typeof value === "string" && this.length(value, min);
     }
 
@@ -833,7 +837,7 @@ export class Validator {
      * Checks if the string's length is not more than given number. Note: this function takes into account surrogate pairs.
      * If given value is not a string, then it returns false.
      */
-    maxLength(value: string, max: number) {
+    maxLength(value: unknown, max: number) {
         return typeof value === "string" && this.length(value, 0, max);
     }
 
@@ -841,7 +845,7 @@ export class Validator {
      * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
      * If given value is not a string, then it returns false.
      */
-    matches(value: string, pattern: RegExp, modifiers?: string): boolean {
+    matches(value: unknown, pattern: RegExp, modifiers?: string): boolean {
         return typeof value === "string" && this.validatorJs.matches(value, pattern, modifiers);
     }
 
@@ -849,7 +853,7 @@ export class Validator {
      * Checks if the string represents a time without a given timezone in the format HH:MM (military)
      * If the given value does not match the pattern HH:MM, then it returns false.
      */
-    isMilitaryTime(value: string): boolean {
+    isMilitaryTime(value: unknown): boolean {
         return this.matches(value, /^([01]\d|2[0-3]):?([0-5]\d)$/);
     }
 
@@ -861,32 +865,29 @@ export class Validator {
      * Checks if array contains all values from the given array of values.
      * If null or undefined is given then this function returns false.
      */
-    arrayContains(array: any[], values: any[]) {
+    arrayContains(array: unknown, values: any[]) {
         if (!(array instanceof Array))
             return false;
 
-        return !array || values.every(value => array.indexOf(value) !== -1);
+        return values.every(value => array.indexOf(value) !== -1);
     }
 
     /**
      * Checks if array does not contain any of the given values.
      * If null or undefined is given then this function returns false.
      */
-    arrayNotContains(array: any[], values: any[]) {
+    arrayNotContains(array: unknown, values: any[]) {
         if (!(array instanceof Array))
             return false;
 
-        return !array || values.every(value => array.indexOf(value) === -1);
+        return values.every(value => array.indexOf(value) === -1);
     }
 
     /**
      * Checks if given array is not empty.
      * If null or undefined is given then this function returns false.
      */
-    arrayNotEmpty(array: any[]) {
-        if (!(array instanceof Array))
-            return false;
-
+    arrayNotEmpty(array: unknown) {
         return array instanceof Array && array.length > 0;
     }
 
@@ -894,10 +895,7 @@ export class Validator {
      * Checks if array's length is as minimal this number.
      * If null or undefined is given then this function returns false.
      */
-    arrayMinSize(array: any[], min: number) {
-        if (!(array instanceof Array))
-            return false;
-
+    arrayMinSize(array: unknown, min: number) {
         return array instanceof Array && array.length >= min;
     }
 
@@ -905,10 +903,7 @@ export class Validator {
      * Checks if array's length is as maximal this number.
      * If null or undefined is given then this function returns false.
      */
-    arrayMaxSize(array: any[], max: number) {
-        if (!(array instanceof Array))
-            return false;
-
+    arrayMaxSize(array: unknown, max: number) {
         return array instanceof Array && array.length <= max;
     }
 
@@ -916,7 +911,7 @@ export class Validator {
      * Checks if all array's values are unique. Comparison for objects is reference-based.
      * If null or undefined is given then this function returns false.
      */
-    arrayUnique(array: any[]) {
+    arrayUnique(array: unknown) {
         if (!(array instanceof Array))
             return false;
 
@@ -927,7 +922,7 @@ export class Validator {
     /**
      * Checks if the value is an instance of the specified object.
      */
-    isInstance(object: any, targetTypeConstructor: new (...args: any[]) => any) {
+    isInstance(object: unknown, targetTypeConstructor: new (...args: any[]) => any) {
         return targetTypeConstructor
             && typeof targetTypeConstructor === "function"
             && object instanceof targetTypeConstructor;
