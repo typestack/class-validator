@@ -1,3 +1,19 @@
+## [0.10.2](https://github.com/typestack/class-validator/compare/v0.10.1...v0.10.2) (2019-10-14)
+
+
+### Bug Fixes
+
+* apply custom constraint class validation to each item in the array ([#295](https://github.com/typestack/class-validator/issues/295)) ([5bb704e](https://github.com/typestack/class-validator/commit/5bb704e)), closes [#260](https://github.com/typestack/class-validator/issues/260)
+
+
+### Features
+
+* add isLatLong, isLatitude, isLongtitude validators ([#427](https://github.com/typestack/class-validator/issues/427)) ([3fd15c4](https://github.com/typestack/class-validator/commit/3fd15c4)), closes [#415](https://github.com/typestack/class-validator/issues/415)
+* add IsObject and IsNotEmptyObject new decorators ([#334](https://github.com/typestack/class-validator/issues/334)) ([0a41aeb](https://github.com/typestack/class-validator/commit/0a41aeb))
+* support ES6 Map and Set for regular validators with each option ([#430](https://github.com/typestack/class-validator/issues/430)) ([a055bba](https://github.com/typestack/class-validator/commit/a055bba)), closes [#428](https://github.com/typestack/class-validator/issues/428)
+
+
+
 ## [0.10.1](https://github.com/typestack/class-validator/compare/v0.10.0...v0.10.1) (2019-09-25)
 
 
