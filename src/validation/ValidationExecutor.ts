@@ -111,10 +111,10 @@ export class ValidationExecutor {
 
                 // throw errors
                 notAllowedProperties.forEach(property => {
-                    validationErrors.push({
-                        target: object, property, value: (object as any)[property], children: undefined,
-                        constraints: { [ValidationTypes.WHITELIST]: `property ${property} should not exist` }
-                    });
+                    const validationError: ValidationError = this.generateValidationError(object, (object as any)[property], property);
+                    validationError.constraints = { [ValidationTypes.WHITELIST]: `property ${property} should not exist` };
+                    validationError.children = undefined;
+                    validationErrors.push(validationError);
                 });
 
             } else {
