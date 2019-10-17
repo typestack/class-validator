@@ -17,9 +17,6 @@ export class Validator {
     // -------------------------------------------------------------------------
 
     private validatorJs = validator;
-    private libPhoneNumber = {
-        phoneUtil: require("google-libphonenumber").PhoneNumberUtil.getInstance(),
-    };
     private _isEmptyObject = function(object: object) {
         for (const key in object) {
             if (object.hasOwnProperty(key)) {
@@ -238,8 +235,6 @@ export class Validator {
                 return this.isLowercase(value);
             case ValidationTypes.IS_MOBILE_PHONE:
                 return this.isMobilePhone(value, metadata.constraints[0]);
-            case ValidationTypes.IS_PHONE_NUMBER:
-                return this.isPhoneNumber(value, metadata.constraints[0]);
             case ValidationTypes.IS_ISO31661_ALPHA_2:
                 return this.isISO31661Alpha2(value);
             case ValidationTypes.IS_ISO31661_ALPHA_3:
@@ -735,23 +730,6 @@ export class Validator {
      */
     isMobilePhone(value: unknown, locale: ValidatorJS.MobilePhoneLocale): boolean {
         return typeof value === "string" && this.validatorJs.isMobilePhone(value, locale);
-    }
-
-    /**
-     * Checks if the string is a valid phone number.
-     * @param value the potential phone number string to test
-     * @param {string} region 2 characters uppercase country code (e.g. DE, US, CH).
-     * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
-     * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
-     */
-    isPhoneNumber(value: unknown, region: string): boolean {
-        try {
-            const phoneNum = this.libPhoneNumber.phoneUtil.parseAndKeepRawInput(value, region);
-            return this.libPhoneNumber.phoneUtil.isValidNumber(phoneNum);
-        } catch (error) {
-            // logging?
-            return false;
-        }
     }
 
     /**

@@ -77,7 +77,6 @@ export class ValidationTypes {
     static IS_NOT_EMPTY_OBJECT = "isNotEmptyObject";
     static IS_LOWERCASE = "isLowercase";
     static IS_MOBILE_PHONE = "isMobilePhone";
-    static IS_PHONE_NUMBER = "isPhoneNumber";
     static IS_ISO31661_ALPHA_2 = "isISO31661Alpha2";
     static IS_ISO31661_ALPHA_3 = "isISO31661Alpha3";
     static IS_MONGO_ID = "isMongoId";
@@ -235,8 +234,6 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a lowercase string";
             case this.IS_MOBILE_PHONE:
                 return eachPrefix + "$property must be a phone number";
-            case this.IS_PHONE_NUMBER:
-                return eachPrefix + "$property must be a valid phone number";
             case this.IS_ISO31661_ALPHA_2:
                 return eachPrefix + "$property must be a valid ISO31661 Alpha2 code";
             case this.IS_ISO31661_ALPHA_3:
@@ -278,7 +275,7 @@ export class ValidationTypes {
                 return eachPrefix + "$property must match $constraint1 regular expression";
             case this.IS_MILITARY_TIME:
                 return eachPrefix + "$property must be a valid representation of military time in the format HH:MM";
-                
+
             /* array checkers */
             case this.ARRAY_CONTAINS:
                 return eachPrefix + "$property must contain $constraint1 values";

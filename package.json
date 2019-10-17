@@ -1,30 +1,35 @@
 {
-  "name": "class-validator",
+  "name": "class-validator-light",
   "private": true,
-  "version": "0.10.2",
-  "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
-  "license": "MIT",
+  "version": "0.0.1",
+  "description": "Lightweight class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
+  "license": "Beerware",
   "readmeFilename": "README.md",
   "author": {
-    "name": "Umed Khudoiberdiev",
-    "email": "pleerock.me@gmail.com"
+    "name": "Marcel Mayer",
+    "email": "servrox@live.com"
   },
+  "homepage": "http://servrox.solutions/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/typestack/class-validator.git"
+    "url": "https://github.com/servrox/class-validator-light.git"
   },
   "bugs": {
-    "url": "https://github.com/typestack/class-validator/issues"
+    "url": "https://github.com/servrox/class-validator-light/issues"
   },
   "tags": [
     "validator",
     "validation",
     "typescript",
-    "typescript-validator"
+    "typescript-validator",
+    "google-libphonenumber",
+    "no-google-libphonenumber",
+    "without-google-libphonenumber",
+    "validator-light",
+    "class-validator-light"
   ],
   "dependencies": {
     "@types/validator": "10.11.3",
-    "google-libphonenumber": "^3.1.6",
     "validator": "11.1.0"
   },
   "devDependencies": {
