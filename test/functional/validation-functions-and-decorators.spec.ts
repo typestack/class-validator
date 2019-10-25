@@ -73,6 +73,7 @@ import {
     IsPhoneNumber,
     IsISO31661Alpha2,
     IsISO31661Alpha3,
+    IsMobilePhone,
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -467,7 +468,7 @@ describe("IsLatLong", function () {
 
     it("should fail if validator.validate said that its invalid", function (done) {
         checkInvalidValues(new MyClass(), invalidValues, done);
-    }); 
+    });
 
 });
 describe("IsLatitude", function () {
@@ -3068,6 +3069,51 @@ describe("IsMilitaryTime", function() {
         const invalidValues = [undefined, null, "23:00 and invalid counterpart"];
         checkInvalidValues(new MyClass(), invalidValues, done);
     });
+
+});
+
+describe("isMobilePhone", function () {
+    describe("with string", function () {
+        const validValue = ["+8613037427767", "18996565961"];
+        const invalidValue = ["1303742776", "39167211"];
+
+        class MyClass {
+            @IsMobilePhone("zh-CN")
+            someProperty: string;
+        }
+
+        it("should not fail if validator.validate said that its valid", function (done) {
+            checkValidValues(new MyClass(), validValue, done);
+        });
+
+        it("should fail if validator.validate said that its invalid", function (done) {
+            checkInvalidValues(new MyClass(), invalidValue, done);
+        });
+    });
+
+    describe("with array", function () {
+        const validValue = [
+            "+8613037427767", "18996565961",
+            "91054832", "85292449908"
+        ];
+        const invalidValue = [
+            "1303742776", "39167211", "852924499"
+        ];
+
+        class MyClass {
+            @IsMobilePhone(["zh-CN", "zh-HK"])
+            someProperty: string;
+        }
+
+        it("should not fail if validator.validate said that its valid", function (done) {
+            checkValidValues(new MyClass(), validValue, done);
+        });
+
+        it("should fail if validator.validate said that its invalid", function (done) {
+            checkInvalidValues(new MyClass(), invalidValue, done);
+        });
+    });
+
 
 });
 

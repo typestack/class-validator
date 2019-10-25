@@ -972,7 +972,7 @@ export function IsLowercase(validationOptions?: ValidationOptions) {
  * Checks if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-HK', 'zh-TW', 'en-ZA', 'en-AU',
  * 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
  */
-export function IsMobilePhone(locale: string, validationOptions?: ValidationOptions) {
+export function IsMobilePhone(locale: string | Array<string>, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_MOBILE_PHONE,

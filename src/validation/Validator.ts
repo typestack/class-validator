@@ -733,7 +733,7 @@ export class Validator {
      * 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
      * If given value is not a string, then it returns false.
      */
-    isMobilePhone(value: unknown, locale: ValidatorJS.MobilePhoneLocale): boolean {
+    isMobilePhone(value: unknown, locale: ValidatorJS.MobilePhoneLocale | ValidatorJS.MobilePhoneLocale[]): boolean {
         return typeof value === "string" && this.validatorJs.isMobilePhone(value, locale);
     }
 
