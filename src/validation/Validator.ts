@@ -729,7 +729,7 @@ export class Validator {
     }
 
     /**
-     * Checks if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-TW', 'en-ZA', 'en-AU', 'en-HK',
+     * Checks if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-HK', 'zh-TW', 'en-ZA', 'en-AU',
      * 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
      * If given value is not a string, then it returns false.
      */

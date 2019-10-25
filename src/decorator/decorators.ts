@@ -607,7 +607,7 @@ export function IsAlpha(locale?: string, validationOptions?: ValidationOptions) 
             type: ValidationTypes.IS_ALPHA,
             target: object.constructor,
             propertyName: propertyName,
-            constraints: [locale], 
+            constraints: [locale],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -623,7 +623,7 @@ export function IsAlphanumeric(locale?: string, validationOptions?: ValidationOp
             type: ValidationTypes.IS_ALPHANUMERIC,
             target: object.constructor,
             propertyName: propertyName,
-            constraints: [locale], 
+            constraints: [locale],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
@@ -969,7 +969,7 @@ export function IsLowercase(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-TW', 'en-ZA', 'en-AU', 'en-HK',
+ * Checks if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-HK', 'zh-TW', 'en-ZA', 'en-AU',
  * 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
  */
 export function IsMobilePhone(locale: string, validationOptions?: ValidationOptions) {
