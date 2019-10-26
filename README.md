@@ -839,9 +839,9 @@ validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.pa
 validator.isObject(object); // Checks if the object is valid Object (null, functions, arrays will return false)
 validator.isNotEmptyObject(object); // Checks if the object is not empty
 validator.isLowercase(str); // Checks if the string is lowercase.
-validator.isLatLong(str); // Checks if the string is lowercase.
-validator.isLatitude(str); // Checks if the string is lowercase.
-validator.isLongtitude(str); // Checks if the string is lowercase.
+validator.isLatLong(str); // Checks if the string is a valid latitude-longitude coordinate in the format lat,long
+validator.isLatitude(str); // Checks if the string or number is a valid latitude coordinate
+validator.isLongtitude(str); // Checks if the string or number is a valid longitude coordinate
 validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
 validator.isISO31661Alpha2(str); // Check if the string is a valid ISO 3166-1 alpha-2
 validator.isISO31661Alpha3(str); // Check if the string is a valid ISO 3166-1 alpha-3
