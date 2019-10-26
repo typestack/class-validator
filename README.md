@@ -832,6 +832,7 @@ validator.isVariableWidth(str); // Checks if the string contains variable-width 
 validator.isHexColor(str); // Checks if the string is a hexadecimal color.
 validator.isHexadecimal(str); // Checks if the string is a hexadecimal number.
 validator.isIP(str, version); // Checks if the string is an IP (version 4 or 6).
+validator.isPort(str); // Check if the string is a valid port number.
 validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
 validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
 validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
@@ -923,6 +924,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                                                     |
 | `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                                                    |
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6).                                                                                  |
+| `@IsPort()`                                     | Check if the string is a valid port number.                                                                                      |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13).                                                                              |
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
