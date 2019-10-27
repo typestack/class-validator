@@ -924,6 +924,21 @@ export function IsJSON(validationOptions?: ValidationOptions) {
 }
 
 /**
+ * Checks if the string is valid JWT.
+ */
+export function IsJWT(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_JWT,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if the value is a valid object.
  */
 export function IsObject(validationOptions?: ValidationOptions) {

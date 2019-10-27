@@ -230,6 +230,8 @@ export class Validator {
                 return this.isISO8601(value);
             case ValidationTypes.IS_JSON:
                 return this.isJSON(value);
+            case ValidationTypes.IS_JWT:
+                return this.isJWT(value);
             case ValidationTypes.IS_OBJECT:
                 return this.isObject(value);
             case ValidationTypes.IS_NOT_EMPTY_OBJECT:
@@ -702,6 +704,14 @@ export class Validator {
      */
     isJSON(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isJSON(value);
+    }
+
+    /**
+     * Checks if the string is valid JWT token.
+     * If given value is not a string, then it returns false.
+     */
+    isJWT(value: unknown): boolean {
+        return typeof value === "string" && this.validatorJs.isJWT(value);
     }
 
     /**

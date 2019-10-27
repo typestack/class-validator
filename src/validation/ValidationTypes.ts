@@ -73,6 +73,7 @@ export class ValidationTypes {
     static IS_ISIN = "isIsin";
     static IS_ISO8601 = "isIso8601";
     static IS_JSON = "isJson";
+    static IS_JWT = "isJwt";
     static IS_OBJECT = "isObject";
     static IS_NOT_EMPTY_OBJECT = "isNotEmptyObject";
     static IS_LOWERCASE = "isLowercase";
@@ -227,6 +228,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a valid ISO 8601 date string";
             case this.IS_JSON:
                 return eachPrefix + "$property must be a json string";
+            case this.IS_JWT:
+                return eachPrefix + "$property must be a jwt string";
             case this.IS_OBJECT:
                 return eachPrefix + "$property must be an object";
             case this.IS_NOT_EMPTY_OBJECT:
