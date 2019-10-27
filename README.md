@@ -858,6 +858,7 @@ validator.minLength(str, min); // Checks if the string's length is not less than
 validator.maxLength(str, max); // Checks if the string's length is not more than given number.
 validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 validator.isMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
+validator.isHash(algorithm: string); // Checks if the string is a hash of type algorithm.
 
 // array validation methods
 validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
@@ -951,6 +952,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number.                                                                     |
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 | `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM.                                         |
+| `@IsHash(algorithm: string)`                    | Checkq if the string is a hash of type algorithm. <br/><br/>Algorithm is one of `['md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'tiger128', 'tiger160', 'tiger192', 'crc32', 'crc32b']`                                                                                 |
 | **Array validation decorators**                                                                                                                                                    |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                           |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                                                        |
