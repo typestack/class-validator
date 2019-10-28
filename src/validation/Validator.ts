@@ -230,6 +230,8 @@ export class Validator {
                 return this.isISO8601(value);
             case ValidationTypes.IS_JSON:
                 return this.isJSON(value);
+            case ValidationTypes.IS_JWT:
+                return this.isJWT(value);
             case ValidationTypes.IS_OBJECT:
                 return this.isObject(value);
             case ValidationTypes.IS_NOT_EMPTY_OBJECT:
@@ -266,6 +268,8 @@ export class Validator {
                 return this.matches(value, metadata.constraints[0], metadata.constraints[1]);
             case ValidationTypes.IS_MILITARY_TIME:
                 return this.isMilitaryTime(value);
+            case ValidationTypes.IS_HASH:
+                return this.isHash(value, metadata.constraints[0]);
 
             /* array checkers */
             case ValidationTypes.ARRAY_CONTAINS:
@@ -705,6 +709,14 @@ export class Validator {
     }
 
     /**
+     * Checks if the string is valid JWT token.
+     * If given value is not a string, then it returns false.
+     */
+    isJWT(value: unknown): boolean {
+        return typeof value === "string" && this.validatorJs.isJWT(value);
+    }
+
+    /**
      * Checks if the value is valid Object.
      * Returns false if the value is not an object.
      */
@@ -854,6 +866,15 @@ export class Validator {
      */
     isMilitaryTime(value: unknown): boolean {
         return this.matches(value, /^([01]\d|2[0-3]):?([0-5]\d)$/);
+    }
+
+    /**
+     * check if the string is a hash of type algorithm.
+     * Algorithm is one of ['md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'tiger128',
+     * 'tiger160', 'tiger192', 'crc32', 'crc32b']
+     */
+    isHash(value: unknown, algorithm: ValidatorJS.HashAlgorithm): boolean {
+        return typeof value === "string" && this.validatorJs.isHash(value, algorithm);
     }
 
     // -------------------------------------------------------------------------

@@ -73,6 +73,7 @@ export class ValidationTypes {
     static IS_ISIN = "isIsin";
     static IS_ISO8601 = "isIso8601";
     static IS_JSON = "isJson";
+    static IS_JWT = "isJwt";
     static IS_OBJECT = "isObject";
     static IS_NOT_EMPTY_OBJECT = "isNotEmptyObject";
     static IS_LOWERCASE = "isLowercase";
@@ -91,6 +92,7 @@ export class ValidationTypes {
     static MAX_LENGTH = "maxLength";
     static MATCHES = "matches";
     static IS_MILITARY_TIME = "isMilitaryTime";
+    static IS_HASH = "isHash";
 
     /* array checkers */
     static ARRAY_CONTAINS = "arrayContains";
@@ -227,6 +229,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a valid ISO 8601 date string";
             case this.IS_JSON:
                 return eachPrefix + "$property must be a json string";
+            case this.IS_JWT:
+                return eachPrefix + "$property must be a jwt string";
             case this.IS_OBJECT:
                 return eachPrefix + "$property must be an object";
             case this.IS_NOT_EMPTY_OBJECT:
@@ -278,6 +282,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must match $constraint1 regular expression";
             case this.IS_MILITARY_TIME:
                 return eachPrefix + "$property must be a valid representation of military time in the format HH:MM";
+            case this.IS_HASH:
+                return eachPrefix + "$property must be a hash of type $constraint1";
                 
             /* array checkers */
             case this.ARRAY_CONTAINS:

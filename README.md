@@ -832,16 +832,18 @@ validator.isVariableWidth(str); // Checks if the string contains variable-width 
 validator.isHexColor(str); // Checks if the string is a hexadecimal color.
 validator.isHexadecimal(str); // Checks if the string is a hexadecimal number.
 validator.isIP(str, version); // Checks if the string is an IP (version 4 or 6).
+validator.isPort(str); // Check if the string is a valid port number.
 validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
 validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
 validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
 validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
+validator.isJWT(str) // Checks if the string is valid JWT.
 validator.isObject(object); // Checks if the object is valid Object (null, functions, arrays will return false)
 validator.isNotEmptyObject(object); // Checks if the object is not empty
 validator.isLowercase(str); // Checks if the string is lowercase.
-validator.isLatLong(str); // Checks if the string is lowercase.
-validator.isLatitude(str); // Checks if the string is lowercase.
-validator.isLongtitude(str); // Checks if the string is lowercase.
+validator.isLatLong(str); // Checks if the string is a valid latitude-longitude coordinate in the format lat,long
+validator.isLatitude(str); // Checks if the string or number is a valid latitude coordinate
+validator.isLongtitude(str); // Checks if the string or number is a valid longitude coordinate
 validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
 validator.isISO31661Alpha2(str); // Check if the string is a valid ISO 3166-1 alpha-2
 validator.isISO31661Alpha3(str); // Check if the string is a valid ISO 3166-1 alpha-3
@@ -857,6 +859,7 @@ validator.minLength(str, min); // Checks if the string's length is not less than
 validator.maxLength(str, max); // Checks if the string's length is not more than given number.
 validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 validator.isMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
+validator.isHash(algorithm: string); // Checks if the string is a hash of type algorithm.
 
 // array validation methods
 validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
@@ -923,10 +926,12 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                                                     |
 | `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                                                    |
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6).                                                                                  |
+| `@IsPort()`                                     | Check if the string is a valid port number.                                                                                      |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13).                                                                              |
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
+| `@IsJWT()`                                      | Checks if the string is valid JWT.                                                                                                |
 | `@IsObject()`                                   | Checks if the object is valid Object (null, functions, arrays will return false).                                                                                              |
 | `@IsNotEmptyObject()`                           | Checks if the object is not empty.                                                                                              |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
@@ -949,6 +954,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number.                                                                     |
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 | `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM.                                         |
+| `@IsHash(algorithm: string)`                    | Checkq if the string is a hash of type algorithm. <br/><br/>Algorithm is one of `['md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'tiger128', 'tiger160', 'tiger192', 'crc32', 'crc32b']`                                                                                 |
 | **Array validation decorators**                                                                                                                                                    |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                           |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                                                        |

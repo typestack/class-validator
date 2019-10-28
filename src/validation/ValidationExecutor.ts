@@ -168,6 +168,7 @@ export class ValidationExecutor {
 
         // handle IS_DEFINED validation type the special way - it should work no matter skipUndefinedProperties/skipMissingProperties is set or not
         this.defaultValidations(object, value, definedMetadatas, validationError.constraints);
+        this.mapContexts(object, value, definedMetadatas, validationError);
 
         if (value === undefined && this.validatorOptions && this.validatorOptions.skipUndefinedProperties === true) {
             return;
@@ -186,6 +187,7 @@ export class ValidationExecutor {
         this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
 
         this.mapContexts(object, value, metadatas, validationError);
+        this.mapContexts(object, value, customValidationMetadatas, validationError);
     }
 
     private generateValidationError(object: Object, value: any, propertyName: string) {
@@ -376,7 +378,13 @@ export class ValidationExecutor {
         return metadatas
             .forEach(metadata => {
                 if (metadata.context) {
-                    const type = this.getConstraintType(metadata);
+                    let customConstraint;
+                    if (metadata.type === ValidationTypes.CUSTOM_VALIDATION) {
+                        const customConstraints = this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls);
+                        customConstraint = customConstraints[0];
+                    }
+
+                    const type = this.getConstraintType(metadata, customConstraint);
 
                     if (error.constraints[type]) {
                         if (!error.contexts) {
