@@ -1,7 +1,7 @@
 import "es6-shim";
-import {Contains, Matches, MinLength, ValidateNested, ValidatorConstraint, Validate } from "../../src/decorator/decorators";
+import {Contains, IsDefined, Matches, MinLength, ValidateNested, ValidatorConstraint, Validate } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
-import {ValidationError, ValidatorConstraintInterface} from "../../src";
+import {ValidationError, ValidatorConstraintInterface, ValidationOptions, registerDecorator, ValidationArguments} from "../../src";
 
 import {should, use} from "chai";
 
@@ -937,6 +937,30 @@ describe("validation options", function() {
     describe("context", function() {
 
         it("should map context", function() {
+            function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
+                return function (object: Object, propertyName: string) {
+                    registerDecorator({
+                        target: object.constructor,
+                        propertyName: propertyName,
+                        options: validationOptions,
+                        constraints: [property],
+                        name: "isLongerThan",
+                        validator: {
+                            validate(value: any, args: ValidationArguments) {
+                                const [relatedPropertyName] = args.constraints;
+                                const relatedValue = (args.object as any)[relatedPropertyName];
+                                if (relatedValue === undefined || relatedValue === null)
+                                    return true;
+                                
+                                return typeof value === "string" &&
+                                    typeof relatedValue === "string" &&
+                                    value.length > relatedValue.length;
+                            }
+                        }
+                    });
+                };
+            }
+
             class MyClass {
                 @Contains("hello", {
                     message: "String is not valid. You string must contain a hello word",
@@ -953,14 +977,33 @@ describe("validation options", function() {
                     }
                 })
                 someOtherProperty: string;
+
+                @IsDefined({
+                    context: {
+                        foo: "bar"
+                    }
+                })
+                requiredProperty: string;
+
+                @IsLongerThan("lastName", {
+                    context: { baz: "qux" },
+                    message: "$property must be longer then $constraint1. Given value: $value"
+                })
+                firstName: string;
+            
+                lastName: string;
             }
 
             const model = new MyClass();
-            // model.someProperty = "hell no world";
+            model.firstName = "Short";
+            model.lastName = "LongerThanFirstName";
+
             return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(2);
+                errors.length.should.be.equal(4);
                 errors[0].contexts["contains"].should.be.eql({ hi: "there" });
                 errors[1].contexts["contains"].should.be.eql({ bye: "now" });
+                errors[2].contexts["isDefined"].should.be.eql({ foo: "bar" });
+                errors[3].contexts["isLongerThan"].should.be.eql({ baz: "qux" });
             });
         });
 
