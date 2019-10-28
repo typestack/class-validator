@@ -92,6 +92,7 @@ export class ValidationTypes {
     static MAX_LENGTH = "maxLength";
     static MATCHES = "matches";
     static IS_MILITARY_TIME = "isMilitaryTime";
+    static IS_HASH = "isHash";
 
     /* array checkers */
     static ARRAY_CONTAINS = "arrayContains";
@@ -281,6 +282,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must match $constraint1 regular expression";
             case this.IS_MILITARY_TIME:
                 return eachPrefix + "$property must be a valid representation of military time in the format HH:MM";
+            case this.IS_HASH:
+                return eachPrefix + "$property must be a hash of type $constraint1";
                 
             /* array checkers */
             case this.ARRAY_CONTAINS:

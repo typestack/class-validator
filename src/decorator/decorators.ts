@@ -1233,6 +1233,23 @@ export function IsMilitaryTime(validationOptions?: ValidationOptions) {
     };
 }
 
+/**
+ * Checks if the string is a mobile phone number (locale is one of ['zh-CN', 'zh-TW', 'en-ZA', 'en-AU', 'en-HK',
+ * 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM', 'ru-RU', 'nb-NO', 'nn-NO', 'vi-VN', 'en-NZ']).
+ */
+export function IsHash(algorithm: string, validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_HASH,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [algorithm],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
 // -------------------------------------------------------------------------
 // Array checkers
 // -------------------------------------------------------------------------
