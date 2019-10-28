@@ -53,7 +53,6 @@ describe("custom decorators", function() {
         
         class MyClass {
             @IsLongerThan("lastName", {
-                context: { foo: "bar" },
                 message: "$property must be longer then $constraint1. Given value: $value"
             })
             firstName: string;
@@ -86,16 +85,6 @@ describe("custom decorators", function() {
             return validator.validate(model).then(errors => {
                 errors.length.should.be.equal(1);
                 errors[0].constraints.should.be.eql({ isLongerThan: "firstName must be longer then lastName. Given value: Li" });
-            });
-        });
-
-        it("should include context", function() {
-            const model = new MyClass();
-            model.firstName = "Li";
-            model.lastName = "Kim";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(1);
-                errors[0].contexts.should.be.eql({ isLongerThan: { foo: "bar" } });
             });
         });
         
