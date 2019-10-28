@@ -837,6 +837,7 @@ validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 o
 validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
 validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
 validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
+validator.isJWT(str) // Checks if the string is valid JWT.
 validator.isObject(object); // Checks if the object is valid Object (null, functions, arrays will return false)
 validator.isNotEmptyObject(object); // Checks if the object is not empty
 validator.isLowercase(str); // Checks if the string is lowercase.
@@ -929,6 +930,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
 | `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
+| `@IsJWT()`                                      | Checks if the string is valid JWT.                                                                                                |
 | `@IsObject()`                                   | Checks if the object is valid Object (null, functions, arrays will return false).                                                                                              |
 | `@IsNotEmptyObject()`                           | Checks if the object is not empty.                                                                                              |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
