@@ -859,7 +859,7 @@ validator.minLength(str, min); // Checks if the string's length is not less than
 validator.maxLength(str, max); // Checks if the string's length is not more than given number.
 validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 validator.isMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
-validator.isHash(algorithm: string); // Checks if the string is a hash of type algorithm.
+validator.isHash(str, algorithm); // Checks if the string is a hash of type algorithm.
 
 // array validation methods
 validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
