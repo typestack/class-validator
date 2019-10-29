@@ -75,6 +75,7 @@ import {
     IsISO31661Alpha2,
     IsISO31661Alpha3,
     IsHash,
+    IsMACAddress,
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -2019,6 +2020,55 @@ describe("IsHexadecimal", function() {
     it("should return error object with proper data", function(done) {
         const validationType = "isHexadecimal";
         const message = "someProperty must be a hexadecimal number";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsMACAddress", function() {
+
+    const validValues = [
+        "ab:ab:ab:ab:ab:ab",
+        "FF:FF:FF:FF:FF:FF",
+        "01:02:03:04:05:ab",
+        "01:AB:03:04:05:06"
+    ];
+    const invalidValues = [
+        null,
+        undefined,
+        "abc",
+        "01:02:03:04:05",
+        "01:02:03:04::ab",
+        "1:2:3:4:5:6",
+        "AB:CD:EF:GH:01:02",
+        "A9C5 D4 9F EB D3",
+        "01-02 03:04 05 ab",
+    ];
+
+    class MyClass {
+        @IsMACAddress()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isMACAddress(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isMACAddress(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isMacAddress";
+        const message = "someProperty must be a MAC Address";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
