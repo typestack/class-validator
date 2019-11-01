@@ -1264,6 +1264,23 @@ export function IsHash(algorithm: string, validationOptions?: ValidationOptions)
     };
 }
 
+
+/**
+ * Checks if the string is a valid ISSN.
+ */
+export function IsISSN(options?: ValidatorJS.IsISSNOptions, validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_ISSN,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [options],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
 // -------------------------------------------------------------------------
 // Array checkers
 // -------------------------------------------------------------------------
