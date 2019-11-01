@@ -1,3 +1,26 @@
+# [0.11.0](https://github.com/typestack/class-validator/compare/v0.10.2...v0.11.0) (2019-11-01)
+
+
+### Bug Fixes
+
+* create instance of ValidationError for whitelist errors ([#434](https://github.com/typestack/class-validator/issues/434)) ([a98f5dd](https://github.com/typestack/class-validator/commit/a98f5dd)), closes [#325](https://github.com/typestack/class-validator/issues/325)
+* pass context for isDefined and custom validators ([#296](https://github.com/typestack/class-validator/issues/296)) ([0ef898e](https://github.com/typestack/class-validator/commit/0ef898e)), closes [#292](https://github.com/typestack/class-validator/issues/292)
+
+
+### Features
+
+* add isHash validator ([#445](https://github.com/typestack/class-validator/issues/445)) ([c454cf9](https://github.com/typestack/class-validator/commit/c454cf9))
+* add isISSN validator ([#450](https://github.com/typestack/class-validator/issues/450)) ([4bd586e](https://github.com/typestack/class-validator/commit/4bd586e))
+* add isJWT validator ([#444](https://github.com/typestack/class-validator/issues/444)) ([874861b](https://github.com/typestack/class-validator/commit/874861b))
+* add isMACAddress validator ([#449](https://github.com/typestack/class-validator/issues/449)) ([45b7df7](https://github.com/typestack/class-validator/commit/45b7df7))
+* add support for maxDecimalPlaces on IsNumber ([#381](https://github.com/typestack/class-validator/issues/381)) ([a4dc10e](https://github.com/typestack/class-validator/commit/a4dc10e))
+
+### BREAKING CHANGES
+
+* update @types/validator from 11.1.0 to version 12.0.0 - please check it's [changelog][validator-js-release-notes]
+
+
+
 ## [0.10.2](https://github.com/typestack/class-validator/compare/v0.10.1...v0.10.2) (2019-10-14)
 
 
