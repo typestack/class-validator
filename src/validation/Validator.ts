@@ -218,6 +218,8 @@ export class Validator {
                 return this.isHexColor(value);
             case ValidationTypes.IS_HEXADECIMAL:
                 return this.isHexadecimal(value);
+            case ValidationTypes.IS_MAC_ADDRESS:
+                return this.isMACAddress(value);
             case ValidationTypes.IS_IP:
                 return this.isIP(value, metadata.constraints[0]);
             case ValidationTypes.IS_PORT:
@@ -661,6 +663,14 @@ export class Validator {
      */
     isHexadecimal(value: unknown): boolean {
         return typeof value === "string" && this.validatorJs.isHexadecimal(value);
+    }
+
+    /**
+     * Check if the string is a MAC address.
+     * If given value is not a string, then it returns false.
+     */
+    isMACAddress(value: unknown): boolean {
+        return typeof value === "string" && this.validatorJs.isMACAddress(value);
     }
 
     /**

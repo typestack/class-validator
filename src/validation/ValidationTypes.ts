@@ -67,6 +67,7 @@ export class ValidationTypes {
     static IS_VARIABLE_WIDTH = "isVariableWidth";
     static IS_HEX_COLOR = "isHexColor";
     static IS_HEXADECIMAL = "isHexadecimal";
+    static IS_MAC_ADDRESS = "isMacAddress";
     static IS_IP = "isIp";
     static IS_PORT = "isPort";
     static IS_ISBN = "isIsbn";
@@ -220,6 +221,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a hexadecimal color";
             case this.IS_HEXADECIMAL:
                 return eachPrefix + "$property must be a hexadecimal number";
+            case this.IS_MAC_ADDRESS:
+                return eachPrefix + "$property must be a MAC Address";
             case this.IS_IP:
                 return eachPrefix + "$property must be an ip address";
             case this.IS_ISBN:
