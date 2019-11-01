@@ -270,7 +270,9 @@ export class Validator {
                 return this.isMilitaryTime(value);
             case ValidationTypes.IS_HASH:
                 return this.isHash(value, metadata.constraints[0]);
-
+            case ValidationTypes.IS_ISSN:
+                return this.isISSN(value, metadata.constraints[0]);
+                
             /* array checkers */
             case ValidationTypes.ARRAY_CONTAINS:
                 return this.arrayContains(value, metadata.constraints[0]);
@@ -875,6 +877,14 @@ export class Validator {
      */
     isHash(value: unknown, algorithm: ValidatorJS.HashAlgorithm): boolean {
         return typeof value === "string" && this.validatorJs.isHash(value, algorithm);
+    }
+
+    /**
+     * Checks if the string is a ISSN.
+     * If given value is not a string, then it returns false.
+     */
+    isISSN(value: unknown, options?: ValidatorJS.IsISSNOptions): boolean {
+        return typeof value === "string" && this.validatorJs.isISSN(value, options);
     }
 
     // -------------------------------------------------------------------------

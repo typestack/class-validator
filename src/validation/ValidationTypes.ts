@@ -93,6 +93,7 @@ export class ValidationTypes {
     static MATCHES = "matches";
     static IS_MILITARY_TIME = "isMilitaryTime";
     static IS_HASH = "isHash";
+    static IS_ISSN = "isISSN";
 
     /* array checkers */
     static ARRAY_CONTAINS = "arrayContains";
@@ -284,6 +285,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a valid representation of military time in the format HH:MM";
             case this.IS_HASH:
                 return eachPrefix + "$property must be a hash of type $constraint1";
+            case this.IS_ISSN:
+                return eachPrefix + "$property must be a ISSN";
                 
             /* array checkers */
             case this.ARRAY_CONTAINS:
