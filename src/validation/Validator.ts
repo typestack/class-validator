@@ -435,6 +435,16 @@ export class Validator {
             return options.allowNaN;
         }
 
+        if (options.maxDecimalPlaces) {
+            let decimalPlaces = 0;
+            if ((value % 1) !== 0) {
+                decimalPlaces = value.toString().split(".")[1].length;
+            }
+            if (decimalPlaces > options.maxDecimalPlaces) {
+                return false;
+            }
+        }
+        
         return Number.isFinite(value);
     }
 
