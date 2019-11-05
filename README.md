@@ -853,7 +853,7 @@ validator.isMongoId(str); // Checks if the string is a valid hex-encoded represe
 validator.isMultibyte(str); // Checks if the string contains one or more multibyte chars.
 validator.isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
 validator.isURL(str, options); // Checks if the string is an url.
-validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4 or 5).
+validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4, 5 or all).
 validator.isUppercase(str); // Checks if the string is uppercase.
 validator.length(str, min, max); // Checks if the string's length falls in a range.
 validator.minLength(str, min); // Checks if the string's length is not less than given number.
@@ -950,7 +950,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsNumberString()`                             | Checks if the string is numeric.                                                                                                 |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                                                         |
 | `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url.                                                                                                  |
-| `@IsUUID(version?: "3"\|"4"\|"5")`              | Checks if the string is a UUID (version 3, 4 or 5).                                                                              |
+| `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`              | Checks if the string is a UUID (version 3, 4, 5 or all ).                                                                              |
 | `@IsUppercase()`                                | Checks if the string is uppercase.                                                                                               |
 | `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range.                                                                                  |
 | `@MinLength(min: number)`                       | Checks if the string's length is not less than given number.                                                                     |
