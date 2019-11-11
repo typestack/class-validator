@@ -838,7 +838,7 @@ export class Validator {
      * Checks if the string is a UUID (version 3, 4 or 5).
      * If given value is not a string, then it returns false.
      */
-    isUUID(value: unknown, version?: "3"|"4"|"5"): boolean {
+    isUUID(value: unknown, version?: "3"|"4"|"5"|"all"): boolean {
         return typeof value === "string" && this.validatorJs.isUUID(value, version);
     }
 

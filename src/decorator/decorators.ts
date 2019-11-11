@@ -1131,7 +1131,7 @@ export function IsUrl(options?: ValidatorJS.IsURLOptions, validationOptions?: Va
 /**
  * Checks if the string is a UUID (version 3, 4 or 5).
  */
-export function IsUUID(version?: "3"|"4"|"5", validationOptions?: ValidationOptions) {
+export function IsUUID(version?: "3"|"4"|"5"|"all", validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_UUID,
