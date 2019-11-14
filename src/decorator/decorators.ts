@@ -846,14 +846,15 @@ export function IsISIN(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if the string is a valid ISO 8601 date.
+ * Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
  */
-export function IsISO8601(validationOptions?: ValidationOptions) {
+export function IsISO8601(strict?: boolean, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_ISO8601,
             target: object.constructor,
             propertyName: propertyName,
+            constraints: [strict],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));

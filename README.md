@@ -834,7 +834,7 @@ validator.isHexadecimal(str); // Checks if the string is a hexadecimal number.
 validator.isIP(str, version); // Checks if the string is an IP (version 4 or 6).
 validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
 validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
-validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
+validator.isISO8601(strict, str); // Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
 validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
 validator.isLowercase(str); // Checks if the string is lowercase.
 validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
@@ -920,7 +920,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6).                                                                                  |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13).                                                                              |
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
-| `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
+| `@IsISO8601(strict?: boolean)`                  | Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.                                                                               |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
 | `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                    |
