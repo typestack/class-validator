@@ -836,7 +836,7 @@ validator.isIP(str, version); // Checks if the string is an IP (version 4 or 6).
 validator.isPort(str); // Check if the string is a valid port number.
 validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
 validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
-validator.isISO8601(strict, str); // Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
+validator.isISO8601(str, options); // Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
 validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
 validator.isJWT(str) // Checks if the string is valid JWT.
 validator.isObject(object); // Checks if the object is valid Object (null, functions, arrays will return false)
@@ -927,12 +927,12 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                                                            |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                                                     |
 | `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                                                    |
-| `@IsMACAddress()`                              | Checks if the string is a MAC Address.                                                                                            |
+| `@IsMACAddress()`                               | Checks if the string is a MAC Address.                                                                                            |
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6).                                                                                  |
 | `@IsPort()`                                     | Check if the string is a valid port number.                                                                                      |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13).                                                                              |
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
-| `@IsISO8601(strict?: boolean)`                  | Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.                                                                               |
+| `@IsISO8601(options?: IsISO8601Options)`        | Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.                                                                               |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
 | `@IsJWT()`                                      | Checks if the string is valid JWT.                                                                                                |
 | `@IsObject()`                                   | Checks if the object is valid Object (null, functions, arrays will return false).                                                                                              |

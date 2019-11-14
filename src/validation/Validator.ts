@@ -719,8 +719,8 @@ export class Validator {
      * If given value is not a string, then it returns false.
      * Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
      */
-    isISO8601(value: unknown, strict?: boolean): boolean {
-        return typeof value === "string" && this.validatorJs.isISO8601(value, {strict});
+    isISO8601(value: unknown, options?: ValidatorJS.IsISO8601Options): boolean {
+        return typeof value === "string" && this.validatorJs.isISO8601(value, options);
     }
 
     /**
