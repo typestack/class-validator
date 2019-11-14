@@ -274,7 +274,7 @@ export class Validator {
                 return this.isHash(value, metadata.constraints[0]);
             case ValidationTypes.IS_ISSN:
                 return this.isISSN(value, metadata.constraints[0]);
-                
+
             /* array checkers */
             case ValidationTypes.ARRAY_CONTAINS:
                 return this.arrayContains(value, metadata.constraints[0]);
@@ -444,7 +444,7 @@ export class Validator {
                 return false;
             }
         }
-        
+
         return Number.isFinite(value);
     }
 
@@ -701,7 +701,6 @@ export class Validator {
     /**
      * Checks if the string is an ISBN (version 10 or 13).
      * If given value is not a string, then it returns false.
-     * Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
      */
     isISBN(value: unknown, version?: number): boolean {
         return typeof value === "string" && this.validatorJs.isISBN(value, version);
