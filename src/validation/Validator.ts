@@ -229,7 +229,7 @@ export class Validator {
             case ValidationTypes.IS_ISIN:
                 return this.isISIN(value);
             case ValidationTypes.IS_ISO8601:
-                return this.isISO8601(value);
+                return this.isISO8601(value, metadata.constraints[0]);
             case ValidationTypes.IS_JSON:
                 return this.isJSON(value);
             case ValidationTypes.IS_JWT:
@@ -274,7 +274,7 @@ export class Validator {
                 return this.isHash(value, metadata.constraints[0]);
             case ValidationTypes.IS_ISSN:
                 return this.isISSN(value, metadata.constraints[0]);
-                
+
             /* array checkers */
             case ValidationTypes.ARRAY_CONTAINS:
                 return this.arrayContains(value, metadata.constraints[0]);
@@ -444,7 +444,7 @@ export class Validator {
                 return false;
             }
         }
-        
+
         return Number.isFinite(value);
     }
 
@@ -717,9 +717,10 @@ export class Validator {
     /**
      * Checks if the string is a valid ISO 8601 date.
      * If given value is not a string, then it returns false.
+     * Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
      */
-    isISO8601(value: unknown): boolean {
-        return typeof value === "string" && this.validatorJs.isISO8601(value);
+    isISO8601(value: unknown, options?: ValidatorJS.IsISO8601Options): boolean {
+        return typeof value === "string" && this.validatorJs.isISO8601(value, options);
     }
 
     /**
