@@ -3,6 +3,9 @@ import {expect} from "chai";
 import {
     IsBooleanString,
     IsPositive,
+    IsLatLong,
+    IsLongitude,
+    IsLatitude,
     IsNegative,
     Contains,
     Equals,
@@ -33,6 +36,9 @@ import {
     IsIn,
     IsInt,
     IsJSON,
+    IsJWT,
+    IsObject,
+    IsNotEmptyObject,
     Length,
     IsLowercase,
     IsMongoId,
@@ -68,6 +74,9 @@ import {
     IsPhoneNumber,
     IsISO31661Alpha2,
     IsISO31661Alpha3,
+    IsHash,
+    IsMACAddress,
+    IsISSN,
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -442,6 +451,68 @@ describe("IsBoolean", function() {
     });
 
 });
+// -------------------------------------------------------------------------
+// Specifications: type check
+// -------------------------------------------------------------------------
+
+describe("IsLatLong", function () {
+
+    const validValues = ["27.6945311,85.3446311", "27.675509,85.2100893"];
+    const invalidValues = [ "276945311,853446311" , "asas,as.as12" ];
+
+    class MyClass {
+        @IsLatLong()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    }); 
+
+});
+describe("IsLatitude", function () {
+
+    const validValues = ["27.6945311", "27.675509", 27.675509];
+    const invalidValues = ["276945311", "asas", 1234222, 5678921];
+
+    class MyClass {
+        @IsLatitude()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+});
+
+describe("IsLongitude", function () {
+
+    const validValues = ["85.3446311", "85.2100893", 85.2100893];
+    const invalidValues = ["853446311", "as.as12", 12345 , 737399];
+
+    class MyClass {
+        @IsLongitude()
+        someProperty: any;
+    }
+
+    it("should not fail if validator.validate said that its valid", function (done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function (done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+});
 
 describe("IsDate", function() {
 
@@ -497,6 +568,11 @@ describe("IsNumber", function() {
         someProperty: number;
     }
 
+    class MaxDecimalPlacesTest {
+        @IsNumber({ maxDecimalPlaces: 3 })
+        someProperty: number;
+    }
+
     it("should fail if NaN passed without allowing NaN values", function (done) {
         checkInvalidValues(new MyClass(), [NaN], done);
     });
@@ -531,8 +607,16 @@ describe("IsNumber", function() {
 
     it("should return error object with proper data", function(done) {
         const validationType = "isNumber";
-        const message = "someProperty must be a number";
+        const message = "someProperty must be a number conforming to the specified constraints";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+    it("should pass if number of decimal places within maxDecimalPlaces", function(done) {
+        checkValidValues(new MaxDecimalPlacesTest(), [1.123], done);
+    });
+
+    it("should fail if number of decimal places exceeds maxDecimalPlaces", function(done) {
+        checkInvalidValues(new MaxDecimalPlacesTest(), [1.1234], done);
     });
 
 });
@@ -1261,7 +1345,7 @@ describe("NotContains", function() {
 
 describe("IsAlpha", function() {
 
-    const constraint = "";
+    const constraint = "en-GB";
     const validValues = ["hellomynameisalex"];
     const invalidValues = [null, undefined, "hello1mynameisalex"];
 
@@ -1279,11 +1363,11 @@ describe("IsAlpha", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isAlpha(value).should.be.true);
+        validValues.forEach(value => validator.isAlpha(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isAlpha(value).should.be.false);
+        invalidValues.forEach(value => validator.isAlpha(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1955,6 +2039,55 @@ describe("IsHexadecimal", function() {
 
 });
 
+describe("IsMACAddress", function() {
+
+    const validValues = [
+        "ab:ab:ab:ab:ab:ab",
+        "FF:FF:FF:FF:FF:FF",
+        "01:02:03:04:05:ab",
+        "01:AB:03:04:05:06"
+    ];
+    const invalidValues = [
+        null,
+        undefined,
+        "abc",
+        "01:02:03:04:05",
+        "01:02:03:04::ab",
+        "1:2:3:4:5:6",
+        "AB:CD:EF:GH:01:02",
+        "A9C5 D4 9F EB D3",
+        "01-02 03:04 05 ab",
+    ];
+
+    class MyClass {
+        @IsMACAddress()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isMACAddress(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isMACAddress(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isMacAddress";
+        const message = "someProperty must be a MAC Address";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
 describe("IsIP", function() {
 
     const validValues = [
@@ -2242,6 +2375,118 @@ describe("IsJSON", function() {
     it("should return error object with proper data", function(done) {
         const validationType = "isJson";
         const message = "someProperty must be a json string";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsJWT", function() {
+
+    const validValues = [
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiYWRtaW4iLCJpYXQiOjE0MjI3Nzk2Mzh9.gzSraSYS8EXBxLN_oWnFSRgCzcmJmMjLiuyu5CSpyHI",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb3JlbSI6Imlwc3VtIn0.ymiJSsMJXR6tMSr8G9usjQ15_8hKPDv_CArLhxw28MI",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb2xvciI6InNpdCIsImFtZXQiOlsibG9yZW0iLCJpcHN1bSJdfQ.rRpe04zbWbbJjwM43VnHzAboDzszJtGrNsUxaqQ-GQ8",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqb2huIjp7ImFnZSI6MjUsImhlaWdodCI6MTg1fSwiamFrZSI6eyJhZ2UiOjMwLCJoZWlnaHQiOjI3MH19.YRLPARDmhGMC3BBk_OhtwwK21PIkVCqQe8ncIRPKo-E",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ", // No signature
+      ];
+    const invalidValues = [
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "$Zs.ewu.su84",
+        "ks64$S/9.dy$§kz.3sd73b",
+      ];
+
+    class MyClass {
+        @IsJWT()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isJWT(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isJWT(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isJwt";
+        const message = "someProperty must be a jwt string";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsObject", function() {
+
+    const validValues = [{ "key": "value" }, { key: "value" }, {}];
+    const invalidValues: any[] = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, "[]", [], [{ key: "value" }]];
+
+    class MyClass {
+        @IsObject()
+        someProperty: object;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isObject(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isObject(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isObject";
+        const message = "someProperty must be an object";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsNotEmptyObject", function() {
+
+    const validValues = [{ "key": "value" }, { key: "value" }];
+    const invalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, {}, [], [{ key: "value" }]];
+
+    class MyClass {
+        @IsNotEmptyObject()
+        someProperty: object;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isNotEmptyObject(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isNotEmptyObject(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isNotEmptyObject";
+        const message = "someProperty must be a non-empty object";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
@@ -3023,6 +3268,274 @@ describe("IsISO31661Alpha3", function() {
     });
 
 });
+
+describe("isHash", function() {
+
+    function testHash(algorithm: ValidatorJS.HashAlgorithm, validValues: any[], invalidValues: any[]) {
+
+        class MyClass {
+            @IsHash(algorithm)
+            someProperty: string;
+        }
+
+        it("should not fail if validator.validate said that its valid", function(done) {
+            checkValidValues(new MyClass(), validValues, done);
+        });
+    
+        it("should fail if validator.validate said that its invalid", function(done) {
+            checkInvalidValues(new MyClass(), invalidValues, done);
+        });
+    
+        it("should not fail if method in validator said that its valid", function() {
+            validValues.forEach(value => validator.isHash(value, algorithm).should.be.true);
+        });
+    
+        it("should fail if method in validator said that its invalid", function() {
+            invalidValues.forEach(value => validator.isHash(value, algorithm).should.be.false);
+        });
+    
+        it("should return error object with proper data", function(done) {
+            const validationType = "isHash";
+            const message = `someProperty must be a hash of type ${algorithm}`;
+            checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+        });
+    }
+
+    ["md5", "md4", "ripemd128", "tiger128"].forEach((algorithm: ValidatorJS.HashAlgorithm) => {
+         const validValues = [
+            "d94f3f016ae679c3008de268209132f2",
+            "751adbc511ccbe8edf23d486fa4581cd",
+            "88dae00e614d8f24cfd5a8b3f8002e93",
+            "0bf1c35032a71a14c2f719e5a14c1e96"
+          ];
+          const invalidValues = [
+            undefined, null,
+            "q94375dj93458w34",
+            "39485729348",
+            "%&FHKJFvk",
+            "KYT0bf1c35032a71a14c2f719e5a1"
+          ];
+
+          testHash(algorithm, validValues, invalidValues);
+
+    });
+
+    ["crc32", "crc32b"].forEach((algorithm: ValidatorJS.HashAlgorithm) => {
+        const validValues = [
+            "d94f3f01",
+            "751adbc5",
+            "88dae00e",
+            "0bf1c350",
+         ];
+         const invalidValues = [
+           undefined, null,
+           "KYT0bf1c35032a71a14c2f719e5a14c1",
+           "q94375dj93458w34",
+           "q943",
+           "39485729348",
+           "%&FHKJFvk",
+         ];
+
+         testHash(algorithm, validValues, invalidValues);
+   });
+
+    ["sha1", "tiger160", "ripemd160"].forEach((algorithm: ValidatorJS.HashAlgorithm) => {
+        const validValues = [
+            "3ca25ae354e192b26879f651a51d92aa8a34d8d3",
+            "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d",
+            "beb8c3f30da46be179b8df5f5ecb5e4b10508230",
+            "efd5d3b190e893ed317f38da2420d63b7ae0d5ed",
+         ];
+         const invalidValues = [
+           undefined, null,
+           "KYT0bf1c35032a71a14c2f719e5a14c1",
+           "KYT0bf1c35032a71a14c2f719e5a14c1dsjkjkjkjkkjk",
+           "q94375dj93458w34",
+           "39485729348",
+           "%&FHKJFvk",
+         ];
+    
+         testHash(algorithm, validValues, invalidValues);
+    });
+
+    ["sha256"].forEach((algorithm: ValidatorJS.HashAlgorithm) => {
+        const validValues = [
+            "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "1d996e033d612d9af2b44b70061ee0e868bfd14c2dd90b129e1edeb7953e7985",
+            "80f70bfeaed5886e33536bcfa8c05c60afef5a0e48f699a7912d5e399cdcc441",
+            "579282cfb65ca1f109b78536effaf621b853c9f7079664a3fbe2b519f435898c",
+         ];
+         const invalidValues = [
+           undefined, null,
+           "KYT0bf1c35032a71a14c2f719e5a14c1",
+           "KYT0bf1c35032a71a14c2f719e5a14c1dsjkjkjkjkkjk",
+           "q94375dj93458w34",
+           "39485729348",
+           "%&FHKJFvk",
+         ];
+    
+         testHash(algorithm, validValues, invalidValues);
+        });
+
+    ["sha384"].forEach((algorithm: ValidatorJS.HashAlgorithm) => {
+        const validValues = [
+            "3fed1f814d28dc5d63e313f8a601ecc4836d1662a19365cbdcf6870f6b56388850b58043f7ebf2418abb8f39c3a42e31",
+            "b330f4e575db6e73500bd3b805db1a84b5a034e5d21f0041d91eec85af1dfcb13e40bb1c4d36a72487e048ac6af74b58",
+            "bf547c3fc5841a377eb1519c2890344dbab15c40ae4150b4b34443d2212e5b04aa9d58865bf03d8ae27840fef430b891",
+            "fc09a3d11368386530f985dacddd026ae1e44e0e297c805c3429d50744e6237eb4417c20ffca8807b071823af13a3f65",
+            ];
+            const invalidValues = [
+            undefined, null,
+            "KYT0bf1c35032a71a14c2f719e5a14c1",
+            "KYT0bf1c35032a71a14c2f719e5a14c1dsjkjkjkjkkjk",
+            "q94375dj93458w34",
+            "39485729348",
+            "%&FHKJFvk",
+            ];
+    
+            testHash(algorithm, validValues, invalidValues);
+        });
+
+    ["sha512"].forEach((algorithm: ValidatorJS.HashAlgorithm) => {
+        const validValues = [
+            "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043",
+            "83c586381bf5ba94c8d9ba8b6b92beb0997d76c257708742a6c26d1b7cbb9269af92d527419d5b8475f2bb6686d2f92a6649b7f174c1d8306eb335e585ab5049",
+            "45bc5fa8cb45ee408c04b6269e9f1e1c17090c5ce26ffeeda2af097735b29953ce547e40ff3ad0d120e5361cc5f9cee35ea91ecd4077f3f589b4d439168f91b9",
+            "432ac3d29e4f18c7f604f7c3c96369a6c5c61fc09bf77880548239baffd61636d42ed374f41c261e424d20d98e320e812a6d52865be059745fdb2cb20acff0ab",
+            ];
+            const invalidValues = [
+            undefined, null,
+            "KYT0bf1c35032a71a14c2f719e5a14c1",
+            "KYT0bf1c35032a71a14c2f719e5a14c1dsjkjkjkjkkjk",
+            "q94375dj93458w34",
+            "39485729348",
+            "%&FHKJFvk",
+            ];
+    
+            testHash(algorithm, validValues, invalidValues);
+        });
+
+    ["tiger192"].forEach((algorithm: ValidatorJS.HashAlgorithm) => {
+        const validValues = [
+            "6281a1f098c5e7290927ed09150d43ff3990a0fe1a48267c",
+            "56268f7bc269cf1bc83d3ce42e07a85632394737918f4760",
+            "46fc0125a148788a3ac1d649566fc04eb84a746f1a6e4fa7",
+            "7731ea1621ae99ea3197b94583d034fdbaa4dce31a67404a",
+            ];
+            const invalidValues = [
+            undefined, null,
+            "KYT0bf1c35032a71a14c2f719e5a14c1",
+            "KYT0bf1c35032a71a14c2f719e5a14c1dsjkjkjkjkkjk",
+            "q94375dj93458w34",
+            "39485729348",
+            "%&FHKJFvk",
+            ];
+    
+            testHash(algorithm, validValues, invalidValues);
+        });  
+});
+
+describe("IsISSN", function() {
+
+    const validValues = [
+        "0378-5955",
+        "0000-0000",
+        "2434-561X",
+        "2434-561x",
+        "01896016",
+        "20905076",
+    ];
+    const invalidValues = [
+        null,
+        undefined,
+        "0378-5954",
+        "0000-0001",
+        "0378-123",
+        "037-1234",
+        "0",
+        "2434-561c",
+        "1684-5370",
+        "19960791",
+        "",
+    ];
+
+    class MyClass {
+        @IsISSN()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isISSN(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isISSN(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isISSN";
+        const message = "someProperty must be a ISSN";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsISSN with options", function() {
+
+    const options = {case_sensitive: true, require_hyphen: true};
+
+    const validValues = [
+        "2434-561X",
+        "0378-5955",
+    ];
+    const invalidValues = [
+        null,
+        undefined,
+        "2434-561x",
+        "2434561X",
+        "2434561x",
+        "03785955",
+    ];
+
+    class MyClass {
+        @IsISSN(options)
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isISSN(value, options).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isISSN(value, options).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isISSN";
+        const message = "someProperty must be a ISSN";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+
+
 
 
 // -------------------------------------------------------------------------

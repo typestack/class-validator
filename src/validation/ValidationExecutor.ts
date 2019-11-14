@@ -8,7 +8,7 @@ import {ValidationTypes} from "./ValidationTypes";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
-import {isPromise} from "../utils";
+import {isPromise, convertToArray} from "../utils";
 
 /**
  * Executes validation over given object.
@@ -111,10 +111,10 @@ export class ValidationExecutor {
 
                 // throw errors
                 notAllowedProperties.forEach(property => {
-                    validationErrors.push({
-                        target: object, property, value: (object as any)[property], children: undefined,
-                        constraints: { [ValidationTypes.WHITELIST]: `property ${property} should not exist` }
-                    });
+                    const validationError: ValidationError = this.generateValidationError(object, (object as any)[property], property);
+                    validationError.constraints = { [ValidationTypes.WHITELIST]: `property ${property} should not exist` };
+                    validationError.children = undefined;
+                    validationErrors.push(validationError);
                 });
 
             } else {
@@ -168,6 +168,7 @@ export class ValidationExecutor {
 
         // handle IS_DEFINED validation type the special way - it should work no matter skipUndefinedProperties/skipMissingProperties is set or not
         this.defaultValidations(object, value, definedMetadatas, validationError.constraints);
+        this.mapContexts(object, value, definedMetadatas, validationError);
 
         if (value === undefined && this.validatorOptions && this.validatorOptions.skipUndefinedProperties === true) {
             return;
@@ -186,6 +187,7 @@ export class ValidationExecutor {
         this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
 
         this.mapContexts(object, value, metadatas, validationError);
+        this.mapContexts(object, value, customValidationMetadatas, validationError);
     }
 
     private generateValidationError(object: Object, value: any, propertyName: string) {
@@ -225,8 +227,9 @@ export class ValidationExecutor {
         return metadatas
             .filter(metadata => {
                 if (metadata.each) {
-                    if (value instanceof Array) {
-                        return !value.every((subValue: any) => this.validator.validateValueByMetadata(subValue, metadata));
+                    if (value instanceof Array || value instanceof Set || value instanceof Map) {
+                        const arrayValue = convertToArray(value);
+                        return !arrayValue.every((subValue: any) => this.validator.validateValueByMetadata(subValue, metadata));
                     }
 
                 } else {
@@ -258,20 +261,56 @@ export class ValidationExecutor {
                         value: value,
                         constraints: metadata.constraints
                     };
-                    const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
-                    if (isPromise(validatedValue)) {
-                        const promise = validatedValue.then(isValid => {
-                            if (!isValid) {
+
+                    if (!metadata.each || !(value instanceof Array || value instanceof Set || value instanceof Map)) {
+                        const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
+                        if (isPromise(validatedValue)) {
+                            const promise = validatedValue.then(isValid => {
+                                if (!isValid) {
+                                    const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+                                    errorMap[type] = message;
+                                }
+                            });
+                            this.awaitingPromises.push(promise);
+                        } else {
+                            if (!validatedValue) {
                                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
                                 errorMap[type] = message;
                             }
-                        });
-                        this.awaitingPromises.push(promise);
-                    } else {
-                        if (!validatedValue) {
-                            const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-                            errorMap[type] = message;
                         }
+
+                        return;
+                    }
+
+                    // convert set and map into array
+                    const arrayValue = convertToArray(value);
+                    // Validation needs to be applied to each array item
+                    const validatedSubValues = arrayValue.map((subValue: any) => customConstraintMetadata.instance.validate(subValue, validationArguments));
+                    const validationIsAsync = validatedSubValues
+                        .some((validatedSubValue: boolean | Promise<boolean>) => isPromise(validatedSubValue));
+
+                    if (validationIsAsync) {
+                        // Wrap plain values (if any) in promises, so that all are async
+                        const asyncValidatedSubValues = validatedSubValues
+                            .map((validatedSubValue: boolean | Promise<boolean>) => isPromise(validatedSubValue) ? validatedSubValue : Promise.resolve(validatedSubValue));
+                        const asyncValidationIsFinishedPromise = Promise.all(asyncValidatedSubValues)
+                            .then((flatValidatedValues: boolean[]) => {
+                                const validationResult = flatValidatedValues.every((isValid: boolean) => isValid);
+                                if (!validationResult) {
+                                    const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+                                    errorMap[type] = message;
+                                }
+                            });
+
+                        this.awaitingPromises.push(asyncValidationIsFinishedPromise);
+
+                        return;
+                    }
+
+                    const validationResult = validatedSubValues.every((isValid: boolean) => isValid);
+                    if (!validationResult) {
+                        const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+                        errorMap[type] = message;
                     }
                 });
         });
@@ -304,28 +343,11 @@ export class ValidationExecutor {
 
             const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
 
-            if (value instanceof Array) {
-                value.forEach((subValue: any, index: number) => {
+            if (value instanceof Array || value instanceof Set || value instanceof Map) {
+                // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
+                const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
+                arrayLikeValue.forEach((subValue: any, index: any) => {
                     const validationError = this.generateValidationError(value, subValue, index.toString());
-                    errors.push(validationError);
-
-                    this.execute(subValue, targetSchema, validationError.children);
-                });
-
-            } else if (value instanceof Set) {
-                let index = 0;
-                value.forEach((subValue: any) => {
-                    const validationError = this.generateValidationError(value, subValue, index.toString());
-                    errors.push(validationError);
-
-                    this.execute(subValue, targetSchema, validationError.children);
-
-                    ++index;
-                });
-
-            } else if (value instanceof Map) {
-                value.forEach((subValue: any, key: any) => {
-                    const validationError = this.generateValidationError(value, subValue, key.toString());
                     errors.push(validationError);
 
                     this.execute(subValue, targetSchema, validationError.children);
@@ -356,7 +378,13 @@ export class ValidationExecutor {
         return metadatas
             .forEach(metadata => {
                 if (metadata.context) {
-                    const type = this.getConstraintType(metadata);
+                    let customConstraint;
+                    if (metadata.type === ValidationTypes.CUSTOM_VALIDATION) {
+                        const customConstraints = this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls);
+                        customConstraint = customConstraints[0];
+                    }
+
+                    const type = this.getConstraintType(metadata, customConstraint);
 
                     if (error.constraints[type]) {
                         if (!error.contexts) {
