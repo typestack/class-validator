@@ -25,7 +25,7 @@ export class ValidationError {
     /**
      * Constraints that failed validation with error messages.
      */
-    constraints: {
+    constraints?: {
         [type: string]: string
     };
 
