@@ -44,7 +44,7 @@ Class-validator works on both browser and node.js platforms.
 npm install class-validator --save
 ```
 
-> Note: Please use at least npm@6 when using class-validator as from npm@6 the dependency tree is flatterned what is good for us.
+> Note: Please use at least npm@6 when using class-validator. From npm@6 the dependency tree is flattened, which is required by `class-validator` to function properly.
 
 ## Usage
 
@@ -107,7 +107,7 @@ async function validateOrRejectExample(input) {
 
 ### Passing options
 
-The `validate` function optionally expects a `ValidatorOptions` object as a second parameter.
+The `validate` function optionally expects a `ValidatorOptions` object as a second parameter:
 
 ```ts
 export interface ValidatorOptions {
@@ -126,11 +126,11 @@ export interface ValidatorOptions {
 }
 ```
 
-> It's highly advised to enable on `forbidUnknownValues` what prevent unknown objects to pass validation.
+> It's highly advised to set `forbidUnknownValues: true` as it will prevent unknown objects from passing validation.
 
 ## Validation errors
 
-`validate` method returns you an array of `ValidationError` objects. Each `ValidationError` is:
+The `validate` method returns an array of `ValidationError` objects. Each `ValidationError` is:
 
 ```typescript
 {
@@ -144,7 +144,7 @@ export interface ValidatorOptions {
 }
 ```
 
-In our case, when we validated a Post object, we have such array of ValidationErrors:
+In our case, when we validated a Post object, we have such an array of `ValidationError` objects:
 
 ```typescript
 [{
@@ -177,8 +177,8 @@ the whole target object.
 
 ## Validation messages
 
-You can specify validation message in the decorator options and that message will be returned in `ValidationError`
-returned by `validate` method in the case that validation for this field fails.
+You can specify validation message in the decorator options and that message will be returned in the `ValidationError`
+returned by the `validate` method (in the case that validation for this field fails).
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
@@ -218,7 +218,7 @@ export class Post {
 }
 ```
 
-Also you can provide a function, that returns a message. This way allows to create more granular messages:
+Also you can provide a function, that returns a message. This allows you to create more granular messages:
 
 ```typescript
 import {MinLength, MaxLength, ValidationArguments} from "class-validator";
@@ -238,7 +238,7 @@ export class Post {
 }
 ```
 
-Message function accepts `ValidationArguments` which contains following information:
+Message function accepts `ValidationArguments` which contains the following information:
 * `value` - the value that is being validated
 * `constraints` - array of constraints defined by specific validation type
 * `targetName` - name of the object's class being validated
@@ -488,7 +488,7 @@ validate(model).then(errors => {
 
 ## Skipping missing properties
 
-Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is
+Sometimes you may want to skip validation of the properties that do not exist in the validating object. This is
 usually desirable when you want to update some parts of the object, and want to validate only updated parts,
 but skip everything else, e.g. skip missing properties.
 In such situations you will need to pass a special flag to `validate` method:
