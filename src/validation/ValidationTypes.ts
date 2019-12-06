@@ -1,4 +1,4 @@
-import {ValidationArguments} from "./ValidationArguments";
+import { ValidationArguments } from "./ValidationArguments";
 
 /**
  * Validation types.
@@ -25,6 +25,9 @@ export class ValidationTypes {
     static IS_BOOLEAN = "isBoolean";
     static IS_DATE = "isDate";
     static IS_NUMBER = "isNumber";
+    static IS_LATLONG = "isLatLong";
+    static IS_LATITUDE = "isLatitude";
+    static IS_LONGITUDE = "isLongitude";
     static IS_STRING = "isString";
     static IS_DATE_STRING = "isDateString";
     static IS_ARRAY = "isArray";
@@ -64,12 +67,16 @@ export class ValidationTypes {
     static IS_VARIABLE_WIDTH = "isVariableWidth";
     static IS_HEX_COLOR = "isHexColor";
     static IS_HEXADECIMAL = "isHexadecimal";
+    static IS_MAC_ADDRESS = "isMacAddress";
     static IS_IP = "isIp";
     static IS_PORT = "isPort";
     static IS_ISBN = "isIsbn";
     static IS_ISIN = "isIsin";
     static IS_ISO8601 = "isIso8601";
     static IS_JSON = "isJson";
+    static IS_JWT = "isJwt";
+    static IS_OBJECT = "isObject";
+    static IS_NOT_EMPTY_OBJECT = "isNotEmptyObject";
     static IS_LOWERCASE = "isLowercase";
     static IS_MOBILE_PHONE = "isMobilePhone";
     static IS_PHONE_NUMBER = "isPhoneNumber";
@@ -86,6 +93,8 @@ export class ValidationTypes {
     static MAX_LENGTH = "maxLength";
     static MATCHES = "matches";
     static IS_MILITARY_TIME = "isMilitaryTime";
+    static IS_HASH = "isHash";
+    static IS_ISSN = "isISSN";
 
     /* array checkers */
     static ARRAY_CONTAINS = "arrayContains";
@@ -102,7 +111,7 @@ export class ValidationTypes {
      * Checks if validation type is valid.
      */
     static isValid(type: string) {
-        return  type !== "isValid" &&
+        return type !== "isValid" &&
             type !== "getMessage" &&
             Object.keys(this).map(key => (this as any)[key]).indexOf(type) !== -1;
     }
@@ -110,7 +119,7 @@ export class ValidationTypes {
     /**
      * Gets default validation error message for the given validation type.
      */
-    static getMessage(type: string, isEach: boolean): string|((args: ValidationArguments) => string) {
+    static getMessage(type: string, isEach: boolean): string | ((args: ValidationArguments) => string) {
         const eachPrefix = isEach ? "each value in " : "";
         switch (type) {
 
@@ -132,6 +141,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be one of the following values: $constraint1";
             case this.IS_NOT_IN:
                 return eachPrefix + "$property should not be one of the following values: $constraint1";
+            case this.IS_PORT:
+                return eachPrefix + "$property must be a port";
 
             /* type checkers */
             case this.IS_BOOLEAN:
@@ -139,7 +150,7 @@ export class ValidationTypes {
             case this.IS_DATE:
                 return eachPrefix + "$property must be a Date instance";
             case this.IS_NUMBER:
-                return eachPrefix + "$property must be a number";
+                return eachPrefix + "$property must be a number conforming to the specified constraints";
             case this.IS_INT:
                 return eachPrefix + "$property must be an integer number";
             case this.IS_STRING:
@@ -210,6 +221,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a hexadecimal color";
             case this.IS_HEXADECIMAL:
                 return eachPrefix + "$property must be a hexadecimal number";
+            case this.IS_MAC_ADDRESS:
+                return eachPrefix + "$property must be a MAC Address";
             case this.IS_IP:
                 return eachPrefix + "$property must be an ip address";
             case this.IS_ISBN:
@@ -220,6 +233,12 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a valid ISO 8601 date string";
             case this.IS_JSON:
                 return eachPrefix + "$property must be a json string";
+            case this.IS_JWT:
+                return eachPrefix + "$property must be a jwt string";
+            case this.IS_OBJECT:
+                return eachPrefix + "$property must be an object";
+            case this.IS_NOT_EMPTY_OBJECT:
+                return eachPrefix + "$property must be a non-empty object";
             case this.IS_LOWERCASE:
                 return eachPrefix + "$property must be a lowercase string";
             case this.IS_MOBILE_PHONE:
@@ -230,6 +249,12 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be a valid ISO31661 Alpha2 code";
             case this.IS_ISO31661_ALPHA_3:
                 return eachPrefix + "$property must be a valid ISO31661 Alpha3 code";
+            case this.IS_LATLONG:
+                return eachPrefix + "$property must be a latitude,longitude string";
+            case this.IS_LATITUDE:
+                return eachPrefix + "$property must be a latitude string or number";
+            case this.IS_LONGITUDE:
+                return eachPrefix + "$property must be a longitude string or number";
             case this.IS_MONGO_ID:
                 return eachPrefix + "$property must be a mongodb id";
             case this.IS_MULTIBYTE:
@@ -259,7 +284,13 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be shorter than or equal to $constraint1 characters";
             case this.MATCHES:
                 return eachPrefix + "$property must match $constraint1 regular expression";
-
+            case this.IS_MILITARY_TIME:
+                return eachPrefix + "$property must be a valid representation of military time in the format HH:MM";
+            case this.IS_HASH:
+                return eachPrefix + "$property must be a hash of type $constraint1";
+            case this.IS_ISSN:
+                return eachPrefix + "$property must be a ISSN";
+                
             /* array checkers */
             case this.ARRAY_CONTAINS:
                 return eachPrefix + "$property must contain $constraint1 values";

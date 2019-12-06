@@ -44,7 +44,7 @@ Class-validator works on both browser and node.js platforms.
 npm install class-validator --save
 ```
 
-> Note: Please use at least npm@6 when using class-validator as from npm@6 the dependency tree is flatterned what is good for us.
+> Note: Please use at least npm@6 when using class-validator. From npm@6 the dependency tree is flattened, which is required by `class-validator` to function properly.
 
 ## Usage
 
@@ -107,7 +107,7 @@ async function validateOrRejectExample(input) {
 
 ### Passing options
 
-The `validate` function optionally expects a `ValidatorOptions` object as a second parameter.
+The `validate` function optionally expects a `ValidatorOptions` object as a second parameter:
 
 ```ts
 export interface ValidatorOptions {
@@ -126,11 +126,11 @@ export interface ValidatorOptions {
 }
 ```
 
-> It's highly advised to enable on `forbidUnknownValues` what prevent unknown objects to pass validation.
+> It's highly advised to set `forbidUnknownValues: true` as it will prevent unknown objects from passing validation.
 
 ## Validation errors
 
-`validate` method returns you an array of `ValidationError` objects. Each `ValidationError` is:
+The `validate` method returns an array of `ValidationError` objects. Each `ValidationError` is:
 
 ```typescript
 {
@@ -144,7 +144,7 @@ export interface ValidatorOptions {
 }
 ```
 
-In our case, when we validated a Post object, we have such array of ValidationErrors:
+In our case, when we validated a Post object, we have such an array of `ValidationError` objects:
 
 ```typescript
 [{
@@ -177,8 +177,8 @@ the whole target object.
 
 ## Validation messages
 
-You can specify validation message in the decorator options and that message will be returned in `ValidationError`
-returned by `validate` method in the case that validation for this field fails.
+You can specify validation message in the decorator options and that message will be returned in the `ValidationError`
+returned by the `validate` method (in the case that validation for this field fails).
 
 ```typescript
 import {MinLength, MaxLength} from "class-validator";
@@ -218,7 +218,7 @@ export class Post {
 }
 ```
 
-Also you can provide a function, that returns a message. This way allows to create more granular messages:
+Also you can provide a function, that returns a message. This allows you to create more granular messages:
 
 ```typescript
 import {MinLength, MaxLength, ValidationArguments} from "class-validator";
@@ -238,7 +238,7 @@ export class Post {
 }
 ```
 
-Message function accepts `ValidationArguments` which contains following information:
+Message function accepts `ValidationArguments` which contains the following information:
 * `value` - the value that is being validated
 * `constraints` - array of constraints defined by specific validation type
 * `targetName` - name of the object's class being validated
@@ -470,7 +470,7 @@ import { validate } from 'class-validator';
 
 class MyClass {
 	@MinLength(32, {
-		message: "EIC code must be at least 32 charatcers",
+		message: "EIC code must be at least 32 characters",
 		context: {
 			errorCode: 1003,
 			developerNote: "The validated string must contain 32 or more characters."
@@ -488,7 +488,7 @@ validate(model).then(errors => {
 
 ## Skipping missing properties
 
-Sometimes you may want to skip validation of the properties that does not exist in the validating object. This is
+Sometimes you may want to skip validation of the properties that do not exist in the validating object. This is
 usually desirable when you want to update some parts of the object, and want to validate only updated parts,
 but skip everything else, e.g. skip missing properties.
 In such situations you will need to pass a special flag to `validate` method:
@@ -831,12 +831,20 @@ validator.isHalfWidth(str); // Checks if the string contains any half-width char
 validator.isVariableWidth(str); // Checks if the string contains variable-width chars.
 validator.isHexColor(str); // Checks if the string is a hexadecimal color.
 validator.isHexadecimal(str); // Checks if the string is a hexadecimal number.
+validator.isMACAddress(str); // Checks if the string is a MAC Address.
 validator.isIP(str, version); // Checks if the string is an IP (version 4 or 6).
+validator.isPort(str); // Check if the string is a valid port number.
 validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
 validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
-validator.isISO8601(str); // Checks if the string is a valid ISO 8601 date.
+validator.isISO8601(str, options); // Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
 validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
+validator.isJWT(str) // Checks if the string is valid JWT.
+validator.isObject(object); // Checks if the object is valid Object (null, functions, arrays will return false)
+validator.isNotEmptyObject(object); // Checks if the object is not empty
 validator.isLowercase(str); // Checks if the string is lowercase.
+validator.isLatLong(str); // Checks if the string is a valid latitude-longitude coordinate in the format lat,long
+validator.isLatitude(str); // Checks if the string or number is a valid latitude coordinate
+validator.isLongtitude(str); // Checks if the string or number is a valid longitude coordinate
 validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
 validator.isISO31661Alpha2(str); // Check if the string is a valid ISO 3166-1 alpha-2
 validator.isISO31661Alpha3(str); // Check if the string is a valid ISO 3166-1 alpha-3
@@ -845,13 +853,15 @@ validator.isMongoId(str); // Checks if the string is a valid hex-encoded represe
 validator.isMultibyte(str); // Checks if the string contains one or more multibyte chars.
 validator.isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
 validator.isURL(str, options); // Checks if the string is an url.
-validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4 or 5).
+validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4, 5 or all).
 validator.isUppercase(str); // Checks if the string is uppercase.
 validator.length(str, min, max); // Checks if the string's length falls in a range.
 validator.minLength(str, min); // Checks if the string's length is not less than given number.
 validator.maxLength(str, max); // Checks if the string's length is not more than given number.
 validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 validator.isMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
+validator.isHash(str, algorithm); // Checks if the string is a hash of type algorithm.
+validator.isISSN(str, options); // Checks if the string is a ISSN.
 
 // array validation methods
 validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
@@ -917,28 +927,38 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                                                            |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                                                     |
 | `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                                                    |
+| `@IsMACAddress()`                               | Checks if the string is a MAC Address.                                                                                            |
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6).                                                                                  |
+| `@IsPort()`                                     | Check if the string is a valid port number.                                                                                      |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13).                                                                              |
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
-| `@IsISO8601()`                                  | Checks if the string is a valid ISO 8601 date.                                                                                   |
+| `@IsISO8601(options?: IsISO8601Options)`        | Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.                                                                               |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
+| `@IsJWT()`                                      | Checks if the string is valid JWT.                                                                                                |
+| `@IsObject()`                                   | Checks if the object is valid Object (null, functions, arrays will return false).                                                                                              |
+| `@IsNotEmptyObject()`                           | Checks if the object is not empty.                                                                                              |
 | `@IsLowercase()`                                | Checks if the string is lowercase.                                                                                               |
-| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                    |
-| `@IsISO31661Alpha2()`                           | Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.                                                                                 |
-| `@IsISO31661Alpha3()`                           | Check if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
+| `@IsLatLong()`                                  | Checks if the string is a valid latitude-longitude coordinate in the format lat,long                                             |
+| `@IsLatitude()`                                 | Checks if the string or number is a valid latitude coordinate                                                                    |
+| `@IsLongitude()`                                | Checks if the string or number is a valid longitude coordinate                                                                   |
+| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                   |
+| `@IsISO31661Alpha2()`                           | Checks if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.                                                                                 |
+| `@IsISO31661Alpha3()`                           | Checks if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
 | `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number. "region" accepts 2 characters uppercase country code (e.g. DE, US, CH).If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region. See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github](https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33)                                                                                  |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                                                       |
 | `@IsNumberString()`                             | Checks if the string is numeric.                                                                                                 |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                                                         |
 | `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url.                                                                                                  |
-| `@IsUUID(version?: "3"\|"4"\|"5")`              | Checks if the string is a UUID (version 3, 4 or 5).                                                                              |
+| `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`              | Checks if the string is a UUID (version 3, 4, 5 or all ).                                                                              |
 | `@IsUppercase()`                                | Checks if the string is uppercase.                                                                                               |
 | `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range.                                                                                  |
 | `@MinLength(min: number)`                       | Checks if the string's length is not less than given number.                                                                     |
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number.                                                                     |
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 | `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM.                                         |
+| `@IsHash(algorithm: string)`                    | Checks if the string is a hash of type algorithm. <br/><br/>Algorithm is one of `['md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'tiger128', 'tiger160', 'tiger192', 'crc32', 'crc32b']`                                                                                 |
+| `@IsISSN(options?: IsISSNOptions)`              | Checks if the string is a ISSN.                                                                                                  |
 | **Array validation decorators**                                                                                                                                                    |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                           |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                                                        |
