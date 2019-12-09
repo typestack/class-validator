@@ -72,6 +72,6 @@
     "build": "gulp package",
     "test": "gulp tests",
     "changelog": "gulp changelog",
-    "prepare": "npm run build"
+    "preinstall": "npm run build"
   }
 }
