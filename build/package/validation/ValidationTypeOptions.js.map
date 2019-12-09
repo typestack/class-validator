@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/validation/ValidationTypeOptions.ts"],"names":[],"mappings":"","file":"ValidationTypeOptions.js","sourcesContent":["/**\n * Options to be passed to IsNumber decorator.\n */\nexport interface IsNumberOptions {\n    allowNaN?: boolean;\n    allowInfinity?: boolean;\n    maxDecimalPlaces?: number;\n}\n"],"sourceRoot":".."}

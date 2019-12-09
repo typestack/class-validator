@@ -1,0 +1,77 @@
+{
+  "name": "troca-validator",
+  "private": false,
+  "version": "0.11.2",
+  "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "engines": {
+    "node": ">=12.8.*"
+  },
+  "main": "build/package",
+  "author": {
+    "name": "Umed Khudoiberdiev",
+    "email": "pleerock.me@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trocafone/class-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/trocafone/class-validator/issues"
+  },
+  "tags": [
+    "validator",
+    "validation",
+    "typescript",
+    "typescript-validator"
+  ],
+  "dependencies": {
+    "@types/validator": "10.11.3",
+    "validator": "12.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.0",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/del": "^4.0.0",
+    "@types/gulp": "^4.0.2",
+    "@types/gulp-istanbul": "^0.9.32",
+    "@types/gulp-mocha": "0.0.32",
+    "@types/gulp-replace": "0.0.31",
+    "@types/gulp-sourcemaps": "0.0.32",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^12.7.1",
+    "@types/sinon": "^7.0.13",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "codecov": "^3.0.4",
+    "conventional-changelog-angular": "^5.0.3",
+    "conventional-changelog-cli": "^2.0.21",
+    "del": "^5.0.0",
+    "es6-shim": "^0.35.3",
+    "gulp": "^4.0.2",
+    "gulp-conventional-changelog": "^2.0.19",
+    "gulp-istanbul": "^1.1.3",
+    "gulp-mocha": "^7.0.1",
+    "gulp-replace": "^1.0.0",
+    "gulp-shell": "^0.7.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-tslint": "^8.1.3",
+    "gulp-typescript": "^5.0.1",
+    "gulpclass": "^0.2.0",
+    "mocha": "^6.1.4",
+    "remap-istanbul": "^0.13.0",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.2.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.11.0",
+    "tslint-stylish": "^2.1.0",
+    "typescript": "^3.5.3"
+  },
+  "scripts": {
+    "build": "gulp package",
+    "test": "gulp tests",
+    "changelog": "gulp changelog",
+    "preinstall": "npm run build"
+  }
+}
