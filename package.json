@@ -8,6 +8,7 @@
   "engines": {
     "node": ">=12.8.*"
   },
+  "main": "build/package",
   "author": {
     "name": "Umed Khudoiberdiev",
     "email": "pleerock.me@gmail.com"
@@ -70,6 +71,7 @@
   "scripts": {
     "build": "gulp package",
     "test": "gulp tests",
-    "changelog": "gulp changelog"
+    "changelog": "gulp changelog",
+    "prepare": "npm run build",
   }
 }
