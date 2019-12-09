@@ -71,7 +71,6 @@ import {
     IsArray,
     IsDateString,
     IsInstance,
-    IsPhoneNumber,
     IsISO31661Alpha2,
     IsISO31661Alpha3,
     IsHash,
@@ -471,7 +470,7 @@ describe("IsLatLong", function () {
 
     it("should fail if validator.validate said that its invalid", function (done) {
         checkInvalidValues(new MyClass(), invalidValues, done);
-    }); 
+    });
 
 });
 describe("IsLatitude", function () {
@@ -3181,56 +3180,6 @@ describe("IsMilitaryTime", function() {
 
 });
 
-describe("isPhoneNumber", function() {
-    describe("with region", function() {
-        const validValues = [
-            "0311111111", "031 633 60 01", "079 4 666 666", "075 416 20 30",
-            "+41 311111111", "+41 31 633 60 01", "+41 79 4 666 666", "+41 75 416 20 30",
-            "+41 (0)311111111", "+41 (0)31 633 60 01", "+41 (0)79 4 666 666", "+41 (0)75 416 20 30",
-            "+49 9072 1111"
-        ];
-        const invalidValues = [undefined, null, "asdf", "1"];
-
-        class MyClass {
-            @IsPhoneNumber("CH")
-            someProperty: string;
-        }
-
-        it("should not fail if validator.validate said that its valid", function(done) {
-            checkValidValues(new MyClass(), validValues, done);
-        });
-
-        it("should fail if validator.validate said that its invalid", function(done) {
-            checkInvalidValues(new MyClass(), invalidValues, done);
-        });
-    });
-
-    describe("no region", function() {
-        const validValues = [
-            "+41 311111111", "+41 31 633 60 01", "+41 79 4 666 666", "+41 75 416 20 30",
-            "+41 (0)311111111", "+41 (0)31 633 60 01", "+41 (0)79 4 666 666", "+41 (0)75 416 20 30",
-            "+49 9072 1111"
-        ];
-        const invalidValues = [
-            "0311111111", "031 633 60 01", "079 4 666 666", "075 416 20 30",
-            undefined, null, "asdf", "1"
-        ];
-
-        class MyClass {
-            @IsPhoneNumber(null)
-            someProperty: string;
-        }
-
-        it("should not fail if validator.validate said that its valid", function(done) {
-            checkValidValues(new MyClass(), validValues, done);
-        });
-
-        it("should fail if validator.validate said that its invalid", function(done) {
-            checkInvalidValues(new MyClass(), invalidValues, done);
-        });
-    });
-});
-
 describe("IsISO31661Alpha2", function() {
 
     class MyClass {
@@ -3281,19 +3230,19 @@ describe("isHash", function() {
         it("should not fail if validator.validate said that its valid", function(done) {
             checkValidValues(new MyClass(), validValues, done);
         });
-    
+
         it("should fail if validator.validate said that its invalid", function(done) {
             checkInvalidValues(new MyClass(), invalidValues, done);
         });
-    
+
         it("should not fail if method in validator said that its valid", function() {
             validValues.forEach(value => validator.isHash(value, algorithm).should.be.true);
         });
-    
+
         it("should fail if method in validator said that its invalid", function() {
             invalidValues.forEach(value => validator.isHash(value, algorithm).should.be.false);
         });
-    
+
         it("should return error object with proper data", function(done) {
             const validationType = "isHash";
             const message = `someProperty must be a hash of type ${algorithm}`;
@@ -3354,7 +3303,7 @@ describe("isHash", function() {
            "39485729348",
            "%&FHKJFvk",
          ];
-    
+
          testHash(algorithm, validValues, invalidValues);
     });
 
@@ -3373,7 +3322,7 @@ describe("isHash", function() {
            "39485729348",
            "%&FHKJFvk",
          ];
-    
+
          testHash(algorithm, validValues, invalidValues);
         });
 
@@ -3392,7 +3341,7 @@ describe("isHash", function() {
             "39485729348",
             "%&FHKJFvk",
             ];
-    
+
             testHash(algorithm, validValues, invalidValues);
         });
 
@@ -3411,7 +3360,7 @@ describe("isHash", function() {
             "39485729348",
             "%&FHKJFvk",
             ];
-    
+
             testHash(algorithm, validValues, invalidValues);
         });
 
@@ -3430,9 +3379,9 @@ describe("isHash", function() {
             "39485729348",
             "%&FHKJFvk",
             ];
-    
+
             testHash(algorithm, validValues, invalidValues);
-        });  
+        });
 });
 
 describe("IsISSN", function() {

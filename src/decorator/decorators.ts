@@ -1,11 +1,11 @@
-import {ValidationTypes} from "../validation/ValidationTypes";
-import {IsNumberOptions} from "../validation/ValidationTypeOptions";
-import {ValidationOptions} from "./ValidationOptions";
-import {ValidationMetadata} from "../metadata/ValidationMetadata";
-import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
-import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
-import {getFromContainer} from "../container";
-import {MetadataStorage} from "../metadata/MetadataStorage";
+import { ValidationTypes } from "../validation/ValidationTypes";
+import { IsNumberOptions } from "../validation/ValidationTypeOptions";
+import { ValidationOptions } from "./ValidationOptions";
+import { ValidationMetadata } from "../metadata/ValidationMetadata";
+import { ValidationMetadataArgs } from "../metadata/ValidationMetadataArgs";
+import { ConstraintMetadata } from "../metadata/ConstraintMetadata";
+import { getFromContainer } from "../container";
+import { MetadataStorage } from "../metadata/MetadataStorage";
 
 // -------------------------------------------------------------------------
 // System
@@ -15,7 +15,7 @@ import {MetadataStorage} from "../metadata/MetadataStorage";
  * Registers custom validator class.
  */
 export function ValidatorConstraint(options?: { name?: string, async?: boolean }) {
-    return function(target: Function) {
+    return function (target: Function) {
         const isAsync = options && options.async ? true : false;
         let name = options && options.name ? options.name : "";
         if (!name) {
@@ -34,8 +34,8 @@ export function ValidatorConstraint(options?: { name?: string, async?: boolean }
  */
 export function Validate(constraintClass: Function, validationOptions?: ValidationOptions): Function;
 export function Validate(constraintClass: Function, constraints?: any[], validationOptions?: ValidationOptions): Function;
-export function Validate(constraintClass: Function, constraintsOrValidationOptions?: any[]|ValidationOptions, maybeValidationOptions?: ValidationOptions): Function {
-    return function(object: Object, propertyName: string) {
+export function Validate(constraintClass: Function, constraintsOrValidationOptions?: any[] | ValidationOptions, maybeValidationOptions?: ValidationOptions): Function {
+    return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.CUSTOM_VALIDATION,
             target: object.constructor,
@@ -82,15 +82,15 @@ export function ValidatePromise(validationOptions?: ValidationOptions) {
  * If object has both allowed and not allowed properties a validation error will be thrown.
  */
 export function Allow(validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
-    const args: ValidationMetadataArgs = {
-      type: ValidationTypes.WHITELIST,
-      target: object.constructor,
-      propertyName: propertyName,
-      validationOptions: validationOptions
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.WHITELIST,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
     };
-    getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-  };
 }
 
 
@@ -1016,25 +1016,6 @@ export function IsMobilePhone(locale: string, validationOptions?: ValidationOpti
 }
 
 /**
- * Checks if the string is a valid phone number.
- * @param {string} region 2 characters uppercase country code (e.g. DE, US, CH).
- * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
- * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
- */
-export function IsPhoneNumber(region: string, validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_PHONE_NUMBER,
-            target: object.constructor,
-            propertyName: propertyName,
-            constraints: [region],
-            validationOptions: validationOptions
-        };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
-    };
-}
-
-/**
  * Check if the string is a valid ISO 3166-1 alpha-2.
  * See heck if [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.
  */
@@ -1132,7 +1113,7 @@ export function IsUrl(options?: ValidatorJS.IsURLOptions, validationOptions?: Va
 /**
  * Checks if the string is a UUID (version 3, 4 or 5).
  */
-export function IsUUID(version?: "3"|"4"|"5"|"all", validationOptions?: ValidationOptions) {
+export function IsUUID(version?: "3" | "4" | "5" | "all", validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_UUID,
@@ -1213,7 +1194,7 @@ export function MaxLength(max: number, validationOptions?: ValidationOptions) {
  */
 export function Matches(pattern: RegExp, validationOptions?: ValidationOptions): Function;
 export function Matches(pattern: RegExp, modifiers?: string, validationOptions?: ValidationOptions): Function;
-export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationOptions, validationOptions?: ValidationOptions): Function {
+export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string | ValidationOptions, validationOptions?: ValidationOptions): Function {
     let modifiers: string;
     if (modifiersOrAnnotationOptions && modifiersOrAnnotationOptions instanceof Object && !validationOptions) {
         validationOptions = modifiersOrAnnotationOptions as ValidationOptions;

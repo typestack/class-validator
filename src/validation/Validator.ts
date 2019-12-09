@@ -1,10 +1,10 @@
-import {ValidationMetadata} from "../metadata/ValidationMetadata";
-import {ValidationTypes} from "./ValidationTypes";
-import {ValidationError} from "./ValidationError";
-import {IsNumberOptions} from "./ValidationTypeOptions";
-import {ValidatorOptions} from "./ValidatorOptions";
-import {ValidationExecutor} from "./ValidationExecutor";
-import {ValidationOptions} from "../decorator/ValidationOptions";
+import { ValidationMetadata } from "../metadata/ValidationMetadata";
+import { ValidationTypes } from "./ValidationTypes";
+import { ValidationError } from "./ValidationError";
+import { IsNumberOptions } from "./ValidationTypeOptions";
+import { ValidatorOptions } from "./ValidatorOptions";
+import { ValidationExecutor } from "./ValidationExecutor";
+import { ValidationOptions } from "../decorator/ValidationOptions";
 import * as validator from "validator";
 
 /**
@@ -17,10 +17,7 @@ export class Validator {
     // -------------------------------------------------------------------------
 
     private validatorJs = validator;
-    private libPhoneNumber = {
-        phoneUtil: require("google-libphonenumber").PhoneNumberUtil.getInstance(),
-    };
-    private _isEmptyObject = function(object: object) {
+    private _isEmptyObject = function (object: object) {
         for (const key in object) {
             if (object.hasOwnProperty(key)) {
                 return false;
@@ -34,7 +31,7 @@ export class Validator {
      * Performs validation of the given object based on decorators or validation schema.
      * Common method for `validateOrReject` and `validate` methods.
      */
-    private coreValidate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+    private coreValidate(objectOrSchemaName: Object | string, objectOrValidationOptions: Object | ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
         const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Object : objectOrSchemaName as Object;
         const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
         const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName as string : undefined;
@@ -65,7 +62,7 @@ export class Validator {
     /**
      * Performs validation of the given object based on decorators or validation schema.
      */
-    validate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+    validate(objectOrSchemaName: Object | string, objectOrValidationOptions: Object | ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
         return this.coreValidate(objectOrSchemaName, objectOrValidationOptions, maybeValidatorOptions);
     }
 
@@ -82,7 +79,7 @@ export class Validator {
     /**
      * Performs validation of the given object based on decorators or validation schema and reject on error.
      */
-    async validateOrReject(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<void> {
+    async validateOrReject(objectOrSchemaName: Object | string, objectOrValidationOptions: Object | ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<void> {
         const errors = await this.coreValidate(objectOrSchemaName, objectOrValidationOptions, maybeValidatorOptions);
         if (errors.length)
             return Promise.reject(errors);
@@ -102,7 +99,7 @@ export class Validator {
     /**
      * Performs validation of the given object based on decorators or validation schema.
      */
-    validateSync(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): ValidationError[] {
+    validateSync(objectOrSchemaName: Object | string, objectOrValidationOptions: Object | ValidationOptions, maybeValidatorOptions?: ValidatorOptions): ValidationError[] {
         const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Object : objectOrSchemaName as Object;
         const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
         const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName as string : undefined;
@@ -242,8 +239,6 @@ export class Validator {
                 return this.isLowercase(value);
             case ValidationTypes.IS_MOBILE_PHONE:
                 return this.isMobilePhone(value, metadata.constraints[0]);
-            case ValidationTypes.IS_PHONE_NUMBER:
-                return this.isPhoneNumber(value, metadata.constraints[0]);
             case ValidationTypes.IS_ISO31661_ALPHA_2:
                 return this.isISO31661Alpha2(value);
             case ValidationTypes.IS_ISO31661_ALPHA_3:
@@ -463,7 +458,7 @@ export class Validator {
      * Checks if value is a number that's divisible by another.
      */
     isDivisibleBy(value: unknown, num: number): boolean {
-        return  typeof value === "number" &&
+        return typeof value === "number" &&
             typeof num === "number" &&
             this.validatorJs.isDivisibleBy(String(value), num);
     }
@@ -773,23 +768,6 @@ export class Validator {
     }
 
     /**
-     * Checks if the string is a valid phone number.
-     * @param value the potential phone number string to test
-     * @param {string} region 2 characters uppercase country code (e.g. DE, US, CH).
-     * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
-     * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
-     */
-    isPhoneNumber(value: unknown, region: string): boolean {
-        try {
-            const phoneNum = this.libPhoneNumber.phoneUtil.parseAndKeepRawInput(value, region);
-            return this.libPhoneNumber.phoneUtil.isValidNumber(phoneNum);
-        } catch (error) {
-            // logging?
-            return false;
-        }
-    }
-
-    /**
      * Check if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.
      */
     isISO31661Alpha2(value: unknown): boolean {
@@ -839,7 +817,7 @@ export class Validator {
      * Checks if the string is a UUID (version 3, 4 or 5).
      * If given value is not a string, then it returns false.
      */
-    isUUID(value: unknown, version?: "3"|"4"|"5"|"all"): boolean {
+    isUUID(value: unknown, version?: "3" | "4" | "5" | "all"): boolean {
         return typeof value === "string" && this.validatorJs.isUUID(value, version);
     }
 
