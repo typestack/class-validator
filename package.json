@@ -1,5 +1,5 @@
 {
-  "name": "class-validator",
+  "name": "troca-validator",
   "private": true,
   "version": "0.11.0",
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
