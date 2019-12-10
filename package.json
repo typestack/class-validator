@@ -5,10 +5,6 @@
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "engines": {
-    "node": ">=12.8.*"
-  },
-  "main": "build/package",
   "author": {
     "name": "Umed Khudoiberdiev",
     "email": "pleerock.me@gmail.com"
@@ -28,7 +24,8 @@
   ],
   "dependencies": {
     "@types/validator": "10.11.3",
-    "validator": "12.0.0"
+    "validator": "12.0.0",
+    "gulp": "^4.0.2"
   },
   "devDependencies": {
     "@types/chai": "^4.2.0",
@@ -71,7 +68,6 @@
   "scripts": {
     "build": "gulp package",
     "test": "gulp tests",
-    "changelog": "gulp changelog",
-    "preinstall": "npm run build"
+    "changelog": "gulp changelog"
   }
 }
