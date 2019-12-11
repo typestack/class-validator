@@ -9,10 +9,10 @@ echo "registry \"https://npm-proxy.fury.io/trocafone/\"" > ~/.yarnrc
 echo "Done 1/2"
 echo "Entry point args: ${*:-<none>}"
 
-# test() {
-#     echo "#### Running test ####"
-#     npm run test
-#}
+test() {
+     echo "#### Running test ####"
+     npm run test
+}
 
 push () {
     echo "#### Removing Docker File ####"
@@ -26,11 +26,11 @@ push () {
     echo "Done 2/2"
 }
 
-# shell () {
-#     echo "Done 2/2"
-#     echo "Welcome to the Shell"
-#     sh
-# }
+shell () {
+    echo "Done 2/2"
+    echo "Welcome to the Shell"
+    sh
+}
 
 COMMAND=$1; shift
 case $COMMAND in
