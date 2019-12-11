@@ -19,6 +19,9 @@ push () {
     rm Dockerfile
     echo "#### Removing Entrypoint File ####"
     rm entrypoint.sh
+    echo "#### Images Build ####"
+    yarn build
+    cd build/package
     echo "#### Create TGZ file ####"
     npm pack
     echo "#### Pushing TGZ to GemFury ####"
