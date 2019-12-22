@@ -58,7 +58,7 @@
     "gulpclass": "^0.2.0",
     "mocha": "^6.1.4",
     "remap-istanbul": "^0.13.0",
-    "sinon": "^7.3.2",
+    "sinon": "^8.0.0",
     "sinon-chai": "^3.2.0",
     "ts-node": "^8.3.0",
     "tslint": "^5.11.0",
