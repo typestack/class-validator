@@ -37,7 +37,7 @@
     "@types/gulp-replace": "0.0.31",
     "@types/gulp-sourcemaps": "0.0.32",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^12.7.1",
+    "@types/node": "^13.1.0",
     "@types/sinon": "^7.0.13",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
