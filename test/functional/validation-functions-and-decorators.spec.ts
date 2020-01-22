@@ -471,7 +471,7 @@ describe("IsLatLong", function () {
 
     it("should fail if validator.validate said that its invalid", function (done) {
         checkInvalidValues(new MyClass(), invalidValues, done);
-    }); 
+    });
 
 });
 describe("IsLatitude", function () {
@@ -3281,19 +3281,19 @@ describe("isHash", function() {
         it("should not fail if validator.validate said that its valid", function(done) {
             checkValidValues(new MyClass(), validValues, done);
         });
-    
+
         it("should fail if validator.validate said that its invalid", function(done) {
             checkInvalidValues(new MyClass(), invalidValues, done);
         });
-    
+
         it("should not fail if method in validator said that its valid", function() {
             validValues.forEach(value => validator.isHash(value, algorithm).should.be.true);
         });
-    
+
         it("should fail if method in validator said that its invalid", function() {
             invalidValues.forEach(value => validator.isHash(value, algorithm).should.be.false);
         });
-    
+
         it("should return error object with proper data", function(done) {
             const validationType = "isHash";
             const message = `someProperty must be a hash of type ${algorithm}`;
@@ -3354,7 +3354,7 @@ describe("isHash", function() {
            "39485729348",
            "%&FHKJFvk",
          ];
-    
+
          testHash(algorithm, validValues, invalidValues);
     });
 
@@ -3373,7 +3373,7 @@ describe("isHash", function() {
            "39485729348",
            "%&FHKJFvk",
          ];
-    
+
          testHash(algorithm, validValues, invalidValues);
         });
 
@@ -3392,7 +3392,7 @@ describe("isHash", function() {
             "39485729348",
             "%&FHKJFvk",
             ];
-    
+
             testHash(algorithm, validValues, invalidValues);
         });
 
@@ -3411,7 +3411,7 @@ describe("isHash", function() {
             "39485729348",
             "%&FHKJFvk",
             ];
-    
+
             testHash(algorithm, validValues, invalidValues);
         });
 
@@ -3430,9 +3430,9 @@ describe("isHash", function() {
             "39485729348",
             "%&FHKJFvk",
             ];
-    
+
             testHash(algorithm, validValues, invalidValues);
-        });  
+        });
 });
 
 describe("IsISSN", function() {
