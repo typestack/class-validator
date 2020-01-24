@@ -24,6 +24,7 @@ import {
     IsDivisibleBy,
     IsEmail,
     IsEnum,
+    IsStringEnum,
     IsFQDN,
     IsFullWidth,
     IsHalfWidth,
@@ -880,6 +881,70 @@ describe("IsEnum", function() {
 
 });
 
+describe("IsStringEnum", function() {
+
+    enum MyRegularEnum {
+        First,
+        Second
+    }
+
+    enum MyStringEnum {
+        First   = "first",
+        Second  = "second"
+    }
+
+    const validRegularValues = ["First", "Second"];
+    const stringConstraint = ["first", "second"];
+    const validStringValues = [MyStringEnum.First, MyStringEnum.Second];
+    const invalidValues = [
+        true,
+        false,
+        0,
+        {},
+        null,
+        undefined,
+        "F2irst"
+    ];
+
+    class MyClass {
+        @IsStringEnum(MyRegularEnum)
+        someProperty: MyRegularEnum;
+    }
+
+    class MyClass2 {
+        @IsStringEnum(MyStringEnum)
+        someProperty: MyStringEnum;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validRegularValues, done);
+    });
+
+    it("should not fail if validator.validate said that its valid (string enum)", function(done) {
+        checkValidValues(new MyClass2(), validStringValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid (string enum)", function(done) {
+        checkInvalidValues(new MyClass2(), invalidValues, done);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isIn";
+        const message = "someProperty must be one of the following values: " + validRegularValues;
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+    it("should return error object with proper data (string enum)", function(done) {
+        const validationType = "isIn";
+        const message = "someProperty must be one of the following values: " + stringConstraint;
+        checkReturnedError(new MyClass2(), invalidValues, validationType, message, done);
+    });
+
+});
 
 // -------------------------------------------------------------------------
 // Specifications: number check

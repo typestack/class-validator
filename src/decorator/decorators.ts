@@ -6,6 +6,7 @@ import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {getFromContainer} from "../container";
 import {MetadataStorage} from "../metadata/MetadataStorage";
+import { getEnumStringValues } from "../utils";
 
 // -------------------------------------------------------------------------
 // System
@@ -403,6 +404,22 @@ export function IsEnum(entity: Object, validationOptions?: ValidationOptions) {
             target: object.constructor,
             propertyName: propertyName,
             constraints: [entity],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
+ * Checks if a value is a string enum.
+ */
+export function IsStringEnum(entity: Object, validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_IN,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [getEnumStringValues(entity)],
             validationOptions: validationOptions
         };
         getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
