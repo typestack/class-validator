@@ -3,7 +3,7 @@ import "es6-shim";
 import { should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
-import { convertToArray } from "../src/utils";
+import { convertToArray, getEnumStringValues } from "../src/utils";
 
 should();
 use(chaiAsPromised);
@@ -57,6 +57,33 @@ describe("utils", function () {
             arr.length.should.be.equal(2);
             arr.should.contains("hello");
             arr.should.contains("world");
+        });
+
+    });
+
+    describe("getEnumStringValues", function () {
+
+        it("gets the values of a string enum", function () {
+            enum stringEnum {
+                first = "firstValue",
+                second = "secondValue"
+            }
+            const stringEnumValues = getEnumStringValues(stringEnum);
+            stringEnumValues.length.should.be.equal(2);
+            stringEnumValues.should.contains("firstValue");
+            stringEnumValues.should.contains("secondValue");
+        });
+
+        it("gets the values of a regular enum", function () {
+            enum regularEnum {
+                zero,
+                one
+            }
+            const regularEnumValues = getEnumStringValues(regularEnum);
+            console.log("regularEnumValues", regularEnumValues);
+            regularEnumValues.length.should.be.equal(2);
+            regularEnumValues.should.contains("zero");
+            regularEnumValues.should.contains("one");
         });
 
     });
