@@ -181,7 +181,7 @@ export class Validator {
             case ValidationTypes.IS_BOOLEAN_STRING:
                 return this.isBooleanString(value);
             case ValidationTypes.IS_NUMBER_STRING:
-                return this.isNumberString(value);
+                return this.isNumberString(value, metadata.constraints[0]);
 
             /* string checkers */
             case ValidationTypes.CONTAINS:
@@ -530,8 +530,8 @@ export class Validator {
      * Checks if the string is numeric.
      * If given value is not a string, then it returns false.
      */
-    isNumberString(value: unknown, options?: ValidatorJS.IsNumericOptions): boolean {
-        return typeof value === "string" && this.validatorJs.isNumeric(value, options);
+    isNumberString(value: unknown, options?: IsNumberOptions): boolean {
+        return typeof value === "string" && this.validatorJs.isNumeric(value) && (options == null || this.isNumber(parseFloat(value), options));
     }
 
     // -------------------------------------------------------------------------
