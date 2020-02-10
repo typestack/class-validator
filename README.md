@@ -374,7 +374,7 @@ class User extends BaseContent {
     welcome: string;
 
     @MinLength(20)
-    password: string; /
+    password: string;
 }
 
 let user = new User();
