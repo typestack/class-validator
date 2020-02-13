@@ -268,6 +268,8 @@ export class Validator {
                 return this.maxLength(value, metadata.constraints[0]);
             case ValidationTypes.MATCHES:
                 return this.matches(value, metadata.constraints[0], metadata.constraints[1]);
+            case ValidationTypes.NOTMATCHES:
+                return this.notMatches(value, metadata.constraints[0], metadata.constraints[1]);
             case ValidationTypes.IS_MILITARY_TIME:
                 return this.isMilitaryTime(value);
             case ValidationTypes.IS_HASH:
@@ -881,6 +883,14 @@ export class Validator {
      */
     matches(value: unknown, pattern: RegExp, modifiers?: string): boolean {
         return typeof value === "string" && this.validatorJs.matches(value, pattern, modifiers);
+    }
+
+    /**
+     * Checks if string doesn't matches the pattern. Either notMatches('foo', /foo/i) or notMatches('foo', 'foo', 'i').
+     * If given value is not a string, then it returns false.
+     */
+    notMatches(value: unknown, pattern: RegExp, modifiers?: string): boolean {
+        return typeof value === "string" && !this.validatorJs.matches(value, pattern, modifiers);
     }
 
     /**

@@ -1234,6 +1234,32 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
 }
 
 /**
+ * Checks if string doesn't matches the pattern. Either notMatches('foo', /foo/i) or notMatches('foo', 'foo', 'i').
+ */
+export function NotMatches(pattern: RegExp, validationOptions?: ValidationOptions): Function;
+export function NotMatches(pattern: RegExp, modifiers?: string, validationOptions?: ValidationOptions): Function;
+export function NotMatches(pattern: RegExp, modifiersOrAnnotationOptions?: string|ValidationOptions, validationOptions?: ValidationOptions): Function {
+    
+    let modifiers: string;
+    if (modifiersOrAnnotationOptions && modifiersOrAnnotationOptions instanceof Object && !validationOptions) {
+        validationOptions = modifiersOrAnnotationOptions as ValidationOptions;
+    } else {
+        modifiers = modifiersOrAnnotationOptions as string;
+    }
+
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.NOTMATCHES,
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [pattern, modifiers],
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if the string correctly represents a time in the format HH:MM
  */
 export function IsMilitaryTime(validationOptions?: ValidationOptions) {

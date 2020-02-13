@@ -859,6 +859,7 @@ validator.length(str, min, max); // Checks if the string's length falls in a ran
 validator.minLength(str, min); // Checks if the string's length is not less than given number.
 validator.maxLength(str, max); // Checks if the string's length is not more than given number.
 validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+validator.notMatches(str, pattern, modifiers); // Checks if string doesn't matches the pattern. Either notMatches('foo', /foo/i) or notMatches('foo', 'foo', 'i').
 validator.isMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
 validator.isHash(str, algorithm); // Checks if the string is a hash of type algorithm.
 validator.isISSN(str, options); // Checks if the string is a ISSN.
@@ -956,6 +957,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@MinLength(min: number)`                       | Checks if the string's length is not less than given number.                                                                     |
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number.                                                                     |
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
+| `@NotMatches(pattern: RegExp, modifiers?: string)` | Checks if string doesn't matches the pattern. Either notMatches('foo', /foo/i) or notMatches('foo', 'foo', 'i').
 | `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM.                                         |
 | `@IsHash(algorithm: string)`                    | Checks if the string is a hash of type algorithm. <br/><br/>Algorithm is one of `['md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'tiger128', 'tiger160', 'tiger192', 'crc32', 'crc32b']`                                                                                 |
 | `@IsISSN(options?: IsISSNOptions)`              | Checks if the string is a ISSN.                                                                                                  |

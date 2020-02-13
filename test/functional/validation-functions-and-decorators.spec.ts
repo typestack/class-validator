@@ -49,6 +49,7 @@ import {
     IsUUID,
     IsUppercase,
     Matches,
+    NotMatches,
     MinLength,
     MaxLength,
     Min,
@@ -3152,6 +3153,41 @@ describe("Matches", function() {
     it("should return error object with proper data", function(done) {
         const validationType = "matches";
         const message = "someProperty must match " + constraint + " regular expression";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("NotMatches", function() {
+
+    const constraint = /abc/;
+    const validValues = ["acb", "Abc"];
+    const invalidValues = [null, undefined, "abc", "abcdef", "123abc"];
+
+    class MyClass {
+        @NotMatches(constraint)
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => (!validator.matches(value, constraint)).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => (typeof value === "string" && (!validator.matches(value, constraint))).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "notMatches";
+        const message = "someProperty must not match " + constraint + " regular expression";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
