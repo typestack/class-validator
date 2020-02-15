@@ -1,5 +1,5 @@
 import "es6-shim";
-import {Contains, IsDefined, MinLength, ValidateNested} from "../../src/decorator/decorators";
+import {Contains, IsDefined, Min, MinLength, ValidateNested} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {expect} from "chai";
 import {inspect} from "util";
@@ -272,4 +272,47 @@ describe("nested validation", function () {
 
     });
 
+
+    it("should validate nested partials", () => {
+        class MySubClass {
+            @MinLength(5)
+            name: string;
+
+            @Min(18)
+            age: number;
+        }
+
+        class MyClass {
+            @Contains("hello")
+            title: string;
+
+            @ValidateNested({ partial: true })
+            mySubClass: Partial<MySubClass>;
+        }
+
+        const model = new MyClass();
+        model.mySubClass = new MySubClass();
+        model.mySubClass.age = 7;
+
+        return validator.validate(model).then(errors => {
+            console.log(errors[1]);
+            errors.length.should.be.equal(2);
+
+            errors[0].target.should.be.equal(model);
+            errors[0].property.should.be.equal("title");
+            errors[0].constraints.should.be.eql({contains: "title must contain a hello string"});
+
+            errors[1].target.should.be.equal(model);
+            errors[1].property.should.be.equal("mySubClass");
+            errors[1].value.should.be.equal(model.mySubClass);
+
+            expect(errors[1].constraints).to.be.undefined;
+            errors[1].children.length.should.be.equal(1);
+            const subError1 = errors[1].children[0];
+            subError1.target.should.be.equal(model.mySubClass);
+            subError1.property.should.be.equal("age");
+            subError1.constraints.should.be.eql({min: "age must not be less than 18"});
+            subError1.value.should.be.equal(7);
+        });
+    });
 });

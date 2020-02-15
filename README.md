@@ -503,6 +503,27 @@ When skipping missing properties, sometimes you want not to skip all missing pro
 for you, even if skipMissingProperties is set to true. For such cases you should use `@IsDefined()` decorator.
 `@IsDefined()` is the only decorator that ignores `skipMissingProperties` option.
 
+You can also do this for your nested objects like this:
+```typescript
+export class Post {
+    @ValidateNested({ partial: true })
+    @Type(() => Content)
+    content: Partial<Content>
+
+    @IsNumber()
+    ownerId: number
+}
+
+export class Content {
+    @IsString()
+    @MaxLengh(1000)
+    text: string
+    
+    @IsUrl()
+    image: string
+}
+```
+
 ## Validation groups
 
 In different situations you may want to use different validation schemas of the same object.

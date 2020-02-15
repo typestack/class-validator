@@ -55,6 +55,11 @@ export class ValidationMetadata {
      */
     each: boolean = false;
 
+    /**
+     * Specifies if validated value should be validated as Partial<T> (e.g. skipping missing properties)
+     */
+    partial?: boolean;
+
     /*
      * A transient set of data passed through to the validation result for response mapping
      */
@@ -81,6 +86,7 @@ export class ValidationMetadata {
             this.groups = args.validationOptions.groups;
             this.always = args.validationOptions.always;
             this.each = args.validationOptions.each;
+            this.partial = args.validationOptions.partial;
             this.context = args.validationOptions.context;
         }
     }

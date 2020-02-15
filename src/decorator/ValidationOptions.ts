@@ -11,6 +11,11 @@ export interface ValidationOptions {
     each?: boolean;
 
     /**
+     * Specifies if validated value should be validated as Partial<T> (e.g. skipping missing properties)
+     */
+    partial?: boolean;
+
+    /**
      * Error message used to be used on validation fail.
      * Message can be either string, either a function that returns a string.
      */

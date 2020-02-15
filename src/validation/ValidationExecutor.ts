@@ -10,6 +10,8 @@ import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
 import {isPromise, convertToArray} from "../utils";
 
+const PartialNested = Symbol("PartialNested");
+
 /**
  * Executes validation over given object.
  */
@@ -157,6 +159,7 @@ export class ValidationExecutor {
         const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
         const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
         const conditionalValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CONDITIONAL_VALIDATION);
+        const isPartialNested = (object as any)[PartialNested] === true;
 
         const validationError = this.generateValidationError(object, value, propertyName);
         validationErrors.push(validationError);
@@ -178,7 +181,7 @@ export class ValidationExecutor {
             return;
         }
 
-        if ((value === null || value === undefined) && this.validatorOptions && this.validatorOptions.skipMissingProperties === true) {
+        if ((value === null || value === undefined) && (this.validatorOptions && this.validatorOptions.skipMissingProperties === true || isPartialNested)) {
             return;
         }
 
@@ -354,8 +357,9 @@ export class ValidationExecutor {
                 });
 
             } else if (value instanceof Object) {
+                value[PartialNested] = metadata.partial;
                 this.execute(value, targetSchema, errors);
-
+                value[PartialNested] = undefined;
             } else {
                 const error = new ValidationError();
                 error.value = value;
