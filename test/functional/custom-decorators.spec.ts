@@ -41,22 +41,39 @@ describe("custom decorators", function() {
                             const relatedValue = (args.object as any)[relatedPropertyName];
                             if (relatedValue === undefined || relatedValue === null)
                                 return true;
-                            
-                            return typeof value === "string" &&
+
+                            const result = typeof value === "string" &&
                                 typeof relatedValue === "string" &&
                                 value.length > relatedValue.length;
+
+                            const asPromise = validationOptions &&
+                                validationOptions.context &&
+                                validationOptions.context.promise;
+
+                            return asPromise ? Promise.resolve(result) : result;
                         }
                     }
                 });
             };
         }
-        
+
         class MyClass {
             @IsLongerThan("lastName", {
+                context: { foo: "bar"},
                 message: "$property must be longer then $constraint1. Given value: $value"
             })
             firstName: string;
-            
+
+            lastName: string;
+        }
+
+        class MyClassWithAsyncValidator {
+            @IsLongerThan("lastName", {
+                context: { foo: "bar", promise: true},
+                message: "$property must be longer then $constraint1. Given value: $value"
+            })
+            firstName: string;
+
             lastName: string;
         }
 
@@ -87,9 +104,25 @@ describe("custom decorators", function() {
                 errors[0].constraints.should.be.eql({ isLongerThan: "firstName must be longer then lastName. Given value: Li" });
             });
         });
-        
+
+        it("should include context", function() {
+            const model = new MyClass();
+            const asyncModel = new MyClassWithAsyncValidator();
+            model.firstName = asyncModel.firstName = "Paul";
+            model.lastName = asyncModel.lastName = "Walker";
+
+            return validator.validate(model).then(errors => {
+                errors.length.should.be.equal(1);
+                errors[0].contexts.should.be.eql({ isLongerThan: { foo: "bar" } });
+
+                return validator.validate(asyncModel).then(errors => {
+                    errors.length.should.be.equal(1);
+                    errors[0].contexts.should.have.nested.property("isLongerThan.foo", "bar");
+                });
+            });
+        });
     });
-    
+
     describe("decorator with default message", function() {
 
         function IsLonger(property: string, validationOptions?: ValidationOptions) {
@@ -106,7 +139,7 @@ describe("custom decorators", function() {
                             const relatedValue = (args.object as any)[relatedPropertyName];
                             if (relatedValue === undefined || relatedValue === null)
                                 return true;
-                            
+
                             return typeof value === "string" &&
                                 typeof relatedValue === "string" &&
                                 value.length > relatedValue.length;
@@ -118,11 +151,11 @@ describe("custom decorators", function() {
                 });
             };
         }
-        
+
         class SecondClass {
             @IsLonger("lastName")
             firstName: string;
-            
+
             lastName: string;
         }
 
@@ -153,7 +186,7 @@ describe("custom decorators", function() {
                 errors[0].constraints.should.be.eql({ isLonger: "firstName must be longer then lastName" });
             });
         });
-        
+
     });
 
     describe("decorator with separate validation constraint class", function() {
@@ -166,7 +199,7 @@ describe("custom decorators", function() {
                 const relatedValue = (args.object as any)[relatedPropertyName];
                 if (value === null || value === undefined)
                     return true;
-                
+
                 return  typeof value === "string" &&
                         typeof relatedValue === "string" &&
                         value.length < relatedValue.length;
