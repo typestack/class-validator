@@ -183,7 +183,7 @@ export class ValidationExecutor {
 
         this.defaultValidations(object, value, metadatas, validationError.constraints);
         this.customValidations(object, value, customValidationMetadatas, validationError);
-        this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
+        this.nestedValidations(value, nestedValidationMetadatas, validationError.children, definedMetadatas, metadatas);
 
         this.mapContexts(object, value, metadatas, validationError);
         this.mapContexts(object, value, customValidationMetadatas, validationError);
@@ -327,18 +327,8 @@ export class ValidationExecutor {
         });
     }
 
-    private nestedPromiseValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
-
-        if (!(value instanceof Promise)) {
-            return;
-        }
-
-        this.awaitingPromises.push(
-            value.then(resolvedValue => this.nestedValidations(resolvedValue, metadatas, errors))
-        );
-    }
-
-    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
+    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[],
+                              definedMetadatas: ValidationMetadata[], allMetadatas: ValidationMetadata[]) {
 
         if (value === void 0) {
             return;
@@ -352,19 +342,14 @@ export class ValidationExecutor {
                 return;
             }
 
-            const targetSchema = typeof metadata.target === "string" ? metadata.target as string : undefined;
-
             if (value instanceof Array || value instanceof Set || value instanceof Map) {
                 // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
                 const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
                 arrayLikeValue.forEach((subValue: any, index: any) => {
-                    const validationError = this.generateValidationError(value, subValue, index.toString());
-                    errors.push(validationError);
-
-                    this.execute(subValue, targetSchema, validationError.children);
+                    this.performValidations(value, subValue, index.toString(), definedMetadatas, allMetadatas, errors);
                 });
-
             } else if (value instanceof Object) {
+                const targetSchema = typeof metadata.target === "string" ? metadata.target as string : metadata.target.name;
                 this.execute(value, targetSchema, errors);
 
             } else {

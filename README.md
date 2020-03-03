@@ -318,6 +318,19 @@ export class Post {
 }
 ```
 
+It also works with multi-dimensional array, like :
+
+```typescript
+import {ValidateNested} from "class-validator";
+
+export class Plan2D {
+
+    @ValidateNested()
+    matrix: Point[][];
+
+}
+```
+
 ## Validating promises
 
 If your object contains property with `Promise`-returned value that should be validated, then you need to use the `@ValidatePromise()` decorator:

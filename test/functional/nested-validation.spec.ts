@@ -2,7 +2,6 @@ import "es6-shim";
 import {Contains, IsDefined, MinLength, ValidateNested} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {expect} from "chai";
-import {inspect} from "util";
 import {ValidationTypes} from "../../src/validation/ValidationTypes";
 
 import {should, use } from "chai";
@@ -67,6 +66,12 @@ describe("nested validation", function () {
 
             @ValidateNested()
             mySubClasses: MySubClass[];
+
+            @ValidateNested()
+            mySubSubClasses: MySubClass[][];
+
+            @ValidateNested()
+            mySubSubSubClasses: MySubClass[][][];
         }
 
         const model = new MyClass();
@@ -76,8 +81,13 @@ describe("nested validation", function () {
         model.mySubClasses = [new MySubClass(), new MySubClass()];
         model.mySubClasses[0].name = "my";
         model.mySubClasses[1].name = "not-short";
+        model.mySubSubClasses = [[new MySubClass()]];
+        model.mySubSubClasses[0][0].name = "sub";
+        model.mySubSubSubClasses = [[[new MySubClass()]]];
+        model.mySubSubSubClasses[0][0][0].name = "sub";
+
         return validator.validate(model).then(errors => {
-            errors.length.should.be.equal(3);
+            errors.length.should.be.equal(5);
 
             errors[0].target.should.be.equal(model);
             errors[0].property.should.be.equal("title");
@@ -107,6 +117,47 @@ describe("nested validation", function () {
             subSubError.property.should.be.equal("name");
             subSubError.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
             subSubError.value.should.be.equal("my");
+
+            errors[3].target.should.be.equal(model);
+            errors[3].property.should.be.equal("mySubSubClasses");
+            errors[3].value.should.be.equal(model.mySubSubClasses);
+            expect(errors[3].constraints).to.be.undefined;
+            const subError3 = errors[3].children[0];
+            subError3.target.should.be.equal(model.mySubSubClasses);
+            subError3.value.should.be.equal(model.mySubSubClasses[0]);
+            subError3.property.should.be.equal("0");
+            const subSubError3 = subError3.children[0];
+            subSubError3.target.should.be.equal(model.mySubSubClasses[0]);
+            subSubError3.value.should.be.equal(model.mySubSubClasses[0][0]);
+            subSubError3.property.should.be.equal("0");
+            const subSubSubError3 = subSubError3.children[0];
+            subSubSubError3.target.should.be.equal(model.mySubSubClasses[0][0]);
+            subSubSubError3.property.should.be.equal("name");
+            subSubSubError3.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
+            subSubSubError3.value.should.be.equal("sub");
+
+
+            errors[4].target.should.be.equal(model);
+            errors[4].property.should.be.equal("mySubSubSubClasses");
+            errors[4].value.should.be.equal(model.mySubSubSubClasses);
+            expect(errors[4].constraints).to.be.undefined;
+            const subError4 = errors[4].children[0];
+            subError4.target.should.be.equal(model.mySubSubSubClasses);
+            subError4.value.should.be.equal(model.mySubSubSubClasses[0]);
+            subError4.property.should.be.equal("0");
+            const subSubError4 = subError4.children[0];
+            subSubError4.target.should.be.equal(model.mySubSubSubClasses[0]);
+            subSubError4.value.should.be.equal(model.mySubSubSubClasses[0][0]);
+            subSubError4.property.should.be.equal("0");
+            const subSubSubError4 = subSubError4.children[0];
+            subSubSubError4.target.should.be.equal(model.mySubSubSubClasses[0][0]);
+            subSubSubError4.value.should.be.equal(model.mySubSubSubClasses[0][0][0]);
+            subSubSubError4.property.should.be.equal("0");
+            const subSubSubSubError4 = subSubSubError4.children[0];
+            subSubSubSubError4.target.should.be.equal(model.mySubSubSubClasses[0][0][0]);
+            subSubSubSubError4.property.should.be.equal("name");
+            subSubSubSubError4.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
+            subSubSubSubError4.value.should.be.equal("sub");
         });
     });
 
