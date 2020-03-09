@@ -16,6 +16,7 @@ export class Validator {
     // Private Properties
     // -------------------------------------------------------------------------
 
+    private webSafeRegex = /^[a-zA-Z0-9_-]*$/;
     private validatorJs = validator;
     private libPhoneNumber = {
         phoneUtil: require("google-libphonenumber").PhoneNumberUtil.getInstance(),
@@ -258,6 +259,8 @@ export class Validator {
                 return this.isURL(value, metadata.constraints[0]);
             case ValidationTypes.IS_UUID:
                 return this.isUUID(value, metadata.constraints[0]);
+            case ValidationTypes.IS_PUSH_ID:
+                return this.isPushId(value);
             case ValidationTypes.IS_UPPERCASE:
                 return this.isUppercase(value);
             case ValidationTypes.LENGTH:
@@ -843,6 +846,13 @@ export class Validator {
         return typeof value === "string" && this.validatorJs.isUUID(value, version);
     }
 
+    /**
+     * Checks if the string is a Push Id
+     * If given value is not a Push Id, it returns false
+     */
+    isPushId(value: unknown): boolean {
+        return typeof value === "string" && value.length === 20 && this.webSafeRegex.test(value);
+    }
     /**
      * Checks if the string is uppercase.
      * If given value is not a string, then it returns false.

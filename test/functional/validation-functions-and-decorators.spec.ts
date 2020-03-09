@@ -77,6 +77,7 @@ import {
     IsHash,
     IsMACAddress,
     IsISSN,
+    IsPushId,
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -2964,6 +2965,53 @@ describe("IsUUID v5", function() {
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
+});
+
+describe("IsPushId", function() {
+    const validValues = [
+        "-M-Jh_1KAH5rYJF_7-kY"
+        , "-M1yvu7FKe87rR_62NH7"
+        , "-M1jVySxQQPktYyXA2qE"
+        , "-JhLeOlGIEjaIOFHR0xd"
+        , "-JhQ76OEK_848CkIFhAq"
+        , "-JhQ7APk0UtyRTFO9-TS"
+
+    ];
+    const invalidValues = [
+        null
+        , undefined
+        , true
+        , false
+        , ""
+        , "5584fa9e-6146-497a-85c9-dbb459ef7b74"
+        , "Steve"
+        , "dbfa63ea-2c1f-4cf8-b6b9-192b070b558c"
+    ];
+    class MyClass {
+        @IsPushId()
+        someProperty: string;
+    }
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => validator.isPushId(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => validator.isPushId(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isPushId";
+        const message = "someProperty must be a Push Id";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
 });
 
 describe("IsUppercase", function() {

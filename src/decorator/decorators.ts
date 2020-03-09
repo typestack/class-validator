@@ -1146,6 +1146,21 @@ export function IsUUID(version?: "3"|"4"|"5"|"all", validationOptions?: Validati
 }
 
 /**
+ * Checks if the string is a PushId
+ */
+export function IsPushId(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        const args: ValidationMetadataArgs = {
+            type: ValidationTypes.IS_PUSH_ID,
+            target: object.constructor,
+            propertyName: propertyName,
+            validationOptions: validationOptions
+        };
+        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+    };
+}
+
+/**
  * Checks if the string is uppercase.
  */
 export function IsUppercase(validationOptions?: ValidationOptions) {

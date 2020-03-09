@@ -1,4 +1,5 @@
 import "es6-shim";
+import "es6-shim";
 
 import { ValidationError } from "./../../src/validation/ValidationError";
 import { Contains, MinLength } from "../../src/decorator/decorators";
