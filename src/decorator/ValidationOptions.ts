@@ -6,13 +6,13 @@ import {ValidationArguments} from "../validation/ValidationArguments";
 export interface ValidationOptions {
 
     /**
-     * Specifies if validated value is an array and each of its item must be validated.
+     * Specifies if validated value is an array and each of its items must be validated.
      */
     each?: boolean;
 
     /**
-     * Error message used to be used on validation fail.
-     * Message can be either string, either a function that returns a string.
+     * Error message to be used on validation fail.
+     * Message can be either string or a function that returns a string.
      */
     message?: string | ((validationArguments: ValidationArguments) => string);
 
