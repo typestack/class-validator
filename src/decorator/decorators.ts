@@ -1381,7 +1381,7 @@ export function ArrayUnique(validationOptions?: ValidationOptions) {
 }
 
 /**
- * Checks if all array's values are unique. Comparison for objects is reference-based.
+ * Checks if the value is an instance of the specified object.
  */
 export function IsInstance(targetType: new (...args: any[]) => any, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
