@@ -471,7 +471,7 @@ describe("IsLatLong", function () {
 
     it("should fail if validator.validate said that its invalid", function (done) {
         checkInvalidValues(new MyClass(), invalidValues, done);
-    }); 
+    });
 
 });
 describe("IsLatitude", function () {
@@ -573,6 +573,11 @@ describe("IsNumber", function() {
         someProperty: number;
     }
 
+    class ZeroDecimalPlacesTest {
+        @IsNumber({ maxDecimalPlaces: 0 })
+        someProperty: number;
+    }
+
     it("should fail if NaN passed without allowing NaN values", function (done) {
         checkInvalidValues(new MyClass(), [NaN], done);
     });
@@ -617,6 +622,14 @@ describe("IsNumber", function() {
 
     it("should fail if number of decimal places exceeds maxDecimalPlaces", function(done) {
         checkInvalidValues(new MaxDecimalPlacesTest(), [1.1234], done);
+    });
+
+    it("should pass if number of decimal places is zero", function(done) {
+        checkValidValues(new ZeroDecimalPlacesTest(), [-10, -1, 0, 1, 10], done);
+    });
+
+    it("should fail if number of decimal places is not zero", function(done) {
+        checkInvalidValues(new ZeroDecimalPlacesTest(), [-11.1, -2.2, -0.1, 0.1, 2.2, 11.1], done);
     });
 
 });
@@ -3281,19 +3294,19 @@ describe("isHash", function() {
         it("should not fail if validator.validate said that its valid", function(done) {
             checkValidValues(new MyClass(), validValues, done);
         });
-    
+
         it("should fail if validator.validate said that its invalid", function(done) {
             checkInvalidValues(new MyClass(), invalidValues, done);
         });
-    
+
         it("should not fail if method in validator said that its valid", function() {
             validValues.forEach(value => validator.isHash(value, algorithm).should.be.true);
         });
-    
+
         it("should fail if method in validator said that its invalid", function() {
             invalidValues.forEach(value => validator.isHash(value, algorithm).should.be.false);
         });
-    
+
         it("should return error object with proper data", function(done) {
             const validationType = "isHash";
             const message = `someProperty must be a hash of type ${algorithm}`;
@@ -3354,7 +3367,7 @@ describe("isHash", function() {
            "39485729348",
            "%&FHKJFvk",
          ];
-    
+
          testHash(algorithm, validValues, invalidValues);
     });
 
@@ -3373,7 +3386,7 @@ describe("isHash", function() {
            "39485729348",
            "%&FHKJFvk",
          ];
-    
+
          testHash(algorithm, validValues, invalidValues);
         });
 
@@ -3392,7 +3405,7 @@ describe("isHash", function() {
             "39485729348",
             "%&FHKJFvk",
             ];
-    
+
             testHash(algorithm, validValues, invalidValues);
         });
 
@@ -3411,7 +3424,7 @@ describe("isHash", function() {
             "39485729348",
             "%&FHKJFvk",
             ];
-    
+
             testHash(algorithm, validValues, invalidValues);
         });
 
@@ -3430,9 +3443,9 @@ describe("isHash", function() {
             "39485729348",
             "%&FHKJFvk",
             ];
-    
+
             testHash(algorithm, validValues, invalidValues);
-        });  
+        });
 });
 
 describe("IsISSN", function() {
