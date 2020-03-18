@@ -87,7 +87,7 @@ export class ValidationTypes {
     static IS_SURROGATE_PAIR = "isSurrogatePair";
     static IS_URL = "isUrl";
     static IS_UUID = "isUuid";
-    static IS_PUSH_ID = "isPushId";
+    static IS_FIREBASE_PUSH_ID = "IsFirebasePushId";
     static LENGTH = "length";
     static IS_UPPERCASE = "isUppercase";
     static MIN_LENGTH = "minLength";
@@ -266,8 +266,8 @@ export class ValidationTypes {
                 return eachPrefix + "$property must be an URL address";
             case this.IS_UUID:
                 return eachPrefix + "$property must be an UUID";
-            case this.IS_PUSH_ID:
-                return eachPrefix + "$property must be a Push Id";
+            case this.IS_FIREBASE_PUSH_ID:
+                return eachPrefix + "$property must be a Firebase Push Id";
             case this.IS_UPPERCASE:
                 return eachPrefix + "$property must be uppercase";
             case this.LENGTH:

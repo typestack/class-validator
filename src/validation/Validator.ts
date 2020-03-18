@@ -259,8 +259,8 @@ export class Validator {
                 return this.isURL(value, metadata.constraints[0]);
             case ValidationTypes.IS_UUID:
                 return this.isUUID(value, metadata.constraints[0]);
-            case ValidationTypes.IS_PUSH_ID:
-                return this.isPushId(value);
+            case ValidationTypes.IS_FIREBASE_PUSH_ID:
+                return this.IsFirebasePushId(value);
             case ValidationTypes.IS_UPPERCASE:
                 return this.isUppercase(value);
             case ValidationTypes.LENGTH:
@@ -847,10 +847,10 @@ export class Validator {
     }
 
     /**
-     * Checks if the string is a Push Id
-     * If given value is not a Push Id, it returns false
+     * Checks if the string is a Firebase Push Id
+     * If given value is not a Firebase Push Id, it returns false
      */
-    isPushId(value: unknown): boolean {
+    IsFirebasePushId(value: unknown): boolean {
         return typeof value === "string" && value.length === 20 && this.webSafeRegex.test(value);
     }
     /**
