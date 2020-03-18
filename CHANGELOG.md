@@ -1,3 +1,19 @@
+## [0.11.1](https://github.com/typestack/class-validator/compare/v0.11.0...v0.11.1) (2020-03-18)
+
+
+### Bug Fixes
+
+* IsNumber validator now works when maxDecimalPlaces=0 ([#524](https://github.com/typestack/class-validator/issues/524)) ([b8aa922](https://github.com/typestack/class-validator/commit/b8aa922))
+
+
+### Features
+
+* add all option in isuuid validator ([#452](https://github.com/typestack/class-validator/issues/452)) ([98e9382](https://github.com/typestack/class-validator/commit/98e9382))
+* add IsFirebasePushId validator ([#548](https://github.com/typestack/class-validator/issues/548)) ([e7e2e53](https://github.com/typestack/class-validator/commit/e7e2e53))
+* add options for isISO8601 validator ([#460](https://github.com/typestack/class-validator/issues/460)) ([90a6638](https://github.com/typestack/class-validator/commit/90a6638))
+
+
+
 # [0.11.0](https://github.com/typestack/class-validator/compare/v0.10.2...v0.11.0) (2019-11-01)
 
 
