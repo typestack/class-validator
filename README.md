@@ -854,6 +854,7 @@ validator.isMultibyte(str); // Checks if the string contains one or more multiby
 validator.isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
 validator.isURL(str, options); // Checks if the string is an url.
 validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4, 5 or all).
+validator.IsFirebasePushId(str); // Checks if the string is a Firebase Push Id
 validator.isUppercase(str); // Checks if the string is uppercase.
 validator.length(str, min, max); // Checks if the string's length falls in a range.
 validator.minLength(str, min); // Checks if the string's length is not less than given number.
@@ -951,6 +952,7 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                                                         |
 | `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url.                                                                                                  |
 | `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`              | Checks if the string is a UUID (version 3, 4, 5 or all ).                                                                              |
+| `@IsFirebasePushId()`                                   | Checks if the string is a [Firebase Push id](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html)                                                                                      |
 | `@IsUppercase()`                                | Checks if the string is uppercase.                                                                                               |
 | `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range.                                                                                  |
 | `@MinLength(min: number)`                       | Checks if the string's length is not less than given number.                                                                     |
