@@ -435,7 +435,7 @@ export class Validator {
             return options.allowNaN;
         }
 
-        if (options.maxDecimalPlaces) {
+        if (options.maxDecimalPlaces !== undefined) {
             let decimalPlaces = 0;
             if ((value % 1) !== 0) {
                 decimalPlaces = value.toString().split(".")[1].length;
