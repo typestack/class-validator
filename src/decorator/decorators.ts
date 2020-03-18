@@ -4,8 +4,7 @@ import {ValidationOptions} from "./ValidationOptions";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
 import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
-import {getFromContainer} from "../container";
-import {MetadataStorage} from "../metadata/MetadataStorage";
+import { getMetadataStorage } from "..";
 
 // -------------------------------------------------------------------------
 // System
@@ -24,7 +23,7 @@ export function ValidatorConstraint(options?: { name?: string, async?: boolean }
                 name = name.replace(/\.?([A-Z]+)/g, (x, y) => "_" + y.toLowerCase()).replace(/^_/, "");
         }
         const metadata = new ConstraintMetadata(target, name, isAsync);
-        getFromContainer(MetadataStorage).addConstraintMetadata(metadata);
+        getMetadataStorage().addConstraintMetadata(metadata);
     };
 }
 
@@ -44,7 +43,7 @@ export function Validate(constraintClass: Function, constraintsOrValidationOptio
             constraints: constraintsOrValidationOptions instanceof Array ? constraintsOrValidationOptions as any[] : undefined,
             validationOptions: !(constraintsOrValidationOptions instanceof Array) ? constraintsOrValidationOptions as ValidationOptions : maybeValidationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -59,7 +58,7 @@ export function ValidateNested(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -74,7 +73,7 @@ export function ValidatePromise(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -89,7 +88,7 @@ export function Allow(validationOptions?: ValidationOptions) {
       propertyName: propertyName,
       validationOptions: validationOptions
     };
-    getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+      getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
   };
 }
 
@@ -106,7 +105,7 @@ export function ValidateIf(condition: (object: any, value: any) => boolean, vali
             constraints: [condition],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -125,7 +124,7 @@ export function IsDefined(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -141,7 +140,7 @@ export function Equals(comparison: any, validationOptions?: ValidationOptions) {
             constraints: [comparison],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -157,7 +156,7 @@ export function NotEquals(comparison: any, validationOptions?: ValidationOptions
             constraints: [comparison],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -172,7 +171,7 @@ export function IsEmpty(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -187,7 +186,7 @@ export function IsNotEmpty(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -203,7 +202,7 @@ export function IsIn(values: any[], validationOptions?: ValidationOptions) {
             constraints: [values],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -219,7 +218,7 @@ export function IsNotIn(values: any[], validationOptions?: ValidationOptions) {
             constraints: [values],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -237,7 +236,7 @@ export function IsOptional(validationOptions?: ValidationOptions) {
             }],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -256,7 +255,7 @@ export function IsBoolean(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -271,7 +270,7 @@ export function IsLatLong(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -286,7 +285,7 @@ export function IsLatitude(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -301,7 +300,7 @@ export function IsLongitude(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -316,7 +315,7 @@ export function IsDate(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -332,7 +331,7 @@ export function IsNumber(options: IsNumberOptions = {}, validationOptions?: Vali
             constraints: [options],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -347,7 +346,7 @@ export function IsInt(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -362,7 +361,7 @@ export function IsString(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -374,7 +373,7 @@ export function IsDateString(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -389,7 +388,7 @@ export function IsArray(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -405,7 +404,7 @@ export function IsEnum(entity: Object, validationOptions?: ValidationOptions) {
             constraints: [entity],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -426,7 +425,7 @@ export function IsDivisibleBy(num: number, validationOptions?: ValidationOptions
             constraints: [num],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -441,7 +440,7 @@ export function IsPositive(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -456,7 +455,7 @@ export function IsNegative(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 /**
@@ -471,7 +470,7 @@ export function Min(min: number, validationOptions?: ValidationOptions) {
             constraints: [min],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -487,7 +486,7 @@ export function Max(max: number, validationOptions?: ValidationOptions) {
             constraints: [max],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -507,7 +506,7 @@ export function MinDate(date: Date, validationOptions?: ValidationOptions) {
             constraints: [date],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -523,7 +522,7 @@ export function MaxDate(date: Date, validationOptions?: ValidationOptions) {
             constraints: [date],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -542,7 +541,7 @@ export function IsBooleanString(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -558,7 +557,7 @@ export function IsNumberString(validationOptions?: ValidationOptions, NumberOpti
             constraints: [NumberOptions],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -578,7 +577,7 @@ export function Contains(seed: string, validationOptions?: ValidationOptions) {
             constraints: [seed],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -594,7 +593,7 @@ export function NotContains(seed: string, validationOptions?: ValidationOptions)
             constraints: [seed],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -610,7 +609,7 @@ export function IsAlpha(locale?: string, validationOptions?: ValidationOptions) 
             constraints: [locale],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -626,7 +625,7 @@ export function IsAlphanumeric(locale?: string, validationOptions?: ValidationOp
             constraints: [locale],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -642,7 +641,7 @@ export function IsDecimal(options?: ValidatorJS.IsDecimalOptions, validationOpti
             constraints: [options],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -657,7 +656,7 @@ export function IsAscii(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -672,7 +671,7 @@ export function IsBase64(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -688,7 +687,7 @@ export function IsByteLength(min: number, max?: number, validationOptions?: Vali
             constraints: [min, max],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -703,7 +702,7 @@ export function IsCreditCard(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -719,7 +718,7 @@ export function IsCurrency(options?: ValidatorJS.IsCurrencyOptions, validationOp
             constraints: [options],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -735,7 +734,7 @@ export function IsEmail(options?: ValidatorJS.IsEmailOptions, validationOptions?
             constraints: [options],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -751,7 +750,7 @@ export function IsFQDN(options?: ValidatorJS.IsFQDNOptions, validationOptions?: 
             constraints: [options],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -766,7 +765,7 @@ export function IsFullWidth(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -781,7 +780,7 @@ export function IsHalfWidth(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -796,7 +795,7 @@ export function IsVariableWidth(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -811,7 +810,7 @@ export function IsHexColor(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -826,7 +825,7 @@ export function IsHexadecimal(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -841,7 +840,7 @@ export function IsMACAddress(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -857,7 +856,7 @@ export function IsIP(version?: number, validationOptions?: ValidationOptions) {
             constraints: [version],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -872,7 +871,7 @@ export function IsPort(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -888,7 +887,7 @@ export function IsISBN(version?: number, validationOptions?: ValidationOptions) 
             constraints: [version],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -903,7 +902,7 @@ export function IsISIN(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -919,7 +918,7 @@ export function IsISO8601(options?: ValidatorJS.IsISO8601Options, validationOpti
             constraints: [options],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -934,7 +933,7 @@ export function IsJSON(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -949,7 +948,7 @@ export function IsJWT(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -964,7 +963,7 @@ export function IsObject(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -979,7 +978,7 @@ export function IsNotEmptyObject(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -994,7 +993,7 @@ export function IsLowercase(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1011,7 +1010,7 @@ export function IsMobilePhone(locale: string, validationOptions?: ValidationOpti
             constraints: [locale],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1030,7 +1029,7 @@ export function IsPhoneNumber(region: string, validationOptions?: ValidationOpti
             constraints: [region],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1047,7 +1046,7 @@ export function IsISO31661Alpha2(validationOptions?: ValidationOptions) {
             constraints: [],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1064,7 +1063,7 @@ export function IsISO31661Alpha3(validationOptions?: ValidationOptions) {
             constraints: [],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1079,7 +1078,7 @@ export function IsMongoId(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1094,7 +1093,7 @@ export function IsMultibyte(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1109,7 +1108,7 @@ export function IsSurrogatePair(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1125,7 +1124,7 @@ export function IsUrl(options?: ValidatorJS.IsURLOptions, validationOptions?: Va
             constraints: [options],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1141,7 +1140,7 @@ export function IsUUID(version?: "3"|"4"|"5"|"all", validationOptions?: Validati
             constraints: [version],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1156,7 +1155,7 @@ export function IsFirebasePushId(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1171,7 +1170,7 @@ export function IsUppercase(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1187,7 +1186,7 @@ export function Length(min: number, max?: number, validationOptions?: Validation
             constraints: [min, max],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1203,7 +1202,7 @@ export function MinLength(min: number, validationOptions?: ValidationOptions) {
             constraints: [min],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1219,7 +1218,7 @@ export function MaxLength(max: number, validationOptions?: ValidationOptions) {
             constraints: [max],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1244,7 +1243,7 @@ export function Matches(pattern: RegExp, modifiersOrAnnotationOptions?: string|V
             constraints: [pattern, modifiers],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1259,7 +1258,7 @@ export function IsMilitaryTime(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1276,7 +1275,7 @@ export function IsHash(algorithm: string, validationOptions?: ValidationOptions)
             constraints: [algorithm],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1293,7 +1292,7 @@ export function IsISSN(options?: ValidatorJS.IsISSNOptions, validationOptions?: 
             constraints: [options],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1313,7 +1312,7 @@ export function ArrayContains(values: any[], validationOptions?: ValidationOptio
             constraints: [values],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1329,7 +1328,7 @@ export function ArrayNotContains(values: any[], validationOptions?: ValidationOp
             constraints: [values],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1344,7 +1343,7 @@ export function ArrayNotEmpty(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1360,7 +1359,7 @@ export function ArrayMinSize(min: number, validationOptions?: ValidationOptions)
             constraints: [min],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1376,7 +1375,7 @@ export function ArrayMaxSize(max: number, validationOptions?: ValidationOptions)
             constraints: [max],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1391,7 +1390,7 @@ export function ArrayUnique(validationOptions?: ValidationOptions) {
             propertyName: propertyName,
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
 
@@ -1407,6 +1406,6 @@ export function IsInstance(targetType: new (...args: any[]) => any, validationOp
             constraints: [targetType],
             validationOptions: validationOptions
         };
-        getFromContainer(MetadataStorage).addValidationMetadata(new ValidationMetadata(args));
+        getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
     };
 }
