@@ -807,7 +807,7 @@ validator.max(num, max); // Checks if the first number is less than or equal to 
 
 // date validation methods
 validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
-validator.maxDate(date, minDate); // Checks if the value is a date that's before the specified date.
+validator.maxDate(date, maxDate); // Checks if the value is a date that's before the specified date.
 
 // string-type validation methods
 validator.isBooleanString(str); // Checks if a string is a boolean.
