@@ -280,7 +280,7 @@ export function IsLatLong(validationOptions?: ValidationOptions): PropertyDecora
 export function IsLatitude(validationOptions?: ValidationOptions): PropertyDecorator {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_LONGITUDE,
+            type: ValidationTypes.IS_LATITUDE,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
@@ -295,7 +295,7 @@ export function IsLatitude(validationOptions?: ValidationOptions): PropertyDecor
 export function IsLongitude(validationOptions?: ValidationOptions): PropertyDecorator {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
-            type: ValidationTypes.IS_LATITUDE,
+            type: ValidationTypes.IS_LONGITUDE,
             target: object.constructor,
             propertyName: propertyName,
             validationOptions: validationOptions
