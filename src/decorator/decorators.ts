@@ -548,13 +548,13 @@ export function IsBooleanString(validationOptions?: ValidationOptions): Property
 /**
  * Checks if the string is a number.
  */
-export function IsNumberString(validationOptions?: ValidationOptions, NumberOptions?: IsNumberOptions): PropertyDecorator {
+export function IsNumberString(options?: ValidatorJS.IsNumericOptions, validationOptions?: ValidationOptions): PropertyDecorator {
     return function (object: Object, propertyName: string) {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.IS_NUMBER_STRING,
             target: object.constructor,
             propertyName: propertyName,
-            constraints: [NumberOptions],
+            constraints: [options],
             validationOptions: validationOptions
         };
         getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));

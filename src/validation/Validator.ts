@@ -182,7 +182,7 @@ export class Validator {
             case ValidationTypes.IS_BOOLEAN_STRING:
                 return this.isBooleanString(value);
             case ValidationTypes.IS_NUMBER_STRING:
-                return this.isNumberString(value);
+                return this.isNumberString(value, metadata.constraints[0]);
 
             /* string checkers */
             case ValidationTypes.CONTAINS:
