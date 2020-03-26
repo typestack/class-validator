@@ -374,14 +374,14 @@ export class Validator {
     * Checks if a given value is a latitude.
     */
     isLatitude(value: unknown): boolean {
-        return (typeof value === "number" || this.isString(value)) && this.isLatLong(`0,${value}`);
+        return (typeof value === "number" || this.isString(value)) && this.isLatLong(`${value},0`);
     }
 
     /**
     * Checks if a given value is a longitude.
     */
     isLongitude(value: unknown): boolean {
-        return (typeof value === "number" || this.isString(value)) && this.isLatLong(`${value},0`);
+        return (typeof value === "number" || this.isString(value)) && this.isLatLong(`0,${value}`);
     }
 
     /**
