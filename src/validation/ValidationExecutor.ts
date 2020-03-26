@@ -182,7 +182,7 @@ export class ValidationExecutor {
         }
 
         this.defaultValidations(object, value, metadatas, validationError.constraints);
-        this.customValidations(object, value, customValidationMetadatas, validationError.constraints);
+        this.customValidations(object, value, customValidationMetadatas, validationError);
         this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
 
         this.mapContexts(object, value, metadatas, validationError);
@@ -244,7 +244,7 @@ export class ValidationExecutor {
     private customValidations(object: Object,
                               value: any,
                               metadatas: ValidationMetadata[],
-                              errorMap: { [key: string]: string }) {
+                              error: ValidationError) {
 
         metadatas.forEach(metadata => {
             this.metadataStorage
@@ -267,14 +267,20 @@ export class ValidationExecutor {
                             const promise = validatedValue.then(isValid => {
                                 if (!isValid) {
                                     const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-                                    errorMap[type] = message;
+                                    error.constraints[type] = message;
+                                    if (metadata.context) {
+                                        if (!error.contexts) {
+                                            error.contexts = {};
+                                        }
+                                        error.contexts[type] = Object.assign((error.contexts[type] || {}), metadata.context);
+                                    }
                                 }
                             });
                             this.awaitingPromises.push(promise);
                         } else {
                             if (!validatedValue) {
                                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-                                errorMap[type] = message;
+                                error.constraints[type] = message;
                             }
                         }
 
@@ -297,7 +303,13 @@ export class ValidationExecutor {
                                 const validationResult = flatValidatedValues.every((isValid: boolean) => isValid);
                                 if (!validationResult) {
                                     const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-                                    errorMap[type] = message;
+                                    error.constraints[type] = message;
+                                    if (metadata.context) {
+                                        if (!error.contexts) {
+                                            error.contexts = {};
+                                        }
+                                        error.contexts[type] = Object.assign((error.contexts[type] || {}), metadata.context);
+                                    }
                                 }
                             });
 
@@ -309,7 +321,7 @@ export class ValidationExecutor {
                     const validationResult = validatedSubValues.every((isValid: boolean) => isValid);
                     if (!validationResult) {
                         const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-                        errorMap[type] = message;
+                        error.constraints[type] = message;
                     }
                 });
         });
