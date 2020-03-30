@@ -1,8 +1,7 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import * as libphonenumber from "google-libphonenumber";
 
-const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
 
 export const IS_PHONE_NUMBER = "isPhoneNumber";
 

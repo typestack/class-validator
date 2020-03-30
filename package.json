@@ -1,7 +1,7 @@
 {
   "name": "class-validator",
   "private": true,
-  "version": "0.12.0-refactor.2",
+  "version": "0.12.0-refactor.3",
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -29,14 +29,13 @@
   ],
   "dependencies": {
     "@types/validator": "12.0.1",
-    "google-libphonenumber": "^3.1.6",
+    "google-libphonenumber": "^3.2.8",
     "validator": "12.2.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.0",
     "@types/chai-as-promised": "^7.1.2",
     "@types/del": "^4.0.0",
-    "@types/google-libphonenumber": "^7.4.17",
     "@types/gulp": "^4.0.2",
     "@types/gulp-istanbul": "^0.9.32",
     "@types/gulp-mocha": "0.0.32",
