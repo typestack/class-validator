@@ -1,4 +1,5 @@
-import { Gulpclass, Task, SequenceTask, MergedTask } from "gulpclass";
+import { resolve } from "path";
+import { Gulpclass, Task, SequenceTask } from "gulpclass";
 import * as gulp from "gulp";
 import * as del from "del";
 import * as shell from "gulp-shell";
@@ -9,12 +10,41 @@ import tslintPlugin from "gulp-tslint";
 import * as ts from "gulp-typescript";
 import * as sourcemaps from "gulp-sourcemaps";
 import * as istanbul from "gulp-istanbul";
+import { rollup, RollupOptions } from "rollup";
+
+const pkg = require("./package.json");
+
+const rollupSourceMaps = require("rollup-plugin-sourcemaps");
+const rollupCommonjs = require("rollup-plugin-commonjs");
+const rollupJson = require("rollup-plugin-json");
+const rollupNodeResolve = require("rollup-plugin-node-resolve");
+
 
 const conventionalChangelog = require("gulp-conventional-changelog");
 const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
 
 @Gulpclass()
 export class Gulpfile {
+
+    rollupCommonOptions: RollupOptions = {
+        plugins: [
+            // Allow json resolution
+            rollupJson(),
+            // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
+            rollupCommonjs(),
+            // Allow node_modules resolution, so you can use 'external' to control
+            // which external modules to include in the bundle
+            // https://github.com/rollup/rollup-plugin-node-resolve#usage
+            rollupNodeResolve(),
+            // Resolve source maps to the original source
+            rollupSourceMaps(),
+        ],
+        inlineDynamicImports: true,
+        // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
+        external: [],
+    };
+
+
 
     // -------------------------------------------------------------------------
     // General tasks
@@ -26,11 +56,8 @@ export class Gulpfile {
     @Task()
     clean() {
         return del([
+            "dist/**",
             "build/**",
-            "!build",
-            "!build/package",
-            "!build/package/node_modules",
-            "!build/package/node_modules/**"
         ]);
     }
 
@@ -38,9 +65,15 @@ export class Gulpfile {
      * Runs typescript files compilation.
      */
     @Task()
-    compile() {
-        return gulp.src("*.ts", { read: false })
-            .pipe(shell(["tsc"]));
+    compileTests() {
+        const tsProjectEsm5 = ts.createProject("tsconfig.json", { rootDir: "./" });
+        const tsResultEsm5 = gulp.src(["./{test,src}/**/*.ts"])
+            .pipe(sourcemaps.init())
+            .pipe(tsProjectEsm5());
+
+        return tsResultEsm5.js
+            .pipe(sourcemaps.write(".", { sourceRoot: "", includeContent: true }))
+            .pipe(gulp.dest("build/compile"));
     }
 
     // -------------------------------------------------------------------------
@@ -54,14 +87,14 @@ export class Gulpfile {
                 // conventional-changelog options go here
                 preset: "angular"
             }, {
-                    // context goes here
-                }, {
-                    // git-raw-commits options go here
-                }, {
-                    // conventional-commits-parser options go here
-                }, {
-                    // conventional-changelog-writer options go here
-                }))
+                // context goes here
+            }, {
+                // git-raw-commits options go here
+            }, {
+                // conventional-commits-parser options go here
+            }, {
+                // conventional-changelog-writer options go here
+            }))
             .pipe(gulp.dest("./"));
     }
 
@@ -72,45 +105,90 @@ export class Gulpfile {
     npmPublish() {
         return gulp.src("*.js", { read: false })
             .pipe(shell([
-                "cd ./build/package && npm publish"
+                "cd ./dist/ && npm publish"
             ]));
     }
 
-    /**
-     * Copies all sources to the package directory.
-     */
-    @MergedTask()
-    packageCompile() {
-        const tsProject = ts.createProject("tsconfig.json");
+    @Task()
+    packageCompileEsm5() {
+        const tsProjectEsm5 = ts.createProject("tsconfig.json", { module: "esnext", target: "es5" });
+        const tsResultEsm5 = gulp.src(["./src/**/*.ts"])
+            .pipe(sourcemaps.init())
+            .pipe(tsProjectEsm5());
+
+        return tsResultEsm5.js
+            .pipe(sourcemaps.write(".", { sourceRoot: "", includeContent: true }))
+            .pipe(gulp.dest("dist/esm5"));
+    }
+
+    @Task()
+    packageCompileEsm2015() {
+        const tsProjectEsm2015 = ts.createProject("tsconfig.json", { module: "esnext", target: "es2018" });
+        const tsResultEsm2015 = gulp.src(["./src/**/*.ts"])
+            .pipe(sourcemaps.init())
+            .pipe(tsProjectEsm2015());
+
+        return tsResultEsm2015.js
+            .pipe(sourcemaps.write(".", { sourceRoot: "", includeContent: true }))
+            .pipe(gulp.dest("dist/esm2015"));
+    }
+
+    @Task()
+    packageCompileTypes() {
+        const tsProject = ts.createProject("tsconfig.json", { module: "esnext" });
         const tsResult = gulp.src(["./src/**/*.ts"])
             .pipe(sourcemaps.init())
             .pipe(tsProject());
 
+        return tsResult.dts.pipe(gulp.dest("dist/types"));
+    }
+
+
+    /**
+     * Copies all sources to the package directory.
+     */
+    @SequenceTask()
+    packageCompile() {
         return [
-            tsResult.dts.pipe(gulp.dest("./build/package")),
-            tsResult.js
-                .pipe(sourcemaps.write(".", { sourceRoot: "", includeContent: true }))
-                .pipe(gulp.dest("./build/package"))
+            ["packageCompileEsm5", "packageCompileEsm2015", "packageCompileTypes"]
         ];
     }
 
-    /**
-     * Moves all compiled files to the final package directory.
-     */
     @Task()
-    packageMoveCompiledFiles() {
-        return gulp.src("./build/package/src/**/*")
-            .pipe(gulp.dest("./build/package"));
+    packageBundleEsm5() {
+        return rollup({
+            ...this.rollupCommonOptions,
+            input: resolve(__dirname, "dist/esm5/index.js"),
+        }).then(bundle => {
+            return bundle.write({
+                file: resolve(__dirname, "dist/bundles/index.umd.js"),
+                format: "umd",
+                // TODO: camel case
+                name: "classValidator",
+                sourcemap: true,
+            });
+        });
     }
 
-    /**
-     * Moves all compiled files to the final package directory.
-     */
     @Task()
-    packageClearCompileDirectory(cb: Function) {
-        return del([
-            "build/package/src/**"
-        ]);
+    packageBundleEsm2015() {
+        return rollup({
+            ...this.rollupCommonOptions,
+            input: resolve(__dirname, "dist/esm2015/index.js"),
+        }).then(bundle => {
+            return bundle.write({
+                file: resolve(__dirname, "dist/bundles/index.esm.js"),
+                format: "es",
+                sourcemap: true,
+            });
+        });
+    }
+
+    @SequenceTask()
+    packageBundle() {
+        return [
+            ["packageBundleEsm5", "packageBundleEsm2015"]
+        ];
     }
 
     /**
@@ -120,7 +198,7 @@ export class Gulpfile {
     packagePreparePackageFile() {
         return gulp.src("./package.json")
             .pipe(replace("\"private\": true,", "\"private\": false,"))
-            .pipe(gulp.dest("./build/package"));
+            .pipe(gulp.dest("./dist"));
     }
 
     /**
@@ -131,7 +209,7 @@ export class Gulpfile {
     packageReadmeFile() {
         return gulp.src("./README.md")
             .pipe(replace(/```typescript([\s\S]*?)```/g, "```javascript$1```"))
-            .pipe(gulp.dest("./build/package"));
+            .pipe(gulp.dest("./dist"));
     }
 
     /**
@@ -142,8 +220,7 @@ export class Gulpfile {
         return [
             "clean",
             "packageCompile",
-            "packageMoveCompiledFiles",
-            "packageClearCompileDirectory",
+            "packageBundle",
             ["packagePreparePackageFile", "packageReadmeFile"]
         ];
     }
@@ -203,7 +280,7 @@ export class Gulpfile {
         chai.use(require("sinon-chai"));
         chai.use(require("chai-as-promised"));
 
-        return gulp.src(["./build/compiled/test/**/*.js"])
+        return gulp.src(["./build/compile/test/**/*.js"])
             .pipe(mocha())
             .pipe(istanbul.writeReports());
     }
@@ -220,7 +297,7 @@ export class Gulpfile {
      */
     @SequenceTask()
     tests() {
-        return ["compile", "tslint", "coveragePre", "coveragePost", "coverageRemap"];
+        return ["del", "compileTests", "tslint", "coveragePre", "coveragePost", "coverageRemap"];
     }
 
 }
