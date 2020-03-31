@@ -313,10 +313,12 @@ import {ValidateNested} from "class-validator";
 export class Post {
 
     @ValidateNested()
-    user: User;
+    user: User = new User();
 
 }
 ```
+
+Please note that nested object **must** be created using `new` keyword, otherwise `@ValidateNested` won't work.
 
 It also works with multi-dimensional array, like :
 
