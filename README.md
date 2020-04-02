@@ -313,12 +313,12 @@ import {ValidateNested} from "class-validator";
 export class Post {
 
     @ValidateNested()
-    user: User = new User();
+    user: User;
 
 }
 ```
 
-Please note that nested object **must** be created using `new` keyword, otherwise `@ValidateNested` won't work.
+Please note that nested object *must* be an instance of a class, otherwise `@ValidateNested` won't know what class is target of validation. Check also [Validating plain objects](#validating-plain-objects).
 
 It also works with multi-dimensional array, like :
 
