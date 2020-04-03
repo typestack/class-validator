@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsLength from "validator/lib/isLength";
+import validator from "validator";
 
 export const MAX_LENGTH = "maxLength";
 
@@ -9,7 +9,7 @@ export const MAX_LENGTH = "maxLength";
  * If given value is not a string, then it returns false.
  */
 export function maxLength(value: unknown, max: number) {
-    return typeof value === "string" && validatorJsIsLength(value, { min: 0, max });
+    return typeof value === "string" && validator.isLength(value, { min: 0, max });
 }
 
 /**

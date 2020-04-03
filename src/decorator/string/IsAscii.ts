@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsAscii from "validator/lib/isAscii";
+import validator from "validator";
 
 export const IS_ASCII = "isAscii";
 
@@ -9,7 +9,7 @@ export const IS_ASCII = "isAscii";
  * If given value is not a string, then it returns false.
  */
 export function isAscii(value: unknown): boolean {
-    return typeof value === "string" && validatorJsIsAscii(value);
+    return typeof value === "string" && validator.isAscii(value);
 }
 
 /**

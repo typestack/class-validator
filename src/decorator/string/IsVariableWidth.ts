@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsVariableWidth from "validator/lib/isVariableWidth";
+import validator from "validator";
 
 export const IS_VARIABLE_WIDTH = "isVariableWidth";
 
@@ -9,7 +9,7 @@ export const IS_VARIABLE_WIDTH = "isVariableWidth";
  * If given value is not a string, then it returns false.
  */
 export function isVariableWidth(value: unknown): boolean {
-    return typeof value === "string" && validatorJsIsVariableWidth(value);
+    return typeof value === "string" && validator.isVariableWidth(value);
 }
 
 /**

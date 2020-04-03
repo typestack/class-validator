@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsHalfWidth from "validator/lib/isHalfWidth";
+import validator from "validator";
 
 export const IS_HALF_WIDTH = "isHalfWidth";
 
@@ -9,7 +9,7 @@ export const IS_HALF_WIDTH = "isHalfWidth";
  * If given value is not a string, then it returns false.
  */
 export function isHalfWidth(value: unknown): boolean {
-    return typeof value === "string" && validatorJsIsHalfWidth(value);
+    return typeof value === "string" && validator.isHalfWidth(value);
 }
 
 /**

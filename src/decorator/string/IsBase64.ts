@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsBase64 from "validator/lib/isBase64";
+import validator from "validator";
 
 export const IS_BASE64 = "isBase64";
 
@@ -9,7 +9,7 @@ export const IS_BASE64 = "isBase64";
  * If given value is not a string, then it returns false.
  */
 export function isBase64(value: unknown): boolean {
-    return typeof value === "string" && validatorJsIsBase64(value);
+    return typeof value === "string" && validator.isBase64(value);
 }
 
 /**

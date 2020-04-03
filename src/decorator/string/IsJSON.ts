@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsJSON from "validator/lib/isJSON";
+import validator from "validator";
 
 export const IS_JSON = "isJson";
 
@@ -9,7 +9,7 @@ export const IS_JSON = "isJson";
  * If given value is not a string, then it returns false.
  */
 export function isJSON(value: unknown): boolean {
-    return typeof value === "string" && validatorJsIsJSON(value);
+    return typeof value === "string" && validator.isJSON(value);
 }
 
 /**

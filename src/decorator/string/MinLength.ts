@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsLength from "validator/lib/isLength";
+import validator from "validator";
 
 export const MIN_LENGTH = "minLength";
 
@@ -9,7 +9,7 @@ export const MIN_LENGTH = "minLength";
  * If given value is not a string, then it returns false.
  */
 export function minLength(value: unknown, min: number) {
-    return typeof value === "string" && validatorJsIsLength(value, { min });
+    return typeof value === "string" && validator.isLength(value, { min });
 }
 
 /**

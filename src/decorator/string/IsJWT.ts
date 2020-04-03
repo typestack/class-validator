@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsJWT from "validator/lib/isJWT";
+import validator from "validator";
 
 export const IS_JWT = "isJwt";
 
@@ -9,7 +9,7 @@ export const IS_JWT = "isJwt";
  * If given value is not a string, then it returns false.
  */
 export function isJWT(value: unknown): boolean {
-    return typeof value === "string" && validatorJsIsJWT(value);
+    return typeof value === "string" && validator.isJWT(value);
 }
 
 /**

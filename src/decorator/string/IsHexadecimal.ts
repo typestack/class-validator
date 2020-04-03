@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsHexadecimal from "validator/lib/isHexadecimal";
+import validator from "validator";
 
 export const IS_HEXADECIMAL = "isHexadecimal";
 
@@ -9,7 +9,7 @@ export const IS_HEXADECIMAL = "isHexadecimal";
  * If given value is not a string, then it returns false.
  */
 export function isHexadecimal(value: unknown): boolean {
-    return typeof value === "string" && validatorJsIsHexadecimal(value);
+    return typeof value === "string" && validator.isHexadecimal(value);
 }
 
 /**

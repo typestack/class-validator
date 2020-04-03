@@ -1,6 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validatorJsIsHexColor from "validator/lib/isHexColor";
+import validator from "validator";
 
 export const IS_HEX_COLOR = "isHexColor";
 
@@ -10,7 +10,7 @@ export const IS_HEX_COLOR = "isHexColor";
  */
 export function isHexColor(value: unknown): boolean {
     // TODO: breaking change - https://github.com/validatorjs/validator.js/pull/1233
-    return typeof value === "string" && validatorJsIsHexColor(value);
+    return typeof value === "string" && validator.isHexColor(value);
 }
 
 /**

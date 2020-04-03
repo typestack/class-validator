@@ -1,7 +1,6 @@
 import { ValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
-
-const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
+import { PhoneNumberUtil } from "google-libphonenumber";
 
 export const IS_PHONE_NUMBER = "isPhoneNumber";
 
@@ -13,6 +12,7 @@ export const IS_PHONE_NUMBER = "isPhoneNumber";
  * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
  */
 export function isPhoneNumber(value: string, region: string | null): boolean {
+    const phoneUtil = PhoneNumberUtil.getInstance();
     try {
         const phoneNum = phoneUtil.parseAndKeepRawInput(value, region);
         const result = phoneUtil.isValidNumber(phoneNum);

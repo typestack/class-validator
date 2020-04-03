@@ -10,7 +10,8 @@ import tslintPlugin from "gulp-tslint";
 import * as ts from "gulp-typescript";
 import * as sourcemaps from "gulp-sourcemaps";
 import * as istanbul from "gulp-istanbul";
-import { rollup, RollupOptions } from "rollup";
+import { rollup, RollupOptions, Plugin } from "rollup";
+import { terser as rollupTerser } from "rollup-plugin-terser";
 
 const pkg = require("./package.json");
 
@@ -18,6 +19,7 @@ const rollupSourceMaps = require("rollup-plugin-sourcemaps");
 const rollupCommonjs = require("rollup-plugin-commonjs");
 const rollupJson = require("rollup-plugin-json");
 const rollupNodeResolve = require("rollup-plugin-node-resolve");
+const rollupUglify = require("rollup-plugin-uglify");
 
 
 const conventionalChangelog = require("gulp-conventional-changelog");
@@ -26,22 +28,26 @@ const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
 @Gulpclass()
 export class Gulpfile {
 
+    rollupExternal = [
+        ...Object.keys(pkg.peerDependencies),
+        ...Object.keys(pkg.dependencies)
+    ];
+    rollupCommonPlugins: Plugin[] = [
+        // Allow json resolution
+        rollupJson(),
+        // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
+        rollupCommonjs(),
+        // Allow node_modules resolution, so you can use 'external' to control
+        // which external modules to include in the bundle
+        // https://github.com/rollup/rollup-plugin-node-resolve#usage
+        rollupNodeResolve(),
+        // Resolve source maps to the original source
+        rollupSourceMaps(),
+    ];
     rollupCommonOptions: RollupOptions = {
-        plugins: [
-            // Allow json resolution
-            rollupJson(),
-            // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
-            rollupCommonjs(),
-            // Allow node_modules resolution, so you can use 'external' to control
-            // which external modules to include in the bundle
-            // https://github.com/rollup/rollup-plugin-node-resolve#usage
-            rollupNodeResolve(),
-            // Resolve source maps to the original source
-            rollupSourceMaps(),
-        ],
         inlineDynamicImports: true,
         // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-        external: [],
+        external: this.rollupExternal,
     };
 
 
@@ -156,32 +162,18 @@ export class Gulpfile {
 
     @Task()
     packageBundleEsm5() {
-        return rollup({
-            ...this.rollupCommonOptions,
-            input: resolve(__dirname, "dist/esm5/index.js"),
-        }).then(bundle => {
-            return bundle.write({
-                file: resolve(__dirname, "dist/bundles/index.umd.js"),
-                format: "umd",
-                // TODO: camel case
-                name: "classValidator",
-                sourcemap: true,
-            });
-        });
+        return Promise.all([
+            this._rollupPackageBundleEsm5(true),
+            this._rollupPackageBundleEsm5(false),
+        ]);
     }
 
     @Task()
     packageBundleEsm2015() {
-        return rollup({
-            ...this.rollupCommonOptions,
-            input: resolve(__dirname, "dist/esm2015/index.js"),
-        }).then(bundle => {
-            return bundle.write({
-                file: resolve(__dirname, "dist/bundles/index.esm.js"),
-                format: "es",
-                sourcemap: true,
-            });
-        });
+        return Promise.all([
+            this._rollupPackageBundleEsm2015(true),
+            this._rollupPackageBundleEsm2015(false),
+        ]);
     }
 
     @SequenceTask()
@@ -298,6 +290,62 @@ export class Gulpfile {
     @SequenceTask()
     tests() {
         return ["clean", "compileTests", "tslint", "coveragePre", "coveragePost", "coverageRemap"];
+    }
+
+    private _rollupPackageBundleEsm5(isMin: boolean) {
+        return rollup({
+            ...this.rollupCommonOptions,
+            plugins: [
+                ...this.rollupCommonPlugins,
+                ...(isMin ? [rollupUglify.uglify()] : []),
+            ],
+            input: resolve(__dirname, "dist/esm5/index.js"),
+        }).then(bundle => {
+            return bundle.write({
+                file: this._getOutputFileName(resolve(__dirname, "dist/bundles/index.umd.js"), isMin),
+                format: "umd",
+                name: this._pascalCase(this._normalizePackageName(pkg.name)),
+                sourcemap: true,
+            });
+        });
+    }
+
+    private _rollupPackageBundleEsm2015(isMin: boolean) {
+        return rollup({
+            ...this.rollupCommonOptions,
+            plugins: [
+                ...this.rollupCommonPlugins,
+                ...(isMin ? [rollupTerser()] : []),
+            ],
+            input: resolve(__dirname, "dist/esm2015/index.js"),
+        }).then(bundle => {
+            return bundle.write({
+                file: this._getOutputFileName(resolve(__dirname, "dist/bundles/index.esm.js"), isMin),
+                format: "es",
+                sourcemap: true,
+            });
+        });
+    }
+
+    private _dashToCamelCase(myStr: string) {
+        return myStr.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+    }
+
+    private _toUpperCase(myStr: string) {
+        return `${myStr.charAt(0).toUpperCase()}${myStr.substr(1)}`;
+    }
+
+    private _pascalCase(myStr: string) {
+        return this._toUpperCase(this._dashToCamelCase(myStr));
+    }
+
+    private _normalizePackageName(rawPackageName: string) {
+        const scopeEnd = rawPackageName.indexOf("/") + 1;
+        return rawPackageName.substring(scopeEnd);
+    }
+
+    private _getOutputFileName(fileName: string, isMin = false) {
+        return isMin ? fileName.replace(/\.js$/, ".min.js") : fileName;
     }
 
 }
