@@ -1,7 +1,7 @@
 {
   "name": "class-validator",
   "private": true,
-  "version": "0.11.1",
+  "version": "0.12.0",
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -23,51 +23,27 @@
     "typescript-validator"
   ],
   "dependencies": {
-    "@types/validator": "10.11.3",
-    "google-libphonenumber": "^3.1.6",
-    "validator": "12.0.0"
+    "@types/validator": "12.0.1",
+    "validator": "13.0.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.0",
-    "@types/chai-as-promised": "^7.1.2",
-    "@types/del": "^4.0.0",
-    "@types/gulp": "^4.0.2",
-    "@types/gulp-istanbul": "^0.9.32",
-    "@types/gulp-mocha": "0.0.32",
-    "@types/gulp-replace": "0.0.31",
-    "@types/gulp-sourcemaps": "0.0.32",
-    "@types/mocha": "^7.0.0",
-    "@types/node": "^12.7.1",
-    "@types/sinon": "^7.0.13",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "codecov": "^3.0.4",
-    "conventional-changelog-angular": "^5.0.3",
-    "conventional-changelog-cli": "^2.0.21",
-    "del": "^5.0.0",
-    "es6-shim": "^0.35.3",
-    "gulp": "^4.0.2",
-    "gulp-conventional-changelog": "^2.0.19",
-    "gulp-istanbul": "^1.1.3",
-    "gulp-mocha": "^7.0.1",
-    "gulp-replace": "^1.0.0",
-    "gulp-shell": "^0.8.0",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-tslint": "^8.1.3",
-    "gulp-typescript": "^5.0.1",
-    "gulpclass": "^0.2.0",
-    "mocha": "^7.0.1",
-    "remap-istanbul": "^0.13.0",
-    "sinon": "^8.0.0",
-    "sinon-chai": "^3.2.0",
-    "ts-node": "^8.3.0",
-    "tslint": "^5.11.0",
-    "tslint-stylish": "^2.1.0",
-    "typescript": "^3.5.3"
+    "@types/jest": "25.1.5",
+    "@types/node": "13.11.0",
+    "copyfiles": "2.2.0",
+    "jest": "25.2.6",
+    "json": "9.0.6",
+    "rimraf": "3.0.2",
+    "ts-jest": "25.3.0",
+    "ts-node": "8.8.1",
+    "typescript": "3.8.3"
   },
   "scripts": {
-    "build": "gulp package",
-    "test": "gulp tests",
-    "changelog": "gulp changelog"
+    "build": "rimraf build && echo Using TypeScript && tsc --version && tsc --pretty",
+    "clean": "rimraf build",
+    "copy": "copyfiles -u 3 \"build/compiled/src/**/*\" build/package && copyfiles package.json README.md build/package",
+    "lint": "eslint --config ./.eslintrc.js --ext .ts ./src ./test",
+    "package": "npm run build && npm run copy && npm run public && rimraf build/compiled",
+    "public": "json -I -f build/package/package.json -e 'this.private=false'",
+    "test": "rimraf coverage && jest --coverage"
   }
 }

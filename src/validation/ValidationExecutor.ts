@@ -318,7 +318,7 @@ export class ValidationExecutor {
                         return;
                     }
 
-                    const validationResult = validatedSubValues.every((isValid: boolean) => isValid);
+                    const validationResult = validatedSubValues.every((isValid: boolean | Promise<boolean>) => isValid);
                     if (!validationResult) {
                         const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
                         error.constraints[type] = message;

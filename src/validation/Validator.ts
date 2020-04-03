@@ -5,7 +5,7 @@ import {IsNumberOptions} from "./ValidationTypeOptions";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 import {ValidationOptions} from "../decorator/ValidationOptions";
-import * as validator from "validator";
+import validator, {default as ValidatorJS} from "validator";
 
 /**
  * Validator performs validation of the given object based on its metadata.
@@ -18,9 +18,6 @@ export class Validator {
 
     private webSafeRegex = /^[a-zA-Z0-9_-]*$/;
     private validatorJs = validator;
-    private libPhoneNumber = {
-        phoneUtil: require("google-libphonenumber").PhoneNumberUtil.getInstance(),
-    };
     private _isEmptyObject = function(object: object) {
         for (const key in object) {
             if (object.hasOwnProperty(key)) {
@@ -243,8 +240,6 @@ export class Validator {
                 return this.isLowercase(value);
             case ValidationTypes.IS_MOBILE_PHONE:
                 return this.isMobilePhone(value, metadata.constraints[0]);
-            case ValidationTypes.IS_PHONE_NUMBER:
-                return this.isPhoneNumber(value, metadata.constraints[0]);
             case ValidationTypes.IS_ISO31661_ALPHA_2:
                 return this.isISO31661Alpha2(value);
             case ValidationTypes.IS_ISO31661_ALPHA_3:
@@ -402,8 +397,7 @@ export class Validator {
      * Checks if a given value is a ISOString date.
      */
     isDateString(value: unknown): boolean {
-        const regex = /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|[\+\-][0-2]\d(?:\:[0-5]\d)?)?$/g;
-        return this.isString(value) && regex.test(value);
+        return this.isString(value) ? this.validatorJs.isISO8601(value): false;
     }
 
     /**
@@ -603,7 +597,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isByteLength(value: unknown, min: number, max?: number): boolean {
-        return typeof value === "string" && this.validatorJs.isByteLength(value, min, max);
+        return typeof value === "string" && this.validatorJs.isByteLength(value, {min: min, max: max});
     }
 
     /**
@@ -690,7 +684,7 @@ export class Validator {
      * Checks if the string is an IP (version 4 or 6).
      * If given value is not a string, then it returns false.
      */
-    isIP(value: unknown, version?: number): boolean {
+    isIP(value: unknown, version?: "4" | "6"): boolean {
         return typeof value === "string" && this.validatorJs.isIP(value, version);
     }
 
@@ -705,7 +699,7 @@ export class Validator {
      * Checks if the string is an ISBN (version 10 or 13).
      * If given value is not a string, then it returns false.
      */
-    isISBN(value: unknown, version?: number): boolean {
+    isISBN(value: unknown, version?: "10" | "13"): boolean {
         return typeof value === "string" && this.validatorJs.isISBN(value, version);
     }
 
@@ -773,23 +767,6 @@ export class Validator {
      */
     isMobilePhone(value: unknown, locale: ValidatorJS.MobilePhoneLocale): boolean {
         return typeof value === "string" && this.validatorJs.isMobilePhone(value, locale);
-    }
-
-    /**
-     * Checks if the string is a valid phone number.
-     * @param value the potential phone number string to test
-     * @param {string} region 2 characters uppercase country code (e.g. DE, US, CH).
-     * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
-     * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
-     */
-    isPhoneNumber(value: unknown, region: string): boolean {
-        try {
-            const phoneNum = this.libPhoneNumber.phoneUtil.parseAndKeepRawInput(value, region);
-            return this.libPhoneNumber.phoneUtil.isValidNumber(phoneNum);
-        } catch (error) {
-            // logging?
-            return false;
-        }
     }
 
     /**
@@ -866,7 +843,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     length(value: unknown, min: number, max?: number): boolean {
-        return typeof value === "string" && this.validatorJs.isLength(value, min, max);
+        return typeof value === "string" && this.validatorJs.isLength(value, {min: min, max: max});
     }
 
     /**
@@ -889,8 +866,10 @@ export class Validator {
      * Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
      * If given value is not a string, then it returns false.
      */
-    matches(value: unknown, pattern: RegExp, modifiers?: string): boolean {
-        return typeof value === "string" && this.validatorJs.matches(value, pattern, modifiers);
+    matches(value: unknown, pattern: RegExp | string, modifiers?: string): boolean {
+        // validatorJs typings for matches are slightly broken
+        // TODO: Revisit once they are fixed upstream
+        return typeof value === "string" && this.validatorJs.matches(value, pattern as any, modifiers);
     }
 
     /**

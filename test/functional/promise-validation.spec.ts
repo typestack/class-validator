@@ -1,29 +1,12 @@
-import "es6-shim";
-import {Contains, IsDefined, MinLength, ValidateNested, ValidatePromise, MaxLength} from "../../src/decorator/decorators";
+import {Contains, IsDefined, MinLength, ValidateNested, ValidatePromise} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
-import {expect} from "chai";
 import {ValidationTypes} from "../../src/validation/ValidationTypes";
-
-import {should, use } from "chai";
-
-import * as chaiAsPromised from "chai-as-promised";
-
-should();
-use(chaiAsPromised);
-
-// -------------------------------------------------------------------------
-// Setup
-// -------------------------------------------------------------------------
 
 const validator = new Validator();
 
-// -------------------------------------------------------------------------
-// Specifications: common decorators
-// -------------------------------------------------------------------------
-
-describe("promise validation", function () {
-
+describe("promise validation", () => {
     it("should not validate missing nested objects", function () {
+        expect.assertions(4);
 
         class MySubClass {
             @MinLength(5)
@@ -39,18 +22,18 @@ describe("promise validation", function () {
         }
 
         const model: any = new MyClass();
-
         model.title = "helo";
+
         return validator.validate(model).then(errors => {
-            errors[1].target.should.be.equal(model);
-            expect(errors[1].value).to.be.undefined;
-            errors[1].property.should.be.equal("mySubClass");
-            errors[1].constraints.should.be.eql({isDefined: "mySubClass should not be null or undefined"});
+            expect(errors[1].target).toEqual(model);
+            expect(errors[1].value).toBeUndefined();
+            expect(errors[1].property).toEqual("mySubClass");
+            expect(errors[1].constraints).toEqual({isDefined: "mySubClass should not be null or undefined"});
         });
     });
 
-
-    it("should validate nested objects", function () {
+    it("should validate nested objects", () => {
+        expect.assertions(24);
 
         class MySubClass {
             @MinLength(5)
@@ -82,41 +65,42 @@ describe("promise validation", function () {
                 model.mySubClass,
                 model.mySubClasses
             ]).then(([modelMySubClass, modelMySubClasses]) => {
-                errors.length.should.be.equal(3);
+                expect(errors.length).toEqual(3);
 
-                errors[0].target.should.be.equal(model);
-                errors[0].property.should.be.equal("title");
-                errors[0].constraints.should.be.eql({contains: "title must contain a hello string"});
-                errors[0].value.should.be.equal("helo world");
+                expect(errors[0].target).toEqual(model);
+                expect(errors[0].property).toEqual("title");
+                expect(errors[0].constraints).toEqual({contains: "title must contain a hello string"});
+                expect(errors[0].value).toEqual("helo world");
 
-                errors[1].target.should.be.equal(model);
-                errors[1].property.should.be.equal("mySubClass");
-                errors[1].value.should.be.equal(modelMySubClass);
-                expect(errors[1].constraints).to.be.undefined;
+                expect(errors[1].target).toEqual(model);
+                expect(errors[1].property).toEqual("mySubClass");
+                expect(errors[1].value).toEqual(modelMySubClass);
+                expect(errors[1].constraints).toBeUndefined();
                 const subError1 = errors[1].children[0];
-                subError1.target.should.be.equal(modelMySubClass);
-                subError1.property.should.be.equal("name");
-                subError1.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
-                subError1.value.should.be.equal("my");
+                expect(subError1.target).toEqual(modelMySubClass);
+                expect(subError1.property).toEqual("name");
+                expect(subError1.constraints).toEqual({minLength: "name must be longer than or equal to 5 characters"});
+                expect(subError1.value).toEqual("my");
 
-                errors[2].target.should.be.equal(model);
-                errors[2].property.should.be.equal("mySubClasses");
-                errors[2].value.should.be.equal(modelMySubClasses);
-                expect(errors[2].constraints).to.be.undefined;
+                expect(errors[2].target).toEqual(model);
+                expect(errors[2].property).toEqual("mySubClasses");
+                expect(errors[2].value).toEqual(modelMySubClasses);
+                expect(errors[2].constraints).toBeUndefined();
                 const subError2 = errors[2].children[0];
-                subError2.target.should.be.equal(modelMySubClasses);
-                subError2.value.should.be.equal(modelMySubClasses[0]);
-                subError2.property.should.be.equal("0");
+                expect(subError2.target).toEqual(modelMySubClasses);
+                expect(subError2.value).toEqual(modelMySubClasses[0]);
+                expect(subError2.property).toEqual("0");
                 const subSubError = subError2.children[0];
-                subSubError.target.should.be.equal(modelMySubClasses[0]);
-                subSubError.property.should.be.equal("name");
-                subSubError.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
-                subSubError.value.should.be.equal("my");
+                expect(subSubError.target).toEqual(modelMySubClasses[0]);
+                expect(subSubError.property).toEqual("name");
+                expect(subSubError.constraints).toEqual({minLength: "name must be longer than or equal to 5 characters"});
+                expect(subSubError.value).toEqual("my");
             });
         });
     });
 
     it("should validate when nested is not object", () => {
+        expect.assertions(4);
 
         class MySubClass {
             @MinLength(5)
@@ -133,18 +117,17 @@ describe("promise validation", function () {
         model.mySubClass = <any> "invalidnested object";
 
         return validator.validate(model).then(errors => {
-
-            expect(errors[0].target).to.equal(model);
-            expect(errors[0].property).to.equal("mySubClass");
-            expect(errors[0].children.length).to.equal(1);
+            expect(errors[0].target).toEqual(model);
+            expect(errors[0].property).toEqual("mySubClass");
+            expect(errors[0].children.length).toEqual(1);
 
             const subError = errors[0].children[0];
-            subError.constraints.should.be.eql({[ValidationTypes.NESTED_VALIDATION]: "nested property mySubClass must be either object or array"});
+            expect(subError.constraints).toEqual({[ValidationTypes.NESTED_VALIDATION]: "nested property mySubClass must be either object or array"});
         });
-
     });
 
-    it("should validate array promise", function () {
+    it("should validate array promise", () => {
+        expect.assertions(5);
 
         class MyClass {
             @ValidatePromise() @MinLength(2)
@@ -158,12 +141,12 @@ describe("promise validation", function () {
             return Promise.all([
                 model.arrProperty,
             ]).then(([modelArrProperty]) => {
-                errors.length.should.be.equal(1);
+                expect(errors.length).toEqual(1);
 
-                errors[0].target.should.be.equal(model);
-                errors[0].property.should.be.equal("arrProperty");
-                errors[0].constraints.should.be.eql({minLength: "arrProperty must be longer than or equal to 2 characters"});
-                errors[0].value.should.be.equal(modelArrProperty);
+                expect(errors[0].target).toEqual(model);
+                expect(errors[0].property).toEqual("arrProperty");
+                expect(errors[0].constraints).toEqual({minLength: "arrProperty must be longer than or equal to 2 characters"});
+                expect(errors[0].value).toEqual(modelArrProperty);
             });
         });
     });

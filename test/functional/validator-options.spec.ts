@@ -1,14 +1,5 @@
-import "es6-shim";
 import {IsNotEmpty} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
-import {expect} from "chai";
-
-import {should, use } from "chai";
-
-import * as chaiAsPromised from "chai-as-promised";
-
-should();
-use(chaiAsPromised);
 
 // -------------------------------------------------------------------------
 // Setup
@@ -31,11 +22,11 @@ describe("validator options", function() {
         const model = new MyClass();
         model.title = "";
         return validator.validate(model, { skipMissingProperties: true, validationError: { target: false } }).then(errors => {
-            errors.length.should.be.equal(1);
-            expect(errors[0].target).to.be.undefined;
-            errors[0].property.should.be.equal("title");
-            errors[0].constraints.should.be.eql({ isNotEmpty: "title should not be empty" });
-            errors[0].value.should.be.equal("");
+            expect(errors.length).toEqual(1);
+            expect(errors[0].target).toBeUndefined();
+            expect(errors[0].property).toEqual("title");
+            expect(errors[0].constraints).toEqual({ isNotEmpty: "title should not be empty" });
+            expect(errors[0].value).toEqual("");
         });
     });
 
@@ -44,12 +35,12 @@ describe("validator options", function() {
         const anonymousObject = { badKey: "This should not pass." };
 
         return validator.validate(anonymousObject, { forbidUnknownValues: true }).then(errors => {
-            errors.length.should.be.equal(1);
-            expect(errors[0].target).to.be.equal(anonymousObject);
-            expect(errors[0].property).to.be.equal(undefined);
-            expect(errors[0].value).to.be.equal(undefined);
-            errors[0].children.should.be.instanceof(Array);
-            errors[0].constraints.should.be.eql({ unknownValue: "an unknown value was passed to the validate function" });
+            expect(errors.length).toEqual(1);
+            expect(errors[0].target).toEqual(anonymousObject);
+            expect(errors[0].property).toEqual(undefined);
+            expect(errors[0].value).toEqual(undefined);
+            expect(errors[0].children).toBeInstanceOf(Array);
+            expect(errors[0].constraints).toEqual({ unknownValue: "an unknown value was passed to the validate function" });
         });
     });
 
@@ -58,7 +49,7 @@ describe("validator options", function() {
         const anonymousObject = { badKey: "This should not pass." };
 
         return validator.validate(anonymousObject, { forbidUnknownValues: false }).then(errors => {
-            errors.length.should.be.equal(0);
+            expect(errors.length).toEqual(0);
         });
     });
 

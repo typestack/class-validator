@@ -1,4 +1,3 @@
-import "es6-shim";
 import {Validator} from "../../src/validation/Validator";
 import {ValidationArguments} from "../../src/validation/ValidationArguments";
 import {registerDecorator} from "../../src/register-decorator";
@@ -6,256 +5,237 @@ import {ValidationOptions} from "../../src/decorator/ValidationOptions";
 import {ValidatorConstraint} from "../../src/decorator/decorators";
 import {ValidatorConstraintInterface} from "../../src/validation/ValidatorConstraintInterface";
 
-import {should, use } from "chai";
-
-import * as chaiAsPromised from "chai-as-promised";
-
-should();
-use(chaiAsPromised);
-
-// -------------------------------------------------------------------------
-// Setup
-// -------------------------------------------------------------------------
-
 const validator = new Validator();
 
-// -------------------------------------------------------------------------
-// Specifications: common decorators
-// -------------------------------------------------------------------------
-
-describe("custom decorators", function() {
-
-    describe("decorator with inline validation", function() {
-
-        function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
-            return function (object: Object, propertyName: string) {
-                registerDecorator({
-                    target: object.constructor,
-                    propertyName: propertyName,
-                    options: validationOptions,
-                    constraints: [property],
-                    name: "isLongerThan",
-                    validator: {
-                        validate(value: any, args: ValidationArguments) {
-                            const [relatedPropertyName] = args.constraints;
-                            const relatedValue = (args.object as any)[relatedPropertyName];
-                            if (relatedValue === undefined || relatedValue === null)
-                                return true;
-
-                            const result = typeof value === "string" &&
-                                typeof relatedValue === "string" &&
-                                value.length > relatedValue.length;
-
-                            const asPromise = validationOptions &&
-                                validationOptions.context &&
-                                validationOptions.context.promise;
-
-                            return asPromise ? Promise.resolve(result) : result;
+describe("decorator with inline validation", () => {
+    function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
+        return function (object: Object, propertyName: string) {
+            registerDecorator({
+                target: object.constructor,
+                propertyName: propertyName,
+                options: validationOptions,
+                constraints: [property],
+                name: "isLongerThan",
+                validator: {
+                    validate(value: any, args: ValidationArguments) {
+                        const [relatedPropertyName] = args.constraints;
+                        const relatedValue = (args.object as any)[relatedPropertyName];
+                        if (relatedValue === undefined || relatedValue === null) {
+                            return true;
                         }
+
+                        const result = typeof value === "string" &&
+                            typeof relatedValue === "string" &&
+                            value.length > relatedValue.length;
+
+                        const asPromise = validationOptions &&
+                            validationOptions.context &&
+                            validationOptions.context.promise;
+
+                        return asPromise ? Promise.resolve(result) : result;
                     }
-                });
-            };
-        }
-
-        class MyClass {
-            @IsLongerThan("lastName", {
-                context: { foo: "bar"},
-                message: "$property must be longer then $constraint1. Given value: $value"
-            })
-            firstName: string;
-
-            lastName: string;
-        }
-
-        class MyClassWithAsyncValidator {
-            @IsLongerThan("lastName", {
-                context: { foo: "bar", promise: true},
-                message: "$property must be longer then $constraint1. Given value: $value"
-            })
-            firstName: string;
-
-            lastName: string;
-        }
-
-        it("if firstName is not empty and lastLame is empty then it should succeed", function() {
-            const model = new MyClass();
-            model.firstName = "hell no world";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(0);
+                }
             });
-        });
+        };
+    }
 
-        it("if firstName is empty and lastLame is not empty then it should fail", function() {
-            const model = new MyClass();
-            model.firstName = "";
-            model.lastName = "Kim";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(1);
-                errors[0].constraints.should.be.eql({ isLongerThan: "firstName must be longer then lastName. Given value: " });
-            });
-        });
+    class MyClass {
+        @IsLongerThan("lastName", {
+            context: {foo: "bar"},
+            message: "$property must be longer then $constraint1. Given value: $value"
+        })
+        firstName: string;
+        lastName: string;
+    }
 
-        it("if firstName is shorter then lastLame then it should fail", function() {
-            const model = new MyClass();
-            model.firstName = "Li";
-            model.lastName = "Kim";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(1);
-                errors[0].constraints.should.be.eql({ isLongerThan: "firstName must be longer then lastName. Given value: Li" });
-            });
-        });
+    class MyClassWithAsyncValidator {
+        @IsLongerThan("lastName", {
+            context: {foo: "bar", promise: true},
+            message: "$property must be longer then $constraint1. Given value: $value"
+        })
+        firstName: string;
+        lastName: string;
+    }
 
-        it("should include context", function() {
-            const model = new MyClass();
-            const asyncModel = new MyClassWithAsyncValidator();
-            model.firstName = asyncModel.firstName = "Paul";
-            model.lastName = asyncModel.lastName = "Walker";
-
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(1);
-                errors[0].contexts.should.be.eql({ isLongerThan: { foo: "bar" } });
-
-                return validator.validate(asyncModel).then(errors => {
-                    errors.length.should.be.equal(1);
-                    errors[0].contexts.should.have.nested.property("isLongerThan.foo", "bar");
-                });
-            });
+    it("if firstName is not empty and lastLame is empty then it should succeed", () => {
+        expect.assertions(1);
+        const model = new MyClass();
+        model.firstName = "hell no world";
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(0);
         });
     });
 
-    describe("decorator with default message", function() {
+    it("if firstName is empty and lastLame is not empty then it should fail", () => {
+        expect.assertions(2);
+        const model = new MyClass();
+        model.firstName = "";
+        model.lastName = "Kim";
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(1);
+            expect(errors[0].constraints).toEqual({isLongerThan: "firstName must be longer then lastName. Given value: "});
+        });
+    });
 
-        function IsLonger(property: string, validationOptions?: ValidationOptions) {
-            return function (object: Object, propertyName: string) {
-                registerDecorator({
-                    target: object.constructor,
-                    propertyName: propertyName,
-                    options: validationOptions,
-                    constraints: [property],
-                    name: "isLonger",
-                    validator: {
-                        validate(value: any, args: ValidationArguments) {
-                            const [relatedPropertyName] = args.constraints;
-                            const relatedValue = (args.object as any)[relatedPropertyName];
-                            if (relatedValue === undefined || relatedValue === null)
-                                return true;
+    it("if firstName is shorter then lastLame then it should fail", () => {
+        expect.assertions(2);
+        const model = new MyClass();
+        model.firstName = "Li";
+        model.lastName = "Kim";
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(1);
+            expect(errors[0].constraints).toEqual({isLongerThan: "firstName must be longer then lastName. Given value: Li"});
+        });
+    });
 
-                            return typeof value === "string" &&
-                                typeof relatedValue === "string" &&
-                                value.length > relatedValue.length;
-                        },
-                        defaultMessage(args: ValidationArguments) {
-                            return args.property + " must be longer then " + args.constraints[0];
-                        }
+    it("should include context", () => {
+        expect.assertions(4);
+        const model = new MyClass();
+        const asyncModel = new MyClassWithAsyncValidator();
+        model.firstName = asyncModel.firstName = "Paul";
+        model.lastName = asyncModel.lastName = "Walker";
+
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(1);
+            expect(errors[0].contexts).toEqual({isLongerThan: {foo: "bar"}});
+            return validator.validate(asyncModel).then(errors => {
+                expect(errors.length).toEqual(1);
+                expect(errors[0].contexts).toHaveProperty("isLongerThan.foo", "bar");
+            });
+        });
+    });
+});
+
+describe("decorator with default message", () => {
+    function IsLonger(property: string, validationOptions?: ValidationOptions) {
+        return function (object: Object, propertyName: string) {
+            registerDecorator({
+                target: object.constructor,
+                propertyName: propertyName,
+                options: validationOptions,
+                constraints: [property],
+                name: "isLonger",
+                validator: {
+                    validate(value: any, args: ValidationArguments) {
+                        const [relatedPropertyName] = args.constraints;
+                        const relatedValue = (args.object as any)[relatedPropertyName];
+                        if (relatedValue === undefined || relatedValue === null)
+                            return true;
+
+                        return typeof value === "string" &&
+                            typeof relatedValue === "string" &&
+                            value.length > relatedValue.length;
+                    },
+                    defaultMessage(args: ValidationArguments) {
+                        return args.property + " must be longer then " + args.constraints[0];
                     }
-                });
-            };
-        }
-
-        class SecondClass {
-            @IsLonger("lastName")
-            firstName: string;
-
-            lastName: string;
-        }
-
-        it("if firstName is not empty and lastLame is empty then it should succeed", function() {
-            const model = new SecondClass();
-            model.firstName = "hell no world";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(0);
+                }
             });
-        });
+        };
+    }
 
-        it("if firstName is empty and lastLame is not empty then it should fail", function() {
-            const model = new SecondClass();
-            model.firstName = "";
-            model.lastName = "Kim";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(1);
-                errors[0].constraints.should.be.eql({ isLonger: "firstName must be longer then lastName" });
-            });
-        });
+    class SecondClass {
+        @IsLonger("lastName")
+        firstName: string;
+        lastName: string;
+    }
 
-        it("if firstName is shorter then lastLame then it should fail", function() {
-            const model = new SecondClass();
-            model.firstName = "Li";
-            model.lastName = "Kim";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(1);
-                errors[0].constraints.should.be.eql({ isLonger: "firstName must be longer then lastName" });
-            });
+    it("if firstName is not empty and lastLame is empty then it should succeed", () => {
+        expect.assertions(1);
+        const model = new SecondClass();
+        model.firstName = "hell no world";
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(0);
         });
-
     });
 
-    describe("decorator with separate validation constraint class", function() {
-
-        @ValidatorConstraint({ name: "isShortenThan" })
-        class IsShortenThanConstraint implements ValidatorConstraintInterface {
-
-            validate(value: any, args: ValidationArguments) {
-                const [relatedPropertyName] = args.constraints;
-                const relatedValue = (args.object as any)[relatedPropertyName];
-                if (value === null || value === undefined)
-                    return true;
-
-                return  typeof value === "string" &&
-                        typeof relatedValue === "string" &&
-                        value.length < relatedValue.length;
-            }
-
-        }
-
-        function IsShortenThan(property: string, validationOptions?: ValidationOptions) {
-            return function (object: Object, propertyName: string) {
-                registerDecorator({
-                    target: object.constructor,
-                    propertyName: propertyName,
-                    options: validationOptions,
-                    constraints: [property],
-                    validator: IsShortenThanConstraint
-                });
-            };
-        }
-
-        class MyClass {
-            firstName: string;
-
-            @IsShortenThan("firstName", {
-                message: "$property must be shorter then $constraint1. Given value: $value"
-            })
-            lastName: string;
-        }
-
-        it("if firstName is not empty and lastLame is empty then it should succeed", function() {
-            const model = new MyClass();
-            model.firstName = "hell no world";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(0);
-            });
+    it("if firstName is empty and lastLame is not empty then it should fail", () => {
+        expect.assertions(2);
+        const model = new SecondClass();
+        model.firstName = "";
+        model.lastName = "Kim";
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(1);
+            expect(errors[0].constraints).toEqual({isLonger: "firstName must be longer then lastName"});
         });
-
-        it("if firstName is empty and lastLame is not empty then it should fail", function() {
-            const model = new MyClass();
-            model.firstName = "";
-            model.lastName = "Kim";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(1);
-                errors[0].constraints.should.be.eql({ isShortenThan: "lastName must be shorter then firstName. Given value: Kim" });
-            });
-        });
-
-        it("if firstName is shorter then lastLame then it should fail", function() {
-            const model = new MyClass();
-            model.firstName = "Li";
-            model.lastName = "Kim";
-            return validator.validate(model).then(errors => {
-                errors.length.should.be.equal(1);
-                errors[0].constraints.should.be.eql({ isShortenThan: "lastName must be shorter then firstName. Given value: Kim" });
-            });
-        });
-
     });
 
+    it("if firstName is shorter then lastLame then it should fail", () => {
+        expect.assertions(2);
+        const model = new SecondClass();
+        model.firstName = "Li";
+        model.lastName = "Kim";
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(1);
+            expect(errors[0].constraints).toEqual({isLonger: "firstName must be longer then lastName"});
+        });
+    });
+});
+
+describe("decorator with separate validation constraint class", function () {
+    @ValidatorConstraint({name: "isShortenThan"})
+    class IsShortenThanConstraint implements ValidatorConstraintInterface {
+        validate(value: any, args: ValidationArguments) {
+            const [relatedPropertyName] = args.constraints;
+            const relatedValue = (args.object as any)[relatedPropertyName];
+            if (value === null || value === undefined)
+                return true;
+
+            return typeof value === "string" &&
+                typeof relatedValue === "string" &&
+                value.length < relatedValue.length;
+        }
+    }
+
+    function IsShorterThan(property: string, validationOptions?: ValidationOptions) {
+        return function (object: Object, propertyName: string) {
+            registerDecorator({
+                target: object.constructor,
+                propertyName: propertyName,
+                options: validationOptions,
+                constraints: [property],
+                validator: IsShortenThanConstraint
+            });
+        };
+    }
+
+    class MyClass {
+        firstName: string;
+
+        @IsShorterThan("firstName", {
+            message: "$property must be shorter then $constraint1. Given value: $value"
+        })
+        lastName: string;
+    }
+
+    it("if firstName is not empty and lastLame is empty then it should succeed", () => {
+        expect.assertions(1);
+        const model = new MyClass();
+        model.firstName = "hell no world";
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(0);
+        });
+    });
+
+    it("if firstName is empty and lastLame is not empty then it should fail", () => {
+        expect.assertions(2);
+        const model = new MyClass();
+        model.firstName = "";
+        model.lastName = "Kim";
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(1);
+            expect(errors[0].constraints).toEqual({isShortenThan: "lastName must be shorter then firstName. Given value: Kim"});
+        });
+    });
+
+    it("if firstName is shorter then lastLame then it should fail", () => {
+        expect.assertions(2);
+        const model = new MyClass();
+        model.firstName = "Li";
+        model.lastName = "Kim";
+        return validator.validate(model).then(errors => {
+            expect(errors.length).toEqual(1);
+            expect(errors[0].constraints).toEqual({isShortenThan: "lastName must be shorter then firstName. Given value: Kim"});
+        });
+    });
 });
