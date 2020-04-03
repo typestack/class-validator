@@ -29,7 +29,11 @@
   "devDependencies": {
     "@types/jest": "25.1.5",
     "@types/node": "13.11.0",
+    "@typescript-eslint/eslint-plugin": "2.26.0",
+    "@typescript-eslint/parser": "2.26.0",
     "copyfiles": "2.2.0",
+    "eslint": "6.8.0",
+    "eslint-plugin-jest": "23.8.2",
     "jest": "25.2.6",
     "json": "9.0.6",
     "rimraf": "3.0.2",

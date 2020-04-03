@@ -159,7 +159,7 @@ describe("each", () => {
         it("should apply validation via custom constraint class to array items (but not array itself)", () => {
             @ValidatorConstraint({name: "customIsNotArrayConstraint", async: false})
             class CustomIsNotArrayConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): boolean {
                     return !(value instanceof Array);
                 }
             }
@@ -181,7 +181,7 @@ describe("each", () => {
         it("should apply validation via custom constraint class with synchronous logic to each item in the array", () => {
             @ValidatorConstraint({name: "customContainsHelloConstraint", async: false})
             class CustomContainsHelloConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): boolean {
                     return !(value instanceof Array) && String(value).includes("hello");
                 }
             }
@@ -207,7 +207,7 @@ describe("each", () => {
         it("should apply validation via custom constraint class with async logic to each item in the array", () => {
             @ValidatorConstraint({name: "customAsyncContainsHelloConstraint", async: true})
             class CustomAsyncContainsHelloConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): Promise<boolean> {
                     const isValid = !(value instanceof Array) && String(value).includes("hello");
                     return Promise.resolve(isValid);
                 }
@@ -234,7 +234,7 @@ describe("each", () => {
         it("should apply validation via custom constraint class with mixed (synchronous + async) logic to each item in the array", () => {
             @ValidatorConstraint({name: "customMixedContainsHelloConstraint", async: true})
             class CustomMixedContainsHelloConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): boolean | Promise<boolean> {
                     const isValid = !(value instanceof Array) && String(value).includes("hello");
                     return isValid ? isValid : Promise.resolve(isValid);
                 }
@@ -283,7 +283,7 @@ describe("each", () => {
         it("should apply validation via custom constraint class to Set items (but not Set itself)", () => {
             @ValidatorConstraint({name: "customIsNotSetConstraint", async: false})
             class CustomIsNotSetConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): boolean {
                     return !(value instanceof Set);
                 }
             }
@@ -305,7 +305,7 @@ describe("each", () => {
         it("should apply validation via custom constraint class with synchronous logic to each item in the Set", () => {
             @ValidatorConstraint({name: "customContainsHelloConstraint", async: false})
             class CustomContainsHelloConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): boolean {
                     return !(value instanceof Set) && String(value).includes("hello");
                 }
             }
@@ -331,9 +331,8 @@ describe("each", () => {
         it("should apply validation via custom constraint class with async logic to each item in the Set", () => {
             @ValidatorConstraint({name: "customAsyncContainsHelloConstraint", async: true})
             class CustomAsyncContainsHelloConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): Promise<boolean> {
                     const isValid = !(value instanceof Set) && String(value).includes("hello");
-
                     return Promise.resolve(isValid);
                 }
             }
@@ -359,9 +358,8 @@ describe("each", () => {
         it("should apply validation via custom constraint class with mixed (synchronous + async) logic to each item in the Set", () => {
             @ValidatorConstraint({name: "customMixedContainsHelloConstraint", async: true})
             class CustomMixedContainsHelloConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): boolean | Promise<boolean> {
                     const isValid = !(value instanceof Set) && String(value).includes("hello");
-
                     return isValid ? isValid : Promise.resolve(isValid);
                 }
             }
@@ -410,7 +408,7 @@ describe("each", () => {
         it("should apply validation via custom constraint class to Map items (but not Map itself)", () => {
             @ValidatorConstraint({name: "customIsNotMapConstraint", async: false})
             class CustomIsNotMapConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): boolean {
                     return !(value instanceof Map);
                 }
             }
@@ -432,7 +430,7 @@ describe("each", () => {
         it("should apply validation via custom constraint class with synchronous logic to each item in the Map", () => {
             @ValidatorConstraint({name: "customContainsHelloConstraint", async: false})
             class CustomContainsHelloConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): boolean {
                     return !(value instanceof Map) && String(value).includes("hello");
                 }
             }
@@ -458,9 +456,8 @@ describe("each", () => {
         it("should apply validation via custom constraint class with async logic to each item in the Map", () => {
             @ValidatorConstraint({name: "customAsyncContainsHelloConstraint", async: true})
             class CustomAsyncContainsHelloConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): Promise<boolean> {
                     const isValid = !(value instanceof Map) && String(value).includes("hello");
-
                     return Promise.resolve(isValid);
                 }
             }
@@ -486,9 +483,8 @@ describe("each", () => {
         it("should apply validation via custom constraint class with mixed (synchronous + async) logic to each item in the Map", () => {
             @ValidatorConstraint({name: "customMixedContainsHelloConstraint", async: true})
             class CustomMixedContainsHelloConstraint implements ValidatorConstraintInterface {
-                validate(value: any) {
+                validate(value: any): boolean | Promise<boolean> {
                     const isValid = !(value instanceof Map) && String(value).includes("hello");
-
                     return isValid ? isValid : Promise.resolve(isValid);
                 }
             }
@@ -516,11 +512,11 @@ describe("each", () => {
 });
 
 describe("groups", () => {
-    function expectTitleContains(error: ValidationError) {
+    function expectTitleContains(error: ValidationError): void {
         expect(error.constraints).toEqual({contains: "title must contain a hello string"});
     }
 
-    function expectTextContains(error: ValidationError) {
+    function expectTextContains(error: ValidationError): void {
         expect(error.constraints).toEqual({contains: "text must contain a bye string"});
     }
 
@@ -708,7 +704,7 @@ describe("groups", () => {
             title: string;
         }
 
-        function expectTitleMatches(error: ValidationError) {
+        function expectTitleMatches(error: ValidationError): void {
             expect(error.constraints).toEqual({matches: "title must match /.*stranger.*/ regular expression"});
         }
 
@@ -890,7 +886,7 @@ describe("groups", () => {
 
         const model = new Root();
 
-        function expectChildConstraint(error: ValidationError, childName: string) {
+        function expectChildConstraint(error: ValidationError, childName: string): void {
             expect(error.property).toEqual(childName);
             expect(error.children.length).toEqual(1);
             expect(error.children[0].property).toEqual("text");
@@ -927,7 +923,7 @@ describe("context", () => {
 
     it("should map context", () => {
         function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
-            return function (object: Object, propertyName: string) {
+            return function(object: Record<string, any>, propertyName: string): void {
                 registerDecorator({
                     target: object.constructor,
                     propertyName: propertyName,
@@ -935,7 +931,7 @@ describe("context", () => {
                     constraints: [property],
                     name: "isLongerThan",
                     validator: {
-                        validate(value: any, args: ValidationArguments) {
+                        validate(value: any, args: ValidationArguments): boolean {
                             const [relatedPropertyName] = args.constraints;
                             const relatedValue = (args.object as any)[relatedPropertyName];
                             if (relatedValue === undefined || relatedValue === null)

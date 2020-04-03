@@ -10,13 +10,13 @@ const validator = new Validator();
 describe("sync validation should ignore async validation constraints", () => {
     @ValidatorConstraint({name: "isShortenThan", async: true})
     class IsShortenThanConstraint implements ValidatorConstraintInterface {
-        validate(value: any, args: ValidationArguments) {
+        validate(value: any, args: ValidationArguments): Promise<boolean> {
             return Promise.resolve(false);
         }
     }
 
     function IsLonger(property: string, validationOptions?: ValidationOptions) {
-        return function (object: Object, propertyName: string) {
+        return function(object: Record<string, any>, propertyName: string): void {
             registerDecorator({
                 target: object.constructor,
                 propertyName: propertyName,
@@ -25,7 +25,7 @@ describe("sync validation should ignore async validation constraints", () => {
                 async: true,
                 name: "isLonger",
                 validator: {
-                    validate(value: any, args: ValidationArguments) {
+                    validate(value: any, args: ValidationArguments): Promise<boolean> {
                         return Promise.resolve(false);
                     }
                 }

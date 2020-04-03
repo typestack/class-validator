@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import {ArrayContains, ArrayMaxSize, ArrayMinSize, ArrayNotContains, ArrayNotEmpty, ArrayUnique, Contains, Equals, IsAlpha, IsAlphanumeric, IsArray, IsAscii, IsBase64, IsBoolean, IsBooleanString, IsByteLength, IsCreditCard, IsCurrency, IsDate, IsDateString, IsDecimal, IsDefined, IsDivisibleBy, IsEmail, IsEmpty, IsEnum, IsFirebasePushId, IsFQDN, IsFullWidth, IsHalfWidth, IsHash, IsHexadecimal, IsHexColor, IsIn, IsInstance, IsInt, IsIP, IsISBN, IsISO31661Alpha2, IsISO31661Alpha3, IsISO8601, IsISSN, IsJSON, IsJWT, IsLatitude, IsLatLong, IsLongitude, IsLowercase, IsMACAddress, IsMilitaryTime, IsMongoId, IsMultibyte, IsNegative, IsNotEmpty, IsNotEmptyObject, IsNotIn, IsNumber, IsNumberString, IsObject, IsPositive, IsString, IsSurrogatePair, IsUppercase, IsUrl, IsUUID, IsVariableWidth, Length, Matches, Max, MaxDate, MaxLength, Min, MinDate, MinLength, NotContains, NotEquals,} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -44,7 +45,7 @@ export function checkReturnedError(object: { someProperty: any },
                                    values: any[],
                                    validationType: string,
                                    message: string,
-                                   validatorOptions?: ValidatorOptions) {
+                                   validatorOptions?: ValidatorOptions): Promise<any> {
     const validator = new Validator();
     const promises = values.map(value => {
         object.someProperty = value;
@@ -703,8 +704,8 @@ describe("IsEnum", () => {
     }
 
     enum MyStringEnum {
-        First = <any>"first",
-        Second = <any>"second"
+        First = "first",
+        Second = "second"
     }
 
     const validValues = [MyEnum.First, MyEnum.Second];
@@ -3045,7 +3046,7 @@ describe("IsISO31661Alpha3", () => {
 });
 
 describe("isHash", () => {
-    function testHash(algorithm: ValidatorJS.HashAlgorithm, validValues: any[], invalidValues: any[]) {
+    function testHash(algorithm: ValidatorJS.HashAlgorithm, validValues: any[], invalidValues: any[]): void {
         class MyClass {
             @IsHash(algorithm)
             someProperty: string;
@@ -3513,7 +3514,7 @@ describe("isInstance", () => {
     }
 
     const validValues = [new MySubClass()];
-    const invalidValues = [null, undefined, 15, "something", new WrongSubClass(), () => <any>null];
+    const invalidValues = [null, undefined, 15, "something", new WrongSubClass(), (): null => null];
 
     it("should not fail if validator.validate said that its valid", () => {
         return checkValidValues(new MyClass(), validValues);

@@ -9,7 +9,7 @@ const validator = new Validator();
 
 describe("decorator with inline validation", () => {
     function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
-        return function (object: Object, propertyName: string) {
+        return function(object: Record<string, any>, propertyName: string): void {
             registerDecorator({
                 target: object.constructor,
                 propertyName: propertyName,
@@ -17,7 +17,7 @@ describe("decorator with inline validation", () => {
                 constraints: [property],
                 name: "isLongerThan",
                 validator: {
-                    validate(value: any, args: ValidationArguments) {
+                    validate(value: any, args: ValidationArguments): Promise<boolean> | boolean {
                         const [relatedPropertyName] = args.constraints;
                         const relatedValue = (args.object as any)[relatedPropertyName];
                         if (relatedValue === undefined || relatedValue === null) {
@@ -108,7 +108,7 @@ describe("decorator with inline validation", () => {
 
 describe("decorator with default message", () => {
     function IsLonger(property: string, validationOptions?: ValidationOptions) {
-        return function (object: Object, propertyName: string) {
+        return function(object: Record<string, any>, propertyName: string): void {
             registerDecorator({
                 target: object.constructor,
                 propertyName: propertyName,
@@ -116,7 +116,7 @@ describe("decorator with default message", () => {
                 constraints: [property],
                 name: "isLonger",
                 validator: {
-                    validate(value: any, args: ValidationArguments) {
+                    validate(value: any, args: ValidationArguments): boolean {
                         const [relatedPropertyName] = args.constraints;
                         const relatedValue = (args.object as any)[relatedPropertyName];
                         if (relatedValue === undefined || relatedValue === null)
@@ -126,7 +126,7 @@ describe("decorator with default message", () => {
                             typeof relatedValue === "string" &&
                             value.length > relatedValue.length;
                     },
-                    defaultMessage(args: ValidationArguments) {
+                    defaultMessage(args: ValidationArguments): string {
                         return args.property + " must be longer then " + args.constraints[0];
                     }
                 }
@@ -175,7 +175,7 @@ describe("decorator with default message", () => {
 describe("decorator with separate validation constraint class", function () {
     @ValidatorConstraint({name: "isShortenThan"})
     class IsShortenThanConstraint implements ValidatorConstraintInterface {
-        validate(value: any, args: ValidationArguments) {
+        validate(value: any, args: ValidationArguments): boolean {
             const [relatedPropertyName] = args.constraints;
             const relatedValue = (args.object as any)[relatedPropertyName];
             if (value === null || value === undefined)
@@ -188,7 +188,7 @@ describe("decorator with separate validation constraint class", function () {
     }
 
     function IsShorterThan(property: string, validationOptions?: ValidationOptions) {
-        return function (object: Object, propertyName: string) {
+        return function(object: Record<string, any>, propertyName: string): void {
             registerDecorator({
                 target: object.constructor,
                 propertyName: propertyName,

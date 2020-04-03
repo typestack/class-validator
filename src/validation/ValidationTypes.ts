@@ -110,10 +110,10 @@ export class ValidationTypes {
     /**
      * Checks if validation type is valid.
      */
-    static isValid(type: string) {
+    static isValid(type: string): boolean {
         return type !== "isValid" &&
             type !== "getMessage" &&
-            Object.keys(this).map(key => (this as any)[key]).indexOf(type) !== -1;
+            Object.keys(this).map(key => (this as any)[key]).includes(type);
     }
 
     /**
@@ -268,7 +268,7 @@ export class ValidationTypes {
             case this.IS_UPPERCASE:
                 return eachPrefix + "$property must be uppercase";
             case this.LENGTH:
-                return (args: ValidationArguments) => {
+                return (args: ValidationArguments): string => {
                     const isMinLength = args.constraints[0] !== null && args.constraints[0] !== undefined;
                     const isMaxLength = args.constraints[1] !== null && args.constraints[1] !== undefined;
                     if (isMinLength && (!args.value || args.value.length < args.constraints[0])) {
@@ -306,7 +306,7 @@ export class ValidationTypes {
                 return eachPrefix + "All $property's elements must be unique";
 
             case this.IS_INSTANCE:
-                return (args: ValidationArguments) => {
+                return (args: ValidationArguments): string => {
                     if (args.constraints[0]) {
                         return eachPrefix + `$property must be an instance of ${args.constraints[0].name}`;
                     } else {

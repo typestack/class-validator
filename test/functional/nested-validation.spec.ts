@@ -157,7 +157,7 @@ describe("nested validation", () => {
         }
 
         const model = new MyClass();
-        model.mySubClass = <any> "invalidnested object";
+        model.mySubClass = "invalidnested object" as any;
 
         return validator.validate(model).then(errors => {
             expect(errors[0].target).toEqual(model);

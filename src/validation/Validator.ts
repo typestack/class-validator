@@ -11,40 +11,12 @@ import validator, {default as ValidatorJS} from "validator";
  * Validator performs validation of the given object based on its metadata.
  */
 export class Validator {
-
     // -------------------------------------------------------------------------
     // Private Properties
     // -------------------------------------------------------------------------
 
     private webSafeRegex = /^[a-zA-Z0-9_-]*$/;
     private validatorJs = validator;
-    private _isEmptyObject = function(object: object) {
-        for (const key in object) {
-            if (object.hasOwnProperty(key)) {
-                return false;
-            }
-        }
-
-        return true;
-    };
-
-    /**
-     * Performs validation of the given object based on decorators or validation schema.
-     * Common method for `validateOrReject` and `validate` methods.
-     */
-    private coreValidate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
-        const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Object : objectOrSchemaName as Object;
-        const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
-        const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName as string : undefined;
-
-        const executor = new ValidationExecutor(this, options);
-        const validationErrors: ValidationError[] = [];
-        executor.execute(object, schema, validationErrors);
-
-        return Promise.all(executor.awaitingPromises).then(() => {
-            return executor.stripEmptyErrors(validationErrors);
-        });
-    }
 
     // -------------------------------------------------------------------------
     // Public Methods
@@ -53,34 +25,34 @@ export class Validator {
     /**
      * Performs validation of the given object based on decorators used in given object class.
      */
-    validate(object: Object, options?: ValidatorOptions): Promise<ValidationError[]>;
+    validate(object: Record<string, any>, options?: ValidatorOptions): Promise<ValidationError[]>;
 
     /**
      * Performs validation of the given object based on validation schema.
      */
-    validate(schemaName: string, object: Object, options?: ValidatorOptions): Promise<ValidationError[]>;
+    validate(schemaName: string, object: Record<string, any>, options?: ValidatorOptions): Promise<ValidationError[]>;
 
     /**
      * Performs validation of the given object based on decorators or validation schema.
      */
-    validate(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+    validate(objectOrSchemaName: Record<string, any>|string, objectOrValidationOptions: Record<string, any>|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
         return this.coreValidate(objectOrSchemaName, objectOrValidationOptions, maybeValidatorOptions);
     }
 
     /**
      * Performs validation of the given object based on decorators used in given object class and reject on error.
      */
-    validateOrReject(object: Object, options?: ValidatorOptions): Promise<void>;
+    validateOrReject(object: Record<string, any>, options?: ValidatorOptions): Promise<void>;
 
     /**
      * Performs validation of the given object based on validation schema and reject on error.
      */
-    validateOrReject(schemaName: string, object: Object, options?: ValidatorOptions): Promise<void>;
+    validateOrReject(schemaName: string, object: Record<string, any>, options?: ValidatorOptions): Promise<void>;
 
     /**
      * Performs validation of the given object based on decorators or validation schema and reject on error.
      */
-    async validateOrReject(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<void> {
+    async validateOrReject(objectOrSchemaName: Record<string, any>|string, objectOrValidationOptions: Record<string, any>|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<void> {
         const errors = await this.coreValidate(objectOrSchemaName, objectOrValidationOptions, maybeValidatorOptions);
         if (errors.length)
             return Promise.reject(errors);
@@ -90,20 +62,20 @@ export class Validator {
      * Performs validation of the given object based on decorators used in given object class.
      * NOTE: This method completely ignores all async validations.
      */
-    validateSync(object: Object, options?: ValidatorOptions): ValidationError[];
+    validateSync(object: Record<string, any>, options?: ValidatorOptions): ValidationError[];
 
     /**
      * Performs validation of the given object based on validation schema.
      */
-    validateSync(schemaName: string, object: Object, options?: ValidatorOptions): ValidationError[];
+    validateSync(schemaName: string, object: Record<string, any>, options?: ValidatorOptions): ValidationError[];
 
     /**
      * Performs validation of the given object based on decorators or validation schema.
      */
-    validateSync(objectOrSchemaName: Object|string, objectOrValidationOptions: Object|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): ValidationError[] {
-        const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Object : objectOrSchemaName as Object;
+    validateSync(objectOrSchemaName: Record<string, any>|string, objectOrValidationOptions: Record<string, any>|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): ValidationError[] {
+        const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Record<string, any> : objectOrSchemaName;
         const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
-        const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName as string : undefined;
+        const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName : undefined;
 
         const executor = new ValidationExecutor(this, options);
         executor.ignoreAsyncValidations = true;
@@ -413,7 +385,7 @@ export class Validator {
     isEnum(value: unknown, entity: any): boolean {
         const enumValues = Object.keys(entity)
             .map(k => entity[k]);
-        return enumValues.indexOf(value) >= 0;
+        return enumValues.includes(value);
     }
 
     /**
@@ -850,7 +822,7 @@ export class Validator {
      * Checks if the string's length is not less than given number. Note: this function takes into account surrogate pairs.
      * If given value is not a string, then it returns false.
      */
-    minLength(value: unknown, min: number) {
+    minLength(value: unknown, min: number): boolean {
         return typeof value === "string" && this.length(value, min);
     }
 
@@ -858,7 +830,7 @@ export class Validator {
      * Checks if the string's length is not more than given number. Note: this function takes into account surrogate pairs.
      * If given value is not a string, then it returns false.
      */
-    maxLength(value: unknown, max: number) {
+    maxLength(value: unknown, max: number): boolean {
         return typeof value === "string" && this.length(value, 0, max);
     }
 
@@ -905,29 +877,29 @@ export class Validator {
      * Checks if array contains all values from the given array of values.
      * If null or undefined is given then this function returns false.
      */
-    arrayContains(array: unknown, values: any[]) {
+    arrayContains(array: unknown, values: any[]): boolean {
         if (!(array instanceof Array))
             return false;
 
-        return values.every(value => array.indexOf(value) !== -1);
+        return values.every(value => array.includes(value));
     }
 
     /**
      * Checks if array does not contain any of the given values.
      * If null or undefined is given then this function returns false.
      */
-    arrayNotContains(array: unknown, values: any[]) {
+    arrayNotContains(array: unknown, values: any[]): boolean {
         if (!(array instanceof Array))
             return false;
 
-        return values.every(value => array.indexOf(value) === -1);
+        return values.every(value => !array.includes(value));
     }
 
     /**
      * Checks if given array is not empty.
      * If null or undefined is given then this function returns false.
      */
-    arrayNotEmpty(array: unknown) {
+    arrayNotEmpty(array: unknown): boolean {
         return array instanceof Array && array.length > 0;
     }
 
@@ -935,7 +907,7 @@ export class Validator {
      * Checks if array's length is as minimal this number.
      * If null or undefined is given then this function returns false.
      */
-    arrayMinSize(array: unknown, min: number) {
+    arrayMinSize(array: unknown, min: number): boolean {
         return array instanceof Array && array.length >= min;
     }
 
@@ -943,7 +915,7 @@ export class Validator {
      * Checks if array's length is as maximal this number.
      * If null or undefined is given then this function returns false.
      */
-    arrayMaxSize(array: unknown, max: number) {
+    arrayMaxSize(array: unknown, max: number): boolean {
         return array instanceof Array && array.length <= max;
     }
 
@@ -951,7 +923,7 @@ export class Validator {
      * Checks if all array's values are unique. Comparison for objects is reference-based.
      * If null or undefined is given then this function returns false.
      */
-    arrayUnique(array: unknown) {
+    arrayUnique(array: unknown): boolean {
         if (!(array instanceof Array))
             return false;
 
@@ -962,10 +934,37 @@ export class Validator {
     /**
      * Checks if the value is an instance of the specified object.
      */
-    isInstance(object: unknown, targetTypeConstructor: new (...args: any[]) => any) {
+    isInstance(object: unknown, targetTypeConstructor: new (...args: any[]) => any): boolean {
         return targetTypeConstructor
             && typeof targetTypeConstructor === "function"
             && object instanceof targetTypeConstructor;
     }
 
+    /**
+     * Performs validation of the given object based on decorators or validation schema.
+     * Common method for `validateOrReject` and `validate` methods.
+     */
+    private coreValidate(objectOrSchemaName: Record<string, any>|string, objectOrValidationOptions: Record<string, any>|ValidationOptions, maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
+        const object = typeof objectOrSchemaName === "string" ? objectOrValidationOptions as Record<string, any> : objectOrSchemaName;
+        const options = typeof objectOrSchemaName === "string" ? maybeValidatorOptions : objectOrValidationOptions as ValidationOptions;
+        const schema = typeof objectOrSchemaName === "string" ? objectOrSchemaName : undefined;
+
+        const executor = new ValidationExecutor(this, options);
+        const validationErrors: ValidationError[] = [];
+        executor.execute(object, schema, validationErrors);
+
+        return Promise.all(executor.awaitingPromises).then(() => {
+            return executor.stripEmptyErrors(validationErrors);
+        });
+    }
+
+    private _isEmptyObject = function(object: object): boolean {
+        for (const key in object) {
+            if (object.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+
+        return true;
+    };
 }

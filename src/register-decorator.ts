@@ -52,15 +52,15 @@ export function registerDecorator(options: ValidationDecoratorOptions): void {
 
     let constraintCls: Function;
     if (options.validator instanceof Function) {
-        constraintCls = options.validator as Function;
+        constraintCls = options.validator;
     } else {
-        const validator = options.validator as ValidatorConstraintInterface;
+        const validator = options.validator;
         constraintCls = class CustomConstraint implements ValidatorConstraintInterface {
             validate(value: any, validationArguments?: ValidationArguments): Promise<boolean>|boolean {
                 return validator.validate(value, validationArguments);
             }
 
-            defaultMessage(validationArguments?: ValidationArguments) {
+            defaultMessage(validationArguments?: ValidationArguments): string {
                 if (validator.defaultMessage) {
                     return validator.defaultMessage(validationArguments);
                 }
