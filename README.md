@@ -318,6 +318,8 @@ export class Post {
 }
 ```
 
+Please note that nested object *must* be an instance of a class, otherwise `@ValidateNested` won't know what class is target of validation. Check also [Validating plain objects](#validating-plain-objects).
+
 It also works with multi-dimensional array, like :
 
 ```typescript
