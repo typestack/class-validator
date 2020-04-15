@@ -815,8 +815,8 @@ validator.isEnum(value, entity); // Checks if value is valid for a certain enum 
 
 // number validation methods
 validator.isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
-validator.isPositive(value); // Checks if the value is a positive number.
-validator.isNegative(value); // Checks if the value is a negative number.
+validator.isPositive(value); // Checks if the value is a positive number greater than zero.
+validator.isNegative(value); // Checks if the value is a negative number smaller than zero.
 validator.min(num, min); // Checks if the first number is greater than or equal to the second.
 validator.max(num, max); // Checks if the first number is less than or equal to the second.
 
@@ -914,8 +914,8 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsEnum(entity: object)`                         | Checks if the value is an valid enum                                                                                           |
 | **Number validation decorators**                                                                                                                                                   |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another.                                                                     |
-| `@IsPositive()`                                 | Checks if the value is a positive number.                                                                                        |
-| `@IsNegative()`                                 | Checks if the value is a negative number.                                                                                        |
+| `@IsPositive()`                                 | Checks if the value is a positive number greater than zero.                                                                                        |
+| `@IsNegative()`                                 | Checks if the value is a negative number smaller than zero.                                                                                        |
 | `@Min(min: number)`                             | Checks if the given number is greater than or equal to given number.                                                             |
 | `@Max(max: number)`                             | Checks if the given number is less than or equal to given number.                                                                |
 | **Date validation decorators**                                                                                                                                                     |

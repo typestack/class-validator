@@ -430,7 +430,7 @@ export function IsDivisibleBy(num: number, validationOptions?: ValidationOptions
 }
 
 /**
- * Checks if the value is a positive number.
+ * Checks if the value is a positive number greater than zero.
  */
 export function IsPositive(validationOptions?: ValidationOptions): PropertyDecorator {
     return function (object: Object, propertyName: string) {
@@ -445,7 +445,7 @@ export function IsPositive(validationOptions?: ValidationOptions): PropertyDecor
 }
 
 /**
- * Checks if the value is a negative number.
+ * Checks if the value is a negative number smaller than zero.
  */
 export function IsNegative(validationOptions?: ValidationOptions): PropertyDecorator {
     return function (object: Object, propertyName: string) {

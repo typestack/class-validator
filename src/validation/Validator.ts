@@ -472,14 +472,14 @@ export class Validator {
     }
 
     /**
-     * Checks if the value is a positive number.
+     * Checks if the value is a positive number greater than zero.
      */
     isPositive(value: unknown): boolean {
         return typeof value === "number" && value > 0;
     }
 
     /**
-     * Checks if the value is a negative number.
+     * Checks if the value is a negative number smaller than zero.
      */
     isNegative(value: unknown): boolean {
         return typeof value === "number" && value < 0;
