@@ -1,10 +1,15 @@
 {
   "name": "class-validator",
   "private": true,
-  "version": "0.11.1",
+  "version": "0.12.0-refactor.5",
   "description": "Class-based validation with Typescript / ES6 / ES5 using decorators or validation schemas. Supports both node.js and browser",
   "license": "MIT",
   "readmeFilename": "README.md",
+  "main": "./bundles/index.umd.js",
+  "module": "./esm5/index.js",
+  "es2015": "./esm2015/index.js",
+  "typings": "./types/index.d.ts",
+  "sideEffects": false,
   "author": {
     "name": "Umed Khudoiberdiev",
     "email": "pleerock.me@gmail.com"
@@ -22,10 +27,13 @@
     "typescript",
     "typescript-validator"
   ],
+  "peerDependencies": {
+    "tslib": ">=1.9.0"
+  },
   "dependencies": {
-    "@types/validator": "10.11.3",
-    "google-libphonenumber": "^3.1.6",
-    "validator": "12.0.0"
+    "@types/validator": "12.0.1",
+    "google-libphonenumber": "^3.2.8",
+    "validator": "12.2.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.0",
@@ -38,6 +46,8 @@
     "@types/gulp-sourcemaps": "0.0.32",
     "@types/mocha": "^7.0.0",
     "@types/node": "^12.7.1",
+    "@types/rollup-plugin-json": "^3.0.2",
+    "@types/rollup-plugin-sourcemaps": "^0.4.2",
     "@types/sinon": "^7.0.13",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -58,12 +68,22 @@
     "gulpclass": "^0.2.0",
     "mocha": "^7.0.1",
     "remap-istanbul": "^0.13.0",
+    "rollup": "^1.20.1",
+    "rollup-plugin-commonjs": "^10.0.2",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^5.3.0",
+    "rollup-plugin-uglify": "^6.0.4",
     "sinon": "^8.0.0",
     "sinon-chai": "^3.2.0",
-    "ts-node": "^8.3.0",
+    "ts-node": "^8.8.1",
+    "tslib": "^1.11.1",
     "tslint": "^5.11.0",
     "tslint-stylish": "^2.1.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "webpack-config-utils": "^2.3.1"
   },
   "scripts": {
     "build": "gulp package",

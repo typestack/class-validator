@@ -13,9 +13,6 @@ export class ValidationSchemaToMetadataTransformer {
         const metadatas: ValidationMetadata[] = [];
         Object.keys(schema.properties).forEach(property => {
             schema.properties[property].forEach(validation => {
-                if (!ValidationTypes.isValid(validation.type))
-                    throw new Error(`Validation schema ${schema.name}#${property} as incorrect type ${validation.type}`);
-                
                 const validationOptions: ValidationOptions = {
                     message: validation.message,
                     groups: validation.groups,
