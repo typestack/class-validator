@@ -1,4 +1,4 @@
-import { ValidationOptions } from "../ValidationOptions";
+import { ValidationOptions, isValidationOptions } from "../ValidationOptions";
 import { buildMessage, ValidateBy } from "../common/ValidateBy";
 import ValidatorJS from "validator";
 
@@ -16,8 +16,12 @@ export function isMACAddress(value: unknown, options?: ValidatorJS.IsMACAddressO
  * Check if the string is a MAC address.
  * If given value is not a string, then it returns false.
  */
-// TODO: breaking change new options
-export function IsMACAddress(options?: ValidatorJS.IsMACAddressOptions, validationOptions?: ValidationOptions): PropertyDecorator {
+export function IsMACAddress(optionsArg?: ValidatorJS.IsMACAddressOptions, validationOptionsArg?: ValidationOptions): PropertyDecorator;
+export function IsMACAddress(validationOptionsArg?: ValidationOptions): PropertyDecorator;
+export function IsMACAddress(optionsOrValidationOptionsArg?: ValidatorJS.IsMACAddressOptions | ValidationOptions, validationOptionsArg?: ValidationOptions): PropertyDecorator {
+    const options = !isValidationOptions(optionsOrValidationOptionsArg) ? optionsOrValidationOptionsArg : undefined;
+    const validationOptions = isValidationOptions(optionsOrValidationOptionsArg) ? optionsOrValidationOptionsArg : validationOptionsArg;
+
     return ValidateBy(
         {
             name: IS_MAC_ADDRESS,

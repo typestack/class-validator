@@ -848,7 +848,7 @@ isBoolean(value);
 | `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                                                            |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                                                     |
 | `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                                                    |
-| `@IsMACAddress()`                               | Checks if the string is a MAC Address.                                                                                            |
+| `@IsMACAddress(options?: IsMACAddressOptions)`  | Checks if the string is a MAC Address.                                                                                            |
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6).                                                                                  |
 | `@IsPort()`                                     | Check if the string is a valid port number.                                                                                      |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13).                                                                              |
