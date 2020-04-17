@@ -9,7 +9,6 @@ export const IS_HEX_COLOR = "isHexColor";
  * If given value is not a string, then it returns false.
  */
 export function isHexColor(value: unknown): boolean {
-    // TODO: breaking change - https://github.com/validatorjs/validator.js/pull/1233
     return typeof value === "string" && validator.isHexColor(value);
 }
 
