@@ -31,9 +31,9 @@
     "tslib": ">=1.9.0"
   },
   "dependencies": {
-    "@types/validator": "12.0.1",
+    "@types/validator": "13.0.0",
     "google-libphonenumber": "^3.2.8",
-    "validator": "12.2.0"
+    "validator": "13.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.0",

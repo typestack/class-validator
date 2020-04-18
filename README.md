@@ -837,21 +837,34 @@ isBoolean(value);
 | `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers.  
 | `@IsDecimal(options?: IsDecimalOptions)`        | Checks if the string is a valid decimal value. Default IsDecimalOptions are `force_decimal=False`, `decimal_digits: '1,'`, `locale: 'en-US',`                                                                             |
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only.                                                                                  |
+| `@IsBase32()`                                   | Checks if a string is base32 encoded.                                                                                            |
 | `@IsBase64()`                                   | Checks if a string is base64 encoded.                                                                                            |
+| `@IsIBAN()`                                     | Checks if a string is a IBAN (International Bank Account Number).                                                                |
+| `@IsBIC()`                                      | Checks if a string is a BIC (Bank Identification Code) or SWIFT code.                                                            |
 | `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range.                                                                       |
 | `@IsCreditCard()`                               | Checks if the string is a credit card.                                                                                           |
 | `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount.                                                                                 |
+| `@IsEthereumAddress()`                          | Checks if the string is an Ethereum address using basic regex. Does not validate address checksums.                              |
+| `@IsBtcAddress()`                               | Checks if the string is a valid BTC address.                                                                                     |
+| `@IsDataURI()`                                  | Checks if the string is a data uri format.                                                                                       |
 | `@IsEmail(options?: IsEmailOptions)`            | Checks if the string is an email.                                                                                                |
 | `@IsFQDN(options?: IsFQDNOptions)`              | Checks if the string is a fully qualified domain name (e.g. domain.com).                                                         |
 | `@IsFullWidth()`                                | Checks if the string contains any full-width chars.                                                                              |
 | `@IsHalfWidth()`                                | Checks if the string contains any half-width chars.                                                                              |
 | `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                                                            |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                                                     |
+| `@IsHSLColor()`                                 | Checks if the string is an HSL (hue, saturation, lightness, optional alpha) color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value).          |
+| `@IsRgbColor(options?: IsRgbOptions)`           | Checks if the string is a rgb or rgba color.                                                                                     |
+| `@IsIdentityCard(locale?: string)`              | Checks if the string is a valid identity card code.                                                                              |
+| `@IsPassportNumber(countryCode?: string)`       | Checks if the string is a valid passport number relative to a specific country code.                                             |
+| `@IsPostalCode(locale?: string)`                | Checks if the string is a postal code.                                                                                           |
 | `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                                                    |
+| `@IsOctal()`                                    | Checks if the string is a octal number.                                                                                          |
 | `@IsMACAddress(options?: IsMACAddressOptions)`  | Checks if the string is a MAC Address.                                                                                            |
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6).                                                                                  |
 | `@IsPort()`                                     | Check if the string is a valid port number.                                                                                      |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13).                                                                              |
+| `@IsEAN()`                                      | Checks if the string is an if the string is an EAN (European Article Number).                                                    |
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
 | `@IsISO8601(options?: IsISO8601Options)`        | Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.                                                                               |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
@@ -865,12 +878,14 @@ isBoolean(value);
 | `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                   |
 | `@IsISO31661Alpha2()`                           | Checks if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.                                                                                 |
 | `@IsISO31661Alpha3()`                           | Checks if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
+| `@IsLocale()`                                   | Checks if the string is a locale.                                                                                                |
 | `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number. "region" accepts 2 characters uppercase country code (e.g. DE, US, CH).If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region. See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github](https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33)                                                                                  |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                                                       |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if the string is numeric.                                                                                                 |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                                                         |
 | `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url.                                                                                                  |
+| `@IsMagnetURI()`                                | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme).                                  |
 | `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`              | Checks if the string is a UUID (version 3, 4, 5 or all ).                                                                              |
 | `@IsFirebasePushId()`                                   | Checks if the string is a [Firebase Push id](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html)                                                                                      |
 | `@IsUppercase()`                                | Checks if the string is uppercase.                                                                                               |
@@ -880,7 +895,11 @@ isBoolean(value);
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 | `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM.                                         |
 | `@IsHash(algorithm: string)`                    | Checks if the string is a hash of type algorithm. <br/><br/>Algorithm is one of `['md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'tiger128', 'tiger160', 'tiger192', 'crc32', 'crc32b']`                                                                                 |
+| `@IsMimeType()`                                 | Checks if the string matches to a valid [MIME type](https://en.wikipedia.org/wiki/Media_type) format                             |
+| `@IsSemVer()`                                   | Checks if the string is a Semantic Versioning Specification (SemVer).                                                            |
 | `@IsISSN(options?: IsISSNOptions)`              | Checks if the string is a ISSN.                                                                                                  |
+| `@IsISRC()`                                     | Checks if the string is a [ISRC](https://en.wikipedia.org/wiki/International_Standard_Recording_Code).                           |
+| `@IsRFC3339()`                                  | Checks f the string is a valid [RFC 3339](https://tools.ietf.org/html/rfc3339) date.                                             |
 | **Array validation decorators**                                                                                                                                                    |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                           |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                                                        |

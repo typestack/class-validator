@@ -147,7 +147,45 @@ import {
     arrayNotEmpty,
     minDate,
     maxDate,
-    isDate
+    isDate,
+    IsEAN,
+    isEAN,
+    IsEthereumAddress,
+    isEthereumAddress,
+    IsBtcAddress,
+    isBtcAddress,
+    IsDataURI,
+    isDataURI,
+    IsHSL,
+    isHSL,
+    IsRgbColor,
+    isRgbColor,
+    isIdentityCard,
+    IsIdentityCard,
+    IsBase32,
+    isBase32,
+    IsIBAN,
+    isIBAN,
+    IsBIC,
+    isBIC,
+    IsISRC,
+    isISRC,
+    IsRFC3339,
+    isRFC3339,
+    IsLocale,
+    isLocale,
+    IsMagnetURI,
+    isMagnetURI,
+    IsMimeType,
+    isMimeType,
+    isOctal,
+    IsOctal,
+    IsPassportNumber,
+    isPassportNumber,
+    IsPostalCode,
+    isPostalCode,
+    IsSemVer,
+    isSemVer
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
@@ -1603,6 +1641,62 @@ describe("IsDecimal", function() {
     });
 
 });
+
+describe("IsBase32", function() {
+
+    const constraint = "";
+    const validValues = [
+        "ZG======",
+        "JBSQ====",
+        "JBSWY===",
+        "JBSWY3A=",
+        "JBSWY3DP",
+        "JBSWY3DPEA======",
+        "K5SWYY3PNVSSA5DPEBXG6ZA=",
+        "K5SWYY3PNVSSA5DPEBXG6===",
+    ];
+    const invalidValues = [
+        null,
+        undefined,
+        "12345",
+        "",
+        "JBSWY3DPtesting123",
+        "ZG=====",
+        "Z======",
+        "Zm=8JBSWY3DP",
+        "=m9vYg==",
+        "Zm9vYm/y====",
+     ];
+
+    class MyClass {
+        @IsBase32()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isBase32(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isBase32(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isBase32";
+        const message = "someProperty must be base32 encoded";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
 describe("IsBase64", function() {
 
     const constraint = "";
@@ -1633,6 +1727,636 @@ describe("IsBase64", function() {
     it("should return error object with proper data", function(done) {
         const validationType = "isBase64";
         const message = "someProperty must be base64 encoded";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsIBAN", function() {
+
+    const constraint = "";
+    const validValues = ["GR96 0810 0010 0000 0123 4567 890"];
+    const invalidValues = [null, undefined, "XX22YYY1234567890123"];
+
+    class MyClass {
+        @IsIBAN()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isIBAN(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isIBAN(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isIBAN";
+        const message = "someProperty must be an IBAN";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsBIC", function() {
+
+    const constraint = "";
+    const validValues = ["SBICKEN1345"];
+    const invalidValues = [null, undefined, "SBIC23NXXX"];
+
+    class MyClass {
+        @IsBIC()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isBIC(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isBIC(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isBIC";
+        const message = "someProperty must be a BIC or SWIFT code";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsEthereumAddress", function() {
+
+    const constraint = "";
+    const validValues = ["0x683E07492fBDfDA84457C16546ac3f433BFaa128"];
+    const invalidValues = [null, undefined, "0xFCb5AFB808b5679b4911230Aa41FfCD0cd335b422222"];
+
+    class MyClass {
+        @IsEthereumAddress()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isEthereumAddress(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isEthereumAddress(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isEthereumAddress";
+        const message = "someProperty must be an Ethereum address";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsBtcAddress", function() {
+
+    const constraint = "";
+    const validValues = ["bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq"];
+    const invalidValues = [null, undefined, "pp8skudq3x5hzw8ew7vzsw8tn4k8wxsqsv0lt0mf3g"];
+
+    class MyClass {
+        @IsBtcAddress()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isBtcAddress(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isBtcAddress(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isBtcAddress";
+        const message = "someProperty must be a BTC address";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsDataURI", function() {
+
+    const constraint = "";
+    const validValues = ["data:text/html;charset=US-ASCII,%3Ch1%3EHello!%3C%2Fh1%3E"];
+    const invalidValues = [null, undefined, "data:HelloWorld"];
+
+    class MyClass {
+        @IsDataURI()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isDataURI(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isDataURI(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isDataURI";
+        const message = "someProperty must be a data uri format";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsHSL", function() {
+
+    const constraint = "";
+    const validValues = ["hsl(-540, 03%, 4%)"];
+    const invalidValues = [null, undefined, "hsl(-0160, 100%, 100a)"];
+
+    class MyClass {
+        @IsHSL()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isHSL(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isHSL(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isHSL";
+        const message = "someProperty must be a HSL color";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsRgbColor", function() {
+
+    const constraint = "";
+    const validValues = ["rgba(255,255,255,0.1)"];
+    const invalidValues = [null, undefined, "rgba(0,0,0)"];
+
+    class MyClass {
+        @IsRgbColor()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isRgbColor(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isRgbColor(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isRgbColor";
+        const message = "someProperty must be RGB color";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsIdentityCard", function() {
+
+    const constraint = "he-IL";
+    const validValues = ["335240479"];
+    const invalidValues = [null, undefined, "A1234567L"];
+
+    class MyClass {
+        @IsIdentityCard(constraint)
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isIdentityCard(value, constraint).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isIdentityCard(value, constraint).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isIdentityCard";
+        const message = "someProperty must be a identity card number";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsEAN", function() {
+
+    const constraint = "";
+    const validValues = ["9771234567003"];
+    const invalidValues = [null, undefined, "079777681629"];
+
+    class MyClass {
+        @IsEAN()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isEAN(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isEAN(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isEAN";
+        const message = "someProperty must be an EAN (European Article Number)";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsISRC", function() {
+
+    const constraint = "";
+    const validValues = ["GBAYE6800011"];
+    const invalidValues = [null, undefined, "SRC15705223"];
+
+    class MyClass {
+        @IsISRC()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isISRC(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isISRC(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isISRC";
+        const message = "someProperty must be an ISRC";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsRFC3339", function() {
+
+    const constraint = "";
+    const validValues = ["2010-02-18t00:23:23.33+06:00"];
+    const invalidValues = [null, undefined, "2009-05-31 14:60:55Z"];
+
+    class MyClass {
+        @IsRFC3339()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isRFC3339(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isRFC3339(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isRFC3339";
+        const message = "someProperty must be RFC 3339 date";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsLocale", function() {
+
+    const constraint = "";
+    const validValues = ["en_US_POSIX"];
+    const invalidValues = [null, undefined, "lo_POP"];
+
+    class MyClass {
+        @IsLocale()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isLocale(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isLocale(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isLocale";
+        const message = "someProperty must be locale";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsMagnetURI", function() {
+
+    const constraint = "";
+    const validValues = ["magnet:?xt=urn:btih:1GSHJVBDVDVJFYEHKFHEFIO8573898434JBFEGHD&dn=foo&tr=udp://foo.com:1337"];
+    const invalidValues = [null, undefined, "magnet:?xt=uarn:btih:MCJDCYUFHEUD6E2752T7UJNEKHSUGEJFGTFHVBJS&dn=bar&tr=udp://bar.com:1337"];
+
+    class MyClass {
+        @IsMagnetURI()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isMagnetURI(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isMagnetURI(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isMagnetURI";
+        const message = "someProperty must be magnet uri format";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsMimeType", function() {
+
+    const constraint = "";
+    const validValues = ["multipart/form-data; boundary=something; charset=utf-8"];
+    const invalidValues = [null, undefined, "font/woff2; charset=utf-8"];
+
+    class MyClass {
+        @IsMimeType()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isMimeType(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isMimeType(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isMimeType";
+        const message = "someProperty must be MIME type format";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsOctal", function() {
+
+    const constraint = "";
+    const validValues = ["0o01234567"];
+    const invalidValues = [null, undefined, "00c12345670c"];
+
+    class MyClass {
+        @IsOctal()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isOctal(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isOctal(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isOctal";
+        const message = "someProperty must be valid octal number";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsPassportNumber", function() {
+
+    const constraint = "DE";
+    const validValues = ["C26VMVVC3"];
+    const invalidValues = [null, undefined, "AS0123456"];
+
+    class MyClass {
+        @IsPassportNumber(constraint)
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isPassportNumber(value, constraint).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isPassportNumber(value, constraint).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isPassportNumber";
+        const message = "someProperty must be valid passport number";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsPostalCode", function() {
+
+    const constraint = "BR";
+    const validValues = ["39100-000"];
+    const invalidValues = [null, undefined, "13165-00"];
+
+    class MyClass {
+        @IsPostalCode(constraint)
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isPostalCode(value, constraint).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isPostalCode(value, constraint).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isPostalCode";
+        const message = "someProperty must be a postal code";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
+describe("IsSemVer", function() {
+
+    const constraint = "";
+    const validValues = ["1.1.2+meta-valid"];
+    const invalidValues = [null, undefined, "1.0.0-alpha_beta"];
+
+    class MyClass {
+        @IsSemVer()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isSemVer(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isSemVer(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isSemVer";
+        const message = "someProperty must be a Semantic Versioning Specification";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 

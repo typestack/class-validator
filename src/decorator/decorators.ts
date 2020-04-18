@@ -92,6 +92,25 @@ export * from "./string/IsISSN";
 export * from "./string/IsDateString";
 export * from "./string/IsBooleanString";
 export * from "./string/IsNumberString";
+export * from "./string/IsBase32";
+export * from "./string/IsBIC";
+export * from "./string/IsBtcAddress";
+export * from "./string/IsDataURI";
+export * from "./string/IsEAN";
+export * from "./string/IsEthereumAddress";
+export * from "./string/IsHSL";
+export * from "./string/IsIBAN";
+export * from "./string/IsIdentityCard";
+export * from "./string/IsISRC";
+export * from "./string/IsLocale";
+export * from "./string/IsMagnetURI";
+export * from "./string/IsMimeType";
+export * from "./string/IsOctal";
+export * from "./string/IsPassportNumber";
+export * from "./string/IsPostalCode";
+export * from "./string/IsRFC3339";
+export * from "./string/IsRgbColor";
+export * from "./string/IsSemVer";
 
 // -------------------------------------------------------------------------
 // Type checkers

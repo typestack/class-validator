@@ -5,7 +5,7 @@ import ValidatorJS from "validator";
 export const IS_HASH = "isHash";
 
 /**
- * check if the string is a hash of type algorithm.
+ * Check if the string is a hash of type algorithm.
  * Algorithm is one of ['md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'tiger128',
  * 'tiger160', 'tiger192', 'crc32', 'crc32b']
  */
@@ -14,7 +14,7 @@ export function isHash(value: unknown, algorithm: ValidatorJS.HashAlgorithm): bo
 }
 
 /**
- * check if the string is a hash of type algorithm.
+ * Check if the string is a hash of type algorithm.
  * Algorithm is one of ['md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'tiger128',
  * 'tiger160', 'tiger192', 'crc32', 'crc32b']
  */
