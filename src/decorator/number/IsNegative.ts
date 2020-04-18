@@ -4,14 +4,14 @@ import { buildMessage, ValidateBy } from "../common/ValidateBy";
 export const IS_NEGATIVE = "isNegative";
 
 /**
- * Checks if the value is a negative number.
+ * Checks if the value is a negative number smaller than zero.
  */
 export function isNegative(value: unknown): boolean {
     return typeof value === "number" && value < 0;
 }
 
 /**
- * Checks if the value is a negative number.
+ * Checks if the value is a negative number smaller than zero.
  */
 export function IsNegative(validationOptions?: ValidationOptions): PropertyDecorator {
     return ValidateBy(
