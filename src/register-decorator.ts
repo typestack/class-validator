@@ -1,4 +1,3 @@
-import {ValidatorOptions} from "./validation/ValidatorOptions";
 import {ConstraintMetadata} from "./metadata/ConstraintMetadata";
 import {ValidatorConstraintInterface} from "./validation/ValidatorConstraintInterface";
 import {ValidationMetadata} from "./metadata/ValidationMetadata";
@@ -7,6 +6,7 @@ import {ValidationTypes} from "./validation/ValidationTypes";
 import {ValidationArguments} from "./validation/ValidationArguments";
 import { getFromContainer } from "./container";
 import { MetadataStorage, getMetadataStorage } from "./metadata/MetadataStorage";
+import { ValidationOptions } from "./decorator/ValidationOptions";
 
 export interface ValidationDecoratorOptions {
 
@@ -33,7 +33,7 @@ export interface ValidationDecoratorOptions {
     /**
      * Validator options.
      */
-    options?: ValidatorOptions;
+    options?: ValidationOptions;
 
     /**
      * Array of validation constraints.
