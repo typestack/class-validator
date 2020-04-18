@@ -1,20 +1,9 @@
 import {ValidationError} from "./validation/ValidationError";
 import {ValidatorOptions} from "./validation/ValidatorOptions";
 import {ValidationSchema} from "./validation-schema/ValidationSchema";
-import {MetadataStorage} from "./metadata/MetadataStorage";
+import {getMetadataStorage} from "./metadata/MetadataStorage";
 import {Validator} from "./validation/Validator";
 import {getFromContainer} from "./container";
-
-/**
- * Gets metadata storage.
- * Metadata storage follows the best practices and stores metadata in a global variable.
- */
-export function getMetadataStorage(): MetadataStorage {
-    if (!(global as any).classValidatorMetadataStorage)
-        (global as any).classValidatorMetadataStorage = new MetadataStorage();
-
-    return (global as any).classValidatorMetadataStorage;
-}
 
 // -------------------------------------------------------------------------
 // Export everything api users needs
@@ -25,7 +14,6 @@ export * from "./decorator/decorators";
 export * from "./decorator/ValidationOptions";
 export * from "./validation/ValidatorConstraintInterface";
 export * from "./validation/ValidationError";
-export * from "./validation/ValidationTypeOptions";
 export * from "./validation/ValidatorOptions";
 export * from "./validation/ValidationArguments";
 export * from "./validation/ValidationTypes";

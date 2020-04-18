@@ -1,4 +1,4 @@
-import {ValidationArguments} from "../validation/ValidationArguments";
+import { ValidationArguments } from "../validation/ValidationArguments";
 
 /**
  * Options used to pass to validation decorators.
@@ -30,4 +30,16 @@ export interface ValidationOptions {
      * A transient set of data passed through to the validation result for response mapping
      */
     context?: any;
+}
+
+
+export function isValidationOptions(val: any): val is ValidationOptions {
+    if (!val) {
+        return false;
+    }
+    return "each" in val
+        || "message" in val
+        || "groups" in val
+        || "always" in val
+        || "context" in val;
 }

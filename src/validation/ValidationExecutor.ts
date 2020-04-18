@@ -7,7 +7,7 @@ import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
 import {ValidationArguments} from "./ValidationArguments";
 import {ValidationUtils} from "./ValidationUtils";
 import {isPromise, convertToArray} from "../utils";
-import {getMetadataStorage} from "..";
+import { getMetadataStorage } from "../metadata/MetadataStorage";
 
 /**
  * Executes validation over given object.
@@ -166,7 +166,7 @@ export class ValidationExecutor {
         }
 
         // handle IS_DEFINED validation type the special way - it should work no matter skipUndefinedProperties/skipMissingProperties is set or not
-        this.defaultValidations(object, value, definedMetadatas, validationError.constraints);
+        this.customValidations(object, value, definedMetadatas, validationError);
         this.mapContexts(object, value, definedMetadatas, validationError);
 
         if (value === undefined && this.validatorOptions && this.validatorOptions.skipUndefinedProperties === true) {
@@ -181,9 +181,8 @@ export class ValidationExecutor {
             return;
         }
 
-        this.defaultValidations(object, value, metadatas, validationError.constraints);
         this.customValidations(object, value, customValidationMetadatas, validationError);
-        this.nestedValidations(value, nestedValidationMetadatas, validationError.children, definedMetadatas, metadatas);
+        this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
 
         this.mapContexts(object, value, metadatas, validationError);
         this.mapContexts(object, value, customValidationMetadatas, validationError);
@@ -217,28 +216,6 @@ export class ValidationExecutor {
         return metadatas
             .map(metadata => metadata.constraints[0](object, value))
             .reduce((resultA, resultB) => resultA && resultB, true);
-    }
-
-    private defaultValidations(object: Object,
-                               value: any,
-                               metadatas: ValidationMetadata[],
-                               errorMap: { [key: string]: string }) {
-        return metadatas
-            .filter(metadata => {
-                if (metadata.each) {
-                    if (value instanceof Array || value instanceof Set || value instanceof Map) {
-                        const arrayValue = convertToArray(value);
-                        return !arrayValue.every((subValue: any) => this.validator.validateValueByMetadata(subValue, metadata));
-                    }
-
-                } else {
-                    return !this.validator.validateValueByMetadata(value, metadata);
-                }
-            })
-            .forEach(metadata => {
-                const [key, message] = this.createValidationError(object, value, metadata);
-                errorMap[key] = message;
-            });
     }
 
     private customValidations(object: Object,
@@ -327,8 +304,7 @@ export class ValidationExecutor {
         });
     }
 
-    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[],
-                              definedMetadatas: ValidationMetadata[], allMetadatas: ValidationMetadata[]) {
+    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
 
         if (value === void 0) {
             return;
@@ -346,8 +322,9 @@ export class ValidationExecutor {
                 // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
                 const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
                 arrayLikeValue.forEach((subValue: any, index: any) => {
-                    this.performValidations(value, subValue, index.toString(), definedMetadatas, allMetadatas, errors);
+                    this.performValidations(value, subValue, index.toString(), [], metadatas, errors);
                 });
+
             } else if (value instanceof Object) {
                 const targetSchema = typeof metadata.target === "string" ? metadata.target as string : metadata.target.name;
                 this.execute(value, targetSchema, errors);
@@ -408,15 +385,12 @@ export class ValidationExecutor {
             constraints: metadata.constraints
         };
 
-        let message = metadata.message;
+        let message = metadata.message || "";
         if (!metadata.message &&
             (!this.validatorOptions || (this.validatorOptions && !this.validatorOptions.dismissDefaultMessages))) {
             if (customValidatorMetadata && customValidatorMetadata.instance.defaultMessage instanceof Function) {
                 message = customValidatorMetadata.instance.defaultMessage(validationArguments);
             }
-
-            if (!message)
-                message = ValidationTypes.getMessage(type, metadata.each);
         }
 
         const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments);

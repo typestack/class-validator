@@ -790,105 +790,10 @@ If you want to perform a simple non async validation you can use `validateSync` 
 There are several method exist in the Validator that allows to perform non-decorator based validation:
 
 ```typescript
-import {Validator} from "class-validator";
+import {isEmpty, isBoolean} from "class-validator";
 
-// Validation methods
-const validator = new Validator();
-
-// common validation methods
-validator.isDefined(value); // Checks if value is defined ("!==undefined").
-validator.equals(value, comparison); // Checks if value matches ("===") the comparison.
-validator.notEquals(value, comparison); // Checks if value does not match ("!==") the comparison.
-validator.isEmpty(value); // Checks if given value is empty (=== '', === null, === undefined).
-validator.isNotEmpty(value); // Checks if given value is not empty (!== '', !== null, !== undefined).
-validator.isIn(value, possibleValues); // Checks if given value is in a array of allowed values.
-validator.isNotIn(value, possibleValues); // Checks if given value not in a array of allowed values.
-
-// type validation methods
-validator.isBoolean(value); // Checks if a given value is a real boolean.
-validator.isDate(value); // Checks if a given value is a real date.
-validator.isString(value); // Checks if a given value is a real string.
-validator.isArray(value); // Checks if a given value is an array.
-validator.isNumber(value, options); // Checks if a given value is a real number.
-validator.isInt(value); // Checks if value is an integer.
-validator.isEnum(value, entity); // Checks if value is valid for a certain enum entity.
-
-// number validation methods
-validator.isDivisibleBy(value, num); // Checks if value is a number that's divisible by another.
-validator.isPositive(value); // Checks if the value is a positive number greater than zero.
-validator.isNegative(value); // Checks if the value is a negative number smaller than zero.
-validator.min(num, min); // Checks if the first number is greater than or equal to the second.
-validator.max(num, max); // Checks if the first number is less than or equal to the second.
-
-// date validation methods
-validator.minDate(date, minDate); // Checks if the value is a date that's after the specified date.
-validator.maxDate(date, maxDate); // Checks if the value is a date that's before the specified date.
-
-// string-type validation methods
-validator.isBooleanString(str); // Checks if a string is a boolean.
-validator.isNumberString(str); // Checks if the string is numeric.
-
-// string validation methods
-validator.contains(str, seed); // Checks if the string contains the seed.
-validator.notContains(str, seed); // Checks if the string does not contain the seed.
-validator.isAlpha(str); // Checks if the string contains only letters (a-zA-Z).
-validator.isAlphanumeric(str); // Checks if the string contains only letters and numbers.
-validator.isDecimal(str, options); // Checks if the string is a valid decimal value.
-validator.isAscii(str); // Checks if the string contains ASCII chars only.
-validator.isBase64(str); // Checks if a string is base64 encoded.
-validator.isByteLength(str, min, max); // Checks if the string's length (in bytes) falls in a range.
-validator.isCreditCard(str); // Checks if the string is a credit card.
-validator.isCurrency(str, options); // Checks if the string is a valid currency amount.
-validator.isEmail(str, options); // Checks if the string is an email.
-validator.isFQDN(str, options); // Checks if the string is a fully qualified domain name (e.g. domain.com).
-validator.isFullWidth(str); // Checks if the string contains any full-width chars.
-validator.isHalfWidth(str); // Checks if the string contains any half-width chars.
-validator.isVariableWidth(str); // Checks if the string contains variable-width chars.
-validator.isHexColor(str); // Checks if the string is a hexadecimal color.
-validator.isHexadecimal(str); // Checks if the string is a hexadecimal number.
-validator.isMACAddress(str); // Checks if the string is a MAC Address.
-validator.isIP(str, version); // Checks if the string is an IP (version 4 or 6).
-validator.isPort(str); // Check if the string is a valid port number.
-validator.isISBN(str, version); // Checks if the string is an ISBN (version 10 or 13).
-validator.isISIN(str); // Checks if the string is an ISIN (stock/security identifier).
-validator.isISO8601(str, options); // Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
-validator.isJSON(str); // Checks if the string is valid JSON (note: uses JSON.parse).
-validator.isJWT(str) // Checks if the string is valid JWT.
-validator.isObject(object); // Checks if the object is valid Object (null, functions, arrays will return false)
-validator.isNotEmptyObject(object); // Checks if the object is not empty
-validator.isLowercase(str); // Checks if the string is lowercase.
-validator.isLatLong(str); // Checks if the string is a valid latitude-longitude coordinate in the format lat,long
-validator.isLatitude(str); // Checks if the string or number is a valid latitude coordinate
-validator.isLongtitude(str); // Checks if the string or number is a valid longitude coordinate
-validator.isMobilePhone(str, locale); // Checks if the string is a mobile phone number.
-validator.isISO31661Alpha2(str); // Check if the string is a valid ISO 3166-1 alpha-2
-validator.isISO31661Alpha3(str); // Check if the string is a valid ISO 3166-1 alpha-3
-validator.isPhoneNumber(str, region); // Checks if the string is a valid phone number.
-validator.isMongoId(str); // Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.
-validator.isMultibyte(str); // Checks if the string contains one or more multibyte chars.
-validator.isSurrogatePair(str); // Checks if the string contains any surrogate pairs chars.
-validator.isURL(str, options); // Checks if the string is an url.
-validator.isUUID(str, version); // Checks if the string is a UUID (version 3, 4, 5 or all).
-validator.IsFirebasePushId(str); // Checks if the string is a Firebase Push Id
-validator.isUppercase(str); // Checks if the string is uppercase.
-validator.length(str, min, max); // Checks if the string's length falls in a range.
-validator.minLength(str, min); // Checks if the string's length is not less than given number.
-validator.maxLength(str, max); // Checks if the string's length is not more than given number.
-validator.matches(str, pattern, modifiers); // Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
-validator.isMilitaryTime(str); // Checks if the string is a valid representation of military time in the format HH:MM.
-validator.isHash(str, algorithm); // Checks if the string is a hash of type algorithm.
-validator.isISSN(str, options); // Checks if the string is a ISSN.
-
-// array validation methods
-validator.arrayContains(array, values); // Checks if array contains all values from the given array of values.
-validator.arrayNotContains(array, values); // Checks if array does not contain any of the given values.
-validator.arrayNotEmpty(array); // Checks if given array is not empty.
-validator.arrayMinSize(array, min); // Checks if array's length is at least `min` number.
-validator.arrayMaxSize(array, max); // Checks if array's length is as most `max` number.
-validator.arrayUnique(array); // Checks if all array's values are unique. Comparison for objects is reference-based.
-
-// object validation methods
-validator.isInstance(value, target); // Checks value is an instance of the target.
+isEmpty(value);
+isBoolean(value);
 ```
 
 ## Validation decorators
@@ -932,21 +837,34 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers.  
 | `@IsDecimal(options?: IsDecimalOptions)`        | Checks if the string is a valid decimal value. Default IsDecimalOptions are `force_decimal=False`, `decimal_digits: '1,'`, `locale: 'en-US',`                                                                             |
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only.                                                                                  |
+| `@IsBase32()`                                   | Checks if a string is base32 encoded.                                                                                            |
 | `@IsBase64()`                                   | Checks if a string is base64 encoded.                                                                                            |
+| `@IsIBAN()`                                     | Checks if a string is a IBAN (International Bank Account Number).                                                                |
+| `@IsBIC()`                                      | Checks if a string is a BIC (Bank Identification Code) or SWIFT code.                                                            |
 | `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range.                                                                       |
 | `@IsCreditCard()`                               | Checks if the string is a credit card.                                                                                           |
 | `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount.                                                                                 |
+| `@IsEthereumAddress()`                          | Checks if the string is an Ethereum address using basic regex. Does not validate address checksums.                              |
+| `@IsBtcAddress()`                               | Checks if the string is a valid BTC address.                                                                                     |
+| `@IsDataURI()`                                  | Checks if the string is a data uri format.                                                                                       |
 | `@IsEmail(options?: IsEmailOptions)`            | Checks if the string is an email.                                                                                                |
 | `@IsFQDN(options?: IsFQDNOptions)`              | Checks if the string is a fully qualified domain name (e.g. domain.com).                                                         |
 | `@IsFullWidth()`                                | Checks if the string contains any full-width chars.                                                                              |
 | `@IsHalfWidth()`                                | Checks if the string contains any half-width chars.                                                                              |
 | `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars.                                                            |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color.                                                                                     |
+| `@IsHSLColor()`                                 | Checks if the string is an HSL (hue, saturation, lightness, optional alpha) color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value).          |
+| `@IsRgbColor(options?: IsRgbOptions)`           | Checks if the string is a rgb or rgba color.                                                                                     |
+| `@IsIdentityCard(locale?: string)`              | Checks if the string is a valid identity card code.                                                                              |
+| `@IsPassportNumber(countryCode?: string)`       | Checks if the string is a valid passport number relative to a specific country code.                                             |
+| `@IsPostalCode(locale?: string)`                | Checks if the string is a postal code.                                                                                           |
 | `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number.                                                                                    |
-| `@IsMACAddress()`                               | Checks if the string is a MAC Address.                                                                                            |
+| `@IsOctal()`                                    | Checks if the string is a octal number.                                                                                          |
+| `@IsMACAddress(options?: IsMACAddressOptions)`  | Checks if the string is a MAC Address.                                                                                            |
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6).                                                                                  |
 | `@IsPort()`                                     | Check if the string is a valid port number.                                                                                      |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13).                                                                              |
+| `@IsEAN()`                                      | Checks if the string is an if the string is an EAN (European Article Number).                                                    |
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier).                                                                     |
 | `@IsISO8601(options?: IsISO8601Options)`        | Checks if the string is a valid ISO 8601 date. Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.                                                                               |
 | `@IsJSON()`                                     | Checks if the string is valid JSON.                                                                                              |
@@ -960,12 +878,14 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number.                                                                                   |
 | `@IsISO31661Alpha2()`                           | Checks if the string is a valid [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) officially assigned country code.                                                                                 |
 | `@IsISO31661Alpha3()`                           | Checks if the string is a valid [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) officially assigned country code.                                                                                 |
+| `@IsLocale()`                                   | Checks if the string is a locale.                                                                                                |
 | `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number. "region" accepts 2 characters uppercase country code (e.g. DE, US, CH).If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region. See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github](https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33)                                                                                  |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars.                                                                       |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if the string is numeric.                                                                                                 |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars.                                                                         |
 | `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url.                                                                                                  |
+| `@IsMagnetURI()`                                | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme).                                  |
 | `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`              | Checks if the string is a UUID (version 3, 4, 5 or all ).                                                                              |
 | `@IsFirebasePushId()`                                   | Checks if the string is a [Firebase Push id](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html)                                                                                      |
 | `@IsUppercase()`                                | Checks if the string is uppercase.                                                                                               |
@@ -975,7 +895,11 @@ validator.isInstance(value, target); // Checks value is an instance of the targe
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').
 | `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM.                                         |
 | `@IsHash(algorithm: string)`                    | Checks if the string is a hash of type algorithm. <br/><br/>Algorithm is one of `['md4', 'md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'tiger128', 'tiger160', 'tiger192', 'crc32', 'crc32b']`                                                                                 |
+| `@IsMimeType()`                                 | Checks if the string matches to a valid [MIME type](https://en.wikipedia.org/wiki/Media_type) format                             |
+| `@IsSemVer()`                                   | Checks if the string is a Semantic Versioning Specification (SemVer).                                                            |
 | `@IsISSN(options?: IsISSNOptions)`              | Checks if the string is a ISSN.                                                                                                  |
+| `@IsISRC()`                                     | Checks if the string is a [ISRC](https://en.wikipedia.org/wiki/International_Standard_Recording_Code).                           |
+| `@IsRFC3339()`                                  | Checks f the string is a valid [RFC 3339](https://tools.ietf.org/html/rfc3339) date.                                             |
 | **Array validation decorators**                                                                                                                                                    |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values.                                                           |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values.                                                                        |

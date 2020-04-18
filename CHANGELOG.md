@@ -1,3 +1,63 @@
+## [0.12.1](https://github.com/typestack/class-validator/compare/v0.12.0...v0.12.1) (2020-04-18)
+
+
+### Bug Fixes
+
+* apply only nested validator for ValidateNested multi-dimensional array ([c463be5](https://github.com/typestack/class-validator/commit/c463be5))
+
+
+
+# [0.12.0](https://github.com/typestack/class-validator/compare/v0.11.1...v0.12.0) (2020-04-18)
+
+
+### Bug Fixes
+
+* accept negative timezone in isDateString ([#564](https://github.com/typestack/class-validator/issues/564)) ([2012d72](https://github.com/typestack/class-validator/commit/2012d72)), closes [#565](https://github.com/typestack/class-validator/issues/565)
+* apply all decorators type PropertyDecorator ([#556](https://github.com/typestack/class-validator/issues/556)) ([5fb36e3](https://github.com/typestack/class-validator/commit/5fb36e3)), closes [#555](https://github.com/typestack/class-validator/issues/555)
+* avoiding metadataStorage from DI ([#335](https://github.com/typestack/class-validator/issues/335)) ([b57fef4](https://github.com/typestack/class-validator/commit/b57fef4)), closes [#328](https://github.com/typestack/class-validator/issues/328) [#261](https://github.com/typestack/class-validator/issues/261) [#132](https://github.com/typestack/class-validator/issues/132)
+* correct registerDecorator options argument ([7909ec6](https://github.com/typestack/class-validator/commit/7909ec6)), closes [#302](https://github.com/typestack/class-validator/issues/302)
+* IsNumberString accept isNumbericOptions as argument ([62b993f](https://github.com/typestack/class-validator/commit/62b993f)), closes [#518](https://github.com/typestack/class-validator/issues/518) [#463](https://github.com/typestack/class-validator/issues/463)
+* optional `constraints` property in ValidationError ([#465](https://github.com/typestack/class-validator/issues/465)) ([84680ad](https://github.com/typestack/class-validator/commit/84680ad)), closes [#309](https://github.com/typestack/class-validator/issues/309)
+* pass context to ValidationError for async validations ([#533](https://github.com/typestack/class-validator/issues/533)) ([4eb1216](https://github.com/typestack/class-validator/commit/4eb1216))
+* switch isLatitude & isLongitude validators ([#513](https://github.com/typestack/class-validator/issues/513)) ([5497179](https://github.com/typestack/class-validator/commit/5497179)), closes [#502](https://github.com/typestack/class-validator/issues/502)
+* switch isLatitude & isLongitude validators ([#537](https://github.com/typestack/class-validator/issues/537)) ([c27500b](https://github.com/typestack/class-validator/commit/c27500b))
+* ValidateNested support multi-dimensional arrays ([#539](https://github.com/typestack/class-validator/issues/539)) ([62678e1](https://github.com/typestack/class-validator/commit/62678e1))
+
+
+### Code Refactoring
+
+* update build process to enable tree shaking ([#568](https://github.com/typestack/class-validator/issues/568)) ([11a7b8b](https://github.com/typestack/class-validator/commit/11a7b8b)), closes [#258](https://github.com/typestack/class-validator/issues/258) [#248](https://github.com/typestack/class-validator/issues/248) [#247](https://github.com/typestack/class-validator/issues/247) [#212](https://github.com/typestack/class-validator/issues/212)
+
+
+### Features
+
+* sync validatorjs version from v10.11.3 to v13.0.0 ([09120b7](https://github.com/typestack/class-validator/commit/09120b7)), closes [#576](https://github.com/typestack/class-validator/issues/576) [#425](https://github.com/typestack/class-validator/issues/425)
+
+
+### BREAKING CHANGES
+
+* Validatorjs releases contain some breaking changes e.g. `IsMobileNumber` or `IsHexColor`. Please check validatorjs [CHANGELOG](https://github.com/validatorjs/validator.js/blob/master/CHANGELOG.md)
+* Validation functions was removed from `Validator` class to enable tree shaking.
+
+  BEFORE:
+  ```ts
+      import {Validator} from "class-validator";
+
+      const validator = new Validator();
+      validator.isNotIn(value, possibleValues);
+      validator.isBoolean(value);
+  ```
+  AFTER:
+  ```ts
+      import {isNotIn, isBoolean} from "class-validator";
+
+      isNotIn(value, possibleValues);
+      isBoolean(value);
+  ```
+* IsNumberString decorator arguments changed to `@IsNumberString(ValidatorJS.IsNumericOptions, ValidationOptions)`.
+
+
+
 ## [0.11.1](https://github.com/typestack/class-validator/compare/v0.11.0...v0.11.1) (2020-03-18)
 
 
