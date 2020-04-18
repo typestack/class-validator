@@ -1,3 +1,12 @@
+## [0.12.1](https://github.com/typestack/class-validator/compare/v0.12.0...v0.12.1) (2020-04-18)
+
+
+### Bug Fixes
+
+* apply only nested validator for ValidateNested multi-dimensional array ([c463be5](https://github.com/typestack/class-validator/commit/c463be5))
+
+
+
 # [0.12.0](https://github.com/typestack/class-validator/compare/v0.11.1...v0.12.0) (2020-04-18)
 
 
