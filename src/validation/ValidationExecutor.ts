@@ -182,7 +182,7 @@ export class ValidationExecutor {
         }
 
         this.customValidations(object, value, customValidationMetadatas, validationError);
-        this.nestedValidations(value, nestedValidationMetadatas, validationError.children, definedMetadatas, metadatas);
+        this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
 
         this.mapContexts(object, value, metadatas, validationError);
         this.mapContexts(object, value, customValidationMetadatas, validationError);
@@ -304,8 +304,7 @@ export class ValidationExecutor {
         });
     }
 
-    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[],
-                              definedMetadatas: ValidationMetadata[], allMetadatas: ValidationMetadata[]) {
+    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
 
         if (value === void 0) {
             return;
@@ -323,8 +322,9 @@ export class ValidationExecutor {
                 // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
                 const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
                 arrayLikeValue.forEach((subValue: any, index: any) => {
-                    this.performValidations(value, subValue, index.toString(), definedMetadatas, allMetadatas, errors);
+                    this.performValidations(value, subValue, index.toString(), [], metadatas, errors);
                 });
+
             } else if (value instanceof Object) {
                 const targetSchema = typeof metadata.target === "string" ? metadata.target as string : metadata.target.name;
                 this.execute(value, targetSchema, errors);
