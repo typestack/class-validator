@@ -1,12 +1,11 @@
-import "es6-shim";
-import {Contains, IsDefined, MinLength, ValidateNested} from "../../src/decorator/decorators";
-import {Validator} from "../../src/validation/Validator";
-import {expect} from "chai";
-import {ValidationTypes} from "../../src/validation/ValidationTypes";
-
-import {should, use } from "chai";
-
+import { expect, should, use } from "chai";
 import * as chaiAsPromised from "chai-as-promised";
+import "es6-shim";
+import { Contains, IsDefined, MinLength, ValidateNested, ValidateNestedIf } from "../../src/decorator/decorators";
+import { ValidationTypes } from "../../src/validation/ValidationTypes";
+import { Validator } from "../../src/validation/Validator";
+
+
 
 should();
 use(chaiAsPromised);
@@ -321,6 +320,46 @@ describe("nested validation", function () {
             subSubError.value.should.be.equal("my");
         });
 
+    });
+
+    it("should optionally validate nested options", () => {
+        class MySubClass {
+            @MinLength(5)
+            name: string;
+        }
+
+        class MyClass {
+            @ValidateNestedIf((_, value: any) => {
+                console.log(value);
+                return value instanceof MySubClass;
+            })
+            mySubClass: String | MySubClass;
+        }
+
+        const model = new MyClass();
+        model.mySubClass = new MySubClass();
+        model.mySubClass.name = "my";
+
+        const model2 = new MyClass();
+        model2.mySubClass = "my";
+
+        return validator.validate(model).then(errors => {
+            errors.length.should.be.equal(1);
+
+            errors[0].target.should.be.equal(model);
+            errors[0].property.should.be.equal("mySubClass");
+            errors[0].value.should.be.equal(model.mySubClass);
+            expect(errors[0].constraints).to.be.undefined;
+            const subError1 = errors[0].children[0];
+            subError1.target.should.be.equal(model.mySubClass);
+            subError1.property.should.be.equal("name");
+            subError1.constraints.should.be.eql({minLength: "name must be longer than or equal to 5 characters"});
+            subError1.value.should.be.equal("my");
+
+            return validator.validate(model2).then(errors => {
+                errors.length.should.be.equal(0);
+            });
+        });
     });
 
 });
