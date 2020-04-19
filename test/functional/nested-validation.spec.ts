@@ -329,10 +329,7 @@ describe("nested validation", function () {
         }
 
         class MyClass {
-            @ValidateNestedIf((_, value: any) => {
-                console.log(value);
-                return value instanceof MySubClass;
-            })
+            @ValidateNestedIf((_, value: any) => value instanceof MySubClass)
             mySubClass: String | MySubClass;
         }
 
