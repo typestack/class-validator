@@ -1,13 +1,13 @@
-import {Validator} from "./Validator";
-import {ValidationError} from "./ValidationError";
-import {ValidationMetadata} from "../metadata/ValidationMetadata";
-import {ValidatorOptions} from "./ValidatorOptions";
-import {ValidationTypes} from "./ValidationTypes";
-import {ConstraintMetadata} from "../metadata/ConstraintMetadata";
-import {ValidationArguments} from "./ValidationArguments";
-import {ValidationUtils} from "./ValidationUtils";
-import {isPromise, convertToArray} from "../utils";
+import { ConstraintMetadata } from "../metadata/ConstraintMetadata";
 import { getMetadataStorage } from "../metadata/MetadataStorage";
+import { ValidationMetadata } from "../metadata/ValidationMetadata";
+import { convertToArray, isPromise } from "../utils";
+import { ValidationArguments } from "./ValidationArguments";
+import { ValidationError } from "./ValidationError";
+import { ValidationTypes } from "./ValidationTypes";
+import { ValidationUtils } from "./ValidationUtils";
+import { Validator } from "./Validator";
+import { ValidatorOptions } from "./ValidatorOptions";
 
 /**
  * Executes validation over given object.
@@ -182,7 +182,11 @@ export class ValidationExecutor {
         }
 
         this.customValidations(object, value, customValidationMetadatas, validationError);
-        this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
+
+        const canValidateNested = this.conditionalValidations(object, value, nestedValidationMetadatas);
+        if (canValidateNested) {
+            this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
+        }
 
         this.mapContexts(object, value, metadatas, validationError);
         this.mapContexts(object, value, customValidationMetadatas, validationError);
@@ -214,7 +218,7 @@ export class ValidationExecutor {
                                    value: any,
                                    metadatas: ValidationMetadata[]) {
         return metadatas
-            .map(metadata => metadata.constraints[0](object, value))
+            .map(metadata => !metadata.constraints || metadata.constraints[0](object, value))
             .reduce((resultA, resultB) => resultA && resultB, true);
     }
 
