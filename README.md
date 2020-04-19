@@ -333,6 +333,23 @@ export class Plan2D {
 }
 ```
 
+If your property only requires nested validation in some cases (e.g. the property can be one of several different types), you can conditionally validate nested:
+
+```typescript
+import {ValidateNestedIf, MinLength} from "class-validator";
+
+export class User {
+    @MinLength(5)
+    name: String;
+}
+
+export class Post {
+
+    @ValidateNestedIf((object, value) => value instanceof User)
+    user: String | User;
+}
+```
+
 ## Validating promises
 
 If your object contains property with `Promise`-returned value that should be validated, then you need to use the `@ValidatePromise()` decorator:
