@@ -1,3 +1,12 @@
+## [0.12.2](https://github.com/typestack/class-validator/compare/v0.12.1...v0.12.2) (2020-04-23)
+
+
+### Bug Fixes
+
+* move `tslib` from `peerDependencies` to `dependencies` ([827eff1](https://github.com/typestack/class-validator/commit/827eff1)), closes [#588](https://github.com/typestack/class-validator/issues/588)
+
+
+
 ## [0.12.1](https://github.com/typestack/class-validator/compare/v0.12.0...v0.12.1) (2020-04-18)
 
 
