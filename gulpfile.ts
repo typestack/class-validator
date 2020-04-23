@@ -29,8 +29,8 @@ const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
 export class Gulpfile {
 
     rollupExternal = [
-        ...Object.keys(pkg.peerDependencies),
-        ...Object.keys(pkg.dependencies)
+        ...Object.keys(pkg.peerDependencies || {}),
+        ...Object.keys(pkg.dependencies || {})
     ];
     rollupCommonPlugins: Plugin[] = [
         // Allow json resolution
