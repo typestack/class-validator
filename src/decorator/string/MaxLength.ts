@@ -16,11 +16,11 @@ export function maxLength(value: unknown, max: number) {
  * Checks if the string's length is not more than given number. Note: this function takes into account surrogate pairs.
  * If given value is not a string, then it returns false.
  */
-export function MaxLength(min: number, validationOptions?: ValidationOptions): PropertyDecorator {
+export function MaxLength(max: number, validationOptions?: ValidationOptions): PropertyDecorator {
     return ValidateBy(
         {
             name: MAX_LENGTH,
-            constraints: [min],
+            constraints: [max],
             validator: {
                 validate: (value, args) => maxLength(value, args.constraints[0]),
                 defaultMessage: buildMessage(
