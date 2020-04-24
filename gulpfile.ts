@@ -67,7 +67,7 @@ export class Gulpfile {
      * Runs typescript files compilation.
      */
     @Task()
-    compileTests() {
+    runTests() {
         return require("child_process").spawn("npx jest --coverage", {
             stdio: 'inherit',
             shell: true
@@ -238,7 +238,7 @@ export class Gulpfile {
      */
     @SequenceTask()
     tests() {
-        return ["clean", "tslint", "compileTests"];
+        return ["clean", "tslint", "runTests"];
     }
 
     private _rollupPackageBundleEsm5(isMin: boolean) {
