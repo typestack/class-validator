@@ -1,26 +1,12 @@
-import "es6-shim";
 import {IsNotEmpty, ValidateIf, IsOptional, Equals} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
-import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
-import {expect, should, use } from "chai";
-
-import * as chaiAsPromised from "chai-as-promised";
-
-should();
-use(chaiAsPromised);
-
-// -------------------------------------------------------------------------
-// Setup
-// -------------------------------------------------------------------------
 
 const validator = new Validator();
 
-// -------------------------------------------------------------------------
-// Specifications: common decorators
-// -------------------------------------------------------------------------
+describe("conditional validation", () => {
+    it("shouldn't validate a property when the condition is false", () => {
+        expect.assertions(1);
 
-describe("conditional validation", function() {
-    it("shouldn't validate a property when the condition is false", function() {
         class MyClass {
             @ValidateIf(o => false)
             @IsNotEmpty()
@@ -29,11 +15,13 @@ describe("conditional validation", function() {
 
         const model = new MyClass();
         return validator.validate(model).then(errors => {
-            errors.length.should.be.equal(0);
+            expect(errors.length).toEqual(0);
         });
     });
 
-    it("should validate a property when the condition is true", function() {
+    it("should validate a property when the condition is true", () => {
+        expect.assertions(5);
+
         class MyClass {
             @ValidateIf(o => true)
             @IsNotEmpty()
@@ -42,19 +30,21 @@ describe("conditional validation", function() {
 
         const model = new MyClass();
         return validator.validate(model).then(errors => {
-            errors.length.should.be.equal(1);
-            errors[0].target.should.be.equal(model);
-            errors[0].property.should.be.equal("title");
-            errors[0].constraints.should.be.eql({ isNotEmpty: "title should not be empty" });
-            errors[0].value.should.be.equal("");
+            expect(errors.length).toEqual(1);
+            expect(errors[0].target).toEqual(model);
+            expect(errors[0].property).toEqual("title");
+            expect(errors[0].constraints).toEqual({ isNotEmpty: "title should not be empty" });
+            expect(errors[0].value).toEqual("");
         });
     });
 
-    it("should pass the object being validated to the condition function", function() {
+    it("should pass the object being validated to the condition function", () => {
+        expect.assertions(3);
+
         class MyClass {
             @ValidateIf(o => {
-                expect(o).to.be.instanceOf(MyClass);
-                expect(o.title).to.equal("title");
+                expect(o).toBeInstanceOf(MyClass);
+                expect(o.title).toEqual("title");
                 return true;
             })
             @IsNotEmpty()
@@ -63,11 +53,13 @@ describe("conditional validation", function() {
 
         const model = new MyClass();
         return validator.validate(model).then(errors => {
-            errors.length.should.be.equal(0);
+            expect(errors.length).toEqual(0);
         });
     });
 
-    it("should validate a property when value is empty", function () {
+    it("should validate a property when value is empty", () => {
+        expect.assertions(5);
+
         class MyClass {
             @IsOptional()
             @Equals("test")
@@ -76,15 +68,15 @@ describe("conditional validation", function() {
 
         const model = new MyClass();
         return validator.validate(model).then(errors => {
-            errors.length.should.be.equal(1);
-            errors[0].target.should.be.equal(model);
-            errors[0].property.should.be.equal("title");
-            errors[0].constraints.should.be.eql({ equals: "title must be equal to test" });
-            errors[0].value.should.be.equal("");
+            expect(errors.length).toEqual(1);
+            expect(errors[0].target).toEqual(model);
+            expect(errors[0].property).toEqual("title");
+            expect(errors[0].constraints).toEqual({ equals: "title must be equal to test" });
+            expect(errors[0].value).toEqual("");
         });
     });
 
-    it("should validate a property when value is supplied", function () {
+    it("should validate a property when value is supplied", () => {
         class MyClass {
             @IsOptional()
             @Equals("test")
@@ -93,11 +85,11 @@ describe("conditional validation", function() {
 
         const model = new MyClass();
         return validator.validate(model).then(errors => {
-            errors.length.should.be.equal(1);
-            errors[0].target.should.be.equal(model);
-            errors[0].property.should.be.equal("title");
-            errors[0].constraints.should.be.eql({ equals: "title must be equal to test" });
-            errors[0].value.should.be.equal("bad_value");
+            expect(errors.length).toEqual(1);
+            expect(errors[0].target).toEqual(model);
+            expect(errors[0].property).toEqual("title");
+            expect(errors[0].constraints).toEqual({ equals: "title must be equal to test" });
+            expect(errors[0].value).toEqual("bad_value");
         });
     });
 });

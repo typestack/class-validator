@@ -1,16 +1,6 @@
-import "es6-shim";
-
-import { ValidationError } from "./../../src/validation/ValidationError";
-import { Contains, MinLength } from "../../src/decorator/decorators";
-import { Validator } from "../../src/validation/Validator";
-import { expect } from "chai";
-
-import {should, use } from "chai";
-
-import * as chaiAsPromised from "chai-as-promised";
-
-should();
-use(chaiAsPromised);
+import {ValidationError} from "./../../src/validation/ValidationError";
+import {Contains} from "../../src/decorator/decorators";
+import {Validator} from "../../src/validation/Validator";
 
 class MyClass {
     @Contains("hello", {
@@ -28,28 +18,22 @@ describe("validateOrReject()", () => {
         model = new MyClass();
     });
 
-    it("should resolve promise when no error", (done) => {
+    it("should resolve promise when no error", () => {
+        expect.assertions(1);
         model.someProperty = "hello world";
-        validator.validateOrReject(model)
-        .then((args) => {
-            expect(args).to.not.exist;
-            done();
-        })
-        .catch((errors) => {
-            done("should resolve promise");
-        });
+        return validator.validateOrReject(model)
+            .then((args) => {
+                expect(args).toBeUndefined();
+            });
     });
 
-    it("should reject promise on error", (done) => {
+    it("should reject promise on error", () => {
+        expect.assertions(2);
         model.someProperty = "hell no world";
-        validator.validateOrReject(model)
-        .then(() => {
-            done("should reject promise");
-        })
-        .catch((errors: ValidationError[]) => {
-            expect(errors).to.have.lengthOf(1);
-            expect(errors[0].constraints).to.deep.equal({ contains: "hell no world is not valid. Your string must contain a hello word" });
-            done();
-        });
+        return validator.validateOrReject(model)
+            .catch((errors: ValidationError[]) => {
+                expect(errors.length).toEqual(1);
+                expect(errors[0].constraints).toEqual({contains: "hell no world is not valid. Your string must contain a hello word"});
+            });
     });
 });

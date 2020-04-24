@@ -1,27 +1,11 @@
-import "es6-shim";
 import {Contains, MinLength} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 
-import {should, use } from "chai";
-
-import * as chaiAsPromised from "chai-as-promised";
-
-should();
-use(chaiAsPromised);
-
-// -------------------------------------------------------------------------
-// Setup
-// -------------------------------------------------------------------------
-
 const validator = new Validator();
 
-// -------------------------------------------------------------------------
-// Specifications: common decorators
-// -------------------------------------------------------------------------
-
-describe("inherited validation", function() {
-
-    it("should validate inherited properties", function() {
+describe("inherited validation", () => {
+    it("should validate inherited properties", () => {
+        expect.assertions(9);
 
         class MyClass {
             @Contains("hello")
@@ -37,20 +21,17 @@ describe("inherited validation", function() {
         model.title = "helo world";
         model.name = "my";
         return validator.validate(model).then(errors => {
-            errors.length.should.be.equal(2);
-
+            expect(errors.length).toEqual(2);
             // subclass own props are validated first
-            errors[0].target.should.be.equal(model);
-            errors[0].property.should.be.equal("name");
-            errors[0].constraints.should.be.eql({ minLength: "name must be longer than or equal to 5 characters" });
-            errors[0].value.should.be.equal("my");
-
+            expect(errors[0].target).toEqual(model);
+            expect(errors[0].property).toEqual("name");
+            expect(errors[0].constraints).toEqual({ minLength: "name must be longer than or equal to 5 characters" });
+            expect(errors[0].value).toEqual("my");
             // parent props are validated afterwards
-            errors[1].target.should.be.equal(model);
-            errors[1].property.should.be.equal("title");
-            errors[1].constraints.should.be.eql({ contains: "title must contain a hello string" });
-            errors[1].value.should.be.equal("helo world");
+            expect(errors[1].target).toEqual(model);
+            expect(errors[1].property).toEqual("title");
+            expect(errors[1].constraints).toEqual({ contains: "title must contain a hello string" });
+            expect(errors[1].value).toEqual("helo world");
         });
     });
-
 });

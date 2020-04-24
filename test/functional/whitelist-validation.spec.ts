@@ -1,29 +1,12 @@
-import "es6-shim";
-import {Allow, IsDefined, Min, ValidateNested} from "../../src/decorator/decorators";
+import {Allow, IsDefined, Min} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
-import {expect} from "chai";
-import {ValidationTypes} from "../../src/validation/ValidationTypes";
-
-import {should, use } from "chai";
-
-import * as chaiAsPromised from "chai-as-promised";
-
-should();
-use(chaiAsPromised);
-
-// -------------------------------------------------------------------------
-// Setup
-// -------------------------------------------------------------------------
+import {ValidationTypes} from "../../src";
 
 const validator = new Validator();
 
-// -------------------------------------------------------------------------
-// Specifications: allowed validation
-// -------------------------------------------------------------------------
+describe("whitelist validation", () => {
 
-describe("whitelist validation", function () {
-
-    it("should strip non whitelisted properties, but leave whitelisted untouched", function () {
+    it("should strip non whitelisted properties, but leave whitelisted untouched", () => {
 
         class MyClass {
             @IsDefined()
@@ -39,15 +22,14 @@ describe("whitelist validation", function () {
         model.views = 56;
         model.unallowedProperty = 42;
         return validator.validate(model, { whitelist: true }).then(errors => {
-            expect(errors.length).to.be.equal(0);
-            expect(model.unallowedProperty).be.undefined;
-            expect(model.title).to.equal("hello");
-            expect(model.views).to.be.equal(56);
+            expect(errors.length).toEqual(0);
+            expect(model.unallowedProperty).toBeUndefined();
+            expect(model.title).toEqual("hello");
+            expect(model.views).toEqual(56);
         });
     });
 
-    it("should be able to whitelist with @Allow", function () {
-
+    it("should be able to whitelist with @Allow", () => {
         class MyClass {
             @Allow()
             views: number;
@@ -59,13 +41,13 @@ describe("whitelist validation", function () {
         model.unallowedProperty = "non-whitelisted";
 
         return validator.validate(model, { whitelist: true }).then(errors => {
-            expect(errors.length).to.be.equal(0);
-            expect(model.unallowedProperty).be.undefined;
-            expect(model.views).to.be.equal(420);
+            expect(errors.length).toEqual(0);
+            expect(model.unallowedProperty).toBeUndefined();
+            expect(model.views).toEqual(420);
         });
     });
 
-    it("should throw an error when forbidNonWhitelisted flag is set", function () {
+    it("should throw an error when forbidNonWhitelisted flag is set", () => {
 
         class MyClass {
         }
@@ -75,10 +57,10 @@ describe("whitelist validation", function () {
         model.unallowedProperty = "non-whitelisted";
 
         return validator.validate(model, { whitelist: true, forbidNonWhitelisted: true }).then(errors => {
-            expect(errors.length).to.be.equal(1);
-            errors[0].target.should.be.equal(model);
-            errors[0].property.should.be.equal("unallowedProperty");
-            errors[0].constraints.should.haveOwnProperty(ValidationTypes.WHITELIST);
+            expect(errors.length).toEqual(1);
+            expect(errors[0].target).toEqual(model);
+            expect(errors[0].property).toEqual("unallowedProperty");
+            expect(errors[0].constraints).toHaveProperty(ValidationTypes.WHITELIST);
         });
     });
 
