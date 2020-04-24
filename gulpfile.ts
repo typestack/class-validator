@@ -4,12 +4,9 @@ import * as gulp from "gulp";
 import * as del from "del";
 import * as shell from "gulp-shell";
 import * as replace from "gulp-replace";
-import * as mocha from "gulp-mocha";
-import * as chai from "chai";
 import tslintPlugin from "gulp-tslint";
 import * as ts from "gulp-typescript";
 import * as sourcemaps from "gulp-sourcemaps";
-import * as istanbul from "gulp-istanbul";
 import { rollup, RollupOptions, Plugin } from "rollup";
 import { terser as rollupTerser } from "rollup-plugin-terser";
 
@@ -23,7 +20,6 @@ const rollupUglify = require("rollup-plugin-uglify");
 
 
 const conventionalChangelog = require("gulp-conventional-changelog");
-const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
 
 @Gulpclass()
 export class Gulpfile {
@@ -72,14 +68,10 @@ export class Gulpfile {
      */
     @Task()
     compileTests() {
-        const tsProjectEsm5 = ts.createProject("tsconfig.json", { rootDir: "./" });
-        const tsResultEsm5 = gulp.src(["./{test,src}/**/*.ts"])
-            .pipe(sourcemaps.init())
-            .pipe(tsProjectEsm5());
-
-        return tsResultEsm5.js
-            .pipe(sourcemaps.write(".", { sourceRoot: "", includeContent: true }))
-            .pipe(gulp.dest("build/compile"));
+        return require("child_process").spawn("npx jest --coverage", {
+            stdio: 'inherit',
+            shell: true
+        });
     }
 
     // -------------------------------------------------------------------------
@@ -242,54 +234,11 @@ export class Gulpfile {
     }
 
     /**
-     * Runs unit-tests.
-     */
-    @Task()
-    unit() {
-        chai.should();
-        chai.use(require("sinon-chai"));
-        chai.use(require("chai-as-promised"));
-        return gulp.src("./build/compiled/test/**/*.js")
-            .pipe(mocha());
-    }
-
-    /**
-     * Runs before test coverage, required step to perform a test coverage.
-     */
-    @Task()
-    coveragePre() {
-        return gulp.src(["./build/compiled/src/**/*.js"])
-            .pipe(istanbul())
-            .pipe(istanbul.hookRequire());
-    }
-
-    /**
-     * Runs post coverage operations.
-     */
-    @Task("coveragePost")
-    coveragePost() {
-        chai.should();
-        chai.use(require("sinon-chai"));
-        chai.use(require("chai-as-promised"));
-
-        return gulp.src(["./build/compile/test/**/*.js"])
-            .pipe(mocha())
-            .pipe(istanbul.writeReports());
-    }
-
-    @Task()
-    coverageRemap() {
-        return gulp.src("./coverage/coverage-final.json")
-            .pipe(remapIstanbul())
-            .pipe(gulp.dest("./coverage"));
-    }
-
-    /**
      * Compiles the code and runs tests.
      */
     @SequenceTask()
     tests() {
-        return ["clean", "compileTests", "tslint", "coveragePre", "coveragePost", "coverageRemap"];
+        return ["clean", "compileTests"];
     }
 
     private _rollupPackageBundleEsm5(isMin: boolean) {
