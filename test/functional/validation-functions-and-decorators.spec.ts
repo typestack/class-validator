@@ -200,7 +200,7 @@ export function checkValidValues(object: { someProperty: any }, values: any[], v
                     console.log(`Unexpected errors: ${JSON.stringify(errors)}`);
                     throw new Error("Unexpected validation errors");
                 }
-            })
+            });
     });
 
     return Promise.all(promises);
@@ -219,7 +219,7 @@ export function checkInvalidValues(object: { someProperty: any }, values: any[],
                 }
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     });
 
     return Promise.all(promises);
@@ -1753,7 +1753,7 @@ describe("IsBtcAddress", () => {
     }
 
     it("should not fail if validator.validate said that its valid", () => {
-        return checkValidValues(new MyClass(), validValues,);
+        return checkValidValues(new MyClass(), validValues);
     });
 
     it("should fail if validator.validate said that its invalid", () => {
