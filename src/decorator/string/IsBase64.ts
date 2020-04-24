@@ -21,7 +21,7 @@ export function IsBase64(validationOptions?: ValidationOptions): PropertyDecorat
         {
             name: IS_BASE64,
             validator: {
-                validate: (value, args) => isBase64(value),
+                validate: (value, args): boolean => isBase64(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be base64 encoded",
                     validationOptions

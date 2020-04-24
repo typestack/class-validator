@@ -50,7 +50,7 @@ export function IsNumber(options: IsNumberOptions = {}, validationOptions?: Vali
             name: IS_NUMBER,
             constraints: [options],
             validator: {
-                validate: (value, args) => isNumber(value, args.constraints[0]),
+                validate: (value, args): boolean => isNumber(value, args.constraints[0]),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a number conforming to the specified constraints",
                     validationOptions

@@ -8,7 +8,7 @@ export class ValidationError {
      *
      * OPTIONAL - configurable via the ValidatorOptions.validationError.target option
      */
-    target?: Object;
+    target?: Record<string, any>;
 
     /**
      * Object's property that haven't pass validation.

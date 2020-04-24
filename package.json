@@ -44,10 +44,14 @@
     "@types/node": "^12.7.1",
     "@types/rollup-plugin-json": "^3.0.2",
     "@types/rollup-plugin-sourcemaps": "^0.4.2",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
     "conventional-changelog-angular": "^5.0.3",
     "conventional-changelog-cli": "^2.0.21",
     "del": "^5.0.0",
     "es6-shim": "^0.35.3",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.8.2",
     "gulp": "^4.0.2",
     "gulp-conventional-changelog": "^2.0.19",
     "gulp-replace": "^1.0.0",
@@ -68,14 +72,13 @@
     "ts-jest": "^25.4.0",
     "ts-node": "^8.8.1",
     "tslib": "^1.11.1",
-    "tslint": "^5.11.0",
-    "tslint-stylish": "^2.1.0",
     "typescript": "^3.5.3",
     "webpack-config-utils": "^2.3.1"
   },
   "scripts": {
     "build": "gulp package",
     "test": "gulp tests",
+    "eslint": "gulp eslint",
     "changelog": "gulp changelog"
   }
 }

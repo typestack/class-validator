@@ -21,7 +21,7 @@ export function IsSemVer(validationOptions?: ValidationOptions): PropertyDecorat
         {
             name: IS_SEM_VER,
             validator: {
-                validate: (value, args) => isSemVer(value),
+                validate: (value, args): boolean => isSemVer(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a Semantic Versioning Specification",
                     validationOptions

@@ -19,7 +19,7 @@ export function IsLatLong(validationOptions?: ValidationOptions): PropertyDecora
         {
             name: IS_LATLONG,
             validator: {
-                validate: (value, args) => isLatLong(value),
+                validate: (value, args): boolean => isLatLong(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a latitude,longitude string",
                     validationOptions

@@ -21,7 +21,7 @@ export function IsJWT(validationOptions?: ValidationOptions): PropertyDecorator 
         {
             name: IS_JWT,
             validator: {
-                validate: (value, args) => isJWT(value),
+                validate: (value, args): boolean => isJWT(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a jwt string",
                     validationOptions

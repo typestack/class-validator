@@ -20,7 +20,7 @@ export function IsDefined(validationOptions?: ValidationOptions): PropertyDecora
         {
             name: IS_DEFINED,
             validator: {
-                validate: (value) => isDefined(value),
+                validate: (value): boolean => isDefined(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property should not be null or undefined",
                     validationOptions

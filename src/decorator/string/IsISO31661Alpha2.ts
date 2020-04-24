@@ -19,7 +19,7 @@ export function IsISO31661Alpha2(validationOptions?: ValidationOptions): Propert
         {
             name: IS_ISO31661_ALPHA_2,
             validator: {
-                validate: (value, args) => isISO31661Alpha2(value),
+                validate: (value, args): boolean => isISO31661Alpha2(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a valid ISO31661 Alpha2 code",
                     validationOptions

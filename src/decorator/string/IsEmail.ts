@@ -22,7 +22,7 @@ export function IsEmail(options?: ValidatorJS.IsEmailOptions, validationOptions?
             name: IS_EMAIL,
             constraints: [options],
             validator: {
-                validate: (value, args) => isEmail(value, args.constraints[0]),
+                validate: (value, args): boolean => isEmail(value, args.constraints[0]),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be an email",
                     validationOptions

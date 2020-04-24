@@ -19,7 +19,7 @@ export function IsLongitude(validationOptions?: ValidationOptions): PropertyDeco
         {
             name: IS_LONGITUDE,
             validator: {
-                validate: (value, args) => isLongitude(value),
+                validate: (value, args): boolean => isLongitude(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a longitude string or number",
                     validationOptions

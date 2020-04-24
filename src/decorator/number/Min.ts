@@ -19,7 +19,7 @@ export function Min(minValue: number, validationOptions?: ValidationOptions): Pr
             name: MIN,
             constraints: [minValue],
             validator: {
-                validate: (value, args) => min(value, args.constraints[0]),
+                validate: (value, args): boolean => min(value, args.constraints[0]),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must not be less than $constraint1",
                     validationOptions

@@ -4,20 +4,6 @@ import {ValidationSchema} from "../validation-schema/ValidationSchema";
 import {ValidationSchemaToMetadataTransformer} from "../validation-schema/ValidationSchemaToMetadataTransformer";
 
 /**
- * Gets metadata storage.
- * Metadata storage follows the best practices and stores metadata in a global variable.
- */
-export function getMetadataStorage(): MetadataStorage {
-    if (typeof window !== "undefined") {
-        (window as any).global = window;
-    }
-    if (!(global as any).classValidatorMetadataStorage)
-        (global as any).classValidatorMetadataStorage = new MetadataStorage();
-
-    return (global as any).classValidatorMetadataStorage;
-}
-
-/**
  * Storage all metadatas.
  */
 export class MetadataStorage {
@@ -29,7 +15,7 @@ export class MetadataStorage {
     private validationMetadatas: ValidationMetadata[] = [];
     private constraintMetadatas: ConstraintMetadata[] = [];
 
-    get hasValidationMetaData() {
+    get hasValidationMetaData(): boolean {
         return !!this.validationMetadatas.length;
     }
 
@@ -40,7 +26,7 @@ export class MetadataStorage {
     /**
      * Adds a new validation metadata.
      */
-    addValidationSchema(schema: ValidationSchema) {
+    addValidationSchema(schema: ValidationSchema): void {
         const validationMetadatas = new ValidationSchemaToMetadataTransformer().transform(schema);
         validationMetadatas.forEach(validationMetadata => this.addValidationMetadata(validationMetadata));
     }
@@ -48,14 +34,14 @@ export class MetadataStorage {
     /**
      * Adds a new validation metadata.
      */
-    addValidationMetadata(metadata: ValidationMetadata) {
+    addValidationMetadata(metadata: ValidationMetadata): void {
         this.validationMetadatas.push(metadata);
     }
 
     /**
      * Adds a new constraint metadata.
      */
-    addConstraintMetadata(metadata: ConstraintMetadata) {
+    addConstraintMetadata(metadata: ConstraintMetadata): void {
         this.constraintMetadatas.push(metadata);
     }
 
@@ -84,7 +70,7 @@ export class MetadataStorage {
             if (metadata.always)
                 return true;
             if (groups && groups.length > 0)
-                return metadata.groups && !!metadata.groups.find(group => groups.indexOf(group) !== -1);
+                return metadata.groups && !!metadata.groups.find(group => groups.includes(group));
 
             return true;
         });
@@ -97,12 +83,12 @@ export class MetadataStorage {
             if (metadata.target === targetConstructor)
                 return false;
             if (metadata.target instanceof Function &&
-                !(targetConstructor.prototype instanceof (metadata.target as Function)))
+                !(targetConstructor.prototype instanceof (metadata.target)))
                 return false;
             if (metadata.always)
                 return true;
             if (groups && groups.length > 0)
-                return metadata.groups && !!metadata.groups.find(group => groups.indexOf(group) !== -1);
+                return metadata.groups && !!metadata.groups.find(group => groups.includes(group));
 
             return true;
         });
@@ -125,4 +111,18 @@ export class MetadataStorage {
         return this.constraintMetadatas.filter(metadata => metadata.target === target);
     }
 
+}
+
+/**
+ * Gets metadata storage.
+ * Metadata storage follows the best practices and stores metadata in a global variable.
+ */
+export function getMetadataStorage(): MetadataStorage {
+    if (typeof window !== "undefined") {
+        (window).global = window;
+    }
+    if (!(global as any).classValidatorMetadataStorage)
+        (global as any).classValidatorMetadataStorage = new MetadataStorage();
+
+    return (global as any).classValidatorMetadataStorage;
 }

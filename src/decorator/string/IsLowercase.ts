@@ -21,7 +21,7 @@ export function IsLowercase(validationOptions?: ValidationOptions): PropertyDeco
         {
             name: IS_LOWERCASE,
             validator: {
-                validate: (value, args) => isLowercase(value),
+                validate: (value, args): boolean => isLowercase(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a lowercase string",
                     validationOptions

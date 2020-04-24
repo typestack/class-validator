@@ -18,7 +18,7 @@ export function IsNotEmpty(validationOptions?: ValidationOptions): PropertyDecor
         {
             name: IS_NOT_EMPTY,
             validator: {
-                validate: (value, args) => isNotEmpty(value),
+                validate: (value, args): boolean => isNotEmpty(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property should not be empty",
                     validationOptions

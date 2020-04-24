@@ -22,7 +22,7 @@ export function Length(min: number, max?: number, validationOptions?: Validation
             name: LENGTH,
             constraints: [min, max],
             validator: {
-                validate: (value, args) => length(value, args.constraints[0], args.constraints[1]),
+                validate: (value, args): boolean => length(value, args.constraints[0], args.constraints[1]),
                 defaultMessage: buildMessage(
                     (eachPrefix, args) => {
                         const isMinLength = args.constraints[0] !== null && args.constraints[0] !== undefined;

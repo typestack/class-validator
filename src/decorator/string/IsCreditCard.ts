@@ -21,7 +21,7 @@ export function IsCreditCard(validationOptions?: ValidationOptions): PropertyDec
         {
             name: IS_CREDIT_CARD,
             validator: {
-                validate: (value, args) => isCreditCard(value),
+                validate: (value, args): boolean => isCreditCard(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a credit card",
                     validationOptions

@@ -4,11 +4,11 @@ import * as gulp from "gulp";
 import * as del from "del";
 import * as shell from "gulp-shell";
 import * as replace from "gulp-replace";
-import tslintPlugin from "gulp-tslint";
 import * as ts from "gulp-typescript";
 import * as sourcemaps from "gulp-sourcemaps";
 import { rollup, RollupOptions, Plugin } from "rollup";
 import { terser as rollupTerser } from "rollup-plugin-terser";
+import * as childProcess from "child_process";
 
 const pkg = require("./package.json");
 
@@ -68,7 +68,7 @@ export class Gulpfile {
      */
     @Task()
     runTests() {
-        return require("child_process").spawn("npx jest --coverage", {
+        return childProcess.spawn("npx jest --coverage", {
             stdio: 'inherit',
             shell: true
         });
@@ -222,15 +222,14 @@ export class Gulpfile {
     // -------------------------------------------------------------------------
 
     /**
-     * Runs ts linting to validate source code.
+     * Runs es linting to validate source code.
      */
     @Task()
-    tslint() {
-        return gulp.src(["./src/**/*.ts", "./test/**/*.ts", "./sample/**/*.ts"])
-            .pipe(tslintPlugin())
-            .pipe(tslintPlugin.report({
-                emitError: true
-            }));
+    eslint() {
+        return childProcess.spawn("npx eslint --config ./.eslintrc.js --ext .ts ./src ./test", {
+            stdio: 'inherit',
+            shell: true
+        });
     }
 
     /**
@@ -238,7 +237,7 @@ export class Gulpfile {
      */
     @SequenceTask()
     tests() {
-        return ["clean", "tslint", "runTests"];
+        return ["clean", "eslint", "runTests"];
     }
 
     private _rollupPackageBundleEsm5(isMin: boolean) {

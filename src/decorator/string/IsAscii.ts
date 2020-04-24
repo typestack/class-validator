@@ -21,7 +21,7 @@ export function IsAscii(validationOptions?: ValidationOptions): PropertyDecorato
         {
             name: IS_ASCII,
             validator: {
-                validate: (value, args) => isAscii(value),
+                validate: (value, args): boolean => isAscii(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must contain only ASCII characters",
                     validationOptions

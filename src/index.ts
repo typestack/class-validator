@@ -29,46 +29,46 @@ export * from "./metadata/MetadataStorage";
 /**
  * Validates given object.
  */
-export function validate(object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
+export function validate(object: Record<string, any>, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
 
 /**
  * Validates given object by a given validation schema.
  */
-export function validate(schemaName: string, object: Object, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
+export function validate(schemaName: string, object: Record<string, any>, validatorOptions?: ValidatorOptions): Promise<ValidationError[]>;
 
 /**
  * Validates given object by object's decorators or given validation schema.
  */
-export function validate(schemaNameOrObject: Object|string,
-                         objectOrValidationOptions?: Object|ValidatorOptions,
+export function validate(schemaNameOrObject: Record<string, any>|string,
+                         objectOrValidationOptions?: Record<string, any>|ValidatorOptions,
                          maybeValidatorOptions?: ValidatorOptions): Promise<ValidationError[]> {
     if (typeof schemaNameOrObject === "string") {
-        return getFromContainer(Validator).validate(schemaNameOrObject as string, objectOrValidationOptions as Object, maybeValidatorOptions);
+        return getFromContainer(Validator).validate(schemaNameOrObject, objectOrValidationOptions as Record<string, any>, maybeValidatorOptions);
     } else {
-        return getFromContainer(Validator).validate(schemaNameOrObject as Object, objectOrValidationOptions as ValidatorOptions);
+        return getFromContainer(Validator).validate(schemaNameOrObject, objectOrValidationOptions as ValidatorOptions);
     }
 }
 
 /**
  * Validates given object and reject on error.
  */
-export function validateOrReject(object: Object, validatorOptions?: ValidatorOptions): Promise<void>;
+export function validateOrReject(object: Record<string, any>, validatorOptions?: ValidatorOptions): Promise<void>;
 
 /**
  * Validates given object by a given validation schema and reject on error.
  */
-export function validateOrReject(schemaName: string, object: Object, validatorOptions?: ValidatorOptions): Promise<void>;
+export function validateOrReject(schemaName: string, object: Record<string, any>, validatorOptions?: ValidatorOptions): Promise<void>;
 
 /**
  * Validates given object by object's decorators or given validation schema and reject on error.
  */
-export function validateOrReject(schemaNameOrObject: Object|string,
-                         objectOrValidationOptions?: Object|ValidatorOptions,
+export function validateOrReject(schemaNameOrObject: Record<string, any>|string,
+                         objectOrValidationOptions?: Record<string, any>|ValidatorOptions,
                          maybeValidatorOptions?: ValidatorOptions): Promise<void> {
     if (typeof schemaNameOrObject === "string") {
-        return getFromContainer(Validator).validateOrReject(schemaNameOrObject as string, objectOrValidationOptions as Object, maybeValidatorOptions);
+        return getFromContainer(Validator).validateOrReject(schemaNameOrObject, objectOrValidationOptions as Record<string, any>, maybeValidatorOptions);
     } else {
-        return getFromContainer(Validator).validateOrReject(schemaNameOrObject as Object, objectOrValidationOptions as ValidatorOptions);
+        return getFromContainer(Validator).validateOrReject(schemaNameOrObject, objectOrValidationOptions as ValidatorOptions);
     }
 }
 
@@ -77,27 +77,27 @@ export function validateOrReject(schemaNameOrObject: Object|string,
  * Note that this method completely ignores async validations.
  * If you want to properly perform validation you need to call validate method instead.
  */
-export function validateSync(object: Object, validatorOptions?: ValidatorOptions): ValidationError[];
+export function validateSync(object: Record<string, any>, validatorOptions?: ValidatorOptions): ValidationError[];
 
 /**
  * Validates given object by a given validation schema.
  * Note that this method completely ignores async validations.
  * If you want to properly perform validation you need to call validate method instead.
  */
-export function validateSync(schemaName: string, object: Object, validatorOptions?: ValidatorOptions): ValidationError[];
+export function validateSync(schemaName: string, object: Record<string, any>, validatorOptions?: ValidatorOptions): ValidationError[];
 
 /**
  * Validates given object by object's decorators or given validation schema.
  * Note that this method completely ignores async validations.
  * If you want to properly perform validation you need to call validate method instead.
  */
-export function validateSync(schemaNameOrObject: Object|string,
-                             objectOrValidationOptions?: Object|ValidatorOptions,
+export function validateSync(schemaNameOrObject: Record<string, any>|string,
+                             objectOrValidationOptions?: Record<string, any>|ValidatorOptions,
                              maybeValidatorOptions?: ValidatorOptions): ValidationError[] {
     if (typeof schemaNameOrObject === "string") {
-        return getFromContainer(Validator).validateSync(schemaNameOrObject as string, objectOrValidationOptions as Object, maybeValidatorOptions);
+        return getFromContainer(Validator).validateSync(schemaNameOrObject, objectOrValidationOptions as Record<string, any>, maybeValidatorOptions);
     } else {
-        return getFromContainer(Validator).validateSync(schemaNameOrObject as Object, objectOrValidationOptions as ValidatorOptions);
+        return getFromContainer(Validator).validateSync(schemaNameOrObject, objectOrValidationOptions as ValidatorOptions);
     }
 }
 

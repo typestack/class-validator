@@ -39,7 +39,7 @@ export class ValidationExecutor {
     // Public Methods
     // -------------------------------------------------------------------------
 
-    execute(object: Object, targetSchema: string, validationErrors: ValidationError[]) {
+    execute(object: Record<string, any>, targetSchema: string, validationErrors: ValidationError[]): void {
         /**
          * If there is no metadata registered it means possibly the dependencies are not flatterned and
          * more than one instance is used.
@@ -95,8 +95,8 @@ export class ValidationExecutor {
 
     whitelist(object: any,
               groupedMetadatas: { [propertyName: string]: ValidationMetadata[] },
-              validationErrors: ValidationError[]) {
-        let notAllowedProperties: string[] = [];
+              validationErrors: ValidationError[]): void {
+        const notAllowedProperties: string[] = [];
 
         Object.keys(object).forEach(propertyName => {
             // does this property have no metadata?
@@ -110,7 +110,7 @@ export class ValidationExecutor {
 
                 // throw errors
                 notAllowedProperties.forEach(property => {
-                    const validationError: ValidationError = this.generateValidationError(object, (object as any)[property], property);
+                    const validationError: ValidationError = this.generateValidationError(object, (object)[property], property);
                     validationError.constraints = { [ValidationTypes.WHITELIST]: `property ${property} should not exist` };
                     validationError.children = undefined;
                     validationErrors.push(validationError);
@@ -119,13 +119,13 @@ export class ValidationExecutor {
             } else {
 
                 // strip non allowed properties
-                notAllowedProperties.forEach(property => delete (object as any)[property]);
+                notAllowedProperties.forEach(property => delete (object)[property]);
 
             }
         }
     }
 
-    stripEmptyErrors(errors: ValidationError[]) {
+    stripEmptyErrors(errors: ValidationError[]): ValidationError[] {
         return errors.filter(error => {
             if (error.children) {
                 error.children = this.stripEmptyErrors(error.children);
@@ -151,7 +151,7 @@ export class ValidationExecutor {
                                 value: any, propertyName: string,
                                 definedMetadatas: ValidationMetadata[],
                                 metadatas: ValidationMetadata[],
-                                validationErrors: ValidationError[]) {
+                                validationErrors: ValidationError[]): void {
 
         const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
         const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
@@ -188,7 +188,7 @@ export class ValidationExecutor {
         this.mapContexts(object, value, customValidationMetadatas, validationError);
     }
 
-    private generateValidationError(object: Object, value: any, propertyName: string) {
+    private generateValidationError(object: Record<string, any>, value: any, propertyName: string): ValidationError {
         const validationError = new ValidationError();
 
         if (!this.validatorOptions ||
@@ -210,18 +210,18 @@ export class ValidationExecutor {
         return validationError;
     }
 
-    private conditionalValidations(object: Object,
+    private conditionalValidations(object: Record<string, any>,
                                    value: any,
-                                   metadatas: ValidationMetadata[]) {
+                                   metadatas: ValidationMetadata[]): ValidationMetadata[] {
         return metadatas
             .map(metadata => metadata.constraints[0](object, value))
             .reduce((resultA, resultB) => resultA && resultB, true);
     }
 
-    private customValidations(object: Object,
+    private customValidations(object: Record<string, any>,
                               value: any,
                               metadatas: ValidationMetadata[],
-                              error: ValidationError) {
+                              error: ValidationError): void {
 
         metadatas.forEach(metadata => {
             this.metadataStorage
@@ -304,7 +304,7 @@ export class ValidationExecutor {
         });
     }
 
-    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]) {
+    private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]): void {
 
         if (value === void 0) {
             return;
@@ -326,15 +326,15 @@ export class ValidationExecutor {
                 });
 
             } else if (value instanceof Object) {
-                const targetSchema = typeof metadata.target === "string" ? metadata.target as string : metadata.target.name;
+                const targetSchema = typeof metadata.target === "string" ? metadata.target : metadata.target.name;
                 this.execute(value, targetSchema, errors);
 
             } else {
                 const error = new ValidationError();
                 error.value = value;
                 error.property = metadata.propertyName;
-                error.target = metadata.target;
-                const [type, message] = this.createValidationError(metadata.target, value, metadata);
+                error.target = metadata.target as Record<string, any>;
+                const [type, message] = this.createValidationError(metadata.target as Record<string, any>, value, metadata);
                 error.constraints = {
                     [type]: message
                 };
@@ -343,10 +343,10 @@ export class ValidationExecutor {
         });
     }
 
-    private mapContexts(object: Object,
+    private mapContexts(object: Record<string, any>,
                         value: any,
                         metadatas: ValidationMetadata[],
-                        error: ValidationError) {
+                        error: ValidationError): void {
 
         return metadatas
             .forEach(metadata => {
@@ -370,7 +370,7 @@ export class ValidationExecutor {
             });
     }
 
-    private createValidationError(object: Object,
+    private createValidationError(object: Record<string, any>,
                                   value: any,
                                   metadata: ValidationMetadata,
                                   customValidatorMetadata?: ConstraintMetadata): [string, string] {

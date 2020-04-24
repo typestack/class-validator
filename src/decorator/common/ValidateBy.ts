@@ -12,9 +12,8 @@ export interface ValidateByOptions {
 
 export function buildMessage(
     impl: (eachPrefix: string, args?: ValidationArguments) => string,
-    validationOptions?: ValidationOptions)
-    : (validationArguments?: ValidationArguments) => string {
-    return (validationArguments?: ValidationArguments) => {
+    validationOptions?: ValidationOptions): (validationArguments?: ValidationArguments) => string {
+    return (validationArguments?: ValidationArguments): string => {
         const eachPrefix = validationOptions && validationOptions.each
             ? "each value in "
             : "";
@@ -23,7 +22,7 @@ export function buildMessage(
 }
 
 export function ValidateBy(options: ValidateByOptions, validationOptions?: ValidationOptions): PropertyDecorator {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string): void {
         registerDecorator({
             name: options.name,
             target: object.constructor,
