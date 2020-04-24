@@ -1,18 +1,10 @@
 import {IsNotEmpty} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 
-// -------------------------------------------------------------------------
-// Setup
-// -------------------------------------------------------------------------
-
 const validator = new Validator();
 
-// -------------------------------------------------------------------------
-// Specifications: common decorators
-// -------------------------------------------------------------------------
-
-describe("validator options", function() {
-    it("should not return target in validation error if validationError: { target: false } is set", function() {
+describe("validator options", () => {
+    it("should not return target in validation error if validationError: { target: false } is set", () => {
         class MyClass {
             @IsNotEmpty()
             title: string = "";

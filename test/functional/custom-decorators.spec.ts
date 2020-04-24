@@ -172,7 +172,7 @@ describe("decorator with default message", () => {
     });
 });
 
-describe("decorator with separate validation constraint class", function () {
+describe("decorator with separate validation constraint class", () => {
     @ValidatorConstraint({name: "isShortenThan"})
     class IsShortenThanConstraint implements ValidatorConstraintInterface {
         validate(value: any, args: ValidationArguments): boolean {

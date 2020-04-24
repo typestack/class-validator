@@ -3,7 +3,7 @@ import {Validator} from "../../src/validation/Validator";
 
 const validator = new Validator();
 
-describe("conditional validation", function() {
+describe("conditional validation", () => {
     it("shouldn't validate a property when the condition is false", () => {
         expect.assertions(1);
 
@@ -38,7 +38,7 @@ describe("conditional validation", function() {
         });
     });
 
-    it("should pass the object being validated to the condition function", function() {
+    it("should pass the object being validated to the condition function", () => {
         expect.assertions(3);
 
         class MyClass {

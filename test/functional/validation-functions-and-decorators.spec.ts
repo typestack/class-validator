@@ -1636,7 +1636,7 @@ describe("IsBase64", () => {
     });
 });
 
-describe("IsIBAN", function() {
+describe("IsIBAN", () => {
 
     const constraint = "";
     const validValues = ["GR96 0810 0010 0000 0123 4567 890"];

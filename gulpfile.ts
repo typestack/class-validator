@@ -238,7 +238,7 @@ export class Gulpfile {
      */
     @SequenceTask()
     tests() {
-        return ["clean", "compileTests"];
+        return ["clean", "tslint", "compileTests"];
     }
 
     private _rollupPackageBundleEsm5(isMin: boolean) {

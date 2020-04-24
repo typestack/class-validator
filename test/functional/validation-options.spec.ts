@@ -2,15 +2,7 @@ import {Contains, IsDefined, Matches, MinLength, Validate, ValidateNested, Valid
 import {Validator} from "../../src/validation/Validator";
 import {registerDecorator, ValidationArguments, ValidationError, ValidationOptions, ValidatorConstraintInterface} from "../../src";
 
-// -------------------------------------------------------------------------
-// Setup
-// -------------------------------------------------------------------------
-
 const validator = new Validator();
-
-// -------------------------------------------------------------------------
-// Specifications: common decorators
-// -------------------------------------------------------------------------
 
 describe("message", () => {
 

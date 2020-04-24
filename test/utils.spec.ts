@@ -1,7 +1,7 @@
 import {convertToArray} from "../src/utils";
 
-describe("convertToArray", function () {
-    it("convert Set into array", function () {
+describe("convertToArray", () => {
+    it("convert Set into array", () => {
         const setExample = new Set<string>();
         setExample.add("hello");
         setExample.add("world");
@@ -12,7 +12,7 @@ describe("convertToArray", function () {
         expect(newArr).toContain("world");
     });
 
-    it("convert Map into array of values", function () {
+    it("convert Map into array of values", () => {
         const map = new Map<string, string>();
         map.set("key1", "hello");
         map.set("key2", "world");
@@ -23,7 +23,7 @@ describe("convertToArray", function () {
         expect(newArr).toContain("world");
     });
 
-    it("should return array untouched", function () {
+    it("should return array untouched", () => {
         const arr = ["hello", "world"];
         expect(arr).toBeInstanceOf(Array);
         expect(arr.length).toEqual(2);

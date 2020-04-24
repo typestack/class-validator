@@ -10,7 +10,7 @@ const validator = new Validator();
  *   - testing arrays
  *   - testing color codes?
  */
-describe("ValidationError", function () {
+describe("ValidationError", () => {
     it("should correctly log error message without ANSI escape codes", async () => {
         class NestedClass {
             @IsString()

@@ -2,15 +2,7 @@ import {Allow, IsDefined, Min} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidationTypes} from "../../src";
 
-// -------------------------------------------------------------------------
-// Setup
-// -------------------------------------------------------------------------
-
 const validator = new Validator();
-
-// -------------------------------------------------------------------------
-// Specifications: allowed validation
-// -------------------------------------------------------------------------
 
 describe("whitelist validation", () => {
 

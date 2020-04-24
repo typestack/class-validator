@@ -5,7 +5,7 @@ import {ValidationTypes} from "../../src/validation/ValidationTypes";
 const validator = new Validator();
 
 describe("promise validation", () => {
-    it("should not validate missing nested objects", function () {
+    it("should not validate missing nested objects", () => {
         expect.assertions(4);
 
         class MySubClass {
