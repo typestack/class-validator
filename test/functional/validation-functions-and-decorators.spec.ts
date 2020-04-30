@@ -437,7 +437,7 @@ describe("IsNotEmpty", () => {
 });
 
 describe("IsIn", () => {
-    const constraint = ["foo", "bar"];
+    const constraint = ["foo", "bar"] as const;
     const validValues = ["foo", "bar"];
     const invalidValues = ["foobar", "barfoo", ""];
 
@@ -470,7 +470,7 @@ describe("IsIn", () => {
 });
 
 describe("IsNotIn", () => {
-    const constraint = ["foo", "bar"];
+    const constraint = ["foo", "bar"] as const;
     const validValues = ["foobar", "barfoo", ""];
     const invalidValues = ["foo", "bar"];
 

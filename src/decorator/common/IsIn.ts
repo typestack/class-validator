@@ -6,14 +6,14 @@ export const IS_IN = "isIn";
 /**
  * Checks if given value is in a array of allowed values.
  */
-export function isIn(value: unknown, possibleValues: unknown[]): boolean {
+export function isIn(value: unknown, possibleValues: readonly unknown[]): boolean {
     return !(possibleValues instanceof Array) || possibleValues.some(possibleValue => possibleValue === value);
 }
 
 /**
  * Checks if given value is in a array of allowed values.
  */
-export function IsIn(values: any[], validationOptions?: ValidationOptions): PropertyDecorator {
+export function IsIn(values: readonly any[], validationOptions?: ValidationOptions): PropertyDecorator {
     return ValidateBy(
         {
             name: IS_IN,
