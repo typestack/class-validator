@@ -8,7 +8,7 @@ import { getMetadataStorage } from "../../metadata/MetadataStorage";
  * Checks if value is missing and if so, ignores all validators.
  */
 export function IsOptional(validationOptions?: ValidationOptions): PropertyDecorator {
-    return function (object: Record<string, any>, propertyName: string): void {
+    return function (object: object, propertyName: string): void {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.CONDITIONAL_VALIDATION,
             target: object.constructor,

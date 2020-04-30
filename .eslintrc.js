@@ -18,13 +18,11 @@ module.exports = {
     ],
     ignorePatterns: ["**/*.js"],
     rules: {
-        "no-case-declarations": "off",
         "no-prototype-builtins": "off",
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/member-delimiter-style": "off",
         "@typescript-eslint/member-ordering": "error",
         "@typescript-eslint/unbound-method": ["error", {
             "ignoreStatic": true

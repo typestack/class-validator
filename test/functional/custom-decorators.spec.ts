@@ -9,7 +9,7 @@ const validator = new Validator();
 
 describe("decorator with inline validation", () => {
     function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
-        return function(object: Record<string, any>, propertyName: string): void {
+        return function(object: object, propertyName: string): void {
             registerDecorator({
                 target: object.constructor,
                 propertyName: propertyName,
@@ -108,7 +108,7 @@ describe("decorator with inline validation", () => {
 
 describe("decorator with default message", () => {
     function IsLonger(property: string, validationOptions?: ValidationOptions) {
-        return function(object: Record<string, any>, propertyName: string): void {
+        return function(object: object, propertyName: string): void {
             registerDecorator({
                 target: object.constructor,
                 propertyName: propertyName,
@@ -188,7 +188,7 @@ describe("decorator with separate validation constraint class", () => {
     }
 
     function IsShorterThan(property: string, validationOptions?: ValidationOptions) {
-        return function(object: Record<string, any>, propertyName: string): void {
+        return function(object: object, propertyName: string): void {
             registerDecorator({
                 target: object.constructor,
                 propertyName: propertyName,

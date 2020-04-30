@@ -22,7 +22,7 @@ export interface ValidationArguments {
     /**
      * Object that is being validated.
      */
-    object: Record<string, any>;
+    object: object;
 
     /**
      * Name of the object's property being validated.

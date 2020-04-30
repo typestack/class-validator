@@ -22,7 +22,7 @@ export function buildMessage(
 }
 
 export function ValidateBy(options: ValidateByOptions, validationOptions?: ValidationOptions): PropertyDecorator {
-    return function (object: Record<string, any>, propertyName: string): void {
+    return function (object: object, propertyName: string): void {
         registerDecorator({
             name: options.name,
             target: object.constructor,

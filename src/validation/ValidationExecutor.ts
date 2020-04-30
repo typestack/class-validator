@@ -39,7 +39,7 @@ export class ValidationExecutor {
     // Public Methods
     // -------------------------------------------------------------------------
 
-    execute(object: Record<string, any>, targetSchema: string, validationErrors: ValidationError[]): void {
+    execute(object: object, targetSchema: string, validationErrors: ValidationError[]): void {
         /**
          * If there is no metadata registered it means possibly the dependencies are not flatterned and
          * more than one instance is used.
@@ -188,7 +188,7 @@ export class ValidationExecutor {
         this.mapContexts(object, value, customValidationMetadatas, validationError);
     }
 
-    private generateValidationError(object: Record<string, any>, value: any, propertyName: string): ValidationError {
+    private generateValidationError(object: object, value: any, propertyName: string): ValidationError {
         const validationError = new ValidationError();
 
         if (!this.validatorOptions ||
@@ -210,7 +210,7 @@ export class ValidationExecutor {
         return validationError;
     }
 
-    private conditionalValidations(object: Record<string, any>,
+    private conditionalValidations(object: object,
                                    value: any,
                                    metadatas: ValidationMetadata[]): ValidationMetadata[] {
         return metadatas
@@ -218,7 +218,7 @@ export class ValidationExecutor {
             .reduce((resultA, resultB) => resultA && resultB, true);
     }
 
-    private customValidations(object: Record<string, any>,
+    private customValidations(object: object,
                               value: any,
                               metadatas: ValidationMetadata[],
                               error: ValidationError): void {
@@ -333,8 +333,8 @@ export class ValidationExecutor {
                 const error = new ValidationError();
                 error.value = value;
                 error.property = metadata.propertyName;
-                error.target = metadata.target as Record<string, any>;
-                const [type, message] = this.createValidationError(metadata.target as Record<string, any>, value, metadata);
+                error.target = metadata.target as object;
+                const [type, message] = this.createValidationError(metadata.target as object, value, metadata);
                 error.constraints = {
                     [type]: message
                 };
@@ -343,7 +343,7 @@ export class ValidationExecutor {
         });
     }
 
-    private mapContexts(object: Record<string, any>,
+    private mapContexts(object: object,
                         value: any,
                         metadatas: ValidationMetadata[],
                         error: ValidationError): void {
@@ -370,7 +370,7 @@ export class ValidationExecutor {
             });
     }
 
-    private createValidationError(object: Record<string, any>,
+    private createValidationError(object: object,
                                   value: any,
                                   metadata: ValidationMetadata,
                                   customValidatorMetadata?: ConstraintMetadata): [string, string] {

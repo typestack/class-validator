@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import {
     IsBooleanString,
     IsPositive,
@@ -1517,7 +1516,9 @@ describe("IsDecimal", () => {
     ];
 
     const isDecimalOptions: ValidatorJS.IsDecimalOptions = {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         force_decimal: true,
+        // eslint-disable-next-line @typescript-eslint/camelcase
         decimal_digits: "1",
         locale: "en-US"
     };
@@ -3437,6 +3438,7 @@ describe("IsUrl", () => {
     });
 
     it("should pass on localhost with require_tld option", () => {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         expect(isURL("http://localhost:3000/", {require_tld: false})).toBeTruthy();
     });
 
@@ -4179,6 +4181,7 @@ describe("IsISSN", () => {
 });
 
 describe("IsISSN with options", () => {
+    // eslint-disable-next-line @typescript-eslint/camelcase
     const options = {case_sensitive: true, require_hyphen: true};
     const validValues = [
         "2434-561X",

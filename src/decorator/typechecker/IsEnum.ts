@@ -15,7 +15,7 @@ export function isEnum(value: unknown, entity: any): boolean {
 /**
  * Checks if a given value is an enum
  */
-export function IsEnum(entity: Record<string, any>, validationOptions?: ValidationOptions): PropertyDecorator {
+export function IsEnum(entity: object, validationOptions?: ValidationOptions): PropertyDecorator {
     return ValidateBy(
         {
             name: IS_ENUM,

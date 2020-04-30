@@ -8,7 +8,7 @@ import { ConstraintMetadata } from "../../metadata/ConstraintMetadata";
 /**
  * Registers custom validator class.
  */
-export function ValidatorConstraint(options?: { name?: string, async?: boolean }) {
+export function ValidatorConstraint(options?: { name?: string; async?: boolean }) {
     return function (target: Function): void {
         const isAsync = options && options.async;
         let name = options && options.name ? options.name : "";
@@ -29,7 +29,7 @@ export function ValidatorConstraint(options?: { name?: string, async?: boolean }
 export function Validate(constraintClass: Function, validationOptions?: ValidationOptions): PropertyDecorator;
 export function Validate(constraintClass: Function, constraints?: any[], validationOptions?: ValidationOptions): PropertyDecorator;
 export function Validate(constraintClass: Function, constraintsOrValidationOptions?: any[] | ValidationOptions, maybeValidationOptions?: ValidationOptions): PropertyDecorator {
-    return function (object: Record<string, any>, propertyName: string): void {
+    return function (object: object, propertyName: string): void {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.CUSTOM_VALIDATION,
             target: object.constructor,
