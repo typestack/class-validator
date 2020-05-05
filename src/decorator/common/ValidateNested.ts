@@ -12,7 +12,7 @@ export function ValidateNested(validationOptions?: ValidationOptions): PropertyD
     const eachPrefix = opts.each ? "each value in " : "";
     opts.message = opts.message || eachPrefix + "nested property $property must be either object or array";
 
-    return function (object: Object, propertyName: string) {
+    return function (object: object, propertyName: string): void {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.NESTED_VALIDATION,
             target: object.constructor,

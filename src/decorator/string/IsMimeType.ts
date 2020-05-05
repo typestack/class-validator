@@ -21,7 +21,7 @@ export function IsMimeType(validationOptions?: ValidationOptions): PropertyDecor
         {
             name: IS_MIME_TYPE,
             validator: {
-                validate: (value, args) => isMimeType(value),
+                validate: (value, args): boolean => isMimeType(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be MIME type format",
                     validationOptions

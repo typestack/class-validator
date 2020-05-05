@@ -6,7 +6,7 @@ export const IS_INSTANCE = "isInstance";
 /**
  * Checks if the value is an instance of the specified object.
  */
-export function isInstance(object: unknown, targetTypeConstructor: new (...args: any[]) => any) {
+export function isInstance(object: unknown, targetTypeConstructor: new (...args: any[]) => any): boolean {
     return targetTypeConstructor
         && typeof targetTypeConstructor === "function"
         && object instanceof targetTypeConstructor;
@@ -21,7 +21,7 @@ export function IsInstance(targetType: new (...args: any[]) => any, validationOp
             name: IS_INSTANCE,
             constraints: [targetType],
             validator: {
-                validate: (value, args) => isInstance(value, args.constraints[0]),
+                validate: (value, args): boolean => isInstance(value, args.constraints[0]),
                 defaultMessage: buildMessage(
                     (eachPrefix, args) => {
                         if (args.constraints[0]) {

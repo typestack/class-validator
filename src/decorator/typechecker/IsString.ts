@@ -18,7 +18,7 @@ export function IsString(validationOptions?: ValidationOptions): PropertyDecorat
         {
             name: IS_STRING,
             validator: {
-                validate: (value, args) => isString(value),
+                validate: (value, args): boolean => isString(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a string",
                     validationOptions

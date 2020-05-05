@@ -18,7 +18,7 @@ export function IsDate(validationOptions?: ValidationOptions): PropertyDecorator
         {
             name: IS_DATE,
             validator: {
-                validate: (value, args) => isDate(value),
+                validate: (value, args): boolean => isDate(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a Date instance",
                     validationOptions

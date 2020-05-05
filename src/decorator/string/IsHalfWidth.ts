@@ -21,7 +21,7 @@ export function IsHalfWidth(validationOptions?: ValidationOptions): PropertyDeco
         {
             name: IS_HALF_WIDTH,
             validator: {
-                validate: (value, args) => isHalfWidth(value),
+                validate: (value, args): boolean => isHalfWidth(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must contain a half-width characters",
                     validationOptions

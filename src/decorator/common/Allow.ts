@@ -8,7 +8,7 @@ import { getMetadataStorage } from "../../metadata/MetadataStorage";
  * If object has both allowed and not allowed properties a validation error will be thrown.
  */
 export function Allow(validationOptions?: ValidationOptions): PropertyDecorator {
-    return function (object: Object, propertyName: string) {
+    return function (object: object, propertyName: string): void {
         const args: ValidationMetadataArgs = {
             type: ValidationTypes.WHITELIST,
             target: object.constructor,

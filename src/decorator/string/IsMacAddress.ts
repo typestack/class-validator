@@ -27,7 +27,7 @@ export function IsMACAddress(optionsOrValidationOptionsArg?: ValidatorJS.IsMACAd
             name: IS_MAC_ADDRESS,
             constraints: [options],
             validator: {
-                validate: (value, args) => isMACAddress(value, options),
+                validate: (value, args): boolean => isMACAddress(value, options),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a MAC Address",
                     validationOptions

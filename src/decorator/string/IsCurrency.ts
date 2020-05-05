@@ -22,7 +22,7 @@ export function IsCurrency(options?: ValidatorJS.IsCurrencyOptions, validationOp
             name: IS_CURRENCY,
             constraints: [options],
             validator: {
-                validate: (value, args) => isCurrency(value, args.constraints[0]),
+                validate: (value, args): boolean => isCurrency(value, args.constraints[0]),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a currency",
                     validationOptions

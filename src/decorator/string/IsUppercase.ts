@@ -21,7 +21,7 @@ export function IsUppercase(validationOptions?: ValidationOptions): PropertyDeco
         {
             name: IS_UPPERCASE,
             validator: {
-                validate: (value, args) => isUppercase(value),
+                validate: (value, args): boolean => isUppercase(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be uppercase",
                     validationOptions

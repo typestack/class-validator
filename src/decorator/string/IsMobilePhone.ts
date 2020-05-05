@@ -38,7 +38,7 @@ export function IsMobilePhone(locale?: validator.MobilePhoneLocale, options?: va
             name: IS_MOBILE_PHONE,
             constraints: [locale, options],
             validator: {
-                validate: (value, args) => isMobilePhone(value, args.constraints[0], args.constraints[1]),
+                validate: (value, args): boolean => isMobilePhone(value, args.constraints[0], args.constraints[1]),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a phone number",
                     validationOptions

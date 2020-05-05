@@ -21,7 +21,7 @@ export function IsMultibyte(validationOptions?: ValidationOptions): PropertyDeco
         {
             name: IS_MULTIBYTE,
             validator: {
-                validate: (value, args) => isMultibyte(value),
+                validate: (value, args): boolean => isMultibyte(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must contain one or more multibyte chars",
                     validationOptions

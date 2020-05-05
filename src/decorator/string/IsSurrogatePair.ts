@@ -21,7 +21,7 @@ export function IsSurrogatePair(validationOptions?: ValidationOptions): Property
         {
             name: IS_SURROGATE_PAIR,
             validator: {
-                validate: (value, args) => isSurrogatePair(value),
+                validate: (value, args): boolean => isSurrogatePair(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must contain any surrogate pairs chars",
                     validationOptions

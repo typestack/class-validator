@@ -21,7 +21,7 @@ export function IsMongoId(validationOptions?: ValidationOptions): PropertyDecora
         {
             name: IS_MONGO_ID,
             validator: {
-                validate: (value, args) => isMongoId(value),
+                validate: (value, args): boolean => isMongoId(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a mongodb id",
                     validationOptions

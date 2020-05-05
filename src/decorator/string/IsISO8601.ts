@@ -24,7 +24,7 @@ export function IsISO8601(options?: ValidatorJS.IsISO8601Options, validationOpti
             name: IS_ISO8601,
             constraints: [options],
             validator: {
-                validate: (value, args) => isISO8601(value, args.constraints[0]),
+                validate: (value, args): boolean => isISO8601(value, args.constraints[0]),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a valid ISO 8601 date string",
                     validationOptions

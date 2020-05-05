@@ -10,7 +10,7 @@ export class ValidationUtils {
             messageString = (message as (args: ValidationArguments) => string)(validationArguments);
 
         } else if (typeof message === "string") {
-            messageString = message as string;
+            messageString = message;
         }
 
         if (messageString && validationArguments.constraints instanceof Array) {
@@ -28,5 +28,5 @@ export class ValidationUtils {
 
         return messageString;
     }
-    
+
 }

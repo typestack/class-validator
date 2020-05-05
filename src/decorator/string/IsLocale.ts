@@ -21,7 +21,7 @@ export function IsLocale(validationOptions?: ValidationOptions): PropertyDecorat
         {
             name: IS_LOCALE,
             validator: {
-                validate: (value, args) => isLocale(value),
+                validate: (value, args): boolean => isLocale(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be locale",
                     validationOptions

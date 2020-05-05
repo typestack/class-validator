@@ -7,7 +7,7 @@ export const ARRAY_NOT_EMPTY = "arrayNotEmpty";
  * Checks if given array is not empty.
  * If null or undefined is given then this function returns false.
  */
-export function arrayNotEmpty(array: unknown) {
+export function arrayNotEmpty(array: unknown): boolean {
     return array instanceof Array && array.length > 0;
 }
 
@@ -20,7 +20,7 @@ export function ArrayNotEmpty(validationOptions?: ValidationOptions): PropertyDe
         {
             name: ARRAY_NOT_EMPTY,
             validator: {
-                validate: (value, args) => arrayNotEmpty(value),
+                validate: (value, args): boolean => arrayNotEmpty(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property should not be empty",
                     validationOptions

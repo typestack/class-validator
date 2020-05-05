@@ -18,7 +18,7 @@ export function IsNegative(validationOptions?: ValidationOptions): PropertyDecor
         {
             name: IS_NEGATIVE,
             validator: {
-                validate: (value, args) => isNegative(value),
+                validate: (value, args): boolean => isNegative(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a negative number",
                     validationOptions

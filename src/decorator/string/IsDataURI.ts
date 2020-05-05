@@ -21,7 +21,7 @@ export function IsDataURI(validationOptions?: ValidationOptions): PropertyDecora
         {
             name: IS_DATA_URI,
             validator: {
-                validate: (value, args) => isDataURI(value),
+                validate: (value, args): boolean => isDataURI(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a data uri format",
                     validationOptions

@@ -18,7 +18,7 @@ export function IsBoolean(validationOptions?: ValidationOptions): PropertyDecora
         {
             name: IS_BOOLEAN,
             validator: {
-                validate: (value, args) => isBoolean(value),
+                validate: (value, args): boolean => isBoolean(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a boolean value",
                     validationOptions

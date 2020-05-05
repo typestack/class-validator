@@ -14,7 +14,7 @@ export class ValidationTypes {
     /**
      * Checks if validation type is valid.
      */
-    static isValid(type: string) {
+    static isValid(type: string): boolean {
         return type !== "isValid" &&
             type !== "getMessage" &&
             Object.keys(this).map(key => (this as any)[key]).indexOf(type) !== -1;

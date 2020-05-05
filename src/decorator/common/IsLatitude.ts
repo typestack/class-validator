@@ -19,7 +19,7 @@ export function IsLatitude(validationOptions?: ValidationOptions): PropertyDecor
         {
             name: IS_LATITUDE,
             validator: {
-                validate: (value, args) => isLatitude(value),
+                validate: (value, args): boolean => isLatitude(value),
                 defaultMessage: buildMessage(
                     (eachPrefix) => eachPrefix + "$property must be a latitude string or number",
                     validationOptions
