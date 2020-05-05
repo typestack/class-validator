@@ -26,6 +26,7 @@ module.exports = {
         "@typescript-eslint/member-ordering": "error",
         "@typescript-eslint/unbound-method": ["error", {
             "ignoreStatic": true
-        }]
+        }],
+        "@typescript-eslint/prefer-includes": "off"
     }
 };

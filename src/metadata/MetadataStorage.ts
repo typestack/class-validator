@@ -70,7 +70,7 @@ export class MetadataStorage {
             if (metadata.always)
                 return true;
             if (groups && groups.length > 0)
-                return metadata.groups && !!metadata.groups.find(group => groups.includes(group));
+                return metadata.groups && !!metadata.groups.find(group => groups.indexOf(group) !== -1);
 
             return true;
         });
@@ -88,7 +88,7 @@ export class MetadataStorage {
             if (metadata.always)
                 return true;
             if (groups && groups.length > 0)
-                return metadata.groups && !!metadata.groups.find(group => groups.includes(group));
+                return metadata.groups && !!metadata.groups.find(group => groups.indexOf(group) !== -1);
 
             return true;
         });

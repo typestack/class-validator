@@ -9,7 +9,7 @@ export const IS_ENUM = "isEnum";
 export function isEnum(value: unknown, entity: any): boolean {
     const enumValues = Object.keys(entity)
         .map(k => entity[k]);
-    return enumValues.includes(value);
+    return enumValues.indexOf(value) >= 0;
 }
 
 /**

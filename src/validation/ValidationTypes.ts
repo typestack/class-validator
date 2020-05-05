@@ -17,7 +17,7 @@ export class ValidationTypes {
     static isValid(type: string): boolean {
         return type !== "isValid" &&
             type !== "getMessage" &&
-            Object.keys(this).map(key => (this as any)[key]).includes(type);
+            Object.keys(this).map(key => (this as any)[key]).indexOf(type) !== -1;
     }
 
 }

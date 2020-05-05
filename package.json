@@ -51,6 +51,7 @@
     "del": "^5.0.0",
     "es6-shim": "^0.35.3",
     "eslint": "^6.8.0",
+    "eslint-plugin-compat": "^3.5.1",
     "eslint-plugin-jest": "^23.8.2",
     "gulp": "^4.0.2",
     "gulp-conventional-changelog": "^2.0.19",
@@ -80,5 +81,6 @@
     "test": "gulp tests",
     "eslint": "gulp eslint",
     "changelog": "gulp changelog"
-  }
+  },
+  "browserslist": ["> 5%"]
 }
