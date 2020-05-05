@@ -79,7 +79,7 @@
   "scripts": {
     "build": "gulp package",
     "test": "gulp tests",
-    "eslint": "gulp eslint",
+    "lint": "gulp eslint",
     "changelog": "gulp changelog"
   },
   "browserslist": ["> 5%"]
