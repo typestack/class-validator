@@ -3051,7 +3051,7 @@ describe('IsObject', () => {
 });
 
 describe('IsNotEmptyObject', () => {
-  const validValues = [{ key: 'value' }, { key: 'value' }];
+  const validValues = [{"key": "value"}, {key: "value"}, {key: undefined}, {key: null}];
   const invalidValues = [
     null,
     undefined,
@@ -3064,26 +3064,41 @@ describe('IsNotEmptyObject', () => {
     [],
     [{ key: 'value' }],
   ];
+  const notStrictValidValues = [{"key": "value"}, {key: "value"}];
+  const notStrictInvalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, {}, {key: undefined}, {key: null}, [], [{key: "value"}]];
 
   class MyClass {
     @IsNotEmptyObject()
     someProperty: object;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  class NotStrictMyClass {
+    @IsNotEmptyObject(false)
+    someProperty: object;
+  }
+
+  it.each([
+    [new MyClass(), validValues],
+    [new NotStrictMyClass(), notStrictValidValues],
+  ])('should not fail if validator.validate said that its valid', (validationObject, values) => {
+    return checkValidValues(validationObject, values);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it.each([
+    [new MyClass(), invalidValues],
+    [new NotStrictMyClass(), notStrictInvalidValues],
+  ])('should fail if validator.validate said that its invalid', (validationObject, values) => {
+    return checkInvalidValues(validationObject, values);
   });
 
   it('should not fail if method in validator said that its valid', () => {
     validValues.forEach(value => expect(isNotEmptyObject(value)).toBeTruthy());
+    notStrictValidValues.forEach(value => expect(isNotEmptyObject(value, false)).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(isNotEmptyObject(value)).toBeFalsy());
+    notStrictInvalidValues.forEach(value => expect(isNotEmptyObject(value, false)).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
