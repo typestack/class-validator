@@ -5,7 +5,7 @@ import { ValidationMetadata } from "../../metadata/ValidationMetadata";
 import { getMetadataStorage } from "../../metadata/MetadataStorage";
 
 /**
- * Objects / object arrays marked with this decorator will also be validated.
+ * Ignores the other validators on a property when the provided condition function returns false.
  */
 export function ValidateIf(condition: (object: any, value: any) => boolean, validationOptions?: ValidationOptions): PropertyDecorator {
     return function (object: object, propertyName: string): void {
