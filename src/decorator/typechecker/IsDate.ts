@@ -4,14 +4,14 @@ import { buildMessage, ValidateBy } from "../common/ValidateBy";
 export const IS_DATE = "isDate";
 
 /**
- * Checks if a given value is a number.
+ * Checks if a given value is a date.
  */
 export function isDate(value: unknown): boolean {
     return value instanceof Date && !isNaN(value.getTime());
 }
 
 /**
- * Checks if a value is a number.
+ * Checks if a value is a date.
  */
 export function IsDate(validationOptions?: ValidationOptions): PropertyDecorator {
     return ValidateBy(
