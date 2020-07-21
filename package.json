@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "@types/validator": "13.0.0",
-    "google-libphonenumber": "^3.2.9",
+    "google-libphonenumber": "^3.2.10",
     "tslib": ">=1.11.2",
     "validator": "13.0.0"
   },
