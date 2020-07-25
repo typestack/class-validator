@@ -8,7 +8,7 @@ export const IS_URL = "isUrl";
  * Checks if the string is an url.
  * If given value is not a string, then it returns false.
  */
-export function isURL(value: string, options?: ValidatorJS.IsURLOptions): boolean {
+export function isURL(value: unknown, options?: ValidatorJS.IsURLOptions): boolean {
     return typeof value === "string" && ValidatorJS.isURL(value, options);
 }
 
