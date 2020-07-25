@@ -7,7 +7,7 @@ export const IS_LATLONG = "isLatLong";
 /**
  * Checks if a value is string in format a "latitude,longitude".
  */
-export function isLatLong(value: string): boolean {
+export function isLatLong(value: unknown): boolean {
     return typeof value === "string" && validator.isLatLong(value);
 }
 

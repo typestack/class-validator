@@ -7,7 +7,7 @@ export const IS_LATITUDE = "isLatitude";
 /**
  * Checks if a given value is a latitude.
  */
-export function isLatitude(value: string): boolean {
+export function isLatitude(value: unknown): boolean {
     return (typeof value === "number" || typeof value === "string") && isLatLong(`${value},0`);
 }
 

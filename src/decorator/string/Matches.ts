@@ -8,9 +8,9 @@ export const MATCHES = "matches";
  * Checks if string matches the pattern. Either matches('foo', /foo/i).
  * If given value is not a string, then it returns false.
  */
-export function matches(value: string, pattern: RegExp): boolean;
-export function matches(value: string, pattern: string, modifiers: string): boolean;
-export function matches(value: string, pattern: RegExp | string, modifiers?: string): boolean {
+export function matches(value: unknown, pattern: RegExp): boolean;
+export function matches(value: unknown, pattern: string, modifiers: string): boolean;
+export function matches(value: unknown, pattern: RegExp | string, modifiers?: string): boolean {
     return typeof value === "string" && validator.matches(value, pattern as unknown as any, modifiers);
 }
 
