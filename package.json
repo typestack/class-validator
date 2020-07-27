@@ -31,7 +31,7 @@
     "@types/validator": "13.0.0",
     "google-libphonenumber": "^3.2.9",
     "tslib": ">=1.13.0",
-    "validator": "13.0.0"
+    "validator": "13.1.1"
   },
   "devDependencies": {
     "@types/del": "^4.0.0",
