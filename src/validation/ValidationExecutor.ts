@@ -205,7 +205,7 @@ export class ValidationExecutor {
     }
 
     this.customValidations(object, value, customValidationMetadatas, validationError);
-    this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
+    this.nestedValidations(value, nestedValidationMetadatas, validationError);
 
     this.mapContexts(object, value, metadatas, validationError);
     this.mapContexts(object, value, customValidationMetadatas, validationError);
@@ -333,7 +333,7 @@ export class ValidationExecutor {
     });
   }
 
-  private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]): void {
+  private nestedValidations(value: any, metadatas: ValidationMetadata[], error: ValidationError): void {
     if (value === void 0) {
       return;
     }
@@ -347,21 +347,14 @@ export class ValidationExecutor {
         // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
         const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
         arrayLikeValue.forEach((subValue: any, index: any) => {
-          this.performValidations(value, subValue, index.toString(), [], metadatas, errors);
+          this.performValidations(value, subValue, index.toString(), [], metadatas, error.children);
         });
       } else if (value instanceof Object) {
         const targetSchema = typeof metadata.target === 'string' ? metadata.target : metadata.target.name;
-        this.execute(value, targetSchema, errors);
+        this.execute(value, targetSchema, error.children);
       } else {
-        const error = new ValidationError();
-        error.value = value;
-        error.property = metadata.propertyName;
-        error.target = metadata.target as object;
         const [type, message] = this.createValidationError(metadata.target as object, value, metadata);
-        error.constraints = {
-          [type]: message,
-        };
-        errors.push(error);
+        error.constraints[type] = message;
       }
     });
   }
