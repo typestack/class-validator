@@ -100,7 +100,7 @@ describe('promise validation', () => {
     });
   });
 
-  it('should validate when nested is not object', () => {
+  it("should validate when nested is not object", () => {
     expect.assertions(4);
 
     class MySubClass {
@@ -109,23 +109,18 @@ describe('promise validation', () => {
     }
 
     class MyClass {
-      @ValidatePromise()
-      @ValidateNested()
+      @ValidatePromise() @ValidateNested()
       mySubClass: MySubClass;
     }
 
     const model = new MyClass();
-    model.mySubClass = 'invalidnested object' as any;
+    model.mySubClass = "invalidnested object" as any;
 
     return validator.validate(model).then(errors => {
       expect(errors[0].target).toEqual(model);
-      expect(errors[0].property).toEqual('mySubClass');
-      expect(errors[0].children.length).toEqual(1);
-
-      const subError = errors[0].children[0];
-      expect(subError.constraints).toEqual({
-        [ValidationTypes.NESTED_VALIDATION]: 'nested property mySubClass must be either object or array',
-      });
+      expect(errors[0].property).toEqual("mySubClass");
+      expect(errors[0].children.length).toEqual(0);
+      expect(errors[0].constraints).toEqual({[ValidationTypes.NESTED_VALIDATION]: "nested property mySubClass must be either object or array"});
     });
   });
 
