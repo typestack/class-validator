@@ -1,0 +1,31 @@
+parser: '@typescript-eslint/parser'
+plugins:
+  - '@typescript-eslint'
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+  project: 
+    - ./tsconfig.json
+    - ./tsconfig.spec.json
+extends:
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
+  - 'plugin:jest/recommended'
+  - 'prettier'
+  - 'prettier/@typescript-eslint'
+rules:
+  '@typescript-eslint/explicit-member-accessibility': off
+  '@typescript-eslint/no-angle-bracket-type-assertion': off
+  '@typescript-eslint/no-parameter-properties': off
+  '@typescript-eslint/explicit-function-return-type': off
+  '@typescript-eslint/member-delimiter-style': off
+  '@typescript-eslint/no-inferrable-types': off
+  '@typescript-eslint/no-explicit-any': off
+  '@typescript-eslint/member-ordering': 'error'
+  # TODO: Remove these and fixed issues once we merged all the current PRs. 
+  '@typescript-eslint/ban-types': off 
+  '@typescript-eslint/no-unsafe-return': off
+  '@typescript-eslint/no-unsafe-assignment': off
+  '@typescript-eslint/no-unsafe-call': off
+  '@typescript-eslint/no-unsafe-member-access': off
+  '@typescript-eslint/explicit-module-boundary-types': off
