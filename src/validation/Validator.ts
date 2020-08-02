@@ -1,10 +1,7 @@
-import {ValidationMetadata} from "../metadata/ValidationMetadata";
-import {ValidationTypes} from "./ValidationTypes";
 import {ValidationError} from "./ValidationError";
 import {ValidatorOptions} from "./ValidatorOptions";
 import {ValidationExecutor} from "./ValidationExecutor";
 import {ValidationOptions} from "../decorator/ValidationOptions";
-import * as validator from "validator";
 
 /**
  * Validator performs validation of the given object based on its metadata.

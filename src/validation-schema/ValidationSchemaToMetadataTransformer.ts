@@ -2,7 +2,6 @@ import {ValidationSchema} from "./ValidationSchema";
 import {ValidationMetadata} from "../metadata/ValidationMetadata";
 import {ValidationMetadataArgs} from "../metadata/ValidationMetadataArgs";
 import {ValidationOptions} from "../decorator/ValidationOptions";
-import {ValidationTypes} from "../validation/ValidationTypes";
 
 /**
  * Used to transform validation schemas to validation metadatas.
