@@ -1,0 +1,24 @@
+name: CD
+on:
+  release:
+    types: [created]
+jobs:
+  publish:
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          registry-url: https://registry.npmjs.org
+      - run: npm ci --ignore-scripts
+      - run: npm run prettier:check
+      - run: npm run lint:check
+      - run: npm run test:ci
+      - run: npm run build
+      - run: cp LICENSE build/LICENSE
+      - run: cp README.md build/README.md
+      - run: jq 'del(.devDependencies) | del(.scripts)' package.json > build/package.json
+      - run: npm publish ./build
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
