@@ -38,4 +38,8 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
       - run: npm ci --ignore-scripts
-      - run: npm run build
+      - run: npm run build:es2015
+      - run: npm run build:esm5
+      - run: npm run build:cjs
+      - run: npm run build:umd
+      - run: npm run build:types
