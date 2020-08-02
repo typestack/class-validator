@@ -2,6 +2,7 @@ import { ValidationMetadata } from './ValidationMetadata';
 import { ConstraintMetadata } from './ConstraintMetadata';
 import { ValidationSchema } from '../validation-schema/ValidationSchema';
 import { ValidationSchemaToMetadataTransformer } from '../validation-schema/ValidationSchemaToMetadataTransformer';
+import { getGlobal } from '../utils';
 
 /**
  * Storage all metadatas.
@@ -114,11 +115,11 @@ export class MetadataStorage {
  * Metadata storage follows the best practices and stores metadata in a global variable.
  */
 export function getMetadataStorage(): MetadataStorage {
-  if (typeof window !== 'undefined') {
-    window.global = window;
+  const global = getGlobal();
+
+  if (!global.classValidatorMetadataStorage) {
+    global.classValidatorMetadataStorage = new MetadataStorage();
   }
-  if (!(global as any).classValidatorMetadataStorage)
-    (global as any).classValidatorMetadataStorage = new MetadataStorage();
 
   return (global as any).classValidatorMetadataStorage;
 }
