@@ -7,7 +7,7 @@ import { buildMessage, ValidateBy } from '../common/ValidateBy';
  * typings into the es6 folder as well.
  */
 // @ts-ignore
-import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js/es6';
+import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 
 export const IS_PHONE_NUMBER = 'isPhoneNumber';
 
