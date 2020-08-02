@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isDecimalValidator from 'validator/es/lib/isDecimal';
 import ValidatorJS from 'validator';
 
 export const IS_DECIMAL = 'isDecimal';
@@ -9,7 +10,7 @@ export const IS_DECIMAL = 'isDecimal';
  * If given value is not a string, then it returns false.
  */
 export function isDecimal(value: unknown, options?: ValidatorJS.IsDecimalOptions): boolean {
-  return typeof value === 'string' && ValidatorJS.isDecimal(value, options);
+  return typeof value === 'string' && isDecimalValidator(value, options);
 }
 
 /**

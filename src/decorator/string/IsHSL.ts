@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isHSLValidator from 'validator/es/lib/isHSL';
 
 export const IS_HSL = 'isHSL';
 
@@ -10,7 +10,7 @@ export const IS_HSL = 'isHSL';
  * If given value is not a string, then it returns false.
  */
 export function isHSL(value: unknown): boolean {
-  return typeof value === 'string' && validator.isHSL(value);
+  return typeof value === 'string' && isHSLValidator(value);
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isDivisibleByValidator from 'validator/es/lib/isDivisibleBy';
 
 export const IS_DIVISIBLE_BY = 'isDivisibleBy';
 
@@ -8,7 +8,7 @@ export const IS_DIVISIBLE_BY = 'isDivisibleBy';
  * Checks if value is a number that's divisible by another.
  */
 export function isDivisibleBy(value: unknown, num: number): boolean {
-  return typeof value === 'number' && typeof num === 'number' && validator.isDivisibleBy(String(value), num);
+  return typeof value === 'number' && typeof num === 'number' && isDivisibleByValidator(String(value), num);
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import containsValidator from 'validator/es/lib/contains';
 
 export const NOT_CONTAINS = 'notContains';
 
@@ -9,7 +9,7 @@ export const NOT_CONTAINS = 'notContains';
  * If given value is not a string, then it returns false.
  */
 export function notContains(value: unknown, seed: string): boolean {
-  return typeof value === 'string' && !validator.contains(value, seed);
+  return typeof value === 'string' && !containsValidator(value, seed);
 }
 
 /**

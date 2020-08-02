@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isEthereumAddressValidator from 'validator/es/lib/isEthereumAddress';
 
 export const IS_ETHEREUM_ADDRESS = 'isEthereumAddress';
 
@@ -9,7 +9,7 @@ export const IS_ETHEREUM_ADDRESS = 'isEthereumAddress';
  * If given value is not a string, then it returns false.
  */
 export function isEthereumAddress(value: unknown): boolean {
-  return typeof value === 'string' && validator.isEthereumAddress(value);
+  return typeof value === 'string' && isEthereumAddressValidator(value);
 }
 
 /**

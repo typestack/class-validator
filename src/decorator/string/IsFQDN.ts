@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isFqdnValidator from 'validator/es/lib/isFQDN';
 import ValidatorJS from 'validator';
 
 export const IS_FQDN = 'isFqdn';
@@ -9,7 +10,7 @@ export const IS_FQDN = 'isFqdn';
  * If given value is not a string, then it returns false.
  */
 export function isFQDN(value: unknown, options?: ValidatorJS.IsFQDNOptions): boolean {
-  return typeof value === 'string' && ValidatorJS.isFQDN(value, options);
+  return typeof value === 'string' && isFqdnValidator(value, options);
 }
 
 /**

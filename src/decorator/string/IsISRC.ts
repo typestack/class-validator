@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isISRCValidator from 'validator/es/lib/isISRC';
 
 export const IS_ISRC = 'isISRC';
 
@@ -9,7 +9,7 @@ export const IS_ISRC = 'isISRC';
  * If given value is not a string, then it returns false.
  */
 export function isISRC(value: unknown): boolean {
-  return typeof value === 'string' && validator.isISRC(value);
+  return typeof value === 'string' && isISRCValidator(value);
 }
 
 /**

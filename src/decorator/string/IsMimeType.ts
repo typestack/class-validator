@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isMimeTypeValidator from 'validator/es/lib/isMimeType';
 
 export const IS_MIME_TYPE = 'isMimeType';
 
@@ -9,7 +9,7 @@ export const IS_MIME_TYPE = 'isMimeType';
  * If given value is not a string, then it returns false.
  */
 export function isMimeType(value: unknown): boolean {
-  return typeof value === 'string' && validator.isMimeType(value);
+  return typeof value === 'string' && isMimeTypeValidator(value);
 }
 
 /**

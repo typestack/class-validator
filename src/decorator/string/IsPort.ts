@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isPortValidator from 'validator/es/lib/isPort';
 
 export const IS_PORT = 'isPort';
 
@@ -8,7 +8,7 @@ export const IS_PORT = 'isPort';
  * Check if the string is a valid port number.
  */
 export function isPort(value: unknown): boolean {
-  return typeof value === 'string' && validator.isPort(value);
+  return typeof value === 'string' && isPortValidator(value);
 }
 
 /**

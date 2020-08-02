@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isIsbnValidator from 'validator/es/lib/isIsbn';
 import ValidatorJS from 'validator';
 
 export type IsISBNVersion = '10' | '13' | 10 | 13;
@@ -12,7 +13,7 @@ export const IS_ISBN = 'isIsbn';
  */
 export function isISBN(value: unknown, version?: IsISBNVersion): boolean {
   const versionStr = version ? (`${version}` as '10' | '13') : undefined;
-  return typeof value === 'string' && ValidatorJS.isISBN(value, versionStr);
+  return typeof value === 'string' && isIsbnValidator(value, versionStr);
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isBtcAddressValidator from 'validator/es/lib/isBtcAddress';
 
 export const IS_BTC_ADDRESS = 'isBtcAddress';
 
@@ -9,7 +9,7 @@ export const IS_BTC_ADDRESS = 'isBtcAddress';
  * If given value is not a string, then it returns false.
  */
 export function isBtcAddress(value: unknown): boolean {
-  return typeof value === 'string' && validator.isBtcAddress(value);
+  return typeof value === 'string' && isBtcAddressValidator(value);
 }
 
 /**

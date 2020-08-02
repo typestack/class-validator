@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isAlphaValidator from 'validator/es/lib/isAlpha';
 import ValidatorJS from 'validator';
 
 export const IS_ALPHA = 'isAlpha';
@@ -9,7 +10,7 @@ export const IS_ALPHA = 'isAlpha';
  * If given value is not a string, then it returns false.
  */
 export function isAlpha(value: unknown, locale?: ValidatorJS.AlphaLocale): boolean {
-  return typeof value === 'string' && ValidatorJS.isAlpha(value, locale);
+  return typeof value === 'string' && isAlphaValidator(value, locale);
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isUppercaseValidator from 'validator/es/lib/isUppercase';
 
 export const IS_UPPERCASE = 'isUppercase';
 
@@ -9,7 +9,7 @@ export const IS_UPPERCASE = 'isUppercase';
  * If given value is not a string, then it returns false.
  */
 export function isUppercase(value: unknown): boolean {
-  return typeof value === 'string' && validator.isUppercase(value);
+  return typeof value === 'string' && isUppercaseValidator(value);
 }
 
 /**

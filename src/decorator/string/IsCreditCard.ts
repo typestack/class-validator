@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isCreditCardValidator from 'validator/es/lib/isCreditCard';
 
 export const IS_CREDIT_CARD = 'isCreditCard';
 
@@ -9,7 +9,7 @@ export const IS_CREDIT_CARD = 'isCreditCard';
  * If given value is not a string, then it returns false.
  */
 export function isCreditCard(value: unknown): boolean {
-  return typeof value === 'string' && validator.isCreditCard(value);
+  return typeof value === 'string' && isCreditCardValidator(value);
 }
 
 /**

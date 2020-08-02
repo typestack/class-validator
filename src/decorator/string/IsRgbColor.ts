@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isRgbColorValidator from 'validator/es/lib/isRgbColor';
 
 export const IS_RGB_COLOR = 'isRgbColor';
 
@@ -10,7 +10,7 @@ export const IS_RGB_COLOR = 'isRgbColor';
  * If given value is not a string, then it returns false.
  */
 export function isRgbColor(value: unknown, includePercentValues?: boolean): boolean {
-  return typeof value === 'string' && validator.isRgbColor(value, includePercentValues);
+  return typeof value === 'string' && isRgbColorValidator(value, includePercentValues);
 }
 
 /**

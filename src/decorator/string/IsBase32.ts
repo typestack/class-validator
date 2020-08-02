@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isBase32Validator from 'validator/es/lib/isBase32';
 
 export const IS_BASE32 = 'isBase32';
 
@@ -9,7 +9,7 @@ export const IS_BASE32 = 'isBase32';
  * If given value is not a string, then it returns false.
  */
 export function isBase32(value: unknown): boolean {
-  return typeof value === 'string' && validator.isBase32(value);
+  return typeof value === 'string' && isBase32Validator(value);
 }
 
 /**

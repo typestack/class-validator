@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isHashValidator from 'validator/es/lib/isHash';
 import ValidatorJS from 'validator';
 
 export const IS_HASH = 'isHash';
@@ -10,7 +11,7 @@ export const IS_HASH = 'isHash';
  * 'tiger160', 'tiger192', 'crc32', 'crc32b']
  */
 export function isHash(value: unknown, algorithm: ValidatorJS.HashAlgorithm): boolean {
-  return typeof value === 'string' && ValidatorJS.isHash(value, algorithm);
+  return typeof value === 'string' && isHashValidator(value, algorithm);
 }
 
 /**

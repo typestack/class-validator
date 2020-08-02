@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isIsinValidator from 'validator/es/lib/isIsin';
 
 export const IS_ISIN = 'isIsin';
 
@@ -9,7 +9,7 @@ export const IS_ISIN = 'isIsin';
  * If given value is not a string, then it returns false.
  */
 export function isISIN(value: unknown): boolean {
-  return typeof value === 'string' && validator.isISIN(value);
+  return typeof value === 'string' && isIsinValidator(value);
 }
 
 /**

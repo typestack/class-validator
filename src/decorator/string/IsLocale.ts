@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isLocaleValidator from 'validator/es/lib/isLocale';
 
 export const IS_LOCALE = 'isLocale';
 
@@ -9,7 +9,7 @@ export const IS_LOCALE = 'isLocale';
  * If given value is not a string, then it returns false.
  */
 export function isLocale(value: unknown): boolean {
-  return typeof value === 'string' && validator.isLocale(value);
+  return typeof value === 'string' && isLocaleValidator(value);
 }
 
 /**

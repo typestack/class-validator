@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isNumericValidator from 'validator/es/lib/isNumeric';
 import ValidatorJS from 'validator';
 
 export const IS_NUMBER_STRING = 'isNumberString';
@@ -9,7 +10,7 @@ export const IS_NUMBER_STRING = 'isNumberString';
  * If given value is not a string, then it returns false.
  */
 export function isNumberString(value: unknown, options?: ValidatorJS.IsNumericOptions): boolean {
-  return typeof value === 'string' && ValidatorJS.isNumeric(value, options);
+  return typeof value === 'string' && isNumericValidator(value, options);
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from './ValidateBy';
-import validator from 'validator';
+import isLatLongValidator from 'validator/es/lib/isLatLong';
 
 export const IS_LATLONG = 'isLatLong';
 
@@ -8,7 +8,7 @@ export const IS_LATLONG = 'isLatLong';
  * Checks if a value is string in format a "latitude,longitude".
  */
 export function isLatLong(value: string): boolean {
-  return typeof value === 'string' && validator.isLatLong(value);
+  return typeof value === 'string' && isLatLongValidator(value);
 }
 
 /**

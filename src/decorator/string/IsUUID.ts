@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isUuidValidator from 'validator/es/lib/isUuid';
 
 export type UUIDVersion = '3' | '4' | '5' | 'all' | 3 | 4 | 5;
 
@@ -11,7 +11,7 @@ export const IS_UUID = 'isUuid';
  * If given value is not a string, then it returns false.
  */
 export function isUUID(value: unknown, version?: UUIDVersion): boolean {
-  return typeof value === 'string' && validator.isUUID(value, version);
+  return typeof value === 'string' && isUuidValidator(value, version);
 }
 
 /**

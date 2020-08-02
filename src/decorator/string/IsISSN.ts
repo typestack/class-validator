@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isISSNValidator from 'validator/es/lib/isISSN';
 import ValidatorJS from 'validator';
 
 export const IS_ISSN = 'isISSN';
@@ -9,7 +10,7 @@ export const IS_ISSN = 'isISSN';
  * If given value is not a string, then it returns false.
  */
 export function isISSN(value: unknown, options?: ValidatorJS.IsISSNOptions): boolean {
-  return typeof value === 'string' && ValidatorJS.isISSN(value, options);
+  return typeof value === 'string' && isISSNValidator(value, options);
 }
 
 /**

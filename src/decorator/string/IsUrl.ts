@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isUrlValidator from 'validator/es/lib/isUrl';
 import ValidatorJS from 'validator';
 
 export const IS_URL = 'isUrl';
@@ -9,7 +10,7 @@ export const IS_URL = 'isUrl';
  * If given value is not a string, then it returns false.
  */
 export function isURL(value: string, options?: ValidatorJS.IsURLOptions): boolean {
-  return typeof value === 'string' && ValidatorJS.isURL(value, options);
+  return typeof value === 'string' && isUrlValidator(value, options);
 }
 
 /**

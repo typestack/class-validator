@@ -1,5 +1,6 @@
 import { ValidationOptions, isValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isMacAddressValidator from 'validator/es/lib/isMacAddress';
 import ValidatorJS from 'validator';
 
 export const IS_MAC_ADDRESS = 'isMacAddress';
@@ -9,7 +10,7 @@ export const IS_MAC_ADDRESS = 'isMacAddress';
  * If given value is not a string, then it returns false.
  */
 export function isMACAddress(value: unknown, options?: ValidatorJS.IsMACAddressOptions): boolean {
-  return typeof value === 'string' && ValidatorJS.isMACAddress(value, options);
+  return typeof value === 'string' && isMacAddressValidator(value, options);
 }
 
 /**

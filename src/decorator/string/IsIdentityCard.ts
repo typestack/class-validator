@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isIdentityCardValidator from 'validator/es/lib/isIdentityCard';
 import ValidatorJS from 'validator';
 
 export const IS_IDENTITY_CARD = 'isIdentityCard';
@@ -11,7 +12,7 @@ export const IS_IDENTITY_CARD = 'isIdentityCard';
  * If given value is not a string, then it returns false.
  */
 export function isIdentityCard(value: unknown, locale: ValidatorJS.IdentityCardLocale): boolean {
-  return typeof value === 'string' && ValidatorJS.isIdentityCard(value, locale);
+  return typeof value === 'string' && isIdentityCardValidator(value, locale);
 }
 
 /**

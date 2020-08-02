@@ -1,15 +1,15 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isLengthValidator from 'validator/es/lib/isLength';
 
-export const LENGTH = 'length';
+export const IS_LENGTH = 'isLength';
 
 /**
  * Checks if the string's length falls in a range. Note: this function takes into account surrogate pairs.
  * If given value is not a string, then it returns false.
  */
 export function length(value: unknown, min: number, max?: number): boolean {
-  return typeof value === 'string' && validator.isLength(value, { min, max });
+  return typeof value === 'string' && isLengthValidator(value, { min, max });
 }
 
 /**
@@ -19,7 +19,7 @@ export function length(value: unknown, min: number, max?: number): boolean {
 export function Length(min: number, max?: number, validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
     {
-      name: LENGTH,
+      name: IS_LENGTH,
       constraints: [min, max],
       validator: {
         validate: (value, args): boolean => length(value, args.constraints[0], args.constraints[1]),

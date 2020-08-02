@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isEANValidator from 'validator/es/lib/isEAN';
 
 export const IS_EAN = 'isEAN';
 
@@ -9,7 +9,7 @@ export const IS_EAN = 'isEAN';
  * If given value is not a string, then it returns false.
  */
 export function isEAN(value: unknown): boolean {
-  return typeof value === 'string' && validator.isEAN(value);
+  return typeof value === 'string' && isEANValidator(value);
 }
 
 /**

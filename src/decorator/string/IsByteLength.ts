@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isByteLengthValidator from 'validator/es/lib/isByteLength';
 
 export const IS_BYTE_LENGTH = 'isByteLength';
 
@@ -9,7 +9,7 @@ export const IS_BYTE_LENGTH = 'isByteLength';
  * If given value is not a string, then it returns false.
  */
 export function isByteLength(value: unknown, min: number, max?: number): boolean {
-  return typeof value === 'string' && validator.isByteLength(value, { min, max });
+  return typeof value === 'string' && isByteLengthValidator(value, { min, max });
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isDataURIValidator from 'validator/es/lib/isDataURI';
 
 export const IS_DATA_URI = 'isDataURI';
 
@@ -9,7 +9,7 @@ export const IS_DATA_URI = 'isDataURI';
  * If given value is not a string, then it returns false.
  */
 export function isDataURI(value: unknown): boolean {
-  return typeof value === 'string' && validator.isDataURI(value);
+  return typeof value === 'string' && isDataURIValidator(value);
 }
 
 /**

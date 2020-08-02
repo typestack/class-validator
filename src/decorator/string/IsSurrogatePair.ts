@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isSurrogatePairValidator from 'validator/es/lib/isSurrogatePair';
 
 export const IS_SURROGATE_PAIR = 'isSurrogatePair';
 
@@ -9,7 +9,7 @@ export const IS_SURROGATE_PAIR = 'isSurrogatePair';
  * If given value is not a string, then it returns false.
  */
 export function isSurrogatePair(value: unknown): boolean {
-  return typeof value === 'string' && validator.isSurrogatePair(value);
+  return typeof value === 'string' && isSurrogatePairValidator(value);
 }
 
 /**

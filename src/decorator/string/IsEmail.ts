@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isEmailValidator from 'validator/es/lib/isEmail';
 import ValidatorJS from 'validator';
 
 export const IS_EMAIL = 'isEmail';
@@ -9,7 +10,7 @@ export const IS_EMAIL = 'isEmail';
  * If given value is not a string, then it returns false.
  */
 export function isEmail(value: unknown, options?: ValidatorJS.IsEmailOptions): boolean {
-  return typeof value === 'string' && ValidatorJS.isEmail(value, options);
+  return typeof value === 'string' && isEmailValidator(value, options);
 }
 
 /**

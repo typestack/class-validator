@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isBooleanValidator from 'validator/es/lib/isBoolean';
 
 export const IS_BOOLEAN_STRING = 'isBooleanString';
 
@@ -9,7 +9,7 @@ export const IS_BOOLEAN_STRING = 'isBooleanString';
  * If given value is not a string, then it returns false.
  */
 export function isBooleanString(value: unknown): boolean {
-  return typeof value === 'string' && validator.isBoolean(value);
+  return typeof value === 'string' && isBooleanValidator(value);
 }
 
 /**

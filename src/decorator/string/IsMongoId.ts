@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isMongoIdValidator from 'validator/es/lib/isMongoId';
 
 export const IS_MONGO_ID = 'isMongoId';
 
@@ -9,7 +9,7 @@ export const IS_MONGO_ID = 'isMongoId';
  * If given value is not a string, then it returns false.
  */
 export function isMongoId(value: unknown): boolean {
-  return typeof value === 'string' && validator.isMongoId(value);
+  return typeof value === 'string' && isMongoIdValidator(value);
 }
 
 /**

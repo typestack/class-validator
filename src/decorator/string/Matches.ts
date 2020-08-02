@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import matchesValidator from 'validator/es/lib/matches';
 
 export const MATCHES = 'matches';
 
@@ -11,7 +11,7 @@ export const MATCHES = 'matches';
 export function matches(value: string, pattern: RegExp): boolean;
 export function matches(value: string, pattern: string, modifiers: string): boolean;
 export function matches(value: string, pattern: RegExp | string, modifiers?: string): boolean {
-  return typeof value === 'string' && validator.matches(value, (pattern as unknown) as any, modifiers);
+  return typeof value === 'string' && matchesValidator(value, (pattern as unknown) as any, modifiers);
 }
 
 /**

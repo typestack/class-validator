@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isIBANValidator from 'validator/es/lib/isIBAN';
 
 export const IS_IBAN = 'isIBAN';
 
@@ -9,7 +9,7 @@ export const IS_IBAN = 'isIBAN';
  * If given value is not a string, then it returns false.
  */
 export function isIBAN(value: unknown): boolean {
-  return typeof value === 'string' && validator.isIBAN(value);
+  return typeof value === 'string' && isIBANValidator(value);
 }
 
 /**

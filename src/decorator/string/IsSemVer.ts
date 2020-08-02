@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isSemVerValidator from 'validator/es/lib/isSemVer';
 
 export const IS_SEM_VER = 'isSemVer';
 
@@ -9,7 +9,7 @@ export const IS_SEM_VER = 'isSemVer';
  * If given value is not a string, then it returns false.
  */
 export function isSemVer(value: unknown): boolean {
-  return typeof value === 'string' && validator.isSemVer(value);
+  return typeof value === 'string' && isSemVerValidator(value);
 }
 
 /**

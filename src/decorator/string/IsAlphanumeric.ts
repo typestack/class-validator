@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isAlphanumericValidator from 'validator/es/lib/isAlphanumeric';
 import ValidatorJS from 'validator';
 
 export const IS_ALPHANUMERIC = 'isAlphanumeric';
@@ -9,7 +10,7 @@ export const IS_ALPHANUMERIC = 'isAlphanumeric';
  * If given value is not a string, then it returns false.
  */
 export function isAlphanumeric(value: unknown, locale?: ValidatorJS.AlphanumericLocale): boolean {
-  return typeof value === 'string' && ValidatorJS.isAlphanumeric(value, locale);
+  return typeof value === 'string' && isAlphanumericValidator(value, locale);
 }
 
 /**

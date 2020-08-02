@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isPassportNumberValidator from 'validator/es/lib/isPassportNumber';
 
 export const IS_PASSPORT_NUMBER = 'isPassportNumber';
 
@@ -9,7 +9,7 @@ export const IS_PASSPORT_NUMBER = 'isPassportNumber';
  * If given value is not a string, then it returns false.
  */
 export function isPassportNumber(value: unknown, countryCode: string): boolean {
-  return typeof value === 'string' && validator.isPassportNumber(value, countryCode);
+  return typeof value === 'string' && isPassportNumberValidator(value, countryCode);
 }
 
 /**

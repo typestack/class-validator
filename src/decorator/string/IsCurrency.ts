@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isCurrencyValidator from 'validator/es/lib/isCurrency';
 import ValidatorJS from 'validator';
 
 export const IS_CURRENCY = 'isCurrency';
@@ -9,7 +10,7 @@ export const IS_CURRENCY = 'isCurrency';
  * If given value is not a string, then it returns false.
  */
 export function isCurrency(value: unknown, options?: ValidatorJS.IsCurrencyOptions): boolean {
-  return typeof value === 'string' && ValidatorJS.isCurrency(value, options);
+  return typeof value === 'string' && isCurrencyValidator(value, options);
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isOctalValidator from 'validator/es/lib/isOctal';
 
 export const IS_OCTAL = 'isOctal';
 
@@ -9,7 +9,7 @@ export const IS_OCTAL = 'isOctal';
  * If given value is not a string, then it returns false.
  */
 export function isOctal(value: unknown): boolean {
-  return typeof value === 'string' && validator.isOctal(value);
+  return typeof value === 'string' && isOctalValidator(value);
 }
 
 /**

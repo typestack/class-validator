@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import matchesValidator from 'validator/es/lib/matches';
 
 export const IS_MILITARY_TIME = 'isMilitaryTime';
 
@@ -10,7 +10,7 @@ export const IS_MILITARY_TIME = 'isMilitaryTime';
  */
 export function isMilitaryTime(value: unknown): boolean {
   const militaryTimeRegex = /^([01]\d|2[0-3]):?([0-5]\d)$/;
-  return typeof value === 'string' && validator.matches(value, militaryTimeRegex);
+  return typeof value === 'string' && matchesValidator(value, militaryTimeRegex);
 }
 
 /**

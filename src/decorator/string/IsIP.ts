@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import ValidatorJS from 'validator';
+import isIPValidator from 'validator/es/lib/isIP';
 
 export type IsIpVersion = '4' | '6' | 4 | 6;
 
@@ -12,7 +12,7 @@ export const IS_IP = 'isIp';
  */
 export function isIP(value: unknown, version?: IsIpVersion): boolean {
   const versionStr = version ? (`${version}` as '4' | '6') : undefined;
-  return typeof value === 'string' && ValidatorJS.isIP(value, versionStr);
+  return typeof value === 'string' && isIPValidator(value, versionStr);
 }
 
 /**

@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isPostalCodeValidator from 'validator/es/lib/isPostalCode';
+import ValidatorJS from 'validator';
 
 export const IS_POSTAL_CODE = 'isPostalCode';
 
@@ -9,8 +10,8 @@ export const IS_POSTAL_CODE = 'isPostalCode';
  * (locale is one of [ 'AD', 'AT', 'AU', 'BE', 'BG', 'BR', 'CA', 'CH', 'CZ', 'DE', 'DK', 'DZ', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU', 'ID', 'IE' 'IL', 'IN', 'IR', 'IS', 'IT', 'JP', 'KE', 'LI', 'LT', 'LU', 'LV', 'MT', 'MX', 'NL', 'NO', 'NZ', 'PL', 'PR', 'PT', 'RO', 'RU', 'SA', 'SE', 'SI', 'TN', 'TW', 'UA', 'US', 'ZA', 'ZM' ] OR 'any'. If 'any' is used, function will check if any of the locals match. Locale list is validator.isPostalCodeLocales.).
  * If given value is not a string, then it returns false.
  */
-export function isPostalCode(value: unknown, locale: validator.PostalCodeLocale): boolean {
-  return typeof value === 'string' && validator.isPostalCode(value, locale);
+export function isPostalCode(value: unknown, locale: ValidatorJS.PostalCodeLocale): boolean {
+  return typeof value === 'string' && isPostalCodeValidator(value, locale);
 }
 
 /**
@@ -19,7 +20,7 @@ export function isPostalCode(value: unknown, locale: validator.PostalCodeLocale)
  * If given value is not a string, then it returns false.
  */
 export function IsPostalCode(
-  locale?: validator.PostalCodeLocale,
+  locale?: ValidatorJS.PostalCodeLocale,
   validationOptions?: ValidationOptions
 ): PropertyDecorator {
   return ValidateBy(

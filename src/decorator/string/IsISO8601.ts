@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isIso8601Validator from 'validator/es/lib/isIso8601';
 import ValidatorJS from 'validator';
 
 export const IS_ISO8601 = 'isIso8601';
@@ -10,7 +11,7 @@ export const IS_ISO8601 = 'isIso8601';
  * Use the option strict = true for additional checks for a valid date, e.g. invalidates dates like 2019-02-29.
  */
 export function isISO8601(value: unknown, options?: ValidatorJS.IsISO8601Options): boolean {
-  return typeof value === 'string' && ValidatorJS.isISO8601(value, options);
+  return typeof value === 'string' && isIso8601Validator(value, options);
 }
 
 /**

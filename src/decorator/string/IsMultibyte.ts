@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isMultibyteValidator from 'validator/es/lib/isMultibyte';
 
 export const IS_MULTIBYTE = 'isMultibyte';
 
@@ -9,7 +9,7 @@ export const IS_MULTIBYTE = 'isMultibyte';
  * If given value is not a string, then it returns false.
  */
 export function isMultibyte(value: unknown): boolean {
-  return typeof value === 'string' && validator.isMultibyte(value);
+  return typeof value === 'string' && isMultibyteValidator(value);
 }
 
 /**

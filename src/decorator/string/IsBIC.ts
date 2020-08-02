@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import validator from 'validator';
+import isBICValidator from 'validator/es/lib/isBIC';
 
 export const IS_BIC = 'isBIC';
 
@@ -9,7 +9,7 @@ export const IS_BIC = 'isBIC';
  * If given value is not a string, then it returns false.
  */
 export function isBIC(value: unknown): boolean {
-  return typeof value === 'string' && validator.isBIC(value);
+  return typeof value === 'string' && isBICValidator(value);
 }
 
 /**
