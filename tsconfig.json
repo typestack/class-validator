@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "moduleResolution": "node",
     "target": "es2018",
     "lib": ["es2018"],
-    "outDir": "build",
+    "outDir": "build/node",
     "rootDir": "./src",
     "strict": true,
     "sourceMap": true,
+    "removeComments": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules", "sample", "**/*.spec.ts", "test/**"]
+  "exclude": ["build", "node_modules", "sample", "**/*.spec.ts", "test/**"]
 }

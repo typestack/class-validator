@@ -22,7 +22,13 @@
     "typescript"
   ],
   "scripts": {
-    "build": "rimraf build && tsc --project tsconfig.prod.json",
+    "build": "npm run build:cjs",
+    "build:clean": "rimraf build",
+    "build:es2015": "tsc --project tsconfig.prod.esm2015.json",
+    "build:esm5": "tsc --project tsconfig.prod.esm5.json",
+    "build:cjs": "tsc --project tsconfig.prod.cjs.json",
+    "build:umd": "rollup --config rollup.config.js",
+    "build:types": "tsc --project tsconfig.prod.types.json",
     "prettier:fix": "prettier --write \"**/*.{ts,md}\"",
     "prettier:check": "prettier --check \"**/*.{ts,md}\"",
     "lint:fix": "eslint --max-warnings 0 --fix --ext .ts src/",
@@ -32,17 +38,17 @@
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
-    "@types/validator": "13.1.0",
-    "google-libphonenumber": "^3.2.10",
+    "libphonenumber-js": "^1.7.55",
+    "rollup-plugin-terser": "^6.1.0",
     "validator": "^13.1.1"
   },
   "devDependencies": {
-    "@types/google-libphonenumber": "^7.4.19",
+    "@rollup/plugin-node-resolve": "^8.4.0",
     "@types/jest": "^26.0.8",
     "@types/node": "^14.0.27",
+    "@types/validator": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
-    "dayjs": "1.8.31",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest": "^23.20.0",
@@ -52,6 +58,7 @@
     "prettier": "^2.0.5",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
+    "rollup": "^2.23.0",
     "ts-jest": "^26.1.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
