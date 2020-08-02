@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isISO31661Alpha2Validator from 'validator/es/lib/isISO31661Alpha2';
+import isISO31661Alpha2Validator from 'validator/lib/isISO31661Alpha2';
 
 export const IS_ISO31661_ALPHA_2 = 'isISO31661Alpha2';
 

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isBooleanValidator from 'validator/es/lib/isBoolean';
+import isBooleanValidator from 'validator/lib/isBoolean';
 
 export const IS_BOOLEAN_STRING = 'isBooleanString';
 

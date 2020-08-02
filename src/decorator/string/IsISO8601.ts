@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isIso8601Validator from 'validator/es/lib/isIso8601';
+import isIso8601Validator from 'validator/lib/isIso8601';
 import ValidatorJS from 'validator';
 
 export const IS_ISO8601 = 'isIso8601';

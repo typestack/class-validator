@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isMagnetURIValidator from 'validator/es/lib/isMagnetURI';
+import isMagnetURIValidator from 'validator/lib/isMagnetURI';
 
 export const IS_MAGNET_URI = 'isMagnetURI';
 

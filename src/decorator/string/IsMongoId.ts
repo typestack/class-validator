@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isMongoIdValidator from 'validator/es/lib/isMongoId';
+import isMongoIdValidator from 'validator/lib/isMongoId';
 
 export const IS_MONGO_ID = 'isMongoId';
 

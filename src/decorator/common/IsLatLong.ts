@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from './ValidateBy';
-import isLatLongValidator from 'validator/es/lib/isLatLong';
+import isLatLongValidator from 'validator/lib/isLatLong';
 
 export const IS_LATLONG = 'isLatLong';
 

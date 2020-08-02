@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isMultibyteValidator from 'validator/es/lib/isMultibyte';
+import isMultibyteValidator from 'validator/lib/isMultibyte';
 
 export const IS_MULTIBYTE = 'isMultibyte';
 

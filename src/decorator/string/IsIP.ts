@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isIPValidator from 'validator/es/lib/isIP';
+import isIPValidator from 'validator/lib/isIP';
 
 export type IsIpVersion = '4' | '6' | 4 | 6;
 

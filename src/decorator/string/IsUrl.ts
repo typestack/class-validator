@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isUrlValidator from 'validator/es/lib/isUrl';
+import isUrlValidator from 'validator/lib/isUrl';
 import ValidatorJS from 'validator';
 
 export const IS_URL = 'isUrl';

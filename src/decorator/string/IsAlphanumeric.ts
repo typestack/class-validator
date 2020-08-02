@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isAlphanumericValidator from 'validator/es/lib/isAlphanumeric';
+import isAlphanumericValidator from 'validator/lib/isAlphanumeric';
 import ValidatorJS from 'validator';
 
 export const IS_ALPHANUMERIC = 'isAlphanumeric';

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isByteLengthValidator from 'validator/es/lib/isByteLength';
+import isByteLengthValidator from 'validator/lib/isByteLength';
 
 export const IS_BYTE_LENGTH = 'isByteLength';
 

@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isLocaleValidator from 'validator/es/lib/isLocale';
+import isLocaleValidator from 'validator/lib/isLocale';
 
 export const IS_LOCALE = 'isLocale';
 

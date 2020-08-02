@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isISSNValidator from 'validator/es/lib/isISSN';
+import isISSNValidator from 'validator/lib/isISSN';
 import ValidatorJS from 'validator';
 
 export const IS_ISSN = 'isISSN';

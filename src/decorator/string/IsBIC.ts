@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isBICValidator from 'validator/es/lib/isBIC';
+import isBICValidator from 'validator/lib/isBIC';
 
 export const IS_BIC = 'isBIC';
 

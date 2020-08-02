@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isEANValidator from 'validator/es/lib/isEAN';
+import isEANValidator from 'validator/lib/isEAN';
 
 export const IS_EAN = 'isEAN';
 

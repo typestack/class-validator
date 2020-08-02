@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isOctalValidator from 'validator/es/lib/isOctal';
+import isOctalValidator from 'validator/lib/isOctal';
 
 export const IS_OCTAL = 'isOctal';
 

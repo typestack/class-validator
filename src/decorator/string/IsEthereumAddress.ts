@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isEthereumAddressValidator from 'validator/es/lib/isEthereumAddress';
+import isEthereumAddressValidator from 'validator/lib/isEthereumAddress';
 
 export const IS_ETHEREUM_ADDRESS = 'isEthereumAddress';
 

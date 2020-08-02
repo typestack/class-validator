@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isIsinValidator from 'validator/es/lib/isIsin';
+import isIsinValidator from 'validator/lib/isIsin';
 
 export const IS_ISIN = 'isIsin';
 

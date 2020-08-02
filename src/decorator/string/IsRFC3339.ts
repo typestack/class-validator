@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isRFC3339Validator from 'validator/es/lib/isRFC3339';
+import isRFC3339Validator from 'validator/lib/isRFC3339';
 
 export const IS_RFC_3339 = 'isRFC3339';
 

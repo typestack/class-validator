@@ -1,6 +1,6 @@
 import { ValidationOptions, isValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isMacAddressValidator from 'validator/es/lib/isMacAddress';
+import isMacAddressValidator from 'validator/lib/isMacAddress';
 import ValidatorJS from 'validator';
 
 export const IS_MAC_ADDRESS = 'isMacAddress';

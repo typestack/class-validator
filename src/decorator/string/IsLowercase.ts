@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isLowercaseValidator from 'validator/es/lib/isLowercase';
+import isLowercaseValidator from 'validator/lib/isLowercase';
 
 export const IS_LOWERCASE = 'isLowercase';
 

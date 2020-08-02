@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isHashValidator from 'validator/es/lib/isHash';
+import isHashValidator from 'validator/lib/isHash';
 import ValidatorJS from 'validator';
 
 export const IS_HASH = 'isHash';
