@@ -1,6 +1,13 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import { PhoneNumberUtil } from 'google-libphonenumber';
+/**
+ * The libphonenumber-js is shipped with TS typings however they are not exposed
+ * on the /es6 entry-point we need to use to build our own umd version. So we
+ * ignore the import warning here. Eventually we should ask upstream to bundle
+ * typings into the es6 folder as well.
+ */
+// @ts-ignore
+import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js/es6';
 
 export const IS_PHONE_NUMBER = 'isPhoneNumber';
 
@@ -9,14 +16,12 @@ export const IS_PHONE_NUMBER = 'isPhoneNumber';
  * @param value the potential phone number string to test
  * @param {string} region 2 characters uppercase country code (e.g. DE, US, CH).
  * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
- * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
  */
-export function isPhoneNumber(value: string, region: string | null): boolean {
-  const phoneUtil = PhoneNumberUtil.getInstance();
+export function isPhoneNumber(value: string, region: CountryCode | undefined): boolean {
   try {
-    const phoneNum = phoneUtil.parseAndKeepRawInput(value, region);
-    const result = phoneUtil.isValidNumber(phoneNum);
-    return result;
+    const phoneNum = parsePhoneNumberFromString(value, region);
+    const result = phoneNum?.isValid();
+    return !!result;
   } catch (error) {
     // logging?
     return false;
@@ -27,9 +32,11 @@ export function isPhoneNumber(value: string, region: string | null): boolean {
  * Checks if the string is a valid phone number.
  * @param region 2 characters uppercase country code (e.g. DE, US, CH).
  * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
- * See [google-libphonenumber, metadata.js:countryCodeToRegionCodeMap on github]{@link https://github.com/ruimarinho/google-libphonenumber/blob/1e46138878cff479aafe2ce62175c6c49cb58720/src/metadata.js#L33}
  */
-export function IsPhoneNumber(region: string | null, validationOptions?: ValidationOptions): PropertyDecorator {
+export function IsPhoneNumber(
+  region: CountryCode | undefined,
+  validationOptions?: ValidationOptions
+): PropertyDecorator {
   return ValidateBy(
     {
       name: IS_PHONE_NUMBER,
