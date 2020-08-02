@@ -3,61 +3,58 @@
  * Also using validation schemas makes this library to be easily used with es6/es5.
  */
 export interface ValidationSchema {
+  /**
+   * Schema name. This is required, because we tell validator to validate by this schema using its name.
+   */
+  name: string;
 
+  /**
+   * Validated properties.
+   */
+  properties: {
     /**
-     * Schema name. This is required, because we tell validator to validate by this schema using its name.
+     * Name of the object's property to be validated which holds an array of validation constraints.
      */
-    name: string;
+    [propertyName: string]: {
+      /**
+       * Validation type. Should be one of the ValidationTypes value.
+       */
+      type: string;
 
-    /**
-     * Validated properties.
-     */
-    properties: {
+      /**
+       * Constraints set by validation type.
+       */
+      constraints?: any[];
 
-        /**
-         * Name of the object's property to be validated which holds an array of validation constraints.
-         */
-        [propertyName: string]: {
+      /**
+       * Error message used to be used on validation fail.
+       * You can use "$value" to use value that was failed by validation.
+       * You can use "$constraint1" and "$constraint2" keys in the message string,
+       * and they will be replaced with constraint values if they exist.
+       * Message can be either string, either a function that returns a string.
+       * Second option allows to use values and custom messages depend of them.
+       */
+      message?: string | ((value?: any, constraint1?: any, constraint2?: any) => string);
 
-            /**
-             * Validation type. Should be one of the ValidationTypes value.
-             */
-            type: string;
+      /**
+       * Specifies if validated value is an array and each of its item must be validated.
+       */
+      each?: boolean;
 
-            /**
-             * Constraints set by validation type.
-             */
-            constraints?: any[];
+      /**
+       * Indicates if validation must be performed always, no matter of validation groups used.
+       */
+      always?: boolean;
 
-            /**
-             * Error message used to be used on validation fail.
-             * You can use "$value" to use value that was failed by validation.
-             * You can use "$constraint1" and "$constraint2" keys in the message string,
-             * and they will be replaced with constraint values if they exist.
-             * Message can be either string, either a function that returns a string.
-             * Second option allows to use values and custom messages depend of them.
-             */
-            message?: string|((value?: any, constraint1?: any, constraint2?: any) => string);
+      /**
+       * Validation groups used for this validation.
+       */
+      groups?: string[];
 
-            /**
-             * Specifies if validated value is an array and each of its item must be validated.
-             */
-            each?: boolean;
-
-            /**
-             * Indicates if validation must be performed always, no matter of validation groups used.
-             */
-            always?: boolean;
-
-            /**
-             * Validation groups used for this validation.
-             */
-            groups?: string[];
-
-            /**
-             * Specific validation type options.
-             */
-            options?: any;
-        }[];
-    };
+      /**
+       * Specific validation type options.
+       */
+      options?: any;
+    }[];
+  };
 }

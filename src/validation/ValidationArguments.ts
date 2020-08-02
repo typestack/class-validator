@@ -3,30 +3,28 @@
  * either by returning a function that accepts MessageArguments and returns a message string built based on these arguments.
  */
 export interface ValidationArguments {
+  /**
+   * Validating value.
+   */
+  value: any;
 
-    /**
-     * Validating value.
-     */
-    value: any;
+  /**
+   * Constraints set by this validation type.
+   */
+  constraints: any[];
 
-    /**
-     * Constraints set by this validation type.
-     */
-    constraints: any[];
+  /**
+   * Name of the target that is being validated.
+   */
+  targetName: string;
 
-    /**
-     * Name of the target that is being validated.
-     */
-    targetName: string;
+  /**
+   * Object that is being validated.
+   */
+  object: object;
 
-    /**
-     * Object that is being validated.
-     */
-    object: object;
-
-    /**
-     * Name of the object's property being validated.
-     */
-    property: string;
-
+  /**
+   * Name of the object's property being validated.
+   */
+  property: string;
 }

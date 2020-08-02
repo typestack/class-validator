@@ -1,8 +1,8 @@
-import { ValidationOptions } from "../ValidationOptions";
-import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import ValidatorJS from "validator";
+import { ValidationOptions } from '../ValidationOptions';
+import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import ValidatorJS from 'validator';
 
-export const IS_IDENTITY_CARD = "isIdentityCard";
+export const IS_IDENTITY_CARD = 'isIdentityCard';
 
 /**
  * Check if the string is a valid identity card code.
@@ -11,7 +11,7 @@ export const IS_IDENTITY_CARD = "isIdentityCard";
  * If given value is not a string, then it returns false.
  */
 export function isIdentityCard(value: unknown, locale: ValidatorJS.IdentityCardLocale): boolean {
-    return typeof value === "string" && ValidatorJS.isIdentityCard(value, locale);
+  return typeof value === 'string' && ValidatorJS.isIdentityCard(value, locale);
 }
 
 /**
@@ -20,19 +20,22 @@ export function isIdentityCard(value: unknown, locale: ValidatorJS.IdentityCardL
  * Defaults to 'any'.
  * If given value is not a string, then it returns false.
  */
-export function IsIdentityCard(locale?: ValidatorJS.IdentityCardLocale, validationOptions?: ValidationOptions): PropertyDecorator {
-    return ValidateBy(
-        {
-            name: IS_IDENTITY_CARD,
-            constraints: [locale],
-            validator: {
-                validate: (value, args): boolean => isIdentityCard(value, args.constraints[0]),
-                defaultMessage: buildMessage(
-                    (eachPrefix) => eachPrefix + "$property must be a identity card number",
-                    validationOptions
-                )
-            }
-        },
-        validationOptions
-    );
+export function IsIdentityCard(
+  locale?: ValidatorJS.IdentityCardLocale,
+  validationOptions?: ValidationOptions
+): PropertyDecorator {
+  return ValidateBy(
+    {
+      name: IS_IDENTITY_CARD,
+      constraints: [locale],
+      validator: {
+        validate: (value, args): boolean => isIdentityCard(value, args.constraints[0]),
+        defaultMessage: buildMessage(
+          eachPrefix => eachPrefix + '$property must be a identity card number',
+          validationOptions
+        ),
+      },
+    },
+    validationOptions
+  );
 }
