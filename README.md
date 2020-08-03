@@ -135,6 +135,7 @@ export interface ValidatorOptions {
   };
 
   forbidUnknownValues?: boolean;
+  stopAtFirstError?: boolean;
 }
 ```
 
