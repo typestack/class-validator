@@ -238,7 +238,12 @@ export class ValidationExecutor {
     metadatas.forEach(metadata => {
       this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls).forEach(customConstraintMetadata => {
         if (customConstraintMetadata.async && this.ignoreAsyncValidations) return;
-        if (this.validatorOptions && this.validatorOptions.stopAtFirstError && Object.keys(error.constraints || {}).length > 0) return;
+        if (
+          this.validatorOptions &&
+          this.validatorOptions.stopAtFirstError &&
+          Object.keys(error.constraints || {}).length > 0
+        )
+          return;
 
         const validationArguments: ValidationArguments = {
           targetName: object.constructor ? (object.constructor as any).name : undefined,
@@ -334,7 +339,6 @@ export class ValidationExecutor {
         const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
         arrayLikeValue.forEach((subValue: any, index: any) => {
           this.performValidations(value, subValue, index.toString(), [], metadatas, errors);
-
         });
       } else if (value instanceof Object) {
         const targetSchema = typeof metadata.target === 'string' ? metadata.target : metadata.target.name;

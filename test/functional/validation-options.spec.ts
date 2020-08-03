@@ -1087,29 +1087,29 @@ describe('context', () => {
     });
   });
 
-  it("should stop at first error.", () => {
+  it('should stop at first error.', () => {
     class MyClass {
       @IsDefined({
-        message: "isDefined",
+        message: 'isDefined',
         context: {
-          bye: "now"
-        }
+          bye: 'now',
+        },
       })
-      @Contains("hello", {
-        message: "String is not valid. You string must contain a hello word",
+      @Contains('hello', {
+        message: 'String is not valid. You string must contain a hello word',
         context: {
-          bye: "now"
-        }
+          bye: 'now',
+        },
       })
       sameProperty: string;
     }
 
     const model = new MyClass();
-    return validator.validate(model, {stopAtFirstError: true}).then(errors => {
+    return validator.validate(model, { stopAtFirstError: true }).then(errors => {
       expect(errors.length).toEqual(1);
       expect(Object.keys(errors[0].constraints).length).toBe(1);
-      expect(errors[0].contexts["isDefined"]).toEqual({bye: "now"});
-      expect(errors[0].constraints["isDefined"]).toBe("isDefined");
+      expect(errors[0].contexts['isDefined']).toEqual({ bye: 'now' });
+      expect(errors[0].constraints['isDefined']).toBe('isDefined');
     });
   });
 });
