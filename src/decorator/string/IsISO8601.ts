@@ -1,9 +1,9 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isIso8601Validator from 'validator/lib/isIso8601';
+import isIso8601Validator from 'validator/lib/isISO8601';
 import ValidatorJS from 'validator';
 
-export const IS_ISO8601 = 'isIso8601';
+export const IS_ISO8601 = 'isISO8601';
 
 /**
  * Checks if the string is a valid ISO 8601 date.

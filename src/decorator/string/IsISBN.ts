@@ -1,11 +1,10 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isIsbnValidator from 'validator/lib/isIsbn';
-import ValidatorJS from 'validator';
+import isIsbnValidator from 'validator/lib/isISBN';
 
 export type IsISBNVersion = '10' | '13' | 10 | 13;
 
-export const IS_ISBN = 'isIsbn';
+export const IS_ISBN = 'isISBN';
 
 /**
  * Checks if the string is an ISBN (version 10 or 13).

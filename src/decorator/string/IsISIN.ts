@@ -1,8 +1,8 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isIsinValidator from 'validator/lib/isIsin';
+import isIsinValidator from 'validator/lib/isISIN';
 
-export const IS_ISIN = 'isIsin';
+export const IS_ISIN = 'isISIN';
 
 /**
  * Checks if the string is an ISIN (stock/security identifier).
