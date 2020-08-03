@@ -1,9 +1,9 @@
 import { ValidationOptions, isValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isMacAddressValidator from 'validator/lib/isMacAddress';
+import isMacAddressValidator from 'validator/lib/isMACAddress';
 import ValidatorJS from 'validator';
 
-export const IS_MAC_ADDRESS = 'isMacAddress';
+export const IS_MAC_ADDRESS = 'isMACAddress';
 
 /**
  * Check if the string is a MAC address.
