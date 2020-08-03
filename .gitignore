@@ -1,48 +1,52 @@
-# Logs
+# Log files
 logs
 *.log
+*.tmp
+*.tmp.*
+log.txt
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
-# Diagnostic reports (https://nodejs.org/api/report.html)
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+# Testing output
+lib-cov/**
+coverage/**
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Yarn Integrity file
-.yarn-integrity
-
-# Output of 'npm pack'
-*.tgz
-
-# Optional npm cache directory
-.npm
-
-# TypeScript v1 declaration files
-typings/
-
-# TypeScript cache
-*.tsbuildinfo
-
-# Coverage report dir
-coverage/
+# Environment files
+.env
 
 # Dependency directories
-node_modules/
+node_modules
 
-# rollup.js build output
+# MacOS related files
+*.DS_Store
+.AppleDouble
+.LSOverride
+._*
+UserInterfaceState.xcuserstate
+
+# Windows related files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE - Sublime
+*.sublime-project
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/**
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# IDE - IntelliJ
+.idea
+
+# Compilation output folders
 dist/
 build/
+tmp/
+out-tsc/
+temp
 
-
-# IDEs
-*.iml
-.idea/
-.vscode/
-
+# Files for playing around locally
+playground.ts
+playground.js

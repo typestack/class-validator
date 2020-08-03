@@ -1,0 +1,17 @@
+titleAndCommits: true
+allowMergeCommits: false
+scopes:
+  - deps
+types:
+  - feat
+  - fix
+  - docs
+  - style
+  - refactor
+  - perf
+  - test
+  - build
+  - ci
+  - chore
+  - revert
+  - merge

@@ -1,0 +1,11 @@
+coverage:
+  range: 70..100
+  round: down
+  precision: 2
+  status:
+    default:
+      threshold: 3
+comment: off
+ignore:
+  - testing/**/*.ts
+  - src/**/*.interface.ts

@@ -1,42 +1,41 @@
-import {ValidationOptions} from "../decorator/ValidationOptions";
+import { ValidationOptions } from '../decorator/ValidationOptions';
 
 /**
  * Constructor arguments for ValidationMetadata class.
  */
 export interface ValidationMetadataArgs {
+  /**
+   * Validation type.
+   */
+  type: string;
 
-    /**
-     * Validation type.
-     */
-    type: string;
+  /**
+   * Object that is used to be validated.
+   */
+  target: Function | string;
 
-    /**
-     * Object that is used to be validated.
-     */
-    target: Function|string;
+  /**
+   * Property of the object to be validated.
+   */
+  propertyName: string;
 
-    /**
-     * Property of the object to be validated.
-     */
-    propertyName: string;
+  /**
+   * Constraint class that performs validation. Used only for custom validations.
+   */
+  constraintCls?: Function;
 
-    /**
-     * Constraint class that performs validation. Used only for custom validations.
-     */
-    constraintCls?: Function;
+  /**
+   * Array of constraints of this validation.
+   */
+  constraints?: any[];
 
-    /**
-     * Array of constraints of this validation.
-     */
-    constraints?: any[];
+  /**
+   * Validation options.
+   */
+  validationOptions?: ValidationOptions;
 
-    /**
-     * Validation options.
-     */
-    validationOptions?: ValidationOptions;
-
-    /**
-     * Extra options specific to validation type.
-     */
-    validationTypeOptions?: any;
+  /**
+   * Extra options specific to validation type.
+   */
+  validationTypeOptions?: any;
 }

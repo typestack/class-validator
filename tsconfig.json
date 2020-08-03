@@ -1,25 +1,18 @@
 {
-    "version": "2.0.3",
-    "compilerOptions": {
-        "outDir": "dist/esm5",
-        "target": "es5",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "sourceMap": true,
-        "stripInternal": true,
-        "noImplicitAny": true,
-        "declaration": true,
-        "declarationMap": true,
-        "declarationDir": "dist/types",
-        "lib": ["es6"],
-        "resolveJsonModule": true,
-        "importHelpers": true,
-    },
-    "exclude": [
-        "build",
-        "dist",
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2018",
+    "lib": ["es2018"],
+    "outDir": "build/node",
+    "rootDir": "./src",
+    "strict": true,
+    "sourceMap": true,
+    "removeComments": false,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["build", "node_modules", "sample", "**/*.spec.ts", "test/**"]
 }
