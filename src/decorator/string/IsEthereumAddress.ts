@@ -21,7 +21,7 @@ export function IsEthereumAddress(validationOptions?: ValidationOptions): Proper
     {
       name: IS_ETHEREUM_ADDRESS,
       validator: {
-        validate: (value, args): boolean => isEthereumAddress(value),
+        validate: (value): boolean => isEthereumAddress(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be an Ethereum address',
           validationOptions

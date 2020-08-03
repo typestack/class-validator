@@ -19,7 +19,7 @@ export function IsDateString(validationOptions?: ValidationOptions): PropertyDec
     {
       name: IS_DATE_STRING,
       validator: {
-        validate: (value, args): boolean => isDateString(value),
+        validate: (value): boolean => isDateString(value),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a ISOString', validationOptions),
       },
     },

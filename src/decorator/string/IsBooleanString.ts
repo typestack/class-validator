@@ -21,7 +21,7 @@ export function IsBooleanString(validationOptions?: ValidationOptions): Property
     {
       name: IS_BOOLEAN_STRING,
       validator: {
-        validate: (value, args): boolean => isBooleanString(value),
+        validate: (value): boolean => isBooleanString(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a boolean string',
           validationOptions

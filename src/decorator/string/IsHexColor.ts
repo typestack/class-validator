@@ -21,7 +21,7 @@ export function IsHexColor(validationOptions?: ValidationOptions): PropertyDecor
     {
       name: IS_HEX_COLOR,
       validator: {
-        validate: (value, args): boolean => isHexColor(value),
+        validate: (value): boolean => isHexColor(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a hexadecimal color',
           validationOptions

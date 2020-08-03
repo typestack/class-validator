@@ -20,7 +20,7 @@ export function ArrayNotEmpty(validationOptions?: ValidationOptions): PropertyDe
     {
       name: ARRAY_NOT_EMPTY,
       validator: {
-        validate: (value, args): boolean => arrayNotEmpty(value),
+        validate: (value): boolean => arrayNotEmpty(value),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property should not be empty', validationOptions),
       },
     },

@@ -2642,7 +2642,7 @@ describe('IsMACAddress', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isMacAddress';
+    const validationType = 'isMACAddress';
     const message = 'someProperty must be a MAC Address';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
@@ -2769,7 +2769,7 @@ describe('IsISBN version 10', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isIsbn';
+    const validationType = 'isISBN';
     const message = 'someProperty must be an ISBN';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
@@ -2823,7 +2823,7 @@ describe('IsISBN version 13', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isIsbn';
+    const validationType = 'isISBN';
     const message = 'someProperty must be an ISBN';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
@@ -2922,7 +2922,7 @@ describe('IsISO8601', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isIso8601';
+    const validationType = 'isISO8601';
     const message = 'someProperty must be a valid ISO 8601 date string';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
@@ -2992,7 +2992,7 @@ describe('IsJWT', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isJwt';
+    const validationType = 'isJWT';
     const message = 'someProperty must be a jwt string';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
@@ -3372,7 +3372,7 @@ describe('IsUUID', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isUuid';
+    const validationType = 'isUUID';
     const message = 'someProperty must be an UUID';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
@@ -3413,7 +3413,7 @@ describe('IsUUID v3', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isUuid';
+    const validationType = 'isUUID';
     const message = 'someProperty must be an UUID';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
@@ -3459,7 +3459,7 @@ describe('IsUUID v4', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isUuid';
+    const validationType = 'isUUID';
     const message = 'someProperty must be an UUID';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
@@ -3505,7 +3505,7 @@ describe('IsUUID v5', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isUuid';
+    const validationType = 'isUUID';
     const message = 'someProperty must be an UUID';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });

@@ -21,7 +21,7 @@ export function IsBIC(validationOptions?: ValidationOptions): PropertyDecorator 
     {
       name: IS_BIC,
       validator: {
-        validate: (value, args): boolean => isBIC(value),
+        validate: (value): boolean => isBIC(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a BIC or SWIFT code',
           validationOptions

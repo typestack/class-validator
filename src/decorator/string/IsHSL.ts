@@ -23,7 +23,7 @@ export function IsHSL(validationOptions?: ValidationOptions): PropertyDecorator 
     {
       name: IS_HSL,
       validator: {
-        validate: (value, args): boolean => isHSL(value),
+        validate: (value): boolean => isHSL(value),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a HSL color', validationOptions),
       },
     },

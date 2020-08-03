@@ -22,7 +22,7 @@ export function IsMilitaryTime(validationOptions?: ValidationOptions): PropertyD
     {
       name: IS_MILITARY_TIME,
       validator: {
-        validate: (value, args): boolean => isMilitaryTime(value),
+        validate: (value): boolean => isMilitaryTime(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a valid representation of military time in the format HH:MM',
           validationOptions

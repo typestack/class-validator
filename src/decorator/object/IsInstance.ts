@@ -3,6 +3,10 @@ import { buildMessage, ValidateBy } from '../common/ValidateBy';
 
 export const IS_INSTANCE = 'isInstance';
 
+interface FirstConstraint {
+  name: 'string';
+}
+
 /**
  * Checks if the value is an instance of the specified object.
  */
@@ -27,7 +31,8 @@ export function IsInstance(
         validate: (value, args): boolean => isInstance(value, args.constraints[0]),
         defaultMessage: buildMessage((eachPrefix, args) => {
           if (args.constraints[0]) {
-            return eachPrefix + `$property must be an instance of ${args.constraints[0].name}`;
+            const fc: FirstConstraint = args.constraints[0];
+            return eachPrefix + `$property must be an instance of ${fc.name}`;
           } else {
             return eachPrefix + `${IS_INSTANCE} decorator expects and object as value, but got falsy value.`;
           }

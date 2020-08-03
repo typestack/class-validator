@@ -21,7 +21,7 @@ export function IsFullWidth(validationOptions?: ValidationOptions): PropertyDeco
     {
       name: IS_FULL_WIDTH,
       validator: {
-        validate: (value, args): boolean => isFullWidth(value),
+        validate: (value): boolean => isFullWidth(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must contain a full-width characters',
           validationOptions

@@ -36,7 +36,7 @@ export function IsMACAddress(
       name: IS_MAC_ADDRESS,
       constraints: [options],
       validator: {
-        validate: (value, args): boolean => isMACAddress(value, options),
+        validate: (value): boolean => isMACAddress(value, options),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a MAC Address', validationOptions),
       },
     },

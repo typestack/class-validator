@@ -23,7 +23,7 @@ export function ArrayUnique(validationOptions?: ValidationOptions): PropertyDeco
     {
       name: ARRAY_UNIQUE,
       validator: {
-        validate: (value, args): boolean => arrayUnique(value),
+        validate: (value): boolean => arrayUnique(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + "All $property's elements must be unique",
           validationOptions

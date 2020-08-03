@@ -21,7 +21,7 @@ export function IsHexadecimal(validationOptions?: ValidationOptions): PropertyDe
     {
       name: IS_HEXADECIMAL,
       validator: {
-        validate: (value, args): boolean => isHexadecimal(value),
+        validate: (value): boolean => isHexadecimal(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a hexadecimal number',
           validationOptions

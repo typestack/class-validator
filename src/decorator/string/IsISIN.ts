@@ -21,7 +21,7 @@ export function IsISIN(validationOptions?: ValidationOptions): PropertyDecorator
     {
       name: IS_ISIN,
       validator: {
-        validate: (value, args): boolean => isISIN(value),
+        validate: (value): boolean => isISIN(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be an ISIN (stock/security identifier)',
           validationOptions

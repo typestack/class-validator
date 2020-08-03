@@ -18,7 +18,7 @@ export function IsPositive(validationOptions?: ValidationOptions): PropertyDecor
     {
       name: IS_POSITIVE,
       validator: {
-        validate: (value, args): boolean => isPositive(value),
+        validate: (value): boolean => isPositive(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a positive number',
           validationOptions

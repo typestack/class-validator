@@ -21,7 +21,7 @@ export function IsISRC(validationOptions?: ValidationOptions): PropertyDecorator
     {
       name: IS_ISRC,
       validator: {
-        validate: (value, args): boolean => isISRC(value),
+        validate: (value): boolean => isISRC(value),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an ISRC', validationOptions),
       },
     },

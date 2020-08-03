@@ -6,7 +6,6 @@ import { buildMessage, ValidateBy } from '../common/ValidateBy';
  * ignore the import warning here. Eventually we should ask upstream to bundle
  * typings into the es6 folder as well.
  */
-// @ts-ignore
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 
 export const IS_PHONE_NUMBER = 'isPhoneNumber';

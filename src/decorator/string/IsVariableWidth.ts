@@ -21,7 +21,7 @@ export function IsVariableWidth(validationOptions?: ValidationOptions): Property
     {
       name: IS_VARIABLE_WIDTH,
       validator: {
-        validate: (value, args): boolean => isVariableWidth(value),
+        validate: (value): boolean => isVariableWidth(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must contain a full-width and half-width characters',
           validationOptions

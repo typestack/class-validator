@@ -21,7 +21,7 @@ export function IsMagnetURI(validationOptions?: ValidationOptions): PropertyDeco
     {
       name: IS_MAGNET_URI,
       validator: {
-        validate: (value, args): boolean => isMagnetURI(value),
+        validate: (value): boolean => isMagnetURI(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be magnet uri format',
           validationOptions

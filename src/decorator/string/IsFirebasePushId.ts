@@ -21,7 +21,7 @@ export function IsFirebasePushId(validationOptions?: ValidationOptions): Propert
     {
       name: IS_FIREBASE_PUSH_ID,
       validator: {
-        validate: (value, args): boolean => isFirebasePushId(value),
+        validate: (value): boolean => isFirebasePushId(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a Firebase Push Id',
           validationOptions

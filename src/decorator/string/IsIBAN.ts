@@ -21,7 +21,7 @@ export function IsIBAN(validationOptions?: ValidationOptions): PropertyDecorator
     {
       name: IS_IBAN,
       validator: {
-        validate: (value, args): boolean => isIBAN(value),
+        validate: (value): boolean => isIBAN(value),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an IBAN', validationOptions),
       },
     },

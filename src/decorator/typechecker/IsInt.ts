@@ -18,7 +18,7 @@ export function IsInt(validationOptions?: ValidationOptions): PropertyDecorator 
     {
       name: IS_INT,
       validator: {
-        validate: (value, args): boolean => isInt(value),
+        validate: (value): boolean => isInt(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be an integer number',
           validationOptions

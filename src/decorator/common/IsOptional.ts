@@ -14,7 +14,7 @@ export function IsOptional(validationOptions?: ValidationOptions): PropertyDecor
       target: object.constructor,
       propertyName: propertyName,
       constraints: [
-        (object: any, value: any): boolean => {
+        (object: any): boolean => {
           return object[propertyName] !== null && object[propertyName] !== undefined;
         },
       ],

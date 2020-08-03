@@ -19,7 +19,7 @@ export function IsISO31661Alpha3(validationOptions?: ValidationOptions): Propert
     {
       name: IS_ISO31661_ALPHA_3,
       validator: {
-        validate: (value, args): boolean => isISO31661Alpha3(value),
+        validate: (value): boolean => isISO31661Alpha3(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a valid ISO31661 Alpha3 code',
           validationOptions

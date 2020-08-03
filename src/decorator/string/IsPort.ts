@@ -19,7 +19,7 @@ export function IsPort(validationOptions?: ValidationOptions): PropertyDecorator
     {
       name: IS_PORT,
       validator: {
-        validate: (value, args): boolean => isPort(value),
+        validate: (value): boolean => isPort(value),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a port', validationOptions),
       },
     },

@@ -21,7 +21,7 @@ export function IsJSON(validationOptions?: ValidationOptions): PropertyDecorator
     {
       name: IS_JSON,
       validator: {
-        validate: (value, args): boolean => isJSON(value),
+        validate: (value): boolean => isJSON(value),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a json string', validationOptions),
       },
     },

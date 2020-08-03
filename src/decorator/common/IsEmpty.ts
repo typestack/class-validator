@@ -18,7 +18,7 @@ export function IsEmpty(validationOptions?: ValidationOptions): PropertyDecorato
     {
       name: IS_EMPTY,
       validator: {
-        validate: (value, args): boolean => isEmpty(value),
+        validate: (value): boolean => isEmpty(value),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be empty', validationOptions),
       },
     },

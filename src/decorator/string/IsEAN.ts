@@ -21,7 +21,7 @@ export function IsEAN(validationOptions?: ValidationOptions): PropertyDecorator 
     {
       name: IS_EAN,
       validator: {
-        validate: (value, args): boolean => isEAN(value),
+        validate: (value): boolean => isEAN(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be an EAN (European Article Number)',
           validationOptions

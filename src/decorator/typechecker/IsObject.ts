@@ -20,7 +20,7 @@ export function IsObject(validationOptions?: ValidationOptions): PropertyDecorat
     {
       name: IS_OBJECT,
       validator: {
-        validate: (value, args): boolean => isObject(value),
+        validate: (value): boolean => isObject(value),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an object', validationOptions),
       },
     },
