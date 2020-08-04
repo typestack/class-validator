@@ -2,6 +2,7 @@ titleAndCommits: true
 allowMergeCommits: false
 scopes:
   - deps
+  - deps-dev
 types:
   - feat
   - fix
