@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isJwtValidator from 'validator/lib/isJwt';
+import isJwtValidator from 'validator/lib/isJWT';
 
 export const IS_JWT = 'isJwt';
 

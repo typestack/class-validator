@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import isUuidValidator from 'validator/lib/isUuid';
+import isUuidValidator from 'validator/lib/isUUID';
 
 export type UUIDVersion = '3' | '4' | '5' | 'all' | 3 | 4 | 5;
 
