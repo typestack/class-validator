@@ -1,12 +1,5 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-/**
- * The libphonenumber-js is shipped with TS typings however they are not exposed
- * on the /es6 entry-point we need to use to build our own umd version. So we
- * ignore the import warning here. Eventually we should ask upstream to bundle
- * typings into the es6 folder as well.
- */
-// @ts-ignore
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 
 export const IS_PHONE_NUMBER = 'isPhoneNumber';
