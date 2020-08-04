@@ -23,10 +23,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: node --version
-        name: Node.js version
-      - run: echo Current branch ${GITHUB_REF##*/}
-        name: Branch
       - run: npm ci --ignore-scripts
       - run: npm run test:ci
       - run: npm install codecov -g
