@@ -789,6 +789,7 @@ describe('IsDateString', () => {
     '2018-01-04T08:15:30+04',
     '2020-03-26T11:00:01-03:00',
     '2020-03-26T11:00:01-03',
+    '2019-09-03T20:16:24.12Z',
   ];
   const invalidValues = [
     true,
@@ -800,6 +801,15 @@ describe('IsDateString', () => {
     'text',
     'text2018-01-04T08:15:30+04',
     '2018-01-04T08:15:30Ztext',
+    '2019-18-13T22:14:14.761Z', // month greater than 12
+    '2019-12-39T22:14:14.761Z', // day greater than 31
+    '2019-12-31T29:14:14.761Z', // hour greater than 24
+    '2019-00-31T29:14:14.761Z', // month of 0
+    '2019-01-00T29:14:14.761Z', // day of 0
+    '2019-09-03T20:16:24.12-5:00', // single digit hour in timezone offset
+    '2019-09-03T20:16:24.12+5:00',
+    '2019-09-03T20:16:24.12-05:0', // single digit minute in timezone offset
+    '2019-09-03T20:16:24.12+05:0',
   ];
 
   class MyClass {
@@ -825,8 +835,7 @@ describe('IsDateString', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'isDateString';
-    // const message = "someProperty deve ser um texto de data";
-    const message = 'someProperty must be a ISOString';
+    const message = 'someProperty must be a valid ISO 8601 date string';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });

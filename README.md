@@ -11,8 +11,11 @@ Class-validator works on both browser and node.js platforms.
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
+- [class-validator](#class-validator)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Passing options](#passing-options)
   - [Validation errors](#validation-errors)
   - [Validation messages](#validation-messages)
   - [Validating arrays](#validating-arrays)
@@ -34,9 +37,9 @@ Class-validator works on both browser and node.js platforms.
   - [Validation decorators](#validation-decorators)
   - [Defining validation schema without decorators](#defining-validation-schema-without-decorators)
   - [Validating plain objects](#validating-plain-objects)
-- [Samples](#samples)
-- [Extensions](#extensions)
-- [Release notes](#release-notes)
+  - [Samples](#samples)
+  - [Extensions](#extensions)
+  - [Release notes](#release-notes)
 
 ## Installation
 
@@ -813,7 +816,7 @@ isBoolean(value);
 | `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date.                                                                                                                                                                                                                                                                                                                                                      |  |
 | **String-type validation decorators**           |
 | `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false").                                                                                                                                                                                                                                                                                                                                                         |
-| `@IsDateString()`                               | Checks if a string is a complete representation of a date (e.g. "2017-06-07T14:34:08.700Z", "2017-06-07T14:34:08.700 or "2017-06-07T14:34:08+04:00").                                                                                                                                                                                                                                                                |
+| `@IsDateString()`                               | Alias for `@IsISO8601()`. Checks if a string is a complete representation of a date (e.g. "2017-06-07T14:34:08.700Z", "2017-06-07T14:34:08.700 or "2017-06-07T14:34:08+04:00").                                                                                                                                                                                                                                      |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if a string is a number.                                                                                                                                                                                                                                                                                                                                                                                      |
 | **String validation decorators**                |
 | `@Contains(seed: string)`                       | Checks if the string contains the seed.                                                                                                                                                                                                                                                                                                                                                                              |
