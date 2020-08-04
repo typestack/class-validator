@@ -27,7 +27,7 @@ export function IsInstance(
         validate: (value, args): boolean => isInstance(value, args.constraints[0]),
         defaultMessage: buildMessage((eachPrefix, args) => {
           if (args.constraints[0]) {
-            return eachPrefix + `$property must be an instance of ${args.constraints[0].name}`;
+            return eachPrefix + `$property must be an instance of ${args.constraints[0].name as string}`;
           } else {
             return eachPrefix + `${IS_INSTANCE} decorator expects and object as value, but got falsy value.`;
           }

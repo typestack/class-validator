@@ -121,5 +121,5 @@ export function getMetadataStorage(): MetadataStorage {
     global.classValidatorMetadataStorage = new MetadataStorage();
   }
 
-  return (global as any).classValidatorMetadataStorage;
+  return global.classValidatorMetadataStorage;
 }
