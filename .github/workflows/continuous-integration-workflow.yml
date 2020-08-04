@@ -24,12 +24,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: node --version
-        name: Check Node.js version
+        name: Node.js version
+      - run: echo Current branch ${GITHUB_REF##*/}
+        name: Branch
       - run: npm ci --ignore-scripts
       - run: npm run test:ci
       - run: npm install codecov -g
         if: ${{ matrix.node-version == '14.x' }}
-      - run: codecov -f ./coverage/clover.xml -t ${{ secrets.CODECOV_TOKEN }}
+      - run: codecov -f ./coverage/clover.xml -t ${{ secrets.CODECOV_TOKEN }} --commit=$GITHUB_SHA --branch=${GITHUB_REF##*/}
         if: ${{ matrix.node-version == '14.x' }}
   build:
     name: Build
