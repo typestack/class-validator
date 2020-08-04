@@ -38,7 +38,7 @@
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
-    "libphonenumber-js": "^1.7.55",
+    "libphonenumber-js": "^1.7.56",
     "rollup-plugin-terser": "^6.1.0",
     "validator": "^13.1.1"
   },
