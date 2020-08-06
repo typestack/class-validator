@@ -8,12 +8,12 @@ export const IS_NOT_EMPTY_OBJECT = 'isNotEmptyObject';
  * Checks if the value is valid Object & not empty.
  * Returns false if the value is not an object or an empty valid object.
  */
-export function isNotEmptyObject(value: unknown, strictMode: boolean = true): boolean {
+export function isNotEmptyObject(value: unknown, options?: { nullable?: boolean }): boolean {
     if (!isObject(value)) {
         return false;
     }
 
-    if (!strictMode) {
+    if (options?.nullable === true) {
         return ! Object.values(value)
             .every(propertyValue => propertyValue === null || propertyValue === undefined);
     }
@@ -31,11 +31,11 @@ export function isNotEmptyObject(value: unknown, strictMode: boolean = true): bo
  * Checks if the value is valid Object & not empty.
  * Returns false if the value is not an object or an empty valid object.
  */
-export function IsNotEmptyObject(strictMode: boolean = true, validationOptions?: ValidationOptions): PropertyDecorator {
+export function IsNotEmptyObject(options?: { nullable?: boolean }, validationOptions?: ValidationOptions): PropertyDecorator {
     return ValidateBy(
         {
             name: IS_NOT_EMPTY_OBJECT,
-            constraints: [strictMode],
+            constraints: [options],
             validator: {
                 validate: (value, args): boolean => isNotEmptyObject(value, args.constraints[0]),
                 defaultMessage: buildMessage(

@@ -3073,7 +3073,7 @@ describe('IsNotEmptyObject', () => {
   }
 
   class NotStrictMyClass {
-    @IsNotEmptyObject(false)
+    @IsNotEmptyObject({nullable: true})
     someProperty: object;
   }
 
@@ -3093,12 +3093,12 @@ describe('IsNotEmptyObject', () => {
 
   it('should not fail if method in validator said that its valid', () => {
     validValues.forEach(value => expect(isNotEmptyObject(value)).toBeTruthy());
-    notStrictValidValues.forEach(value => expect(isNotEmptyObject(value, false)).toBeTruthy());
+    notStrictValidValues.forEach(value => expect(isNotEmptyObject(value, {nullable: true})).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(isNotEmptyObject(value)).toBeFalsy());
-    notStrictInvalidValues.forEach(value => expect(isNotEmptyObject(value, false)).toBeFalsy());
+    notStrictInvalidValues.forEach(value => expect(isNotEmptyObject(value, {nullable: true})).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
