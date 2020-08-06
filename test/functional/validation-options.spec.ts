@@ -1090,10 +1090,10 @@ describe('context', () => {
   it('should stop at first error.', () => {
     class MyClass {
       @IsDefined({
-        message: 'isDefined'
+        message: 'isDefined',
       })
       @Contains('hello', {
-        message: 'String is not valid. You string must contain a hello word'
+        message: 'String is not valid. You string must contain a hello word',
       })
       sameProperty: string;
     }
