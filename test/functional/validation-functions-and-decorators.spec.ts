@@ -3051,7 +3051,7 @@ describe('IsObject', () => {
 });
 
 describe('IsNotEmptyObject', () => {
-  const validValues = [{"key": "value"}, {key: "value"}, {key: undefined}, {key: null}];
+  const validValues = [{ key: 'value' }, { key: 'value' }, { key: undefined }, { key: null }];
   const invalidValues = [
     null,
     undefined,
@@ -3064,8 +3064,21 @@ describe('IsNotEmptyObject', () => {
     [],
     [{ key: 'value' }],
   ];
-  const nullableValidValues = [{"key": "value"}, {key: "value"}];
-  const nullableInvalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "string", 1234, false, {}, {key: undefined}, {key: null}, [], [{key: "value"}]];
+  const nullableValidValues = [{ key: 'value' }, { key: 'value' }];
+  const nullableInvalidValues = [
+    null,
+    undefined,
+    '{ key: "value" }',
+    "{ 'key': 'value' }",
+    'string',
+    1234,
+    false,
+    {},
+    { key: undefined },
+    { key: null },
+    [],
+    [{ key: 'value' }],
+  ];
 
   class MyClass {
     @IsNotEmptyObject()
@@ -3073,7 +3086,7 @@ describe('IsNotEmptyObject', () => {
   }
 
   class NullableMyClass {
-    @IsNotEmptyObject({nullable: true})
+    @IsNotEmptyObject({ nullable: true })
     someProperty: object;
   }
 
@@ -3093,12 +3106,12 @@ describe('IsNotEmptyObject', () => {
 
   it('should not fail if method in validator said that its valid', () => {
     validValues.forEach(value => expect(isNotEmptyObject(value)).toBeTruthy());
-    nullableValidValues.forEach(value => expect(isNotEmptyObject(value, {nullable: true})).toBeTruthy());
+    nullableValidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(isNotEmptyObject(value)).toBeFalsy());
-    nullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, {nullable: true})).toBeFalsy());
+    nullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
