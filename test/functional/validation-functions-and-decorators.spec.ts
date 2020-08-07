@@ -3706,7 +3706,7 @@ describe('MaxLength', () => {
   });
 });
 
-describe('Matches', () => {
+describe('Matches pattern RegExp', () => {
   const constraint = /abc/;
   const validValues = ['abc', 'abcdef', '123abc'];
   const invalidValues = [null, undefined, 'acb', 'Abc'];
@@ -3730,6 +3730,40 @@ describe('Matches', () => {
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(matches(value, constraint)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'matches';
+    const message = 'someProperty must match ' + constraint + ' regular expression';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('Matches pattern string with modifier', () => {
+  const constraint = 'abc';
+  const modifier = 'i';
+  const validValues = ['abc', 'abcdef', '123abc', 'AbC'];
+  const invalidValues = [null, undefined, 'acb'];
+
+  class MyClass {
+    @Matches(constraint, modifier)
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(matches(value, constraint, modifier)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(matches(value, constraint, modifier)).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
