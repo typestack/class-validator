@@ -59,4 +59,9 @@ export interface ValidatorOptions {
    * Settings true will cause fail validation of unknown objects.
    */
   forbidUnknownValues?: boolean;
+
+  /**
+   * When set to true, validation of the given property will stop after encountering the first error. Defaults to false.
+   */
+  stopAtFirstError?: boolean;
 }

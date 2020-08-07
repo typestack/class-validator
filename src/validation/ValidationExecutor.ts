@@ -238,6 +238,12 @@ export class ValidationExecutor {
     metadatas.forEach(metadata => {
       this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls).forEach(customConstraintMetadata => {
         if (customConstraintMetadata.async && this.ignoreAsyncValidations) return;
+        if (
+          this.validatorOptions &&
+          this.validatorOptions.stopAtFirstError &&
+          Object.keys(error.constraints || {}).length > 0
+        )
+          return;
 
         const validationArguments: ValidationArguments = {
           targetName: object.constructor ? (object.constructor as any).name : undefined,
