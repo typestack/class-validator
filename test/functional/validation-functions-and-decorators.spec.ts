@@ -3051,7 +3051,7 @@ describe('IsObject', () => {
 });
 
 describe('IsNotEmptyObject', () => {
-  const validValues = [{ key: 'value' }, { key: 'value' }];
+  const validValues = [{ key: 'value' }, { key: 'value' }, { key: undefined }, { key: null }];
   const invalidValues = [
     null,
     undefined,
@@ -3064,26 +3064,54 @@ describe('IsNotEmptyObject', () => {
     [],
     [{ key: 'value' }],
   ];
+  const nullableValidValues = [{ key: 'value' }, { key: 'value' }];
+  const nullableInvalidValues = [
+    null,
+    undefined,
+    '{ key: "value" }',
+    "{ 'key': 'value' }",
+    'string',
+    1234,
+    false,
+    {},
+    { key: undefined },
+    { key: null },
+    [],
+    [{ key: 'value' }],
+  ];
 
   class MyClass {
     @IsNotEmptyObject()
     someProperty: object;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  class NullableMyClass {
+    @IsNotEmptyObject({ nullable: true })
+    someProperty: object;
+  }
+
+  it.each([
+    [new MyClass(), validValues],
+    [new NullableMyClass(), nullableValidValues],
+  ])('should not fail if validator.validate said that its valid', (validationObject, values) => {
+    return checkValidValues(validationObject, values);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it.each([
+    [new MyClass(), invalidValues],
+    [new NullableMyClass(), nullableInvalidValues],
+  ])('should fail if validator.validate said that its invalid', (validationObject, values) => {
+    return checkInvalidValues(validationObject, values);
   });
 
   it('should not fail if method in validator said that its valid', () => {
     validValues.forEach(value => expect(isNotEmptyObject(value)).toBeTruthy());
+    nullableValidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(isNotEmptyObject(value)).toBeFalsy());
+    nullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
