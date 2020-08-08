@@ -5,7 +5,7 @@
   "author": "TypeStack contributors",
   "license": "MIT",
   "sideEffects": false,
-  "main": "./bundles/index.umd.js",
+  "main": "./cjs/index.js",
   "module": "./esm5/index.js",
   "es2015": "./esm2015/index.js",
   "typings": "./types/index.d.ts",
