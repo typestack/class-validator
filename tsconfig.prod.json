@@ -1,7 +1,11 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "strict": false,
     "declaration": false,
+    "rootDir": "./src"
   },
+  "files": [
+    "./src/index.ts"
+  ]
 }

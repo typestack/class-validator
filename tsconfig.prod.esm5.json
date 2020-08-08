@@ -3,6 +3,6 @@
   "compilerOptions": {
     "module": "ES2015",
     "target": "ES5",
-    "outDir": "build/esm5",
-  },
+    "outDir": "./build/esm5"
+  }
 }

@@ -1,18 +1,14 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "target": "es2018",
-    "lib": ["es2018"],
-    "outDir": "build/node",
-    "rootDir": "./src",
-    "strict": true,
-    "sourceMap": true,
-    "removeComments": false,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "exclude": ["build", "node_modules", "sample", "**/*.spec.ts", "test/**"]
+    "files": [],
+    "references": [
+        {
+            "path": "./tsconfig.prod.json"
+        },
+        {
+            "path": "./tsconfig.spec.json"
+        },
+        {
+            "path": "./tsconfig.sample.json"
+        }
+    ]
 }

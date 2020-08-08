@@ -3,6 +3,6 @@
   "compilerOptions": {
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "build/types",
-  },
+    "outDir": "./build/types"
+  }
 }

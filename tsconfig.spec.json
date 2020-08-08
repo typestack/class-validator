@@ -1,11 +1,13 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "strict": false,
     "strictPropertyInitialization": false,
     "sourceMap": false,
     "removeComments": true,
-    "noImplicitAny": false,
+    "noImplicitAny": false
   },
-  "exclude": ["node_modules"]
+  "include": [
+    "./test/**/*.ts"
+  ]
 }
