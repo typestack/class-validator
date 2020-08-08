@@ -54,7 +54,7 @@ describe('message', () => {
     });
   });
 
-  it('$value token should be replaced in a custom message', () => {
+  it('$value token should be replaced in a custom message function', () => {
     class MyClass {
       @MinLength(2, {
         message: args => {
@@ -957,7 +957,7 @@ describe('groups', () => {
       });
     });
 
-    it('should validate only the given group + always', () => {
+    it('should validate if group matches and always is true', () => {
       return validator.validate(model, { groups: ['always'] }).then(errors => {
         expect(errors.length).toEqual(1);
         expectChildConstraint(errors[0], 'always');

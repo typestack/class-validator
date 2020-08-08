@@ -47,7 +47,7 @@ describe('sync validation should ignore async validation constraints', () => {
     alwaysWithValue: string = 'this field always has a value';
   }
 
-  it('should ignore async validations and validate only sync validation types', () => {
+  it('should ignore async validations and validate only sync validation types (valid value)', () => {
     expect.assertions(1);
     const model = new SecondClass();
     model.firstName = 'such validation may lead';
@@ -57,7 +57,7 @@ describe('sync validation should ignore async validation constraints', () => {
     expect(errors.length).toEqual(0);
   });
 
-  it('should ignore async validations and validate only sync validation types', () => {
+  it('should ignore async validations and validate only sync validation types (invalid value)', () => {
     expect.assertions(2);
     const model = new SecondClass();
     model.firstName = 'such validation may lead';

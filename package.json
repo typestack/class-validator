@@ -29,8 +29,8 @@
     "build:types": "tsc --project tsconfig.prod.types.json",
     "prettier:fix": "prettier --write \"**/*.{ts,md}\"",
     "prettier:check": "prettier --check \"**/*.{ts,md}\"",
-    "lint:fix": "eslint --max-warnings 0 --fix --ext .ts src/",
-    "lint:check": "eslint --max-warnings 0 --ext .ts src/",
+    "lint:fix": "eslint --max-warnings 0 --fix --ext .ts src/ test/",
+    "lint:check": "eslint --max-warnings 0 --ext .ts src/ test/",
     "test": "jest --coverage --verbose",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"

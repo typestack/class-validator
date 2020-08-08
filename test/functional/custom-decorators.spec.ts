@@ -123,7 +123,8 @@ describe('decorator with default message', () => {
             return typeof value === 'string' && typeof relatedValue === 'string' && value.length > relatedValue.length;
           },
           defaultMessage(args: ValidationArguments): string {
-            return args.property + ' must be longer then ' + args.constraints[0];
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            return `${args.property} must be longer then ${args.constraints[0]}`;
           },
         },
       });
@@ -195,6 +196,7 @@ describe('decorator with separate validation constraint class', () => {
   class MyClass {
     firstName: string;
 
+    // eslint-disable-next-line @typescript-eslint/member-ordering
     @IsShorterThan('firstName', {
       message: '$property must be shorter then $constraint1. Given value: $value',
     })
