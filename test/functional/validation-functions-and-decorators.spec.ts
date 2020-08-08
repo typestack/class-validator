@@ -309,7 +309,7 @@ describe('IsDefined', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isDefined';
     const message = 'someProperty should not be null or undefined';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -938,7 +938,7 @@ describe('IsEnum', () => {
   it('should return error object with proper data (string enum)', () => {
     const validationType = 'isEnum';
     const message = 'someProperty must be a valid enum value';
-    checkReturnedError(new MyClass2(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass2(), invalidValues, validationType, message);
   });
 });
 
@@ -1622,7 +1622,7 @@ describe('IsIBAN', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isIBAN';
     const message = 'someProperty must be an IBAN';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1655,7 +1655,7 @@ describe('IsBIC', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isBIC';
     const message = 'someProperty must be a BIC or SWIFT code';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1688,7 +1688,7 @@ describe('IsEthereumAddress', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isEthereumAddress';
     const message = 'someProperty must be an Ethereum address';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1721,7 +1721,7 @@ describe('IsBtcAddress', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isBtcAddress';
     const message = 'someProperty must be a BTC address';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1754,7 +1754,7 @@ describe('IsDataURI', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isDataURI';
     const message = 'someProperty must be a data uri format';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1787,7 +1787,7 @@ describe('IsHSL', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isHSL';
     const message = 'someProperty must be a HSL color';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1820,7 +1820,7 @@ describe('IsRgbColor', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isRgbColor';
     const message = 'someProperty must be RGB color';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1853,7 +1853,7 @@ describe('IsIdentityCard', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isIdentityCard';
     const message = 'someProperty must be a identity card number';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1886,7 +1886,7 @@ describe('IsEAN', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isEAN';
     const message = 'someProperty must be an EAN (European Article Number)';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1919,7 +1919,7 @@ describe('IsISRC', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isISRC';
     const message = 'someProperty must be an ISRC';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1952,7 +1952,7 @@ describe('IsRFC3339', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isRFC3339';
     const message = 'someProperty must be RFC 3339 date';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1985,7 +1985,7 @@ describe('IsLocale', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isLocale';
     const message = 'someProperty must be locale';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2022,7 +2022,7 @@ describe('IsMagnetURI', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isMagnetURI';
     const message = 'someProperty must be magnet uri format';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2055,7 +2055,7 @@ describe('IsMimeType', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isMimeType';
     const message = 'someProperty must be MIME type format';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2088,7 +2088,7 @@ describe('IsOctal', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isOctal';
     const message = 'someProperty must be valid octal number';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2121,7 +2121,7 @@ describe('IsPassportNumber', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isPassportNumber';
     const message = 'someProperty must be valid passport number';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2154,7 +2154,7 @@ describe('IsPostalCode', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isPostalCode';
     const message = 'someProperty must be a postal code';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2187,7 +2187,7 @@ describe('IsSemVer', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isSemVer';
     const message = 'someProperty must be a Semantic Versioning Specification';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3656,15 +3656,15 @@ describe('Length', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'length';
+    const validationType = 'isLength';
     const message = 'someProperty must be longer than or equal to ' + constraint1 + ' characters';
-    checkReturnedError(new MyClass(), ['', 'a'], validationType, message);
+    return checkReturnedError(new MyClass(), ['', 'a'], validationType, message);
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'length';
+    const validationType = 'isLength';
     const message = 'someProperty must be shorter than or equal to ' + constraint2 + ' characters';
-    checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
+    return checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
   });
 });
 
