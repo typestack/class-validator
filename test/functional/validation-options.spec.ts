@@ -6,6 +6,8 @@ import {
   Validate,
   ValidateNested,
   ValidatorConstraint,
+  IsOptional,
+  IsNotEmpty,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import {
@@ -859,6 +861,112 @@ describe('groups', () => {
             matches: 'title must match /.*stranger.*/ regular expression',
           });
         });
+      });
+    });
+  });
+
+  describe('ValidationOptions.always', function () {
+    class MyClass {
+      @Contains('noOptions')
+      noOptions: string;
+
+      @Contains('groupA', {
+        groups: ['A'],
+      })
+      groupA: string;
+
+      @Contains('alwaysFalse', {
+        always: false,
+      })
+      alwaysFalse: string;
+
+      @Contains('alwaysTrue', {
+        always: true,
+      })
+      alwaysTrue: string;
+    }
+
+    const model1 = new MyClass();
+    model1.noOptions = 'XXX';
+    model1.groupA = 'groupA';
+    model1.alwaysFalse = 'alwaysFalse';
+    model1.alwaysTrue = 'alwaysTrue';
+
+    const model2 = new MyClass();
+    model2.noOptions = 'noOptions';
+    model2.groupA = 'XXX';
+    model2.alwaysFalse = 'alwaysFalse';
+    model2.alwaysTrue = 'alwaysTrue';
+
+    const model3 = new MyClass();
+    model3.noOptions = 'noOptions';
+    model3.groupA = 'groupA';
+    model3.alwaysFalse = 'XXX';
+    model3.alwaysTrue = 'alwaysTrue';
+
+    const model4 = new MyClass();
+    model4.noOptions = 'noOptions';
+    model4.groupA = 'groupA';
+    model4.alwaysFalse = 'alwaysFalse';
+    model4.alwaysTrue = 'XXX';
+
+    it('should validate decorator without options', function () {
+      return validator.validate(model1, { always: true, groups: ['A'] }).then(errors => {
+        expect(errors).toHaveLength(1);
+      });
+    });
+
+    it('should not validate decorator with groups if validating without matching groups', function () {
+      return validator.validate(model2, { always: true, groups: ['B'] }).then(errors => {
+        expect(errors).toHaveLength(0);
+      });
+    });
+
+    it('should not validate decorator with always set to false', function () {
+      return validator.validate(model3, { always: true, groups: ['A'] }).then(errors => {
+        expect(errors).toHaveLength(0);
+      });
+    });
+
+    it('should validate decorator with always set to true', function () {
+      return validator.validate(model4, { always: true, groups: ['A'] }).then(errors => {
+        expect(errors).toHaveLength(1);
+      });
+    });
+  });
+
+  describe('strictGroups', function () {
+    class MyClass {
+      @Contains('hello', {
+        groups: ['A'],
+      })
+      title: string;
+    }
+
+    const model1 = new MyClass();
+
+    it('should ignore decorators with groups if validating without groups', function () {
+      return validator.validate(model1, { strictGroups: true }).then(errors => {
+        expect(errors).toHaveLength(0);
+      });
+    });
+
+    it('should ignore decorators with groups if validating with empty groups array', function () {
+      return validator.validate(model1, { strictGroups: true, groups: [] }).then(errors => {
+        expect(errors).toHaveLength(0);
+      });
+    });
+
+    it('should include decorators with groups if validating with matching groups', function () {
+      return validator.validate(model1, { strictGroups: true, groups: ['A'] }).then(errors => {
+        expect(errors).toHaveLength(1);
+        expectTitleContains(errors[0]);
+      });
+    });
+
+    it('should not include decorators with groups if validating with different groups', function () {
+      return validator.validate(model1, { strictGroups: true, groups: ['B'] }).then(errors => {
+        expect(errors).toHaveLength(0);
       });
     });
   });

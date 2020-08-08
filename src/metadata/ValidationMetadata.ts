@@ -47,7 +47,7 @@ export class ValidationMetadata {
   /**
    * Indicates if validation must be performed always, no matter of validation groups used.
    */
-  always: boolean = false;
+  always?: boolean;
 
   /**
    * Specifies if validated value is an array and each of its item must be validated.
