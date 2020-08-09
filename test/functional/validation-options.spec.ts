@@ -3,6 +3,7 @@ import {
   IsDefined,
   Matches,
   MinLength,
+  IsArray,
   Validate,
   ValidateNested,
   ValidatorConstraint,
@@ -1196,6 +1197,13 @@ describe('context', () => {
   });
 
   it('should stop at first error.', () => {
+    class MySubClass {
+      @IsDefined({
+        message: 'isDefined',
+      })
+      name: string;
+    }
+
     class MyClass {
       @IsDefined({
         message: 'isDefined',
@@ -1204,14 +1212,21 @@ describe('context', () => {
         message: 'String is not valid. You string must contain a hello word',
       })
       sameProperty: string;
+
+      @ValidateNested()
+      @IsArray()
+      nestedWithPrimitiveValue: MySubClass[];
     }
 
     const model = new MyClass();
+    model.nestedWithPrimitiveValue = "invalid" as any;
+
     return validator.validate(model, { stopAtFirstError: true }).then(errors => {
-      console.log();
-      expect(errors.length).toEqual(1);
+      expect(errors.length).toEqual(2);
       expect(Object.keys(errors[0].constraints).length).toBe(1);
       expect(errors[0].constraints['isDefined']).toBe('isDefined');
+      expect(Object.keys(errors[1].constraints).length).toBe(1);
+      expect(errors[1].constraints).toHaveProperty('isArray');
     });
   });
 });
