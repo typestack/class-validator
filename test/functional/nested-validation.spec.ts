@@ -305,4 +305,31 @@ describe('nested validation', () => {
       expect(subSubError.value).toEqual('my');
     });
   });
+
+  it('nestedValidation should be defined as an error for the property specifying the decorator when validation fails.', () => {
+    class MySubClass {
+      @MinLength(5)
+      name: string;
+    }
+
+    class MyClass {
+      @ValidateNested()
+      nestedWithClassValue: MySubClass;
+
+      @ValidateNested()
+      nestedWithPrimitiveValue: MySubClass;
+    }
+
+    const instance = new MyClass();
+    instance.nestedWithClassValue = new MySubClass();
+    instance.nestedWithPrimitiveValue = "invalid" as any;
+
+    return validator.validate(instance, {stopAtFirstError: true}).then(errors => {
+      expect(errors[0].property).toEqual('nestedWithClassValue');
+      expect(errors[0].children.length).toEqual(1);
+      expect(errors[0].children[0].constraints).toHaveProperty('minLength');
+      expect(errors[1].property).toEqual('nestedWithPrimitiveValue');
+      expect(errors[1].constraints).toHaveProperty('nestedValidation');
+    });
+  });
 });
