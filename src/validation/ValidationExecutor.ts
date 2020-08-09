@@ -341,6 +341,12 @@ export class ValidationExecutor {
     metadatas.forEach(metadata => {
       if (metadata.type !== ValidationTypes.NESTED_VALIDATION && metadata.type !== ValidationTypes.PROMISE_VALIDATION) {
         return;
+      } else if (
+        this.validatorOptions &&
+        this.validatorOptions.stopAtFirstError &&
+        Object.keys(error.constraints || {}).length > 0
+      ) {
+        return;
       }
 
       if (value instanceof Array || value instanceof Set || value instanceof Map) {
