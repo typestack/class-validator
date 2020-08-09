@@ -320,11 +320,11 @@ describe('nested validation', () => {
       nestedWithPrimitiveValue: MySubClass;
     }
 
-    const instance = new MyClass();
-    instance.nestedWithClassValue = new MySubClass();
-    instance.nestedWithPrimitiveValue = "invalid" as any;
+    const model = new MyClass();
+    model.nestedWithClassValue = new MySubClass();
+    model.nestedWithPrimitiveValue = "invalid" as any;
 
-    return validator.validate(instance, {stopAtFirstError: true}).then(errors => {
+    return validator.validate(model, {stopAtFirstError: true}).then(errors => {
       expect(errors[0].property).toEqual('nestedWithClassValue');
       expect(errors[0].children.length).toEqual(1);
       expect(errors[0].children[0].constraints).toHaveProperty('minLength');
