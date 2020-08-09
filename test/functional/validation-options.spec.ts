@@ -1219,7 +1219,7 @@ describe('context', () => {
     }
 
     const model = new MyClass();
-    model.nestedWithPrimitiveValue = "invalid" as any;
+    model.nestedWithPrimitiveValue = 'invalid' as any;
 
     const hasStopAtFirstError = validator.validate(model, { stopAtFirstError: true }).then(errors => {
       expect(errors.length).toEqual(2);
@@ -1236,7 +1236,7 @@ describe('context', () => {
       expect(Object.keys(errors[1].constraints).length).toBe(2);
       expect(errors[1].constraints).toHaveProperty('isArray');
       expect(errors[1].constraints).toHaveProperty('nestedValidation');
-    })
+    });
 
     return Promise.all([hasStopAtFirstError, hasNotStopAtFirstError]);
   });
