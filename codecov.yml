@@ -3,8 +3,9 @@ coverage:
   round: down
   precision: 2
   status:
-    default:
-      threshold: 3
+    threshold: 0%
+    paths: 
+      - src/**/*.ts
 comment: off
 ignore:
   - testing/**/*.ts
