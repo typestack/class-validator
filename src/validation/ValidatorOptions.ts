@@ -35,6 +35,17 @@ export interface ValidatorOptions {
   groups?: string[];
 
   /**
+   * Set default for `always` option of decorators. Default can be overridden in decorator options.
+   */
+  always?: boolean;
+
+  /**
+   * If [groups]{@link ValidatorOptions#groups} is not given or is empty,
+   * ignore decorators with at least one group.
+   */
+  strictGroups?: boolean;
+
+  /**
    * If set to true, the validation will not use default messages.
    * Error message always will be undefined if its not explicitly set.
    */
