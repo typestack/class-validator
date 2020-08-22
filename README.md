@@ -987,7 +987,7 @@ Here is an example of using it:
 
 ## Validating plain objects
 
-Due to nature of the decorators, the validated object has to be instantiated using `new Class()` syntax. If you have your class defined using class-validator decorators and you want to validate plain JS object (literal object or returned by JSON.parse), you need to transform it to the class instance (e.g. using [class-transformer](https://github.com/pleerock/class-transformer)) or just use the [class-transformer-validator](https://github.com/19majkel94/class-transformer-validator) extension which can do that for you.
+Due to nature of the decorators, the validated object has to be instantiated using `new Class()` syntax. If you have your class defined using class-validator decorators and you want to validate plain JS object (literal object or returned by JSON.parse), you need to transform it to the class instance via using [class-transformer](https://github.com/pleerock/class-transformer)).
 
 ## Samples
 
