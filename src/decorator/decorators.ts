@@ -135,6 +135,8 @@ export * from './array/ArrayNotEmpty';
 export * from './array/ArrayMinSize';
 export * from './array/ArrayMaxSize';
 export * from './array/ArrayUnique';
+export * from './array/ArrayIncludes';
+
 
 // -------------------------------------------------------------------------
 // Object checkers

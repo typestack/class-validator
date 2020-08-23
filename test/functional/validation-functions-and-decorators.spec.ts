@@ -66,6 +66,7 @@ import {
   ArrayContains,
   ArrayNotContains,
   ArrayUnique,
+  ArrayIncludes,
   IsArray,
   IsDateString,
   IsInstance,
@@ -138,6 +139,7 @@ import {
   isHash,
   isISSN,
   arrayContains,
+  arrayIncludes,
   arrayNotContains,
   arrayMinSize,
   arrayMaxSize,
@@ -4204,6 +4206,44 @@ describe('ArrayContains', () => {
   it('should return error object with proper data', () => {
     const validationType = 'arrayContains';
     const message = 'someProperty must contain ' + constraint + ' values';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+
+describe('ArrayIncludes', () => {
+  const constraint = ['world', 'hello', 'superman'];
+  const validValues = [
+    ['world'],
+    ['superman'],
+    ['hello'],
+  ];
+  const invalidValues = [null, undefined, ['world', 'hello1']];
+
+  class MyClass {
+    @ArrayIncludes(constraint)
+    someProperty: string[];
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(arrayIncludes(value, constraint)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(arrayIncludes(value, constraint)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'arrayIncludes';
+    const message = 'someProperty must include some of ' + constraint + ' values';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
