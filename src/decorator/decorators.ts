@@ -137,7 +137,6 @@ export * from './array/ArrayMaxSize';
 export * from './array/ArrayUnique';
 export * from './array/ArrayIncludes';
 
-
 // -------------------------------------------------------------------------
 // Object checkers
 // -------------------------------------------------------------------------

@@ -4,7 +4,7 @@ import { buildMessage, ValidateBy } from '../common/ValidateBy';
 export const ARRAY_INCLUDES = 'arrayIncludes';
 
 /**
- * Checks if all values from the given array of values include array's values.
+ * Checks if all values from the given array of values include some of array's values.
  * If null or undefined is given then this function returns false.
  */
 export function arrayIncludes(array: unknown, values: any[]): boolean {
@@ -14,7 +14,7 @@ export function arrayIncludes(array: unknown, values: any[]): boolean {
 }
 
 /**
- * Checks if all values from the given array of values include array's values.
+ * Checks if all values from the given array of values include some of array's values.
  * If null or undefined is given then this function returns false.
  */
 export function ArrayIncludes(values: any[], validationOptions?: ValidationOptions): PropertyDecorator {

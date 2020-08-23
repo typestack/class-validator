@@ -4210,14 +4210,9 @@ describe('ArrayContains', () => {
   });
 });
 
-
 describe('ArrayIncludes', () => {
   const constraint = ['world', 'hello', 'superman'];
-  const validValues = [
-    ['world'],
-    ['superman'],
-    ['hello'],
-  ];
+  const validValues = [['world'], ['superman'], ['hello']];
   const invalidValues = [null, undefined, ['world', 'hello1']];
 
   class MyClass {
