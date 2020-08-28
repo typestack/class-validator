@@ -94,26 +94,4 @@ describe('conditional validation', () => {
       expect(errors[0].value).toEqual('bad_value');
     });
   });
-
-  it('(i18n) should validate a property when value is supplied', () => {
-    class MyClass {
-      @IsOptional()
-      @Equals('test')
-      title: string = 'bad_value';
-    }
-
-    Object.assign(I18N_MESSAGES, {
-      '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
-    });
-
-    const model = new MyClass();
-
-    return validator.validate(model).then(errors => {
-      expect(errors.length).toEqual(1);
-      expect(errors[0].target).toEqual(model);
-      expect(errors[0].property).toEqual('title');
-      expect(errors[0].constraints).toEqual({ equals: 'title должно быть равно test' });
-      expect(errors[0].value).toEqual('bad_value');
-    });
-  });
 });

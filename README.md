@@ -992,6 +992,55 @@ Due to nature of the decorators, the validated object has to be instantiated usi
 
 ## Basic support i18n
 
+Basic set custom messages
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = {
+  ...I18N_MESSAGES,
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+};
+
+const model = new MyClass();
+
+validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должно быть равно test
+});
+```
+
+Load from file
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/messages-ru.json')).toString());
+
+const model = new MyClass();
+
+validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должен быть равен test
+});
+```
+
+With override
+
 ```typescript
 import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
 
