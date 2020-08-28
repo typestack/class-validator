@@ -1,5 +1,5 @@
 {
-  "$IS_INSTANCE decorator expects and object as value, but got falsy value.": "Декоратор $IS_INSTANCE ожидает и объект как значение, но получил ложное значение.",
+  "$IS_INSTANCE decorator expects and object as value, but got falsy value.": "декоратор $IS_INSTANCE ожидает и объект как значение, но получил ложное значение.",
   "$property is $constraint1": "$property - $constraint1",
   "$property is not a valid decimal number.": "$property не является допустимым десятичным числом.",
   "$property must be a BIC or SWIFT code": "$property должен быть BIC или SWIFT кодом",
@@ -95,7 +95,7 @@
   "$property should not be one of the following values: $constraint1": "$property не должен быть одним из следующих значений: $constraint1",
   "$property should not contain $constraint1 values": "$property не должен содержать $constraint1 значений",
   "$property should not contain a $constraint1 string": "$property не должен содержать $constraint1 строку",
-  "$property's byte length must fall into ($constraint1, $constraint2) range": "Длина байта $propertyдолжна совпадать с диапазоном ($constraint1, $constraint2)",
+  "$property's byte length must fall into ($constraint1, $constraint2) range": "длина байта $property должна совпадать с диапазоном ($constraint1, $constraint2)",
   "All $property's elements must be unique": "Все элементы $propertyдолжны быть уникальными",
   "each value in ": "каждое значение в ",
   "maximal allowed date for ": "максимально допустимая дата для ",
