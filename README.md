@@ -992,26 +992,26 @@ Due to nature of the decorators, the validated object has to be instantiated usi
 
 ## Basic support i18n
 
-  ```typescript
-  import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
 
-  class MyClass {
-    @IsOptional()
-    @Equals('test')
-    title: string = 'bad_value';
-  }
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
 
-  Object.assign(I18N_MESSAGES, {
-    '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
-  });
+Object.assign(I18N_MESSAGES, {
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+});
 
-  const model = new MyClass();
-  
-  validator.validate(model).then(errors => {
-    console.log(errors[0].constraints);
-    // out: title должно быть равно test
-  });
-  ```
+const model = new MyClass();
+
+validator.validate(model).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должно быть равно test
+});
+```
 
 ## Samples
 
