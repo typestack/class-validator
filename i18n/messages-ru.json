@@ -96,7 +96,7 @@
   "$property should not contain $constraint1 values": "$property не должен содержать $constraint1 значений",
   "$property should not contain a $constraint1 string": "$property не должен содержать $constraint1 строку",
   "$property's byte length must fall into ($constraint1, $constraint2) range": "длина байта $property должна совпадать с диапазоном ($constraint1, $constraint2)",
-  "All $property's elements must be unique": "Все элементы $propertyдолжны быть уникальными",
+  "All $property's elements must be unique": "Все элементы $property должны быть уникальными",
   "each value in ": "каждое значение в ",
   "maximal allowed date for ": "максимально допустимая дата для ",
   "minimal allowed date for ": "минимально допустимая дата для ",
