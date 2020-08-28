@@ -101,10 +101,13 @@ describe('conditional validation', () => {
       @Equals('test')
       title: string = 'bad_value';
     }
+
     Object.assign(I18N_MESSAGES, {
       '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
     });
+
     const model = new MyClass();
+
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].target).toEqual(model);
