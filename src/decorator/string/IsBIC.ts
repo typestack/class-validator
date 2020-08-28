@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isBICValidator from 'validator/lib/isBIC';
+import { getText } from '../get-text';
 
 export const IS_BIC = 'isBIC';
 
@@ -23,7 +24,7 @@ export function IsBIC(validationOptions?: ValidationOptions): PropertyDecorator 
       validator: {
         validate: (value, args): boolean => isBIC(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be a BIC or SWIFT code',
+          eachPrefix => eachPrefix + getText('$property must be a BIC or SWIFT code'),
           validationOptions
         ),
       },

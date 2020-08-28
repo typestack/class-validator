@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isVariableWidthValidator from 'validator/lib/isVariableWidth';
+import { getText } from '../get-text';
 
 export const IS_VARIABLE_WIDTH = 'isVariableWidth';
 
@@ -23,7 +24,7 @@ export function IsVariableWidth(validationOptions?: ValidationOptions): Property
       validator: {
         validate: (value, args): boolean => isVariableWidth(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must contain a full-width and half-width characters',
+          eachPrefix => eachPrefix + getText('$property must contain a full-width and half-width characters'),
           validationOptions
         ),
       },

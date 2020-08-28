@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isUppercaseValidator from 'validator/lib/isUppercase';
+import { getText } from '../get-text';
 
 export const IS_UPPERCASE = 'isUppercase';
 
@@ -22,7 +23,10 @@ export function IsUppercase(validationOptions?: ValidationOptions): PropertyDeco
       name: IS_UPPERCASE,
       validator: {
         validate: (value, args): boolean => isUppercase(value),
-        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be uppercase', validationOptions),
+        defaultMessage: buildMessage(
+          eachPrefix => eachPrefix + getText('$property must be uppercase'),
+          validationOptions
+        ),
       },
     },
     validationOptions

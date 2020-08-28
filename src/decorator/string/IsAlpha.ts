@@ -2,6 +2,7 @@ import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isAlphaValidator from 'validator/lib/isAlpha';
 import ValidatorJS from 'validator';
+import { getText } from '../get-text';
 
 export const IS_ALPHA = 'isAlpha';
 
@@ -25,7 +26,7 @@ export function IsAlpha(locale?: string, validationOptions?: ValidationOptions):
       validator: {
         validate: (value, args): boolean => isAlpha(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must contain only letters (a-zA-Z)',
+          eachPrefix => eachPrefix + getText('$property must contain only letters (a-zA-Z)'),
           validationOptions
         ),
       },

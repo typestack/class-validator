@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import containsValidator from 'validator/lib/contains';
+import { getText } from '../get-text';
 
 export const NOT_CONTAINS = 'notContains';
 
@@ -24,7 +25,7 @@ export function NotContains(seed: string, validationOptions?: ValidationOptions)
       validator: {
         validate: (value, args): boolean => notContains(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property should not contain a $constraint1 string',
+          eachPrefix => eachPrefix + getText('$property should not contain a $constraint1 string'),
           validationOptions
         ),
       },

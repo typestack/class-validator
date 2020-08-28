@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { getText } from '../get-text';
 
 export const MAX_DATE = 'maxDate';
 
@@ -21,7 +22,7 @@ export function MaxDate(date: Date, validationOptions?: ValidationOptions): Prop
       validator: {
         validate: (value, args): boolean => maxDate(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => 'maximal allowed date for ' + eachPrefix + '$property is $constraint1',
+          eachPrefix => getText('maximal allowed date for ') + eachPrefix + getText('$property is $constraint1'),
           validationOptions
         ),
       },
