@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { getText } from '../get-text';
 
 export const IS_INT = 'isInt';
 
@@ -20,7 +21,7 @@ export function IsInt(validationOptions?: ValidationOptions): PropertyDecorator 
       validator: {
         validate: (value, args): boolean => isInt(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be an integer number',
+          eachPrefix => eachPrefix + getText('$property must be an integer number'),
           validationOptions
         ),
       },

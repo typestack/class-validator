@@ -2,6 +2,7 @@ import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isCurrencyValidator from 'validator/lib/isCurrency';
 import ValidatorJS from 'validator';
+import { getText } from '../get-text';
 
 export const IS_CURRENCY = 'isCurrency';
 
@@ -27,7 +28,10 @@ export function IsCurrency(
       constraints: [options],
       validator: {
         validate: (value, args): boolean => isCurrency(value, args.constraints[0]),
-        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a currency', validationOptions),
+        defaultMessage: buildMessage(
+          eachPrefix => eachPrefix + getText('$property must be a currency'),
+          validationOptions
+        ),
       },
     },
     validationOptions

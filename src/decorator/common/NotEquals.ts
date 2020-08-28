@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { getText } from '../get-text';
 
 export const NOT_EQUALS = 'notEquals';
 
@@ -21,7 +22,7 @@ export function NotEquals(comparison: any, validationOptions?: ValidationOptions
       validator: {
         validate: (value, args): boolean => notEquals(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property should not be equal to $constraint1',
+          eachPrefix => eachPrefix + getText('$property should not be equal to $constraint1'),
           validationOptions
         ),
       },

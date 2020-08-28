@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { getText } from '../get-text';
 
 export const IS_NEGATIVE = 'isNegative';
 
@@ -20,7 +21,7 @@ export function IsNegative(validationOptions?: ValidationOptions): PropertyDecor
       validator: {
         validate: (value, args): boolean => isNegative(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be a negative number',
+          eachPrefix => eachPrefix + getText('$property must be a negative number'),
           validationOptions
         ),
       },

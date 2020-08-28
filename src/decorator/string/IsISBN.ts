@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isIsbnValidator from 'validator/lib/isISBN';
+import { getText } from '../get-text';
 
 export type IsISBNVersion = '10' | '13' | 10 | 13;
 
@@ -26,7 +27,10 @@ export function IsISBN(version?: IsISBNVersion, validationOptions?: ValidationOp
       constraints: [version],
       validator: {
         validate: (value, args): boolean => isISBN(value, args.constraints[0]),
-        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an ISBN', validationOptions),
+        defaultMessage: buildMessage(
+          eachPrefix => eachPrefix + getText('$property must be an ISBN'),
+          validationOptions
+        ),
       },
     },
     validationOptions

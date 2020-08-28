@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { getText } from '../get-text';
 
 export const ARRAY_UNIQUE = 'arrayUnique';
 
@@ -25,7 +26,7 @@ export function ArrayUnique(validationOptions?: ValidationOptions): PropertyDeco
       validator: {
         validate: (value, args): boolean => arrayUnique(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + "All $property's elements must be unique",
+          eachPrefix => eachPrefix + getText("All $property's elements must be unique"),
           validationOptions
         ),
       },

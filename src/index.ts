@@ -11,6 +11,7 @@ import { getFromContainer } from './container';
 
 export * from './container';
 export * from './decorator/decorators';
+export * from './decorator/get-text';
 export * from './decorator/ValidationOptions';
 export * from './validation/ValidatorConstraintInterface';
 export * from './validation/ValidationError';
@@ -21,6 +22,9 @@ export * from './validation/Validator';
 export * from './validation-schema/ValidationSchema';
 export * from './register-decorator';
 export * from './metadata/MetadataStorage';
+export * from './metadata/ValidationMetadata';
+export * from './metadata/ValidationMetadataArgs';
+export * from './metadata/ConstraintMetadata';
 
 // -------------------------------------------------------------------------
 // Shortcut methods for api users

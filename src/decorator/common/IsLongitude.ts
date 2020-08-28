@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from './ValidateBy';
 import { isLatLong } from './IsLatLong';
+import { getText } from '../get-text';
 
 export const IS_LONGITUDE = 'isLongitude';
 
@@ -21,7 +22,7 @@ export function IsLongitude(validationOptions?: ValidationOptions): PropertyDeco
       validator: {
         validate: (value, args): boolean => isLongitude(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be a longitude string or number',
+          eachPrefix => eachPrefix + getText('$property must be a longitude string or number'),
           validationOptions
         ),
       },

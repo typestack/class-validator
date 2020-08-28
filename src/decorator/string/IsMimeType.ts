@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isMimeTypeValidator from 'validator/lib/isMimeType';
+import { getText } from '../get-text';
 
 export const IS_MIME_TYPE = 'isMimeType';
 
@@ -23,7 +24,7 @@ export function IsMimeType(validationOptions?: ValidationOptions): PropertyDecor
       validator: {
         validate: (value, args): boolean => isMimeType(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be MIME type format',
+          eachPrefix => eachPrefix + getText('$property must be MIME type format'),
           validationOptions
         ),
       },

@@ -1,5 +1,6 @@
 import { IsNotEmpty, ValidateIf, IsOptional, Equals } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
+import { I18N_MESSAGES } from '../../src/decorator/get-text';
 
 const validator = new Validator();
 
@@ -84,11 +85,34 @@ describe('conditional validation', () => {
     }
 
     const model = new MyClass();
+
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].target).toEqual(model);
       expect(errors[0].property).toEqual('title');
       expect(errors[0].constraints).toEqual({ equals: 'title must be equal to test' });
+      expect(errors[0].value).toEqual('bad_value');
+    });
+  });
+
+  it('(i18n) should validate a property when value is supplied', () => {
+    class MyClass {
+      @IsOptional()
+      @Equals('test')
+      title: string = 'bad_value';
+    }
+
+    Object.assign(I18N_MESSAGES, {
+      '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+    });
+
+    const model = new MyClass();
+
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('title');
+      expect(errors[0].constraints).toEqual({ equals: 'title должно быть равно test' });
       expect(errors[0].value).toEqual('bad_value');
     });
   });

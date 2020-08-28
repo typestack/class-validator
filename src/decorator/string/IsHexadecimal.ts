@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isHexadecimalValidator from 'validator/lib/isHexadecimal';
+import { getText } from '../get-text';
 
 export const IS_HEXADECIMAL = 'isHexadecimal';
 
@@ -23,7 +24,7 @@ export function IsHexadecimal(validationOptions?: ValidationOptions): PropertyDe
       validator: {
         validate: (value, args): boolean => isHexadecimal(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be a hexadecimal number',
+          eachPrefix => eachPrefix + getText('$property must be a hexadecimal number'),
           validationOptions
         ),
       },

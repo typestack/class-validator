@@ -37,6 +37,7 @@ Class-validator works on both browser and node.js platforms.
   - [Validation decorators](#validation-decorators)
   - [Defining validation schema without decorators](#defining-validation-schema-without-decorators)
   - [Validating plain objects](#validating-plain-objects)
+  - [Basic support i18n](#basic-support-i18n)
   - [Samples](#samples)
   - [Extensions](#extensions)
   - [Release notes](#release-notes)
@@ -988,6 +989,29 @@ Here is an example of using it:
 ## Validating plain objects
 
 Due to nature of the decorators, the validated object has to be instantiated using `new Class()` syntax. If you have your class defined using class-validator decorators and you want to validate plain JS object (literal object or returned by JSON.parse), you need to transform it to the class instance via using [class-transformer](https://github.com/pleerock/class-transformer)).
+
+## Basic support i18n
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+Object.assign(I18N_MESSAGES, {
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+});
+
+const model = new MyClass();
+
+validator.validate(model).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должно быть равно test
+});
+```
 
 ## Samples
 
