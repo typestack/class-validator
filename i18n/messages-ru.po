@@ -402,7 +402,7 @@ msgstr "$property не должен содержать $constraint1 строку
 
 #: src/decorator/string/IsByteLength.ts:28
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
-msgstr "Длина байта $propertyдолжна совпадать с диапазоном ($constraint1, $constraint2)"
+msgstr "длина байта $property должна совпадать с диапазоном ($constraint1, $constraint2)"
 
 #: src/decorator/array/ArrayUnique.ts:29
 msgid "All $property's elements must be unique"
