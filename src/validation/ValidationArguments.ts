@@ -27,4 +27,9 @@ export interface ValidationArguments {
    * Name of the object's property being validated.
    */
   property: string;
+
+  /**
+   * Context available in custom validator
+   */
+  context?: any;
 }
