@@ -34,7 +34,7 @@
     "test": "jest --coverage --verbose",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand --no-cache --coverage --verbose",
-    "prepack": "npm run build:*"
+    "prepack": "run-s build:*"
   },
   "dependencies": {
     "libphonenumber-js": "^1.7.57",
@@ -54,6 +54,7 @@
     "husky": "^4.2.5",
     "jest": "^26.4.2",
     "lint-staged": "^10.2.13",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.1.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
