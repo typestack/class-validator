@@ -34,7 +34,7 @@
     "test": "jest --coverage --verbose",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand --no-cache --coverage --verbose",
-    "prepack": "run-s build:*"
+    "prepare": "run-s build:*"
   },
   "dependencies": {
     "libphonenumber-js": "^1.7.57",
