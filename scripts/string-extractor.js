@@ -1,5 +1,14 @@
 const { GettextExtractor, JsExtractors, HtmlExtractors } = require('gettext-extractor');
-const { writeFileSync } = require('fs');
+const { writeFileSync, readFileSync, existsSync } = require('fs');
+const { parseFileSync } = require('po2json');
+
+const languages = ['ru'];
+
+const defautLanguage = 'en';
+const defaultJsonFile = `./i18n/messages.json`;
+const defaultPotFile = `./i18n/messages.pot`;
+
+const updatePoFromJson = false;
 
 let extractor = new GettextExtractor();
 
@@ -19,6 +28,54 @@ const messages = extractor.getMessages().reduce((all, cur) => {
   return all;
 }, {});
 
-writeFileSync('./i18n/messages-en.json', JSON.stringify(messages));
-extractor.savePotFile('./i18n/messages.pot');
+
+writeFileSync(defaultJsonFile, JSON.stringify(messages, null, 4));
+extractor.savePotFile(defaultPotFile);
 extractor.printStats();
+
+for (let l = 0; l < languages.length; l++) {
+  const lang = languages[l];
+  const jsonFile = `./i18n/messages-${lang}.json`;
+  const poFile = `./i18n/messages-${lang}.po`;
+
+  let existsJsonData = null;
+  let existsPoAsJsonData = null;
+  
+  if (existsSync(poFile)) {
+    existsPoAsJsonData = convertPoJsonToNormalJson(parseFileSync(poFile));
+  }
+  if (existsSync(jsonFile)) {
+    existsJsonData = JSON.parse(readFileSync(jsonFile));
+  }
+  if (!existsPoAsJsonData) {
+    extractor.savePotFile(poFile);
+    existsPoAsJsonData = messages;
+  }
+  if (existsJsonData && updatePoFromJson) {
+    const keys = Object.keys(existsPoAsJsonData);
+    for (let k = 0; k < keys.length; k++) {
+      const key = keys[k];
+      if (Object.getOwnPropertyDescriptor(existsJsonData, key)) {
+        existsPoAsJsonData[key] = existsJsonData[key];
+      }
+    }
+  }
+  writeFileSync(jsonFile, JSON.stringify(existsPoAsJsonData, null, 4));
+}
+
+function convertPoJsonToNormalJson(data){
+  const newObject = {};
+    if (data && typeof data === 'object') {
+      const keys = Object.keys(data);
+      keys.forEach(key => {
+        if (key && data[key] && Array.isArray(data[key]) && data[key].length === 2) {
+          newObject[key] = data[key][1];
+        } else {
+          if (key) {
+            newObject[key] = data[key];
+          }
+        }
+      });
+    }
+    return newObject;
+}

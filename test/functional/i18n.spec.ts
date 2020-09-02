@@ -68,7 +68,6 @@ describe('i18n', () => {
     const model = new MyClass();
 
     return validator.validate(model, { messages: RU_I18N_MESSAGES }).then(errors => {
-
       expect(errors.length).toEqual(1);
       expect(errors[0].target).toEqual(model);
       expect(errors[0].property).toEqual('title');
@@ -127,5 +126,4 @@ describe('i18n', () => {
       expect(errors[0].value).toEqual('bad_value');
     });
   });
-
 });

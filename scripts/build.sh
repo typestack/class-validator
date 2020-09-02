@@ -1,4 +1,5 @@
 #!/bin/bash
+# simulate ci build in local machine
 npm ci --ignore-scripts
 npm run i18n:extract
 npm run i18n:fix

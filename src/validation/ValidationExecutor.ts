@@ -31,7 +31,7 @@ export class ValidationExecutor {
   // Constructor
   // -------------------------------------------------------------------------
 
-  constructor(private validator: Validator, private validatorOptions?: ValidatorOptions) { }
+  constructor(private validator: Validator, private validatorOptions?: ValidatorOptions) {}
 
   // -------------------------------------------------------------------------
   // Public Methods
@@ -420,7 +420,7 @@ export class ValidationExecutor {
         const key = getText(messageKey);
         const value = messages[messageKey] || messageKey;
         message = (message as string).split(key).join(value);
-      })
+      });
     }
     if (typeof message === 'string' && textHasMarker(message)) {
       message = removeMarkersFromText(message);
