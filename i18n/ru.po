@@ -10,11 +10,11 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2020-09-03 04:05\n"
+"PO-Revision-Date: 2020-09-03 06:06\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
-msgstr "декоратор $IS_INSTANCE ожидает и объект как значение, но получил ложное значение."
+msgstr "декоратор $IS_INSTANCE ожидает в объекте как значение, но получил ложное значение."
 
 #: src/decorator/date/MaxDate.ts:25
 #: src/decorator/date/MinDate.ts:25
