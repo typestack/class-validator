@@ -5,14 +5,14 @@ msgstr ""
 "X-Crowdin-Project: class-validator\n"
 "X-Crowdin-Project-ID: 418130\n"
 "X-Crowdin-Language: ru\n"
-"X-Crowdin-File: template.pot\n"
-"X-Crowdin-File-ID: 18\n"
+"X-Crowdin-File: /i18n/i18n/template.pot\n"
+"X-Crowdin-File-ID: 24\n"
 "Project-Id-Version: class-validator\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2020-08-28 11:28\n"
+"PO-Revision-Date: 2020-09-03 04:05\n"
 
-#: src/decorator/object/IsInstance.ts:34
+#: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
 msgstr "декоратор $IS_INSTANCE ожидает и объект как значение, но получил ложное значение."
 
@@ -33,19 +33,19 @@ msgstr "$property должен быть BIC или SWIFT кодом"
 msgid "$property must be a boolean string"
 msgstr "$property должен быть логической строкой"
 
-#: src/decorator/typechecker/IsBoolean.ts:23
+#: src/decorator/typechecker/IsBoolean.ts:24
 msgid "$property must be a boolean value"
 msgstr "$property должен быть логическим значением"
 
-#: src/decorator/string/IsBtcAddress.ts:26
+#: src/decorator/string/IsBtcAddress.ts:27
 msgid "$property must be a BTC address"
 msgstr "$property должен быть BTC адресом"
 
-#: src/decorator/string/IsCreditCard.ts:26
+#: src/decorator/string/IsCreditCard.ts:27
 msgid "$property must be a credit card"
 msgstr "$property должен быть кредитной картой"
 
-#: src/decorator/string/IsCurrency.ts:31
+#: src/decorator/string/IsCurrency.ts:32
 msgid "$property must be a currency"
 msgstr "$property должно быть валютой"
 
@@ -53,7 +53,7 @@ msgstr "$property должно быть валютой"
 msgid "$property must be a data uri format"
 msgstr "$property должно быть форматом uri данных"
 
-#: src/decorator/typechecker/IsDate.ts:23
+#: src/decorator/typechecker/IsDate.ts:24
 msgid "$property must be a Date instance"
 msgstr "$property должен быть экземпляром даты"
 
@@ -73,7 +73,7 @@ msgstr "$property должен быть шестнадцатеричным цв�
 msgid "$property must be a hexadecimal number"
 msgstr "$property должен быть шестнадцатеричным числом"
 
-#: src/decorator/string/IsHSL.ts:28
+#: src/decorator/string/IsHSL.ts:29
 msgid "$property must be a HSL color"
 msgstr "$property должен быть HSL цветом"
 
@@ -85,11 +85,11 @@ msgstr "$property должен быть идентификационным но�
 msgid "$property must be a ISSN"
 msgstr "$property должен быть ISSN"
 
-#: src/decorator/string/IsJSON.ts:26
+#: src/decorator/string/IsJSON.ts:27
 msgid "$property must be a json string"
 msgstr "$property должен быть json строкой"
 
-#: src/decorator/string/IsJWT.ts:26
+#: src/decorator/string/IsJWT.ts:27
 msgid "$property must be a jwt string"
 msgstr "$property должно быть строкой jwt"
 
@@ -109,11 +109,11 @@ msgstr "$property должен быть строкой или числом"
 msgid "$property must be a lowercase string"
 msgstr "$property должен быть строкой в нижнем регистре"
 
-#: src/decorator/string/IsMacAddress.ts:41
+#: src/decorator/string/IsMacAddress.ts:42
 msgid "$property must be a MAC Address"
 msgstr "$property должен быть MAC-адресом"
 
-#: src/decorator/string/IsMongoId.ts:26
+#: src/decorator/string/IsMongoId.ts:27
 msgid "$property must be a mongodb id"
 msgstr "$property должен быть идентификатором обезьяны"
 
@@ -129,11 +129,11 @@ msgstr "$property должен быть непустым объектом"
 msgid "$property must be a number conforming to the specified constraints"
 msgstr "$property должен быть числом, соответствующим указанным ограничениям"
 
-#: src/decorator/string/IsNumberString.ts:31
+#: src/decorator/string/IsNumberString.ts:32
 msgid "$property must be a number string"
 msgstr "$property должен быть числовой строкой"
 
-#: src/decorator/string/IsMobilePhone.ts:52
+#: src/decorator/string/IsMobilePhone.ts:53
 msgid "$property must be a phone number"
 msgstr "$property должен быть номером телефона"
 
@@ -145,7 +145,7 @@ msgstr "$property должен быть портом"
 msgid "$property must be a positive number"
 msgstr "$property должно быть положительным числом"
 
-#: src/decorator/string/IsPostalCode.ts:33
+#: src/decorator/string/IsPostalCode.ts:34
 msgid "$property must be a postal code"
 msgstr "$property должен быть почтовым индексом"
 
@@ -153,7 +153,7 @@ msgstr "$property должен быть почтовым индексом"
 msgid "$property must be a Semantic Versioning Specification"
 msgstr "$property должен быть спецификацией для Semantic Versioning"
 
-#: src/decorator/typechecker/IsString.ts:23
+#: src/decorator/typechecker/IsString.ts:24
 msgid "$property must be a string"
 msgstr "$property должен быть строкой"
 
@@ -182,11 +182,11 @@ msgstr "$property должен быть действительным ISO31661 к
 msgid "$property must be a valid phone number"
 msgstr "$property должен быть действительным номером телефона"
 
-#: src/decorator/string/IsMilitaryTime.ts:28
+#: src/decorator/string/IsMilitaryTime.ts:29
 msgid "$property must be a valid representation of military time in the format HH:MM"
 msgstr "$property должен быть корректным представлением военного времени в формате HH:MM"
 
-#: src/decorator/typechecker/IsArray.ts:23
+#: src/decorator/typechecker/IsArray.ts:24
 msgid "$property must be an array"
 msgstr "$property должен быть массивом"
 
@@ -194,7 +194,7 @@ msgstr "$property должен быть массивом"
 msgid "$property must be an EAN (European Article Number)"
 msgstr "$property должен быть EAN (европейский номер статьи)"
 
-#: src/decorator/string/IsEmail.ts:31
+#: src/decorator/string/IsEmail.ts:32
 msgid "$property must be an email"
 msgstr "$property должен быть email"
 
@@ -202,11 +202,11 @@ msgstr "$property должен быть email"
 msgid "$property must be an Ethereum address"
 msgstr "$property должен быть Ethereum адресом"
 
-#: src/decorator/string/IsIBAN.ts:26
+#: src/decorator/string/IsIBAN.ts:27
 msgid "$property must be an IBAN"
 msgstr "$property должен быть IBAN"
 
-#: src/decorator/object/IsInstance.ts:32
+#: src/decorator/object/IsInstance.ts:33
 msgid "$property must be an instance of $constraint1name"
 msgstr "$property должен быть экземпляром $constraint1name"
 
@@ -214,11 +214,11 @@ msgstr "$property должен быть экземпляром $constraint1name"
 msgid "$property must be an integer number"
 msgstr "$property должно быть целым числом"
 
-#: src/decorator/string/IsIP.ts:30
+#: src/decorator/string/IsIP.ts:31
 msgid "$property must be an ip address"
 msgstr "$property должен быть IP-адресом"
 
-#: src/decorator/string/IsISBN.ts:30
+#: src/decorator/string/IsISBN.ts:31
 msgid "$property must be an ISBN"
 msgstr "$property должен быть ISBN"
 
@@ -226,27 +226,27 @@ msgstr "$property должен быть ISBN"
 msgid "$property must be an ISIN (stock/security identifier)"
 msgstr "$property должен быть ISIN (идентификатор запасов/безопасности)"
 
-#: src/decorator/string/IsISRC.ts:26
+#: src/decorator/string/IsISRC.ts:27
 msgid "$property must be an ISRC"
 msgstr "$property должен быть ISRC"
 
-#: src/decorator/typechecker/IsObject.ts:25
+#: src/decorator/typechecker/IsObject.ts:26
 msgid "$property must be an object"
 msgstr "$property должен быть объектом"
 
-#: src/decorator/string/IsUrl.ts:28
+#: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
 msgstr "$property должен быть URL-адресом"
 
-#: src/decorator/string/IsUUID.ts:29
+#: src/decorator/string/IsUUID.ts:30
 msgid "$property must be an UUID"
 msgstr "$property должен быть UUID"
 
-#: src/decorator/string/IsBase32.ts:26
+#: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
 msgstr "$property должен быть в кодировке base32"
 
-#: src/decorator/string/IsBase64.ts:26
+#: src/decorator/string/IsBase64.ts:27
 msgid "$property must be base64 encoded"
 msgstr "$property должен быть в кодировке base64"
 
@@ -287,11 +287,11 @@ msgstr "$property должен быть MIME-форматом"
 msgid "$property must be one of the following values: $constraint1"
 msgstr "$property должен быть одним из следующих значений: $constraint1"
 
-#: src/decorator/string/IsRFC3339.ts:26
+#: src/decorator/string/IsRFC3339.ts:27
 msgid "$property must be RFC 3339 date"
 msgstr "$property должен быть датой RFC 3339"
 
-#: src/decorator/string/IsRgbColor.ts:29
+#: src/decorator/string/IsRgbColor.ts:30
 msgid "$property must be RGB color"
 msgstr "$property должен быть RGB цвет"
 
@@ -303,7 +303,7 @@ msgstr "$property должен быть короче или равен $constrai
 msgid "$property must be shorter than or equal to $constraint2 characters"
 msgstr "$property должен быть короче или равен $constraint2 символов"
 
-#: src/decorator/string/IsUppercase.ts:26
+#: src/decorator/string/IsUppercase.ts:27
 msgid "$property must be uppercase"
 msgstr "$property должен быть заглавным"
 
@@ -375,8 +375,8 @@ msgstr "$property не должен быть больше чем $constraint1"
 msgid "$property must not be less than $constraint1"
 msgstr "$property должен быть не меньше чем $constraint1"
 
-#: src/decorator/array/ArrayNotEmpty.ts:25
-#: src/decorator/common/IsNotEmpty.ts:23
+#: src/decorator/array/ArrayNotEmpty.ts:26
+#: src/decorator/common/IsNotEmpty.ts:24
 msgid "$property should not be empty"
 msgstr "$property не может быть пустым"
 
@@ -400,7 +400,7 @@ msgstr "$property не должен содержать $constraint1 значен
 msgid "$property should not contain a $constraint1 string"
 msgstr "$property не должен содержать $constraint1 строку"
 
-#: src/decorator/string/IsByteLength.ts:28
+#: src/decorator/string/IsByteLength.ts:29
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr "длина байта $property должна совпадать с диапазоном ($constraint1, $constraint2)"
 
@@ -408,7 +408,7 @@ msgstr "длина байта $property должна совпадать с ди�
 msgid "All $property's elements must be unique"
 msgstr "Все элементы $property должны быть уникальными"
 
-#: src/decorator/common/ValidateNested.ts:14
+#: src/decorator/common/ValidateNested.ts:13
 msgid "each value in "
 msgstr "каждое значение в "
 
@@ -420,6 +420,7 @@ msgstr "максимально допустимая дата для "
 msgid "minimal allowed date for "
 msgstr "минимально допустимая дата для "
 
-#: src/decorator/common/ValidateNested.ts:15
+#: src/decorator/common/ValidateNested.ts:14
 msgid "nested property $property must be either object or array"
 msgstr "вложенное свойство $property должно быть либо объектом, либо массивом"
+
