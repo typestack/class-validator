@@ -8,6 +8,7 @@ import { ValidationArguments } from './ValidationArguments';
 import { ValidationUtils } from './ValidationUtils';
 import { isPromise, convertToArray } from '../utils';
 import { getMetadataStorage } from '../metadata/MetadataStorage';
+import { getText, I18N_MESSAGES } from '../decorator/get-text';
 
 /**
  * Executes validation over given object.
@@ -413,7 +414,14 @@ export class ValidationExecutor {
         message = customValidatorMetadata.instance.defaultMessage(validationArguments);
       }
     }
-
+    if (typeof message === 'string') {
+      const messages = (this.validatorOptions && this.validatorOptions.messages) || I18N_MESSAGES;
+      Object.keys(messages).forEach(messageKey => {
+        const key = getText(messageKey);
+        const value = messages[messageKey] || messageKey;
+        message = (message as string).split(key).join(value);
+      });
+    }
     const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments);
     return [type, messageString];
   }

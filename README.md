@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/typestack/class-validator/branch/develop/graph/badge.svg)](https://codecov.io/gh/typestack/class-validator)
 [![npm version](https://badge.fury.io/js/class-validator.svg)](https://badge.fury.io/js/class-validator)
 [![install size](https://packagephobia.now.sh/badge?p=class-validator)](https://packagephobia.now.sh/result?p=class-validator)
+[![Crowdin](https://badges.crowdin.net/class-validator/localized.svg)](https://crowdin.com/project/class-validator)
 
 Allows use of decorator and non-decorator based validation.
 Internally uses [validator.js][1] to perform validation.
@@ -37,6 +38,7 @@ Class-validator works on both browser and node.js platforms.
   - [Validation decorators](#validation-decorators)
   - [Defining validation schema without decorators](#defining-validation-schema-without-decorators)
   - [Validating plain objects](#validating-plain-objects)
+  - [Basic support i18n](#basic-support-i18n)
   - [Samples](#samples)
   - [Extensions](#extensions)
   - [Release notes](#release-notes)
@@ -988,6 +990,80 @@ Here is an example of using it:
 ## Validating plain objects
 
 Due to nature of the decorators, the validated object has to be instantiated using `new Class()` syntax. If you have your class defined using class-validator decorators and you want to validate plain JS object (literal object or returned by JSON.parse), you need to transform it to the class instance via using [class-transformer](https://github.com/pleerock/class-transformer)).
+
+## Basic support i18n
+
+Translations created with the machine, if you found the mistake please add a new version of translate and write a comment in the right panel in https://crowdin.com/
+
+Basic set custom messages
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = {
+  ...I18N_MESSAGES,
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+};
+
+const model = new MyClass();
+
+validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должно быть равно test
+});
+```
+
+Load from file
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/ru.json')).toString());
+
+const model = new MyClass();
+
+validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должен быть равен test
+});
+```
+
+With override
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+Object.assign(I18N_MESSAGES, {
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+});
+
+const model = new MyClass();
+
+validator.validate(model).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должно быть равно test
+});
+```
 
 ## Samples
 

@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { getText } from '../get-text';
 
 export const ARRAY_MAX_SIZE = 'arrayMaxSize';
 
@@ -23,7 +24,7 @@ export function ArrayMaxSize(max: number, validationOptions?: ValidationOptions)
       validator: {
         validate: (value, args): boolean => arrayMaxSize(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must contain not more than $constraint1 elements',
+          eachPrefix => eachPrefix + getText('$property must contain not more than $constraint1 elements'),
           validationOptions
         ),
       },

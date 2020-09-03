@@ -1,0 +1,426 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: class-validator\n"
+"X-Crowdin-Project-ID: 418130\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /i18n/i18n/template.pot\n"
+"X-Crowdin-File-ID: 24\n"
+"Project-Id-Version: class-validator\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2020-09-03 04:05\n"
+
+#: src/decorator/object/IsInstance.ts:41
+msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
+msgstr "$IS_INSTANCE 装饰者期望值和对象作为值，但却获得虚假值。"
+
+#: src/decorator/date/MaxDate.ts:25
+#: src/decorator/date/MinDate.ts:25
+msgid "$property is $constraint1"
+msgstr "$property 是 $constraint1"
+
+#: src/decorator/string/IsDecimal.ts:32
+msgid "$property is not a valid decimal number."
+msgstr "$property 不是一个有效的十进制数字。"
+
+#: src/decorator/string/IsBIC.ts:27
+msgid "$property must be a BIC or SWIFT code"
+msgstr "$property 必须是 BIC 或 SWIFT 代码"
+
+#: src/decorator/string/IsBooleanString.ts:27
+msgid "$property must be a boolean string"
+msgstr "$property 必须是一个布尔值"
+
+#: src/decorator/typechecker/IsBoolean.ts:24
+msgid "$property must be a boolean value"
+msgstr "$property 必须是一个布尔值"
+
+#: src/decorator/string/IsBtcAddress.ts:27
+msgid "$property must be a BTC address"
+msgstr "$property 必须是 BTC 地址"
+
+#: src/decorator/string/IsCreditCard.ts:27
+msgid "$property must be a credit card"
+msgstr "$property 必须是一张信用卡"
+
+#: src/decorator/string/IsCurrency.ts:32
+msgid "$property must be a currency"
+msgstr "$property 必须是货币"
+
+#: src/decorator/string/IsDataURI.ts:27
+msgid "$property must be a data uri format"
+msgstr "$property 必须是一个数据 uri 格式"
+
+#: src/decorator/typechecker/IsDate.ts:24
+msgid "$property must be a Date instance"
+msgstr "$property 必须是日期实例"
+
+#: src/decorator/string/IsFirebasePushId.ts:27
+msgid "$property must be a Firebase Push Id"
+msgstr "$property 必须是 Firebase推送ID"
+
+#: src/decorator/string/IsHash.ts:31
+msgid "$property must be a hash of type $constraint1"
+msgstr "$property 必须是类型 $constraint1 的哈希值"
+
+#: src/decorator/string/IsHexColor.ts:27
+msgid "$property must be a hexadecimal color"
+msgstr "$property 必须是十六进制颜色"
+
+#: src/decorator/string/IsHexadecimal.ts:27
+msgid "$property must be a hexadecimal number"
+msgstr "$property 必须是十六进制数字"
+
+#: src/decorator/string/IsHSL.ts:29
+msgid "$property must be a HSL color"
+msgstr "$property 必须是一个 HSL 颜色"
+
+#: src/decorator/string/IsIdentityCard.ts:36
+msgid "$property must be a identity card number"
+msgstr "$property 必须是身份卡号"
+
+#: src/decorator/string/IsISSN.ts:28
+msgid "$property must be a ISSN"
+msgstr "$property 必须是一个 ISSN"
+
+#: src/decorator/string/IsJSON.ts:27
+msgid "$property must be a json string"
+msgstr "$property 必须是 json 字符串"
+
+#: src/decorator/string/IsJWT.ts:27
+msgid "$property must be a jwt string"
+msgstr "$property 必须是 jwt 字符串"
+
+#: src/decorator/common/IsLatitude.ts:25
+msgid "$property must be a latitude string or number"
+msgstr "$property 必须是纬度字符串或数字"
+
+#: src/decorator/common/IsLatLong.ts:25
+msgid "$property must be a latitude,longitude string"
+msgstr "$property 必须是纬度字符串，经度字符串"
+
+#: src/decorator/common/IsLongitude.ts:25
+msgid "$property must be a longitude string or number"
+msgstr "$property 必须是经度字符串或数字"
+
+#: src/decorator/string/IsLowercase.ts:27
+msgid "$property must be a lowercase string"
+msgstr "$property 必须是小写字符串"
+
+#: src/decorator/string/IsMacAddress.ts:42
+msgid "$property must be a MAC Address"
+msgstr "$property 必须是 MAC 地址"
+
+#: src/decorator/string/IsMongoId.ts:27
+msgid "$property must be a mongodb id"
+msgstr "$property 必须是 Mongodb id"
+
+#: src/decorator/number/IsNegative.ts:24
+msgid "$property must be a negative number"
+msgstr "$property 必须是负数"
+
+#: src/decorator/object/IsNotEmptyObject.ts:45
+msgid "$property must be a non-empty object"
+msgstr "$property 必须是非空对象"
+
+#: src/decorator/typechecker/IsNumber.ts:56
+msgid "$property must be a number conforming to the specified constraints"
+msgstr "$property 必须是符合指定约束的数字"
+
+#: src/decorator/string/IsNumberString.ts:32
+msgid "$property must be a number string"
+msgstr "$property 必须是一个数字字符串"
+
+#: src/decorator/string/IsMobilePhone.ts:53
+msgid "$property must be a phone number"
+msgstr "$property 必须是电话号码"
+
+#: src/decorator/string/IsPort.ts:24
+msgid "$property must be a port"
+msgstr "$property 必须是一个端口"
+
+#: src/decorator/number/IsPositive.ts:24
+msgid "$property must be a positive number"
+msgstr "$property 必须是一个正数"
+
+#: src/decorator/string/IsPostalCode.ts:34
+msgid "$property must be a postal code"
+msgstr "$property 必须是一个邮政编码"
+
+#: src/decorator/string/IsSemVer.ts:27
+msgid "$property must be a Semantic Versioning Specification"
+msgstr "$property 必须是语义版本规格。"
+
+#: src/decorator/typechecker/IsString.ts:24
+msgid "$property must be a string"
+msgstr "$property 必须是字符串"
+
+#: src/decorator/string/IsFQDN.ts:29
+msgid "$property must be a valid domain name"
+msgstr "$property 必须是一个有效的域名"
+
+#: src/decorator/typechecker/IsEnum.ts:26
+msgid "$property must be a valid enum value"
+msgstr "$property 必须是一个有效的枚举值"
+
+#: src/decorator/string/IsDateString.ts:30
+#: src/decorator/string/IsISO8601.ts:34
+msgid "$property must be a valid ISO 8601 date string"
+msgstr "$property 必须是一个有效的 ISO 8601 日期字符串"
+
+#: src/decorator/string/IsISO31661Alpha2.ts:25
+msgid "$property must be a valid ISO31661 Alpha2 code"
+msgstr "$property 必须是有效的 ISO31661 Alpha2 代码"
+
+#: src/decorator/string/IsISO31661Alpha3.ts:25
+msgid "$property must be a valid ISO31661 Alpha3 code"
+msgstr "$property 必须是有效的 ISO31661 Alpha3 代码"
+
+#: src/decorator/string/IsPhoneNumber.ts:41
+msgid "$property must be a valid phone number"
+msgstr "$property 必须是一个有效的电话号码"
+
+#: src/decorator/string/IsMilitaryTime.ts:29
+msgid "$property must be a valid representation of military time in the format HH:MM"
+msgstr "$property 必须是以HH:MM 格式有效的军事时间"
+
+#: src/decorator/typechecker/IsArray.ts:24
+msgid "$property must be an array"
+msgstr "$property 必须是一个数组"
+
+#: src/decorator/string/IsEAN.ts:27
+msgid "$property must be an EAN (European Article Number)"
+msgstr "$property 必须是 ECO(欧洲文章编号)"
+
+#: src/decorator/string/IsEmail.ts:32
+msgid "$property must be an email"
+msgstr "$property 必须是电子邮件"
+
+#: src/decorator/string/IsEthereumAddress.ts:27
+msgid "$property must be an Ethereum address"
+msgstr "$property 必须是 Ethereum 地址"
+
+#: src/decorator/string/IsIBAN.ts:27
+msgid "$property must be an IBAN"
+msgstr "$property 必须是 IBAN"
+
+#: src/decorator/object/IsInstance.ts:33
+msgid "$property must be an instance of $constraint1name"
+msgstr "$property 必须是 $constraint1name 的实例"
+
+#: src/decorator/typechecker/IsInt.ts:24
+msgid "$property must be an integer number"
+msgstr "$property 必须是整数"
+
+#: src/decorator/string/IsIP.ts:31
+msgid "$property must be an ip address"
+msgstr "$property 必须是一个IP地址"
+
+#: src/decorator/string/IsISBN.ts:31
+msgid "$property must be an ISBN"
+msgstr "$property 必须是一个 ISBN"
+
+#: src/decorator/string/IsISIN.ts:27
+msgid "$property must be an ISIN (stock/security identifier)"
+msgstr "$property 必须是 ISIN (库存/安全标识符)"
+
+#: src/decorator/string/IsISRC.ts:27
+msgid "$property must be an ISRC"
+msgstr "$property 必须是一个 ISRC"
+
+#: src/decorator/typechecker/IsObject.ts:26
+msgid "$property must be an object"
+msgstr "$property 必须是对象"
+
+#: src/decorator/string/IsUrl.ts:29
+msgid "$property must be an URL address"
+msgstr "$property 必须是一个URL地址"
+
+#: src/decorator/string/IsUUID.ts:30
+msgid "$property must be an UUID"
+msgstr "$property 必须是 UUID"
+
+#: src/decorator/string/IsBase32.ts:27
+msgid "$property must be base32 encoded"
+msgstr "$property 必须以 base32 编码"
+
+#: src/decorator/string/IsBase64.ts:27
+msgid "$property must be base64 encoded"
+msgstr "$property 必须以 base64 编码"
+
+#: src/decorator/number/IsDivisibleBy.ts:26
+msgid "$property must be divisible by $constraint1"
+msgstr "$property 必须被 $constraint1 拆分"
+
+#: src/decorator/common/IsEmpty.ts:23
+msgid "$property must be empty"
+msgstr "$property 必须为空"
+
+#: src/decorator/common/Equals.ts:25
+msgid "$property must be equal to $constraint1"
+msgstr "$property 必须等于 $constraint1"
+
+#: src/decorator/string/IsLocale.ts:26
+msgid "$property must be locale"
+msgstr "$property 必须是区域设置"
+
+#: src/decorator/string/Length.ts:37
+msgid "$property must be longer than or equal to $constraint1 and shorter than or equal to $constraint2 characters"
+msgstr "$property 必须长于或等于 $constraint1 并且短于或等于 $constraint2 个字符"
+
+#: src/decorator/string/Length.ts:31
+#: src/decorator/string/MinLength.ts:28
+msgid "$property must be longer than or equal to $constraint1 characters"
+msgstr "$property 必须长于或等于 $constraint1 个字符"
+
+#: src/decorator/string/IsMagnetURI.ts:27
+msgid "$property must be magnet uri format"
+msgstr "$property 必须是 magnet uri 格式"
+
+#: src/decorator/string/IsMimeType.ts:27
+msgid "$property must be MIME type format"
+msgstr "$property 必须是 MIME 类型格式"
+
+#: src/decorator/common/IsIn.ts:25
+msgid "$property must be one of the following values: $constraint1"
+msgstr "$property 必须是以下值之一： $constraint1"
+
+#: src/decorator/string/IsRFC3339.ts:27
+msgid "$property must be RFC 3339 date"
+msgstr "$property 必须是 RFC 3339 日期"
+
+#: src/decorator/string/IsRgbColor.ts:30
+msgid "$property must be RGB color"
+msgstr "$property 必须是 RGB 颜色"
+
+#: src/decorator/string/MaxLength.ts:28
+msgid "$property must be shorter than or equal to $constraint1 characters"
+msgstr "$property 必须小于或等于 $constraint1 个字符"
+
+#: src/decorator/string/Length.ts:33
+msgid "$property must be shorter than or equal to $constraint2 characters"
+msgstr "$property 必须小于或等于 $constraint2 个字符"
+
+#: src/decorator/string/IsUppercase.ts:27
+msgid "$property must be uppercase"
+msgstr "$property 必须是大写"
+
+#: src/decorator/string/IsOctal.ts:27
+msgid "$property must be valid octal number"
+msgstr "$property 必须是有效的八进制数字"
+
+#: src/decorator/string/IsPassportNumber.ts:28
+msgid "$property must be valid passport number"
+msgstr "$property 必须是有效的护照号码"
+
+#: src/decorator/array/ArrayContains.ts:29
+msgid "$property must contain $constraint1 values"
+msgstr "$property 必须包含 $constraint1 个值"
+
+#: src/decorator/string/Contains.ts:28
+msgid "$property must contain a $constraint1 string"
+msgstr "$property 必须包含 $constraint1 字符串"
+
+#: src/decorator/string/IsVariableWidth.ts:27
+msgid "$property must contain a full-width and half-width characters"
+msgstr "$property 必须包含全宽和半宽字符"
+
+#: src/decorator/string/IsFullWidth.ts:27
+msgid "$property must contain a full-width characters"
+msgstr "$property 必须包含全宽字符"
+
+#: src/decorator/string/IsHalfWidth.ts:27
+msgid "$property must contain a half-width characters"
+msgstr "$property 必须包含半宽字符"
+
+#: src/decorator/string/IsSurrogatePair.ts:27
+msgid "$property must contain any surrogate pairs chars"
+msgstr "$property 必须包含任何代理对字符"
+
+#: src/decorator/array/ArrayMinSize.ts:27
+msgid "$property must contain at least $constraint1 elements"
+msgstr "$property 必须包含至少 $constraint1 元素"
+
+#: src/decorator/array/ArrayMaxSize.ts:27
+msgid "$property must contain not more than $constraint1 elements"
+msgstr "$property 必须包含不超过 $constraint1 元素"
+
+#: src/decorator/string/IsMultibyte.ts:27
+msgid "$property must contain one or more multibyte chars"
+msgstr "$property 必须包含一个或多个多字节"
+
+#: src/decorator/string/IsAscii.ts:27
+msgid "$property must contain only ASCII characters"
+msgstr "$property 只能包含 ASCII 字符"
+
+#: src/decorator/string/IsAlpha.ts:29
+msgid "$property must contain only letters (a-zA-Z)"
+msgstr "$property 只能包含字母 (a-zA-Z)"
+
+#: src/decorator/string/IsAlphanumeric.ts:29
+msgid "$property must contain only letters and numbers"
+msgstr "$property 只能包含字母和数字"
+
+#: src/decorator/string/Matches.ts:43
+msgid "$property must match $constraint1 regular expression"
+msgstr "$property 必须匹配 $constraint1 正则表达式"
+
+#: src/decorator/number/Max.ts:25
+msgid "$property must not be greater than $constraint1"
+msgstr "$property 不能大于 $constraint1"
+
+#: src/decorator/number/Min.ts:25
+msgid "$property must not be less than $constraint1"
+msgstr "$property 不能小于 $constraint1"
+
+#: src/decorator/array/ArrayNotEmpty.ts:26
+#: src/decorator/common/IsNotEmpty.ts:24
+msgid "$property should not be empty"
+msgstr "$property 不应该为空"
+
+#: src/decorator/common/NotEquals.ts:25
+msgid "$property should not be equal to $constraint1"
+msgstr "$property 不能等于 $constraint1"
+
+#: src/decorator/common/IsDefined.ts:26
+msgid "$property should not be null or undefined"
+msgstr "$property 不应为空或未定义"
+
+#: src/decorator/common/IsNotIn.ts:25
+msgid "$property should not be one of the following values: $constraint1"
+msgstr "$property 不应该是以下值之一: $constraint1"
+
+#: src/decorator/array/ArrayNotContains.ts:29
+msgid "$property should not contain $constraint1 values"
+msgstr "$property 不应该包含 $constraint1 个值"
+
+#: src/decorator/string/NotContains.ts:28
+msgid "$property should not contain a $constraint1 string"
+msgstr "$property 不应该包含 $constraint1 字符串"
+
+#: src/decorator/string/IsByteLength.ts:29
+msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
+msgstr "$property的字节长度必须到 ($constraint1, $constraint2) 范围"
+
+#: src/decorator/array/ArrayUnique.ts:29
+msgid "All $property's elements must be unique"
+msgstr "所有 $property的元素必须是唯一的"
+
+#: src/decorator/common/ValidateNested.ts:13
+msgid "each value in "
+msgstr "每个值在 "
+
+#: src/decorator/date/MaxDate.ts:25
+msgid "maximal allowed date for "
+msgstr "最大允许日期 "
+
+#: src/decorator/date/MinDate.ts:25
+msgid "minimal allowed date for "
+msgstr "最小允许日期 "
+
+#: src/decorator/common/ValidateNested.ts:14
+msgid "nested property $property must be either object or array"
+msgstr "嵌套属性 $property 必须是对象或数组"
+

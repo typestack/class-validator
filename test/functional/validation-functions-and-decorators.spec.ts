@@ -3656,13 +3656,13 @@ describe('Length', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'length';
+    const validationType = 'isLength';
     const message = 'someProperty must be longer than or equal to ' + constraint1 + ' characters';
     checkReturnedError(new MyClass(), ['', 'a'], validationType, message);
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'length';
+    const validationType = 'isLength';
     const message = 'someProperty must be shorter than or equal to ' + constraint2 + ' characters';
     checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
   });

@@ -2,6 +2,7 @@ import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isIdentityCardValidator from 'validator/lib/isIdentityCard';
 import ValidatorJS from 'validator';
+import { getText } from '../get-text';
 
 export const IS_IDENTITY_CARD = 'isIdentityCard';
 
@@ -32,7 +33,7 @@ export function IsIdentityCard(
       validator: {
         validate: (value, args): boolean => isIdentityCard(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be a identity card number',
+          eachPrefix => eachPrefix + getText('$property must be a identity card number'),
           validationOptions
         ),
       },

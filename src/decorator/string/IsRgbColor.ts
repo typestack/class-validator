@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isRgbColorValidator from 'validator/lib/isRgbColor';
+import { getText } from '../get-text';
 
 export const IS_RGB_COLOR = 'isRgbColor';
 
@@ -25,7 +26,10 @@ export function IsRgbColor(includePercentValues?: boolean, validationOptions?: V
       constraints: [includePercentValues],
       validator: {
         validate: (value, args): boolean => isRgbColor(value, args.constraints[0]),
-        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be RGB color', validationOptions),
+        defaultMessage: buildMessage(
+          eachPrefix => eachPrefix + getText('$property must be RGB color'),
+          validationOptions
+        ),
       },
     },
     validationOptions

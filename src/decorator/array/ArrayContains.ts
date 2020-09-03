@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { getText } from '../get-text';
 
 export const ARRAY_CONTAINS = 'arrayContains';
 
@@ -25,7 +26,7 @@ export function ArrayContains(values: any[], validationOptions?: ValidationOptio
       validator: {
         validate: (value, args): boolean => arrayContains(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must contain $constraint1 values',
+          eachPrefix => eachPrefix + getText('$property must contain $constraint1 values'),
           validationOptions
         ),
       },

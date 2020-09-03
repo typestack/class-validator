@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isUuidValidator from 'validator/lib/isUUID';
+import { getText } from '../get-text';
 
 export type UUIDVersion = '3' | '4' | '5' | 'all' | 3 | 4 | 5;
 
@@ -25,7 +26,10 @@ export function IsUUID(version?: UUIDVersion, validationOptions?: ValidationOpti
       constraints: [version],
       validator: {
         validate: (value, args): boolean => isUUID(value, args.constraints[0]),
-        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an UUID', validationOptions),
+        defaultMessage: buildMessage(
+          eachPrefix => eachPrefix + getText('$property must be an UUID'),
+          validationOptions
+        ),
       },
     },
     validationOptions

@@ -1208,7 +1208,6 @@ describe('context', () => {
 
     const model = new MyClass();
     return validator.validate(model, { stopAtFirstError: true }).then(errors => {
-      console.log();
       expect(errors.length).toEqual(1);
       expect(Object.keys(errors[0].constraints).length).toBe(1);
       expect(errors[0].constraints['isDefined']).toBe('isDefined');

@@ -2,6 +2,7 @@ import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isAlphanumericValidator from 'validator/lib/isAlphanumeric';
 import ValidatorJS from 'validator';
+import { getText } from '../get-text';
 
 export const IS_ALPHANUMERIC = 'isAlphanumeric';
 
@@ -25,7 +26,7 @@ export function IsAlphanumeric(locale?: string, validationOptions?: ValidationOp
       validator: {
         validate: (value, args): boolean => isAlphanumeric(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must contain only letters and numbers',
+          eachPrefix => eachPrefix + getText('$property must contain only letters and numbers'),
           validationOptions
         ),
       },

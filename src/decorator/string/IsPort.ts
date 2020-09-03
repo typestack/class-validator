@@ -1,6 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isPortValidator from 'validator/lib/isPort';
+import { getText } from '../get-text';
 
 export const IS_PORT = 'isPort';
 
@@ -20,7 +21,7 @@ export function IsPort(validationOptions?: ValidationOptions): PropertyDecorator
       name: IS_PORT,
       validator: {
         validate: (value, args): boolean => isPort(value),
-        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a port', validationOptions),
+        defaultMessage: buildMessage(eachPrefix => eachPrefix + getText('$property must be a port'), validationOptions),
       },
     },
     validationOptions

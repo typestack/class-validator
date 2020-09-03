@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { getText } from '../get-text';
 
 export const IS_FIREBASE_PUSH_ID = 'IsFirebasePushId';
 
@@ -23,7 +24,7 @@ export function IsFirebasePushId(validationOptions?: ValidationOptions): Propert
       validator: {
         validate: (value, args): boolean => isFirebasePushId(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be a Firebase Push Id',
+          eachPrefix => eachPrefix + getText('$property must be a Firebase Push Id'),
           validationOptions
         ),
       },

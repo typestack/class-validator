@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { getText } from '../get-text';
 
 export const MAX = 'max';
 
@@ -21,7 +22,7 @@ export function Max(maxValue: number, validationOptions?: ValidationOptions): Pr
       validator: {
         validate: (value, args): boolean => max(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must not be greater than $constraint1',
+          eachPrefix => eachPrefix + getText('$property must not be greater than $constraint1'),
           validationOptions
         ),
       },

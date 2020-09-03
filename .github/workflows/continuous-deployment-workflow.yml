@@ -12,6 +12,8 @@ jobs:
         with:
           registry-url: https://registry.npmjs.org
       - run: npm ci --ignore-scripts
+      - run: npm run i18n:extract
+      - run: npm run i18n:fix
       - run: npm run prettier:check
       - run: npm run lint:check
       - run: npm run test:ci
@@ -20,6 +22,7 @@ jobs:
       - run: npm run build:cjs
       - run: npm run build:umd
       - run: npm run build:types
+      - run: cp -r i18n build
       - run: cp LICENSE build/LICENSE
       - run: cp README.md build/README.md
       - run: jq 'del(.devDependencies) | del(.scripts)' package.json > build/package.json
