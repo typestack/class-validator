@@ -1,4 +1,4 @@
-titleAndCommits: false
+titleAndCommits: true
 allowMergeCommits: false
 scopes:
   - deps
