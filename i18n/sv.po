@@ -1,0 +1,426 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: class-validator\n"
+"X-Crowdin-Project-ID: 418130\n"
+"X-Crowdin-Language: sv-SE\n"
+"X-Crowdin-File: /i18n/i18n/template.pot\n"
+"X-Crowdin-File-ID: 24\n"
+"Project-Id-Version: class-validator\n"
+"Language-Team: Swedish\n"
+"Language: sv_SE\n"
+"PO-Revision-Date: 2020-09-03 04:05\n"
+
+#: src/decorator/object/IsInstance.ts:41
+msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
+msgstr "$IS_INSTANCE dekorator förväntar sig och objekt som värde, men fick falskt värde."
+
+#: src/decorator/date/MaxDate.ts:25
+#: src/decorator/date/MinDate.ts:25
+msgid "$property is $constraint1"
+msgstr "$property är $constraint1"
+
+#: src/decorator/string/IsDecimal.ts:32
+msgid "$property is not a valid decimal number."
+msgstr "$property är inte ett giltigt decimaltal."
+
+#: src/decorator/string/IsBIC.ts:27
+msgid "$property must be a BIC or SWIFT code"
+msgstr "$property måste vara en BIC eller SWIFT-kod"
+
+#: src/decorator/string/IsBooleanString.ts:27
+msgid "$property must be a boolean string"
+msgstr "$property måste vara en boolesk sträng"
+
+#: src/decorator/typechecker/IsBoolean.ts:24
+msgid "$property must be a boolean value"
+msgstr "$property måste vara ett booleskt värde"
+
+#: src/decorator/string/IsBtcAddress.ts:27
+msgid "$property must be a BTC address"
+msgstr "$property måste vara en BTC adress"
+
+#: src/decorator/string/IsCreditCard.ts:27
+msgid "$property must be a credit card"
+msgstr "$property måste vara ett kreditkort"
+
+#: src/decorator/string/IsCurrency.ts:32
+msgid "$property must be a currency"
+msgstr "$property måste vara en valuta"
+
+#: src/decorator/string/IsDataURI.ts:27
+msgid "$property must be a data uri format"
+msgstr "$property måste vara en data-uri format"
+
+#: src/decorator/typechecker/IsDate.ts:24
+msgid "$property must be a Date instance"
+msgstr "$property måste vara en datuminstans"
+
+#: src/decorator/string/IsFirebasePushId.ts:27
+msgid "$property must be a Firebase Push Id"
+msgstr "$property måste vara ett Firebase Push Id"
+
+#: src/decorator/string/IsHash.ts:31
+msgid "$property must be a hash of type $constraint1"
+msgstr "$property måste vara en hash av typen $constraint1"
+
+#: src/decorator/string/IsHexColor.ts:27
+msgid "$property must be a hexadecimal color"
+msgstr "$property måste vara en hexadecimal färg"
+
+#: src/decorator/string/IsHexadecimal.ts:27
+msgid "$property must be a hexadecimal number"
+msgstr "$property måste vara ett hexadecimaltal"
+
+#: src/decorator/string/IsHSL.ts:29
+msgid "$property must be a HSL color"
+msgstr "$property måste vara en HSL-färg"
+
+#: src/decorator/string/IsIdentityCard.ts:36
+msgid "$property must be a identity card number"
+msgstr "$property måste vara ett identitetskortsnummer"
+
+#: src/decorator/string/IsISSN.ts:28
+msgid "$property must be a ISSN"
+msgstr "$property måste vara en ISSN"
+
+#: src/decorator/string/IsJSON.ts:27
+msgid "$property must be a json string"
+msgstr "$property måste vara en json-sträng"
+
+#: src/decorator/string/IsJWT.ts:27
+msgid "$property must be a jwt string"
+msgstr "$property måste vara en jwt-sträng"
+
+#: src/decorator/common/IsLatitude.ts:25
+msgid "$property must be a latitude string or number"
+msgstr "$property måste vara en latitud-sträng eller ett nummer"
+
+#: src/decorator/common/IsLatLong.ts:25
+msgid "$property must be a latitude,longitude string"
+msgstr "$property måste vara en breddgrad, longitud sträng"
+
+#: src/decorator/common/IsLongitude.ts:25
+msgid "$property must be a longitude string or number"
+msgstr "$property måste vara en longitudsträng eller ett nummer"
+
+#: src/decorator/string/IsLowercase.ts:27
+msgid "$property must be a lowercase string"
+msgstr "$property måste vara en liten sträng"
+
+#: src/decorator/string/IsMacAddress.ts:42
+msgid "$property must be a MAC Address"
+msgstr "$property måste vara en MAC-adress"
+
+#: src/decorator/string/IsMongoId.ts:27
+msgid "$property must be a mongodb id"
+msgstr "$property måste vara ett mongodb-id"
+
+#: src/decorator/number/IsNegative.ts:24
+msgid "$property must be a negative number"
+msgstr "$property måste vara ett negativt tal"
+
+#: src/decorator/object/IsNotEmptyObject.ts:45
+msgid "$property must be a non-empty object"
+msgstr "$property måste vara ett icke-tomt objekt"
+
+#: src/decorator/typechecker/IsNumber.ts:56
+msgid "$property must be a number conforming to the specified constraints"
+msgstr "$property måste vara ett nummer som överensstämmer med de angivna begränsningarna"
+
+#: src/decorator/string/IsNumberString.ts:32
+msgid "$property must be a number string"
+msgstr "$property måste vara en nummersträng"
+
+#: src/decorator/string/IsMobilePhone.ts:53
+msgid "$property must be a phone number"
+msgstr "$property måste vara ett telefonnummer"
+
+#: src/decorator/string/IsPort.ts:24
+msgid "$property must be a port"
+msgstr "$property måste vara en port"
+
+#: src/decorator/number/IsPositive.ts:24
+msgid "$property must be a positive number"
+msgstr "$property måste vara ett positivt tal"
+
+#: src/decorator/string/IsPostalCode.ts:34
+msgid "$property must be a postal code"
+msgstr "$property måste vara ett postnummer"
+
+#: src/decorator/string/IsSemVer.ts:27
+msgid "$property must be a Semantic Versioning Specification"
+msgstr "$property måste vara en Semantisk versionshanteringsspecifikation"
+
+#: src/decorator/typechecker/IsString.ts:24
+msgid "$property must be a string"
+msgstr "$property måste vara en sträng"
+
+#: src/decorator/string/IsFQDN.ts:29
+msgid "$property must be a valid domain name"
+msgstr "$property måste vara ett giltigt domännamn"
+
+#: src/decorator/typechecker/IsEnum.ts:26
+msgid "$property must be a valid enum value"
+msgstr "$property måste vara ett giltigt enum-värde"
+
+#: src/decorator/string/IsDateString.ts:30
+#: src/decorator/string/IsISO8601.ts:34
+msgid "$property must be a valid ISO 8601 date string"
+msgstr "$property måste vara en giltig ISO 8601 datum-sträng"
+
+#: src/decorator/string/IsISO31661Alpha2.ts:25
+msgid "$property must be a valid ISO31661 Alpha2 code"
+msgstr "$property måste vara en giltig ISO31661 alfa2-kod"
+
+#: src/decorator/string/IsISO31661Alpha3.ts:25
+msgid "$property must be a valid ISO31661 Alpha3 code"
+msgstr "$property måste vara en giltig ISO31661 alfa3-kod"
+
+#: src/decorator/string/IsPhoneNumber.ts:41
+msgid "$property must be a valid phone number"
+msgstr "$property måste vara ett giltigt telefonnummer"
+
+#: src/decorator/string/IsMilitaryTime.ts:29
+msgid "$property must be a valid representation of military time in the format HH:MM"
+msgstr "$property måste vara en giltig representation av militär tid i formatet HH:MM"
+
+#: src/decorator/typechecker/IsArray.ts:24
+msgid "$property must be an array"
+msgstr "$property måste vara en array"
+
+#: src/decorator/string/IsEAN.ts:27
+msgid "$property must be an EAN (European Article Number)"
+msgstr "$property måste vara en EAN (europeiskt artikelnummer)"
+
+#: src/decorator/string/IsEmail.ts:32
+msgid "$property must be an email"
+msgstr "$property måste vara en e-postadress"
+
+#: src/decorator/string/IsEthereumAddress.ts:27
+msgid "$property must be an Ethereum address"
+msgstr "$property måste vara en Ethereum-adress"
+
+#: src/decorator/string/IsIBAN.ts:27
+msgid "$property must be an IBAN"
+msgstr "$property måste vara en IBAN"
+
+#: src/decorator/object/IsInstance.ts:33
+msgid "$property must be an instance of $constraint1name"
+msgstr "$property måste vara en instans av $constraint1name"
+
+#: src/decorator/typechecker/IsInt.ts:24
+msgid "$property must be an integer number"
+msgstr "$property måste vara ett heltal nummer"
+
+#: src/decorator/string/IsIP.ts:31
+msgid "$property must be an ip address"
+msgstr "$property måste vara en IP-adress"
+
+#: src/decorator/string/IsISBN.ts:31
+msgid "$property must be an ISBN"
+msgstr "$property måste vara en ISBN"
+
+#: src/decorator/string/IsISIN.ts:27
+msgid "$property must be an ISIN (stock/security identifier)"
+msgstr "$property måste vara en ISIN (lager/säkerhetsidentifierare)"
+
+#: src/decorator/string/IsISRC.ts:27
+msgid "$property must be an ISRC"
+msgstr "$property måste vara en ISRC"
+
+#: src/decorator/typechecker/IsObject.ts:26
+msgid "$property must be an object"
+msgstr "$property måste vara ett objekt"
+
+#: src/decorator/string/IsUrl.ts:29
+msgid "$property must be an URL address"
+msgstr "$property måste vara en URL-adress"
+
+#: src/decorator/string/IsUUID.ts:30
+msgid "$property must be an UUID"
+msgstr "$property måste vara ett UUID"
+
+#: src/decorator/string/IsBase32.ts:27
+msgid "$property must be base32 encoded"
+msgstr "$property måste vara base32 kodad"
+
+#: src/decorator/string/IsBase64.ts:27
+msgid "$property must be base64 encoded"
+msgstr "$property måste vara base64-kodad"
+
+#: src/decorator/number/IsDivisibleBy.ts:26
+msgid "$property must be divisible by $constraint1"
+msgstr "$property måste vara delbart med $constraint1"
+
+#: src/decorator/common/IsEmpty.ts:23
+msgid "$property must be empty"
+msgstr "$property måste vara tom"
+
+#: src/decorator/common/Equals.ts:25
+msgid "$property must be equal to $constraint1"
+msgstr "$property måste vara lika med $constraint1"
+
+#: src/decorator/string/IsLocale.ts:26
+msgid "$property must be locale"
+msgstr "$property måste vara lokal"
+
+#: src/decorator/string/Length.ts:37
+msgid "$property must be longer than or equal to $constraint1 and shorter than or equal to $constraint2 characters"
+msgstr "$property måste vara längre än eller lika med $constraint1 och kortare än eller lika med $constraint2 tecken"
+
+#: src/decorator/string/Length.ts:31
+#: src/decorator/string/MinLength.ts:28
+msgid "$property must be longer than or equal to $constraint1 characters"
+msgstr "$property måste vara längre än eller lika med $constraint1 tecken"
+
+#: src/decorator/string/IsMagnetURI.ts:27
+msgid "$property must be magnet uri format"
+msgstr "$property måste vara magnet uri format"
+
+#: src/decorator/string/IsMimeType.ts:27
+msgid "$property must be MIME type format"
+msgstr "$property måste vara MIME-typformat"
+
+#: src/decorator/common/IsIn.ts:25
+msgid "$property must be one of the following values: $constraint1"
+msgstr "$property måste vara ett av följande värden: $constraint1"
+
+#: src/decorator/string/IsRFC3339.ts:27
+msgid "$property must be RFC 3339 date"
+msgstr "$property måste vara RFC 3339 datum"
+
+#: src/decorator/string/IsRgbColor.ts:30
+msgid "$property must be RGB color"
+msgstr "$property måste vara RGB-färg"
+
+#: src/decorator/string/MaxLength.ts:28
+msgid "$property must be shorter than or equal to $constraint1 characters"
+msgstr "$property måste vara kortare än eller lika med $constraint1 tecken"
+
+#: src/decorator/string/Length.ts:33
+msgid "$property must be shorter than or equal to $constraint2 characters"
+msgstr "$property måste vara kortare än eller lika med $constraint2 tecken"
+
+#: src/decorator/string/IsUppercase.ts:27
+msgid "$property must be uppercase"
+msgstr "$property måste vara versaler"
+
+#: src/decorator/string/IsOctal.ts:27
+msgid "$property must be valid octal number"
+msgstr "$property måste vara giltigt oktal nummer"
+
+#: src/decorator/string/IsPassportNumber.ts:28
+msgid "$property must be valid passport number"
+msgstr "$property måste vara giltigt passnummer"
+
+#: src/decorator/array/ArrayContains.ts:29
+msgid "$property must contain $constraint1 values"
+msgstr "$property måste innehålla $constraint1 värden"
+
+#: src/decorator/string/Contains.ts:28
+msgid "$property must contain a $constraint1 string"
+msgstr "$property måste innehålla en $constraint1 sträng"
+
+#: src/decorator/string/IsVariableWidth.ts:27
+msgid "$property must contain a full-width and half-width characters"
+msgstr "$property måste innehålla tecken med full bredd och halvbredd"
+
+#: src/decorator/string/IsFullWidth.ts:27
+msgid "$property must contain a full-width characters"
+msgstr "$property måste innehålla tecken med full bredd"
+
+#: src/decorator/string/IsHalfWidth.ts:27
+msgid "$property must contain a half-width characters"
+msgstr "$property måste innehålla en halv bredd tecken"
+
+#: src/decorator/string/IsSurrogatePair.ts:27
+msgid "$property must contain any surrogate pairs chars"
+msgstr "$property måste innehålla något surrogatpar-tecken"
+
+#: src/decorator/array/ArrayMinSize.ts:27
+msgid "$property must contain at least $constraint1 elements"
+msgstr "$property måste innehålla minst $constraint1 element"
+
+#: src/decorator/array/ArrayMaxSize.ts:27
+msgid "$property must contain not more than $constraint1 elements"
+msgstr "$property får inte innehålla mer än $constraint1 element"
+
+#: src/decorator/string/IsMultibyte.ts:27
+msgid "$property must contain one or more multibyte chars"
+msgstr "$property måste innehålla ett eller flera multibyte-tecken"
+
+#: src/decorator/string/IsAscii.ts:27
+msgid "$property must contain only ASCII characters"
+msgstr "$property får endast innehålla ASCII-tecken"
+
+#: src/decorator/string/IsAlpha.ts:29
+msgid "$property must contain only letters (a-zA-Z)"
+msgstr "$property får endast innehålla bokstäver (a-zA-Z)"
+
+#: src/decorator/string/IsAlphanumeric.ts:29
+msgid "$property must contain only letters and numbers"
+msgstr "$property får endast innehålla bokstäver och siffror"
+
+#: src/decorator/string/Matches.ts:43
+msgid "$property must match $constraint1 regular expression"
+msgstr "$property måste matcha reguljärt uttryck $constraint1"
+
+#: src/decorator/number/Max.ts:25
+msgid "$property must not be greater than $constraint1"
+msgstr "$property får inte vara större än $constraint1"
+
+#: src/decorator/number/Min.ts:25
+msgid "$property must not be less than $constraint1"
+msgstr "$property får inte vara mindre än $constraint1"
+
+#: src/decorator/array/ArrayNotEmpty.ts:26
+#: src/decorator/common/IsNotEmpty.ts:24
+msgid "$property should not be empty"
+msgstr "$property får inte vara tom"
+
+#: src/decorator/common/NotEquals.ts:25
+msgid "$property should not be equal to $constraint1"
+msgstr "$property bör inte vara lika med $constraint1"
+
+#: src/decorator/common/IsDefined.ts:26
+msgid "$property should not be null or undefined"
+msgstr "$property bör inte vara noll eller odefinierad"
+
+#: src/decorator/common/IsNotIn.ts:25
+msgid "$property should not be one of the following values: $constraint1"
+msgstr "$property bör inte vara ett av följande värden: $constraint1"
+
+#: src/decorator/array/ArrayNotContains.ts:29
+msgid "$property should not contain $constraint1 values"
+msgstr "$property bör inte innehålla $constraint1 värden"
+
+#: src/decorator/string/NotContains.ts:28
+msgid "$property should not contain a $constraint1 string"
+msgstr "$property får inte innehålla en $constraint1 sträng"
+
+#: src/decorator/string/IsByteLength.ts:29
+msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
+msgstr "$propertys byte längd måste falla in i intervallet ($constraint1, $constraint2)"
+
+#: src/decorator/array/ArrayUnique.ts:29
+msgid "All $property's elements must be unique"
+msgstr "Alla $propertys element måste vara unika"
+
+#: src/decorator/common/ValidateNested.ts:13
+msgid "each value in "
+msgstr "varje värde i "
+
+#: src/decorator/date/MaxDate.ts:25
+msgid "maximal allowed date for "
+msgstr "maximalt tillåtna datum för "
+
+#: src/decorator/date/MinDate.ts:25
+msgid "minimal allowed date for "
+msgstr "minimalt tillåtet datum för "
+
+#: src/decorator/common/ValidateNested.ts:14
+msgid "nested property $property must be either object or array"
+msgstr "kapslad egenskap $property måste vara antingen objekt eller array"
+
