@@ -13,7 +13,7 @@ npm run build:esm5
 npm run build:cjs
 npm run build:umd
 npm run build:types
-cp -r i18n build/i18n
+cp -r i18n build
 cp LICENSE build/LICENSE
 cp README.md build/README.md
 jq 'del(.devDependencies) | del(.scripts)' package.json > build/package.json

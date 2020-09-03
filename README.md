@@ -1029,7 +1029,7 @@ class MyClass {
   title: string = 'bad_value';
 }
 
-const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/messages-ru.json')).toString());
+const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/ru.json')).toString());
 
 const model = new MyClass();
 

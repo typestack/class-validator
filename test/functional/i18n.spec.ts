@@ -91,8 +91,8 @@ describe('i18n', () => {
       title: string = 'bad_value';
     }
 
-    // in project: "node_modules/class-validator/i18n/messages-ru.json"
-    const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, '../../i18n/messages-ru.json')).toString());
+    // in project: "node_modules/class-validator/i18n/ru.json"
+    const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, '../../i18n/ru.json')).toString());
 
     const model = new MyClass();
 

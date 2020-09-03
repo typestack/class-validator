@@ -1,14 +1,21 @@
 const { GettextExtractor, JsExtractors, HtmlExtractors } = require('gettext-extractor');
-const { writeFileSync, readFileSync, existsSync } = require('fs');
+const { writeFileSync, readFileSync, existsSync, readdirSync } = require('fs');
 const { parseFileSync } = require('po2json');
-
-const languages = ['ru'];
+const { parse } = require('path');
 
 const defautLanguage = 'en';
-const defaultJsonFile = `./i18n/messages.json`;
-const defaultPotFile = `./i18n/messages.pot`;
+const defaultJsonFile = `./i18n/${defautLanguage}.json`;
+const defaultPotFile = `./i18n/template.pot`;
 
 const updatePoFromJson = false;
+
+const languages = [];
+
+readdirSync('./i18n').forEach(file => {
+  if (parse(file).ext === '.po') {
+    languages.push(parse(file).name);
+  }
+});
 
 let extractor = new GettextExtractor();
 
@@ -28,19 +35,18 @@ const messages = extractor.getMessages().reduce((all, cur) => {
   return all;
 }, {});
 
-
 writeFileSync(defaultJsonFile, JSON.stringify(messages, null, 4));
 extractor.savePotFile(defaultPotFile);
 extractor.printStats();
 
 for (let l = 0; l < languages.length; l++) {
   const lang = languages[l];
-  const jsonFile = `./i18n/messages-${lang}.json`;
-  const poFile = `./i18n/messages-${lang}.po`;
+  const jsonFile = `./i18n/${lang}.json`;
+  const poFile = `./i18n/${lang}.po`;
 
   let existsJsonData = null;
   let existsPoAsJsonData = null;
-  
+
   if (existsSync(poFile)) {
     existsPoAsJsonData = convertPoJsonToNormalJson(parseFileSync(poFile));
   }
@@ -63,19 +69,19 @@ for (let l = 0; l < languages.length; l++) {
   writeFileSync(jsonFile, JSON.stringify(existsPoAsJsonData, null, 4));
 }
 
-function convertPoJsonToNormalJson(data){
+function convertPoJsonToNormalJson(data) {
   const newObject = {};
-    if (data && typeof data === 'object') {
-      const keys = Object.keys(data);
-      keys.forEach(key => {
-        if (key && data[key] && Array.isArray(data[key]) && data[key].length === 2) {
-          newObject[key] = data[key][1];
-        } else {
-          if (key) {
-            newObject[key] = data[key];
-          }
+  if (data && typeof data === 'object') {
+    const keys = Object.keys(data);
+    keys.forEach(key => {
+      if (key && data[key] && Array.isArray(data[key]) && data[key].length === 2) {
+        newObject[key] = data[key][1];
+      } else {
+        if (key) {
+          newObject[key] = data[key];
         }
-      });
-    }
-    return newObject;
+      }
+    });
+  }
+  return newObject;
 }
