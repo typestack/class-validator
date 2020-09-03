@@ -26,6 +26,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci --ignore-scripts
+      - run: npm run i18n:extract
       - run: npm run test:ci
       - run: npm install codecov -g
         if: ${{ matrix.node-version == '14.x' }}
