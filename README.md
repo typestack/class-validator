@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/typestack/class-validator/branch/develop/graph/badge.svg)](https://codecov.io/gh/typestack/class-validator)
 [![npm version](https://badge.fury.io/js/class-validator.svg)](https://badge.fury.io/js/class-validator)
 [![install size](https://packagephobia.now.sh/badge?p=class-validator)](https://packagephobia.now.sh/result?p=class-validator)
+[![Crowdin](https://badges.crowdin.net/class-validator/localized.svg)](https://crowdin.com/project/class-validator)
 
 Allows use of decorator and non-decorator based validation.
 Internally uses [validator.js][1] to perform validation.
