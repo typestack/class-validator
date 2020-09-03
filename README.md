@@ -993,6 +993,8 @@ Due to nature of the decorators, the validated object has to be instantiated usi
 
 ## Basic support i18n
 
+Translations created with the machine, if you found the mistake please add a new version of translate and write a comment in the right panel in https://crowdin.com/
+
 Basic set custom messages
 
 ```typescript
