@@ -33,8 +33,7 @@
     "lint:check": "eslint --max-warnings 0 --ext .ts src/",
     "test": "jest --coverage --verbose",
     "test:watch": "jest --watch",
-    "test:ci": "jest --runInBand --no-cache --coverage --verbose",
-    "prepare": "run-s build:* && cp -r ./build/* ./"
+    "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
     "libphonenumber-js": "^1.7.57",
