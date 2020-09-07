@@ -56,7 +56,7 @@ describe('inherited validation', () => {
       expect(errors[0].property).toEqual('title');
       expect(errors[0].constraints).toEqual({
         minLength: 'title must be longer than or equal to 5 characters',
-        contains: 'title must contain a hello string' ,
+        contains: 'title must contain a hello string',
       });
       expect(errors[0].value).toEqual('helo');
     });
