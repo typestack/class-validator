@@ -138,9 +138,10 @@ export class MetadataStorage {
     // filter out duplicate metadatas, prefer original metadatas instead of inherited metadatas
     const uniqueInheritedMetadatas = inheritedMetadatas.filter(inheritedMetadata => {
       return !originalMetadatas.find(originalMetadata => {
+        // expect validators to be duplicate if they point to the same validator function
         return (
           originalMetadata.propertyName === inheritedMetadata.propertyName &&
-          originalMetadata.type === inheritedMetadata.type
+          originalMetadata.constraintCls === inheritedMetadata.constraintCls
         );
       });
     });

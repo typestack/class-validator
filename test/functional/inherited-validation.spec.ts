@@ -34,4 +34,31 @@ describe('inherited validation', () => {
       expect(errors[1].value).toEqual('helo world');
     });
   });
+
+  it('should use validators from parent and child classes', () => {
+    expect.assertions(5);
+
+    class MyClass {
+      @Contains('hello')
+      title: string;
+    }
+
+    class MySubClass extends MyClass {
+      @MinLength(5)
+      title: string;
+    }
+
+    const model = new MySubClass();
+    model.title = 'helo';
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('title');
+      expect(errors[0].constraints).toEqual({
+        minLength: 'title must be longer than or equal to 5 characters',
+        contains: 'title must contain a hello string' ,
+      });
+      expect(errors[0].value).toEqual('helo');
+    });
+  });
 });
