@@ -11,7 +11,7 @@ import {
   Min,
   Max,
   ValidationError,
-} from 'class-validator';
+} from 'class-validator-i18n';
 
 export class Book {
   @IsString()

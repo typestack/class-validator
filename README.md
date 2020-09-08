@@ -1,9 +1,131 @@
+# Fork of [class-validator](https://github.com/typestack/class-validator)
+
+This project is a fork of another with minor changes, created for personal use.
+
+Long term support is not guaranteed, use of this copy is at your own risk.
+
+## Differences from the original project:
+
+:fire: This feature added support integrations with https://crowdin.com/ for manual simplified update translates :cn: :de: :ru: :us:
+
+:earth_americas: Translations created with the machine :robot:, if you found the mistake :bug: please add a new version of translate and write a comment in the right panel in https://crowdin.com/project/class-validator :sunglasses:
+
+## Examples of usages
+
+:godmode: Basic set custom messages
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = {
+  ...I18N_MESSAGES,
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+};
+
+const model = new MyClass();
+
+validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должно быть равно test
+});
+```
+
+:rage3: Load from file
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/ru.json')).toString());
+
+const model = new MyClass();
+
+validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должен быть равен test
+});
+```
+
+:goberserk: Load from 2 file :bomb: :boom:
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = {
+  ...I18N_MESSAGES,
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+};
+
+const FR_I18N_MESSAGES = {
+  ...I18N_MESSAGES,
+  '$property must be equal to $constraint1': '$property doit être égal à $constraint1',
+};
+
+const model = new MyClass();
+
+validator.validate(model, { messages: RU_I18N_MESSAGES }).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должно быть равно test
+
+  validator.validate(model, { messages: FR_I18N_MESSAGES }).then(errors => {
+    console.log(errors[0].constraints);
+    // out: title doit être égal à test
+  });
+});
+```
+
+:feelsgood: With override
+
+```typescript
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+Object.assign(I18N_MESSAGES, {
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+});
+
+const model = new MyClass();
+
+validator.validate(model).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должно быть равно test
+});
+```
+
+---
+
 # class-validator
 
-![Build Status](https://github.com/typestack/class-validator/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/typestack/class-validator/branch/develop/graph/badge.svg)](https://codecov.io/gh/typestack/class-validator)
-[![npm version](https://badge.fury.io/js/class-validator.svg)](https://badge.fury.io/js/class-validator)
-[![install size](https://packagephobia.now.sh/badge?p=class-validator)](https://packagephobia.now.sh/result?p=class-validator)
+![Build Status](https://github.com/EndyKaufman/class-validator-i18n/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/gh/endykaufman/class-validator/branch/i18n_develop/graph/badge.svg)](https://codecov.io/gh/endykaufman/class-validator)
+[![npm version](https://badge.fury.io/js/class-validator-i18n.svg)](https://badge.fury.io/js/class-validator)
+[![install size](https://packagephobia.now.sh/badge?p=class-validator-i18n)](https://packagephobia.now.sh/result?p=class-validator-i18n)
 [![Crowdin](https://badges.crowdin.net/class-validator/localized.svg)](https://crowdin.com/project/class-validator)
 
 Allows use of decorator and non-decorator based validation.
@@ -67,7 +189,7 @@ import {
   IsDate,
   Min,
   Max,
-} from 'class-validator';
+} from 'class-validator-i18n';
 
 export class Post {
   @Length(10, 20)
@@ -196,7 +318,7 @@ You can specify validation message in the decorator options and that message wil
 returned by the `validate` method (in the case that validation for this field fails).
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'class-validator-i18n';
 
 export class Post {
   @MinLength(10, {
@@ -219,7 +341,7 @@ There are few special tokens you can use in your messages:
 Example of usage:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'class-validator-i18n';
 
 export class Post {
   @MinLength(10, {
@@ -237,7 +359,7 @@ export class Post {
 Also you can provide a function, that returns a message. This allows you to create more granular messages:
 
 ```typescript
-import { MinLength, MaxLength, ValidationArguments } from 'class-validator';
+import { MinLength, MaxLength, ValidationArguments } from 'class-validator-i18n';
 
 export class Post {
   @MinLength(10, {
@@ -267,7 +389,7 @@ If your field is an array and you want to perform validation of each item in the
 special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'class-validator-i18n';
 
 export class Post {
   @MaxLength(20, {
@@ -285,7 +407,7 @@ If your field is a set and you want to perform validation of each item in the se
 special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'class-validator-i18n';
 
 export class Post {
   @MaxLength(20, {
@@ -303,7 +425,7 @@ If your field is a map and you want to perform validation of each item in the ma
 special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'class-validator-i18n';
 
 export class Post {
   @MaxLength(20, {
@@ -321,7 +443,7 @@ If your object contains nested objects and you want the validator to perform the
 use the `@ValidateNested()` decorator:
 
 ```typescript
-import { ValidateNested } from 'class-validator';
+import { ValidateNested } from 'class-validator-i18n';
 
 export class Post {
   @ValidateNested()
@@ -334,7 +456,7 @@ Please note that nested object _must_ be an instance of a class, otherwise `@Val
 It also works with multi-dimensional array, like :
 
 ```typescript
-import { ValidateNested } from 'class-validator';
+import { ValidateNested } from 'class-validator-i18n';
 
 export class Plan2D {
   @ValidateNested()
@@ -347,7 +469,7 @@ export class Plan2D {
 If your object contains property with `Promise`-returned value that should be validated, then you need to use the `@ValidatePromise()` decorator:
 
 ```typescript
-import { ValidatePromise, Min } from 'class-validator';
+import { ValidatePromise, Min } from 'class-validator-i18n';
 
 export class Post {
   @Min(0)
@@ -359,7 +481,7 @@ export class Post {
 It also works great with `@ValidateNested` decorator:
 
 ```typescript
-import { ValidateNested, ValidatePromise } from 'class-validator';
+import { ValidateNested, ValidatePromise } from 'class-validator-i18n';
 
 export class Post {
   @ValidateNested()
@@ -373,7 +495,7 @@ export class Post {
 When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant class decorators will be applied on it both from that and the base class.
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'class-validator-i18n';
 
 class BaseContent {
   @IsEmail()
@@ -412,7 +534,7 @@ validate(user).then(errors => {
 The conditional validation decorator (`@ValidateIf`) can be used to ignore the validators on a property when the provided condition function returns false. The condition function takes the object being validated and must return a `boolean`.
 
 ```typescript
-import { ValidateIf, IsNotEmpty } from 'class-validator';
+import { ValidateIf, IsNotEmpty } from 'class-validator-i18n';
 
 export class Post {
   otherProperty: string;
@@ -433,7 +555,7 @@ Even if your object is an instance of a validation class it can contain addition
 If you do not want to have such properties on your object, pass special flag to `validate` method:
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'class-validator-i18n';
 // ...
 validate(post, { whitelist: true });
 ```
@@ -442,7 +564,7 @@ This will strip all properties that don't have any decorators. If no other decor
 you can use @Allow decorator:
 
 ```typescript
-import {validate, Allow, Min} from "class-validator";
+import {validate, Allow, Min} from "class-validator-i18n";
 
 export class Post {
 
@@ -473,7 +595,7 @@ If you would rather to have an error thrown when any non-whitelisted properties 
 `validate` method:
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'class-validator-i18n';
 // ...
 validate(post, { whitelist: true, forbidNonWhitelisted: true });
 ```
@@ -483,7 +605,7 @@ validate(post, { whitelist: true, forbidNonWhitelisted: true });
 It's possible to pass a custom object to decorators which will be accessible on the `ValidationError` instance of the property if validation failed.
 
 ```ts
-import { validate } from 'class-validator';
+import { validate } from 'class-validator-i18n';
 
 class MyClass {
   @MinLength(32, {
@@ -511,7 +633,7 @@ but skip everything else, e.g. skip missing properties.
 In such situations you will need to pass a special flag to `validate` method:
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'class-validator-i18n';
 // ...
 validate(post, { skipMissingProperties: true });
 ```
@@ -526,7 +648,7 @@ In different situations you may want to use different validation schemas of the 
 In such cases you can use validation groups.
 
 ```typescript
-import { validate, Min, Length } from 'class-validator';
+import { validate, Min, Length } from 'class-validator-i18n';
 
 export class User {
   @Min(12, {
@@ -575,7 +697,7 @@ If you have custom validation logic you can create a _Constraint class_:
 1. First create a file, lets say `CustomTextLength.ts`, and define a new class:
 
    ```typescript
-   import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
+   import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator-i18n';
 
    @ValidatorConstraint({ name: 'customText', async: false })
    export class CustomTextLength implements ValidatorConstraintInterface {
@@ -605,7 +727,7 @@ If you have custom validation logic you can create a _Constraint class_:
 2) Then you can use your new validation constraint in your class:
 
    ```typescript
-   import { Validate } from 'class-validator';
+   import { Validate } from 'class-validator-i18n';
    import { CustomTextLength } from './CustomTextLength';
 
    export class Post {
@@ -621,7 +743,7 @@ If you have custom validation logic you can create a _Constraint class_:
 3) And use validator as usual:
 
    ```typescript
-   import { validate } from 'class-validator';
+   import { validate } from 'class-validator-i18n';
 
    validate(post).then(errors => {
      // ...
@@ -631,7 +753,7 @@ If you have custom validation logic you can create a _Constraint class_:
 You can also pass constraints to your validator, like this:
 
 ```typescript
-import { Validate } from 'class-validator';
+import { Validate } from 'class-validator-i18n';
 import { CustomTextLength } from './CustomTextLength';
 
 export class Post {
@@ -645,7 +767,7 @@ export class Post {
 And use them from `validationArguments` object:
 
 ```typescript
-import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator-i18n';
 
 @ValidatorConstraint()
 export class CustomTextLength implements ValidatorConstraintInterface {
@@ -663,7 +785,7 @@ Lets create a decorator called `@IsLongerThan`:
 1. Create a decorator itself:
 
    ```typescript
-   import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+   import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator-i18n';
 
    export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
      return function (object: Object, propertyName: string) {
@@ -713,7 +835,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
      ValidatorConstraint,
      ValidatorConstraintInterface,
      ValidationArguments,
-   } from 'class-validator';
+   } from 'class-validator-i18n';
 
    @ValidatorConstraint({ async: true })
    export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
@@ -760,7 +882,7 @@ classes. Here is example how to integrate it with [typedi][2]:
 
 ```typescript
 import { Container } from 'typedi';
-import { useContainer, Validator } from 'class-validator';
+import { useContainer, Validator } from 'class-validator-i18n';
 
 // do this somewhere in the global application level:
 useContainer(Container);
@@ -781,7 +903,7 @@ you have.
 There are several method exist in the Validator that allows to perform non-decorator based validation:
 
 ```typescript
-import { isEmpty, isBoolean } from 'class-validator';
+import { isEmpty, isBoolean } from 'class-validator-i18n';
 
 isEmpty(value);
 isBoolean(value);
@@ -924,7 +1046,7 @@ Here is an example of using it:
 1. Create a schema object:
 
    ```typescript
-   import { ValidationSchema } from 'class-validator';
+   import { ValidationSchema } from 'class-validator-i18n';
    export let UserValidationSchema: ValidationSchema = {
      // using interface here is not required, its just for type-safety
      name: 'myUserSchema', // this is required, and must be unique
@@ -963,7 +1085,7 @@ Here is an example of using it:
 2. Register your schema:
 
    ```typescript
-   import { registerSchema } from 'class-validator';
+   import { registerSchema } from 'class-validator-i18n';
    import { UserValidationSchema } from './UserValidationSchema';
    registerSchema(UserValidationSchema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
    ```
@@ -973,7 +1095,7 @@ Here is an example of using it:
 3. Validate your object using validation schema:
 
    ```typescript
-   import { validate } from 'class-validator';
+   import { validate } from 'class-validator-i18n';
    const user = { firstName: 'Johny', secondName: 'Cage', email: 'johny@cage.com' };
    validate('myUserSchema', user).then(errors => {
      if (errors.length > 0) {
@@ -998,7 +1120,7 @@ Translations created with the machine, if you found the mistake please add a new
 Basic set custom messages
 
 ```typescript
-import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator-i18n';
 
 class MyClass {
   @IsOptional()
@@ -1022,7 +1144,7 @@ validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
 Load from file
 
 ```typescript
-import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator-i18n';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -1045,7 +1167,7 @@ validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
 With override
 
 ```typescript
-import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator-i18n';
 
 class MyClass {
   @IsOptional()
