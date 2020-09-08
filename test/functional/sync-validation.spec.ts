@@ -18,12 +18,12 @@ describe('sync validation should ignore async validation constraints', () => {
   function IsLonger(property: string, validationOptions?: ValidationOptions) {
     return function (object: object, propertyName: string): void {
       registerDecorator({
+        name: 'isLonger',
         target: object.constructor,
         propertyName: propertyName,
         options: validationOptions,
         constraints: [property],
         async: true,
-        name: 'isLonger',
         validator: {
           validate(value: any, args: ValidationArguments): Promise<boolean> {
             return Promise.resolve(false);

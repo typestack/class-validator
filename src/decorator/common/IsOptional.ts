@@ -10,6 +10,7 @@ import { getMetadataStorage } from '../../metadata/MetadataStorage';
 export function IsOptional(validationOptions?: ValidationOptions): PropertyDecorator {
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
+      name: 'IsOptional',
       type: ValidationTypes.CONDITIONAL_VALIDATION,
       target: object.constructor,
       propertyName: propertyName,

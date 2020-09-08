@@ -10,6 +10,11 @@ export class ValidationMetadata {
   // -------------------------------------------------------------------------
 
   /**
+   * Validation name. Used to uniquely identify this validator.
+   */
+  name?: string;
+
+  /**
    * Validation type.
    */
   type: string;
@@ -74,6 +79,7 @@ export class ValidationMetadata {
   // -------------------------------------------------------------------------
 
   constructor(args: ValidationMetadataArgs) {
+    this.name = args.name;
     this.type = args.type;
     this.name = args.name;
     this.target = args.target;

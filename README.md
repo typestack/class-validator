@@ -733,6 +733,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
    export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
      return function (object: Object, propertyName: string) {
        registerDecorator({
+         name: 'IsUserAlreadyExist',
          target: object.constructor,
          propertyName: propertyName,
          options: validationOptions,

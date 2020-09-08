@@ -10,6 +10,7 @@ import { getMetadataStorage } from '../../metadata/MetadataStorage';
 export function ValidatePromise(validationOptions?: ValidationOptions): PropertyDecorator {
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
+      name: 'ValidatePromise',
       type: ValidationTypes.PROMISE_VALIDATION,
       target: object.constructor,
       propertyName: propertyName,

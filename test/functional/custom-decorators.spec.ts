@@ -11,11 +11,11 @@ describe('decorator with inline validation', () => {
   function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
     return function (object: object, propertyName: string): void {
       registerDecorator({
+        name: 'isLongerThan',
         target: object.constructor,
         propertyName: propertyName,
         options: validationOptions,
         constraints: [property],
-        name: 'isLongerThan',
         validator: {
           validate(value: any, args: ValidationArguments): Promise<boolean> | boolean {
             const [relatedPropertyName] = args.constraints;
@@ -109,11 +109,11 @@ describe('decorator with default message', () => {
   function IsLonger(property: string, validationOptions?: ValidationOptions) {
     return function (object: object, propertyName: string): void {
       registerDecorator({
+        name: 'isLonger',
         target: object.constructor,
         propertyName: propertyName,
         options: validationOptions,
         constraints: [property],
-        name: 'isLonger',
         validator: {
           validate(value: any, args: ValidationArguments): boolean {
             const [relatedPropertyName] = args.constraints;
@@ -183,6 +183,7 @@ describe('decorator with separate validation constraint class', () => {
   function IsShorterThan(property: string, validationOptions?: ValidationOptions) {
     return function (object: object, propertyName: string): void {
       registerDecorator({
+        name: 'IsShorterThan',
         target: object.constructor,
         propertyName: propertyName,
         options: validationOptions,
