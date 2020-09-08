@@ -8,13 +8,13 @@ export default {
     {
       name: 'ClassValidator',
       format: 'umd',
-      file: 'build/bundles/class-validator-i18n.umd.js',
+      file: 'build/bundles/class-validator-multi-lang.umd.js',
       sourcemap: true,
     },
     {
       name: 'ClassValidator',
       format: 'umd',
-      file: 'build/bundles/class-validator-i18n.umd.min.js',
+      file: 'build/bundles/class-validator-multi-lang.umd.min.js',
       sourcemap: true,
       plugins: [terser()],
     },

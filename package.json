@@ -1,5 +1,5 @@
 {
-  "name": "class-validator-i18n",
+  "name": "class-validator-multi-lang",
   "version": "0.120.200",
   "description": "Decorator-based property validation for classes.",
   "author": "TypeStack contributors",
@@ -11,13 +11,17 @@
   "typings": "./types/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EndyKaufman/class-validator-i18n.git"
+    "url": "https://github.com/EndyKaufman/class-validator-multi-lang.git"
   },
   "tags": [
     "validator",
     "validation",
     "decorators",
-    "typescript"
+    "typescript",
+    "i18n",
+    "multi",
+    "language",
+    "lang"
   ],
   "scripts": {
     "build": "npm run build:cjs",
