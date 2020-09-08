@@ -1,5 +1,18 @@
 import { ValidationArguments } from './ValidationArguments';
 
+/**
+ * Convert the constraint to a string to be shown in an error
+ */
+export function constraintToString(constraint: unknown): string {
+  if (typeof constraint === 'string') return constraint;
+
+  // join array as <comma><space> separated values strings
+  if (Array.isArray(constraint)) return constraint.map(constraintToString).join(', ');
+
+  // convert to string...
+  return String(constraint);
+}
+
 export class ValidationUtils {
   static replaceMessageSpecialTokens(
     message: string | ((args: ValidationArguments) => string),
@@ -14,7 +27,7 @@ export class ValidationUtils {
 
     if (messageString && validationArguments.constraints instanceof Array) {
       validationArguments.constraints.forEach((constraint, index) => {
-        messageString = messageString.replace(new RegExp(`\\$constraint${index + 1}`, 'g'), constraint);
+        messageString = messageString.replace(new RegExp(`\\$constraint${index + 1}`, 'g'), constraintToString(constraint));
       });
     }
 
