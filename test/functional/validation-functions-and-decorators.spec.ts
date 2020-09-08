@@ -2221,7 +2221,12 @@ describe('IsByteLength', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'isByteLength';
-    const message = "someProperty's byte length must fall into (" + constraintToString(constraint1) + ', ' + constraintToString(constraint2) + ') range';
+    const message =
+      "someProperty's byte length must fall into (" +
+      constraintToString(constraint1) +
+      ', ' +
+      constraintToString(constraint2) +
+      ') range';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
