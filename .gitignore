@@ -50,6 +50,3 @@ temp
 # Files for playing around locally
 playground.ts
 playground.js
-
-# Buided json dictionaries of i18n
-i18n/**/*.json

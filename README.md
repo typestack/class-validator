@@ -10,6 +10,8 @@ Long term support is not guaranteed, use of this copy is at your own risk.
 
 :earth_americas: Translations created with the machine :robot:, if you found the mistake :bug: please add a new version of translate and write a comment in the right panel in https://crowdin.com/project/class-validator :sunglasses:
 
+:exclamation: The translations are inside the [package](https://www.npmjs.com/package/class-validator-multi-lang), so the package size is very large, you can use the [lite version](https://www.npmjs.com/package/class-validator-multi-lang-lite) without translations and add the necessary translates ones [manually](https://github.com/EndyKaufman/class-validator-multi-lang/tree/i18n/i18n)
+
 ## Examples of usages
 
 :godmode: Basic set custom messages
@@ -72,21 +74,19 @@ class MyClass {
   title: string = 'bad_value';
 }
 
-const RU_I18N_MESSAGES = {
-  ...I18N_MESSAGES,
-  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
-};
+const RU_I18N_MESSAGES = JSON.parse(
+  readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/ru.json')).toString()
+);
 
-const FR_I18N_MESSAGES = {
-  ...I18N_MESSAGES,
-  '$property must be equal to $constraint1': '$property doit être égal à $constraint1',
-};
+const FR_I18N_MESSAGES = JSON.parse(
+  readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/fr.json')).toString()
+);
 
 const model = new MyClass();
 
 validator.validate(model, { messages: RU_I18N_MESSAGES }).then(errors => {
   console.log(errors[0].constraints);
-  // out: title должно быть равно test
+  // out: title должен быть равен test
 
   validator.validate(model, { messages: FR_I18N_MESSAGES }).then(errors => {
     console.log(errors[0].constraints);
