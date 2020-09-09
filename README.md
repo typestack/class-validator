@@ -4,6 +4,12 @@ This project is a fork of another with minor changes, created for personal use.
 
 Long term support is not guaranteed, use of this copy is at your own risk.
 
+## Installation
+
+```
+npm install class-validator-multi-lang --save
+```
+
 ## Differences from the original project:
 
 :fire: This feature added support integrations with https://crowdin.com/ for manual simplified update translates :cn: :de: :ru: :us:
@@ -123,7 +129,7 @@ validator.validate(model).then(errors => {
 # class-validator
 
 ![Build Status](https://github.com/EndyKaufman/class-validator-multi-lang/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/endykaufman/class-validator/branch/i18n_develop/graph/badge.svg)](https://codecov.io/gh/endykaufman/class-validator)
+[![codecov](https://codecov.io/gh/endykaufman/class-validator-multi-lang/branch/i18n_develop/graph/badge.svg)](https://codecov.io/gh/endykaufman/class-validator-multi-lang)
 [![npm version](https://badge.fury.io/js/class-validator-multi-lang.svg)](https://badge.fury.io/js/class-validator)
 [![install size](https://packagephobia.now.sh/badge?p=class-validator-multi-lang)](https://packagephobia.now.sh/result?p=class-validator-multi-lang)
 [![Crowdin](https://badges.crowdin.net/class-validator/localized.svg)](https://crowdin.com/project/class-validator)
