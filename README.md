@@ -57,7 +57,7 @@ class MyClass {
   title: string = 'bad_value';
 }
 
-const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/ru.json')).toString());
+const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, './node_modules/class-validator-multi-lang/i18n/ru.json')).toString());
 
 const model = new MyClass();
 
@@ -81,11 +81,11 @@ class MyClass {
 }
 
 const RU_I18N_MESSAGES = JSON.parse(
-  readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/ru.json')).toString()
+  readFileSync(resolve(__dirname, './node_modules/class-validator-multi-lang/i18n/ru.json')).toString()
 );
 
 const FR_I18N_MESSAGES = JSON.parse(
-  readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/fr.json')).toString()
+  readFileSync(resolve(__dirname, './node_modules/class-validator-multi-lang/i18n/fr.json')).toString()
 );
 
 const model = new MyClass();
@@ -1160,7 +1160,7 @@ class MyClass {
   title: string = 'bad_value';
 }
 
-const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, './node_modules/class-validator/i18n/ru.json')).toString());
+const RU_I18N_MESSAGES = JSON.parse(readFileSync(resolve(__dirname, './node_modules/class-validator-multi-lang/i18n/ru.json')).toString());
 
 const model = new MyClass();
 
