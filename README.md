@@ -1064,6 +1064,112 @@ validator.validate(model).then(errors => {
 });
 ```
 
+With change property name
+
+```typescript
+import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  @ClassPropertyTitle('property "title"')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = {
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+};
+const RU_I18N_TITLES = {
+  'property "title"': 'поле "заголовок"',
+};
+
+const model = new MyClass();
+
+validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+  console.log(errors[0].constraints);
+  // out: поле "заголовок" должно быть равно test
+});
+```
+
+With change target name
+
+```typescript
+import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
+
+@ClassTitle('object "MyClass"')
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = {
+  '$property must be equal to $constraint1': '$property в $target должно быть равно $constraint1',
+};
+const RU_I18N_TITLES = {
+  'object "MyClass"': 'объекте "МойКласс"',
+};
+
+const model = new MyClass();
+
+validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title в объекте "МойКласс" должно быть равно test
+});
+```
+
+With change arguments for validation decorator
+
+```typescript
+import { IsOptional, Equals, validator } from 'class-validator';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = {
+  '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+};
+const RU_I18N_TITLES = {
+  test: '"тест"',
+};
+
+const model = new MyClass();
+
+validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title должно быть равно "тест"
+});
+```
+
+With change value
+
+```typescript
+import { IsOptional, Equals, validator } from 'class-validator';
+
+class MyClass {
+  @IsOptional()
+  @Equals('test')
+  title: string = 'bad_value';
+}
+
+const RU_I18N_MESSAGES = {
+  '$property must be equal to $constraint1': '$property равно $value, а должно быть равно $constraint1',
+};
+const RU_I18N_TITLES = {
+  bad_value: '"плохое_значение"',
+};
+
+const model = new MyClass();
+
+validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+  console.log(errors[0].constraints);
+  // out: title равно "плохое_значение", а должно быть равно test
+});
+```
+
 ## Samples
 
 Take a look on samples in [./sample](https://github.com/pleerock/class-validator/tree/master/sample) for more examples of

@@ -404,6 +404,7 @@ export class ValidationExecutor {
       value: value,
       constraints: metadata.constraints,
     };
+    const titles = (this.validatorOptions && this.validatorOptions.titles) || {};
 
     let message = metadata.message || '';
     if (
@@ -422,7 +423,7 @@ export class ValidationExecutor {
         message = (message as string).split(key).join(value);
       });
     }
-    const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments);
+    const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments, titles);
     return [type, messageString];
   }
 

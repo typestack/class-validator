@@ -6,6 +6,7 @@
     "sourceMap": false,
     "removeComments": true,
     "noImplicitAny": false,
+    "experimentalDecorators":true
   },
   "exclude": ["node_modules"]
 }

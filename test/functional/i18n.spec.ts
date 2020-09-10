@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { Equals, IsOptional } from '../../src/decorator/decorators';
-import { setClassValidatorMessages } from '../../src/multi-lang';
+import { setClassValidatorMessages, ClassPropertyTitle, ClassTitle } from '../../src/multi-lang';
 import { Validator } from '../../src/validation/Validator';
 
 const validator = new Validator();
@@ -43,6 +43,104 @@ describe('i18n', () => {
       expect(errors[0].target).toEqual(model);
       expect(errors[0].property).toEqual('title');
       expect(errors[0].constraints).toEqual({ equals: 'title должно быть равно test' });
+      expect(errors[0].value).toEqual('bad_value');
+    });
+  });
+
+  it('should validate a property when value is supplied with russian messages with translate property name', () => {
+    class MyClass {
+      @IsOptional()
+      @Equals('test')
+      @ClassPropertyTitle('property "title"')
+      title: string = 'bad_value';
+    }
+
+    const RU_I18N_MESSAGES = {
+      '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+    };
+    const RU_I18N_TITLES = {
+      'property "title"': 'поле "заголовок"',
+    };
+
+    const model = new MyClass();
+    return validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('title');
+      expect(errors[0].constraints).toEqual({ equals: 'поле "заголовок" должно быть равно test' });
+      expect(errors[0].value).toEqual('bad_value');
+    });
+  });
+
+  it('should validate a property when value is supplied with russian messages with translate target name', () => {
+    @ClassTitle('object "MyClass"')
+    class MyClass {
+      @IsOptional()
+      @Equals('test')
+      title: string = 'bad_value';
+    }
+
+    const RU_I18N_MESSAGES = {
+      '$property must be equal to $constraint1': '$property в $target должно быть равно $constraint1',
+    };
+    const RU_I18N_TITLES = {
+      'object "MyClass"': 'объекте "МойКласс"',
+    };
+
+    const model = new MyClass();
+    return validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('title');
+      expect(errors[0].constraints).toEqual({ equals: 'title в объекте "МойКласс" должно быть равно test' });
+      expect(errors[0].value).toEqual('bad_value');
+    });
+  });
+
+  it('should validate a property when value is supplied with russian messages with translate arguments for validation decorator', () => {
+    class MyClass {
+      @IsOptional()
+      @Equals('test')
+      title: string = 'bad_value';
+    }
+
+    const RU_I18N_MESSAGES = {
+      '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+    };
+    const RU_I18N_TITLES = {
+      test: '"тест"',
+    };
+
+    const model = new MyClass();
+    return validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('title');
+      expect(errors[0].constraints).toEqual({ equals: 'title должно быть равно "тест"' });
+      expect(errors[0].value).toEqual('bad_value');
+    });
+  });
+
+  it('should validate a property when value is supplied with russian messages with translate value', () => {
+    class MyClass {
+      @IsOptional()
+      @Equals('test')
+      title: string = 'bad_value';
+    }
+
+    const RU_I18N_MESSAGES = {
+      '$property must be equal to $constraint1': '$property равно $value, а должно быть равно $constraint1',
+    };
+    const RU_I18N_TITLES = {
+      bad_value: '"плохое_значение"',
+    };
+
+    const model = new MyClass();
+    return validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('title');
+      expect(errors[0].constraints).toEqual({ equals: 'title равно "плохое_значение", а должно быть равно test' });
       expect(errors[0].value).toEqual('bad_value');
     });
   });
