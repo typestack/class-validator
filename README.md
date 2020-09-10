@@ -1403,7 +1403,8 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
   // out: title равно "плохое_значение", а должно быть равно test
 });
 ```
-🔢  With change property name
+
+🔢 With change property name
 
 ```typescript
 import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
@@ -1430,7 +1431,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 });
 ```
 
-🔢  With change target name
+🔢 With change target name
 
 ```typescript
 import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
@@ -1457,7 +1458,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 });
 ```
 
-🔢  With change arguments for validation decorator
+🔢 With change arguments for validation decorator
 
 ```typescript
 import { IsOptional, Equals, validator } from 'class-validator';
@@ -1483,7 +1484,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 });
 ```
 
-🔢  With change value
+🔢 With change value
 
 ```typescript
 import { IsOptional, Equals, validator } from 'class-validator';
