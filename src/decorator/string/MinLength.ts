@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isLengthValidator from 'validator/lib/isLength';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const MIN_LENGTH = 'minLength';
 

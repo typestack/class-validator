@@ -1,8 +1,8 @@
-import { IsNotEmpty, ValidateIf, IsOptional, Equals } from '../../src/decorator/decorators';
-import { Validator } from '../../src/validation/Validator';
-import { I18N_MESSAGES } from '../../src/decorator/get-text';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import { Equals, IsOptional } from '../../src/decorator/decorators';
+import { setClassValidatorMessages } from '../../src/multi-lang';
+import { Validator } from '../../src/validation/Validator';
 
 const validator = new Validator();
 
@@ -33,7 +33,6 @@ describe('i18n', () => {
     }
 
     const RU_I18N_MESSAGES = {
-      ...I18N_MESSAGES,
       '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
     };
 
@@ -56,12 +55,10 @@ describe('i18n', () => {
     }
 
     const RU_I18N_MESSAGES = {
-      ...I18N_MESSAGES,
       '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
     };
 
     const FR_I18N_MESSAGES = {
-      ...I18N_MESSAGES,
       '$property must be equal to $constraint1': '$property doit être égal à $constraint1',
     };
 
@@ -112,7 +109,7 @@ describe('i18n', () => {
       title: string = 'bad_value';
     }
 
-    Object.assign(I18N_MESSAGES, {
+    setClassValidatorMessages({
       '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
     });
 

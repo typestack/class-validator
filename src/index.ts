@@ -1,9 +1,9 @@
-import { ValidationError } from './validation/ValidationError';
-import { ValidatorOptions } from './validation/ValidatorOptions';
-import { ValidationSchema } from './validation-schema/ValidationSchema';
-import { getMetadataStorage } from './metadata/MetadataStorage';
-import { Validator } from './validation/Validator';
 import { getFromContainer } from './container';
+import { getMetadataStorage } from './metadata/MetadataStorage';
+import { ValidationSchema } from './validation-schema/ValidationSchema';
+import { ValidationError } from './validation/ValidationError';
+import { Validator } from './validation/Validator';
+import { ValidatorOptions } from './validation/ValidatorOptions';
 
 // -------------------------------------------------------------------------
 // Export everything api users needs
@@ -11,20 +11,20 @@ import { getFromContainer } from './container';
 
 export * from './container';
 export * from './decorator/decorators';
-export * from './decorator/get-text';
 export * from './decorator/ValidationOptions';
-export * from './validation/ValidatorConstraintInterface';
-export * from './validation/ValidationError';
-export * from './validation/ValidatorOptions';
-export * from './validation/ValidationArguments';
-export * from './validation/ValidationTypes';
-export * from './validation/Validator';
-export * from './validation-schema/ValidationSchema';
-export * from './register-decorator';
+export * from './metadata/ConstraintMetadata';
 export * from './metadata/MetadataStorage';
 export * from './metadata/ValidationMetadata';
 export * from './metadata/ValidationMetadataArgs';
-export * from './metadata/ConstraintMetadata';
+export * from './multi-lang';
+export * from './register-decorator';
+export * from './validation-schema/ValidationSchema';
+export * from './validation/ValidationArguments';
+export * from './validation/ValidationError';
+export * from './validation/ValidationTypes';
+export * from './validation/Validator';
+export * from './validation/ValidatorConstraintInterface';
+export * from './validation/ValidatorOptions';
 
 // -------------------------------------------------------------------------
 // Shortcut methods for api users

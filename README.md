@@ -998,7 +998,7 @@ Translations created with the machine, if you found the mistake please add a new
 Basic set custom messages
 
 ```typescript
-import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, Validator } from 'class-validator';
 
 class MyClass {
   @IsOptional()
@@ -1007,7 +1007,6 @@ class MyClass {
 }
 
 const RU_I18N_MESSAGES = {
-  ...I18N_MESSAGES,
   '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
 };
 
@@ -1022,7 +1021,7 @@ validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
 Load from file
 
 ```typescript
-import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, Validator } from 'class-validator';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -1045,7 +1044,7 @@ validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
 With override
 
 ```typescript
-import { IsOptional, Equals, Validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, Validator, setClassValidatorMessages } from 'class-validator';
 
 class MyClass {
   @IsOptional()
@@ -1053,7 +1052,7 @@ class MyClass {
   title: string = 'bad_value';
 }
 
-Object.assign(I18N_MESSAGES, {
+setClassValidatorMessages({
   '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
 });
 

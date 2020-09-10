@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isHalfWidthValidator from 'validator/lib/isHalfWidth';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_HALF_WIDTH = 'isHalfWidth';
 

@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isDataURIValidator from 'validator/lib/isDataURI';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_DATA_URI = 'isDataURI';
 

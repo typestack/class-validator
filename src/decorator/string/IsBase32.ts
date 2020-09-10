@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isBase32Validator from 'validator/lib/isBase32';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_BASE32 = 'isBase32';
 

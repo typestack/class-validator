@@ -8,7 +8,7 @@ import { ValidationArguments } from './ValidationArguments';
 import { ValidationUtils } from './ValidationUtils';
 import { isPromise, convertToArray } from '../utils';
 import { getMetadataStorage } from '../metadata/MetadataStorage';
-import { getText, I18N_MESSAGES } from '../decorator/get-text';
+import { getClassValidatorMessages, getText } from '../multi-lang';
 
 /**
  * Executes validation over given object.
@@ -415,7 +415,7 @@ export class ValidationExecutor {
       }
     }
     if (typeof message === 'string') {
-      const messages = (this.validatorOptions && this.validatorOptions.messages) || I18N_MESSAGES;
+      const messages = (this.validatorOptions && this.validatorOptions.messages) || getClassValidatorMessages();
       Object.keys(messages).forEach(messageKey => {
         const key = getText(messageKey);
         const value = messages[messageKey] || messageKey;

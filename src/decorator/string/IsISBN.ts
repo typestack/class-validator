@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isIsbnValidator from 'validator/lib/isISBN';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export type IsISBNVersion = '10' | '13' | 10 | 13;
 

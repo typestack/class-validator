@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isRFC3339Validator from 'validator/lib/isRFC3339';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_RFC_3339 = 'isRFC3339';
 

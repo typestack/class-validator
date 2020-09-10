@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import containsValidator from 'validator/lib/contains';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const NOT_CONTAINS = 'notContains';
 
