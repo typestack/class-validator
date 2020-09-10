@@ -1,6 +1,5 @@
 import { IsNotEmpty, ValidateIf, IsOptional, Equals } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
-import { I18N_MESSAGES } from '../../src/decorator/get-text';
 
 const validator = new Validator();
 
