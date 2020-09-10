@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isBtcAddressValidator from 'validator/lib/isBtcAddress';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_BTC_ADDRESS = 'isBtcAddress';
 

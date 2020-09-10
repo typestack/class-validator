@@ -80,4 +80,9 @@ export interface ValidatorOptions {
    * Messages for replace
    */
   messages?: { [key: string]: string };
+
+  /**
+   * Titles for replace
+   */
+  titles?: { [key: string]: string };
 }

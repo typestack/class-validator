@@ -8,7 +8,7 @@ import { ValidationArguments } from './ValidationArguments';
 import { ValidationUtils } from './ValidationUtils';
 import { isPromise, convertToArray } from '../utils';
 import { getMetadataStorage } from '../metadata/MetadataStorage';
-import { getText, textHasMarker, removeMarkersFromText, I18N_MESSAGES } from '../decorator/get-text';
+import { getClassValidatorMessages, getText } from '../multi-lang';
 
 /**
  * Executes validation over given object.
@@ -404,6 +404,7 @@ export class ValidationExecutor {
       value: value,
       constraints: metadata.constraints,
     };
+    const titles = (this.validatorOptions && this.validatorOptions.titles) || {};
 
     let message = metadata.message || '';
     if (
@@ -415,17 +416,14 @@ export class ValidationExecutor {
       }
     }
     if (typeof message === 'string') {
-      const messages = (this.validatorOptions && this.validatorOptions.messages) || I18N_MESSAGES;
+      const messages = (this.validatorOptions && this.validatorOptions.messages) || getClassValidatorMessages();
       Object.keys(messages).forEach(messageKey => {
         const key = getText(messageKey);
         const value = messages[messageKey] || messageKey;
         message = (message as string).split(key).join(value);
       });
     }
-    if (typeof message === 'string' && textHasMarker(message)) {
-      message = removeMarkersFromText(message);
-    }
-    const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments);
+    const messageString = ValidationUtils.replaceMessageSpecialTokens(message, validationArguments, titles);
     return [type, messageString];
   }
 

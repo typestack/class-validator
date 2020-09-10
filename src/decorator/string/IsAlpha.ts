@@ -2,7 +2,7 @@ import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isAlphaValidator from 'validator/lib/isAlpha';
 import ValidatorJS from 'validator';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_ALPHA = 'isAlpha';
 

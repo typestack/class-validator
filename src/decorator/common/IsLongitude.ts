@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from './ValidateBy';
 import { isLatLong } from './IsLatLong';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_LONGITUDE = 'isLongitude';
 

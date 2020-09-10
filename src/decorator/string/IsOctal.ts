@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isOctalValidator from 'validator/lib/isOctal';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_OCTAL = 'isOctal';
 

@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isHexColorValidator from 'validator/lib/isHexColor';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_HEX_COLOR = 'isHexColor';
 

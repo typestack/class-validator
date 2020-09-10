@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import matchesValidator from 'validator/lib/matches';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const MATCHES = 'matches';
 

@@ -3,7 +3,7 @@ import { ValidationMetadataArgs } from '../../metadata/ValidationMetadataArgs';
 import { ValidationTypes } from '../../validation/ValidationTypes';
 import { ValidationMetadata } from '../../metadata/ValidationMetadata';
 import { getMetadataStorage } from '../../metadata/MetadataStorage';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 /**
  * Objects / object arrays marked with this decorator will also be validated.

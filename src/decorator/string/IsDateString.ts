@@ -2,7 +2,7 @@ import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import ValidatorJS from 'validator';
 import { isISO8601 } from './IsISO8601';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_DATE_STRING = 'isDateString';
 

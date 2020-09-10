@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isRgbColorValidator from 'validator/lib/isRgbColor';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_RGB_COLOR = 'isRgbColor';
 

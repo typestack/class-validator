@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isFullWidthValidator from 'validator/lib/isFullWidth';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_FULL_WIDTH = 'isFullWidth';
 

@@ -2,7 +2,7 @@ import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isHashValidator from 'validator/lib/isHash';
 import ValidatorJS from 'validator';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_HASH = 'isHash';
 

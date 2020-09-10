@@ -2,7 +2,7 @@ import { ValidationOptions, isValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isMacAddressValidator from 'validator/lib/isMACAddress';
 import ValidatorJS from 'validator';
-import { getText } from '../get-text';
+import { getText } from '../../multi-lang';
 
 export const IS_MAC_ADDRESS = 'isMacAddress';
 
