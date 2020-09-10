@@ -72,6 +72,42 @@ describe('i18n', () => {
     });
   });
 
+  it('should validate a property when value is supplied with russian messages with translate 2 property name', () => {
+    class MyClass {
+      @IsOptional()
+      @Equals('test')
+      @ClassPropertyTitle('property "title"')
+      title: string = 'bad_value';
+
+      @IsOptional()
+      @Equals('test2')
+      @ClassPropertyTitle('property "title2"')
+      title2: string = 'bad_value2';
+    }
+
+    const RU_I18N_MESSAGES = {
+      '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
+    };
+    const RU_I18N_TITLES = {
+      'property "title"': 'поле "заголовок"',
+      'property "title2"': 'поле "заголовок2"',
+    };
+
+    const model = new MyClass();
+    return validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+      expect(errors.length).toEqual(2);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('title');
+      expect(errors[0].constraints).toEqual({ equals: 'поле "заголовок" должно быть равно test' });
+      expect(errors[0].value).toEqual('bad_value');
+
+      expect(errors[1].target).toEqual(model);
+      expect(errors[1].property).toEqual('title2');
+      expect(errors[1].constraints).toEqual({ equals: 'поле "заголовок2" должно быть равно test2' });
+      expect(errors[1].value).toEqual('bad_value2');
+    });
+  });
+
   it('should validate a property when value is supplied with russian messages with translate target name', () => {
     @ClassTitle('object "MyClass"')
     class MyClass {
