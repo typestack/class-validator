@@ -23,7 +23,7 @@ npm install class-validator-multi-lang --save
 :godmode: Basic set custom messages
 
 ```typescript
-import { IsOptional, Equals, validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -32,7 +32,6 @@ class MyClass {
 }
 
 const RU_I18N_MESSAGES = {
-  ...I18N_MESSAGES,
   '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
 };
 
@@ -47,7 +46,7 @@ validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
 :rage3: Load from file
 
 ```typescript
-import { IsOptional, Equals, validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, validator } from 'class-validator-multi-lang';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -70,7 +69,7 @@ validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
 :goberserk: Load from 2 file :bomb: :boom:
 
 ```typescript
-import { IsOptional, Equals, validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, validator } from 'class-validator-multi-lang';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -104,7 +103,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES }).then(errors => {
 :feelsgood: With override
 
 ```typescript
-import { IsOptional, Equals, validator, I18N_MESSAGES } from 'class-validator';
+import { IsOptional, Equals, validator, setClassValidatorMessages } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -112,7 +111,7 @@ class MyClass {
   title: string = 'bad_value';
 }
 
-Object.assign(I18N_MESSAGES, {
+setClassValidatorMessages({
   '$property must be equal to $constraint1': '$property должно быть равно $constraint1',
 });
 
@@ -127,7 +126,7 @@ validator.validate(model).then(errors => {
 🔢 With change property name
 
 ```typescript
-import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
+import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -154,7 +153,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 🔢 With change target name
 
 ```typescript
-import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
+import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator-multi-lang';
 
 @ClassTitle('object "MyClass"')
 class MyClass {
@@ -181,7 +180,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 🔢 With change arguments for validation decorator
 
 ```typescript
-import { IsOptional, Equals, validator } from 'class-validator';
+import { IsOptional, Equals, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -207,7 +206,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 🔢 With change value
 
 ```typescript
-import { IsOptional, Equals, validator } from 'class-validator';
+import { IsOptional, Equals, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -235,8 +234,8 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 # class-validator
 
 ![Build Status](https://github.com/EndyKaufman/class-validator-multi-lang/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/endykaufman/class-validator-multi-lang/branch/i18n_develop/graph/badge.svg)](https://codecov.io/gh/endykaufman/class-validator-multi-lang)
-[![npm version](https://badge.fury.io/js/class-validator-multi-lang.svg)](https://badge.fury.io/js/class-validator)
+[![codecov](https://codecov.io/gh/endykaufman/class-validator-multi-lang/branch/i18n/graph/badge.svg)](https://codecov.io/gh/endykaufman/class-validator-multi-lang)
+[![npm version](https://badge.fury.io/js/class-validator-multi-lang.svg)](https://badge.fury.io/js/class-validator-multi-lang)
 [![install size](https://packagephobia.now.sh/badge?p=class-validator-multi-lang)](https://packagephobia.now.sh/result?p=class-validator-multi-lang)
 [![Crowdin](https://badges.crowdin.net/class-validator/localized.svg)](https://crowdin.com/project/class-validator)
 
@@ -1232,7 +1231,7 @@ Translations created with the machine, if you found the mistake please add a new
 Basic set custom messages
 
 ```typescript
-import { IsOptional, Equals, Validator } from 'class-validator';
+import { IsOptional, Equals, Validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -1255,7 +1254,7 @@ validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
 Load from file
 
 ```typescript
-import { IsOptional, Equals, Validator } from 'class-validator';
+import { IsOptional, Equals, Validator } from 'class-validator-multi-lang';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -1278,7 +1277,7 @@ validator.validate(model, messages: RU_I18N_MESSAGES).then(errors => {
 With override
 
 ```typescript
-import { IsOptional, Equals, Validator, setClassValidatorMessages } from 'class-validator';
+import { IsOptional, Equals, Validator, setClassValidatorMessages } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -1301,7 +1300,7 @@ validator.validate(model).then(errors => {
 With change property name
 
 ```typescript
-import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
+import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -1328,7 +1327,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 With change target name
 
 ```typescript
-import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
+import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator-multi-lang';
 
 @ClassTitle('object "MyClass"')
 class MyClass {
@@ -1355,7 +1354,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 With change arguments for validation decorator
 
 ```typescript
-import { IsOptional, Equals, validator } from 'class-validator';
+import { IsOptional, Equals, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -1381,7 +1380,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 With change value
 
 ```typescript
-import { IsOptional, Equals, validator } from 'class-validator';
+import { IsOptional, Equals, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -1407,7 +1406,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 🔢 With change property name
 
 ```typescript
-import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
+import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -1434,7 +1433,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 🔢 With change target name
 
 ```typescript
-import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator';
+import { IsOptional, Equals, ClassPropertyTitle, validator } from 'class-validator-multi-lang';
 
 @ClassTitle('object "MyClass"')
 class MyClass {
@@ -1461,7 +1460,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 🔢 With change arguments for validation decorator
 
 ```typescript
-import { IsOptional, Equals, validator } from 'class-validator';
+import { IsOptional, Equals, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
@@ -1487,7 +1486,7 @@ validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }
 🔢 With change value
 
 ```typescript
-import { IsOptional, Equals, validator } from 'class-validator';
+import { IsOptional, Equals, validator } from 'class-validator-multi-lang';
 
 class MyClass {
   @IsOptional()
