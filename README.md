@@ -12,7 +12,9 @@ npm install class-validator-multi-lang --save
 
 ## Differences from the original project:
 
-:fire: This feature added support integrations with https://crowdin.com/ for manual simplified update translates :cn: :de: :ru: :us:
+🤘 This feature added support to replace any validation errors
+
+:fire: Integrations with https://crowdin.com/ for manual simplified update translates :cn: :de: :ru: :us:
 
 :earth_americas: Translations created with the machine :robot:, if you found the mistake :bug: please add a new version of translate and write a comment in the right panel in https://crowdin.com/project/class-validator :sunglasses:
 
