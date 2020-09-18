@@ -4,7 +4,7 @@ import { buildMessage, ValidateBy } from '../common/ValidateBy';
 export const ARRAY_MIN_SIZE = 'arrayMinSize';
 
 /**
- * Checks if array's length is as minimal this number.
+ * Checks if array's length is as minimal as this number.
  * If null or undefined is given then this function returns false.
  */
 export function arrayMinSize(array: unknown, min: number): boolean {
@@ -12,7 +12,7 @@ export function arrayMinSize(array: unknown, min: number): boolean {
 }
 
 /**
- * Checks if array's length is as minimal this number.
+ * Checks if array's length is as minimal as this number.
  * If null or undefined is given then this function returns false.
  */
 export function ArrayMinSize(min: number, validationOptions?: ValidationOptions): PropertyDecorator {
