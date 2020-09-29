@@ -146,8 +146,8 @@ export class ValidationExecutor {
         error.children = this.stripEmptyErrors(error.children);
       }
 
-      if (Object.keys(error.constraints).length === 0) {
-        if (error.children.length === 0) {
+      if (!error.constraints || Object.keys(error.constraints).length === 0) {
+        if (!error.children || error.children.length === 0) {
           return false;
         } else {
           delete error.constraints;
@@ -308,13 +308,27 @@ export class ValidationExecutor {
               const validationResult = flatValidatedValues.every((isValid: boolean) => isValid);
               if (!validationResult) {
                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-                error.constraints[type] = message;
                 if (metadata.context) {
                   if (!error.contexts) {
                     error.contexts = {};
                   }
                   error.contexts[type] = Object.assign(error.contexts[type] || {}, metadata.context);
                 }
+                error.children = this.stripEmptyErrors(
+                  flatValidatedValues.map<ValidationError>((isValid: boolean, index) => {
+                    const childError = new ValidationError();
+                    if (!isValid) {
+                      childError.constraints = {
+                        [type]: message,
+                      };
+                      childError.value = arrayValue[index];
+                      childError.property = index.toString();
+                      childError.contexts = error.contexts;
+                      childError.target = error.target;
+                    }
+                    return childError;
+                  })
+                );
               }
             }
           );
@@ -327,7 +341,21 @@ export class ValidationExecutor {
         const validationResult = validatedSubValues.every((isValid: boolean) => isValid);
         if (!validationResult) {
           const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
-          error.constraints[type] = message;
+          error.children = this.stripEmptyErrors(
+            validatedSubValues.map<ValidationError>((isValid: boolean, index) => {
+              const childError = new ValidationError();
+              if (!isValid) {
+                childError.constraints = {
+                  [type]: message,
+                };
+                childError.value = arrayValue[index];
+                childError.property = index.toString();
+                childError.contexts = error.contexts;
+                childError.target = error.target;
+              }
+              return childError;
+            })
+          );
         }
       });
     });

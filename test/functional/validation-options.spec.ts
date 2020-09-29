@@ -157,10 +157,23 @@ describe('each', () => {
       model.someProperty = ['hell no world', 'hello', 'helo world', 'hello world', 'hello dear friend'];
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ contains: 'each value in someProperty must contain a hello string' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({
+          contains: 'each value in someProperty must contain a hello string',
+        });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({
+          contains: 'each value in someProperty must contain a hello string',
+        });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
 
@@ -205,10 +218,19 @@ describe('each', () => {
       model.someProperty = ['hell no world', 'hello', 'helo world', 'hello world', 'hello dear friend'];
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customContainsHelloConstraint: '' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({ customContainsHelloConstraint: '' });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({ customContainsHelloConstraint: '' });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
 
@@ -232,10 +254,19 @@ describe('each', () => {
       model.someProperty = ['hell no world', 'hello', 'helo world', 'hello world', 'hello dear friend'];
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customAsyncContainsHelloConstraint: '' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({ customAsyncContainsHelloConstraint: '' });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({ customAsyncContainsHelloConstraint: '' });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
 
@@ -259,10 +290,19 @@ describe('each', () => {
       model.someProperty = ['hell no world', 'hello', 'helo world', 'hello world', 'hello dear friend'];
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customMixedContainsHelloConstraint: '' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({ customMixedContainsHelloConstraint: '' });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({ customMixedContainsHelloConstraint: '' });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
   });
@@ -286,10 +326,23 @@ describe('each', () => {
       ]);
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ contains: 'each value in someProperty must contain a hello string' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({
+          contains: 'each value in someProperty must contain a hello string',
+        });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({
+          contains: 'each value in someProperty must contain a hello string',
+        });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
 
@@ -340,10 +393,19 @@ describe('each', () => {
       ]);
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customContainsHelloConstraint: '' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({ customContainsHelloConstraint: '' });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({ customContainsHelloConstraint: '' });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
 
@@ -373,10 +435,19 @@ describe('each', () => {
       ]);
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customAsyncContainsHelloConstraint: '' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({ customAsyncContainsHelloConstraint: '' });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({ customAsyncContainsHelloConstraint: '' });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
 
@@ -406,10 +477,19 @@ describe('each', () => {
       ]);
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customMixedContainsHelloConstraint: '' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({ customMixedContainsHelloConstraint: '' });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({ customMixedContainsHelloConstraint: '' });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
   });
@@ -433,10 +513,23 @@ describe('each', () => {
       ]);
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ contains: 'each value in someProperty must contain a hello string' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({
+          contains: 'each value in someProperty must contain a hello string',
+        });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({
+          contains: 'each value in someProperty must contain a hello string',
+        });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
 
@@ -491,10 +584,19 @@ describe('each', () => {
       ]);
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customContainsHelloConstraint: '' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({ customContainsHelloConstraint: '' });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({ customContainsHelloConstraint: '' });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
 
@@ -524,10 +626,19 @@ describe('each', () => {
       ]);
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customAsyncContainsHelloConstraint: '' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({ customAsyncContainsHelloConstraint: '' });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({ customAsyncContainsHelloConstraint: '' });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
 
@@ -557,10 +668,19 @@ describe('each', () => {
       ]);
       return validator.validate(model).then(errors => {
         expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customMixedContainsHelloConstraint: '' });
+        expect(errors[0].constraints).toEqual(undefined);
         expect(errors[0].value).toEqual(model.someProperty);
         expect(errors[0].target).toEqual(model);
         expect(errors[0].property).toEqual('someProperty');
+
+        expect(errors[0].children[0].constraints).toEqual({ customMixedContainsHelloConstraint: '' });
+        expect(errors[0].children[0].value).toEqual('hell no world');
+        expect(errors[0].children[0].target).toEqual(model);
+        expect(errors[0].children[0].property).toEqual('0');
+        expect(errors[0].children[1].constraints).toEqual({ customMixedContainsHelloConstraint: '' });
+        expect(errors[0].children[1].value).toEqual('helo world');
+        expect(errors[0].children[1].target).toEqual(model);
+        expect(errors[0].children[1].property).toEqual('2');
       });
     });
   });
