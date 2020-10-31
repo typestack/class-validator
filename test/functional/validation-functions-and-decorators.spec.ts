@@ -3410,7 +3410,7 @@ describe('IsUUID', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'isUuid';
-    const message = 'someProperty must be an UUID';
+    const message = 'someProperty must be a UUID';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
@@ -3451,7 +3451,7 @@ describe('IsUUID v3', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'isUuid';
-    const message = 'someProperty must be an UUID';
+    const message = 'someProperty must be a UUID';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
@@ -3497,7 +3497,7 @@ describe('IsUUID v4', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'isUuid';
-    const message = 'someProperty must be an UUID';
+    const message = 'someProperty must be a UUID';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
@@ -3543,7 +3543,7 @@ describe('IsUUID v5', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'isUuid';
-    const message = 'someProperty must be an UUID';
+    const message = 'someProperty must be a UUID';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
