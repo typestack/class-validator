@@ -768,6 +768,8 @@ let validator = Container.get(Validator);
 // also you can inject classes using constructor injection into your custom ValidatorConstraint-s
 ```
 
+For other IoC providers that don't expose a `get(xxx)` function as specified above, you may need to create an IoC adapter using `IocAdapter`. Read more [here](https://github.com/typestack/routing-controllers#using-di-container)
+
 ## Synchronous validation
 
 If you want to perform a simple non async validation you can use `validateSync` method instead of regular `validate`
