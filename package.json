@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "libphonenumber-js": "^1.7.57",
-    "validator": "^13.1.1"
+    "validator": "^13.5.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
