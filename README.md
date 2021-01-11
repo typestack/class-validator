@@ -853,7 +853,7 @@ isBoolean(value);
 | `@IsOctal()`                                    | Checks if the string is a octal number. |
 | `@IsMACAddress(options?: IsMACAddressOptions)`  | Checks if the string is a MAC Address. |
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6). |
-| `@IsPort()`                                     | Check if the string is a valid port number. |
+| `@IsPort()`                                     | Checks if the string is a valid port number. |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13). |
 | `@IsEAN()`                                      | Checks if the string is an if the string is an EAN (European Article Number). |
 | `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier). |
@@ -890,13 +890,13 @@ isBoolean(value);
 | `@IsSemVer()`                                   | Checks if the string is a Semantic Versioning Specification (SemVer). |
 | `@IsISSN(options?: IsISSNOptions)`              | Checks if the string is a ISSN. |
 | `@IsISRC()`                                     | Checks if the string is a [ISRC](https://en.wikipedia.org/wiki/International_Standard_Recording_Code). |
-| `@IsRFC3339()`                                  | Checks f the string is a valid [RFC 3339](https://tools.ietf.org/html/rfc3339) date. |
+| `@IsRFC3339()`                                  | Checks if the string is a valid [RFC 3339](https://tools.ietf.org/html/rfc3339) date. |
 | **Array validation decorators**                 | |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values. |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values. |
 | `@ArrayNotEmpty()`                              | Checks if given array is not empty. |
-| `@ArrayMinSize(min: number)`                    | Checks if array's length is as minimal this number. |
-| `@ArrayMaxSize(max: number)`                    | Checks if array's length is as maximal this number. |
+| `@ArrayMinSize(min: number)`                    | Checks if the array's length is greater than or equal to the specified number. |
+| `@ArrayMaxSize(max: number)`                    | Checks if the array's length is less or equal to the specified number. |
 | `@ArrayUnique()`                                | Checks if all array's values are unique. Comparison for objects is reference-based. |
 | **Object validation decorators**                |
 | `@IsInstance(value: any)`                       | Checks if the property is an instance of the passed value. |
