@@ -31,7 +31,7 @@ export class ValidationError {
   /**
    * Contains all nested validation errors of the property.
    */
-  children: ValidationError[];
+  children?: ValidationError[];
 
   /*
    * A transient set of data passed through to the validation result for response mapping
@@ -60,7 +60,9 @@ export class ValidationError {
           this.target ? this.target.constructor.name : 'an object'
         }${boldEnd} has failed the validation:\n` +
         (this.constraints ? propConstraintFailed(this.property) : ``) +
-        this.children.map(childError => childError.toString(shouldDecorate, true, this.property)).join(``)
+        (this.children
+          ? this.children.map(childError => childError.toString(shouldDecorate, true, this.property)).join(``)
+          : ``)
       );
     } else {
       // we format numbers as array indexes for better readability.
@@ -72,8 +74,10 @@ export class ValidationError {
         return propConstraintFailed(formattedProperty);
       } else {
         return this.children
-          .map(childError => childError.toString(shouldDecorate, true, `${parentPath}${formattedProperty}`))
-          .join(``);
+          ? this.children
+              .map(childError => childError.toString(shouldDecorate, true, `${parentPath}${formattedProperty}`))
+              .join(``)
+          : ``;
       }
     }
   }
