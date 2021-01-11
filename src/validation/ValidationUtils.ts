@@ -4,13 +4,11 @@ import { ValidationArguments } from './ValidationArguments';
  * Convert the constraint to a string to be shown in an error
  */
 export function constraintToString(constraint: unknown): string {
-  if (typeof constraint === 'string') return constraint;
+  if (Array.isArray(constraint)) {
+    return constraint.join(', ');
+  }
 
-  // join array as <comma><space> separated values strings
-  if (Array.isArray(constraint)) return constraint.map(constraintToString).join(', ');
-
-  // convert to string...
-  return String(constraint);
+  return `${ constraint }`;
 }
 
 export class ValidationUtils {
