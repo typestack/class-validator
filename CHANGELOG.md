@@ -1,3 +1,25 @@
+## [0.13.0](https://github.com/typestack/class-validator/compare/v0.12.2...v0.13.0) (2021-01-11)
+
+### Added
+
+- **project is restructured to allow three-shaking**
+- added option to fail on first validation error (#620)
+- two new validator option is added:
+  - `always` - allows setting global default for `always` option for decorators
+  - `strictGroups` - ignore decorators with at least one group, when `ValidatorOptions.groups` is empty
+
+### Fixed
+
+- the 'any' locale is allowed in the `isPostalCode` decorator (#634)
+- the `IsDateString()` decorator now aliases the `IsISO8601()` decorator (#672)
+
+### Changed
+
+- project tooling has been updated significantly
+- google-libphonenumber has been replaced with libphonenumber-js (this should have no effect on validation)
+- build process generates include both ES/CommonJS and UMD variations
+- various dev dependencies has been updated
+
 ## [0.12.2](https://github.com/typestack/class-validator/compare/v0.12.1...v0.12.2) (2020-04-23)
 
 ### Bug Fixes
