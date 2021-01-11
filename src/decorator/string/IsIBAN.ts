@@ -1,15 +1,15 @@
-import { ValidationOptions } from "../ValidationOptions";
-import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validator from "validator";
+import { ValidationOptions } from '../ValidationOptions';
+import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isIBANValidator from 'validator/lib/isIBAN';
 
-export const IS_IBAN = "isIBAN";
+export const IS_IBAN = 'isIBAN';
 
 /**
  * Check if a string is a IBAN (International Bank Account Number).
  * If given value is not a string, then it returns false.
  */
 export function isIBAN(value: unknown): boolean {
-    return typeof value === "string" && validator.isIBAN(value);
+  return typeof value === 'string' && isIBANValidator(value);
 }
 
 /**
@@ -17,17 +17,14 @@ export function isIBAN(value: unknown): boolean {
  * If given value is not a string, then it returns false.
  */
 export function IsIBAN(validationOptions?: ValidationOptions): PropertyDecorator {
-    return ValidateBy(
-        {
-            name: IS_IBAN,
-            validator: {
-                validate: (value, args): boolean => isIBAN(value),
-                defaultMessage: buildMessage(
-                    (eachPrefix) => eachPrefix + "$property must be an IBAN",
-                    validationOptions
-                )
-            }
-        },
-        validationOptions
-    );
+  return ValidateBy(
+    {
+      name: IS_IBAN,
+      validator: {
+        validate: (value, args): boolean => isIBAN(value),
+        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an IBAN', validationOptions),
+      },
+    },
+    validationOptions
+  );
 }

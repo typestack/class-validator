@@ -1,15 +1,15 @@
-import { ValidationOptions } from "../ValidationOptions";
-import { buildMessage, ValidateBy } from "../common/ValidateBy";
-import validator from "validator";
+import { ValidationOptions } from '../ValidationOptions';
+import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import isFullWidthValidator from 'validator/lib/isFullWidth';
 
-export const IS_FULL_WIDTH = "isFullWidth";
+export const IS_FULL_WIDTH = 'isFullWidth';
 
 /**
  * Checks if the string contains any full-width chars.
  * If given value is not a string, then it returns false.
  */
 export function isFullWidth(value: unknown): boolean {
-    return typeof value === "string" && validator.isFullWidth(value);
+  return typeof value === 'string' && isFullWidthValidator(value);
 }
 
 /**
@@ -17,17 +17,17 @@ export function isFullWidth(value: unknown): boolean {
  * If given value is not a string, then it returns false.
  */
 export function IsFullWidth(validationOptions?: ValidationOptions): PropertyDecorator {
-    return ValidateBy(
-        {
-            name: IS_FULL_WIDTH,
-            validator: {
-                validate: (value, args): boolean => isFullWidth(value),
-                defaultMessage: buildMessage(
-                    (eachPrefix) => eachPrefix + "$property must contain a full-width characters",
-                    validationOptions
-                )
-            }
-        },
-        validationOptions
-    );
+  return ValidateBy(
+    {
+      name: IS_FULL_WIDTH,
+      validator: {
+        validate: (value, args): boolean => isFullWidth(value),
+        defaultMessage: buildMessage(
+          eachPrefix => eachPrefix + '$property must contain a full-width characters',
+          validationOptions
+        ),
+      },
+    },
+    validationOptions
+  );
 }

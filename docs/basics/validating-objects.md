@@ -1,10 +1,19 @@
 # Validating objects
 
 ```ts
-import { validate, validateOrReject, IsString, IsInt, IsDate, MaxLength, Min, Max, ValidationError} from "class-validator";
+import {
+  validate,
+  validateOrReject,
+  IsString,
+  IsInt,
+  IsDate,
+  MaxLength,
+  Min,
+  Max,
+  ValidationError,
+} from 'class-validator';
 
 export class Book {
-
   @IsString()
   @MaxLength(255)
   title: string;
@@ -20,7 +29,6 @@ export class Book {
 
   @IsDate()
   publishDate: Date;
-
 }
 
 const book = new Book();
@@ -31,12 +39,12 @@ book.publishDate = new Date();
 
 validate(book).then((errors: ValidationError[]) => {
   if (errors.length > 0) {
-    console.warn("validate() - Validation failed. Errors: ", errors);
+    console.warn('validate() - Validation failed. Errors: ', errors);
   }
 });
 
 validateOrReject(book).catch((errors: ValidationError[]) => {
-  console.warn("validateOrReject() - Validation failed. Errors: ", errors);
+  console.warn('validateOrReject() - Validation failed. Errors: ', errors);
 });
 
 awaitExample();
@@ -45,7 +53,7 @@ async function awaitExample() {
   try {
     await validateOrReject(book);
   } catch (errors) {
-    console.warn("Async validateOrReject() - Validation failed. Errors: ", errors);
+    console.warn('Async validateOrReject() - Validation failed. Errors: ', errors);
   }
 }
 ```

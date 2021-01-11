@@ -1,0 +1,14 @@
+coverage:
+  range: 70..100
+  round: down
+  precision: 2
+  status:
+    project:
+      default:
+        threshold: 0%
+        paths: 
+          - src/**/*.ts
+comment: off
+ignore:
+  - testing/**/*.ts
+  - src/**/*.interface.ts
