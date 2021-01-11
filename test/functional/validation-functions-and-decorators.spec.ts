@@ -4365,6 +4365,7 @@ describe('ArrayUnique', () => {
     ['world', 'hello', 'superman'],
     ['world', 'superman', 'hello'],
     ['superman', 'world', 'hello'],
+    ['1', '2', null, undefined],
   ];
   const invalidValues: any[] = [
     null,
@@ -4393,6 +4394,50 @@ describe('ArrayUnique', () => {
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(arrayUnique(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'arrayUnique';
+    const message = "All someProperty's elements must be unique";
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('ArrayUnique with identifier', () => {
+  const identifier = o => o.name;
+  const validValues = [
+    ['world', 'hello', 'superman'],
+    ['world', 'superman', 'hello'],
+    ['superman', 'world', 'hello'],
+    ['1', '2', null, undefined],
+  ].map(list => list.map(name => ({ name })));
+  const invalidValues: any[] = [
+    null,
+    undefined,
+    ['world', 'hello', 'hello'],
+    ['world', 'hello', 'world'],
+    ['1', '1', '1'],
+  ].map(list => list?.map(name => (name != null ? { name } : name)));
+
+  class MyClass {
+    @ArrayUnique(identifier)
+    someProperty: { name: string }[];
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(arrayUnique(value, identifier)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(arrayUnique(value, identifier)).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
