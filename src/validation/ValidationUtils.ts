@@ -8,7 +8,7 @@ export function constraintToString(constraint: unknown): string {
     return constraint.join(', ');
   }
 
-  return `${ constraint }`;
+  return `${constraint}`;
 }
 
 export class ValidationUtils {
