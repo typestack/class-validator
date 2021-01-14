@@ -5,12 +5,14 @@ import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 export const IS_PHONE_NUMBER = 'isPhoneNumber';
 
 /**
- * Checks if the string is a valid phone number.
+ * Checks if the string is a valid phone number. To successfully validate any phone number the text must include
+ * the intl. calling code, if the calling code wont be provided then the region must be set.
+ *
  * @param value the potential phone number string to test
- * @param {string} region 2 characters uppercase country code (e.g. DE, US, CH).
- * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
+ * @param region 2 characters uppercase country code (e.g. DE, US, CH) for country specific validation.
+ * If text doesn't start with the international calling code (e.g. +41), then you must set this parameter.
  */
-export function isPhoneNumber(value: string, region: CountryCode | undefined): boolean {
+export function isPhoneNumber(value: string, region?: CountryCode): boolean {
   try {
     const phoneNum = parsePhoneNumberFromString(value, region);
     const result = phoneNum?.isValid();
@@ -22,14 +24,13 @@ export function isPhoneNumber(value: string, region: CountryCode | undefined): b
 }
 
 /**
- * Checks if the string is a valid phone number.
- * @param region 2 characters uppercase country code (e.g. DE, US, CH).
- * If users must enter the intl. prefix (e.g. +41), then you may pass "ZZ" or null as region.
+ * Checks if the string is a valid phone number. To successfully validate any phone number the text must include
+ * the intl. calling code, if the calling code wont be provided then the region must be set.
+ *
+ * @param region 2 characters uppercase country code (e.g. DE, US, CH) for country specific validation.
+ * If text doesn't start with the international calling code (e.g. +41), then you must set this parameter.
  */
-export function IsPhoneNumber(
-  region: CountryCode | undefined,
-  validationOptions?: ValidationOptions
-): PropertyDecorator {
+export function IsPhoneNumber(region?: CountryCode, validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
     {
       name: IS_PHONE_NUMBER,
