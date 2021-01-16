@@ -30,8 +30,12 @@ export class ValidationUtils {
       validationArguments.constraints.forEach((constraint, index) => {
         messageString = messageString.replace(
           new RegExp(`\\$constraint${index + 1}`, 'g'),
-          (checkTitle && titles[getClassValidatorTitle(validationArguments.object, constraintToString(constraint)) || constraintToString(constraint)]) ||
-          constraintToString(constraint)
+          (checkTitle &&
+            titles[
+              getClassValidatorTitle(validationArguments.object, constraintToString(constraint)) ||
+                constraintToString(constraint)
+            ]) ||
+            constraintToString(constraint)
         );
       });
     }

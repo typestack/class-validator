@@ -35,7 +35,7 @@ export function ArrayUnique<T = any>(
     {
       name: ARRAY_UNIQUE,
       validator: {
-        validate: (value, args): boolean => arrayUnique(value),
+        validate: (value, args): boolean => arrayUnique(value, identifier),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + getText("All $property's elements must be unique"),
           options

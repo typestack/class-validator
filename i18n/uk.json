@@ -55,7 +55,7 @@
   "$property must be an ISRC": "$property повинен бути ISRC",
   "$property must be an object": "$property має бути об'єктом",
   "$property must be an URL address": "$property має бути URL-адресою",
-  "$property must be an UUID": "$property повинен бути UUID",
+  "$property must be a UUID": "$property повинен бути UUID",
   "$property must be base32 encoded": "$property має бути base32 Кодування",
   "$property must be base64 encoded": "$property має бути кодування base64",
   "$property must be divisible by $constraint1": "$property має ділитись на $constraint1",

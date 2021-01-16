@@ -55,7 +55,7 @@
   "$property must be an ISRC": "$property 必须是一个 ISRC",
   "$property must be an object": "$property 必须是对象",
   "$property must be an URL address": "$property 必须是一个URL地址",
-  "$property must be an UUID": "$property 必须是 UUID",
+  "$property must be a UUID": "$property 必须是 UUID",
   "$property must be base32 encoded": "$property 必须以 base32 编码",
   "$property must be base64 encoded": "$property 必须以 base64 编码",
   "$property must be divisible by $constraint1": "$property 必须被 $constraint1 拆分",

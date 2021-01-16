@@ -229,7 +229,7 @@ msgid "$property must be an URL address"
 msgstr ""
 
 #: src/decorator/string/IsUUID.ts:30
-msgid "$property must be an UUID"
+msgid "$property must be a UUID"
 msgstr ""
 
 #: src/decorator/string/IsBase32.ts:27

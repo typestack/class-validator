@@ -239,7 +239,7 @@ msgid "$property must be an URL address"
 msgstr "määritteen $property on oltava URL-osoite"
 
 #: src/decorator/string/IsUUID.ts:30
-msgid "$property must be an UUID"
+msgid "$property must be a UUID"
 msgstr "määritteen $property on oltava UUID"
 
 #: src/decorator/string/IsBase32.ts:27

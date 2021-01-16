@@ -55,7 +55,7 @@
   "$property must be an ISRC": "$property は、ISRCでなければなりません",
   "$property must be an object": "$property はオブジェクトでなければなりません",
   "$property must be an URL address": "$property は URL アドレスでなければなりません",
-  "$property must be an UUID": "$property は UUID でなければなりません",
+  "$property must be a UUID": "$property は UUID でなければなりません",
   "$property must be base32 encoded": "$property は base32 エンコードする必要があります",
   "$property must be base64 encoded": "$property は base64 エンコードする必要があります",
   "$property must be divisible by $constraint1": "$property は $constraint1 で割り算する必要があります",

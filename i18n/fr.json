@@ -55,7 +55,7 @@
   "$property must be an ISRC": "$property doit être un ISRC",
   "$property must be an object": "$property doit être un objet",
   "$property must be an URL address": "$property doit être une adresse URL",
-  "$property must be an UUID": "$property doit être un UUID",
+  "$property must be a UUID": "$property doit être un UUID",
   "$property must be base32 encoded": "$property doit être encodé en base32",
   "$property must be base64 encoded": "$property doit être encodé en base64",
   "$property must be divisible by $constraint1": "$property doit être divisible par $constraint1",

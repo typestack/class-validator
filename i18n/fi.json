@@ -55,7 +55,7 @@
   "$property must be an ISRC": "määritteen $property on oltava ISRC",
   "$property must be an object": "määritteen $property on oltava objekti",
   "$property must be an URL address": "määritteen $property on oltava URL-osoite",
-  "$property must be an UUID": "määritteen $property on oltava UUID",
+  "$property must be a UUID": "määritteen $property on oltava UUID",
   "$property must be base32 encoded": "määritteen $property on oltava perus32 koodattu",
   "$property must be base64 encoded": "määritteen $property on oltava base64 koodattu",
   "$property must be divisible by $constraint1": "määritteen $property on oltava jaollinen käyttäjälle $constraint1",
