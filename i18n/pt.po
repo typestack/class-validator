@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
-"PO-Revision-Date: 2020-09-03 04:05\n"
+"PO-Revision-Date: 2020-12-25 19:36\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -55,11 +55,11 @@ msgstr "$property deve ser um formato uri de dados"
 
 #: src/decorator/typechecker/IsDate.ts:24
 msgid "$property must be a Date instance"
-msgstr "$property deve ser uma instância de data"
+msgstr "$property deve ser uma instância de Date"
 
 #: src/decorator/string/IsFirebasePushId.ts:27
 msgid "$property must be a Firebase Push Id"
-msgstr "$property deve ser um Id Push Firebase"
+msgstr "$property deve ser um Id Firebase Push"
 
 #: src/decorator/string/IsHash.ts:31
 msgid "$property must be a hash of type $constraint1"
@@ -99,11 +99,11 @@ msgstr "$property deve ser um texto de latitude ou número"
 
 #: src/decorator/common/IsLatLong.ts:25
 msgid "$property must be a latitude,longitude string"
-msgstr "$property deve ser uma latitude,longitude string"
+msgstr "$property deve ser um texto de latitude,longitude"
 
 #: src/decorator/common/IsLongitude.ts:25
 msgid "$property must be a longitude string or number"
-msgstr "$property deve ser uma longitude ou número"
+msgstr "$property deve ser uma longitude de texto ou número"
 
 #: src/decorator/string/IsLowercase.ts:27
 msgid "$property must be a lowercase string"
