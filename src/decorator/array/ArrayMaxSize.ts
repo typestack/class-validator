@@ -5,7 +5,7 @@ import { getText } from '../../multi-lang';
 export const ARRAY_MAX_SIZE = 'arrayMaxSize';
 
 /**
- * Checks if array's length is as maximal this number.
+ * Checks if the array's length is less or equal to the specified number.
  * If null or undefined is given then this function returns false.
  */
 export function arrayMaxSize(array: unknown, max: number): boolean {
@@ -13,7 +13,7 @@ export function arrayMaxSize(array: unknown, max: number): boolean {
 }
 
 /**
- * Checks if array's length is as maximal this number.
+ * Checks if the array's length is less or equal to the specified number.
  * If null or undefined is given then this function returns false.
  */
 export function ArrayMaxSize(max: number, validationOptions?: ValidationOptions): PropertyDecorator {

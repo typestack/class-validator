@@ -8,6 +8,7 @@
     "rootDir": "./src",
     "strict": true,
     "sourceMap": true,
+    "inlineSources": true,
     "removeComments": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,

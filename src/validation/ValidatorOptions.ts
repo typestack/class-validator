@@ -3,6 +3,11 @@
  */
 export interface ValidatorOptions {
   /**
+   * If set to true then class-validator will print extra warning messages to the console when something is not right.
+   */
+  enableDebugMessages?: boolean;
+
+  /**
    * If set to true then validator will skip validation of all properties that are undefined in the validating object.
    */
   skipUndefinedProperties?: boolean;

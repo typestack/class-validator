@@ -57,6 +57,7 @@ describe('whitelist validation', () => {
       expect(errors[0].target).toEqual(model);
       expect(errors[0].property).toEqual('unallowedProperty');
       expect(errors[0].constraints).toHaveProperty(ValidationTypes.WHITELIST);
+      expect(() => errors[0].toString()).not.toThrowError();
     });
   });
 });

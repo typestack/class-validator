@@ -1,6 +1,17 @@
 import { getClassValidatorPropertyTitle, getClassValidatorTitle } from '../multi-lang';
 import { ValidationArguments } from './ValidationArguments';
 
+/**
+ * Convert the constraint to a string to be shown in an error
+ */
+export function constraintToString(constraint: unknown): string {
+  if (Array.isArray(constraint)) {
+    return constraint.join(', ');
+  }
+
+  return `${constraint}`;
+}
+
 export class ValidationUtils {
   static replaceMessageSpecialTokens(
     message: string | ((args: ValidationArguments) => string),
@@ -19,8 +30,8 @@ export class ValidationUtils {
       validationArguments.constraints.forEach((constraint, index) => {
         messageString = messageString.replace(
           new RegExp(`\\$constraint${index + 1}`, 'g'),
-          (checkTitle && titles[getClassValidatorTitle(validationArguments.object, constraint) || constraint]) ||
-            constraint
+          (checkTitle && titles[getClassValidatorTitle(validationArguments.object, constraintToString(constraint)) || constraintToString(constraint)]) ||
+          constraintToString(constraint)
         );
       });
     }
