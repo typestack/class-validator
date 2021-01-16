@@ -1,12 +1,88 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import { Equals, IsOptional } from '../../src/decorator/decorators';
-import { setClassValidatorMessages, ClassPropertyTitle, ClassTitle } from '../../src/multi-lang';
+import { Equals, IsNotEmpty, IsOptional, Validate, ValidatorConstraint } from '../../src/decorator/decorators';
+import { ClassPropertyTitle, ClassTitle, getText, setClassValidatorMessages } from '../../src/multi-lang';
+import { ValidationArguments } from '../../src/validation/ValidationArguments';
 import { Validator } from '../../src/validation/Validator';
+import { ValidatorConstraintInterface } from '../../src/validation/ValidatorConstraintInterface';
 
 const validator = new Validator();
 
+@ValidatorConstraint({ name: 'equalsTo', async: false })
+// @ts-ignore
+export class EqualsTo implements ValidatorConstraintInterface {
+  validate(value: string, validationArguments: ValidationArguments) {
+    return (
+      validationArguments.constraints.length > 0 &&
+      validationArguments.constraints.filter(
+        otherField =>
+          validationArguments.object.hasOwnProperty(otherField) && validationArguments.object[otherField] === value
+      ).length > 0
+    );
+  }
+  defaultMessage(validationArguments: ValidationArguments) {
+    return getText('$constraint1 do not match to $property');
+  }
+}
+
 describe('i18n', () => {
+  it('should validate a property when value is supplied with russian messages with custom validation classes and class property title', () => {
+    class User {
+      @IsNotEmpty()
+      password: string = 'correct password';
+      @IsNotEmpty()
+      @Validate(EqualsTo, ['password'])
+      @ClassPropertyTitle('property "rePassword"')
+      rePassword: string = 'incorrect password';
+    }
+
+    const RU_I18N_MESSAGES = {
+      '$constraint1 do not match to $property': '$constraint1 не равно $property',
+    };
+    const RU_I18N_TITLES = {
+      password: '"пароль"',
+      'property "rePassword"': 'свойству "повтор пароля"',
+    };
+
+    const model = new User();
+
+    return validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('rePassword');
+      expect(errors[0].constraints).toEqual({ equalsTo: '"пароль" не равно свойству "повтор пароля"' });
+      expect(errors[0].value).toEqual('incorrect password');
+    });
+  });
+
+  it('should validate a property when value is supplied with russian messages with custom validation classes', () => {
+    class User {
+      @IsNotEmpty()
+      password: string = 'correct password';
+      @IsNotEmpty()
+      @Validate(EqualsTo, ['password'])
+      rePassword: string = 'incorrect password';
+    }
+
+    const RU_I18N_MESSAGES = {
+      '$constraint1 do not match to $property': '$constraint1 не равно $property',
+    };
+    const RU_I18N_TITLES = {
+      password: '"пароль"',
+      rePassword: '"повтор пароля"',
+    };
+
+    const model = new User();
+
+    return validator.validate(model, { messages: RU_I18N_MESSAGES, titles: RU_I18N_TITLES }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('rePassword');
+      expect(errors[0].constraints).toEqual({ equalsTo: '"пароль" не равно "повтор пароля"' });
+      expect(errors[0].value).toEqual('incorrect password');
+    });
+  });
+
   it('should validate a property when value is supplied with default messages', () => {
     class MyClass {
       @IsOptional()
