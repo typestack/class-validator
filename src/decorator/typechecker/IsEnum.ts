@@ -12,6 +12,15 @@ export function isEnum(value: unknown, entity: any): boolean {
 }
 
 /**
+ * Returns an array of all the possible values for a given enum
+ */
+export function validEnumValues(entity: any): any[] {
+  return Object.entries(entity)
+    .filter(entry => !parseInt(entry[0]))
+    .map(entry => entry[1]);
+}
+
+/**
  * Checks if a given value is an enum
  */
 export function IsEnum(entity: object, validationOptions?: ValidationOptions): PropertyDecorator {
@@ -22,7 +31,8 @@ export function IsEnum(entity: object, validationOptions?: ValidationOptions): P
       validator: {
         validate: (value, args): boolean => isEnum(value, args?.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be a valid enum value',
+          eachPrefix =>
+            eachPrefix + '$property must be a valid enum value. Valid values: ' + validEnumValues(entity).join(', '),
           validationOptions
         ),
       },
