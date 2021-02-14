@@ -1,11 +1,23 @@
-name: Auto approve PRs
+name: Dependabot auto-merge
 on:
   pull_request
 jobs:
   dependabot:
     runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
     steps:
-    - uses: hmarr/auto-approve-action@v2.0.0
-      if: github.actor == 'dependabot[bot]'
+    - name: 'Auto approve PR by Dependabot'
+      uses: hmarr/auto-approve-action@v2.0.0
       with:
-        github-token: "${{ secrets.GITHUB_TOKEN }}"
+        github-token: "${{ secrets.TYPESTACK_BOT_TOKEN }}"
+    - name: 'Comment merge command'
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{secrets.TYPESTACK_BOT_TOKEN }}
+        script: |
+          await github.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: '@dependabot squash and merge'
+          })
