@@ -12,7 +12,6 @@ extends:
   - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
   - 'plugin:jest/recommended'
   - 'prettier'
-  - 'prettier/@typescript-eslint'
 rules:
   '@typescript-eslint/explicit-member-accessibility': off
   '@typescript-eslint/no-angle-bracket-type-assertion': off
