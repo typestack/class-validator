@@ -25,6 +25,7 @@ Class-validator works on both browser and node.js platforms.
   - [Validating promises](#validating-promises)
   - [Inheriting Validation decorators](#inheriting-validation-decorators)
   - [Conditional validation](#conditional-validation)
+  - [Conditional `IsOptional`](#conditional-isoptional)
   - [Whitelisting](#whitelisting)
   - [Passing context to decorators](#passing-context-to-decorators)
   - [Skipping missing properties](#skipping-missing-properties)
@@ -425,6 +426,24 @@ In the example above, the validation rules applied to `example` won't be run unl
 
 Note that when the condition is false all validation decorators are ignored, including `isDefined`.
 
+## Conditional `IsOptional`
+
+Following the same process, the decorator `IsOptional` accepts a condition function which allows to remove the `IsOptional` when returning false.
+
+```typescript
+import { IsOptional } from 'class-validator';
+export class Place {
+  @IsOptional(o => o.latitude === undefined)
+  @IsNotEmpty()
+  @IsNumber()
+  longitude: number;
+  @IsOptional(o => o.longitude === undefined)
+  @IsNotEmpty()
+  @IsNumber()
+  latitude: number;
+}
+```
+
 ## Whitelisting
 
 Even if your object is an instance of a validation class it can contain additional properties that are not defined.
@@ -793,7 +812,7 @@ isBoolean(value);
 | ------------------------------------------------| ----------- |
 | **Common validation decorators**                | |
 | `@IsDefined(value: any)`                        | Checks if value is defined (!== undefined, !== null). This is the only decorator that ignores skipMissingProperties option. |
-| `@IsOptional()`                                 | Checks if given value is empty (=== null, === undefined) and if so, ignores all the validators on the property. |
+| `@IsOptional(condition?: function)`             | Checks if given value is empty (=== null, === undefined) and if so, ignores all the validators on the property. |
 | `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison. |
 | `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison. |
 | `@IsEmpty()`                                    | Checks if given value is empty (=== '', === null, === undefined). |
