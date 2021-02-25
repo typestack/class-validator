@@ -129,7 +129,7 @@ describe('conditional validation', () => {
     });
   });
 
-  it('should validate a property when condition returns true and value is not supplied', function () {
+  it('should not validate a property when condition returns true and value is not supplied', function () {
     class MyClass {
       @IsOptional(item => item.age === 33)
       @Equals('test')
