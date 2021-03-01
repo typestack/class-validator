@@ -4031,10 +4031,49 @@ describe('isPhoneNumber', () => {
       null,
       'asdf',
       '1',
+      '+33712345678',
     ];
 
     class MyClass {
       @IsPhoneNumber(null)
+      someProperty: string;
+    }
+
+    it('should not fail if validator.validate said that its valid', () => {
+      return checkValidValues(new MyClass(), validValues);
+    });
+
+    it('should fail if validator.validate said that its invalid', () => {
+      return checkInvalidValues(new MyClass(), invalidValues);
+    });
+  });
+
+  describe('possible strategy', () => {
+    const validValues = [
+      '+41 311111111',
+      '+41 31 633 60 01',
+      '+41 79 4 666 666',
+      '+41 75 416 20 30',
+      '+41 (0)311111111',
+      '+41 (0)31 633 60 01',
+      '+41 (0)79 4 666 666',
+      '+41 (0)75 416 20 30',
+      '+49 9072 1111',
+      '+33712345678',
+    ];
+    const invalidValues = [
+      '0311111111',
+      '031 633 60 01',
+      '079 4 666 666',
+      '075 416 20 30',
+      undefined,
+      null,
+      'asdf',
+      '1',
+    ];
+
+    class MyClass {
+      @IsPhoneNumber({ strategy: 'possible' })
       someProperty: string;
     }
 
