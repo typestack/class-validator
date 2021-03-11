@@ -1,4 +1,4 @@
-import { ExtraValidationArguments } from "./ExtraValidationArguments";
+import { ExtraValidationArguments } from './ExtraValidationArguments';
 
 /**
  * Arguments being sent to message builders - user can create message either by simply returning a string,

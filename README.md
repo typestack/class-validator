@@ -259,8 +259,8 @@ Message function accepts `ValidationArguments` which contains the following info
 - `targetName` - name of the object's class being validated
 - `object` - object that is being validated
 - `property` - name of the object's property being validated
-- any other arguments passed by the caller via `ValidatorOptions.extraArguments`. 
-Exact types of extra arguments can be specified with type merging:
+- any other arguments passed by the caller via `ValidatorOptions.extraArguments`.
+  Exact types of extra arguments can be specified with type merging:
 
   ```typescript
   declare module 'class-validator' {
@@ -271,9 +271,9 @@ Exact types of extra arguments can be specified with type merging:
 
   export class Post {
     @MinLength(10, {
-      message: ({t}) => t('translation_key'),
+      message: ({ t }) => t('translation_key'),
     })
-    title: string; 
+    title: string;
   }
   ```
 

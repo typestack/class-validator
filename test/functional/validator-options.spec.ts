@@ -5,7 +5,7 @@ const validator = new Validator();
 
 declare module '../../src/validation/ExtraValidationArguments' {
   interface ExtraValidationArguments {
-    t: (msg: string) => string
+    t: (msg: string) => string;
   }
 }
 
@@ -53,19 +53,17 @@ describe('validator options', () => {
 
   it('should pass extra validation arguments to message builder', function () {
     class MyClass {
-      @IsNotEmpty({ message: ({t}) => t('this field should not be empty')})
+      @IsNotEmpty({ message: ({ t }) => t('this field should not be empty') })
       title: string = '';
       isActive: boolean;
     }
 
     const model = new MyClass();
     model.title = '';
-    return validator
-      .validate(model, { extraArguments: { t: (msg) => 'translated: ' + msg } })
-      .then(errors => {
-        expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ isNotEmpty: 'translated: this field should not be empty' });
-      });
+    return validator.validate(model, { extraArguments: { t: msg => 'translated: ' + msg } }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints).toEqual({ isNotEmpty: 'translated: this field should not be empty' });
+    });
   });
 
   it('should pass extra validation arguments to default message builder', function () {
@@ -74,8 +72,8 @@ describe('validator options', () => {
         name: 'customValidator',
         validator: {
           validate: () => false,
-          defaultMessage: ({t}) => t('custom error')
-        }
+          defaultMessage: ({ t }) => t('custom error'),
+        },
       })
       title: string = '';
       isActive: boolean;
@@ -83,11 +81,9 @@ describe('validator options', () => {
 
     const model = new MyClass();
     model.title = '';
-    return validator
-      .validate(model, { extraArguments: { t: (msg) => 'translated: ' + msg } })
-      .then(errors => {
-        expect(errors.length).toEqual(1);
-        expect(errors[0].constraints).toEqual({ customValidator: 'translated: custom error' });
-      });
+    return validator.validate(model, { extraArguments: { t: msg => 'translated: ' + msg } }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints).toEqual({ customValidator: 'translated: custom error' });
+    });
   });
 });

@@ -1,4 +1,4 @@
-import { ExtraValidationArguments } from "./ExtraValidationArguments";
+import { ExtraValidationArguments } from './ExtraValidationArguments';
 
 /**
  * Options passed to validator during validation.
