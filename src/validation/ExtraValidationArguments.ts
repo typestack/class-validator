@@ -5,7 +5,7 @@
  * This type can be augumented using type merging to pass arguments in typesafe way, e.g.
  * ```typescript
  * declare module 'class-validator' {
- *   interface ExtraArguments {
+ *   interface ExtraValidationArguments {
  *     t: TFunction;
  *   }
  * }

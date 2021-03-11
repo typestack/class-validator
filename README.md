@@ -264,7 +264,7 @@ Exact types of extra arguments can be specified with type merging:
 
   ```typescript
   declare module 'class-validator' {
-    interface ExtraArguments {
+    interface ExtraValidationArguments {
       t: TFunction;
     }
   }
