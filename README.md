@@ -136,6 +136,7 @@ export interface ValidatorOptions {
 
   forbidUnknownValues?: boolean;
   stopAtFirstError?: boolean;
+  extraArguments?: ExtraValidationArguments;
 }
 ```
 
@@ -258,6 +259,23 @@ Message function accepts `ValidationArguments` which contains the following info
 - `targetName` - name of the object's class being validated
 - `object` - object that is being validated
 - `property` - name of the object's property being validated
+- any other arguments passed by the caller via `ValidatorOptions.extraArguments`. 
+Exact types of extra arguments can be specified with type merging:
+
+  ```typescript
+  declare module 'class-validator' {
+    interface ExtraArguments {
+      t: TFunction;
+    }
+  }
+
+  export class Post {
+    @MinLength(10, {
+      message: ({t}) => t('translation_key'),
+    })
+    title: string; 
+  }
+  ```
 
 ## Validating arrays
 

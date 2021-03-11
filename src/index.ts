@@ -16,6 +16,7 @@ export * from './validation/ValidatorConstraintInterface';
 export * from './validation/ValidationError';
 export * from './validation/ValidatorOptions';
 export * from './validation/ValidationArguments';
+export * from './validation/ExtraValidationArguments';
 export * from './validation/ValidationTypes';
 export * from './validation/Validator';
 export * from './validation-schema/ValidationSchema';
