@@ -1,6 +1,6 @@
 name: Dependabot auto-merge
 on:
-  pull_request
+  pull_request_target
 jobs:
   dependabot:
     runs-on: ubuntu-latest
