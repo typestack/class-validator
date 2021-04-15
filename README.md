@@ -899,6 +899,7 @@ isBoolean(value);
 | `@IsISSN(options?: IsISSNOptions)`              | Checks if the string is a ISSN. |
 | `@IsISRC()`                                     | Checks if the string is a [ISRC](https://en.wikipedia.org/wiki/International_Standard_Recording_Code). |
 | `@IsRFC3339()`                                  | Checks if the string is a valid [RFC 3339](https://tools.ietf.org/html/rfc3339) date. |
+| `@IsStrongPassword(options?: IsStrongPasswordOptions)` | Checks if the string is a strong password. |
 | **Array validation decorators**                 | |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values. |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values. |

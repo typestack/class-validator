@@ -184,6 +184,9 @@ import {
   isPostalCode,
   IsSemVer,
   isSemVer,
+  IsStrongPassword,
+  isStrongPassword,
+  IsStrongPasswordOptions,
   IsTimeZone,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
@@ -4574,6 +4577,86 @@ describe('isInstance', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isInstance';
     const message = 'someProperty must be an instance of MySubClass';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsStrongPassword', () => {
+  class MyClass {
+    @IsStrongPassword()
+    someProperty: string;
+  }
+
+  const validValues = ['Abcdef1!'];
+  const invalidValues = [null, undefined, 'Abcde1!', 'abcdef1!', 'ABCDEF1!', 'Abcdefg!', 'Abcdefg1'];
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isStrongPassword(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isStrongPassword(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isStrongPassword';
+    const message = 'someProperty is not strong enough';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsStrongPassword with options', () => {
+  const options: IsStrongPasswordOptions = {
+    minLength: 12,
+    minLowercase: 2,
+    minUppercase: 2,
+    minNumbers: 2,
+    minSymbols: 2,
+  };
+
+  class MyClass {
+    @IsStrongPassword(options)
+    someProperty: string;
+  }
+
+  const validValues = ['ABcdefgh12!#'];
+  const invalidValues = [
+    null,
+    undefined,
+    'ABcdefg12!#',
+    'Abcdefgh12!#',
+    'ABcDEFGH12!#',
+    'ABcdefghi1!#',
+    'ABcdefghi12!',
+  ];
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isStrongPassword(value, options)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isStrongPassword(value, options)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isStrongPassword';
+    const message = 'someProperty is not strong enough';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
