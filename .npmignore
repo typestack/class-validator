@@ -1,0 +1,51 @@
+# Log files
+logs
+*.log
+*.tmp
+*.tmp.*
+log.txt
+npm-debug.log*
+
+# Testing output
+lib-cov/**
+coverage/**
+
+# Environment files
+.env
+
+# Dependency directories
+node_modules
+
+# MacOS related files
+*.DS_Store
+.AppleDouble
+.LSOverride
+._*
+UserInterfaceState.xcuserstate
+
+# Windows related files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE - Sublime
+*.sublime-project
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/**
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# IDE - IntelliJ
+.idea
+
+# Compilation output folders
+dist/
+tmp/
+out-tsc/
+temp
+
+# Files for playing around locally
+playground.ts
+playground.js

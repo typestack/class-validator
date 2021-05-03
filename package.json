@@ -1,8 +1,8 @@
 {
-  "name": "class-validator",
-  "version": "0.13.1",
+  "name": "@deliveryhero/class-validator",
+  "version": "0.0.1",
   "description": "Decorator-based property validation for classes.",
-  "author": "TypeStack contributors",
+  "author": "TypeStack contributors/Delivery Hero - Data Streams",
   "license": "MIT",
   "sideEffects": false,
   "main": "./cjs/index.js",
@@ -11,7 +11,10 @@
   "typings": "./types/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/typestack/class-validator.git"
+    "url": "git@github.com:deliveryhero/class-validator.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "tags": [
     "validator",

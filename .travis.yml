@@ -1,0 +1,47 @@
+language: node_js
+
+node_js:
+  - 12
+
+cache:
+  directories:
+    - node_modules
+    - $HOME/gcloud/
+
+env:
+  - PATH=$PATH:$HOME/gcloud/google-cloud-sdk/bin
+
+before_install:
+  # Upgrade pre-installed YARN
+#  - curl -o- -L https://yarnpkg.com/install.sh | bash -s
+#  - export PATH="$HOME/.yarn/bin:$PATH"
+  - sudo apt-get install -y jq
+
+install:
+  - npm install
+
+script:
+  - npm test
+
+before_deploy:
+  - npm run build:types
+  - npm run build:cjs
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: npm publish
+    on:
+      tags: true
+      condition: ${TRAVIS_TAG} = "class-validator-"*
+#  - provider: script
+#    skip_cleanup: true
+#    script: ./scripts/release_tag.sh -r ${SDK_AWS_REGION} -k ${SDK_ACCESS_KEY_ID_PROD} -s "${SDK_SECRET_ACCESS_KEY_PROD}" -g "${GITHUB_TOKEN}" -d "${DOCKER_IMAGE_PATH}" -u "${GITHUB_USER}" -t "${GITHUB_REPOSITORY}"
+#    on:
+#      tags: true
+#      condition: ${TRAVIS_TAG} = "fridge"*
+#
+#
+#notifications:
+#  slack:
+#    secure: LZadMlnH+d2/G0A+FuRHrJALlZByS9jdOf9TMyl2YWsMUv5YQf0nNEmSyZHjppZHZ7IIR6JCXhxQe3elfmyozX1OREp50BWCO3SnQ/EohCAp9ZFy6TKvLvU2FdIl8+dWYLo9Ns3g6+QV6bMClMhDQMSvgRJ4joS9QMoPmiwYfxDDeKFKaEB5yDVwSXBHKxQ6fNVM2f0FBIfalsjpGfW3RapJMSBmOZWQydxg16sgXFRWWY1R9RWbl2TEjboIYZEpEoSQSA8cXM10o9f3zMp08tEcA9J4wp3ZvNDTghXMJSeN6riCKS55wtBmojtWo7yT3Yliyft/TydSzvJLgZh8Tr5rYsAYFVVgTUw8V0OuwkxeCcrLpyKyEU/qQ8hZJSyJNqaxq4vh/QccU8ox2r86MkydlidKk+4/jEjnbp4eQkkZNs5/77o9s2cP95zyfNHDxSnxZ+KpUMZrP3pf8qsiRbhzWwOEA5V+qAD0x3M3krGSTAnPi6cYL8zb5FcSHNK1dzGE8ZTEhg5aiHACyOM7hsFhEGujcM/qCaxtJvrr+pF1RBlEbXKa3/BHVJEuFkRgiDz3/mEMB2yWJQ9uZiyMnMt6lqdIchMsHihaT8akjUfUCdD9KruKVINfk+gO/Hq0dut34T54hyZ8H+UKiJx+PSzjIXP9nkqG0JE4CXWnif0=
