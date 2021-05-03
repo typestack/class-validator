@@ -1,5 +1,5 @@
 {
-  "name": "class-validator-fork",
+  "name": "class-validator-forked",
   "version": "0.13.1",
   "description": "Decorator-based property validation for classes. try to create a new public maintained repo instead of the dead original.",
   "author": "TypeStack contributors (forked by Yitzchak Ben-Ezra)",
