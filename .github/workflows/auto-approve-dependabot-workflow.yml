@@ -9,11 +9,11 @@ jobs:
     - name: 'Auto approve PR by Dependabot'
       uses: hmarr/auto-approve-action@v2.0.0
       with:
-        github-token: "${{ secrets.TYPESTACK_BOT_TOKEN }}"
+        github-token: "${{ secrets.BOT_TOKEN }}"
     - name: 'Comment merge command'
       uses: actions/github-script@v3
       with:
-        github-token: ${{secrets.TYPESTACK_BOT_TOKEN }}
+        github-token: ${{secrets.BOT_TOKEN }}
         script: |
           await github.issues.createComment({
             owner: context.repo.owner,
