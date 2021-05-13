@@ -721,6 +721,11 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
          return true;
        });
      }
+     
+     // Optionally provide a default validation message
+     public defaultMessage(args: ValidationArguments) {
+       return `$property not valid`;
+     }
    }
 
    export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
