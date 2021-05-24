@@ -518,6 +518,40 @@ When skipping missing properties, sometimes you want not to skip all missing pro
 for you, even if skipMissingProperties is set to true. For such cases you should use `@IsDefined()` decorator.
 `@IsDefined()` is the only decorator that ignores `skipMissingProperties` option.
 
+## Including specific unknown values
+
+Read this section if your project has global protection via `forbidUnknownValues: true`, `whitelist: true`, and your project also has a need to have an object that accepts both known and unknown values. The technique used here is to invoke validation without the inclusion of global configurations.
+
+```
+import { IsEnum, IsNotEmpty, Validate } from 'class-validator'
+
+import { Type } from 'class-transformer'
+
+export class SomeStripeConnector {
+  @Validate(NoGlobalValidate) // skip whitelist and unknown values
+  @IsNotEmpty() @Type(() => MetaData)
+  metadata: MetaData
+}
+
+export enum Env {
+  DEV: 'dev'
+  BETA: 'beta
+  PRODUCTION: 'prod'
+}
+
+export class MetaData implements IMetaData {
+  @IsEnum(Env)
+  env: Env
+}
+
+export interface IMetaData {
+  env: Env
+  [index: string]: string
+}
+```
+
+> Be sure NOT to use `@ValidateNested()` in the `metadata` decorating above as that would engage the global validation of whitelisting and unknown values.
+
 ## Validation groups
 
 In different situations you may want to use different validation schemas of the same object.
@@ -816,7 +850,7 @@ isBoolean(value);
 | `@Max(max: number)`                             | Checks if the given number is less than or equal to given number. |
 | **Date validation decorators**                  |
 | `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date. |
-| `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date. |  
+| `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date. |
 | **String-type validation decorators**           | |
 | `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false"). |
 | `@IsDateString()`                               | Alias for `@IsISO8601()`. |
