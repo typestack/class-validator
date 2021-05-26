@@ -24,7 +24,7 @@ export function IsDateString(
       name: IS_DATE_STRING,
       constraints: [options],
       validator: {
-        validate: (value, args): boolean => isDateString(value),
+        validate: (value, args): boolean => isDateString(value, args.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a valid ISO 8601 date string',
           validationOptions
