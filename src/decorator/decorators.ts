@@ -64,6 +64,7 @@ export * from './string/IsHexColor';
 export * from './string/IsHexadecimal';
 export * from './string/IsMacAddress';
 export * from './string/IsIP';
+export * from './string/IsIPRange';
 export * from './string/IsPort';
 export * from './string/IsISBN';
 export * from './string/IsISIN';

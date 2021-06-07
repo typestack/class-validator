@@ -29,6 +29,7 @@ import {
   IsHexColor,
   IsHexadecimal,
   IsIP,
+  IsIPRange,
   IsISBN,
   IsISO8601,
   IsIn,
@@ -108,6 +109,7 @@ import {
   isISBN,
   isISO8601,
   isIP,
+  isIPRange,
   isJSON,
   isJWT,
   isLowercase,
@@ -2728,6 +2730,66 @@ describe('IsIP', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isIp';
     const message = 'someProperty must be an ip address';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsIPRange', () => {
+  const validValues = [
+    '127.0.0.1/24',
+    '0.0.0.0/0',
+    '255.255.255.0/32',
+    '::/0',
+    '::/128',
+    '2001::/128',
+    '2001:800::/128',
+    '::ffff:127.0.0.1/128',
+  ];
+  const invalidValues = [
+    'abc',
+    '127.200.230.1/35',
+    '127.200.230.1/-1',
+    '1.1.1.1/011',
+    '1.1.1/24.1',
+    '1.1.1.1/01',
+    '1.1.1.1/1.1',
+    '1.1.1.1/1.',
+    '1.1.1.1/1/1',
+    '1.1.1.1',
+    '::1',
+    '::1/164',
+    '2001::/240',
+    '2001::/-1',
+    '2001::/001',
+    '2001::/24.1',
+    '2001:db8:0000:1:1:1:1:1',
+    '::ffff:127.0.0.1',
+  ];
+
+  class MyClass {
+    @IsIPRange()
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isIPRange(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isIPRange(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isIpRange';
+    const message = 'someProperty must be an ip range';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
