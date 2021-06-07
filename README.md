@@ -853,6 +853,7 @@ isBoolean(value);
 | `@IsOctal()`                                    | Checks if the string is a octal number. |
 | `@IsMACAddress(options?: IsMACAddressOptions)`  | Checks if the string is a MAC Address. |
 | `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6). |
+| `@IsIPRange(version?: "4"\|"6")`                | Checks if the string is an IP Range (version 4 or 6). |
 | `@IsPort()`                                     | Checks if the string is a valid port number. |
 | `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13). |
 | `@IsEAN()`                                      | Checks if the string is an if the string is an EAN (European Article Number). |
