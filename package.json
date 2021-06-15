@@ -45,7 +45,7 @@
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.2",
-    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
