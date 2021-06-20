@@ -15,7 +15,7 @@ export function IsOptional(validationOptions?: ValidationOptions): PropertyDecor
       propertyName: propertyName,
       constraints: [
         (object: any, value: any): boolean => {
-          return object[propertyName] !== null && object[propertyName] !== undefined;
+          return object[propertyName] !== null && object[propertyName] !== undefined && object[propertyName].length !== 0;
         },
       ],
       validationOptions: validationOptions,
