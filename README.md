@@ -870,7 +870,7 @@ isBoolean(value);
 | `@IsISO31661Alpha2()`                           | Checks if the string is a valid ISO 3166-1 alpha-2 officially assigned country code. |
 | `@IsISO31661Alpha3()`                           | Checks if the string is a valid ISO 3166-1 alpha-3 officially assigned country code. |
 | `@IsLocale()`                                   | Checks if the string is a locale. |
-| `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone numberusing libphonenumber-js. |
+| `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number using libphonenumber-js. |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId. |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars. |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if the string is numeric. |
