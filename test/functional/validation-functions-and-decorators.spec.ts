@@ -184,6 +184,8 @@ import {
   isPostalCode,
   IsSemVer,
   isSemVer,
+  IsReadOnly,
+  isReadOnly,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -443,6 +445,40 @@ describe('IsNotEmpty', () => {
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
+
+
+describe('IsReadOnly', () => {
+  const validValues = [undefined];
+  const invalidValues = ['0', 0, 1, false, true, null, ''];
+
+  class MyClass {
+    @IsReadOnly()
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isReadOnly(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isReadOnly(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isReadOnly';
+    const message = 'someProperty must be undefined';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
 
 describe('IsIn', () => {
   const constraint = ['foo', 'bar'] as const;
