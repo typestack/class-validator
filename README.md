@@ -798,6 +798,7 @@ isBoolean(value);
 | `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison. |
 | `@IsEmpty()`                                    | Checks if given value is empty (=== '', === null, === undefined). |
 | `@IsNotEmpty()`                                 | Checks if given value is not empty (!== '', !== null, !== undefined). |
+| `@IsReadOnly()`                                 | Checks if given value is undefined to prevent change value. |
 | `@IsIn(values: any[])`                          | Checks if value is in a array of allowed values. |
 | `@IsNotIn(values: any[])`                       | Checks if value is not in a array of disallowed values. |
 | **Type validation decorators**                  | |
