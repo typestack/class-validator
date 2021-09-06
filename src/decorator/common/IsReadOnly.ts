@@ -19,7 +19,7 @@ export function IsReadOnly(validationOptions?: ValidationOptions): PropertyDecor
       name: IS_READONLY,
       validator: {
         validate: (value, args): boolean => isReadOnly(value),
-        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be undefined', validationOptions),
+        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property is readonly and value must be undefined', validationOptions),
       },
     },
     validationOptions
