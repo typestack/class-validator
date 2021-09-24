@@ -803,7 +803,7 @@ isBoolean(value);
 | **Type validation decorators**                  | |
 | `@IsBoolean()`                                  | Checks if a value is a boolean. |
 | `@IsDate()`                                     | Checks if the value is a date. |
-| `@IsString()`                                   | Checks if the string is a string. |
+| `@IsString()`                                   | Checks if the value is a string. |
 | `@IsNumber(options: IsNumberOptions)`           | Checks if the value is a number. |
 | `@IsInt()`                                      | Checks if the value is an integer number. |
 | `@IsArray()`                                    | Checks if the value is an array |
