@@ -4,7 +4,7 @@ import { buildMessage, ValidateBy } from '../common/ValidateBy';
 export const ARRAY_CONTAINS_ANY_OF = 'arrayContainsAnyOf';
 
 /**
- * Checks if array contains all values from the given array of values.
+ * Checks if all array values are contained in the given set.
  * If null or undefined is given then this function returns false.
  */
 export function arrayContainsAnyOf(array: unknown, values: any[]): boolean {
@@ -14,7 +14,7 @@ export function arrayContainsAnyOf(array: unknown, values: any[]): boolean {
 }
 
 /**
- * Checks if array contains all values from the given array of values.
+ * Checks if all array values are contained in the given set.
  * If null or undefined is given then this function returns false.
  */
 export function ArrayContainsAnyOf(values: any[], validationOptions?: ValidationOptions): PropertyDecorator {
