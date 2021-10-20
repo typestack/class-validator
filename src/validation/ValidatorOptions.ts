@@ -72,7 +72,12 @@ export interface ValidatorOptions {
   };
 
   /**
-   * Settings true will cause fail validation of unknown objects.
+   * Fails validation for objects unknown to class-validator. Defaults to false.
+   * 
+   * For instance, since a plain empty object has no annotations used for validation:
+   * - `validate({})` // passes
+   * - `validate({}, { forbidUnknownValues: true })` // fails.
+   * - `validate(new SomeAnnotatedEmptyClass(), { forbidUnknownValues: true })` // passes.
    */
   forbidUnknownValues?: boolean;
 
