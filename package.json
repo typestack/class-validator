@@ -36,7 +36,7 @@
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
-    "@types/validator": "^13.6.4",
+    "@types/validator": "^13.6.5",
     "libphonenumber-js": "^1.9.38",
     "validator": "^13.6.0"
   },
@@ -52,11 +52,11 @@
     "eslint-plugin-jest": "^25.2.2",
     "husky": "^4.3.8",
     "jest": "^26.6.3",
-    "lint-staged": "^11.2.3",
+    "lint-staged": "^11.2.4",
     "prettier": "^2.2.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
-    "rollup": "^2.58.0",
+    "rollup": "^2.58.1",
     "rollup-plugin-terser": "^7.0.2",
     "ts-jest": "^26.5.6",
     "ts-node": "^10.3.1",
