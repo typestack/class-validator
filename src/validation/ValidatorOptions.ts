@@ -72,7 +72,8 @@ export interface ValidatorOptions {
   };
 
   /**
-   * Settings true will cause fail validation of unknown objects.
+   * Setting this to false will allow unknown objects (i.e. objects whose prototype classes have no validation metadata) to pass validation.
+   * If you do not specify a value or you use null or undefined, a safe value of true will be used to prevent accidental validation bypass.
    */
   forbidUnknownValues?: boolean;
 

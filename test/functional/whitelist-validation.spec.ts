@@ -52,7 +52,7 @@ describe('whitelist validation', () => {
 
     model.unallowedProperty = 'non-whitelisted';
 
-    return validator.validate(model, { whitelist: true, forbidNonWhitelisted: true }).then(errors => {
+    return validator.validate(model, { whitelist: true, forbidNonWhitelisted: true, forbidUnknownValues: false }).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].target).toEqual(model);
       expect(errors[0].property).toEqual('unallowedProperty');
