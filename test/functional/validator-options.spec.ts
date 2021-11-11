@@ -24,10 +24,10 @@ describe('validator options', () => {
       });
   });
 
-  it('should returns error on unknown objects if forbidUnknownValues is true', function () {
+  test.each([[{ forbidUnknownValues: true }], [{}]])('should returns error on unknown objects with %s', (options)=>{
     const anonymousObject = { badKey: 'This should not pass.' };
 
-    return validator.validate(anonymousObject, { forbidUnknownValues: true }).then(errors => {
+    return validator.validate(anonymousObject, { ...options }).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].target).toEqual(anonymousObject);
       expect(errors[0].property).toEqual(undefined);
