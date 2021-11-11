@@ -24,7 +24,7 @@ describe('validator options', () => {
       });
   });
 
-  test.each([[{ forbidUnknownValues: true }], [{}]])('should returns error on unknown objects with %s', (options)=>{
+  test.each([[{ forbidUnknownValues: true }], [{}]])('should returns error on unknown objects with %s', options => {
     const anonymousObject = { badKey: 'This should not pass.' };
 
     return validator.validate(anonymousObject, { ...options }).then(errors => {

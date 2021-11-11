@@ -52,7 +52,7 @@ export class ValidationExecutor {
     const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
     const strictGroups = (this.validatorOptions && this.validatorOptions.strictGroups) || false;
     const always = (this.validatorOptions && this.validatorOptions.always) || false;
-    const forbidUnknownValues = (this.validatorOptions?.forbidUnknownValues ?? true);
+    const forbidUnknownValues = this.validatorOptions?.forbidUnknownValues ?? true;
 
     const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(
       object.constructor,

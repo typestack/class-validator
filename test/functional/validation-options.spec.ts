@@ -958,16 +958,20 @@ describe('groups', () => {
     });
 
     it('should include decorators with groups if validating with matching groups', function () {
-      return validator.validate(model1, { strictGroups: true, groups: ['A'], forbidUnknownValues: false }).then(errors => {
-        expect(errors).toHaveLength(1);
-        expectTitleContains(errors[0]);
-      });
+      return validator
+        .validate(model1, { strictGroups: true, groups: ['A'], forbidUnknownValues: false })
+        .then(errors => {
+          expect(errors).toHaveLength(1);
+          expectTitleContains(errors[0]);
+        });
     });
 
     it('should not include decorators with groups if validating with different groups', function () {
-      return validator.validate(model1, { strictGroups: true, groups: ['B'], forbidUnknownValues: false }).then(errors => {
-        expect(errors).toHaveLength(0);
-      });
+      return validator
+        .validate(model1, { strictGroups: true, groups: ['B'], forbidUnknownValues: false })
+        .then(errors => {
+          expect(errors).toHaveLength(0);
+        });
     });
   });
 
