@@ -139,7 +139,7 @@ export interface ValidatorOptions {
 }
 ```
 
-> It's highly advised to set `forbidUnknownValues: true` as it will prevent unknown objects from passing validation.
+> It's highly advised to not set `forbidUnknownValues: false` as it will allow unknown objects to bypass validation. The default is a safe value of `true`.
 
 ## Validation errors
 
