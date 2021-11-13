@@ -61,7 +61,7 @@ describe('whitelist validation', () => {
     });
   });
 
-  it('should throw an error when forbidNonWhitelisted flag is set with custom error message', () => {
+  it('should throw an error when whitelist and forbidNonWhitelisted flag are set with custom error message', () => {
     class MyClass {}
 
     const model: any = new MyClass();
@@ -78,7 +78,7 @@ describe('whitelist validation', () => {
     });
   });
 
-  it('should throw an error when forbidNonWhitelisted flag is set with custom error message with replaced keyword', () => {
+  it('should throw an error when whitelist and forbidNonWhitelisted flag are set with custom error message with replaced keyword', () => {
     class MyClass {
       someProperty: string;
     }
@@ -101,6 +101,33 @@ describe('whitelist validation', () => {
         expect(errors[0].constraints).toEqual({
           [ValidationTypes.WHITELIST]:
             'In MyClass I should not have the unallowedProperty. its value is non-whitelisted, however the $constraint1 is not set',
+        });
+        expect(() => errors[0].toString()).not.toThrowError();
+      });
+  });
+
+  it('should throw an error without default error message when whitelist, forbidNonWhitelisted and dismissDefaultMessages flag are set', () => {
+    class MyClass {
+      someProperty: string;
+    }
+
+    const model: any = new MyClass();
+
+    model.unallowedProperty = 'non-whitelisted';
+
+    return validator
+      .validate(model, {
+        whitelist: true,
+        dismissDefaultMessages: true,
+        forbidNonWhitelisted: true,
+      })
+      .then(errors => {
+        expect(errors.length).toEqual(1);
+        expect(errors[0].target).toEqual(model);
+        expect(errors[0].property).toEqual('unallowedProperty');
+        expect(errors[0].constraints).toHaveProperty(ValidationTypes.WHITELIST);
+        expect(errors[0].constraints).toEqual({
+          [ValidationTypes.WHITELIST]: '',
         });
         expect(() => errors[0].toString()).not.toThrowError();
       });
