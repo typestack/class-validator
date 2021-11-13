@@ -126,7 +126,7 @@ The `validate` function optionally expects a `ValidatorOptions` object as a seco
 export interface ValidatorOptions {
   skipMissingProperties?: boolean;
   whitelist?: boolean;
-  forbidNonWhitelisted?: boolean;
+  forbidNonWhitelisted?: boolean | string | ((validationArguments: ValidationArguments) => string);
   groups?: string[];
   dismissDefaultMessages?: boolean;
   validationError?: {
