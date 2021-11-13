@@ -128,8 +128,24 @@ export class ValidationExecutor {
       if (this.validatorOptions && this.validatorOptions.forbidNonWhitelisted) {
         // throw errors
         notAllowedProperties.forEach(property => {
+          const validationArguments: ValidationArguments = {
+            targetName: object.constructor ? object.constructor.name : undefined,
+            property: property,
+            object: object,
+            value: object[property],
+            constraints: [],
+          };
+          let message = this.validatorOptions.dismissDefaultMessages ? '' : undefined;
+          if (typeof this.validatorOptions.forbidNonWhitelisted !== 'boolean') {
+            message = ValidationUtils.replaceMessageSpecialTokens(
+              this.validatorOptions.forbidNonWhitelisted,
+              validationArguments
+            );
+          }
           const validationError: ValidationError = this.generateValidationError(object, object[property], property);
-          validationError.constraints = { [ValidationTypes.WHITELIST]: `property ${property} should not exist` };
+          validationError.constraints = {
+            [ValidationTypes.WHITELIST]: message ?? `property ${property} should not exist`,
+          };
           validationError.children = undefined;
           validationErrors.push(validationError);
         });

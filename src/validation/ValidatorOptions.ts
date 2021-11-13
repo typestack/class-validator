@@ -1,3 +1,5 @@
+import { ValidationArguments } from '..';
+
 /**
  * Options passed to validator during validation.
  */
@@ -31,8 +33,10 @@ export interface ValidatorOptions {
 
   /**
    * If set to true, instead of stripping non-whitelisted properties validator will throw an error
+   *
+   * Tip: you can custom the error message by setting the option to a string or a function that returns a string.
    */
-  forbidNonWhitelisted?: boolean;
+  forbidNonWhitelisted?: boolean | string | ((validationArguments: ValidationArguments) => string);
 
   /**
    * Groups to be used during validation of the object.
