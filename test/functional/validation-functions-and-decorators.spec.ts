@@ -267,36 +267,36 @@ describe('IsDefined', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
-  it('should not fail if validator.validate said that its valid with skipUndefinedProperties set to true', () => {
-    return checkValidValues(new MyClass(), validValues, { skipUndefinedProperties: true });
+  it('should not fail if validator.validate said that its valid with skipUndefinedProperties set to true', async () => {
+    await checkValidValues(new MyClass(), validValues, { skipUndefinedProperties: true });
   });
 
-  it('should fail if validator.validate said that its invalid with skipUndefinedProperties set to true', () => {
-    return checkInvalidValues(new MyClass(), invalidValues, { skipUndefinedProperties: true });
+  it('should fail if validator.validate said that its invalid with skipUndefinedProperties set to true', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues, { skipUndefinedProperties: true });
   });
 
-  it('should not fail if validator.validate said that its valid with skipNullProperties set to true', () => {
-    return checkValidValues(new MyClass(), validValues, { skipNullProperties: true });
+  it('should not fail if validator.validate said that its valid with skipNullProperties set to true', async () => {
+    await checkValidValues(new MyClass(), validValues, { skipNullProperties: true });
   });
 
-  it('should fail if validator.validate said that its invalid with skipNullProperties set to true', () => {
-    return checkInvalidValues(new MyClass(), invalidValues, { skipNullProperties: true });
+  it('should fail if validator.validate said that its invalid with skipNullProperties set to true', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues, { skipNullProperties: true });
   });
 
-  it('should not fail if validator.validate said that its valid with skipMissingProperties set to true', () => {
-    return checkValidValues(new MyClass(), validValues, { skipMissingProperties: true });
+  it('should not fail if validator.validate said that its valid with skipMissingProperties set to true', async () => {
+    await checkValidValues(new MyClass(), validValues, { skipMissingProperties: true });
   });
 
-  it('should fail if validator.validate said that its invalid with skipMissingProperties set to true', () => {
-    return checkInvalidValues(new MyClass(), invalidValues, { skipMissingProperties: true });
+  it('should fail if validator.validate said that its invalid with skipMissingProperties set to true', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues, { skipMissingProperties: true });
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -307,10 +307,10 @@ describe('IsDefined', () => {
     invalidValues.forEach(value => expect(isDefined(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isDefined';
     const message = 'someProperty should not be null or undefined';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -324,12 +324,12 @@ describe('Equals', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -340,10 +340,10 @@ describe('Equals', () => {
     invalidValues.forEach(value => expect(equals(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'equals';
     const message = 'someProperty must be equal to ' + constraintToString(constraint);
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -357,12 +357,12 @@ describe('NotEquals', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -373,10 +373,10 @@ describe('NotEquals', () => {
     invalidValues.forEach(value => expect(notEquals(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'notEquals';
     const message = 'someProperty should not be equal to ' + constraintToString(constraint);
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -389,12 +389,12 @@ describe('IsEmpty', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -405,10 +405,10 @@ describe('IsEmpty', () => {
     invalidValues.forEach(value => expect(isEmpty(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isEmpty';
     const message = 'someProperty must be empty';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -421,12 +421,12 @@ describe('IsNotEmpty', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -437,10 +437,10 @@ describe('IsNotEmpty', () => {
     invalidValues.forEach(value => expect(isNotEmpty(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isNotEmpty';
     const message = 'someProperty should not be empty';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -454,12 +454,12 @@ describe('IsIn', () => {
     someProperty: string[];
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -470,10 +470,10 @@ describe('IsIn', () => {
     invalidValues.forEach(value => expect(isIn(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isIn';
     const message = 'someProperty must be one of the following values: ' + constraintToString(constraint);
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -487,12 +487,12 @@ describe('IsNotIn', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -503,10 +503,10 @@ describe('IsNotIn', () => {
     invalidValues.forEach(value => expect(isNotIn(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isNotIn';
     const message = 'someProperty should not be one of the following values: ' + constraintToString(constraint);
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -523,12 +523,12 @@ describe('IsBoolean', () => {
     someProperty: any;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -539,10 +539,10 @@ describe('IsBoolean', () => {
     invalidValues.forEach(value => expect(isBoolean(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isBoolean';
     const message = 'someProperty must be a boolean value';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -555,12 +555,12 @@ describe('IsLatLong', () => {
     someProperty: any;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 });
 
@@ -573,12 +573,12 @@ describe('IsLatitude', () => {
     someProperty: any;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 });
 
@@ -591,12 +591,12 @@ describe('IsLongitude', () => {
     someProperty: any;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 });
 
@@ -609,12 +609,12 @@ describe('IsDate', () => {
     someProperty: Date;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -625,10 +625,10 @@ describe('IsDate', () => {
     invalidValues.forEach(value => expect(isDate(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isDate';
     const message = 'someProperty must be a Date instance';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -661,28 +661,28 @@ describe('IsNumber', () => {
     someProperty: number;
   }
 
-  it('should fail if NaN passed without allowing NaN values', () => {
-    return checkInvalidValues(new MyClass(), [NaN]);
+  it('should fail if NaN passed without allowing NaN values', async () => {
+    await checkInvalidValues(new MyClass(), [NaN]);
   });
 
-  it('should fail if Infinity passed without allowing NaN values', () => {
-    return checkInvalidValues(new MyClass(), [Infinity, -Infinity]);
+  it('should fail if Infinity passed without allowing NaN values', async () => {
+    await checkInvalidValues(new MyClass(), [Infinity, -Infinity]);
   });
 
-  it('should not fail if NaN passed and NaN as value is allowed', () => {
-    return checkValidValues(new NaNTestClass(), [NaN]);
+  it('should not fail if NaN passed and NaN as value is allowed', async () => {
+    await checkValidValues(new NaNTestClass(), [NaN]);
   });
 
-  it('should not fail if Infinity passed and Infinity as value is allowed', () => {
-    return checkValidValues(new InfinityTestClass(), [Infinity, -Infinity]);
+  it('should not fail if Infinity passed and Infinity as value is allowed', async () => {
+    await checkValidValues(new InfinityTestClass(), [Infinity, -Infinity]);
   });
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -693,26 +693,26 @@ describe('IsNumber', () => {
     invalidValues.forEach(value => expect(isNumber(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isNumber';
     const message = 'someProperty must be a number conforming to the specified constraints';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 
-  it('should pass if number of decimal places within maxDecimalPlaces', () => {
-    return checkValidValues(new MaxDecimalPlacesTest(), [1.123]);
+  it('should pass if number of decimal places within maxDecimalPlaces', async () => {
+    await checkValidValues(new MaxDecimalPlacesTest(), [1.123]);
   });
 
-  it('should fail if number of decimal places exceeds maxDecimalPlaces', () => {
-    return checkInvalidValues(new MaxDecimalPlacesTest(), [1.1234]);
+  it('should fail if number of decimal places exceeds maxDecimalPlaces', async () => {
+    await checkInvalidValues(new MaxDecimalPlacesTest(), [1.1234]);
   });
 
-  it('should pass if number of decimal places is zero', () => {
-    return checkValidValues(new ZeroDecimalPlacesTest(), [-10, -1, 0, 1, 10]);
+  it('should pass if number of decimal places is zero', async () => {
+    await checkValidValues(new ZeroDecimalPlacesTest(), [-10, -1, 0, 1, 10]);
   });
 
-  it('should fail if number of decimal places is not zero', () => {
-    return checkInvalidValues(new ZeroDecimalPlacesTest(), [-11.1, -2.2, -0.1, 0.1, 2.2, 11.1]);
+  it('should fail if number of decimal places is not zero', async () => {
+    await checkInvalidValues(new ZeroDecimalPlacesTest(), [-11.1, -2.2, -0.1, 0.1, 2.2, 11.1]);
   });
 });
 
@@ -725,12 +725,12 @@ describe('IsInt', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -741,10 +741,10 @@ describe('IsInt', () => {
     invalidValues.forEach(value => expect(isInt(value as any)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isInt';
     const message = 'someProperty must be an integer number';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -757,12 +757,12 @@ describe('IsString', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -773,10 +773,10 @@ describe('IsString', () => {
     invalidValues.forEach(value => expect(isString(value as any)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isString';
     const message = 'someProperty must be a string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -818,12 +818,12 @@ describe('IsDateString', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -834,10 +834,10 @@ describe('IsDateString', () => {
     invalidValues.forEach(value => expect(isDateString(value as any)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isDateString';
     const message = 'someProperty must be a valid ISO 8601 date string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -850,12 +850,12 @@ describe('IsArray', () => {
     someProperty: string[];
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -866,10 +866,10 @@ describe('IsArray', () => {
     invalidValues.forEach(value => expect(isArray(value as any)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isArray';
     const message = 'someProperty must be an array';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -898,20 +898,20 @@ describe('IsEnum', () => {
     someProperty: MyStringEnum;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should not fail if validator.validate said that its valid (string enum)', () => {
-    return checkValidValues(new MyClass2(), validStringValues);
+  it('should not fail if validator.validate said that its valid (string enum)', async () => {
+    await checkValidValues(new MyClass2(), validStringValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
-  it('should fail if validator.validate said that its invalid (string enum)', () => {
-    return checkInvalidValues(new MyClass2(), invalidValues);
+  it('should fail if validator.validate said that its invalid (string enum)', async () => {
+    await checkInvalidValues(new MyClass2(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -930,16 +930,16 @@ describe('IsEnum', () => {
     invalidValues.forEach(value => expect(isEnum(value, MyStringEnum)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isEnum';
     const message = 'someProperty must be a valid enum value';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 
-  it('should return error object with proper data (string enum)', () => {
+  it('should return error object with proper data (string enum)', async () => {
     const validationType = 'isEnum';
     const message = 'someProperty must be a valid enum value';
-    checkReturnedError(new MyClass2(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass2(), invalidValues, validationType, message);
   });
 });
 
@@ -953,12 +953,12 @@ describe('IsDivisibleBy', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -969,10 +969,10 @@ describe('IsDivisibleBy', () => {
     invalidValues.forEach(value => expect(isDivisibleBy(value as any, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isDivisibleBy';
     const message = 'someProperty must be divisible by ' + constraintToString(constraint);
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1004,12 +1004,12 @@ describe('IsPositive', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1020,10 +1020,10 @@ describe('IsPositive', () => {
     invalidValues.forEach(value => expect(isPositive(value as any)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isPositive';
     const message = 'someProperty must be a positive number';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1055,12 +1055,12 @@ describe('IsNegative', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1071,10 +1071,10 @@ describe('IsNegative', () => {
     invalidValues.forEach(value => expect(isNegative(value as any)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isNegative';
     const message = 'someProperty must be a negative number';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1088,12 +1088,12 @@ describe('Min', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1104,10 +1104,10 @@ describe('Min', () => {
     invalidValues.forEach(value => expect(min(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'min';
     const message = 'someProperty must not be less than ' + constraintToString(constraint);
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1121,12 +1121,12 @@ describe('Max', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1137,10 +1137,10 @@ describe('Max', () => {
     invalidValues.forEach(value => expect(max(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'max';
     const message = 'someProperty must not be greater than ' + constraintToString(constraint);
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1154,12 +1154,12 @@ describe('MinDate', () => {
     someProperty: Date;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1170,10 +1170,10 @@ describe('MinDate', () => {
     invalidValues.forEach(value => expect(minDate(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'minDate';
     const message = 'minimal allowed date for someProperty is ' + constraintToString(constraint);
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1187,12 +1187,12 @@ describe('MaxDate', () => {
     someProperty: Date;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1203,10 +1203,10 @@ describe('MaxDate', () => {
     invalidValues.forEach(value => expect(maxDate(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'maxDate';
     const message = 'maximal allowed date for someProperty is ' + constraintToString(constraint);
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1219,12 +1219,12 @@ describe('IsBooleanString', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1235,10 +1235,10 @@ describe('IsBooleanString', () => {
     invalidValues.forEach(value => expect(isBooleanString(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isBooleanString';
     const message = 'someProperty must be a boolean string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1251,12 +1251,12 @@ describe('IsNumberString', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1267,10 +1267,10 @@ describe('IsNumberString', () => {
     invalidValues.forEach(value => expect(isNumberString(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isNumberString';
     const message = 'someProperty must be a number string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1284,12 +1284,12 @@ describe('Contains', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1300,10 +1300,10 @@ describe('Contains', () => {
     invalidValues.forEach(value => expect(contains(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'contains';
     const message = 'someProperty must contain a ' + constraintToString(constraint) + ' string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1317,12 +1317,12 @@ describe('NotContains', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1333,10 +1333,10 @@ describe('NotContains', () => {
     invalidValues.forEach(value => expect(notContains(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'notContains';
     const message = 'someProperty should not contain a ' + constraintToString(constraint) + ' string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1350,12 +1350,12 @@ describe('IsAlpha', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1366,10 +1366,10 @@ describe('IsAlpha', () => {
     invalidValues.forEach(value => expect(isAlpha(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isAlpha';
     const message = 'someProperty must contain only letters (a-zA-Z)';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1383,12 +1383,12 @@ describe('IsAlphanumeric', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1399,10 +1399,10 @@ describe('IsAlphanumeric', () => {
     invalidValues.forEach(value => expect(isAlphanumeric(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isAlphanumeric';
     const message = 'someProperty must contain only letters and numbers';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1416,12 +1416,12 @@ describe('IsAscii', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1432,10 +1432,10 @@ describe('IsAscii', () => {
     invalidValues.forEach(value => expect(isAscii(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isAscii';
     const message = 'someProperty must contain only ASCII characters';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1485,12 +1485,12 @@ describe('IsDecimal', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1501,10 +1501,10 @@ describe('IsDecimal', () => {
     invalidValues.forEach(value => expect(isDecimal(value, isDecimalOptions)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isDecimal';
     const message = 'someProperty is not a valid decimal number.';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1538,12 +1538,12 @@ describe('IsBase32', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1554,10 +1554,10 @@ describe('IsBase32', () => {
     invalidValues.forEach(value => expect(isBase32(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isBase32';
     const message = 'someProperty must be base32 encoded';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1571,12 +1571,12 @@ describe('IsBase64', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1587,10 +1587,10 @@ describe('IsBase64', () => {
     invalidValues.forEach(value => expect(isBase64(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isBase64';
     const message = 'someProperty must be base64 encoded';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1604,12 +1604,12 @@ describe('IsIBAN', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1620,10 +1620,10 @@ describe('IsIBAN', () => {
     invalidValues.forEach(value => expect(isIBAN(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isIBAN';
     const message = 'someProperty must be an IBAN';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1637,12 +1637,12 @@ describe('IsBIC', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1653,10 +1653,10 @@ describe('IsBIC', () => {
     invalidValues.forEach(value => expect(isBIC(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isBIC';
     const message = 'someProperty must be a BIC or SWIFT code';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1670,12 +1670,12 @@ describe('IsEthereumAddress', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1686,10 +1686,10 @@ describe('IsEthereumAddress', () => {
     invalidValues.forEach(value => expect(isEthereumAddress(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isEthereumAddress';
     const message = 'someProperty must be an Ethereum address';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1703,12 +1703,12 @@ describe('IsBtcAddress', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1719,10 +1719,10 @@ describe('IsBtcAddress', () => {
     invalidValues.forEach(value => expect(isBtcAddress(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isBtcAddress';
     const message = 'someProperty must be a BTC address';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1736,12 +1736,12 @@ describe('IsDataURI', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1752,10 +1752,10 @@ describe('IsDataURI', () => {
     invalidValues.forEach(value => expect(isDataURI(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isDataURI';
     const message = 'someProperty must be a data uri format';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1769,12 +1769,12 @@ describe('IsHSL', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1785,10 +1785,10 @@ describe('IsHSL', () => {
     invalidValues.forEach(value => expect(isHSL(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isHSL';
     const message = 'someProperty must be a HSL color';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1802,12 +1802,12 @@ describe('IsRgbColor', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1818,10 +1818,10 @@ describe('IsRgbColor', () => {
     invalidValues.forEach(value => expect(isRgbColor(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isRgbColor';
     const message = 'someProperty must be RGB color';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1835,12 +1835,12 @@ describe('IsIdentityCard', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1851,10 +1851,10 @@ describe('IsIdentityCard', () => {
     invalidValues.forEach(value => expect(isIdentityCard(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isIdentityCard';
     const message = 'someProperty must be a identity card number';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1868,12 +1868,12 @@ describe('IsEAN', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1884,10 +1884,10 @@ describe('IsEAN', () => {
     invalidValues.forEach(value => expect(isEAN(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isEAN';
     const message = 'someProperty must be an EAN (European Article Number)';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1901,12 +1901,12 @@ describe('IsISRC', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1917,10 +1917,10 @@ describe('IsISRC', () => {
     invalidValues.forEach(value => expect(isISRC(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isISRC';
     const message = 'someProperty must be an ISRC';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1934,12 +1934,12 @@ describe('IsRFC3339', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1950,10 +1950,10 @@ describe('IsRFC3339', () => {
     invalidValues.forEach(value => expect(isRFC3339(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isRFC3339';
     const message = 'someProperty must be RFC 3339 date';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -1967,12 +1967,12 @@ describe('IsLocale', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -1983,10 +1983,10 @@ describe('IsLocale', () => {
     invalidValues.forEach(value => expect(isLocale(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isLocale';
     const message = 'someProperty must be locale';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2004,12 +2004,12 @@ describe('IsMagnetURI', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2020,10 +2020,10 @@ describe('IsMagnetURI', () => {
     invalidValues.forEach(value => expect(isMagnetURI(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isMagnetURI';
     const message = 'someProperty must be magnet uri format';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2037,12 +2037,12 @@ describe('IsMimeType', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2053,10 +2053,10 @@ describe('IsMimeType', () => {
     invalidValues.forEach(value => expect(isMimeType(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isMimeType';
     const message = 'someProperty must be MIME type format';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2070,12 +2070,12 @@ describe('IsOctal', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2086,10 +2086,10 @@ describe('IsOctal', () => {
     invalidValues.forEach(value => expect(isOctal(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isOctal';
     const message = 'someProperty must be valid octal number';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2103,12 +2103,12 @@ describe('IsPassportNumber', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2119,10 +2119,10 @@ describe('IsPassportNumber', () => {
     invalidValues.forEach(value => expect(isPassportNumber(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isPassportNumber';
     const message = 'someProperty must be valid passport number';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2136,12 +2136,12 @@ describe('IsPostalCode', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2152,10 +2152,10 @@ describe('IsPostalCode', () => {
     invalidValues.forEach(value => expect(isPostalCode(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isPostalCode';
     const message = 'someProperty must be a postal code';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2169,12 +2169,12 @@ describe('IsSemVer', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2185,10 +2185,10 @@ describe('IsSemVer', () => {
     invalidValues.forEach(value => expect(isSemVer(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isSemVer';
     const message = 'someProperty must be a Semantic Versioning Specification';
-    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2203,12 +2203,12 @@ describe('IsByteLength', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2219,7 +2219,7 @@ describe('IsByteLength', () => {
     invalidValues.forEach(value => expect(isByteLength(value, constraint1, constraint2)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isByteLength';
     const message =
       "someProperty's byte length must fall into (" +
@@ -2227,7 +2227,7 @@ describe('IsByteLength', () => {
       ', ' +
       constraintToString(constraint2) +
       ') range';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2247,12 +2247,12 @@ describe('IsCreditCard', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2263,10 +2263,10 @@ describe('IsCreditCard', () => {
     invalidValues.forEach(value => expect(isCreditCard(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isCreditCard';
     const message = 'someProperty must be a credit card';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2323,12 +2323,12 @@ describe('IsCurrency', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2339,10 +2339,10 @@ describe('IsCurrency', () => {
     invalidValues.forEach(value => expect(isCurrency(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isCurrency';
     const message = 'someProperty must be a currency';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2378,12 +2378,12 @@ describe('IsEmail', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2396,10 +2396,10 @@ describe('IsEmail', () => {
     invalidValues.forEach(value => expect(isEmail(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isEmail';
     const message = 'someProperty must be an email';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2429,12 +2429,12 @@ describe('IsFQDN', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2445,10 +2445,10 @@ describe('IsFQDN', () => {
     invalidValues.forEach(value => expect(isFQDN(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isFqdn';
     const message = 'someProperty must be a valid domain name';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2461,12 +2461,12 @@ describe('IsFullWidth', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2477,10 +2477,10 @@ describe('IsFullWidth', () => {
     invalidValues.forEach(value => expect(isFullWidth(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isFullWidth';
     const message = 'someProperty must contain a full-width characters';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2493,12 +2493,12 @@ describe('IsHalfWidth', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2509,10 +2509,10 @@ describe('IsHalfWidth', () => {
     invalidValues.forEach(value => expect(isHalfWidth(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isHalfWidth';
     const message = 'someProperty must contain a half-width characters';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2534,12 +2534,12 @@ describe('IsVariableWidth', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2550,10 +2550,10 @@ describe('IsVariableWidth', () => {
     invalidValues.forEach(value => expect(isVariableWidth(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isVariableWidth';
     const message = 'someProperty must contain a full-width and half-width characters';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2566,12 +2566,12 @@ describe('IsHexColor', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2582,10 +2582,10 @@ describe('IsHexColor', () => {
     validValues.forEach(value => expect(isHexColor(value)).toBeTruthy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isHexColor';
     const message = 'someProperty must be a hexadecimal color';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2598,12 +2598,12 @@ describe('IsHexadecimal', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2614,10 +2614,10 @@ describe('IsHexadecimal', () => {
     invalidValues.forEach(value => expect(isHexadecimal(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isHexadecimal';
     const message = 'someProperty must be a hexadecimal number';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2640,12 +2640,12 @@ describe('IsMACAddress', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2656,10 +2656,10 @@ describe('IsMACAddress', () => {
     invalidValues.forEach(value => expect(isMACAddress(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isMacAddress';
     const message = 'someProperty must be a MAC Address';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2709,12 +2709,12 @@ describe('IsIP', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2725,10 +2725,10 @@ describe('IsIP', () => {
     invalidValues.forEach(value => expect(isIP(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isIp';
     const message = 'someProperty must be an ip address';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2767,12 +2767,12 @@ describe('IsISBN version 10', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2783,10 +2783,10 @@ describe('IsISBN version 10', () => {
     invalidValues.forEach(value => expect(isISBN(value, '10')).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isIsbn';
     const message = 'someProperty must be an ISBN';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2821,12 +2821,12 @@ describe('IsISBN version 13', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2837,10 +2837,10 @@ describe('IsISBN version 13', () => {
     invalidValues.forEach(value => expect(isISBN(value, '13')).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isIsbn';
     const message = 'someProperty must be an ISBN';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2920,12 +2920,12 @@ describe('IsISO8601', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2936,10 +2936,10 @@ describe('IsISO8601', () => {
     invalidValues.forEach(value => expect(isISO8601(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isIso8601';
     const message = 'someProperty must be a valid ISO 8601 date string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2952,12 +2952,12 @@ describe('IsJSON', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -2968,10 +2968,10 @@ describe('IsJSON', () => {
     invalidValues.forEach(value => expect(isJSON(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isJson';
     const message = 'someProperty must be a json string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -2990,12 +2990,12 @@ describe('IsJWT', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3006,10 +3006,10 @@ describe('IsJWT', () => {
     invalidValues.forEach(value => expect(isJWT(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isJwt';
     const message = 'someProperty must be a jwt string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3033,12 +3033,12 @@ describe('IsObject', () => {
     someProperty: object;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3049,10 +3049,10 @@ describe('IsObject', () => {
     invalidValues.forEach(value => expect(isObject(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isObject';
     const message = 'someProperty must be an object';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3099,15 +3099,15 @@ describe('IsNotEmptyObject', () => {
   it.each([
     [new MyClass(), validValues],
     [new NullableMyClass(), nullableValidValues],
-  ])('should not fail if validator.validate said that its valid', (validationObject, values) => {
-    return checkValidValues(validationObject, values);
+  ])('should not fail if validator.validate said that its valid', async (validationObject, values) => {
+    await checkValidValues(validationObject, values);
   });
 
   it.each([
     [new MyClass(), invalidValues],
     [new NullableMyClass(), nullableInvalidValues],
-  ])('should fail if validator.validate said that its invalid', (validationObject, values) => {
-    return checkInvalidValues(validationObject, values);
+  ])('should fail if validator.validate said that its invalid', async (validationObject, values) => {
+    await checkInvalidValues(validationObject, values);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3120,10 +3120,10 @@ describe('IsNotEmptyObject', () => {
     nullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isNotEmptyObject';
     const message = 'someProperty must be a non-empty object';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3136,12 +3136,12 @@ describe('IsLowercase', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3152,10 +3152,10 @@ describe('IsLowercase', () => {
     invalidValues.forEach(value => expect(isLowercase(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isLowercase';
     const message = 'someProperty must be a lowercase string';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3175,12 +3175,12 @@ describe('IsMongoId', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3191,10 +3191,10 @@ describe('IsMongoId', () => {
     invalidValues.forEach(value => expect(isMongoId(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isMongoId';
     const message = 'someProperty must be a mongodb id';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3214,12 +3214,12 @@ describe('IsMultibyte', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3230,10 +3230,10 @@ describe('IsMultibyte', () => {
     invalidValues.forEach(value => expect(isMultibyte(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isMultibyte';
     const message = 'someProperty must contain one or more multibyte chars';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3246,12 +3246,12 @@ describe('IsSurrogatePair', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3262,10 +3262,10 @@ describe('IsSurrogatePair', () => {
     invalidValues.forEach(value => expect(isSurrogatePair(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isSurrogatePair';
     const message = 'someProperty must contain any surrogate pairs chars';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3343,12 +3343,12 @@ describe('IsUrl', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3368,10 +3368,10 @@ describe('IsUrl', () => {
     expect(isURL('http://localhost:3000/', { require_tld: false })).toBeTruthy();
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isUrl';
     const message = 'someProperty must be an URL address';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3398,12 +3398,12 @@ describe('IsUUID', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3414,10 +3414,10 @@ describe('IsUUID', () => {
     invalidValues.forEach(value => expect(isUUID(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isUuid';
     const message = 'someProperty must be a UUID';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3439,12 +3439,12 @@ describe('IsUUID v3', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3455,10 +3455,10 @@ describe('IsUUID v3', () => {
     invalidValues.forEach(value => expect(isUUID(value, '3')).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isUuid';
     const message = 'someProperty must be a UUID';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3485,12 +3485,12 @@ describe('IsUUID v4', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3501,10 +3501,10 @@ describe('IsUUID v4', () => {
     invalidValues.forEach(value => expect(isUUID(value, '4')).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isUuid';
     const message = 'someProperty must be a UUID';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3531,12 +3531,12 @@ describe('IsUUID v5', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3547,10 +3547,10 @@ describe('IsUUID v5', () => {
     invalidValues.forEach(value => expect(isUUID(value, '5')).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isUuid';
     const message = 'someProperty must be a UUID';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3579,12 +3579,12 @@ describe('IsFirebasePushId', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3595,10 +3595,10 @@ describe('IsFirebasePushId', () => {
     invalidValues.forEach(value => expect(isFirebasePushId(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'IsFirebasePushId';
     const message = 'someProperty must be a Firebase Push Id';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3611,12 +3611,12 @@ describe('IsUppercase', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3627,10 +3627,10 @@ describe('IsUppercase', () => {
     invalidValues.forEach(value => expect(isUppercase(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isUppercase';
     const message = 'someProperty must be uppercase';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3645,12 +3645,12 @@ describe('Length', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3661,16 +3661,16 @@ describe('Length', () => {
     invalidValues.forEach(value => expect(length(value, constraint1, constraint2)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
-    const validationType = 'length';
+  it('should return error object with proper data', async () => {
+    const validationType = 'isLength';
     const message = 'someProperty must be longer than or equal to ' + constraintToString(constraint1) + ' characters';
-    checkReturnedError(new MyClass(), ['', 'a'], validationType, message);
+    await checkReturnedError(new MyClass(), ['', 'a'], validationType, message);
   });
 
-  it('should return error object with proper data', () => {
-    const validationType = 'length';
+  it('should return error object with proper data', async () => {
+    const validationType = 'isLength';
     const message = 'someProperty must be shorter than or equal to ' + constraintToString(constraint2) + ' characters';
-    checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
+    await checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
   });
 });
 
@@ -3684,12 +3684,12 @@ describe('MinLength', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3700,10 +3700,10 @@ describe('MinLength', () => {
     invalidValues.forEach(value => expect(minLength(value, constraint1)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'minLength';
     const message = 'someProperty must be longer than or equal to ' + constraintToString(constraint1) + ' characters';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3717,12 +3717,12 @@ describe('MaxLength', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3733,10 +3733,10 @@ describe('MaxLength', () => {
     invalidValues.forEach(value => expect(maxLength(value, constraint1)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'maxLength';
     const message = 'someProperty must be shorter than or equal to ' + constraintToString(constraint1) + ' characters';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3750,12 +3750,12 @@ describe('Matches pattern RegExp', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3766,10 +3766,10 @@ describe('Matches pattern RegExp', () => {
     invalidValues.forEach(value => expect(matches(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'matches';
     const message = 'someProperty must match ' + constraintToString(constraint) + ' regular expression';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3784,12 +3784,12 @@ describe('Matches pattern string with modifier', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -3800,10 +3800,10 @@ describe('Matches pattern string with modifier', () => {
     invalidValues.forEach(value => expect(matches(value, constraint, modifier)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'matches';
     const message = 'someProperty must match ' + constraintToString(constraint) + ' regular expression';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -3813,19 +3813,19 @@ describe('IsMilitaryTime', () => {
     someProperty: string;
   }
 
-  it('should not fail for a valid time in the format HH:MM', () => {
+  it('should not fail for a valid time in the format HH:MM', async () => {
     const validValues = ['10:22', '12:03', '16:32', '23:59', '00:00'];
-    return checkValidValues(new MyClass(), validValues);
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail for invalid time format', () => {
+  it('should fail for invalid time format', async () => {
     const invalidValues = ['23:61', '25:00', '08:08 pm', '04:00am'];
-    return checkInvalidValues(new MyClass(), invalidValues);
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
-  it('should fail for invalid values', () => {
+  it('should fail for invalid values', async () => {
     const invalidValues = [undefined, null, '23:00 and invalid counterpart'];
-    return checkInvalidValues(new MyClass(), invalidValues);
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 });
 
@@ -3853,12 +3853,12 @@ describe('isPhoneNumber', () => {
       someProperty: string;
     }
 
-    it('should not fail if validator.validate said that its valid', () => {
-      return checkValidValues(new MyClass(), validValues);
+    it('should not fail if validator.validate said that its valid', async () => {
+      await checkValidValues(new MyClass(), validValues);
     });
 
-    it('should fail if validator.validate said that its invalid', () => {
-      return checkInvalidValues(new MyClass(), invalidValues);
+    it('should fail if validator.validate said that its invalid', async () => {
+      await checkInvalidValues(new MyClass(), invalidValues);
     });
   });
 
@@ -3890,12 +3890,12 @@ describe('isPhoneNumber', () => {
       someProperty: string;
     }
 
-    it('should not fail if validator.validate said that its valid', () => {
-      return checkValidValues(new MyClass(), validValues);
+    it('should not fail if validator.validate said that its valid', async () => {
+      await checkValidValues(new MyClass(), validValues);
     });
 
-    it('should fail if validator.validate said that its invalid', () => {
-      return checkInvalidValues(new MyClass(), invalidValues);
+    it('should fail if validator.validate said that its invalid', async () => {
+      await checkInvalidValues(new MyClass(), invalidValues);
     });
   });
 });
@@ -3906,14 +3906,14 @@ describe('IsISO31661Alpha2', () => {
     someProperty: string;
   }
 
-  it('should not fail for a valid ISO31661 Alpha2 code', () => {
+  it('should not fail for a valid ISO31661 Alpha2 code', async () => {
     const validValues = ['AD', 'AE', 'AF', 'AG'];
-    return checkValidValues(new MyClass(), validValues);
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail for invalid values', () => {
+  it('should fail for invalid values', async () => {
     const invalidValues = [undefined, null, '', 'AFR'];
-    return checkInvalidValues(new MyClass(), invalidValues);
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 });
 
@@ -3923,14 +3923,14 @@ describe('IsISO31661Alpha3', () => {
     someProperty: string;
   }
 
-  it('should not fail for a valid ISO31661 Alpha3 code', () => {
+  it('should not fail for a valid ISO31661 Alpha3 code', async () => {
     const validValues = ['ABW', 'HND', 'KHM', 'RWA'];
-    return checkValidValues(new MyClass(), validValues);
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail for invalid values', () => {
+  it('should fail for invalid values', async () => {
     const invalidValues = [undefined, null, '', 'FR', 'fR', 'GB', 'PT', 'CM', 'JP', 'PM', 'ZW'];
-    return checkInvalidValues(new MyClass(), invalidValues);
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 });
 
@@ -3941,12 +3941,12 @@ describe('isHash', () => {
       someProperty: string;
     }
 
-    it('should not fail if validator.validate said that its valid', () => {
-      return checkValidValues(new MyClass(), validValues);
+    it('should not fail if validator.validate said that its valid', async () => {
+      await checkValidValues(new MyClass(), validValues);
     });
 
-    it('should fail if validator.validate said that its invalid', () => {
-      return checkInvalidValues(new MyClass(), invalidValues);
+    it('should fail if validator.validate said that its invalid', async () => {
+      await checkInvalidValues(new MyClass(), invalidValues);
     });
 
     it('should not fail if method in validator said that its valid', () => {
@@ -3957,10 +3957,10 @@ describe('isHash', () => {
       invalidValues.forEach(value => expect(isHash(value, algorithm)).toBeFalsy());
     });
 
-    it('should return error object with proper data', () => {
+    it('should return error object with proper data', async () => {
       const validationType = 'isHash';
       const message = `someProperty must be a hash of type ${algorithm}`;
-      return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+      await checkReturnedError(new MyClass(), invalidValues, validationType, message);
     });
   }
 
@@ -4120,12 +4120,12 @@ describe('IsISSN', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4136,10 +4136,10 @@ describe('IsISSN', () => {
     invalidValues.forEach(value => expect(isISSN(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isISSN';
     const message = 'someProperty must be a ISSN';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -4154,12 +4154,12 @@ describe('IsISSN with options', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4170,10 +4170,10 @@ describe('IsISSN with options', () => {
     invalidValues.forEach(value => expect(isISSN(value, options)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isISSN';
     const message = 'someProperty must be a ISSN';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -4191,12 +4191,12 @@ describe('ArrayContains', () => {
     someProperty: string[];
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4207,10 +4207,10 @@ describe('ArrayContains', () => {
     invalidValues.forEach(value => expect(arrayContains(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'arrayContains';
     const message = 'someProperty must contain ' + constraintToString(constraint) + ' values';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -4230,12 +4230,12 @@ describe('ArrayNotContains', () => {
     someProperty: string[];
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4246,10 +4246,10 @@ describe('ArrayNotContains', () => {
     invalidValues.forEach(value => expect(arrayNotContains(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'arrayNotContains';
     const message = 'someProperty should not contain ' + constraintToString(constraint) + ' values';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -4271,12 +4271,12 @@ describe('ArrayNotEmpty', () => {
     someProperty: string[];
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4287,10 +4287,10 @@ describe('ArrayNotEmpty', () => {
     invalidValues.forEach(value => expect(arrayNotEmpty(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'arrayNotEmpty';
     const message = 'someProperty should not be empty';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -4304,12 +4304,12 @@ describe('ArrayMinSize', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4320,10 +4320,10 @@ describe('ArrayMinSize', () => {
     invalidValues.forEach(value => expect(arrayMinSize(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'arrayMinSize';
     const message = 'someProperty must contain at least ' + constraintToString(constraint) + ' elements';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -4337,12 +4337,12 @@ describe('ArrayMaxSize', () => {
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4353,10 +4353,10 @@ describe('ArrayMaxSize', () => {
     invalidValues.forEach(value => expect(arrayMaxSize(value, constraint)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'arrayMaxSize';
     const message = 'someProperty must contain not more than ' + constraintToString(constraint) + ' elements';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -4380,12 +4380,12 @@ describe('ArrayUnique', () => {
     someProperty: string[];
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4396,10 +4396,10 @@ describe('ArrayUnique', () => {
     invalidValues.forEach(value => expect(arrayUnique(value)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'arrayUnique';
     const message = "All someProperty's elements must be unique";
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -4424,12 +4424,12 @@ describe('ArrayUnique with identifier', () => {
     someProperty: { name: string }[];
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4440,10 +4440,10 @@ describe('ArrayUnique with identifier', () => {
     invalidValues.forEach(value => expect(arrayUnique(value, identifier)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'arrayUnique';
     const message = "All someProperty's elements must be unique";
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
 
@@ -4464,12 +4464,12 @@ describe('isInstance', () => {
   const validValues = [new MySubClass()];
   const invalidValues = [null, undefined, 15, 'something', new WrongSubClass(), (): null => null];
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
@@ -4480,9 +4480,9 @@ describe('isInstance', () => {
     invalidValues.forEach(value => expect(isInstance(value, MySubClass)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error object with proper data', async () => {
     const validationType = 'isInstance';
     const message = 'someProperty must be an instance of MySubClass';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    await checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
