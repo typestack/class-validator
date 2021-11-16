@@ -946,26 +946,26 @@ describe('groups', () => {
     const model1 = new MyClass();
 
     it('should ignore decorators with groups if validating without groups', function () {
-      return validator.validate(model1, { strictGroups: true }).then(errors => {
+      return validator.validate(model1, { strictGroups: true, forbidUnknownValues: false }).then(errors => {
         expect(errors).toHaveLength(0);
       });
     });
 
     it('should ignore decorators with groups if validating with empty groups array', function () {
-      return validator.validate(model1, { strictGroups: true, groups: [] }).then(errors => {
+      return validator.validate(model1, { strictGroups: true, groups: [], forbidUnknownValues: false }).then(errors => {
         expect(errors).toHaveLength(0);
       });
     });
 
     it('should include decorators with groups if validating with matching groups', function () {
-      return validator.validate(model1, { strictGroups: true, groups: ['A'] }).then(errors => {
+      return validator.validate(model1, { strictGroups: true, groups: ['A'], forbidUnknownValues: false }).then(errors => {
         expect(errors).toHaveLength(1);
         expectTitleContains(errors[0]);
       });
     });
 
     it('should not include decorators with groups if validating with different groups', function () {
-      return validator.validate(model1, { strictGroups: true, groups: ['B'] }).then(errors => {
+      return validator.validate(model1, { strictGroups: true, groups: ['B'], forbidUnknownValues: false }).then(errors => {
         expect(errors).toHaveLength(0);
       });
     });
