@@ -74,14 +74,14 @@ export interface ValidatorOptions {
   /**
    * Setting this to false will allow unknown objects (i.e. objects whose prototype classes have no validation metadata) to pass validation.
    * If you do not specify a value or you use null or undefined, a safe value of true will be used to prevent accidental validation bypass.
-   * 
+   *
    * For instance, since a plain empty object has no annotations used for validation:
    * - `validate({}, { })` // fails
    * - `validate({}, { forbidUnknownValues: true })` // fails
    * - `validate({}, { forbidUnknownValues: false })` // passes
    * - `validate(new SomeAnnotatedEmptyClass(), { forbidUnknownValues: true })` // passes
    * - `validate(new SomeAnnotatedEmptyClass(), { })` // passes
-  */
+   */
   forbidUnknownValues?: boolean;
 
   /**
