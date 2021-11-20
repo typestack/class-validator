@@ -8,7 +8,7 @@ export const ARRAY_NOT_CONTAINS = 'arrayNotContains';
  * If null or undefined is given then this function returns false.
  */
 export function arrayNotContains(array: unknown, values: any[]): boolean {
-  if (!(array instanceof Array)) return false;
+  if (!Array.isArray(array)) return false;
 
   return values.every(value => array.indexOf(value) === -1);
 }

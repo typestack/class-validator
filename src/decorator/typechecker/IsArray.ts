@@ -7,7 +7,7 @@ export const IS_ARRAY = 'isArray';
  * Checks if a given value is an array
  */
 export function isArray(value: unknown): boolean {
-  return value instanceof Array;
+  return Array.isArray(value);
 }
 
 /**
