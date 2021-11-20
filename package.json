@@ -1,6 +1,6 @@
 {
   "name": "class-validator",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Decorator-based property validation for classes.",
   "author": "TypeStack contributors",
   "license": "MIT",
