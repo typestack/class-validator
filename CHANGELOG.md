@@ -4,7 +4,7 @@ _This changelog follows the [keep a changelog][keep-a-changelog]_ format to main
 
 ### [0.13.2](https://github.com/typestack/class-validator/compare/v0.13.1...v0.13.2) (2021-11-20)
 
-> __NOTE:__ This version fixes a security vulnerability allowing denial of service attacks with a specially crafted request payload.
+> **NOTE:** This version fixes a security vulnerability allowing denial of service attacks with a specially crafted request payload.
 > Please update as soon as possible.
 
 #### Fixed
