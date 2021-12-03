@@ -36,7 +36,7 @@
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
-    "libphonenumber-js": "^1.9.43",
+    "libphonenumber-js": "^1.9.44",
     "validator": "^13.7.0"
   },
   "devDependencies": {
