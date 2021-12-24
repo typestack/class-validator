@@ -19,7 +19,7 @@ export function MaxDate(date: Date, validationOptions?: ValidationOptions): Prop
       name: MAX_DATE,
       constraints: [date],
       validator: {
-        validate: (value, args): boolean => maxDate(value, args.constraints[0]),
+        validate: (value, args): boolean => maxDate(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => 'maximal allowed date for ' + eachPrefix + '$property is $constraint1',
           validationOptions

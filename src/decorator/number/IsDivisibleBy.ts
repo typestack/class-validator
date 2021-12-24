@@ -20,7 +20,7 @@ export function IsDivisibleBy(num: number, validationOptions?: ValidationOptions
       name: IS_DIVISIBLE_BY,
       constraints: [num],
       validator: {
-        validate: (value, args): boolean => isDivisibleBy(value, args.constraints[0]),
+        validate: (value, args): boolean => isDivisibleBy(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be divisible by $constraint1',
           validationOptions
