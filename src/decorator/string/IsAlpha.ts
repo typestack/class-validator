@@ -23,7 +23,7 @@ export function IsAlpha(locale?: string, validationOptions?: ValidationOptions):
       name: IS_ALPHA,
       constraints: [locale],
       validator: {
-        validate: (value, args): boolean => isAlpha(value, args.constraints[0]),
+        validate: (value, args): boolean => isAlpha(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must contain only letters (a-zA-Z)',
           validationOptions

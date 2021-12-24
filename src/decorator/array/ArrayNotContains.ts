@@ -23,7 +23,7 @@ export function ArrayNotContains(values: any[], validationOptions?: ValidationOp
       name: ARRAY_NOT_CONTAINS,
       constraints: [values],
       validator: {
-        validate: (value, args): boolean => arrayNotContains(value, args.constraints[0]),
+        validate: (value, args): boolean => arrayNotContains(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property should not contain $constraint1 values',
           validationOptions
