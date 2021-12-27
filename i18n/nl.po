@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
-"PO-Revision-Date: 2021-12-27 17:36\n"
+"PO-Revision-Date: 2021-12-27 18:03\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -157,6 +157,10 @@ msgstr "$property moet een Semantic Versiespecificatie zijn"
 msgid "$property must be a string"
 msgstr "$property moet een tekenreeks zijn"
 
+#: src/decorator/string/IsUUID.ts:29
+msgid "$property must be a UUID"
+msgstr "$property moet een UUID zijn"
+
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
 msgstr "$property moet een geldige domeinnaam zijn"
@@ -178,7 +182,7 @@ msgstr "$property moet een geldige ISO31661 Alfa2 code zijn"
 msgid "$property must be a valid ISO31661 Alpha3 code"
 msgstr "$property moet een geldige ISO31661 Alpha3 code zijn"
 
-#: src/decorator/string/IsPhoneNumber.ts:41
+#: src/decorator/string/IsPhoneNumber.ts:42
 msgid "$property must be a valid phone number"
 msgstr "$property moet een geldig telefoonnummer zijn"
 
@@ -214,11 +218,11 @@ msgstr "$property moet een exemplaar zijn van $constraint1name"
 msgid "$property must be an integer number"
 msgstr "$property moet een geheel getal zijn"
 
-#: src/decorator/string/IsIP.ts:31
+#: src/decorator/string/IsIP.ts:32
 msgid "$property must be an ip address"
 msgstr "$property moet een IP-adres zijn"
 
-#: src/decorator/string/IsISBN.ts:31
+#: src/decorator/string/IsISBN.ts:32
 msgid "$property must be an ISBN"
 msgstr "$property moet een ISBN zijn"
 
@@ -237,10 +241,6 @@ msgstr "$property moet een object zijn"
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
 msgstr "$property moet een URL adres zijn"
-
-#: src/decorator/string/IsUUID.ts:30
-msgid "$property must be a UUID"
-msgstr "$property moet een UUID zijn"
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
@@ -404,7 +404,7 @@ msgstr "$property mag geen $constraint1 tekenreeks bevatten"
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr "De byte lengte van $propertymoet in ($constraint1, $constraint2) bereik vallen"
 
-#: src/decorator/array/ArrayUnique.ts:29
+#: src/decorator/array/ArrayUnique.ts:44
 msgid "All $property's elements must be unique"
 msgstr "Alle elementen van $propertymoeten uniek zijn"
 

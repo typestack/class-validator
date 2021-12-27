@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2021-12-27 17:36\n"
+"PO-Revision-Date: 2021-12-27 18:03\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -157,6 +157,10 @@ msgstr "$property 必须是语义版本规格。"
 msgid "$property must be a string"
 msgstr "$property 必须是字符串"
 
+#: src/decorator/string/IsUUID.ts:29
+msgid "$property must be a UUID"
+msgstr "$property 必须是 UUID"
+
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
 msgstr "$property 必须是一个有效的域名"
@@ -178,7 +182,7 @@ msgstr "$property 必须是有效的 ISO31661 Alpha2 代码"
 msgid "$property must be a valid ISO31661 Alpha3 code"
 msgstr "$property 必须是有效的 ISO31661 Alpha3 代码"
 
-#: src/decorator/string/IsPhoneNumber.ts:41
+#: src/decorator/string/IsPhoneNumber.ts:42
 msgid "$property must be a valid phone number"
 msgstr "$property 必须是一个有效的电话号码"
 
@@ -214,11 +218,11 @@ msgstr "$property 必须是 $constraint1name 的实例"
 msgid "$property must be an integer number"
 msgstr "$property 必须是整数"
 
-#: src/decorator/string/IsIP.ts:31
+#: src/decorator/string/IsIP.ts:32
 msgid "$property must be an ip address"
 msgstr "$property 必须是一个IP地址"
 
-#: src/decorator/string/IsISBN.ts:31
+#: src/decorator/string/IsISBN.ts:32
 msgid "$property must be an ISBN"
 msgstr "$property 必须是一个 ISBN"
 
@@ -237,10 +241,6 @@ msgstr "$property 必须是对象"
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
 msgstr "$property 必须是一个URL地址"
-
-#: src/decorator/string/IsUUID.ts:30
-msgid "$property must be a UUID"
-msgstr "$property 必须是 UUID"
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
@@ -404,7 +404,7 @@ msgstr "$property 不应该包含 $constraint1 字符串"
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr "$property的字节长度必须到 ($constraint1, $constraint2) 范围"
 
-#: src/decorator/array/ArrayUnique.ts:29
+#: src/decorator/array/ArrayUnique.ts:44
 msgid "All $property's elements must be unique"
 msgstr "所有 $property的元素必须是唯一的"
 

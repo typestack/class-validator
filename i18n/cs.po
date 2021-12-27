@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
-"PO-Revision-Date: 2021-12-27 17:36\n"
+"PO-Revision-Date: 2021-12-27 18:04\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -157,6 +157,10 @@ msgstr "$property musí být sémantická specifikace verzí"
 msgid "$property must be a string"
 msgstr "$property musí být řetězec"
 
+#: src/decorator/string/IsUUID.ts:29
+msgid "$property must be a UUID"
+msgstr "$property musí být UUID"
+
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
 msgstr "$property musí být platný název domény"
@@ -178,7 +182,7 @@ msgstr "$property musí být platný ISO31661 Alpha2 kód"
 msgid "$property must be a valid ISO31661 Alpha3 code"
 msgstr "$property musí být platný ISO31661 Alpha3 kód"
 
-#: src/decorator/string/IsPhoneNumber.ts:41
+#: src/decorator/string/IsPhoneNumber.ts:42
 msgid "$property must be a valid phone number"
 msgstr "$property musí být platné telefonní číslo"
 
@@ -214,11 +218,11 @@ msgstr "$property musí být instancí $constraint1name"
 msgid "$property must be an integer number"
 msgstr "$property musí být celé číslo"
 
-#: src/decorator/string/IsIP.ts:31
+#: src/decorator/string/IsIP.ts:32
 msgid "$property must be an ip address"
 msgstr "$property musí být IP adresa"
 
-#: src/decorator/string/IsISBN.ts:31
+#: src/decorator/string/IsISBN.ts:32
 msgid "$property must be an ISBN"
 msgstr "$property musí být ISBN"
 
@@ -237,10 +241,6 @@ msgstr "$property musí být objekt"
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
 msgstr "$property musí být URL adresa"
-
-#: src/decorator/string/IsUUID.ts:30
-msgid "$property must be a UUID"
-msgstr "$property musí být UUID"
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
@@ -404,7 +404,7 @@ msgstr "$property by neměl obsahovat řetězec $constraint1"
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr "Délka bytu $propertymusí spadnout do rozsahu ($constraint1, $constraint2)"
 
-#: src/decorator/array/ArrayUnique.ts:29
+#: src/decorator/array/ArrayUnique.ts:44
 msgid "All $property's elements must be unique"
 msgstr "Všechny prvky $propertymusí být unikátní"
 

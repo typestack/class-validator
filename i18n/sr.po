@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Serbian (Cyrillic)\n"
 "Language: sr_SP\n"
-"PO-Revision-Date: 2021-12-27 17:36\n"
+"PO-Revision-Date: 2021-12-27 18:04\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -157,6 +157,10 @@ msgstr ""
 msgid "$property must be a string"
 msgstr ""
 
+#: src/decorator/string/IsUUID.ts:29
+msgid "$property must be a UUID"
+msgstr ""
+
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
 msgstr ""
@@ -178,7 +182,7 @@ msgstr ""
 msgid "$property must be a valid ISO31661 Alpha3 code"
 msgstr ""
 
-#: src/decorator/string/IsPhoneNumber.ts:41
+#: src/decorator/string/IsPhoneNumber.ts:42
 msgid "$property must be a valid phone number"
 msgstr ""
 
@@ -214,11 +218,11 @@ msgstr ""
 msgid "$property must be an integer number"
 msgstr ""
 
-#: src/decorator/string/IsIP.ts:31
+#: src/decorator/string/IsIP.ts:32
 msgid "$property must be an ip address"
 msgstr ""
 
-#: src/decorator/string/IsISBN.ts:31
+#: src/decorator/string/IsISBN.ts:32
 msgid "$property must be an ISBN"
 msgstr ""
 
@@ -236,10 +240,6 @@ msgstr ""
 
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
-msgstr ""
-
-#: src/decorator/string/IsUUID.ts:30
-msgid "$property must be a UUID"
 msgstr ""
 
 #: src/decorator/string/IsBase32.ts:27
@@ -404,7 +404,7 @@ msgstr ""
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr ""
 
-#: src/decorator/array/ArrayUnique.ts:29
+#: src/decorator/array/ArrayUnique.ts:44
 msgid "All $property's elements must be unique"
 msgstr ""
 

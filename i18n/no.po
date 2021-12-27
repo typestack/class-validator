@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Norwegian\n"
 "Language: no_NO\n"
-"PO-Revision-Date: 2021-12-27 17:36\n"
+"PO-Revision-Date: 2021-12-27 18:04\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -157,6 +157,10 @@ msgstr "$property må være en Semantisk Versjon-spesifikasjon"
 msgid "$property must be a string"
 msgstr "$property må være en streng"
 
+#: src/decorator/string/IsUUID.ts:29
+msgid "$property must be a UUID"
+msgstr "$property må være en UUID"
+
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
 msgstr "$property må være et gyldig domenenavn"
@@ -178,7 +182,7 @@ msgstr "$property må være en gyldig ISO31661 Alpha2-kode"
 msgid "$property must be a valid ISO31661 Alpha3 code"
 msgstr "$property må være en gyldig ISO31661 Alpha3-kode"
 
-#: src/decorator/string/IsPhoneNumber.ts:41
+#: src/decorator/string/IsPhoneNumber.ts:42
 msgid "$property must be a valid phone number"
 msgstr "$property må være et gyldig telefonnummer"
 
@@ -214,11 +218,11 @@ msgstr "$property må være en instans av $constraint1name"
 msgid "$property must be an integer number"
 msgstr "$property må være et heltall"
 
-#: src/decorator/string/IsIP.ts:31
+#: src/decorator/string/IsIP.ts:32
 msgid "$property must be an ip address"
 msgstr "$property må være en ipadresse"
 
-#: src/decorator/string/IsISBN.ts:31
+#: src/decorator/string/IsISBN.ts:32
 msgid "$property must be an ISBN"
 msgstr "$property må være en ISBN"
 
@@ -237,10 +241,6 @@ msgstr "$property må være et objekt"
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
 msgstr "$property må være en URL-adresse"
-
-#: src/decorator/string/IsUUID.ts:30
-msgid "$property must be a UUID"
-msgstr "$property må være en UUID"
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
@@ -404,7 +404,7 @@ msgstr "$property bør ikke inneholde en $constraint1 streng"
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr "$propertys bytelengde må falle inn ($constraint1, $constraint2) rekkevidde"
 
-#: src/decorator/array/ArrayUnique.ts:29
+#: src/decorator/array/ArrayUnique.ts:44
 msgid "All $property's elements must be unique"
 msgstr "Alle $propertyelementer må være unike"
 

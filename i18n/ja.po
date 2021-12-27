@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2021-12-27 17:36\n"
+"PO-Revision-Date: 2021-12-27 18:04\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -157,6 +157,10 @@ msgstr "$property はセマンティックバージョン仕様でなければ�
 msgid "$property must be a string"
 msgstr "$property は文字列でなければなりません"
 
+#: src/decorator/string/IsUUID.ts:29
+msgid "$property must be a UUID"
+msgstr "$property は UUID でなければなりません"
+
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
 msgstr "$property は有効なドメイン名でなければなりません"
@@ -178,7 +182,7 @@ msgstr "$property は有効な ISO31661 Alpha2 コードでなければなりま
 msgid "$property must be a valid ISO31661 Alpha3 code"
 msgstr "$property は有効な ISO31661 Alpha3 コードでなければなりません"
 
-#: src/decorator/string/IsPhoneNumber.ts:41
+#: src/decorator/string/IsPhoneNumber.ts:42
 msgid "$property must be a valid phone number"
 msgstr "$property は有効な電話番号でなければなりません"
 
@@ -214,11 +218,11 @@ msgstr "$property は $constraint1name のインスタンスでなければな�
 msgid "$property must be an integer number"
 msgstr "$property は整数でなければなりません"
 
-#: src/decorator/string/IsIP.ts:31
+#: src/decorator/string/IsIP.ts:32
 msgid "$property must be an ip address"
 msgstr "$property は、IP アドレスでなければなりません"
 
-#: src/decorator/string/IsISBN.ts:31
+#: src/decorator/string/IsISBN.ts:32
 msgid "$property must be an ISBN"
 msgstr "$property はISBNでなければなりません"
 
@@ -237,10 +241,6 @@ msgstr "$property はオブジェクトでなければなりません"
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
 msgstr "$property は URL アドレスでなければなりません"
-
-#: src/decorator/string/IsUUID.ts:30
-msgid "$property must be a UUID"
-msgstr "$property は UUID でなければなりません"
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
@@ -404,7 +404,7 @@ msgstr "$property は、 $constraint1 文字列を含めることはできませ
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr "$propertyのバイト長は ($constraint1, $constraint2) の範囲に含まれなければなりません"
 
-#: src/decorator/array/ArrayUnique.ts:29
+#: src/decorator/array/ArrayUnique.ts:44
 msgid "All $property's elements must be unique"
 msgstr "$propertyのすべての要素は一意でなければなりません"
 

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
-"PO-Revision-Date: 2021-12-27 17:36\n"
+"PO-Revision-Date: 2021-12-27 18:04\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -157,6 +157,10 @@ msgstr "$property يجب أن يكون مواصفات الإصدار السما�
 msgid "$property must be a string"
 msgstr "$property يجب أن يكون سلسلة"
 
+#: src/decorator/string/IsUUID.ts:29
+msgid "$property must be a UUID"
+msgstr "$property يجب أن يكون UUID"
+
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
 msgstr "$property يجب أن يكون اسم نطاق صالح"
@@ -178,7 +182,7 @@ msgstr "$property يجب أن يكون رمز ISO31661 Alpha2 صالح"
 msgid "$property must be a valid ISO31661 Alpha3 code"
 msgstr "$property يجب أن يكون رمز ISO31661 Alpha3 صالح"
 
-#: src/decorator/string/IsPhoneNumber.ts:41
+#: src/decorator/string/IsPhoneNumber.ts:42
 msgid "$property must be a valid phone number"
 msgstr "$property يجب أن يكون رقم هاتف صالح"
 
@@ -214,11 +218,11 @@ msgstr "$property يجب أن يكون مثيل $constraint1name"
 msgid "$property must be an integer number"
 msgstr "$property يجب أن يكون رقم صحيح"
 
-#: src/decorator/string/IsIP.ts:31
+#: src/decorator/string/IsIP.ts:32
 msgid "$property must be an ip address"
 msgstr "$property يجب أن يكون عنوان ip"
 
-#: src/decorator/string/IsISBN.ts:31
+#: src/decorator/string/IsISBN.ts:32
 msgid "$property must be an ISBN"
 msgstr "$property يجب أن يكون ISBN"
 
@@ -237,10 +241,6 @@ msgstr "$property يجب أن يكون كائنا"
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
 msgstr "$property يجب أن يكون عنوان URL"
-
-#: src/decorator/string/IsUUID.ts:30
-msgid "$property must be a UUID"
-msgstr "$property يجب أن يكون UUID"
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
@@ -404,7 +404,7 @@ msgstr "$property يجب أن لا يحتوي على $constraint1 سلسلة"
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr "يجب أن يقع طول البايت $propertyفي ($constraint1، $constraint2)"
 
-#: src/decorator/array/ArrayUnique.ts:29
+#: src/decorator/array/ArrayUnique.ts:44
 msgid "All $property's elements must be unique"
 msgstr "يجب أن تكون جميع عناصر $propertyفريدة"
 
