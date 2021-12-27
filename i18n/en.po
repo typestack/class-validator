@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: English\n"
 "Language: en_US\n"
-"PO-Revision-Date: 2021-12-27 17:36\n"
+"PO-Revision-Date: 2021-12-27 17:58\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -47,7 +47,7 @@ msgstr "$property must be a credit card"
 
 #: src/decorator/string/IsCurrency.ts:32
 msgid "$property must be a currency"
-msgstr ""
+msgstr "$property must be a currency"
 
 #: src/decorator/string/IsDataURI.ts:27
 msgid "$property must be a data uri format"
