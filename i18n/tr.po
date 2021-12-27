@@ -10,417 +10,417 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
-"PO-Revision-Date: 2020-09-03 04:05\n"
+"PO-Revision-Date: 2021-05-07 11:21\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
-msgstr ""
+msgstr "$IS_INSTANCE dekoratör bir nesne değer olmasını bekler, ancak yanlış değer atanmış"
 
 #: src/decorator/date/MaxDate.ts:25
 #: src/decorator/date/MinDate.ts:25
 msgid "$property is $constraint1"
-msgstr ""
+msgstr "$property $constraint1 'dir"
 
 #: src/decorator/string/IsDecimal.ts:32
 msgid "$property is not a valid decimal number."
-msgstr ""
+msgstr "$property geçerli bir ondalık sayı değil"
 
 #: src/decorator/string/IsBIC.ts:27
 msgid "$property must be a BIC or SWIFT code"
-msgstr ""
+msgstr "$property BIC veya SWIFT kodu olmalıdır"
 
 #: src/decorator/string/IsBooleanString.ts:27
 msgid "$property must be a boolean string"
-msgstr ""
+msgstr "$property bir doğru veya yanlış dizesi olmalıdır"
 
 #: src/decorator/typechecker/IsBoolean.ts:24
 msgid "$property must be a boolean value"
-msgstr ""
+msgstr "$property doğru veya yanlış değeri olmalıdır"
 
 #: src/decorator/string/IsBtcAddress.ts:27
 msgid "$property must be a BTC address"
-msgstr ""
+msgstr "$property bir BTC adres olmalıdır"
 
 #: src/decorator/string/IsCreditCard.ts:27
 msgid "$property must be a credit card"
-msgstr ""
+msgstr "$property bir kredi kartı olmalıdır"
 
 #: src/decorator/string/IsCurrency.ts:32
 msgid "$property must be a currency"
-msgstr ""
+msgstr "$property bir para birimi olmalı"
 
 #: src/decorator/string/IsDataURI.ts:27
 msgid "$property must be a data uri format"
-msgstr ""
+msgstr "$property bir uri formatı olmalı"
 
 #: src/decorator/typechecker/IsDate.ts:24
 msgid "$property must be a Date instance"
-msgstr ""
+msgstr "$property bir tarih örneği olmalıdır"
 
 #: src/decorator/string/IsFirebasePushId.ts:27
 msgid "$property must be a Firebase Push Id"
-msgstr ""
+msgstr "$property bir Firebase  Push Id olmalıdır"
 
 #: src/decorator/string/IsHash.ts:31
 msgid "$property must be a hash of type $constraint1"
-msgstr ""
+msgstr "$property $constraint1 türünde bir karma değer olmalıdır"
 
 #: src/decorator/string/IsHexColor.ts:27
 msgid "$property must be a hexadecimal color"
-msgstr ""
+msgstr "$property bir onaltılık renk olmalıdır"
 
 #: src/decorator/string/IsHexadecimal.ts:27
 msgid "$property must be a hexadecimal number"
-msgstr ""
+msgstr "$property bir onaltılık bir sayı olmalıdır"
 
 #: src/decorator/string/IsHSL.ts:29
 msgid "$property must be a HSL color"
-msgstr ""
+msgstr "$property bir HSL renk olmalıdır"
 
 #: src/decorator/string/IsIdentityCard.ts:36
 msgid "$property must be a identity card number"
-msgstr ""
+msgstr "$property bir kimlik kart numarası olmalıdır"
 
 #: src/decorator/string/IsISSN.ts:28
 msgid "$property must be a ISSN"
-msgstr ""
+msgstr "$property bir ISSN olmalıdır"
 
 #: src/decorator/string/IsJSON.ts:27
 msgid "$property must be a json string"
-msgstr ""
+msgstr "$property bir json dizesi olmalıdır"
 
 #: src/decorator/string/IsJWT.ts:27
 msgid "$property must be a jwt string"
-msgstr ""
+msgstr "$property bir jwt dizesi olmalıdır"
 
 #: src/decorator/common/IsLatitude.ts:25
 msgid "$property must be a latitude string or number"
-msgstr ""
+msgstr "$property bir enlem dizesi veya sayı olmalıdır"
 
 #: src/decorator/common/IsLatLong.ts:25
 msgid "$property must be a latitude,longitude string"
-msgstr ""
+msgstr "$property bir enlem boylam dizesi olmalıdır"
 
 #: src/decorator/common/IsLongitude.ts:25
 msgid "$property must be a longitude string or number"
-msgstr ""
+msgstr "$property boylam dizesi veya sayı olmalıdır"
 
 #: src/decorator/string/IsLowercase.ts:27
 msgid "$property must be a lowercase string"
-msgstr ""
+msgstr "$property bir küçük harf dizesi olmalı"
 
 #: src/decorator/string/IsMacAddress.ts:42
 msgid "$property must be a MAC Address"
-msgstr ""
+msgstr "$property bir MAC Adres olmalıdır"
 
 #: src/decorator/string/IsMongoId.ts:27
 msgid "$property must be a mongodb id"
-msgstr ""
+msgstr "$property bir mangodb id olmalıdır"
 
 #: src/decorator/number/IsNegative.ts:24
 msgid "$property must be a negative number"
-msgstr ""
+msgstr "$property bir negatif sayı olmalıdır"
 
 #: src/decorator/object/IsNotEmptyObject.ts:45
 msgid "$property must be a non-empty object"
-msgstr ""
+msgstr "$property boş olmayan bir nesne olmalıdır"
 
 #: src/decorator/typechecker/IsNumber.ts:56
 msgid "$property must be a number conforming to the specified constraints"
-msgstr ""
+msgstr "$property belirtilen kısıtlamalara uyan sayı olmalıdır"
 
 #: src/decorator/string/IsNumberString.ts:32
 msgid "$property must be a number string"
-msgstr ""
+msgstr "$property bir sayı dizesi olmalıdır"
 
 #: src/decorator/string/IsMobilePhone.ts:53
 msgid "$property must be a phone number"
-msgstr ""
+msgstr "$property bir telefon numarası olmalıdır"
 
 #: src/decorator/string/IsPort.ts:24
 msgid "$property must be a port"
-msgstr ""
+msgstr "$property bir port olmalıdır"
 
 #: src/decorator/number/IsPositive.ts:24
 msgid "$property must be a positive number"
-msgstr ""
+msgstr "$property bir pozitif sayı olmalıdır"
 
 #: src/decorator/string/IsPostalCode.ts:34
 msgid "$property must be a postal code"
-msgstr ""
+msgstr "$property bir posta kodu olmalıdır"
 
 #: src/decorator/string/IsSemVer.ts:27
 msgid "$property must be a Semantic Versioning Specification"
-msgstr ""
+msgstr "$property bir anlamsal sürüm oluşturma belirtimi olmalıdır"
 
 #: src/decorator/typechecker/IsString.ts:24
 msgid "$property must be a string"
-msgstr ""
+msgstr "$property bir dizi olmalıdır"
 
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
-msgstr ""
+msgstr "$property geçerli bir domain adı olmalıdır"
 
 #: src/decorator/typechecker/IsEnum.ts:26
 msgid "$property must be a valid enum value"
-msgstr ""
+msgstr "$property geçerli bir enum değeri olmalı"
 
 #: src/decorator/string/IsDateString.ts:30
 #: src/decorator/string/IsISO8601.ts:34
 msgid "$property must be a valid ISO 8601 date string"
-msgstr ""
+msgstr "$property geçerli bir ISO 8601 tarih dizesi olmalıdır"
 
 #: src/decorator/string/IsISO31661Alpha2.ts:25
 msgid "$property must be a valid ISO31661 Alpha2 code"
-msgstr ""
+msgstr "$property geçerli bir ISO31661 Alpha2 kodu olmalıdır"
 
 #: src/decorator/string/IsISO31661Alpha3.ts:25
 msgid "$property must be a valid ISO31661 Alpha3 code"
-msgstr ""
+msgstr "geçerli bir ISO31661 Alpha3 kodu olmalıdır "
 
 #: src/decorator/string/IsPhoneNumber.ts:41
 msgid "$property must be a valid phone number"
-msgstr ""
+msgstr "$property geçerli bir telefon numarası olmalıdır"
 
 #: src/decorator/string/IsMilitaryTime.ts:29
 msgid "$property must be a valid representation of military time in the format HH:MM"
-msgstr ""
+msgstr "$property geçerli bir SS:DD format şeklinde olmalıdır "
 
 #: src/decorator/typechecker/IsArray.ts:24
 msgid "$property must be an array"
-msgstr ""
+msgstr "$property geçerli bir dizi olmalıdır"
 
 #: src/decorator/string/IsEAN.ts:27
 msgid "$property must be an EAN (European Article Number)"
-msgstr ""
+msgstr "$property geçerli bir EAN kodu olmalıdır"
 
 #: src/decorator/string/IsEmail.ts:32
 msgid "$property must be an email"
-msgstr ""
+msgstr "$property bir e-posta olmalıdır"
 
 #: src/decorator/string/IsEthereumAddress.ts:27
 msgid "$property must be an Ethereum address"
-msgstr ""
+msgstr "$property geçerli bir Ethereum adres olmalıdır"
 
 #: src/decorator/string/IsIBAN.ts:27
 msgid "$property must be an IBAN"
-msgstr ""
+msgstr "$property geçerli bir IBAN olmalıdır"
 
 #: src/decorator/object/IsInstance.ts:33
 msgid "$property must be an instance of $constraint1name"
-msgstr ""
+msgstr "$property $constraint1name özelliğinde olmalıdır"
 
 #: src/decorator/typechecker/IsInt.ts:24
 msgid "$property must be an integer number"
-msgstr ""
+msgstr "$property geçerli bir tam sayı olmalıdır"
 
 #: src/decorator/string/IsIP.ts:31
 msgid "$property must be an ip address"
-msgstr ""
+msgstr "$property geçerli bir ip adresi olmalıdır"
 
 #: src/decorator/string/IsISBN.ts:31
 msgid "$property must be an ISBN"
-msgstr ""
+msgstr "$property geçerli bir ISBN adresi olmalıdır"
 
 #: src/decorator/string/IsISIN.ts:27
 msgid "$property must be an ISIN (stock/security identifier)"
-msgstr ""
+msgstr "$property geçerli bir ISIN olmalıdır"
 
 #: src/decorator/string/IsISRC.ts:27
 msgid "$property must be an ISRC"
-msgstr ""
+msgstr "$property geçerli bir ISRC olmalıdır"
 
 #: src/decorator/typechecker/IsObject.ts:26
 msgid "$property must be an object"
-msgstr ""
+msgstr "$property geçerli bir nesne olmalıdır"
 
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
-msgstr ""
+msgstr "$property geçerli bir URL adres olmalıdır"
 
 #: src/decorator/string/IsUUID.ts:30
 msgid "$property must be a UUID"
-msgstr ""
+msgstr "$property geçerli bir UUID olmalıdır"
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
-msgstr ""
+msgstr "$property geçerli bir base32 kodlanmış olmalıdır"
 
 #: src/decorator/string/IsBase64.ts:27
 msgid "$property must be base64 encoded"
-msgstr ""
+msgstr "$property geçerli bir base64 kodlanmış olmalıdır"
 
 #: src/decorator/number/IsDivisibleBy.ts:26
 msgid "$property must be divisible by $constraint1"
-msgstr ""
+msgstr "$property değer $constraint1 ile bölünebilir olmalıdır  "
 
 #: src/decorator/common/IsEmpty.ts:23
 msgid "$property must be empty"
-msgstr ""
+msgstr "$property boş olmalıdır"
 
 #: src/decorator/common/Equals.ts:25
 msgid "$property must be equal to $constraint1"
-msgstr ""
+msgstr "$property değer $constraint1'e eşit olmalıdır"
 
 #: src/decorator/string/IsLocale.ts:26
 msgid "$property must be locale"
-msgstr ""
+msgstr "$property yerel olmalıdır"
 
 #: src/decorator/string/Length.ts:37
 msgid "$property must be longer than or equal to $constraint1 and shorter than or equal to $constraint2 characters"
-msgstr ""
+msgstr "$property $constraint1'den uzun veya $constraint2 karakterinden kısa yada ona eşit olmalıdır"
 
 #: src/decorator/string/Length.ts:31
 #: src/decorator/string/MinLength.ts:28
 msgid "$property must be longer than or equal to $constraint1 characters"
-msgstr ""
+msgstr "$property $constraint1 karakterinden uzun veya eşit olmalıdır"
 
 #: src/decorator/string/IsMagnetURI.ts:27
 msgid "$property must be magnet uri format"
-msgstr ""
+msgstr "$property bir mıknatıs uri formatında olmalıdır"
 
 #: src/decorator/string/IsMimeType.ts:27
 msgid "$property must be MIME type format"
-msgstr ""
+msgstr "$property bir MIME tür biçiminde olmalıdır"
 
 #: src/decorator/common/IsIn.ts:25
 msgid "$property must be one of the following values: $constraint1"
-msgstr ""
+msgstr "$property şu $constraint1 değerlerden biri olmalıdır"
 
 #: src/decorator/string/IsRFC3339.ts:27
 msgid "$property must be RFC 3339 date"
-msgstr ""
+msgstr "$property RFC 3339 tarihi olmalıdır"
 
 #: src/decorator/string/IsRgbColor.ts:30
 msgid "$property must be RGB color"
-msgstr ""
+msgstr "$property bir RGB renk biçimi olmalıdır"
 
 #: src/decorator/string/MaxLength.ts:28
 msgid "$property must be shorter than or equal to $constraint1 characters"
-msgstr ""
+msgstr "$property $constraint1 karakterinden kısa veya ona eşit olmalıdır"
 
 #: src/decorator/string/Length.ts:33
 msgid "$property must be shorter than or equal to $constraint2 characters"
-msgstr ""
+msgstr "$property $constraint2 karakterinden kısa veya ona eşit olmalıdır"
 
 #: src/decorator/string/IsUppercase.ts:27
 msgid "$property must be uppercase"
-msgstr ""
+msgstr "$property bir büyük harf olmalıdır"
 
 #: src/decorator/string/IsOctal.ts:27
 msgid "$property must be valid octal number"
-msgstr ""
+msgstr "$property geçerli sekiz sayı olmalıdır"
 
 #: src/decorator/string/IsPassportNumber.ts:28
 msgid "$property must be valid passport number"
-msgstr ""
+msgstr "$property geçerli bir pasaport numarası olmalıdır"
 
 #: src/decorator/array/ArrayContains.ts:29
 msgid "$property must contain $constraint1 values"
-msgstr ""
+msgstr "$property $constraint1 değerini içermelidir"
 
 #: src/decorator/string/Contains.ts:28
 msgid "$property must contain a $constraint1 string"
-msgstr ""
+msgstr "$property değeri $constraint1 içeren dize olmalıdır"
 
 #: src/decorator/string/IsVariableWidth.ts:27
 msgid "$property must contain a full-width and half-width characters"
-msgstr ""
+msgstr "$property tam genişlik veya yarım genişlikte karakterler içermelidir"
 
 #: src/decorator/string/IsFullWidth.ts:27
 msgid "$property must contain a full-width characters"
-msgstr ""
+msgstr "$property tam genişlikte karakterler içermelidir"
 
 #: src/decorator/string/IsHalfWidth.ts:27
 msgid "$property must contain a half-width characters"
-msgstr ""
+msgstr "$property yarım genişliğinde karakterler içermelidir"
 
 #: src/decorator/string/IsSurrogatePair.ts:27
 msgid "$property must contain any surrogate pairs chars"
-msgstr ""
+msgstr "$property herhangi bir vekil çift karakter içermelidir"
 
 #: src/decorator/array/ArrayMinSize.ts:27
 msgid "$property must contain at least $constraint1 elements"
-msgstr ""
+msgstr "$property en az $constraint1 öğe içermelidir"
 
 #: src/decorator/array/ArrayMaxSize.ts:27
 msgid "$property must contain not more than $constraint1 elements"
-msgstr ""
+msgstr "$property $constraint1'den fazla öğe içermemelidir"
 
 #: src/decorator/string/IsMultibyte.ts:27
 msgid "$property must contain one or more multibyte chars"
-msgstr ""
+msgstr "$property birden fazla veya daha çok baytlı karakter içermelidir"
 
 #: src/decorator/string/IsAscii.ts:27
 msgid "$property must contain only ASCII characters"
-msgstr ""
+msgstr "$property sadece ASCII karakterler içermelidir"
 
 #: src/decorator/string/IsAlpha.ts:29
 msgid "$property must contain only letters (a-zA-Z)"
-msgstr ""
+msgstr "$property sadece harf içermelidir (a-z, A-Z)"
 
 #: src/decorator/string/IsAlphanumeric.ts:29
 msgid "$property must contain only letters and numbers"
-msgstr ""
+msgstr "$property sadece harf ve rakamlardan oluşmalıdır"
 
 #: src/decorator/string/Matches.ts:43
 msgid "$property must match $constraint1 regular expression"
-msgstr ""
+msgstr "$property $constraint1 normal ifadesiyle eşleşmelidir"
 
 #: src/decorator/number/Max.ts:25
 msgid "$property must not be greater than $constraint1"
-msgstr ""
+msgstr "$property $constraint1 değerinden büyük olmalıdır"
 
 #: src/decorator/number/Min.ts:25
 msgid "$property must not be less than $constraint1"
-msgstr ""
+msgstr "$property $constraint1 değerinden küçük olmalıdır"
 
 #: src/decorator/array/ArrayNotEmpty.ts:26
 #: src/decorator/common/IsNotEmpty.ts:24
 msgid "$property should not be empty"
-msgstr ""
+msgstr "$property boş olmamalıdır"
 
 #: src/decorator/common/NotEquals.ts:25
 msgid "$property should not be equal to $constraint1"
-msgstr ""
+msgstr "$property $constraint1 eşit olmamalıdır"
 
 #: src/decorator/common/IsDefined.ts:26
 msgid "$property should not be null or undefined"
-msgstr ""
+msgstr "$property boş veya tanımsız olmamalıdır"
 
 #: src/decorator/common/IsNotIn.ts:25
 msgid "$property should not be one of the following values: $constraint1"
-msgstr ""
+msgstr "$property şu değerinden $constraint1 biri olmalıdır"
 
 #: src/decorator/array/ArrayNotContains.ts:29
 msgid "$property should not contain $constraint1 values"
-msgstr ""
+msgstr "$property şu değeri $constraint1 içermemelidir"
 
 #: src/decorator/string/NotContains.ts:28
 msgid "$property should not contain a $constraint1 string"
-msgstr ""
+msgstr "$property bir $constraint1 dizesi içermemelidir"
 
 #: src/decorator/string/IsByteLength.ts:29
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
-msgstr ""
+msgstr "$property bayt uzunluğu ($constraint1, $constraint2) aralığına denk gelmelidir"
 
 #: src/decorator/array/ArrayUnique.ts:29
 msgid "All $property's elements must be unique"
-msgstr ""
+msgstr "$property tüm öğeleri benzersiz olmalıdır"
 
 #: src/decorator/common/ValidateNested.ts:13
 msgid "each value in "
-msgstr ""
+msgstr "her değer "
 
 #: src/decorator/date/MaxDate.ts:25
 msgid "maximal allowed date for "
-msgstr ""
+msgstr "için verilen maksimum tarih "
 
 #: src/decorator/date/MinDate.ts:25
 msgid "minimal allowed date for "
-msgstr ""
+msgstr "minimum izin verilen tarih "
 
 #: src/decorator/common/ValidateNested.ts:14
 msgid "nested property $property must be either object or array"
-msgstr ""
+msgstr "yuvalanmış $property özelliği, nesne veya Context dizisi olmalıdır"
 

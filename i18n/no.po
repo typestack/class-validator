@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Norwegian\n"
 "Language: no_NO\n"
-"PO-Revision-Date: 2020-09-03 04:05\n"
+"PO-Revision-Date: 2021-01-16 19:51\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -240,7 +240,7 @@ msgstr "$property må være en URL-adresse"
 
 #: src/decorator/string/IsUUID.ts:30
 msgid "$property must be a UUID"
-msgstr "$property må være en UUID"
+msgstr ""
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
