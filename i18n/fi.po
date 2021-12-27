@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Finnish\n"
 "Language: fi_FI\n"
-"PO-Revision-Date: 2021-12-27 17:16\n"
+"PO-Revision-Date: 2021-12-27 17:36\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -157,10 +157,6 @@ msgstr "määritteen $property on oltava Semanttinen versiointimääritys"
 msgid "$property must be a string"
 msgstr "määritteen $property on oltava merkkijono"
 
-#: src/decorator/string/IsUUID.ts:29
-msgid "$property must be a UUID"
-msgstr ""
-
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
 msgstr "määritteen $property on oltava kelvollinen verkkotunnus"
@@ -182,7 +178,7 @@ msgstr "määritteen $property on oltava kelvollinen ISO31661 aakkoskoodi"
 msgid "$property must be a valid ISO31661 Alpha3 code"
 msgstr "määritteen $property on oltava kelvollinen ISO31661 aakkoskoodi"
 
-#: src/decorator/string/IsPhoneNumber.ts:42
+#: src/decorator/string/IsPhoneNumber.ts:41
 msgid "$property must be a valid phone number"
 msgstr "määritteen $property on oltava kelvollinen puhelinnumero"
 
@@ -218,11 +214,11 @@ msgstr "määritteen $property on oltava $constraint1name instanssi"
 msgid "$property must be an integer number"
 msgstr "määritteen $property on oltava kokonaisluku"
 
-#: src/decorator/string/IsIP.ts:32
+#: src/decorator/string/IsIP.ts:31
 msgid "$property must be an ip address"
 msgstr "määritteen $property on oltava ip osoite"
 
-#: src/decorator/string/IsISBN.ts:32
+#: src/decorator/string/IsISBN.ts:31
 msgid "$property must be an ISBN"
 msgstr "määritteen $property on oltava ISBN"
 
@@ -241,6 +237,10 @@ msgstr "määritteen $property on oltava objekti"
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
 msgstr "määritteen $property on oltava URL-osoite"
+
+#: src/decorator/string/IsUUID.ts:30
+msgid "$property must be a UUID"
+msgstr "määritteen $property on oltava UUID"
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
@@ -404,7 +404,7 @@ msgstr "$property ei saa sisältää $constraint1 merkkijonoa"
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr "$propertytavun pituuden täytyy pudota ($constraint1, $constraint2) alueelle"
 
-#: src/decorator/array/ArrayUnique.ts:44
+#: src/decorator/array/ArrayUnique.ts:29
 msgid "All $property's elements must be unique"
 msgstr "Kaikkien $propertyelementtien on oltava yksilöllisiä"
 

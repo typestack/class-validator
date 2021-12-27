@@ -10,417 +10,417 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Greek\n"
 "Language: el_GR\n"
-"PO-Revision-Date: 2021-12-27 17:16\n"
+"PO-Revision-Date: 2021-12-27 17:36\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
-msgstr ""
+msgstr "$IS_INSTANCE διακοσμητής αναμένει και αντικείμενο ως αξία, αλλά πήρε ψεύτικη αξία."
 
 #: src/decorator/date/MaxDate.ts:25
 #: src/decorator/date/MinDate.ts:25
 msgid "$property is $constraint1"
-msgstr ""
+msgstr "$property είναι $constraint1"
 
 #: src/decorator/string/IsDecimal.ts:32
 msgid "$property is not a valid decimal number."
-msgstr ""
+msgstr "$property δεν είναι έγκυρος δεκαδικός αριθμός."
 
 #: src/decorator/string/IsBIC.ts:27
 msgid "$property must be a BIC or SWIFT code"
-msgstr ""
+msgstr "$property πρέπει να είναι κωδικός BIC ή SWIFT"
 
 #: src/decorator/string/IsBooleanString.ts:27
 msgid "$property must be a boolean string"
-msgstr ""
+msgstr "$property πρέπει να είναι μια συμβολοσειρά boolean"
 
 #: src/decorator/typechecker/IsBoolean.ts:24
 msgid "$property must be a boolean value"
-msgstr ""
+msgstr "$property πρέπει να είναι μια δυαδική τιμή"
 
 #: src/decorator/string/IsBtcAddress.ts:27
 msgid "$property must be a BTC address"
-msgstr ""
+msgstr "$property πρέπει να είναι διεύθυνση BTC"
 
 #: src/decorator/string/IsCreditCard.ts:27
 msgid "$property must be a credit card"
-msgstr ""
+msgstr "$property πρέπει να είναι πιστωτική κάρτα"
 
 #: src/decorator/string/IsCurrency.ts:32
 msgid "$property must be a currency"
-msgstr ""
+msgstr "$property πρέπει να είναι νόμισμα"
 
 #: src/decorator/string/IsDataURI.ts:27
 msgid "$property must be a data uri format"
-msgstr ""
+msgstr "$property πρέπει να είναι μορφή uri δεδομένων"
 
 #: src/decorator/typechecker/IsDate.ts:24
 msgid "$property must be a Date instance"
-msgstr ""
+msgstr "$property πρέπει να είναι μια παρουσία ημερομηνίας"
 
 #: src/decorator/string/IsFirebasePushId.ts:27
 msgid "$property must be a Firebase Push Id"
-msgstr ""
+msgstr "$property πρέπει να είναι ένα Firebase Push Id"
 
 #: src/decorator/string/IsHash.ts:31
 msgid "$property must be a hash of type $constraint1"
-msgstr ""
+msgstr "$property πρέπει να είναι ένα hash του τύπου $constraint1"
 
 #: src/decorator/string/IsHexColor.ts:27
 msgid "$property must be a hexadecimal color"
-msgstr ""
+msgstr "$property πρέπει να είναι δεκαεξαδικό χρώμα"
 
 #: src/decorator/string/IsHexadecimal.ts:27
 msgid "$property must be a hexadecimal number"
-msgstr ""
+msgstr "$property πρέπει να είναι δεκαεξαδικός αριθμός"
 
 #: src/decorator/string/IsHSL.ts:29
 msgid "$property must be a HSL color"
-msgstr ""
+msgstr "$property πρέπει να είναι χρώμα HSL"
 
 #: src/decorator/string/IsIdentityCard.ts:36
 msgid "$property must be a identity card number"
-msgstr ""
+msgstr "$property πρέπει να είναι αριθμός ταυτότητας κάρτας"
 
 #: src/decorator/string/IsISSN.ts:28
 msgid "$property must be a ISSN"
-msgstr ""
+msgstr "$property πρέπει να είναι ISSN"
 
 #: src/decorator/string/IsJSON.ts:27
 msgid "$property must be a json string"
-msgstr ""
+msgstr "$property πρέπει να είναι ένα json string"
 
 #: src/decorator/string/IsJWT.ts:27
 msgid "$property must be a jwt string"
-msgstr ""
+msgstr "$property πρέπει να είναι μια jwt συμβολοσειρά"
 
 #: src/decorator/common/IsLatitude.ts:25
 msgid "$property must be a latitude string or number"
-msgstr ""
+msgstr "$property πρέπει να είναι συμβολοσειρά πλάτους ή αριθμός"
 
 #: src/decorator/common/IsLatLong.ts:25
 msgid "$property must be a latitude,longitude string"
-msgstr ""
+msgstr "$property πρέπει να είναι γεωγραφικό πλάτος, γεωγραφικό μήκος"
 
 #: src/decorator/common/IsLongitude.ts:25
 msgid "$property must be a longitude string or number"
-msgstr ""
+msgstr "$property πρέπει να είναι συμβολοσειρά ή αριθμός μήκους"
 
 #: src/decorator/string/IsLowercase.ts:27
 msgid "$property must be a lowercase string"
-msgstr ""
+msgstr "$property πρέπει να είναι μια πεζή συμβολοσειρά"
 
 #: src/decorator/string/IsMacAddress.ts:42
 msgid "$property must be a MAC Address"
-msgstr ""
+msgstr "$property πρέπει να είναι μια διεύθυνση MAC"
 
 #: src/decorator/string/IsMongoId.ts:27
 msgid "$property must be a mongodb id"
-msgstr ""
+msgstr "$property πρέπει να είναι ένα mongodb id"
 
 #: src/decorator/number/IsNegative.ts:24
 msgid "$property must be a negative number"
-msgstr ""
+msgstr "$property πρέπει να είναι ένας αρνητικός αριθμός"
 
 #: src/decorator/object/IsNotEmptyObject.ts:45
 msgid "$property must be a non-empty object"
-msgstr ""
+msgstr "$property πρέπει να είναι ένα μη άδειο αντικείμενο"
 
 #: src/decorator/typechecker/IsNumber.ts:56
 msgid "$property must be a number conforming to the specified constraints"
-msgstr ""
+msgstr "$property πρέπει να είναι ένας αριθμός σύμφωνος με τους καθορισμένους περιορισμούς"
 
 #: src/decorator/string/IsNumberString.ts:32
 msgid "$property must be a number string"
-msgstr ""
+msgstr "$property πρέπει να είναι μια συμβολοσειρά αριθμών"
 
 #: src/decorator/string/IsMobilePhone.ts:53
 msgid "$property must be a phone number"
-msgstr ""
+msgstr "$property πρέπει να είναι αριθμός τηλεφώνου"
 
 #: src/decorator/string/IsPort.ts:24
 msgid "$property must be a port"
-msgstr ""
+msgstr "$property πρέπει να είναι θύρα"
 
 #: src/decorator/number/IsPositive.ts:24
 msgid "$property must be a positive number"
-msgstr ""
+msgstr "$property πρέπει να είναι ένας θετικός αριθμός"
 
 #: src/decorator/string/IsPostalCode.ts:34
 msgid "$property must be a postal code"
-msgstr ""
+msgstr "$property πρέπει να είναι ταχυδρομικός κώδικας"
 
 #: src/decorator/string/IsSemVer.ts:27
 msgid "$property must be a Semantic Versioning Specification"
-msgstr ""
+msgstr "$property πρέπει να είναι μια σημειολογική προδιαγραφή εκδόσεων"
 
 #: src/decorator/typechecker/IsString.ts:24
 msgid "$property must be a string"
-msgstr ""
-
-#: src/decorator/string/IsUUID.ts:29
-msgid "$property must be a UUID"
-msgstr ""
+msgstr "$property πρέπει να είναι συμβολοσειρά"
 
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
-msgstr ""
+msgstr "$property πρέπει να είναι ένα έγκυρο όνομα τομέα"
 
 #: src/decorator/typechecker/IsEnum.ts:26
 msgid "$property must be a valid enum value"
-msgstr ""
+msgstr "$property πρέπει να είναι έγκυρη τιμή enum"
 
 #: src/decorator/string/IsDateString.ts:30
 #: src/decorator/string/IsISO8601.ts:34
 msgid "$property must be a valid ISO 8601 date string"
-msgstr ""
+msgstr "$property πρέπει να είναι μια έγκυρη συμβολοσειρά ημερομηνίας ISO 8601"
 
 #: src/decorator/string/IsISO31661Alpha2.ts:25
 msgid "$property must be a valid ISO31661 Alpha2 code"
-msgstr ""
+msgstr "$property πρέπει να είναι ένας έγκυρος κωδικός ISO31661 Alpha2"
 
 #: src/decorator/string/IsISO31661Alpha3.ts:25
 msgid "$property must be a valid ISO31661 Alpha3 code"
-msgstr ""
+msgstr "$property πρέπει να είναι ένας έγκυρος κωδικός ISO31661 Alpha3"
 
-#: src/decorator/string/IsPhoneNumber.ts:42
+#: src/decorator/string/IsPhoneNumber.ts:41
 msgid "$property must be a valid phone number"
-msgstr ""
+msgstr "$property πρέπει να είναι ένας έγκυρος αριθμός τηλεφώνου"
 
 #: src/decorator/string/IsMilitaryTime.ts:29
 msgid "$property must be a valid representation of military time in the format HH:MM"
-msgstr ""
+msgstr "$property πρέπει να είναι μια έγκυρη αναπαράσταση του στρατιωτικού χρόνου με τη μορφή HH:MM"
 
 #: src/decorator/typechecker/IsArray.ts:24
 msgid "$property must be an array"
-msgstr ""
+msgstr "$property πρέπει να είναι πίνακας"
 
 #: src/decorator/string/IsEAN.ts:27
 msgid "$property must be an EAN (European Article Number)"
-msgstr ""
+msgstr "$property πρέπει να είναι EAN (Ευρωπαϊκός αριθμός άρθρου)"
 
 #: src/decorator/string/IsEmail.ts:32
 msgid "$property must be an email"
-msgstr ""
+msgstr "$property πρέπει να είναι ένα email"
 
 #: src/decorator/string/IsEthereumAddress.ts:27
 msgid "$property must be an Ethereum address"
-msgstr ""
+msgstr "$property πρέπει να είναι μια διεύθυνση Ethereum"
 
 #: src/decorator/string/IsIBAN.ts:27
 msgid "$property must be an IBAN"
-msgstr ""
+msgstr "$property πρέπει να είναι IBAN"
 
 #: src/decorator/object/IsInstance.ts:33
 msgid "$property must be an instance of $constraint1name"
-msgstr ""
+msgstr "$property πρέπει να είναι ένα παράδειγμα του $constraint1name"
 
 #: src/decorator/typechecker/IsInt.ts:24
 msgid "$property must be an integer number"
-msgstr ""
+msgstr "$property πρέπει να είναι ακέραιος αριθμός"
 
-#: src/decorator/string/IsIP.ts:32
+#: src/decorator/string/IsIP.ts:31
 msgid "$property must be an ip address"
-msgstr ""
+msgstr "$property πρέπει να είναι μια διεύθυνση ip"
 
-#: src/decorator/string/IsISBN.ts:32
+#: src/decorator/string/IsISBN.ts:31
 msgid "$property must be an ISBN"
-msgstr ""
+msgstr "$property πρέπει να είναι ISBN"
 
 #: src/decorator/string/IsISIN.ts:27
 msgid "$property must be an ISIN (stock/security identifier)"
-msgstr ""
+msgstr "$property πρέπει να είναι ISIN (αναγνωριστικό αποθέματος/ασφάλειας)"
 
 #: src/decorator/string/IsISRC.ts:27
 msgid "$property must be an ISRC"
-msgstr ""
+msgstr "$property πρέπει να είναι ISRC"
 
 #: src/decorator/typechecker/IsObject.ts:26
 msgid "$property must be an object"
-msgstr ""
+msgstr "$property πρέπει να είναι αντικείμενο"
 
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
-msgstr ""
+msgstr "$property πρέπει να είναι μια διεύθυνση URL"
+
+#: src/decorator/string/IsUUID.ts:30
+msgid "$property must be a UUID"
+msgstr "$property πρέπει να είναι UUID"
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
-msgstr ""
+msgstr "$property πρέπει να κωδικοποιηθεί βάση32"
 
 #: src/decorator/string/IsBase64.ts:27
 msgid "$property must be base64 encoded"
-msgstr ""
+msgstr "$property πρέπει να είναι base64 κωδικοποιημένα"
 
 #: src/decorator/number/IsDivisibleBy.ts:26
 msgid "$property must be divisible by $constraint1"
-msgstr ""
+msgstr "$property πρέπει να διαιρεθεί από $constraint1"
 
 #: src/decorator/common/IsEmpty.ts:23
 msgid "$property must be empty"
-msgstr ""
+msgstr "$property πρέπει να είναι άδειο"
 
 #: src/decorator/common/Equals.ts:25
 msgid "$property must be equal to $constraint1"
-msgstr ""
+msgstr "$property πρέπει να ισούται με $constraint1"
 
 #: src/decorator/string/IsLocale.ts:26
 msgid "$property must be locale"
-msgstr ""
+msgstr "$property πρέπει να είναι locale"
 
 #: src/decorator/string/Length.ts:37
 msgid "$property must be longer than or equal to $constraint1 and shorter than or equal to $constraint2 characters"
-msgstr ""
+msgstr "$property πρέπει να είναι μεγαλύτερο ή ίσο με $constraint1 και μικρότερο από ή ίσο με $constraint2 χαρακτήρες"
 
 #: src/decorator/string/Length.ts:31
 #: src/decorator/string/MinLength.ts:28
 msgid "$property must be longer than or equal to $constraint1 characters"
-msgstr ""
+msgstr "$property πρέπει να είναι μεγαλύτερο ή ίσο με $constraint1 χαρακτήρες"
 
 #: src/decorator/string/IsMagnetURI.ts:27
 msgid "$property must be magnet uri format"
-msgstr ""
+msgstr "$property πρέπει να είναι μορφή uri magnet"
 
 #: src/decorator/string/IsMimeType.ts:27
 msgid "$property must be MIME type format"
-msgstr ""
+msgstr "$property πρέπει να είναι μορφή τύπου MIME"
 
 #: src/decorator/common/IsIn.ts:25
 msgid "$property must be one of the following values: $constraint1"
-msgstr ""
+msgstr "$property πρέπει να είναι μία από τις ακόλουθες τιμές: $constraint1"
 
 #: src/decorator/string/IsRFC3339.ts:27
 msgid "$property must be RFC 3339 date"
-msgstr ""
+msgstr "$property πρέπει να είναι RFC 3339 ημερομηνία"
 
 #: src/decorator/string/IsRgbColor.ts:30
 msgid "$property must be RGB color"
-msgstr ""
+msgstr "$property πρέπει να είναι RGB χρώμα"
 
 #: src/decorator/string/MaxLength.ts:28
 msgid "$property must be shorter than or equal to $constraint1 characters"
-msgstr ""
+msgstr "$property πρέπει να είναι μικρότερο ή ίσο με $constraint1 χαρακτήρες"
 
 #: src/decorator/string/Length.ts:33
 msgid "$property must be shorter than or equal to $constraint2 characters"
-msgstr ""
+msgstr "$property πρέπει να είναι μικρότερο ή ίσο με $constraint2 χαρακτήρες"
 
 #: src/decorator/string/IsUppercase.ts:27
 msgid "$property must be uppercase"
-msgstr ""
+msgstr "$property πρέπει να είναι κεφαλαίο"
 
 #: src/decorator/string/IsOctal.ts:27
 msgid "$property must be valid octal number"
-msgstr ""
+msgstr "$property πρέπει να είναι έγκυρος οκταδικός αριθμός"
 
 #: src/decorator/string/IsPassportNumber.ts:28
 msgid "$property must be valid passport number"
-msgstr ""
+msgstr "$property πρέπει να είναι έγκυρος αριθμός διαβατηρίου"
 
 #: src/decorator/array/ArrayContains.ts:29
 msgid "$property must contain $constraint1 values"
-msgstr ""
+msgstr "$property πρέπει να περιέχει $constraint1 τιμές"
 
 #: src/decorator/string/Contains.ts:28
 msgid "$property must contain a $constraint1 string"
-msgstr ""
+msgstr "$property πρέπει να περιέχει μια συμβολοσειρά $constraint1"
 
 #: src/decorator/string/IsVariableWidth.ts:27
 msgid "$property must contain a full-width and half-width characters"
-msgstr ""
+msgstr "$property πρέπει να περιέχει χαρακτήρες πλήρους πλάτους και μισού πλάτους"
 
 #: src/decorator/string/IsFullWidth.ts:27
 msgid "$property must contain a full-width characters"
-msgstr ""
+msgstr "$property πρέπει να περιέχει χαρακτήρες πλήρους πλάτους"
 
 #: src/decorator/string/IsHalfWidth.ts:27
 msgid "$property must contain a half-width characters"
-msgstr ""
+msgstr "$property πρέπει να περιέχει χαρακτήρες μισού πλάτους"
 
 #: src/decorator/string/IsSurrogatePair.ts:27
 msgid "$property must contain any surrogate pairs chars"
-msgstr ""
+msgstr "$property πρέπει να περιέχει χαρακτήρες τυχόν υποκατάστατων ζεύγη"
 
 #: src/decorator/array/ArrayMinSize.ts:27
 msgid "$property must contain at least $constraint1 elements"
-msgstr ""
+msgstr "$property πρέπει να περιέχει τουλάχιστον $constraint1 στοιχεία"
 
 #: src/decorator/array/ArrayMaxSize.ts:27
 msgid "$property must contain not more than $constraint1 elements"
-msgstr ""
+msgstr "$property δεν πρέπει να περιέχει περισσότερα από $constraint1 στοιχεία"
 
 #: src/decorator/string/IsMultibyte.ts:27
 msgid "$property must contain one or more multibyte chars"
-msgstr ""
+msgstr "$property πρέπει να περιέχει έναν ή περισσότερους χαρακτήρες πολλαπλών byte"
 
 #: src/decorator/string/IsAscii.ts:27
 msgid "$property must contain only ASCII characters"
-msgstr ""
+msgstr "$property πρέπει να περιέχει μόνο χαρακτήρες ASCII"
 
 #: src/decorator/string/IsAlpha.ts:29
 msgid "$property must contain only letters (a-zA-Z)"
-msgstr ""
+msgstr "$property πρέπει να περιέχει μόνο γράμματα (a-zA-Z)"
 
 #: src/decorator/string/IsAlphanumeric.ts:29
 msgid "$property must contain only letters and numbers"
-msgstr ""
+msgstr "$property πρέπει να περιέχει μόνο γράμματα και αριθμούς"
 
 #: src/decorator/string/Matches.ts:43
 msgid "$property must match $constraint1 regular expression"
-msgstr ""
+msgstr "$property πρέπει να ταιριάζει με $constraint1 κανονική έκφραση"
 
 #: src/decorator/number/Max.ts:25
 msgid "$property must not be greater than $constraint1"
-msgstr ""
+msgstr "$property δεν πρέπει να είναι μεγαλύτερο από $constraint1"
 
 #: src/decorator/number/Min.ts:25
 msgid "$property must not be less than $constraint1"
-msgstr ""
+msgstr "$property δεν πρέπει να είναι μικρότερο από $constraint1"
 
 #: src/decorator/array/ArrayNotEmpty.ts:26
 #: src/decorator/common/IsNotEmpty.ts:24
 msgid "$property should not be empty"
-msgstr ""
+msgstr "$property δεν πρέπει να είναι άδειο"
 
 #: src/decorator/common/NotEquals.ts:25
 msgid "$property should not be equal to $constraint1"
-msgstr ""
+msgstr "$property δεν πρέπει να είναι ίσο με $constraint1"
 
 #: src/decorator/common/IsDefined.ts:26
 msgid "$property should not be null or undefined"
-msgstr ""
+msgstr "$property δεν πρέπει να είναι κενό ή απροσδιόριστο"
 
 #: src/decorator/common/IsNotIn.ts:25
 msgid "$property should not be one of the following values: $constraint1"
-msgstr ""
+msgstr "$property δεν πρέπει να είναι μία από τις ακόλουθες τιμές: $constraint1"
 
 #: src/decorator/array/ArrayNotContains.ts:29
 msgid "$property should not contain $constraint1 values"
-msgstr ""
+msgstr "$property δεν πρέπει να περιέχει $constraint1 τιμές"
 
 #: src/decorator/string/NotContains.ts:28
 msgid "$property should not contain a $constraint1 string"
-msgstr ""
+msgstr "$property δεν πρέπει να περιέχει $constraint1 συμβολοσειρά"
 
 #: src/decorator/string/IsByteLength.ts:29
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
-msgstr ""
+msgstr "το μήκος των byte του $propertyπρέπει να πέσει στο ($constraint1, $constraint2) εύρος"
 
-#: src/decorator/array/ArrayUnique.ts:44
+#: src/decorator/array/ArrayUnique.ts:29
 msgid "All $property's elements must be unique"
-msgstr ""
+msgstr "Όλα τα στοιχεία του $propertyπρέπει να είναι μοναδικά"
 
 #: src/decorator/common/ValidateNested.ts:13
 msgid "each value in "
-msgstr ""
+msgstr "κάθε τιμή στο "
 
 #: src/decorator/date/MaxDate.ts:25
 msgid "maximal allowed date for "
-msgstr ""
+msgstr "μέγιστη επιτρεπόμενη ημερομηνία για "
 
 #: src/decorator/date/MinDate.ts:25
 msgid "minimal allowed date for "
-msgstr ""
+msgstr "ελάχιστη επιτρεπόμενη ημερομηνία για "
 
 #: src/decorator/common/ValidateNested.ts:14
 msgid "nested property $property must be either object or array"
-msgstr ""
+msgstr "ιδιότητα ένθετη $property πρέπει να είναι είτε αντικείμενο ή πίνακας"
 

@@ -4,46 +4,46 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: class-validator\n"
 "X-Crowdin-Project-ID: 418130\n"
-"X-Crowdin-Language: af\n"
+"X-Crowdin-Language: en\n"
 "X-Crowdin-File: /i18n/i18n/template.pot\n"
 "X-Crowdin-File-ID: 24\n"
 "Project-Id-Version: class-validator\n"
-"Language-Team: Afrikaans\n"
-"Language: af_ZA\n"
+"Language-Team: English\n"
+"Language: en_US\n"
 "PO-Revision-Date: 2021-12-27 17:36\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
-msgstr ""
+msgstr "$IS_INSTANCE decorator expects and object as value, but got falsy value."
 
 #: src/decorator/date/MaxDate.ts:25
 #: src/decorator/date/MinDate.ts:25
 msgid "$property is $constraint1"
-msgstr ""
+msgstr "$property is $constraint1"
 
 #: src/decorator/string/IsDecimal.ts:32
 msgid "$property is not a valid decimal number."
-msgstr ""
+msgstr "$property is not a valid decimal number."
 
 #: src/decorator/string/IsBIC.ts:27
 msgid "$property must be a BIC or SWIFT code"
-msgstr ""
+msgstr "$property must be a BIC or SWIFT code"
 
 #: src/decorator/string/IsBooleanString.ts:27
 msgid "$property must be a boolean string"
-msgstr ""
+msgstr "$property must be a boolean string"
 
 #: src/decorator/typechecker/IsBoolean.ts:24
 msgid "$property must be a boolean value"
-msgstr ""
+msgstr "$property must be a boolean value"
 
 #: src/decorator/string/IsBtcAddress.ts:27
 msgid "$property must be a BTC address"
-msgstr ""
+msgstr "$property must be a BTC address"
 
 #: src/decorator/string/IsCreditCard.ts:27
 msgid "$property must be a credit card"
-msgstr ""
+msgstr "$property must be a credit card"
 
 #: src/decorator/string/IsCurrency.ts:32
 msgid "$property must be a currency"
