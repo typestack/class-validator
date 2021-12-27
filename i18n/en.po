@@ -10,12 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: English\n"
 "Language: en_US\n"
-"PO-Revision-Date: 2021-12-27 21:59+0400\n"
-"POT-Creation-Date: \n"
-"Last-Translator: \n"
-"MIME-Version: 1.0\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0\n"
+"PO-Revision-Date: 2021-12-27 17:58\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
