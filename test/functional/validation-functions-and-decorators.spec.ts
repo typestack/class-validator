@@ -199,7 +199,7 @@ export function checkValidValues(
   const promises = values.map(value => {
     object.someProperty = value;
     return validator.validate(object, validatorOptions).then(errors => {
-      expect(errors.length).toEqual(0);
+      // expect(errors.length).toEqual(0);
       if (errors.length !== 0) {
         console.log(`Unexpected errors: ${JSON.stringify(errors)}`);
         throw new Error('Unexpected validation errors');
@@ -3662,13 +3662,13 @@ describe('Length', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'length';
+    const validationType = 'isLength';
     const message = 'someProperty must be longer than or equal to ' + constraintToString(constraint1) + ' characters';
     checkReturnedError(new MyClass(), ['', 'a'], validationType, message);
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'length';
+    const validationType = 'isLength';
     const message = 'someProperty must be shorter than or equal to ' + constraintToString(constraint2) + ' characters';
     checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
   });
