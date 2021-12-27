@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: class-validator\n"
 "Language-Team: Romanian\n"
 "Language: ro_RO\n"
-"PO-Revision-Date: 2021-01-16 19:51\n"
+"PO-Revision-Date: 2021-12-27 17:16\n"
 
 #: src/decorator/object/IsInstance.ts:41
 msgid "$IS_INSTANCE decorator expects and object as value, but got falsy value."
@@ -157,6 +157,10 @@ msgstr "$property trebuie să fie o Specificație de Versionare Semantică"
 msgid "$property must be a string"
 msgstr "$property trebuie să fie un șir"
 
+#: src/decorator/string/IsUUID.ts:29
+msgid "$property must be a UUID"
+msgstr ""
+
 #: src/decorator/string/IsFQDN.ts:29
 msgid "$property must be a valid domain name"
 msgstr "$property trebuie să fie un nume de domeniu valid"
@@ -178,7 +182,7 @@ msgstr "$property trebuie să fie un cod valid ISO31661 Alpha2"
 msgid "$property must be a valid ISO31661 Alpha3 code"
 msgstr "$property trebuie să fie un cod valid ISO31661 Alpha3"
 
-#: src/decorator/string/IsPhoneNumber.ts:41
+#: src/decorator/string/IsPhoneNumber.ts:42
 msgid "$property must be a valid phone number"
 msgstr "$property trebuie să fie un număr de telefon valid"
 
@@ -214,11 +218,11 @@ msgstr "$property trebuie să fie o instanță de $constraint1name"
 msgid "$property must be an integer number"
 msgstr "$property trebuie să fie un număr întreg"
 
-#: src/decorator/string/IsIP.ts:31
+#: src/decorator/string/IsIP.ts:32
 msgid "$property must be an ip address"
 msgstr "$property trebuie să fie o adresă ip"
 
-#: src/decorator/string/IsISBN.ts:31
+#: src/decorator/string/IsISBN.ts:32
 msgid "$property must be an ISBN"
 msgstr "$property trebuie să fie un ISBN"
 
@@ -237,10 +241,6 @@ msgstr "$property trebuie să fie un obiect"
 #: src/decorator/string/IsUrl.ts:29
 msgid "$property must be an URL address"
 msgstr "$property trebuie să fie o adresă URL"
-
-#: src/decorator/string/IsUUID.ts:30
-msgid "$property must be a UUID"
-msgstr ""
 
 #: src/decorator/string/IsBase32.ts:27
 msgid "$property must be base32 encoded"
@@ -404,7 +404,7 @@ msgstr "$property nu ar trebui să conțină un șir $constraint1"
 msgid "$property's byte length must fall into ($constraint1, $constraint2) range"
 msgstr "Lungimea octeților $propertytrebuie să cadă la ($constraint1, $constraint2) interval"
 
-#: src/decorator/array/ArrayUnique.ts:29
+#: src/decorator/array/ArrayUnique.ts:44
 msgid "All $property's elements must be unique"
 msgstr "Toate elementele $propertytrebuie să fie unice"
 
