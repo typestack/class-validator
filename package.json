@@ -1,6 +1,6 @@
 {
   "name": "class-validator-multi-lang",
-  "version": "0.130.200",
+  "version": "0.130.201",
   "description": "Decorator-based property validation for classes.",
   "author": "TypeStack contributors",
   "license": "MIT",
