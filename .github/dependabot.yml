@@ -11,3 +11,5 @@ updates:
   commit-message:
     prefix: build
     include: scope
+  ignore:
+    - dependency-name: "husky"

@@ -1,7 +1,7 @@
-import { ValidationOptions } from '../ValidationOptions';
-import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isUuidValidator from 'validator/lib/isUUID';
 import { getText } from '../../multi-lang';
+import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { ValidationOptions } from '../ValidationOptions';
 
 export type UUIDVersion = '3' | '4' | '5' | 'all' | 3 | 4 | 5;
 

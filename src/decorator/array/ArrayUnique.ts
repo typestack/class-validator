@@ -1,6 +1,6 @@
-import { ValidationOptions } from '../ValidationOptions';
-import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import { getText } from '../../multi-lang';
+import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { ValidationOptions } from '../ValidationOptions';
 
 export const ARRAY_UNIQUE = 'arrayUnique';
 export type ArrayUniqueIdentifier<T = any> = (o: T) => any;
@@ -10,7 +10,11 @@ export type ArrayUniqueIdentifier<T = any> = (o: T) => any;
  * If null or undefined is given then this function returns false.
  */
 export function arrayUnique(array: unknown[], identifier?: ArrayUniqueIdentifier): boolean {
-  if (!(array instanceof Array)) return false;
+  if (!Array.isArray(array)) return false;
+
+  if (identifier) {
+    array = array.map(o => (o != null ? identifier(o) : o));
+  }
 
   if (identifier) {
     array = array.map(o => (o != null ? identifier(o) : o));

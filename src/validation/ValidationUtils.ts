@@ -26,7 +26,7 @@ export class ValidationUtils {
       messageString = message;
     }
 
-    if (messageString && validationArguments.constraints instanceof Array) {
+    if (messageString && Array.isArray(validationArguments.constraints)) {
       validationArguments.constraints.forEach((constraint, index) => {
         messageString = messageString.replace(
           new RegExp(`\\$constraint${index + 1}`, 'g'),

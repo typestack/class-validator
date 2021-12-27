@@ -12,7 +12,7 @@ export const MATCHES = 'matches';
 export function matches(value: string, pattern: RegExp): boolean;
 export function matches(value: string, pattern: string, modifiers: string): boolean;
 export function matches(value: string, pattern: RegExp | string, modifiers?: string): boolean {
-  return typeof value === 'string' && matchesValidator(value, (pattern as unknown) as any, modifiers);
+  return typeof value === 'string' && matchesValidator(value, pattern as unknown as any, modifiers);
 }
 
 /**

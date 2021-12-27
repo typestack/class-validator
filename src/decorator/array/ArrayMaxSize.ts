@@ -9,7 +9,7 @@ export const ARRAY_MAX_SIZE = 'arrayMaxSize';
  * If null or undefined is given then this function returns false.
  */
 export function arrayMaxSize(array: unknown, max: number): boolean {
-  return array instanceof Array && array.length <= max;
+  return Array.isArray(array) && array.length <= max;
 }
 
 /**
