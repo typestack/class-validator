@@ -3,6 +3,12 @@
  */
 export interface ValidatorOptions {
   /**
+   * List of properties to be validated, in case if full validation is not required.
+   * If set, validation will ignore all properties not incuded in this list.
+   */
+  propertiesToValidate?: string[] | undefined;
+
+  /**
    * If set to true then class-validator will print extra warning messages to the console when something is not right.
    */
   enableDebugMessages?: boolean;

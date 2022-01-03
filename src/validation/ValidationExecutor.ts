@@ -52,6 +52,7 @@ export class ValidationExecutor {
     const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
     const strictGroups = (this.validatorOptions && this.validatorOptions.strictGroups) || false;
     const always = (this.validatorOptions && this.validatorOptions.always) || false;
+    const propertiesToValidate = (this.validatorOptions && this.validatorOptions.propertiesToValidate) || [];
 
     const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(
       object.constructor,
@@ -88,6 +89,9 @@ export class ValidationExecutor {
 
     // General validation
     Object.keys(groupedMetadatas).forEach(propertyName => {
+      if (propertiesToValidate && propertiesToValidate.length > 0 && !propertiesToValidate?.includes(propertyName)) {
+        return;
+      }
       const value = (object as any)[propertyName];
       const definedMetadatas = groupedMetadatas[propertyName].filter(
         metadata => metadata.type === ValidationTypes.IS_DEFINED
