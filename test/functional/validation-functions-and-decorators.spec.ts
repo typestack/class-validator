@@ -1342,11 +1342,13 @@ describe('NotContains', () => {
 
 describe('IsAlpha', () => {
   const constraint = 'en-GB';
-  const validValues = ['hellomynameisalex'];
+  const constraint2 = null;
+  const constraint3 = { ignore: ' ' };
+  const validValues = ['hellomynameisalex','hello my name is alex'];
   const invalidValues = [null, undefined, 'hello1mynameisalex'];
 
   class MyClass {
-    @IsAlpha()
+    @IsAlpha(constraint, constraint2, constraint3)
     someProperty: string;
   }
 
@@ -1359,11 +1361,11 @@ describe('IsAlpha', () => {
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isAlpha(value, constraint)).toBeTruthy());
+    validValues.forEach(value => expect(isAlpha(value, constraint, constraint3)).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isAlpha(value, constraint)).toBeFalsy());
+    invalidValues.forEach(value => expect(isAlpha(value, constraint, constraint3)).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
@@ -1374,12 +1376,14 @@ describe('IsAlpha', () => {
 });
 
 describe('IsAlphanumeric', () => {
-  const constraint = '';
-  const validValues = ['hellomyname1salex'];
+  const constraint = 'en-GB';
+  const constraint2 = null;
+  const constraint3 = { ignore: ' ' };
+  const validValues = ['hellomyname1salex', 'hello my name 1s alex'];
   const invalidValues = [null, undefined, 'hell*mynameisalex'];
 
   class MyClass {
-    @IsAlphanumeric()
+    @IsAlphanumeric(constraint, constraint2, constraint3)
     someProperty: string;
   }
 
@@ -1392,11 +1396,11 @@ describe('IsAlphanumeric', () => {
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isAlphanumeric(value)).toBeTruthy());
+    validValues.forEach(value => expect(isAlphanumeric(value, constraint, constraint3)).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isAlphanumeric(value)).toBeFalsy());
+    invalidValues.forEach(value => expect(isAlphanumeric(value, constraint, constraint3)).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
