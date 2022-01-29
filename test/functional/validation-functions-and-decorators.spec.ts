@@ -1344,7 +1344,7 @@ describe('IsAlpha', () => {
   const constraint = 'en-GB';
   const constraint2 = null;
   const constraint3 = { ignore: ' ' };
-  const validValues = ['hellomynameisalex','hello my name is alex'];
+  const validValues = ['hellomynameisalex', 'hello my name is alex'];
   const invalidValues = [null, undefined, 'hello1mynameisalex'];
 
   class MyClass {

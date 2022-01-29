@@ -9,7 +9,11 @@ export const IS_ALPHA = 'isAlpha';
  * Checks if the string contains only letters (a-zA-Z).
  * If given value is not a string, then it returns false.
  */
-export function isAlpha(value: unknown, locale?: ValidatorJS.AlphaLocale, options?: ValidatorJS.IsAlphaOptions): boolean {
+export function isAlpha(
+  value: unknown,
+  locale?: ValidatorJS.AlphaLocale,
+  options?: ValidatorJS.IsAlphaOptions
+): boolean {
   return typeof value === 'string' && isAlphaValidator(value, locale, options);
 }
 
@@ -17,7 +21,11 @@ export function isAlpha(value: unknown, locale?: ValidatorJS.AlphaLocale, option
  * Checks if the string contains only letters (a-zA-Z).
  * If given value is not a string, then it returns false.
  */
-export function IsAlpha(locale?: string, validationOptions?: ValidationOptions, options?: ValidatorJS.IsAlphaOptions): PropertyDecorator {
+export function IsAlpha(
+  locale?: string,
+  validationOptions?: ValidationOptions,
+  options?: ValidatorJS.IsAlphaOptions
+): PropertyDecorator {
   return ValidateBy(
     {
       name: IS_ALPHA,

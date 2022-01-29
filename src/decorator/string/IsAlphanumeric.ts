@@ -9,7 +9,11 @@ export const IS_ALPHANUMERIC = 'isAlphanumeric';
  * Checks if the string contains only letters and numbers.
  * If given value is not a string, then it returns false.
  */
-export function isAlphanumeric(value: unknown, locale?: ValidatorJS.AlphanumericLocale, options?: ValidatorJS.IsAlphanumericOptions): boolean {
+export function isAlphanumeric(
+  value: unknown,
+  locale?: ValidatorJS.AlphanumericLocale,
+  options?: ValidatorJS.IsAlphanumericOptions
+): boolean {
   return typeof value === 'string' && isAlphanumericValidator(value, locale, options);
 }
 
@@ -17,7 +21,11 @@ export function isAlphanumeric(value: unknown, locale?: ValidatorJS.Alphanumeric
  * Checks if the string contains only letters and numbers.
  * If given value is not a string, then it returns false.
  */
-export function IsAlphanumeric(locale?: string, validationOptions?: ValidationOptions, options?: ValidatorJS.IsAlphanumericOptions): PropertyDecorator {
+export function IsAlphanumeric(
+  locale?: string,
+  validationOptions?: ValidationOptions,
+  options?: ValidatorJS.IsAlphanumericOptions
+): PropertyDecorator {
   return ValidateBy(
     {
       name: IS_ALPHANUMERIC,
