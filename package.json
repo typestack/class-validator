@@ -36,30 +36,30 @@
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
-    "libphonenumber-js": "^1.9.44",
+    "libphonenumber-js": "^1.9.46",
     "validator": "^13.7.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.1.3",
     "@types/jest": "^27.4.0",
-    "@types/node": "^17.0.10",
+    "@types/node": "^17.0.13",
     "@types/validator": "^13.7.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jest": "^25.7.0",
+    "eslint-plugin-jest": "^26.0.0",
     "husky": "^4.3.8",
     "jest": "^26.6.3",
-    "lint-staged": "^12.2.1",
+    "lint-staged": "^12.3.2",
     "prettier": "^2.5.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
-    "rollup": "^2.64.0",
+    "rollup": "^2.66.1",
     "rollup-plugin-terser": "^7.0.2",
     "ts-jest": "^26.5.6",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.5"
   }
 }
