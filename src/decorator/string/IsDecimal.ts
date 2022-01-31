@@ -14,7 +14,7 @@ export function isDecimal(value: unknown, options?: ValidatorJS.IsDecimalOptions
 }
 
 /**
- * Checks if the string is a valid decimal.1
+ * Checks if the string is a valid decimal.
  * If given value is not a string, then it returns false.
  */
 export function IsDecimal(
