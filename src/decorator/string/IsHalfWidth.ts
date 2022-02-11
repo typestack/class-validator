@@ -13,7 +13,7 @@ export function isHalfWidth(value: unknown): boolean {
 }
 
 /**
- * Checks if the string contains any full-width chars.
+ * Checks if the string contains any half-width chars.
  * If given value is not a string, then it returns false.
  */
 export function IsHalfWidth(validationOptions?: ValidationOptions): PropertyDecorator {
