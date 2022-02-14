@@ -52,7 +52,7 @@
     "eslint-plugin-jest": "^26.1.0",
     "husky": "^4.3.8",
     "jest": "^26.6.3",
-    "lint-staged": "^12.3.3",
+    "lint-staged": "^12.3.4",
     "prettier": "^2.5.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
