@@ -8,8 +8,8 @@ import {
   ValidateNested,
   ValidatorConstraint,
   IsOptional,
-  IsNotEmpty,
-  Allow,
+  Min,
+  Max,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import {
@@ -1251,3 +1251,66 @@ describe('context', () => {
     return Promise.all([hasStopAtFirstError, hasNotStopAtFirstError]);
   });
 });
+
+
+describe('validateIf', () => {
+  class MyClass {
+    @Min(5, {
+      message: 'min',
+      validateIf: (value, args) => {
+        const obj = args.object as MyClass;
+        return !obj.someOtherProperty || obj.someOtherProperty === 'min';
+      }
+    })
+    @Max(3, {
+      message: 'max',
+      validateIf: (value, args) => {
+        const obj = args.object as MyClass;
+        return !obj.someOtherProperty || obj.someOtherProperty === 'max';
+      }
+    })
+    someProperty: number;
+
+    someOtherProperty: string;
+  }
+  
+  describe('should validate if validateIf return true.', () => {
+    it('should only validate min', () => {
+      const model = new MyClass();
+      model.someProperty = 4
+      model.someOtherProperty = 'min';
+      return validator.validate(model).then(errors => {
+        expect(errors.length).toEqual(1);
+        expect(errors[0].constraints['min']).toBe('min');
+        expect(errors[0].constraints['max']).toBe(undefined);
+      });
+    })
+    it('should only validate max', () => {
+      const model = new MyClass();
+      model.someProperty = 4
+      model.someOtherProperty = 'max';
+      return validator.validate(model).then(errors => {
+        expect(errors.length).toEqual(1);
+        expect(errors[0].constraints['min']).toBe(undefined);
+        expect(errors[0].constraints['max']).toBe('max');
+      });
+    })
+    it('should validate both', () => {
+      const model = new MyClass();
+      model.someProperty = 4
+      return validator.validate(model).then(errors => {
+        expect(errors.length).toEqual(1);
+        expect(errors[0].constraints['min']).toBe('min');
+        expect(errors[0].constraints['max']).toBe('max');
+      });
+    })
+    it('should validate none', () => {
+      const model = new MyClass();
+      model.someProperty = 4
+      model.someOtherProperty = 'other';
+      return validator.validate(model).then(errors => {
+        expect(errors.length).toEqual(0);
+      });
+    })
+  });
+})

@@ -29,11 +29,16 @@ export interface ValidationOptions {
    * A transient set of data passed through to the validation result for response mapping
    */
   context?: any;
+
+  /**
+   * validation will be performed while the result is true
+   */
+  validateIf?: (value: any, validationArguments: ValidationArguments) => boolean;
 }
 
 export function isValidationOptions(val: any): val is ValidationOptions {
   if (!val) {
     return false;
   }
-  return 'each' in val || 'message' in val || 'groups' in val || 'always' in val || 'context' in val;
+  return 'each' in val || 'message' in val || 'groups' in val || 'always' in val || 'context' in val || 'validateIf' in val;
 }
