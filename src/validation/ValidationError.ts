@@ -45,14 +45,20 @@ export class ValidationError {
    * @param shouldDecorate decorate the message with ANSI formatter escape codes for better readability
    * @param hasParent true when the error is a child of an another one
    * @param parentPath path as string to the parent of this property
+   * @param showConstraintMessages show constraint messages instead of constraint names
    */
-  toString(shouldDecorate: boolean = false, hasParent: boolean = false, parentPath: string = ``): string {
+  toString(
+    shouldDecorate: boolean = false,
+    hasParent: boolean = false,
+    parentPath: string = ``,
+    showConstraintMessages: boolean = false
+  ): string {
     const boldStart = shouldDecorate ? `\x1b[1m` : ``;
     const boldEnd = shouldDecorate ? `\x1b[22m` : ``;
+    const constraintsToString = () =>
+      (showConstraintMessages ? Object.values : Object.keys)(this.constraints ?? {}).join(`, `);
     const propConstraintFailed = (propertyName: string): string =>
-      ` - property ${boldStart}${parentPath}${propertyName}${boldEnd} has failed the following constraints: ${boldStart}${Object.keys(
-        this.constraints
-      ).join(`, `)}${boldEnd} \n`;
+      ` - property ${boldStart}${parentPath}${propertyName}${boldEnd} has failed the following constraints: ${boldStart}${constraintsToString()}${boldEnd} \n`;
 
     if (!hasParent) {
       return (
@@ -61,7 +67,9 @@ export class ValidationError {
         }${boldEnd} has failed the validation:\n` +
         (this.constraints ? propConstraintFailed(this.property) : ``) +
         (this.children
-          ? this.children.map(childError => childError.toString(shouldDecorate, true, this.property)).join(``)
+          ? this.children
+              .map(childError => childError.toString(shouldDecorate, true, this.property, showConstraintMessages))
+              .join(``)
           : ``)
       );
     } else {
@@ -75,7 +83,9 @@ export class ValidationError {
       } else {
         return this.children
           ? this.children
-              .map(childError => childError.toString(shouldDecorate, true, `${parentPath}${formattedProperty}`))
+              .map(childError =>
+                childError.toString(shouldDecorate, true, `${parentPath}${formattedProperty}`, showConstraintMessages)
+              )
               .join(``)
           : ``;
       }

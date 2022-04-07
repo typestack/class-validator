@@ -49,6 +49,7 @@ describe('ValidationError', () => {
     }
 
     const validationErrors = await validator.validate(new RootClass());
+    expect(validationErrors).toHaveLength(3);
     expect(validationErrors[0].toString()).toEqual(
       'An instance of RootClass has failed the validation:\n' +
         ' - property title has failed the following constraints: minLength, isString \n'
@@ -66,6 +67,24 @@ describe('ValidationError', () => {
         ' - property nestedArr[0].url has failed the following constraints: isUrl \n' +
         ' - property nestedArr[1].name has failed the following constraints: isString \n' +
         ' - property nestedArr[1].url has failed the following constraints: isUrl \n'
+    );
+    expect(validationErrors[0].toString(undefined, undefined, undefined, true)).toEqual(
+      'An instance of RootClass has failed the validation:\n' +
+        ' - property title has failed the following constraints: title must be longer than or equal to 15 characters, title must be a string \n'
+    );
+    expect(validationErrors[1].toString(undefined, undefined, undefined, true)).toEqual(
+      'An instance of RootClass has failed the validation:\n' +
+        ' - property nestedObj.name has failed the following constraints: name must be a string \n' +
+        ' - property nestedObj.url has failed the following constraints: url must be a URL address \n' +
+        ' - property nestedObj.insideNested.name has failed the following constraints: name must be a string \n' +
+        ' - property nestedObj.insideNested.url has failed the following constraints: url must be a URL address \n'
+    );
+    expect(validationErrors[2].toString(undefined, undefined, undefined, true)).toEqual(
+      'An instance of RootClass has failed the validation:\n' +
+        ' - property nestedArr[0].name has failed the following constraints: name must be a string \n' +
+        ' - property nestedArr[0].url has failed the following constraints: url must be a URL address \n' +
+        ' - property nestedArr[1].name has failed the following constraints: name must be a string \n' +
+        ' - property nestedArr[1].url has failed the following constraints: url must be a URL address \n'
     );
   });
 });
