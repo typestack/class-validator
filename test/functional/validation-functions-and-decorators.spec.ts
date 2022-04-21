@@ -184,12 +184,13 @@ import {
   isPostalCode,
   IsSemVer,
   isSemVer,
+  isTaxID,
+  IsTaxID,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
 import { constraintToString } from '../../src/validation/ValidationUtils';
 import { default as ValidatorJS } from 'validator';
-import {IsTaxID} from "../../src/decorator/string/IsTaxID";
 
 export function checkValidValues(
   object: { someProperty: any },
@@ -2257,6 +2258,14 @@ describe('IsTaxID', () => {
 
   it('should fail if validator.validate said that its invalid', () => {
     return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isTaxID(value, constraint)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isTaxID(value, constraint)).toBeFalsy());
   });
 
 })
