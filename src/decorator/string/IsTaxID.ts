@@ -6,6 +6,7 @@ export const IS_TAX_ID = 'isTaxID';
 
 /**
  * Checks if the string is a credit card.
+ * (locale is one of ['bg-BG'],['cs-CZ'],['de-AT'],['de-DE'],['dk-DK'],['el-CY'],['el-GR'],['en-CA'],['en-GB'],['en-IE'],['en-US'],['es-ES'],['et-EE'],['fi-FI'],['fr-BE'],['fr-FR'],['fr-LU'],['hu-HU'],['it-IT'],['lv-LV'],['mt-MT'],['nl-NL'],['pl-PL'],['ro-RO'],['sv-SE']).
  * If given value is not a string, then it returns false.
  */
 export function isTaxID(value: unknown, locale: string): boolean {
@@ -14,6 +15,7 @@ export function isTaxID(value: unknown, locale: string): boolean {
 
 /**
  * Checks if the string is a credit card.
+ * (locale is one of ['bg-BG'],['cs-CZ'],['de-AT'],['de-DE'],['dk-DK'],['el-CY'],['el-GR'],['en-CA'],['en-GB'],['en-IE'],['en-US'],['es-ES'],['et-EE'],['fi-FI'],['fr-BE'],['fr-FR'],['fr-LU'],['hu-HU'],['it-IT'],['lv-LV'],['mt-MT'],['nl-NL'],['pl-PL'],['ro-RO'],['sv-SE']).
  * If given value is not a string, then it returns false.
  */
 export function IsTaxID(locale: string = 'en-US', validationOptions?: ValidationOptions): PropertyDecorator {
