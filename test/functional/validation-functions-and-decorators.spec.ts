@@ -189,6 +189,7 @@ import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
 import { constraintToString } from '../../src/validation/ValidationUtils';
 import { default as ValidatorJS } from 'validator';
+import {IsTaxID} from "../../src/decorator/string/IsTaxID";
 
 export function checkValidValues(
   object: { someProperty: any },
@@ -2230,6 +2231,35 @@ describe('IsByteLength', () => {
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
+
+describe('IsTaxID', () => {
+  const constraint = 'bg-BG';
+  const validValues = [
+    '7501010010',
+    '0101010012',
+    '0111010010',
+    '7521010014',
+    '7541010019'];
+  const invalidValues = [null, undefined, '750101001',
+    '75010100101',
+    '75-01010/01 0',
+    '7521320010',
+    '7501010019'];
+
+  class MyClass {
+    @IsTaxID(constraint)
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+})
 
 describe('IsCreditCard', () => {
   const validValues = [
