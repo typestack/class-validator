@@ -2341,6 +2341,12 @@ describe('IsTaxID', () => {
     invalidValues.forEach(value => expect(isTaxID(value, constraint)).toBeFalsy());
   });
 
+  it('should return error object with proper data', () => {
+    const validationType = 'isTaxID';
+    const message = 'someProperty must be a Tax Identification Number';
+    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+
 })
 
 describe('IsCreditCard', () => {
