@@ -2235,17 +2235,8 @@ describe('IsByteLength', () => {
 
 describe('IsTaxID', () => {
   const constraint = 'bg-BG';
-  const validValues = [
-    '7501010010',
-    '0101010012',
-    '0111010010',
-    '7521010014',
-    '7541010019'];
-  const invalidValues = [null, undefined, '750101001',
-    '75010100101',
-    '75-01010/01 0',
-    '7521320010',
-    '7501010019'];
+  const validValues = ['7501010010', '0101010012', '0111010010', '7521010014', '7541010019'];
+  const invalidValues = [null, undefined, '750101001', '75010100101', '75-01010/01 0', '7521320010', '7501010019'];
 
   class MyClass {
     @IsTaxID(constraint)
@@ -2273,8 +2264,7 @@ describe('IsTaxID', () => {
     const message = 'someProperty must be a Tax Identification Number';
     checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
-
-})
+});
 
 describe('IsCreditCard', () => {
   const validValues = [
