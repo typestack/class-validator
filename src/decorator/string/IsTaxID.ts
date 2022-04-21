@@ -2,7 +2,7 @@ import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isTaxIDValidator from 'validator/lib/isTaxID';
 
-export const IS_TAX_ID = 'isCreditCard';
+export const IS_TAX_ID = 'isTaxID';
 
 /**
  * Checks if the string is a credit card.
@@ -24,7 +24,7 @@ export function IsTaxID(
             name: IS_TAX_ID,
             validator: {
                 validate: (value, args): boolean => isTaxID(value, locale),
-                defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be taxID', validationOptions),
+                defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a Tax Identification Number', validationOptions),
             },
         },
         validationOptions
