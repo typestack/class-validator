@@ -114,6 +114,7 @@ export * from './string/IsSemVer';
 export * from './string/IsStrongPassword';
 export * from './string/IsTimeZone';
 export * from './string/IsBase58';
+export * from './string/IsTaxID';
 
 // -------------------------------------------------------------------------
 // Type checkers
