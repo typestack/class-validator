@@ -663,7 +663,7 @@ Lets create a decorator called `@IsLongerThan`:
    ```typescript
    import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
 
-   export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
+   export function IsLongerThan(property: string, validationOptions: ValidationOptions) {
      return function (object: Object, propertyName: string) {
        registerDecorator({
          name: 'isLongerThan',
@@ -723,7 +723,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
      }
    }
 
-   export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
+   export function IsUserAlreadyExist(validationOptions: ValidationOptions) {
      return function (object: Object, propertyName: string) {
        registerDecorator({
          target: object.constructor,
