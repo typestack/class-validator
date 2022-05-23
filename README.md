@@ -818,7 +818,7 @@ isBoolean(value);
 | `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date. |
 | `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date. |  
 | **String-type validation decorators**           | |
-| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false"). |
+| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true", "false" or "1", "0"). |
 | `@IsDateString()`                               | Alias for `@IsISO8601()`. |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if a string is a number. |
 | **String validation decorators**                | |
