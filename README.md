@@ -368,7 +368,7 @@ export class Post {
 
 ## Inheriting Validation decorators
 
-When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant class decorators will be applied on it both from that and the base class.
+When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant, class decorators will be applied on it from both its own class and the base class.
 
 ```typescript
 import { validate } from 'class-validator';
