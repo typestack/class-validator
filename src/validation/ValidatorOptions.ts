@@ -57,6 +57,13 @@ export interface ValidatorOptions {
   dismissDefaultMessages?: boolean;
 
   /**
+   * If set to true, the validation error message will return only the args of the validation decorator.
+   * Together with the validation type name and the validation arguments, users' standard custom error messages can be composed without any requirement for placing a custom message for each decorator.
+   * This mode also helps constructing localized error messages together with a supporting i18n library.
+   * Default messages and explicitly set messages will have no effect in this mode.   */
+  externalMessageComposer?: boolean;
+
+  /**
    * ValidationError special options.
    */
   validationError?: {

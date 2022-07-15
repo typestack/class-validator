@@ -404,6 +404,14 @@ export class ValidationExecutor {
       constraints: metadata.constraints,
     };
 
+    if (this.validatorOptions?.externalMessageComposer) {
+      if (validationArguments.constraints) {
+        return [type, String(validationArguments.constraints)];
+      } else {
+        return [type, ''];
+      }
+    }
+
     let message = metadata.message || '';
     if (
       !metadata.message &&
