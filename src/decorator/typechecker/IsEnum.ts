@@ -7,7 +7,7 @@ export const IS_ENUM = 'isEnum';
  * Checks if a given value is an enum
  */
 export function isEnum(value: unknown, entity: any): boolean {
-  const enumValues = Object.keys(entity).map(k => entity[k]);
+  const enumValues = Object.keys(entity).map(k => entity[k].trim());
   return enumValues.indexOf(value) >= 0;
 }
 

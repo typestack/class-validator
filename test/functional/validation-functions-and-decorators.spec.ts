@@ -880,7 +880,7 @@ describe('IsEnum', () => {
   }
 
   enum MyStringEnum {
-    First = 'first',
+    First = ' first',
     Second = 'second',
   }
 
