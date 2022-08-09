@@ -3370,7 +3370,7 @@ describe('IsUrl', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'isUrl';
-    const message = 'someProperty must be an URL address';
+    const message = 'someProperty must be a URL address';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });

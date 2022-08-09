@@ -875,7 +875,7 @@ isBoolean(value);
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars. |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if the string is numeric. |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars. |
-| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url. |
+| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is a url. |
 | `@IsMagnetURI()`                                | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme). |
 | `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`       | Checks if the string is a UUID (version 3, 4, 5 or all ). |
 | `@IsFirebasePushId()`                           | Checks if the string is a [Firebase Push ID](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html) |

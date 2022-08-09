@@ -6,7 +6,7 @@ import ValidatorJS from 'validator';
 export const IS_URL = 'isUrl';
 
 /**
- * Checks if the string is an url.
+ * Checks if the string is a url.
  * If given value is not a string, then it returns false.
  */
 export function isURL(value: string, options?: ValidatorJS.IsURLOptions): boolean {
@@ -14,7 +14,7 @@ export function isURL(value: string, options?: ValidatorJS.IsURLOptions): boolea
 }
 
 /**
- * Checks if the string is an url.
+ * Checks if the string is a url.
  * If given value is not a string, then it returns false.
  */
 export function IsUrl(options?: ValidatorJS.IsURLOptions, validationOptions?: ValidationOptions): PropertyDecorator {
@@ -24,7 +24,7 @@ export function IsUrl(options?: ValidatorJS.IsURLOptions, validationOptions?: Va
       constraints: [options],
       validator: {
         validate: (value, args): boolean => isURL(value, args.constraints[0]),
-        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an URL address', validationOptions),
+        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a URL address', validationOptions),
       },
     },
     validationOptions
