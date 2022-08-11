@@ -1,7 +1,7 @@
 /**
  * Validation error description.
  */
-export class ValidationError {
+export class ValidationError extends Error {
   /**
    * Object that was validated.
    *
