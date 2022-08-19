@@ -807,7 +807,7 @@ isBoolean(value);
 | `@IsNumber(options: IsNumberOptions)`           | Checks if the value is a number. |
 | `@IsInt()`                                      | Checks if the value is an integer number. |
 | `@IsArray()`                                    | Checks if the value is an array |
-| `@IsEnum(entity: object)`                       | Checks if the value is an valid enum |
+| `@IsEnum(entity: object)`                       | Checks if the value is a valid enum |
 | **Number validation decorators**                |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another. |
 | `@IsPositive()`                                 | Checks if the value is a positive number greater than zero. |
