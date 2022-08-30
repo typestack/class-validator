@@ -844,7 +844,7 @@ isBoolean(value);
 | `@IsHalfWidth()`                                | Checks if the string contains any half-width chars. |
 | `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars. |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color. |
-| `@IsHSLColor()`                                 | Checks if the string is an HSL color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value). |
+| `@IsHSL()`                                      | Checks if the string is an HSL color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value). |
 | `@IsRgbColor(options?: IsRgbOptions)`           | Checks if the string is a rgb or rgba color. |
 | `@IsIdentityCard(locale?: string)`              | Checks if the string is a valid identity card code. |
 | `@IsPassportNumber(countryCode?: string)`       | Checks if the string is a valid passport number relative to a specific country code. |
