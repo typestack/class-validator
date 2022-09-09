@@ -31,6 +31,7 @@ export * from './common/IsNotIn';
 export * from './number/IsDivisibleBy';
 export * from './number/IsPositive';
 export * from './number/IsNegative';
+export * from './number/IsPortNumber';
 export * from './number/Max';
 export * from './number/Min';
 

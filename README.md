@@ -811,6 +811,7 @@ isBoolean(value);
 | **Number validation decorators**                |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another. |
 | `@IsPositive()`                                 | Checks if the value is a positive number greater than zero. |
+| `@IsPortNumber()`                               | Checks if the value is a port number. |
 | `@IsNegative()`                                 | Checks if the value is a negative number smaller than zero. |
 | `@Min(min: number)`                             | Checks if the given number is greater than or equal to given number. |
 | `@Max(max: number)`                             | Checks if the given number is less than or equal to given number. |
