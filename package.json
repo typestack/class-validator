@@ -47,7 +47,7 @@
     "@types/validator": "^13.7.2",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^26.1.4",
     "husky": "^4.3.8",
