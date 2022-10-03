@@ -23,7 +23,7 @@ export function ArrayMaxSize(max: number, validationOptions?: ValidationOptions)
       validator: {
         validate: (value, args): boolean => arrayMaxSize(value, args.constraints[0]),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must contain not more than $constraint1 elements',
+          eachPrefix => eachPrefix + '$property must contain no more than $constraint1 elements',
           validationOptions
         ),
       },

@@ -4355,7 +4355,7 @@ describe('ArrayMaxSize', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'arrayMaxSize';
-    const message = 'someProperty must contain not more than ' + constraintToString(constraint) + ' elements';
+    const message = 'someProperty must contain no more than ' + constraintToString(constraint) + ' elements';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
