@@ -11,6 +11,7 @@ export const IS_ISBN = 'isIsbn';
  * If given value is not a string, then it returns false.
  */
 export function isISBN(value: unknown, version?: IsISBNVersion): boolean {
+  /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion */
   const versionStr = version ? (`${version}` as '10' | '13') : undefined;
   return typeof value === 'string' && isIsbnValidator(value, versionStr);
 }
