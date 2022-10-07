@@ -3830,7 +3830,7 @@ describe('IsMilitaryTime', () => {
   });
 });
 
-describe('IsMilitaryTime', () => {
+describe('IsTimezone', () => {
   class MyClass {
     @IsTimezone()
     someProperty: string;
@@ -3841,7 +3841,7 @@ describe('IsMilitaryTime', () => {
     return checkValidValues(new MyClass(), validValues);
   });
 
-  it('should fail for invalid time format', () => {
+  it('should fail for invalid timezone format', () => {
     const invalidValues = ['Asia/Pokhara', 'America', 'New_York', '/Paris'];
     return checkInvalidValues(new MyClass(), invalidValues);
   });
