@@ -23,7 +23,7 @@ export function ArrayContains(values: any[], validationOptions?: ValidationOptio
       name: ARRAY_CONTAINS,
       constraints: [values],
       validator: {
-        validate: (value, args): boolean => arrayContains(value, args.constraints[0]),
+        validate: (value, args): boolean => arrayContains(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must contain $constraint1 values',
           validationOptions

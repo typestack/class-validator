@@ -165,10 +165,8 @@ describe('nested validation', () => {
     return validator.validate(model).then(errors => {
       expect(errors[0].target).toEqual(model);
       expect(errors[0].property).toEqual('mySubClass');
-      expect(errors[0].children.length).toEqual(1);
-
-      const subError = errors[0].children[0];
-      expect(subError.constraints).toEqual({
+      expect(errors[0].children.length).toEqual(0);
+      expect(errors[0].constraints).toEqual({
         [ValidationTypes.NESTED_VALIDATION]: 'nested property mySubClass must be either object or array',
       });
     });
@@ -305,6 +303,33 @@ describe('nested validation', () => {
       expect(subSubError.property).toEqual('name');
       expect(subSubError.constraints).toEqual({ minLength: 'name must be longer than or equal to 5 characters' });
       expect(subSubError.value).toEqual('my');
+    });
+  });
+
+  it('nestedValidation should be defined as an error for the property specifying the decorator when validation fails.', () => {
+    class MySubClass {
+      @MinLength(5)
+      name: string;
+    }
+
+    class MyClass {
+      @ValidateNested()
+      nestedWithClassValue: MySubClass;
+
+      @ValidateNested()
+      nestedWithPrimitiveValue: MySubClass;
+    }
+
+    const model = new MyClass();
+    model.nestedWithClassValue = new MySubClass();
+    model.nestedWithPrimitiveValue = 'invalid' as any;
+
+    return validator.validate(model, { stopAtFirstError: true }).then(errors => {
+      expect(errors[0].property).toEqual('nestedWithClassValue');
+      expect(errors[0].children.length).toEqual(1);
+      expect(errors[0].children[0].constraints).toHaveProperty('minLength');
+      expect(errors[1].property).toEqual('nestedWithPrimitiveValue');
+      expect(errors[1].constraints).toHaveProperty('nestedValidation');
     });
   });
 });

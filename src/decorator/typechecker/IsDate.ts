@@ -6,7 +6,7 @@ export const IS_DATE = 'isDate';
 /**
  * Checks if a given value is a date.
  */
-export function isDate(value: unknown): boolean {
+export function isDate(value: unknown): value is Date {
   return value instanceof Date && !isNaN(value.getTime());
 }
 
