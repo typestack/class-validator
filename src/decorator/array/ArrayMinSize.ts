@@ -8,7 +8,7 @@ export const ARRAY_MIN_SIZE = 'arrayMinSize';
  * If null or undefined is given then this function returns false.
  */
 export function arrayMinSize(array: unknown, min: number): boolean {
-  return array instanceof Array && array.length >= min;
+  return Array.isArray(array) && array.length >= min;
 }
 
 /**

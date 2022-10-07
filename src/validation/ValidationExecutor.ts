@@ -262,7 +262,7 @@ export class ValidationExecutor {
           constraints: metadata.constraints,
         };
 
-        if (!metadata.each || !(value instanceof Array || value instanceof Set || value instanceof Map)) {
+        if (!metadata.each || !(Array.isArray(value) || value instanceof Set || value instanceof Map)) {
           const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
           if (isPromise(validatedValue)) {
             const promise = validatedValue.then(isValid => {
@@ -349,7 +349,7 @@ export class ValidationExecutor {
         return;
       }
 
-      if (value instanceof Array || value instanceof Set || value instanceof Map) {
+      if (Array.isArray(value) || value instanceof Set || value instanceof Map) {
         // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
         const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
         arrayLikeValue.forEach((subValue: any, index: any) => {

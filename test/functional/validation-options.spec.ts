@@ -169,7 +169,7 @@ describe('each', () => {
       @ValidatorConstraint({ name: 'customIsNotArrayConstraint', async: false })
       class CustomIsNotArrayConstraint implements ValidatorConstraintInterface {
         validate(value: any): boolean {
-          return !(value instanceof Array);
+          return !Array.isArray(value);
         }
       }
 
@@ -191,7 +191,7 @@ describe('each', () => {
       @ValidatorConstraint({ name: 'customContainsHelloConstraint', async: false })
       class CustomContainsHelloConstraint implements ValidatorConstraintInterface {
         validate(value: any): boolean {
-          return !(value instanceof Array) && String(value).includes('hello');
+          return !Array.isArray(value) && String(value).includes('hello');
         }
       }
 
@@ -217,7 +217,7 @@ describe('each', () => {
       @ValidatorConstraint({ name: 'customAsyncContainsHelloConstraint', async: true })
       class CustomAsyncContainsHelloConstraint implements ValidatorConstraintInterface {
         validate(value: any): Promise<boolean> {
-          const isValid = !(value instanceof Array) && String(value).includes('hello');
+          const isValid = !Array.isArray(value) && String(value).includes('hello');
           return Promise.resolve(isValid);
         }
       }
@@ -244,7 +244,7 @@ describe('each', () => {
       @ValidatorConstraint({ name: 'customMixedContainsHelloConstraint', async: true })
       class CustomMixedContainsHelloConstraint implements ValidatorConstraintInterface {
         validate(value: any): boolean | Promise<boolean> {
-          const isValid = !(value instanceof Array) && String(value).includes('hello');
+          const isValid = !Array.isArray(value) && String(value).includes('hello');
           return isValid ? isValid : Promise.resolve(isValid);
         }
       }
