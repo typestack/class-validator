@@ -26,7 +26,7 @@ export function IsIP(version?: IsIpVersion, validationOptions?: ValidationOption
       name: IS_IP,
       constraints: [version],
       validator: {
-        validate: (value, args): boolean => isIP(value, args.constraints[0]),
+        validate: (value, args): boolean => isIP(value, args?.constraints[0]),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an ip address', validationOptions),
       },
     },
