@@ -39,7 +39,7 @@ export function IsNotEmptyObject(
       name: IS_NOT_EMPTY_OBJECT,
       constraints: [options],
       validator: {
-        validate: (value, args): boolean => isNotEmptyObject(value, args.constraints[0]),
+        validate: (value, args): boolean => isNotEmptyObject(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a non-empty object',
           validationOptions

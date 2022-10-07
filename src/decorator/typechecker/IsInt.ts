@@ -6,7 +6,7 @@ export const IS_INT = 'isInt';
 /**
  * Checks if value is an integer.
  */
-export function isInt(val: unknown): boolean {
+export function isInt(val: unknown): val is Number {
   return typeof val === 'number' && Number.isInteger(val);
 }
 

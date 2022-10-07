@@ -22,7 +22,7 @@ export function Contains(seed: string, validationOptions?: ValidationOptions): P
       name: CONTAINS,
       constraints: [seed],
       validator: {
-        validate: (value, args): boolean => contains(value, args.constraints[0]),
+        validate: (value, args): boolean => contains(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must contain a $constraint1 string',
           validationOptions

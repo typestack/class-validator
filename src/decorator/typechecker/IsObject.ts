@@ -7,7 +7,7 @@ export const IS_OBJECT = 'isObject';
  * Checks if the value is valid Object.
  * Returns false if the value is not an object.
  */
-export function isObject(value: unknown): value is object {
+export function isObject<T = object>(value: unknown): value is T {
   return value != null && (typeof value === 'object' || typeof value === 'function') && !Array.isArray(value);
 }
 
