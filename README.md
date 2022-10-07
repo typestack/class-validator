@@ -824,8 +824,8 @@ isBoolean(value);
 | **String validation decorators**                | |
 | `@Contains(seed: string)`                       | Checks if the string contains the seed. |
 | `@NotContains(seed: string)`                    | Checks if the string not contains the seed. |
-| `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z). |
-| `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers. |
+| `@IsAlpha(locale?: string, options?: IsAlphaOptions)`                                    | Checks if the string contains only letters (a-zA-Z). |
+| `@IsAlphanumeric(locale?: string, options?: IsAlphanumericOptions)`                             | Checks if the string contains only letters and numbers. |
 | `@IsDecimal(options?: IsDecimalOptions)`        | Checks if the string is a valid decimal value. Default IsDecimalOptions are `force_decimal=False`, `decimal_digits: '1,'`, `locale: 'en-US'` |
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only. |
 | `@IsBase32()`                                   | Checks if a string is base32 encoded. |
@@ -875,7 +875,7 @@ isBoolean(value);
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars. |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if the string is numeric. |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars. |
-| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url. |
+| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is a url. |
 | `@IsMagnetURI()`                                | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme). |
 | `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`       | Checks if the string is a UUID (version 3, 4, 5 or all ). |
 | `@IsFirebasePushId()`                           | Checks if the string is a [Firebase Push ID](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html) |

@@ -6,8 +6,8 @@ export const IS_ARRAY = 'isArray';
 /**
  * Checks if a given value is an array
  */
-export function isArray(value: unknown): boolean {
-  return value instanceof Array;
+export function isArray<T = any>(value: unknown): value is Array<T> {
+  return Array.isArray(value);
 }
 
 /**

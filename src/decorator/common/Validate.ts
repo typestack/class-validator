@@ -44,8 +44,8 @@ export function Validate(
       target: object.constructor,
       propertyName: propertyName,
       constraintCls: constraintClass,
-      constraints: constraintsOrValidationOptions instanceof Array ? constraintsOrValidationOptions : undefined,
-      validationOptions: !(constraintsOrValidationOptions instanceof Array)
+      constraints: Array.isArray(constraintsOrValidationOptions) ? constraintsOrValidationOptions : undefined,
+      validationOptions: !Array.isArray(constraintsOrValidationOptions)
         ? constraintsOrValidationOptions
         : maybeValidationOptions,
     };
