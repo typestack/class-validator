@@ -25,7 +25,7 @@ export function IsHash(algorithm: string, validationOptions?: ValidationOptions)
       name: IS_HASH,
       constraints: [algorithm],
       validator: {
-        validate: (value, args): boolean => isHash(value, args.constraints[0]),
+        validate: (value, args): boolean => isHash(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a hash of type $constraint1',
           validationOptions

@@ -26,7 +26,7 @@ export function IsDecimal(
       name: IS_DECIMAL,
       constraints: [options],
       validator: {
-        validate: (value, args): boolean => isDecimal(value, args.constraints[0]),
+        validate: (value, args): boolean => isDecimal(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property is not a valid decimal number.',
           validationOptions

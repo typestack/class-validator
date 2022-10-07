@@ -880,7 +880,7 @@ describe('IsEnum', () => {
   }
 
   enum MyStringEnum {
-    First = 'first',
+    First = ' first',
     Second = 'second',
   }
 
@@ -1342,11 +1342,13 @@ describe('NotContains', () => {
 
 describe('IsAlpha', () => {
   const constraint = 'en-GB';
-  const validValues = ['hellomynameisalex'];
+  const constraint2 = null;
+  const constraint3 = { ignore: ' ' };
+  const validValues = ['hellomynameisalex', 'hello my name is alex'];
   const invalidValues = [null, undefined, 'hello1mynameisalex'];
 
   class MyClass {
-    @IsAlpha()
+    @IsAlpha(constraint, constraint2, constraint3)
     someProperty: string;
   }
 
@@ -1359,11 +1361,11 @@ describe('IsAlpha', () => {
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isAlpha(value, constraint)).toBeTruthy());
+    validValues.forEach(value => expect(isAlpha(value, constraint, constraint3)).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isAlpha(value, constraint)).toBeFalsy());
+    invalidValues.forEach(value => expect(isAlpha(value, constraint, constraint3)).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
@@ -1374,12 +1376,14 @@ describe('IsAlpha', () => {
 });
 
 describe('IsAlphanumeric', () => {
-  const constraint = '';
-  const validValues = ['hellomyname1salex'];
+  const constraint = 'en-GB';
+  const constraint2 = null;
+  const constraint3 = { ignore: ' ' };
+  const validValues = ['hellomyname1salex', 'hello my name 1s alex'];
   const invalidValues = [null, undefined, 'hell*mynameisalex'];
 
   class MyClass {
-    @IsAlphanumeric()
+    @IsAlphanumeric(constraint, constraint2, constraint3)
     someProperty: string;
   }
 
@@ -1392,11 +1396,11 @@ describe('IsAlphanumeric', () => {
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isAlphanumeric(value)).toBeTruthy());
+    validValues.forEach(value => expect(isAlphanumeric(value, constraint, constraint3)).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isAlphanumeric(value)).toBeFalsy());
+    invalidValues.forEach(value => expect(isAlphanumeric(value, constraint, constraint3)).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
@@ -3070,54 +3074,26 @@ describe('IsNotEmptyObject', () => {
     [],
     [{ key: 'value' }],
   ];
-  const nullableValidValues = [{ key: 'value' }, { key: 'value' }];
-  const nullableInvalidValues = [
-    null,
-    undefined,
-    '{ key: "value" }',
-    "{ 'key': 'value' }",
-    'string',
-    1234,
-    false,
-    {},
-    { key: undefined },
-    { key: null },
-    [],
-    [{ key: 'value' }],
-  ];
 
   class MyClass {
     @IsNotEmptyObject()
     someProperty: object;
   }
 
-  class NullableMyClass {
-    @IsNotEmptyObject({ nullable: true })
-    someProperty: object;
-  }
-
-  it.each([
-    [new MyClass(), validValues],
-    [new NullableMyClass(), nullableValidValues],
-  ])('should not fail if validator.validate said that its valid', (validationObject, values) => {
-    return checkValidValues(validationObject, values);
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
   });
 
-  it.each([
-    [new MyClass(), invalidValues],
-    [new NullableMyClass(), nullableInvalidValues],
-  ])('should fail if validator.validate said that its invalid', (validationObject, values) => {
-    return checkInvalidValues(validationObject, values);
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
     validValues.forEach(value => expect(isNotEmptyObject(value)).toBeTruthy());
-    nullableValidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(isNotEmptyObject(value)).toBeFalsy());
-    nullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
@@ -3125,6 +3101,54 @@ describe('IsNotEmptyObject', () => {
     const message = 'someProperty must be a non-empty object';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
+
+  describe('with `nullable` option', () => {
+    const nullableValidValues = validValues
+    const nullableInvalidValues = invalidValues
+    const nonNullableValidValues = [{ key: 'value' }, { key: 'value' }];
+    const nonNullableInvalidValues = [
+      null,
+      undefined,
+      '{ key: "value" }',
+      "{ 'key': 'value' }",
+      'string',
+      1234,
+      false,
+      {},
+      { key: undefined },
+      { key: null },
+      [],
+      [{ key: 'value' }],
+    ];
+    class NullableMyClass {
+      @IsNotEmptyObject({ nullable: true })
+      someProperty: object;
+    }
+    class NonNullableMyClass {
+      @IsNotEmptyObject({ nullable: false })
+      someProperty: object;
+    }
+
+    it('should not fail if validator.validate said that its valid', async () => {
+      await checkValidValues(new NullableMyClass(), nullableValidValues);
+      await checkValidValues(new NonNullableMyClass(), nonNullableValidValues);
+    });
+
+    it('should fail if validator.validate said that its valid', async () => {
+      await checkInvalidValues(new NullableMyClass(), nullableInvalidValues);
+      await checkInvalidValues(new NonNullableMyClass(), nonNullableInvalidValues);
+    });
+
+    it('should not fail if method in validator said that its valid', () => {
+      nullableValidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeTruthy());
+      nonNullableValidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: false })).toBeTruthy());
+    });
+
+    it('should fail if method in validator said that its invalid', () => {
+      nullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeFalsy());
+      nonNullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: false })).toBeFalsy());
+    });
+  })
 });
 
 describe('IsLowercase', () => {
@@ -3370,7 +3394,7 @@ describe('IsUrl', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'isUrl';
-    const message = 'someProperty must be an URL address';
+    const message = 'someProperty must be a URL address';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });

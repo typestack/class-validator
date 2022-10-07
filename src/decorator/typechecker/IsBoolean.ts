@@ -6,7 +6,7 @@ export const IS_BOOLEAN = 'isBoolean';
 /**
  * Checks if a given value is a boolean.
  */
-export function isBoolean(value: unknown): boolean {
+export function isBoolean(value: unknown): value is boolean {
   return value instanceof Boolean || typeof value === 'boolean';
 }
 
