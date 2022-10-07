@@ -824,8 +824,8 @@ isBoolean(value);
 | **String validation decorators**                | |
 | `@Contains(seed: string)`                       | Checks if the string contains the seed. |
 | `@NotContains(seed: string)`                    | Checks if the string not contains the seed. |
-| `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z). |
-| `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers. |
+| `@IsAlpha(locale?: string, options?: IsAlphaOptions)`                                    | Checks if the string contains only letters (a-zA-Z). |
+| `@IsAlphanumeric(locale?: string, options?: IsAlphanumericOptions)`                             | Checks if the string contains only letters and numbers. |
 | `@IsDecimal(options?: IsDecimalOptions)`        | Checks if the string is a valid decimal value. Default IsDecimalOptions are `force_decimal=False`, `decimal_digits: '1,'`, `locale: 'en-US'` |
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only. |
 | `@IsBase32()`                                   | Checks if a string is base32 encoded. |

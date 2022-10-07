@@ -23,7 +23,7 @@ export function IsUrl(options?: ValidatorJS.IsURLOptions, validationOptions?: Va
       name: IS_URL,
       constraints: [options],
       validator: {
-        validate: (value, args): boolean => isURL(value, args.constraints[0]),
+        validate: (value, args): boolean => isURL(value, args?.constraints[0]),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an URL address', validationOptions),
       },
     },

@@ -22,7 +22,7 @@ export function IsPassportNumber(countryCode: string, validationOptions?: Valida
       name: IS_PASSPORT_NUMBER,
       constraints: [countryCode],
       validator: {
-        validate: (value, args): boolean => isPassportNumber(value, args.constraints[0]),
+        validate: (value, args): boolean => isPassportNumber(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be valid passport number',
           validationOptions
