@@ -8,7 +8,7 @@ export const ARRAY_CONTAINS = 'arrayContains';
  * If null or undefined is given then this function returns false.
  */
 export function arrayContains(array: unknown, values: any[]): boolean {
-  if (!(array instanceof Array)) return false;
+  if (!Array.isArray(array)) return false;
 
   return values.every(value => array.indexOf(value) !== -1);
 }
@@ -23,7 +23,7 @@ export function ArrayContains(values: any[], validationOptions?: ValidationOptio
       name: ARRAY_CONTAINS,
       constraints: [values],
       validator: {
-        validate: (value, args): boolean => arrayContains(value, args.constraints[0]),
+        validate: (value, args): boolean => arrayContains(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must contain $constraint1 values',
           validationOptions
