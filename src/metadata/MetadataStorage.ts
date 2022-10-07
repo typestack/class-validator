@@ -12,11 +12,11 @@ export class MetadataStorage {
   // Private properties
   // -------------------------------------------------------------------------
 
-  private validationMetadatas: ValidationMetadata[] = [];
-  private constraintMetadatas: ConstraintMetadata[] = [];
+  private validationMetadatas: Map<any, ValidationMetadata[]> = new Map();
+  private constraintMetadatas: Map<any, ConstraintMetadata[]> = new Map();
 
   get hasValidationMetaData(): boolean {
-    return !!this.validationMetadatas.length;
+    return !!this.validationMetadatas.size;
   }
 
   // -------------------------------------------------------------------------
@@ -35,14 +35,26 @@ export class MetadataStorage {
    * Adds a new validation metadata.
    */
   addValidationMetadata(metadata: ValidationMetadata): void {
-    this.validationMetadatas.push(metadata);
+    const existingMetadata = this.validationMetadatas.get(metadata.target);
+    if (existingMetadata) {
+      existingMetadata.push(metadata);
+      this.validationMetadatas.set(metadata.target, existingMetadata);
+    } else {
+      this.validationMetadatas.set(metadata.target, [metadata]);
+    }
   }
 
   /**
    * Adds a new constraint metadata.
    */
   addConstraintMetadata(metadata: ConstraintMetadata): void {
-    this.constraintMetadatas.push(metadata);
+    const existingMetadata = this.constraintMetadatas.get(metadata.target);
+    if (existingMetadata) {
+      existingMetadata.push(metadata);
+      this.constraintMetadatas.set(metadata.target, existingMetadata);
+    } else {
+      this.constraintMetadatas.set(metadata.target, [metadata]);
+    }
   }
 
   /**
@@ -91,7 +103,8 @@ export class MetadataStorage {
     };
 
     // get directly related to a target metadatas
-    const originalMetadatas = this.validationMetadatas.filter(metadata => {
+    const filteredForOriginalMetadatasSearch = this.validationMetadatas.get(targetConstructor) || [];
+    const originalMetadatas = filteredForOriginalMetadatasSearch.filter(metadata => {
       if (metadata.target !== targetConstructor && metadata.target !== targetSchema) return false;
       if (includeMetadataBecauseOfAlwaysOption(metadata)) return true;
       if (excludeMetadataBecauseOfStrictGroupsOption(metadata)) return false;
@@ -102,7 +115,13 @@ export class MetadataStorage {
     });
 
     // get metadatas for inherited classes
-    const inheritedMetadatas = this.validationMetadatas.filter(metadata => {
+    const filteredForInheritedMetadatasSearch = [];
+    for (const [key, value] of this.validationMetadatas.entries()) {
+      if (targetConstructor.prototype instanceof key) {
+        filteredForInheritedMetadatasSearch.push(...value);
+      }
+    }
+    const inheritedMetadatas = filteredForInheritedMetadatasSearch.filter(metadata => {
       // if target is a string it's means we validate against a schema, and there is no inheritance support for schemas
       if (typeof metadata.target === 'string') return false;
       if (metadata.target === targetConstructor) return false;
@@ -133,7 +152,7 @@ export class MetadataStorage {
    * Gets all validator constraints for the given object.
    */
   getTargetValidatorConstraints(target: Function): ConstraintMetadata[] {
-    return this.constraintMetadatas.filter(metadata => metadata.target === target);
+    return this.constraintMetadatas.get(target) || [];
   }
 }
 

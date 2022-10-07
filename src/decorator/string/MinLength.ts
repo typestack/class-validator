@@ -22,7 +22,7 @@ export function MinLength(min: number, validationOptions?: ValidationOptions): P
       name: MIN_LENGTH,
       constraints: [min],
       validator: {
-        validate: (value, args): boolean => minLength(value, args.constraints[0]),
+        validate: (value, args): boolean => minLength(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be longer than or equal to $constraint1 characters',
           validationOptions

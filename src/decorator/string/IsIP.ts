@@ -11,6 +11,7 @@ export const IS_IP = 'isIp';
  * If given value is not a string, then it returns false.
  */
 export function isIP(value: unknown, version?: IsIpVersion): boolean {
+  /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion */
   const versionStr = version ? (`${version}` as '4' | '6') : undefined;
   return typeof value === 'string' && isIPValidator(value, versionStr);
 }
@@ -25,7 +26,7 @@ export function IsIP(version?: IsIpVersion, validationOptions?: ValidationOption
       name: IS_IP,
       constraints: [version],
       validator: {
-        validate: (value, args): boolean => isIP(value, args.constraints[0]),
+        validate: (value, args): boolean => isIP(value, args?.constraints[0]),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an ip address', validationOptions),
       },
     },

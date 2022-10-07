@@ -1,8 +1,11 @@
 import {
   Contains,
+  Equals,
   IsDefined,
   Matches,
+  Max,
   MinLength,
+  IsArray,
   Validate,
   ValidateNested,
   ValidatorConstraint,
@@ -56,7 +59,7 @@ describe('message', () => {
     });
   });
 
-  it('$value token should be replaced in a custom message', () => {
+  it('$value token should be replaced in a custom message with a string', () => {
     class MyClass {
       @MinLength(2, {
         message: args => {
@@ -73,6 +76,38 @@ describe('message', () => {
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].constraints).toEqual({ minLength: ' is too short, minimum length is 2 characters name' });
+    });
+  });
+
+  it('$value token should be replaced in a custom message with a number', () => {
+    class MyClass {
+      @Max(100, { message: 'Maximum value is $constraint1, but actual is $value' })
+      val: number = 50;
+    }
+
+    const model = new MyClass();
+    model.val = 101;
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints).toEqual({
+        max: 'Maximum value is 100, but actual is 101',
+      });
+    });
+  });
+
+  it('$value token should be replaced in a custom message with a boolean', () => {
+    class MyClass {
+      @Equals(true, { message: 'Value must be $constraint1, but actual is $value' })
+      val: boolean = false;
+    }
+
+    const model = new MyClass();
+    model.val = false;
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints).toEqual({
+        equals: 'Value must be true, but actual is false',
+      });
     });
   });
 
@@ -168,7 +203,7 @@ describe('each', () => {
       @ValidatorConstraint({ name: 'customIsNotArrayConstraint', async: false })
       class CustomIsNotArrayConstraint implements ValidatorConstraintInterface {
         validate(value: any): boolean {
-          return !(value instanceof Array);
+          return !Array.isArray(value);
         }
       }
 
@@ -190,7 +225,7 @@ describe('each', () => {
       @ValidatorConstraint({ name: 'customContainsHelloConstraint', async: false })
       class CustomContainsHelloConstraint implements ValidatorConstraintInterface {
         validate(value: any): boolean {
-          return !(value instanceof Array) && String(value).includes('hello');
+          return !Array.isArray(value) && String(value).includes('hello');
         }
       }
 
@@ -216,7 +251,7 @@ describe('each', () => {
       @ValidatorConstraint({ name: 'customAsyncContainsHelloConstraint', async: true })
       class CustomAsyncContainsHelloConstraint implements ValidatorConstraintInterface {
         validate(value: any): Promise<boolean> {
-          const isValid = !(value instanceof Array) && String(value).includes('hello');
+          const isValid = !Array.isArray(value) && String(value).includes('hello');
           return Promise.resolve(isValid);
         }
       }
@@ -243,7 +278,7 @@ describe('each', () => {
       @ValidatorConstraint({ name: 'customMixedContainsHelloConstraint', async: true })
       class CustomMixedContainsHelloConstraint implements ValidatorConstraintInterface {
         validate(value: any): boolean | Promise<boolean> {
-          const isValid = !(value instanceof Array) && String(value).includes('hello');
+          const isValid = !Array.isArray(value) && String(value).includes('hello');
           return isValid ? isValid : Promise.resolve(isValid);
         }
       }
@@ -1200,6 +1235,13 @@ describe('context', () => {
   });
 
   it('should stop at first error.', () => {
+    class MySubClass {
+      @IsDefined({
+        message: 'isDefined',
+      })
+      name: string;
+    }
+
     class MyClass {
       @IsDefined({
         message: 'isDefined',
@@ -1208,14 +1250,32 @@ describe('context', () => {
         message: 'String is not valid. You string must contain a hello word',
       })
       sameProperty: string;
+
+      @ValidateNested()
+      @IsArray()
+      nestedWithPrimitiveValue: MySubClass[];
     }
 
     const model = new MyClass();
-    return validator.validate(model, { stopAtFirstError: true }).then(errors => {
-      console.log();
-      expect(errors.length).toEqual(1);
+    model.nestedWithPrimitiveValue = 'invalid' as any;
+
+    const hasStopAtFirstError = validator.validate(model, { stopAtFirstError: true }).then(errors => {
+      expect(errors.length).toEqual(2);
       expect(Object.keys(errors[0].constraints).length).toBe(1);
       expect(errors[0].constraints['isDefined']).toBe('isDefined');
+      expect(Object.keys(errors[1].constraints).length).toBe(1);
+      expect(errors[1].constraints).toHaveProperty('isArray');
     });
+    const hasNotStopAtFirstError = validator.validate(model, { stopAtFirstError: false }).then(errors => {
+      expect(errors.length).toEqual(2);
+      expect(Object.keys(errors[0].constraints).length).toBe(2);
+      expect(errors[0].constraints).toHaveProperty('contains');
+      expect(errors[0].constraints).toHaveProperty('isDefined');
+      expect(Object.keys(errors[1].constraints).length).toBe(2);
+      expect(errors[1].constraints).toHaveProperty('isArray');
+      expect(errors[1].constraints).toHaveProperty('nestedValidation');
+    });
+
+    return Promise.all([hasStopAtFirstError, hasNotStopAtFirstError]);
   });
 });

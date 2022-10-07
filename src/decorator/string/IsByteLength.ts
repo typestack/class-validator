@@ -22,7 +22,7 @@ export function IsByteLength(min: number, max?: number, validationOptions?: Vali
       name: IS_BYTE_LENGTH,
       constraints: [min, max],
       validator: {
-        validate: (value, args): boolean => isByteLength(value, args.constraints[0], args.constraints[1]),
+        validate: (value, args): boolean => isByteLength(value, args?.constraints[0], args?.constraints[1]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + "$property's byte length must fall into ($constraint1, $constraint2) range",
           validationOptions
