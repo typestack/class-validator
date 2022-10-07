@@ -23,7 +23,7 @@ export function IsFQDN(options?: ValidatorJS.IsFQDNOptions, validationOptions?: 
       name: IS_FQDN,
       constraints: [options],
       validator: {
-        validate: (value, args): boolean => isFQDN(value, args.constraints[0]),
+        validate: (value, args): boolean => isFQDN(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a valid domain name',
           validationOptions

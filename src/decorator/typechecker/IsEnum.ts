@@ -7,7 +7,7 @@ export const IS_ENUM = 'isEnum';
  * Checks if a given value is an enum
  */
 export function isEnum(value: unknown, entity: any): boolean {
-  const enumValues = Object.keys(entity).map(k => entity[k]);
+  const enumValues = Object.keys(entity).map(k => entity[k].trim());
   return enumValues.indexOf(value) >= 0;
 }
 
@@ -20,7 +20,7 @@ export function IsEnum(entity: object, validationOptions?: ValidationOptions): P
       name: IS_ENUM,
       constraints: [entity],
       validator: {
-        validate: (value, args): boolean => isEnum(value, args.constraints[0]),
+        validate: (value, args): boolean => isEnum(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a valid enum value',
           validationOptions

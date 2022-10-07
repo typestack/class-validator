@@ -36,7 +36,7 @@ export function IsPhoneNumber(region?: CountryCode, validationOptions?: Validati
       name: IS_PHONE_NUMBER,
       constraints: [region],
       validator: {
-        validate: (value, args): boolean => isPhoneNumber(value, args.constraints[0]),
+        validate: (value, args): boolean => isPhoneNumber(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a valid phone number',
           validationOptions

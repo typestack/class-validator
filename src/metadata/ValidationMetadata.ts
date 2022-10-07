@@ -72,7 +72,7 @@ export class ValidationMetadata {
     this.type = args.type;
     this.target = args.target;
     this.propertyName = args.propertyName;
-    this.constraints = args.constraints;
+    this.constraints = args?.constraints;
     this.constraintCls = args.constraintCls;
     this.validationTypeOptions = args.validationTypeOptions;
     if (args.validationOptions) {
