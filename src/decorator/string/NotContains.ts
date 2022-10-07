@@ -22,7 +22,7 @@ export function NotContains(seed: string, validationOptions?: ValidationOptions)
       name: NOT_CONTAINS,
       constraints: [seed],
       validator: {
-        validate: (value, args): boolean => notContains(value, args.constraints[0]),
+        validate: (value, args): boolean => notContains(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property should not contain a $constraint1 string',
           validationOptions

@@ -20,7 +20,7 @@ export function IsEnum(entity: object, validationOptions?: ValidationOptions): P
       name: IS_ENUM,
       constraints: [entity],
       validator: {
-        validate: (value, args): boolean => isEnum(value, args.constraints[0]),
+        validate: (value, args): boolean => isEnum(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be a valid enum value',
           validationOptions
