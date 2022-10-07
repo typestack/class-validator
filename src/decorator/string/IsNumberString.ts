@@ -26,7 +26,7 @@ export function IsNumberString(
       name: IS_NUMBER_STRING,
       constraints: [options],
       validator: {
-        validate: (value, args): boolean => isNumberString(value, args.constraints[0]),
+        validate: (value, args): boolean => isNumberString(value, args?.constraints[0]),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a number string', validationOptions),
       },
     },
