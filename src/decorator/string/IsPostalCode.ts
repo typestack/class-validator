@@ -28,7 +28,7 @@ export function IsPostalCode(
       name: IS_POSTAL_CODE,
       constraints: [locale],
       validator: {
-        validate: (value, args): boolean => isPostalCode(value, args.constraints[0]),
+        validate: (value, args): boolean => isPostalCode(value, args?.constraints[0]),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a postal code', validationOptions),
       },
     },
