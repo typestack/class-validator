@@ -170,6 +170,11 @@ export class ValidationExecutor {
     metadatas: ValidationMetadata[],
     validationErrors: ValidationError[]
   ): void {
+      
+    if (validationErrors?.length && this.validatorOptions?.stopAtFirstError) {
+      return;
+    } 
+  
     const customValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.CUSTOM_VALIDATION);
     const nestedValidationMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.NESTED_VALIDATION);
     const conditionalValidationMetadatas = metadatas.filter(
