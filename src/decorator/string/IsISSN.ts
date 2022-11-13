@@ -23,7 +23,7 @@ export function IsISSN(options?: ValidatorJS.IsISSNOptions, validationOptions?: 
       name: IS_ISSN,
       constraints: [options],
       validator: {
-        validate: (value, args): boolean => isISSN(value, args.constraints[0]),
+        validate: (value, args): boolean => isISSN(value, args?.constraints[0]),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be a ISSN', validationOptions),
       },
     },

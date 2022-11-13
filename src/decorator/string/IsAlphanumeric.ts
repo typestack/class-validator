@@ -23,7 +23,7 @@ export function IsAlphanumeric(locale?: string, validationOptions?: ValidationOp
       name: IS_ALPHANUMERIC,
       constraints: [locale],
       validator: {
-        validate: (value, args): boolean => isAlphanumeric(value, args.constraints[0]),
+        validate: (value, args): boolean => isAlphanumeric(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must contain only letters and numbers',
           validationOptions
