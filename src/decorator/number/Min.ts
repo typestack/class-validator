@@ -11,7 +11,7 @@ export function min(num: unknown, min: number): boolean {
 }
 
 /**
- * Checks if the first number is greater than or equal to the second.
+ * Checks if the value is greater than or equal to the allowed minimum value.
  */
 export function Min(minValue: number, validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(

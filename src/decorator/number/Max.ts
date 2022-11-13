@@ -11,7 +11,7 @@ export function max(num: unknown, max: number): boolean {
 }
 
 /**
- * Checks if the first number is less than or equal to the second.
+ * Checks if the value is less than or equal to the allowed maximum value.
  */
 export function Max(maxValue: number, validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
