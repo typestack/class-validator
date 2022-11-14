@@ -803,11 +803,11 @@ isBoolean(value);
 | **Type validation decorators**                  | |
 | `@IsBoolean()`                                  | Checks if a value is a boolean. |
 | `@IsDate()`                                     | Checks if the value is a date. |
-| `@IsString()`                                   | Checks if the string is a string. |
+| `@IsString()`                                   | Checks if the value is a string. |
 | `@IsNumber(options: IsNumberOptions)`           | Checks if the value is a number. |
 | `@IsInt()`                                      | Checks if the value is an integer number. |
 | `@IsArray()`                                    | Checks if the value is an array |
-| `@IsEnum(entity: object)`                       | Checks if the value is an valid enum |
+| `@IsEnum(entity: object)`                       | Checks if the value is a valid enum |
 | **Number validation decorators**                |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another. |
 | `@IsPositive()`                                 | Checks if the value is a positive number greater than zero. |
@@ -844,7 +844,7 @@ isBoolean(value);
 | `@IsHalfWidth()`                                | Checks if the string contains any half-width chars. |
 | `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars. |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color. |
-| `@IsHSLColor()`                                 | Checks if the string is an HSL color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value). |
+| `@IsHSL()`                                      | Checks if the string is an HSL color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value). |
 | `@IsRgbColor(options?: IsRgbOptions)`           | Checks if the string is a rgb or rgba color. |
 | `@IsIdentityCard(locale?: string)`              | Checks if the string is a valid identity card code. |
 | `@IsPassportNumber(countryCode?: string)`       | Checks if the string is a valid passport number relative to a specific country code. |
@@ -906,87 +906,7 @@ isBoolean(value);
 
 ## Defining validation schema without decorators
 
-You can define your validation schemas without decorators:
-
-- you can define it in the separate object
-- you can define it in the `.json` file
-
-This feature maybe useful in the cases if:
-
-- are using es5/es6 and don't have decorators available
-- you don't have a classes, and instead using interfaces
-- you don't want to use model at all
-- you want to have a validation schema separate of your model
-- you want beautiful json-schema based validation models
-- you simply hate decorators
-
-Here is an example of using it:
-
-1. Create a schema object:
-
-   ```typescript
-   import { ValidationSchema } from 'class-validator';
-   export let UserValidationSchema: ValidationSchema = {
-     // using interface here is not required, its just for type-safety
-     name: 'myUserSchema', // this is required, and must be unique
-     properties: {
-       firstName: [
-         {
-           type: 'minLength', // validation type. All validation types are listed in ValidationTypes class.
-           constraints: [2],
-         },
-         {
-           type: 'maxLength',
-           constraints: [20],
-         },
-       ],
-       lastName: [
-         {
-           type: 'minLength',
-           constraints: [2],
-         },
-         {
-           type: 'maxLength',
-           constraints: [20],
-         },
-       ],
-       email: [
-         {
-           type: 'isEmail',
-         },
-       ],
-     },
-   };
-   ```
-
-   Same schema can be provided in `.json` file, depend on your wish.
-
-2. Register your schema:
-
-   ```typescript
-   import { registerSchema } from 'class-validator';
-   import { UserValidationSchema } from './UserValidationSchema';
-   registerSchema(UserValidationSchema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
-   ```
-
-   Better to put this code in a global place, maybe when you bootstrap your application, for example in `app.ts`.
-
-3. Validate your object using validation schema:
-
-   ```typescript
-   import { validate } from 'class-validator';
-   const user = { firstName: 'Johny', secondName: 'Cage', email: 'johny@cage.com' };
-   validate('myUserSchema', user).then(errors => {
-     if (errors.length > 0) {
-       console.log('Validation failed: ', errors);
-     } else {
-       console.log('Validation succeed.');
-     }
-   });
-   ```
-
-   That's it. Here `"myUserSchema"` is the name of our validation schema.
-   `validate` method will perform validation based on this schema
+Schema-based validation without decorators is no longer supported by `class-validator`. This feature was broken in version 0.12 and it will not be fixed. If you are interested in schema-based validation, you can find several such frameworks in [the zod readme's comparison section](https://github.com/colinhacks/zod#comparison).
 
 ## Validating plain objects
 

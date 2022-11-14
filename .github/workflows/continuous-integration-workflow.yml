@@ -5,8 +5,10 @@ jobs:
     name: Linters
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
       - run: npm ci --ignore-scripts
       - run: npm run prettier:check
       - run: npm run lint:check
@@ -15,26 +17,28 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['10.x', '12.x', '14.x']
+        node-version: ['lts/*', 'current']
       fail-fast: false
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Setting up Node.js (v${{ matrix.node-version }}.x)
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci --ignore-scripts
       - run: npm run test:ci
       - run: npm install codecov -g
-        if: ${{ matrix.node-version == '14.x' }}
+        if: ${{ matrix.node-version == 'current' }}
       - run: codecov -f ./coverage/clover.xml -t ${{ secrets.CODECOV_TOKEN }} --commit=$GITHUB_SHA --branch=${GITHUB_REF##*/}
-        if: ${{ matrix.node-version == '14.x' }}
+        if: ${{ matrix.node-version == 'current' }}
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
       - run: npm ci --ignore-scripts
       - run: npm run build:es2015
       - run: npm run build:esm5

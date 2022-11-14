@@ -11,7 +11,7 @@ export function max(num: unknown, max: number): boolean {
 }
 
 /**
- * Checks if the first number is less than or equal to the second.
+ * Checks if the value is less than or equal to the allowed maximum value.
  */
 export function Max(maxValue: number, validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
@@ -19,7 +19,7 @@ export function Max(maxValue: number, validationOptions?: ValidationOptions): Pr
       name: MAX,
       constraints: [maxValue],
       validator: {
-        validate: (value, args): boolean => max(value, args.constraints[0]),
+        validate: (value, args): boolean => max(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must not be greater than $constraint1',
           validationOptions
