@@ -40,7 +40,7 @@ Class-validator works on both browser and node.js platforms.
   - [Samples](#samples)
   - [Extensions](#extensions)
   - [Release notes](#release-notes)
-  - [Contributing](#contributing
+  - [Contributing](#contributing)
 
 ## Installation
 
