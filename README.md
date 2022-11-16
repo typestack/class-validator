@@ -936,4 +936,4 @@ See information about breaking changes and release notes [here][3].
 
 ## Contributing
 
-For information about how to contribute to this project, see [TypeStack's general contribution guide]([url](https://github.com/typestack/.github/blob/master/CONTRIBUTING.md)).
+For information about how to contribute to this project, see [TypeStack's general contribution guide](https://github.com/typestack/.github/blob/master/CONTRIBUTING.md).
