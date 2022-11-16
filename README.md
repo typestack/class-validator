@@ -40,6 +40,7 @@ Class-validator works on both browser and node.js platforms.
   - [Samples](#samples)
   - [Extensions](#extensions)
   - [Release notes](#release-notes)
+  - [Contributing](#contributing
 
 ## Installation
 
@@ -932,3 +933,7 @@ See information about breaking changes and release notes [here][3].
 [1]: https://github.com/chriso/validator.js
 [2]: https://github.com/pleerock/typedi
 [3]: CHANGELOG.md
+
+## Contributing
+
+For information about how to contribute to this project, see [TypeStack's general contribution guide]([url](https://github.com/typestack/.github/blob/master/CONTRIBUTING.md)).
