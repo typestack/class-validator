@@ -3900,6 +3900,23 @@ describe('isPhoneNumber', () => {
   });
 });
 
+describe('IsISO4217', () => {
+  class MyClass {
+    @IsISO4217()
+    someProperty: string;
+  }
+
+  it('should not fail for a valid ISO4217 code', () => {
+    const validValues = ['EUR', 'USD', 'BDT', 'LRD'];
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail for invalid values', () => {
+    const invalidValues = [undefined, null, '', 'USS'];
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
 describe('IsISO31661Alpha2', () => {
   class MyClass {
     @IsISO31661Alpha2()
