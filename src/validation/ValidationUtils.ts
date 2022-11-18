@@ -8,6 +8,10 @@ export function constraintToString(constraint: unknown): string {
     return constraint.join(', ');
   }
 
+  if (typeof constraint === 'symbol') {
+    constraint = constraint.description;
+  }
+
   return `${constraint}`;
 }
 
