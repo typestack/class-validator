@@ -9,7 +9,7 @@ export const IS_TIMEZONE = 'isTimezone';
  */
 export function isTimezone(value: unknown): boolean {
   try {
-    if (!Intl || !Intl.DateTimeFormat().resolvedOptions().timeZone || typeof value !== 'string') {
+    if (typeof value !== 'string') {
       return false;
     }
 
