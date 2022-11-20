@@ -2,7 +2,7 @@ import { Validator } from '../../src/validation/Validator';
 import { ValidationArguments } from '../../src/validation/ValidationArguments';
 import { registerDecorator } from '../../src/register-decorator';
 import { ValidationOptions } from '../../src/decorator/ValidationOptions';
-import { ValidatorConstraint } from '../../src/decorator/decorators';
+import { buildMessage, ValidatorConstraint } from '../../src/decorator/decorators';
 import { ValidatorConstraintInterface } from '../../src/validation/ValidatorConstraintInterface';
 
 const validator = new Validator();
@@ -233,6 +233,44 @@ describe('decorator with separate validation constraint class', () => {
       expect(errors[0].constraints).toEqual({
         isShortenThan: 'lastName must be shorter then firstName. Given value: Kim',
       });
+    });
+  });
+});
+
+describe('decorator with symbol constraint', () => {
+  const mySymbol = Symbol('mySymbol');
+
+  function IsSameType(property: unknown, validationOptions?: ValidationOptions) {
+    return function (object: object, propertyName: string): void {
+      registerDecorator({
+        target: object.constructor,
+        propertyName: propertyName,
+        options: validationOptions,
+        constraints: [property],
+        validator: {
+          validate(value: any, args: ValidationArguments) {
+            return typeof value === typeof args.constraints[0];
+          },
+          defaultMessage: buildMessage(
+            eachPrefix => eachPrefix + '$property must be of type ' + typeof property,
+            validationOptions
+          ),
+        },
+      });
+    };
+  }
+
+  class MyClass {
+    @IsSameType(mySymbol)
+    property: symbol;
+  }
+
+  it('if property is not a symbol then it should fail', () => {
+    expect.assertions(2);
+    const model = new MyClass();
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints.customValidation).toEqual('property must be of type symbol');
     });
   });
 });
