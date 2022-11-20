@@ -6,14 +6,14 @@ export const MAX_DATE = 'maxDate';
 /**
  * Checks if the value is a date that's before the specified date.
  */
-export function maxDate(date: unknown, maxDate: Date): boolean {
-  return date instanceof Date && date.getTime() <= maxDate.getTime();
+export function maxDate(date: unknown, maxDate: Date | (() => Date)): boolean {
+  return date instanceof Date && date.getTime() <= (maxDate instanceof Date ? maxDate : maxDate()).getTime();
 }
 
 /**
  * Checks if the value is a date that's after the specified date.
  */
-export function MaxDate(date: Date, validationOptions?: ValidationOptions): PropertyDecorator {
+export function MaxDate(date: Date | (() => Date), validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
     {
       name: MAX_DATE,
