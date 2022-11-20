@@ -249,7 +249,7 @@ describe('decorator with symbol constraint', () => {
         constraints: [property],
         validator: {
           validate(value: any, args: ValidationArguments) {
-            return typeof value ===  typeof args.constraints[0]
+            return typeof value === typeof args.constraints[0];
           },
           defaultMessage: buildMessage(
             eachPrefix => eachPrefix + '$property must be of type ' + typeof property,
