@@ -111,7 +111,7 @@ export * from './string/IsPostalCode';
 export * from './string/IsRFC3339';
 export * from './string/IsRgbColor';
 export * from './string/IsSemVer';
-export * from './string/IsTimezone';
+export * from './string/IsTimeZone';
 
 // -------------------------------------------------------------------------
 // Type checkers

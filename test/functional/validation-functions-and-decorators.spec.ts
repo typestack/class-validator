@@ -184,7 +184,7 @@ import {
   isPostalCode,
   IsSemVer,
   isSemVer,
-  IsTimezone,
+  IsTimeZone,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -3830,9 +3830,9 @@ describe('IsMilitaryTime', () => {
   });
 });
 
-describe('IsTimezone', () => {
+describe('IsTimeZone', () => {
   class MyClass {
-    @IsTimezone()
+    @IsTimeZone()
     someProperty: string;
   }
 

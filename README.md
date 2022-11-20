@@ -885,7 +885,7 @@ isBoolean(value);
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number. |
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i'). |
 | `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM. |
-| `@IsTimezone()`                                 |Checks if the string represents a valid IANA timezone. |
+| `@IsTimeZone()`                                 | Checks if the string represents a valid IANA time-zone. |
 | `@IsHash(algorithm: string)`                    | Checks if the string is a hash The following types are supported:`md4`, `md5`, `sha1`, `sha256`, `sha384`, `sha512`, `ripemd128`, `ripemd160`, `tiger128`, `tiger160`, `tiger192`, `crc32`, `crc32b`. |
 | `@IsMimeType()`                                 | Checks if the string matches to a valid [MIME type](https://en.wikipedia.org/wiki/Media_type) format |
 | `@IsSemVer()`                                   | Checks if the string is a Semantic Versioning Specification (SemVer). |

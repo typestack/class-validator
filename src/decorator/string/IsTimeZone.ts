@@ -1,19 +1,21 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 
-export const IS_TIMEZONE = 'isTimezone';
+export const IS_TIMEZONE = 'isTimeZone';
 
 /**
  * Checks if the string represents a valid IANA timezone
  * If the given value is not a valid IANA timezone, then it returns false.
  */
-export function isTimezone(value: unknown): boolean {
+export function isTimeZone(value: unknown): boolean {
   try {
     if (typeof value !== 'string') {
       return false;
     }
 
+    /** Specifying an invalid time-zone will raise a `RangeError: Invalid time zone specified` error. */
     Intl.DateTimeFormat(undefined, { timeZone: value });
+
     return true;
   } catch (exception) {
     return false;
@@ -24,14 +26,14 @@ export function isTimezone(value: unknown): boolean {
  * Checks if the string represents a valid IANA timezone
  * If the given value is not a valid IANA timezone, then it returns false.
  */
-export function IsTimezone(validationOptions?: ValidationOptions): PropertyDecorator {
+export function IsTimeZone(validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
     {
       name: IS_TIMEZONE,
       validator: {
-        validate: (value, args): boolean => isTimezone(value),
+        validate: (value, args): boolean => isTimeZone(value),
         defaultMessage: buildMessage(
-          eachPrefix => eachPrefix + '$property must be a valid IANA timezone',
+          eachPrefix => eachPrefix + '$property must be a valid IANA time-zone',
           validationOptions
         ),
       },
