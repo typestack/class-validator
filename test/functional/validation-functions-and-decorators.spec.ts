@@ -1210,6 +1210,72 @@ describe('MaxDate', () => {
   });
 });
 
+describe('MinDate function constraint', () => {
+  const constraint = () => new Date(1995, 11, 17);
+  const validValues = [new Date()];
+  const invalidValues = [new Date(1994, 11, 17)];
+
+  class MyClass {
+    @MinDate(constraint)
+    someProperty: Date;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(minDate(value, constraint)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(minDate(value, constraint)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'minDate';
+    const message = 'minimal allowed date for someProperty is ' + constraintToString(constraint);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('MaxDate function constraint', () => {
+  const constraint = () => new Date(1995, 11, 17);
+  const validValues = [new Date(1994, 11, 17)];
+  const invalidValues = [new Date()];
+
+  class MyClass {
+    @MaxDate(constraint)
+    someProperty: Date;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(maxDate(value, constraint)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(maxDate(value, constraint)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'maxDate';
+    const message = 'maximal allowed date for someProperty is ' + constraintToString(constraint);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
 describe('IsBooleanString', () => {
   const validValues = ['1', '0', 'true', 'false'];
   const invalidValues = ['2', '3', 'falze'];
