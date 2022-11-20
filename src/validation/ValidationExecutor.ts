@@ -52,6 +52,9 @@ export class ValidationExecutor {
     const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
     const strictGroups = (this.validatorOptions && this.validatorOptions.strictGroups) || false;
     const always = (this.validatorOptions && this.validatorOptions.always) || false;
+    /** Forbid unknown values are turned on by default and any other value than false will enable it. */
+    const forbidUnknownValues =
+      this.validatorOptions?.forbidUnknownValues === undefined || this.validatorOptions.forbidUnknownValues !== false;
 
     const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(
       object.constructor,
@@ -62,7 +65,7 @@ export class ValidationExecutor {
     );
     const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
-    if (this.validatorOptions && this.validatorOptions.forbidUnknownValues && !targetMetadatas.length) {
+    if (this.validatorOptions && forbidUnknownValues && !targetMetadatas.length) {
       const validationError = new ValidationError();
 
       if (
