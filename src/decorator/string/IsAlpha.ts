@@ -17,7 +17,7 @@ export function isAlpha(value: unknown, locale?: ValidatorJS.AlphaLocale): boole
  * Checks if the string contains only letters (a-zA-Z).
  * If given value is not a string, then it returns false.
  */
-export function IsAlpha(locale?: string, validationOptions?: ValidationOptions): PropertyDecorator {
+export function IsAlpha(locale?: ValidatorJS.AlphaLocale, validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
     {
       name: IS_ALPHA,
