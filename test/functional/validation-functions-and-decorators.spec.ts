@@ -184,6 +184,7 @@ import {
   isPostalCode,
   IsSemVer,
   isSemVer,
+  IsTimeZone,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -3825,6 +3826,28 @@ describe('IsMilitaryTime', () => {
 
   it('should fail for invalid values', () => {
     const invalidValues = [undefined, null, '23:00 and invalid counterpart'];
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
+describe('IsTimeZone', () => {
+  class MyClass {
+    @IsTimeZone()
+    someProperty: string;
+  }
+
+  it('should not fail for a valid IANA timezones', () => {
+    const validValues = ['Asia/Kathmandu', 'America/New_York', 'Europe/Paris', 'Europe/Berlin'];
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail for invalid timezone format', () => {
+    const invalidValues = ['Asia/Pokhara', 'America', 'New_York', '/Paris'];
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should fail for invalid values', () => {
+    const invalidValues = [undefined, null, 'Asia-Kathmandu'];
     return checkInvalidValues(new MyClass(), invalidValues);
   });
 });
