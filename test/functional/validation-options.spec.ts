@@ -3,6 +3,7 @@ import {
   IsDefined,
   Matches,
   MinLength,
+  IsArray,
   Validate,
   ValidateNested,
   ValidatorConstraint,
@@ -1196,6 +1197,13 @@ describe('context', () => {
   });
 
   it('should stop at first error.', () => {
+    class MySubClass {
+      @IsDefined({
+        message: 'isDefined',
+      })
+      name: string;
+    }
+
     class MyClass {
       @IsDefined({
         message: 'isDefined',
@@ -1204,14 +1212,32 @@ describe('context', () => {
         message: 'String is not valid. You string must contain a hello word',
       })
       sameProperty: string;
+
+      @ValidateNested()
+      @IsArray()
+      nestedWithPrimitiveValue: MySubClass[];
     }
 
     const model = new MyClass();
-    return validator.validate(model, { stopAtFirstError: true }).then(errors => {
-      console.log();
-      expect(errors.length).toEqual(1);
+    model.nestedWithPrimitiveValue = 'invalid' as any;
+
+    const hasStopAtFirstError = validator.validate(model, { stopAtFirstError: true }).then(errors => {
+      expect(errors.length).toEqual(2);
       expect(Object.keys(errors[0].constraints).length).toBe(1);
       expect(errors[0].constraints['isDefined']).toBe('isDefined');
+      expect(Object.keys(errors[1].constraints).length).toBe(1);
+      expect(errors[1].constraints).toHaveProperty('isArray');
     });
+    const hasNotStopAtFirstError = validator.validate(model, { stopAtFirstError: false }).then(errors => {
+      expect(errors.length).toEqual(2);
+      expect(Object.keys(errors[0].constraints).length).toBe(2);
+      expect(errors[0].constraints).toHaveProperty('contains');
+      expect(errors[0].constraints).toHaveProperty('isDefined');
+      expect(Object.keys(errors[1].constraints).length).toBe(2);
+      expect(errors[1].constraints).toHaveProperty('isArray');
+      expect(errors[1].constraints).toHaveProperty('nestedValidation');
+    });
+
+    return Promise.all([hasStopAtFirstError, hasNotStopAtFirstError]);
   });
 });
