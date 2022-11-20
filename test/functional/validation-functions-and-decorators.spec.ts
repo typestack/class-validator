@@ -191,7 +191,7 @@ import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
 import { constraintToString } from '../../src/validation/ValidationUtils';
 import { default as ValidatorJS } from 'validator';
 
-export function checkValidValues(
+function checkValidValues(
   object: { someProperty: any },
   values: any[],
   validatorOptions?: ValidatorOptions
@@ -211,7 +211,7 @@ export function checkValidValues(
   return Promise.all(promises);
 }
 
-export function checkInvalidValues(
+function checkInvalidValues(
   object: { someProperty: any },
   values: any[],
   validatorOptions?: ValidatorOptions
@@ -235,7 +235,7 @@ export function checkInvalidValues(
   return Promise.all(promises);
 }
 
-export function checkReturnedError(
+function checkReturnedError(
   object: { someProperty: any },
   values: any[],
   validationType: string,
