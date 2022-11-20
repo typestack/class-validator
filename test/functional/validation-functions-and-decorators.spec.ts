@@ -803,6 +803,7 @@ describe('IsDateString', () => {
     'text',
     'text2018-01-04T08:15:30+04',
     '2018-01-04T08:15:30Ztext',
+    '2009-02-29', // non-existent-day
     '2019-18-13T22:14:14.761Z', // month greater than 12
     '2019-12-39T22:14:14.761Z', // day greater than 31
     '2019-12-31T29:14:14.761Z', // hour greater than 24
@@ -815,7 +816,7 @@ describe('IsDateString', () => {
   ];
 
   class MyClass {
-    @IsDateString()
+    @IsDateString({ strict: true })
     someProperty: string;
   }
 
@@ -828,11 +829,11 @@ describe('IsDateString', () => {
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isDateString(value)).toBeTruthy());
+    validValues.forEach(value => expect(isDateString(value, { strict: true })).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isDateString(value as any)).toBeFalsy());
+    invalidValues.forEach(value => expect(isDateString(value as any, { strict: true })).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
@@ -2980,10 +2981,11 @@ describe('IsISO8601', () => {
     '2009-05-19 14.5.44',
     '2010-02-18T16:23.33.600',
     '2010-02-18T16,25:23:48,444',
+    '2009-02-29',
   ];
 
   class MyClass {
-    @IsISO8601()
+    @IsISO8601({ strict: true })
     someProperty: string;
   }
 
@@ -2996,11 +2998,11 @@ describe('IsISO8601', () => {
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isISO8601(value)).toBeTruthy());
+    validValues.forEach(value => expect(isISO8601(value, { strict: true })).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isISO8601(value)).toBeFalsy());
+    invalidValues.forEach(value => expect(isISO8601(value, { strict: true })).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
