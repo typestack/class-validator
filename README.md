@@ -140,7 +140,9 @@ export interface ValidatorOptions {
 }
 ```
 
-> It's highly advised to set `forbidUnknownValues: true` as it will prevent unknown objects from passing validation.
+> **IMPORTANT**
+> The `forbidUnknownValues` value is set to `true` by default and **it is highly advised to keep the default**.
+> Setting it to `false` will result unknown objects passing the validation!
 
 ## Validation errors
 
@@ -523,6 +525,10 @@ for you, even if skipMissingProperties is set to true. For such cases you should
 
 In different situations you may want to use different validation schemas of the same object.
 In such cases you can use validation groups.
+
+> **IMPORTANT**
+> Calling a validation with a group combination that would not result in a validation (eg: non existent group name)
+> will result in a unknown value error. When validating with groups the provided group combination should match at least one decorator.
 
 ```typescript
 import { validate, Min, Length } from 'class-validator';
