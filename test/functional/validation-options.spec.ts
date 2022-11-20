@@ -9,6 +9,7 @@ import {
   ValidatorConstraint,
   IsOptional,
   IsNotEmpty,
+  Allow,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import {
@@ -937,36 +938,45 @@ describe('groups', () => {
   });
 
   describe('strictGroups', function () {
-    class MyClass {
-      @Contains('hello', {
-        groups: ['A'],
-      })
+    class MyPayload {
+      /**
+       * Since forbidUnknownValues defaults to true, we must add a property to
+       * register the class in the metadata storage. Otherwise the unknown value check
+       * would take priority (first check) and exit without running the grouping logic.
+       *
+       * To solve this we register this property with always: true, so at least a single
+       * metadata is returned for each validation preventing the unknown value was passed error.
+       */
+      @IsOptional({ always: true })
+      propertyToRegisterClass: string;
+
+      @Contains('hello', { groups: ['A'] })
       title: string;
     }
 
-    const model1 = new MyClass();
+    const instance = new MyPayload();
 
     it('should ignore decorators with groups if validating without groups', function () {
-      return validator.validate(model1, { strictGroups: true }).then(errors => {
+      return validator.validate(instance, { strictGroups: true }).then(errors => {
         expect(errors).toHaveLength(0);
       });
     });
 
     it('should ignore decorators with groups if validating with empty groups array', function () {
-      return validator.validate(model1, { strictGroups: true, groups: [] }).then(errors => {
+      return validator.validate(instance, { strictGroups: true, groups: [] }).then(errors => {
         expect(errors).toHaveLength(0);
       });
     });
 
     it('should include decorators with groups if validating with matching groups', function () {
-      return validator.validate(model1, { strictGroups: true, groups: ['A'] }).then(errors => {
+      return validator.validate(instance, { strictGroups: true, groups: ['A'] }).then(errors => {
         expect(errors).toHaveLength(1);
         expectTitleContains(errors[0]);
       });
     });
 
     it('should not include decorators with groups if validating with different groups', function () {
-      return validator.validate(model1, { strictGroups: true, groups: ['B'] }).then(errors => {
+      return validator.validate(instance, { strictGroups: true, groups: ['B'] }).then(errors => {
         expect(errors).toHaveLength(0);
       });
     });
