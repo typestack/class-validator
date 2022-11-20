@@ -799,8 +799,8 @@ isBoolean(value);
 | `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison. |
 | `@IsEmpty()`                                    | Checks if given value is empty (=== '', === null, === undefined). |
 | `@IsNotEmpty()`                                 | Checks if given value is not empty (!== '', !== null, !== undefined). |
-| `@IsIn(values: any[])`                          | Checks if value is in a array of allowed values. |
-| `@IsNotIn(values: any[])`                       | Checks if value is not in a array of disallowed values. |
+| `@IsIn(values: any[])`                          | Checks if value is in an array of allowed values. |
+| `@IsNotIn(values: any[])`                       | Checks if value is not in an array of disallowed values. |
 | **Type validation decorators**                  | |
 | `@IsBoolean()`                                  | Checks if a value is a boolean. |
 | `@IsDate()`                                     | Checks if the value is a date. |
@@ -819,7 +819,7 @@ isBoolean(value);
 | `@MinDate(date: Date | (() => Date))`           | Checks if the value is a date that's after the specified date. |
 | `@MaxDate(date: Date | (() => Date))`           | Checks if the value is a date that's before the specified date. |  
 | **String-type validation decorators**           | |
-| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false"). |
+| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false" or "1", "0"). |
 | `@IsDateString()`                               | Alias for `@IsISO8601()`. |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if a string is a number. |
 | **String validation decorators**                | |
@@ -871,12 +871,12 @@ isBoolean(value);
 | `@IsISO31661Alpha2()`                           | Checks if the string is a valid ISO 3166-1 alpha-2 officially assigned country code. |
 | `@IsISO31661Alpha3()`                           | Checks if the string is a valid ISO 3166-1 alpha-3 officially assigned country code. |
 | `@IsLocale()`                                   | Checks if the string is a locale. |
-| `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone numberusing libphonenumber-js. |
+| `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number using libphonenumber-js. |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId. |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars. |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if the string is numeric. |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars. |
-| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url. |
+| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is a URL. |
 | `@IsMagnetURI()`                                | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme). |
 | `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`       | Checks if the string is a UUID (version 3, 4, 5 or all ). |
 | `@IsFirebasePushId()`                           | Checks if the string is a [Firebase Push ID](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html) |
