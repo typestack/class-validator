@@ -10,6 +10,11 @@ export interface ValidationMetadataArgs {
   type: string;
 
   /**
+   * Validator name.
+   */
+  name?: string;
+
+  /**
    * Object that is used to be validated.
    */
   target: Function | string;
