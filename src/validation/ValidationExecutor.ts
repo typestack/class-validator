@@ -45,7 +45,9 @@ export class ValidationExecutor {
      */
     if (!this.metadataStorage.hasValidationMetaData && this.validatorOptions?.enableDebugMessages === true) {
       console.warn(
-        `No metadata found. There is more than once class-validator version installed probably. You need to flatten your dependencies.`
+        `No validation metadata found. No validation will be  performed. There are multiple possible reasons:\n` + 
+        `  - There may be multiple class-validator versions installed. You will need to flatten your dependencies to fix the issue.\n` + 
+        `  - This validation runs before any file with validation decorator was parsed by NodeJS.`
       );
     }
 
