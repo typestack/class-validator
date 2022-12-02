@@ -188,6 +188,8 @@ import {
   isStrongPassword,
   IsStrongPasswordOptions,
   IsTimeZone,
+  IsBase58,
+  isBase58,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -4657,6 +4659,39 @@ describe('IsStrongPassword with options', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isStrongPassword';
     const message = 'someProperty is not strong enough';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsBase58', () => {
+  const constraint = '';
+  const validValues = ['4Fcj4ooZqEQiyH68xykKJFnwZbePBCxgTjwQVtce1VyS'];
+  const invalidValues = [null, undefined, 'my*name-isKinggodHoon'];
+
+  class MyClass {
+    @IsBase58()
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isBase58(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isBase58(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isBase58';
+    const message = 'someProperty must be base58 encoded';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
