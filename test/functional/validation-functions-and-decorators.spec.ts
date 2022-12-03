@@ -884,7 +884,12 @@ describe('IsArray', () => {
 });
 
 describe('IsEnum', () => {
-  enum MyEnum {
+  enum MyDefaultIndexedEnum {
+    First,
+    Second,
+  }
+
+  enum MyCustomIndexedEnum {
     First = 1,
     Second = 999,
   }
@@ -894,38 +899,43 @@ describe('IsEnum', () => {
     Second = 'second',
   }
 
-  const validValues = [MyEnum.First, MyEnum.Second];
+  const validValues = [MyCustomIndexedEnum.First, MyCustomIndexedEnum.Second];
   const validStringValues = [MyStringEnum.First, MyStringEnum.Second];
-  const invalidValues = [true, false, 0, {}, null, undefined, 'F2irst'];
+  const invalidValues = [true, false, 42, {}, null, undefined, 'F2irst'];
 
-  class MyClass {
-    @IsEnum(MyEnum)
-    someProperty: MyEnum;
+  class MyClassOne {
+    @IsEnum(MyDefaultIndexedEnum)
+    someProperty: MyDefaultIndexedEnum;
   }
 
-  class MyClass2 {
+  class MyClassTwo {
+    @IsEnum(MyCustomIndexedEnum)
+    someProperty: MyCustomIndexedEnum;
+  }
+
+  class MyClassThree {
     @IsEnum(MyStringEnum)
     someProperty: MyStringEnum;
   }
 
   it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+    return checkValidValues(new MyClassTwo(), validValues);
   });
 
   it('should not fail if validator.validate said that its valid (string enum)', () => {
-    return checkValidValues(new MyClass2(), validStringValues);
+    return checkValidValues(new MyClassThree(), validStringValues);
   });
 
   it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+    return checkInvalidValues(new MyClassTwo(), invalidValues);
   });
 
   it('should fail if validator.validate said that its invalid (string enum)', () => {
-    return checkInvalidValues(new MyClass2(), invalidValues);
+    return checkInvalidValues(new MyClassThree(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isEnum(value, MyEnum)).toBeTruthy());
+    validValues.forEach(value => expect(isEnum(value, MyCustomIndexedEnum)).toBeTruthy());
   });
 
   it('should not fail if method in validator said that its valid (string enum)', () => {
@@ -933,23 +943,29 @@ describe('IsEnum', () => {
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isEnum(value, MyEnum)).toBeFalsy());
+    invalidValues.forEach(value => expect(isEnum(value, MyCustomIndexedEnum)).toBeFalsy());
   });
 
   it('should fail if method in validator said that its invalid (string enum)', () => {
     invalidValues.forEach(value => expect(isEnum(value, MyStringEnum)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error with proper message for default indexed enum', () => {
     const validationType = 'isEnum';
-    const message = 'someProperty must be a valid enum value';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    const message = 'someProperty must be one of the following values: 0, 1';
+    return checkReturnedError(new MyClassOne(), invalidValues, validationType, message);
   });
 
-  it('should return error object with proper data (string enum)', () => {
+  it('should return error with proper message for custom indexed enum', () => {
     const validationType = 'isEnum';
-    const message = 'someProperty must be a valid enum value';
-    checkReturnedError(new MyClass2(), invalidValues, validationType, message);
+    const message = 'someProperty must be one of the following values: 1, 999';
+    return checkReturnedError(new MyClassTwo(), invalidValues, validationType, message);
+  });
+
+  it('should return error with proper message for string enum', () => {
+    const validationType = 'isEnum';
+    const message = 'someProperty must be one of the following values: first, second';
+    return checkReturnedError(new MyClassThree(), invalidValues, validationType, message);
   });
 });
 
