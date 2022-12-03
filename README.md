@@ -843,6 +843,7 @@ isBoolean(value);
 | `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range. |
 | `@IsCreditCard()`                               | Checks if the string is a credit card. |
 | `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount. |
+| `@IsISO4217CurrencyCode()`                      | Checks if the string is an ISO 4217 currency code. |
 | `@IsEthereumAddress()`                          | Checks if the string is an Ethereum address using basic regex. Does not validate address checksums. |
 | `@IsBtcAddress()`                               | Checks if the string is a valid BTC address. |
 | `@IsDataURI()`                                  | Checks if the string is a data uri format. |

@@ -192,6 +192,7 @@ import {
   isBase58,
   isTaxId,
   IsTaxId,
+  IsISO4217CurrencyCode,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -4728,5 +4729,22 @@ describe('IsBase58', () => {
     const validationType = 'isBase58';
     const message = 'someProperty must be base58 encoded';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsISO4217', () => {
+  class MyClass {
+    @IsISO4217CurrencyCode()
+    someProperty: string;
+  }
+
+  it('should not fail for a valid ISO4217 code', () => {
+    const validValues = ['EUR', 'USD', 'BDT', 'LRD'];
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail for invalid values', () => {
+    const invalidValues = [undefined, null, '', 'USS'];
+    return checkInvalidValues(new MyClass(), invalidValues);
   });
 });
