@@ -36,9 +36,9 @@ export class MetadataStorage {
    */
   addValidationMetadata(metadata: ValidationMetadata): void {
     const existingMetadata = this.validationMetadatas.get(metadata.target);
+
     if (existingMetadata) {
       existingMetadata.push(metadata);
-      this.validationMetadatas.set(metadata.target, existingMetadata);
     } else {
       this.validationMetadatas.set(metadata.target, [metadata]);
     }
@@ -49,9 +49,9 @@ export class MetadataStorage {
    */
   addConstraintMetadata(metadata: ConstraintMetadata): void {
     const existingMetadata = this.constraintMetadatas.get(metadata.target);
+
     if (existingMetadata) {
       existingMetadata.push(metadata);
-      this.constraintMetadatas.set(metadata.target, existingMetadata);
     } else {
       this.constraintMetadatas.set(metadata.target, [metadata]);
     }
