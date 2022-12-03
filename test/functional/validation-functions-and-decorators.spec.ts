@@ -3225,8 +3225,8 @@ describe('IsNotEmptyObject', () => {
   });
 
   describe('with `nullable` option', () => {
-    const nullableValidValues = validValues
-    const nullableInvalidValues = invalidValues
+    const nullableValidValues = validValues;
+    const nullableInvalidValues = invalidValues;
     const nonNullableValidValues = [{ key: 'value' }, { key: 'value' }];
     const nonNullableInvalidValues = [
       null,
@@ -3270,7 +3270,7 @@ describe('IsNotEmptyObject', () => {
       nullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeFalsy());
       nonNullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: false })).toBeFalsy());
     });
-  })
+  });
 });
 
 describe('IsLowercase', () => {
