@@ -883,6 +883,7 @@ isBoolean(value);
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars. |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if the string is numeric. |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars. |
+| `@IsTaxId()`                                    | Checks if the string is a valid tax ID. Default locale is `en-US`.
 | `@IsUrl(options?: IsURLOptions)`                | Checks if the string is a URL. |
 | `@IsMagnetURI()`                                | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme). |
 | `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`       | Checks if the string is a UUID (version 3, 4, 5 or all ). |
