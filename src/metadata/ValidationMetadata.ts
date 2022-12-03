@@ -20,11 +20,6 @@ export class ValidationMetadata {
   type: string;
 
   /**
-   * Validator name.
-   */
-  name?: string;
-
-  /**
    * Target class to which this validation is applied.
    */
   target: Function | string;
@@ -81,7 +76,6 @@ export class ValidationMetadata {
   constructor(args: ValidationMetadataArgs) {
     this.name = args.name;
     this.type = args.type;
-    this.name = args.name;
     this.target = args.target;
     this.propertyName = args.propertyName;
     this.constraints = args?.constraints;

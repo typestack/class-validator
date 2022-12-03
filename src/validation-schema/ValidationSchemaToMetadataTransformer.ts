@@ -20,7 +20,6 @@ export class ValidationSchemaToMetadataTransformer {
         const args: ValidationMetadataArgs = {
           name: validation.name,
           type: validation.type,
-          name: validation.name,
           target: schema.name,
           propertyName: property,
           constraints: validation.constraints,

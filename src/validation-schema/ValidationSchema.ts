@@ -27,11 +27,6 @@ export interface ValidationSchema {
       type: string;
 
       /**
-       * Validator name.
-       */
-      name?: string;
-
-      /**
        * Constraints set by validation type.
        */
       constraints?: any[];
