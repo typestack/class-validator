@@ -259,7 +259,7 @@ export class ValidationExecutor {
           constraints: metadata.constraints,
         };
         return validationArguments;
-      }
+      };
       if (metadata.validateIf) {
         const validateIf = metadata.validateIf(object, getValidationArguments());
         if (!validateIf) return;
