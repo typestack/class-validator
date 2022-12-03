@@ -190,8 +190,8 @@ import {
   IsTimeZone,
   IsBase58,
   isBase58,
-  isTaxID,
-  IsTaxID,
+  isTaxId,
+  IsTaxId,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -2306,13 +2306,13 @@ describe('IsByteLength', () => {
   });
 });
 
-describe('IsTaxID', () => {
+describe('IsTaxId', () => {
   const constraint = 'bg-BG';
   const validValues = ['7501010010', '0101010012', '0111010010', '7521010014', '7541010019'];
   const invalidValues = [null, undefined, '750101001', '75010100101', '75-01010/01 0', '7521320010', '7501010019'];
 
   class MyClass {
-    @IsTaxID(constraint)
+    @IsTaxId(constraint)
     someProperty: string;
   }
 
@@ -2325,15 +2325,15 @@ describe('IsTaxID', () => {
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isTaxID(value, constraint)).toBeTruthy());
+    validValues.forEach(value => expect(isTaxId(value, constraint)).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isTaxID(value, constraint)).toBeFalsy());
+    invalidValues.forEach(value => expect(isTaxId(value, constraint)).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'isTaxID';
+    const validationType = 'isTaxId';
     const message = 'someProperty must be a Tax Identification Number';
     checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
