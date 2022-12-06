@@ -9,7 +9,7 @@ type Options = { region?: CountryCode; strategy?: 'valid' | 'possible' };
 type RegionOrOptions = CountryCode | Options;
 
 function normalizeOptions(regionOrOptions?: RegionOrOptions): Options | undefined {
-  return 'string' === typeof regionOrOptions ? { region: regionOrOptions } : regionOrOptions;
+  return typeof regionOrOptions === 'string' ? { region: regionOrOptions } : regionOrOptions;
 }
 
 /**
