@@ -3,11 +3,13 @@ import {
   IsDefined,
   Matches,
   MinLength,
+  IsArray,
   Validate,
   ValidateNested,
   ValidatorConstraint,
   IsOptional,
   IsNotEmpty,
+  Allow,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import {
@@ -936,36 +938,45 @@ describe('groups', () => {
   });
 
   describe('strictGroups', function () {
-    class MyClass {
-      @Contains('hello', {
-        groups: ['A'],
-      })
+    class MyPayload {
+      /**
+       * Since forbidUnknownValues defaults to true, we must add a property to
+       * register the class in the metadata storage. Otherwise the unknown value check
+       * would take priority (first check) and exit without running the grouping logic.
+       *
+       * To solve this we register this property with always: true, so at least a single
+       * metadata is returned for each validation preventing the unknown value was passed error.
+       */
+      @IsOptional({ always: true })
+      propertyToRegisterClass: string;
+
+      @Contains('hello', { groups: ['A'] })
       title: string;
     }
 
-    const model1 = new MyClass();
+    const instance = new MyPayload();
 
     it('should ignore decorators with groups if validating without groups', function () {
-      return validator.validate(model1, { strictGroups: true }).then(errors => {
+      return validator.validate(instance, { strictGroups: true }).then(errors => {
         expect(errors).toHaveLength(0);
       });
     });
 
     it('should ignore decorators with groups if validating with empty groups array', function () {
-      return validator.validate(model1, { strictGroups: true, groups: [] }).then(errors => {
+      return validator.validate(instance, { strictGroups: true, groups: [] }).then(errors => {
         expect(errors).toHaveLength(0);
       });
     });
 
     it('should include decorators with groups if validating with matching groups', function () {
-      return validator.validate(model1, { strictGroups: true, groups: ['A'] }).then(errors => {
+      return validator.validate(instance, { strictGroups: true, groups: ['A'] }).then(errors => {
         expect(errors).toHaveLength(1);
         expectTitleContains(errors[0]);
       });
     });
 
     it('should not include decorators with groups if validating with different groups', function () {
-      return validator.validate(model1, { strictGroups: true, groups: ['B'] }).then(errors => {
+      return validator.validate(instance, { strictGroups: true, groups: ['B'] }).then(errors => {
         expect(errors).toHaveLength(0);
       });
     });
@@ -1196,6 +1207,13 @@ describe('context', () => {
   });
 
   it('should stop at first error.', () => {
+    class MySubClass {
+      @IsDefined({
+        message: 'isDefined',
+      })
+      name: string;
+    }
+
     class MyClass {
       @IsDefined({
         message: 'isDefined',
@@ -1204,14 +1222,32 @@ describe('context', () => {
         message: 'String is not valid. You string must contain a hello word',
       })
       sameProperty: string;
+
+      @ValidateNested()
+      @IsArray()
+      nestedWithPrimitiveValue: MySubClass[];
     }
 
     const model = new MyClass();
-    return validator.validate(model, { stopAtFirstError: true }).then(errors => {
-      console.log();
-      expect(errors.length).toEqual(1);
+    model.nestedWithPrimitiveValue = 'invalid' as any;
+
+    const hasStopAtFirstError = validator.validate(model, { stopAtFirstError: true }).then(errors => {
+      expect(errors.length).toEqual(2);
       expect(Object.keys(errors[0].constraints).length).toBe(1);
       expect(errors[0].constraints['isDefined']).toBe('isDefined');
+      expect(Object.keys(errors[1].constraints).length).toBe(1);
+      expect(errors[1].constraints).toHaveProperty('isArray');
     });
+    const hasNotStopAtFirstError = validator.validate(model, { stopAtFirstError: false }).then(errors => {
+      expect(errors.length).toEqual(2);
+      expect(Object.keys(errors[0].constraints).length).toBe(2);
+      expect(errors[0].constraints).toHaveProperty('contains');
+      expect(errors[0].constraints).toHaveProperty('isDefined');
+      expect(Object.keys(errors[1].constraints).length).toBe(2);
+      expect(errors[1].constraints).toHaveProperty('isArray');
+      expect(errors[1].constraints).toHaveProperty('nestedValidation');
+    });
+
+    return Promise.all([hasStopAtFirstError, hasNotStopAtFirstError]);
   });
 });

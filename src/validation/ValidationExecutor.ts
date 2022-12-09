@@ -45,13 +45,18 @@ export class ValidationExecutor {
      */
     if (!this.metadataStorage.hasValidationMetaData && this.validatorOptions?.enableDebugMessages === true) {
       console.warn(
-        `No metadata found. There is more than once class-validator version installed probably. You need to flatten your dependencies.`
+        `No validation metadata found. No validation will be  performed. There are multiple possible reasons:\n` +
+          `  - There may be multiple class-validator versions installed. You will need to flatten your dependencies to fix the issue.\n` +
+          `  - This validation runs before any file with validation decorator was parsed by NodeJS.`
       );
     }
 
     const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
     const strictGroups = (this.validatorOptions && this.validatorOptions.strictGroups) || false;
     const always = (this.validatorOptions && this.validatorOptions.always) || false;
+    /** Forbid unknown values are turned on by default and any other value than false will enable it. */
+    const forbidUnknownValues =
+      this.validatorOptions?.forbidUnknownValues === undefined || this.validatorOptions.forbidUnknownValues !== false;
 
     const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(
       object.constructor,
@@ -62,7 +67,7 @@ export class ValidationExecutor {
     );
     const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
-    if (this.validatorOptions && this.validatorOptions.forbidUnknownValues && !targetMetadatas.length) {
+    if (this.validatorOptions && forbidUnknownValues && !targetMetadatas.length) {
       const validationError = new ValidationError();
 
       if (
@@ -205,7 +210,7 @@ export class ValidationExecutor {
     }
 
     this.customValidations(object, value, customValidationMetadatas, validationError);
-    this.nestedValidations(value, nestedValidationMetadatas, validationError.children);
+    this.nestedValidations(value, nestedValidationMetadatas, validationError);
 
     this.mapContexts(object, value, metadatas, validationError);
     this.mapContexts(object, value, customValidationMetadatas, validationError);
@@ -333,7 +338,7 @@ export class ValidationExecutor {
     });
   }
 
-  private nestedValidations(value: any, metadatas: ValidationMetadata[], errors: ValidationError[]): void {
+  private nestedValidations(value: any, metadatas: ValidationMetadata[], error: ValidationError): void {
     if (value === void 0) {
       return;
     }
@@ -341,27 +346,26 @@ export class ValidationExecutor {
     metadatas.forEach(metadata => {
       if (metadata.type !== ValidationTypes.NESTED_VALIDATION && metadata.type !== ValidationTypes.PROMISE_VALIDATION) {
         return;
+      } else if (
+        this.validatorOptions &&
+        this.validatorOptions.stopAtFirstError &&
+        Object.keys(error.constraints || {}).length > 0
+      ) {
+        return;
       }
 
       if (Array.isArray(value) || value instanceof Set || value instanceof Map) {
         // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
         const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
         arrayLikeValue.forEach((subValue: any, index: any) => {
-          this.performValidations(value, subValue, index.toString(), [], metadatas, errors);
+          this.performValidations(value, subValue, index.toString(), [], metadatas, error.children);
         });
       } else if (value instanceof Object) {
         const targetSchema = typeof metadata.target === 'string' ? metadata.target : metadata.target.name;
-        this.execute(value, targetSchema, errors);
+        this.execute(value, targetSchema, error.children);
       } else {
-        const error = new ValidationError();
-        error.value = value;
-        error.property = metadata.propertyName;
-        error.target = metadata.target as object;
         const [type, message] = this.createValidationError(metadata.target as object, value, metadata);
-        error.constraints = {
-          [type]: message,
-        };
-        errors.push(error);
+        error.constraints[type] = message;
       }
     });
   }

@@ -40,6 +40,7 @@ Class-validator works on both browser and node.js platforms.
   - [Samples](#samples)
   - [Extensions](#extensions)
   - [Release notes](#release-notes)
+  - [Contributing](#contributing)
 
 ## Installation
 
@@ -139,7 +140,9 @@ export interface ValidatorOptions {
 }
 ```
 
-> It's highly advised to set `forbidUnknownValues: true` as it will prevent unknown objects from passing validation.
+> **IMPORTANT**
+> The `forbidUnknownValues` value is set to `true` by default and **it is highly advised to keep the default**.
+> Setting it to `false` will result unknown objects passing the validation!
 
 ## Validation errors
 
@@ -368,7 +371,7 @@ export class Post {
 
 ## Inheriting Validation decorators
 
-When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant class decorators will be applied on it both from that and the base class.
+When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant, class decorators will be applied on it from both its own class and the base class.
 
 ```typescript
 import { validate } from 'class-validator';
@@ -522,6 +525,10 @@ for you, even if skipMissingProperties is set to true. For such cases you should
 
 In different situations you may want to use different validation schemas of the same object.
 In such cases you can use validation groups.
+
+> **IMPORTANT**
+> Calling a validation with a group combination that would not result in a validation (eg: non existent group name)
+> will result in a unknown value error. When validating with groups the provided group combination should match at least one decorator.
 
 ```typescript
 import { validate, Min, Length } from 'class-validator';
@@ -798,16 +805,16 @@ isBoolean(value);
 | `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison. |
 | `@IsEmpty()`                                    | Checks if given value is empty (=== '', === null, === undefined). |
 | `@IsNotEmpty()`                                 | Checks if given value is not empty (!== '', !== null, !== undefined). |
-| `@IsIn(values: any[])`                          | Checks if value is in a array of allowed values. |
-| `@IsNotIn(values: any[])`                       | Checks if value is not in a array of disallowed values. |
+| `@IsIn(values: any[])`                          | Checks if value is in an array of allowed values. |
+| `@IsNotIn(values: any[])`                       | Checks if value is not in an array of disallowed values. |
 | **Type validation decorators**                  | |
 | `@IsBoolean()`                                  | Checks if a value is a boolean. |
 | `@IsDate()`                                     | Checks if the value is a date. |
-| `@IsString()`                                   | Checks if the string is a string. |
+| `@IsString()`                                   | Checks if the value is a string. |
 | `@IsNumber(options: IsNumberOptions)`           | Checks if the value is a number. |
 | `@IsInt()`                                      | Checks if the value is an integer number. |
 | `@IsArray()`                                    | Checks if the value is an array |
-| `@IsEnum(entity: object)`                       | Checks if the value is an valid enum |
+| `@IsEnum(entity: object)`                       | Checks if the value is a valid enum |
 | **Number validation decorators**                |
 | `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another. |
 | `@IsPositive()`                                 | Checks if the value is a positive number greater than zero. |
@@ -815,10 +822,10 @@ isBoolean(value);
 | `@Min(min: number)`                             | Checks if the given number is greater than or equal to given number. |
 | `@Max(max: number)`                             | Checks if the given number is less than or equal to given number. |
 | **Date validation decorators**                  |
-| `@MinDate(date: Date)`                          | Checks if the value is a date that's after the specified date. |
-| `@MaxDate(date: Date)`                          | Checks if the value is a date that's before the specified date. |  
+| `@MinDate(date: Date | (() => Date))`           | Checks if the value is a date that's after the specified date. |
+| `@MaxDate(date: Date | (() => Date))`           | Checks if the value is a date that's before the specified date. |  
 | **String-type validation decorators**           | |
-| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false"). |
+| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false" or "1", "0"). |
 | `@IsDateString()`                               | Alias for `@IsISO8601()`. |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if a string is a number. |
 | **String validation decorators**                | |
@@ -829,12 +836,14 @@ isBoolean(value);
 | `@IsDecimal(options?: IsDecimalOptions)`        | Checks if the string is a valid decimal value. Default IsDecimalOptions are `force_decimal=False`, `decimal_digits: '1,'`, `locale: 'en-US'` |
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only. |
 | `@IsBase32()`                                   | Checks if a string is base32 encoded. |
+| `@IsBase58()`                                   | Checks if a string is base58 encoded. |
 | `@IsBase64()`                                   | Checks if a string is base64 encoded. |
 | `@IsIBAN()`                                     | Checks if a string is a IBAN (International Bank Account Number). |
 | `@IsBIC()`                                      | Checks if a string is a BIC (Bank Identification Code) or SWIFT code. |
 | `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range. |
 | `@IsCreditCard()`                               | Checks if the string is a credit card. |
 | `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount. |
+| `@IsISO4217CurrencyCode()`                      | Checks if the string is an ISO 4217 currency code. |
 | `@IsEthereumAddress()`                          | Checks if the string is an Ethereum address using basic regex. Does not validate address checksums. |
 | `@IsBtcAddress()`                               | Checks if the string is a valid BTC address. |
 | `@IsDataURI()`                                  | Checks if the string is a data uri format. |
@@ -844,7 +853,7 @@ isBoolean(value);
 | `@IsHalfWidth()`                                | Checks if the string contains any half-width chars. |
 | `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars. |
 | `@IsHexColor()`                                 | Checks if the string is a hexadecimal color. |
-| `@IsHSLColor()`                                 | Checks if the string is an HSL color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value). |
+| `@IsHSL()`                                      | Checks if the string is an HSL color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value). |
 | `@IsRgbColor(options?: IsRgbOptions)`           | Checks if the string is a rgb or rgba color. |
 | `@IsIdentityCard(locale?: string)`              | Checks if the string is a valid identity card code. |
 | `@IsPassportNumber(countryCode?: string)`       | Checks if the string is a valid passport number relative to a specific country code. |
@@ -870,12 +879,13 @@ isBoolean(value);
 | `@IsISO31661Alpha2()`                           | Checks if the string is a valid ISO 3166-1 alpha-2 officially assigned country code. |
 | `@IsISO31661Alpha3()`                           | Checks if the string is a valid ISO 3166-1 alpha-3 officially assigned country code. |
 | `@IsLocale()`                                   | Checks if the string is a locale. |
-| `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone numberusing libphonenumber-js. |
+| `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number using libphonenumber-js. |
 | `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId. |
 | `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars. |
 | `@IsNumberString(options?: IsNumericOptions)`   | Checks if the string is numeric. |
 | `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars. |
-| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is an url. |
+| `@IsTaxId()`                                    | Checks if the string is a valid tax ID. Default locale is `en-US`.
+| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is a URL. |
 | `@IsMagnetURI()`                                | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme). |
 | `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`       | Checks if the string is a UUID (version 3, 4, 5 or all ). |
 | `@IsFirebasePushId()`                           | Checks if the string is a [Firebase Push ID](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html) |
@@ -885,12 +895,14 @@ isBoolean(value);
 | `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number. |
 | `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i'). |
 | `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM. |
+| `@IsTimeZone()`                                 | Checks if the string represents a valid IANA time-zone. |
 | `@IsHash(algorithm: string)`                    | Checks if the string is a hash The following types are supported:`md4`, `md5`, `sha1`, `sha256`, `sha384`, `sha512`, `ripemd128`, `ripemd160`, `tiger128`, `tiger160`, `tiger192`, `crc32`, `crc32b`. |
 | `@IsMimeType()`                                 | Checks if the string matches to a valid [MIME type](https://en.wikipedia.org/wiki/Media_type) format |
 | `@IsSemVer()`                                   | Checks if the string is a Semantic Versioning Specification (SemVer). |
 | `@IsISSN(options?: IsISSNOptions)`              | Checks if the string is a ISSN. |
 | `@IsISRC()`                                     | Checks if the string is a [ISRC](https://en.wikipedia.org/wiki/International_Standard_Recording_Code). |
 | `@IsRFC3339()`                                  | Checks if the string is a valid [RFC 3339](https://tools.ietf.org/html/rfc3339) date. |
+| `@IsStrongPassword(options?: IsStrongPasswordOptions)` | Checks if the string is a strong password. |
 | **Array validation decorators**                 | |
 | `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values. |
 | `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values. |
@@ -905,87 +917,7 @@ isBoolean(value);
 
 ## Defining validation schema without decorators
 
-You can define your validation schemas without decorators:
-
-- you can define it in the separate object
-- you can define it in the `.json` file
-
-This feature maybe useful in the cases if:
-
-- are using es5/es6 and don't have decorators available
-- you don't have a classes, and instead using interfaces
-- you don't want to use model at all
-- you want to have a validation schema separate of your model
-- you want beautiful json-schema based validation models
-- you simply hate decorators
-
-Here is an example of using it:
-
-1. Create a schema object:
-
-   ```typescript
-   import { ValidationSchema } from 'class-validator';
-   export let UserValidationSchema: ValidationSchema = {
-     // using interface here is not required, its just for type-safety
-     name: 'myUserSchema', // this is required, and must be unique
-     properties: {
-       firstName: [
-         {
-           type: 'minLength', // validation type. All validation types are listed in ValidationTypes class.
-           constraints: [2],
-         },
-         {
-           type: 'maxLength',
-           constraints: [20],
-         },
-       ],
-       lastName: [
-         {
-           type: 'minLength',
-           constraints: [2],
-         },
-         {
-           type: 'maxLength',
-           constraints: [20],
-         },
-       ],
-       email: [
-         {
-           type: 'isEmail',
-         },
-       ],
-     },
-   };
-   ```
-
-   Same schema can be provided in `.json` file, depend on your wish.
-
-2. Register your schema:
-
-   ```typescript
-   import { registerSchema } from 'class-validator';
-   import { UserValidationSchema } from './UserValidationSchema';
-   registerSchema(UserValidationSchema); // if schema is in .json file, then you can simply do registerSchema(require("path-to-schema.json"));
-   ```
-
-   Better to put this code in a global place, maybe when you bootstrap your application, for example in `app.ts`.
-
-3. Validate your object using validation schema:
-
-   ```typescript
-   import { validate } from 'class-validator';
-   const user = { firstName: 'Johny', secondName: 'Cage', email: 'johny@cage.com' };
-   validate('myUserSchema', user).then(errors => {
-     if (errors.length > 0) {
-       console.log('Validation failed: ', errors);
-     } else {
-       console.log('Validation succeed.');
-     }
-   });
-   ```
-
-   That's it. Here `"myUserSchema"` is the name of our validation schema.
-   `validate` method will perform validation based on this schema
+Schema-based validation without decorators is no longer supported by `class-validator`. This feature was broken in version 0.12 and it will not be fixed. If you are interested in schema-based validation, you can find several such frameworks in [the zod readme's comparison section](https://github.com/colinhacks/zod#comparison).
 
 ## Validating plain objects
 
@@ -1012,3 +944,7 @@ See information about breaking changes and release notes [here][3].
 [1]: https://github.com/chriso/validator.js
 [2]: https://github.com/pleerock/typedi
 [3]: CHANGELOG.md
+
+## Contributing
+
+For information about how to contribute to this project, see [TypeStack's general contribution guide](https://github.com/typestack/.github/blob/master/CONTRIBUTING.md).

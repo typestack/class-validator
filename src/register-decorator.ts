@@ -76,6 +76,7 @@ export function registerDecorator(options: ValidationDecoratorOptions): void {
 
   const validationMetadataArgs: ValidationMetadataArgs = {
     type: options.name && ValidationTypes.isValid(options.name) ? options.name : ValidationTypes.CUSTOM_VALIDATION,
+    name: options.name,
     target: options.target,
     propertyName: options.propertyName,
     validationOptions: options.options,

@@ -1,4 +1,4 @@
-import { Allow, IsDefined, Min } from '../../src/decorator/decorators';
+import { Allow, IsDefined, IsOptional, Min } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidationTypes } from '../../src';
 
@@ -46,18 +46,30 @@ describe('whitelist validation', () => {
   });
 
   it('should throw an error when forbidNonWhitelisted flag is set', () => {
-    class MyClass {}
+    class MyPayload {
+      /**
+       * Since forbidUnknownValues defaults to true, we must add a property to
+       * register the class in the metadata storage. Otherwise the unknown value check
+       * would take priority (first check) and exit without running the whitelist logic.
+       */
+      @IsOptional()
+      propertyToRegisterClass: string;
 
-    const model: any = new MyClass();
+      nonDecorated: string;
 
-    model.unallowedProperty = 'non-whitelisted';
+      constructor(nonDecorated: string) {
+        this.nonDecorated = nonDecorated;
+      }
+    }
 
-    return validator.validate(model, { whitelist: true, forbidNonWhitelisted: true }).then(errors => {
+    const instance = new MyPayload('non-whitelisted');
+
+    return validator.validate(instance, { whitelist: true, forbidNonWhitelisted: true }).then(errors => {
       expect(errors.length).toEqual(1);
-      expect(errors[0].target).toEqual(model);
-      expect(errors[0].property).toEqual('unallowedProperty');
+      expect(errors[0].target).toEqual(instance);
+      expect(errors[0].property).toEqual('nonDecorated');
       expect(errors[0].constraints).toHaveProperty(ValidationTypes.WHITELIST);
-      expect(() => errors[0].toString()).not.toThrowError();
+      expect(() => errors[0].toString()).not.toThrow();
     });
   });
 });

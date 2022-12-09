@@ -17,13 +17,16 @@ export function isAlphanumeric(value: unknown, locale?: ValidatorJS.Alphanumeric
  * Checks if the string contains only letters and numbers.
  * If given value is not a string, then it returns false.
  */
-export function IsAlphanumeric(locale?: string, validationOptions?: ValidationOptions): PropertyDecorator {
+export function IsAlphanumeric(
+  locale?: ValidatorJS.AlphanumericLocale,
+  validationOptions?: ValidationOptions
+): PropertyDecorator {
   return ValidateBy(
     {
       name: IS_ALPHANUMERIC,
       constraints: [locale],
       validator: {
-        validate: (value, args): boolean => isAlphanumeric(value, args.constraints[0]),
+        validate: (value, args): boolean => isAlphanumeric(value, args?.constraints[0]),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must contain only letters and numbers',
           validationOptions

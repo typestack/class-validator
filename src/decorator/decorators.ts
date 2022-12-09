@@ -111,6 +111,11 @@ export * from './string/IsPostalCode';
 export * from './string/IsRFC3339';
 export * from './string/IsRgbColor';
 export * from './string/IsSemVer';
+export * from './string/IsStrongPassword';
+export * from './string/IsTimeZone';
+export * from './string/IsBase58';
+export * from './string/is-tax-id';
+export * from './string/is-iso4217-currency-code';
 
 // -------------------------------------------------------------------------
 // Type checkers

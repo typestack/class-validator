@@ -184,13 +184,22 @@ import {
   isPostalCode,
   IsSemVer,
   isSemVer,
+  IsStrongPassword,
+  isStrongPassword,
+  IsStrongPasswordOptions,
+  IsTimeZone,
+  IsBase58,
+  isBase58,
+  isTaxId,
+  IsTaxId,
+  IsISO4217CurrencyCode,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
 import { constraintToString } from '../../src/validation/ValidationUtils';
 import { default as ValidatorJS } from 'validator';
 
-export function checkValidValues(
+function checkValidValues(
   object: { someProperty: any },
   values: any[],
   validatorOptions?: ValidatorOptions
@@ -210,7 +219,7 @@ export function checkValidValues(
   return Promise.all(promises);
 }
 
-export function checkInvalidValues(
+function checkInvalidValues(
   object: { someProperty: any },
   values: any[],
   validatorOptions?: ValidatorOptions
@@ -234,7 +243,7 @@ export function checkInvalidValues(
   return Promise.all(promises);
 }
 
-export function checkReturnedError(
+function checkReturnedError(
   object: { someProperty: any },
   values: any[],
   validationType: string,
@@ -802,6 +811,7 @@ describe('IsDateString', () => {
     'text',
     'text2018-01-04T08:15:30+04',
     '2018-01-04T08:15:30Ztext',
+    '2009-02-29', // non-existent-day
     '2019-18-13T22:14:14.761Z', // month greater than 12
     '2019-12-39T22:14:14.761Z', // day greater than 31
     '2019-12-31T29:14:14.761Z', // hour greater than 24
@@ -814,7 +824,7 @@ describe('IsDateString', () => {
   ];
 
   class MyClass {
-    @IsDateString()
+    @IsDateString({ strict: true })
     someProperty: string;
   }
 
@@ -827,11 +837,11 @@ describe('IsDateString', () => {
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isDateString(value)).toBeTruthy());
+    validValues.forEach(value => expect(isDateString(value, { strict: true })).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isDateString(value as any)).toBeFalsy());
+    invalidValues.forEach(value => expect(isDateString(value as any, { strict: true })).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
@@ -874,7 +884,12 @@ describe('IsArray', () => {
 });
 
 describe('IsEnum', () => {
-  enum MyEnum {
+  enum MyDefaultIndexedEnum {
+    First,
+    Second,
+  }
+
+  enum MyCustomIndexedEnum {
     First = 1,
     Second = 999,
   }
@@ -884,38 +899,43 @@ describe('IsEnum', () => {
     Second = 'second',
   }
 
-  const validValues = [MyEnum.First, MyEnum.Second];
+  const validValues = [MyCustomIndexedEnum.First, MyCustomIndexedEnum.Second];
   const validStringValues = [MyStringEnum.First, MyStringEnum.Second];
-  const invalidValues = [true, false, 0, {}, null, undefined, 'F2irst'];
+  const invalidValues = [true, false, 42, {}, null, undefined, 'F2irst'];
 
-  class MyClass {
-    @IsEnum(MyEnum)
-    someProperty: MyEnum;
+  class MyClassOne {
+    @IsEnum(MyDefaultIndexedEnum)
+    someProperty: MyDefaultIndexedEnum;
   }
 
-  class MyClass2 {
+  class MyClassTwo {
+    @IsEnum(MyCustomIndexedEnum)
+    someProperty: MyCustomIndexedEnum;
+  }
+
+  class MyClassThree {
     @IsEnum(MyStringEnum)
     someProperty: MyStringEnum;
   }
 
   it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+    return checkValidValues(new MyClassTwo(), validValues);
   });
 
   it('should not fail if validator.validate said that its valid (string enum)', () => {
-    return checkValidValues(new MyClass2(), validStringValues);
+    return checkValidValues(new MyClassThree(), validStringValues);
   });
 
   it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+    return checkInvalidValues(new MyClassTwo(), invalidValues);
   });
 
   it('should fail if validator.validate said that its invalid (string enum)', () => {
-    return checkInvalidValues(new MyClass2(), invalidValues);
+    return checkInvalidValues(new MyClassThree(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isEnum(value, MyEnum)).toBeTruthy());
+    validValues.forEach(value => expect(isEnum(value, MyCustomIndexedEnum)).toBeTruthy());
   });
 
   it('should not fail if method in validator said that its valid (string enum)', () => {
@@ -923,23 +943,29 @@ describe('IsEnum', () => {
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isEnum(value, MyEnum)).toBeFalsy());
+    invalidValues.forEach(value => expect(isEnum(value, MyCustomIndexedEnum)).toBeFalsy());
   });
 
   it('should fail if method in validator said that its invalid (string enum)', () => {
     invalidValues.forEach(value => expect(isEnum(value, MyStringEnum)).toBeFalsy());
   });
 
-  it('should return error object with proper data', () => {
+  it('should return error with proper message for default indexed enum', () => {
     const validationType = 'isEnum';
-    const message = 'someProperty must be a valid enum value';
-    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+    const message = 'someProperty must be one of the following values: 0, 1';
+    return checkReturnedError(new MyClassOne(), invalidValues, validationType, message);
   });
 
-  it('should return error object with proper data (string enum)', () => {
+  it('should return error with proper message for custom indexed enum', () => {
     const validationType = 'isEnum';
-    const message = 'someProperty must be a valid enum value';
-    checkReturnedError(new MyClass2(), invalidValues, validationType, message);
+    const message = 'someProperty must be one of the following values: 1, 999';
+    return checkReturnedError(new MyClassTwo(), invalidValues, validationType, message);
+  });
+
+  it('should return error with proper message for string enum', () => {
+    const validationType = 'isEnum';
+    const message = 'someProperty must be one of the following values: first, second';
+    return checkReturnedError(new MyClassThree(), invalidValues, validationType, message);
   });
 });
 
@@ -1179,6 +1205,72 @@ describe('MinDate', () => {
 
 describe('MaxDate', () => {
   const constraint = new Date(1995, 11, 17);
+  const validValues = [new Date(1994, 11, 17)];
+  const invalidValues = [new Date()];
+
+  class MyClass {
+    @MaxDate(constraint)
+    someProperty: Date;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(maxDate(value, constraint)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(maxDate(value, constraint)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'maxDate';
+    const message = 'maximal allowed date for someProperty is ' + constraintToString(constraint);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('MinDate function constraint', () => {
+  const constraint = () => new Date(1995, 11, 17);
+  const validValues = [new Date()];
+  const invalidValues = [new Date(1994, 11, 17)];
+
+  class MyClass {
+    @MinDate(constraint)
+    someProperty: Date;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(minDate(value, constraint)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(minDate(value, constraint)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'minDate';
+    const message = 'minimal allowed date for someProperty is ' + constraintToString(constraint);
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('MaxDate function constraint', () => {
+  const constraint = () => new Date(1995, 11, 17);
   const validValues = [new Date(1994, 11, 17)];
   const invalidValues = [new Date()];
 
@@ -2231,6 +2323,39 @@ describe('IsByteLength', () => {
   });
 });
 
+describe('IsTaxId', () => {
+  const constraint = 'bg-BG';
+  const validValues = ['7501010010', '0101010012', '0111010010', '7521010014', '7541010019'];
+  const invalidValues = [null, undefined, '750101001', '75010100101', '75-01010/01 0', '7521320010', '7501010019'];
+
+  class MyClass {
+    @IsTaxId(constraint)
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isTaxId(value, constraint)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isTaxId(value, constraint)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isTaxId';
+    const message = 'someProperty must be a Tax Identification Number';
+    checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
 describe('IsCreditCard', () => {
   const validValues = [
     '375556917985515',
@@ -2913,10 +3038,11 @@ describe('IsISO8601', () => {
     '2009-05-19 14.5.44',
     '2010-02-18T16:23.33.600',
     '2010-02-18T16,25:23:48,444',
+    '2009-02-29',
   ];
 
   class MyClass {
-    @IsISO8601()
+    @IsISO8601({ strict: true })
     someProperty: string;
   }
 
@@ -2929,11 +3055,11 @@ describe('IsISO8601', () => {
   });
 
   it('should not fail if method in validator said that its valid', () => {
-    validValues.forEach(value => expect(isISO8601(value)).toBeTruthy());
+    validValues.forEach(value => expect(isISO8601(value, { strict: true })).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
-    invalidValues.forEach(value => expect(isISO8601(value)).toBeFalsy());
+    invalidValues.forEach(value => expect(isISO8601(value, { strict: true })).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
@@ -3370,7 +3496,7 @@ describe('IsUrl', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'isUrl';
-    const message = 'someProperty must be an URL address';
+    const message = 'someProperty must be a URL address';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
@@ -3662,15 +3788,15 @@ describe('Length', () => {
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'length';
+    const validationType = 'isLength';
     const message = 'someProperty must be longer than or equal to ' + constraintToString(constraint1) + ' characters';
-    checkReturnedError(new MyClass(), ['', 'a'], validationType, message);
+    return checkReturnedError(new MyClass(), ['', 'a'], validationType, message);
   });
 
   it('should return error object with proper data', () => {
-    const validationType = 'length';
+    const validationType = 'isLength';
     const message = 'someProperty must be shorter than or equal to ' + constraintToString(constraint2) + ' characters';
-    checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
+    return checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
   });
 });
 
@@ -3825,6 +3951,28 @@ describe('IsMilitaryTime', () => {
 
   it('should fail for invalid values', () => {
     const invalidValues = [undefined, null, '23:00 and invalid counterpart'];
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
+describe('IsTimeZone', () => {
+  class MyClass {
+    @IsTimeZone()
+    someProperty: string;
+  }
+
+  it('should not fail for a valid IANA timezones', () => {
+    const validValues = ['Asia/Kathmandu', 'America/New_York', 'Europe/Paris', 'Europe/Berlin'];
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail for invalid timezone format', () => {
+    const invalidValues = ['Asia/Pokhara', 'America', 'New_York', '/Paris'];
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should fail for invalid values', () => {
+    const invalidValues = [undefined, null, 'Asia-Kathmandu'];
     return checkInvalidValues(new MyClass(), invalidValues);
   });
 });
@@ -4355,7 +4503,7 @@ describe('ArrayMaxSize', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'arrayMaxSize';
-    const message = 'someProperty must contain not more than ' + constraintToString(constraint) + ' elements';
+    const message = 'someProperty must contain no more than ' + constraintToString(constraint) + ' elements';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
@@ -4484,5 +4632,135 @@ describe('isInstance', () => {
     const validationType = 'isInstance';
     const message = 'someProperty must be an instance of MySubClass';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsStrongPassword', () => {
+  class MyClass {
+    @IsStrongPassword()
+    someProperty: string;
+  }
+
+  const validValues = ['Abcdef1!'];
+  const invalidValues = [null, undefined, 'Abcde1!', 'abcdef1!', 'ABCDEF1!', 'Abcdefg!', 'Abcdefg1'];
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isStrongPassword(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isStrongPassword(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isStrongPassword';
+    const message = 'someProperty is not strong enough';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsStrongPassword with options', () => {
+  const options: IsStrongPasswordOptions = {
+    minLength: 12,
+    minLowercase: 2,
+    minUppercase: 2,
+    minNumbers: 2,
+    minSymbols: 2,
+  };
+
+  class MyClass {
+    @IsStrongPassword(options)
+    someProperty: string;
+  }
+
+  const validValues = ['ABcdefgh12!#'];
+  const invalidValues = [
+    null,
+    undefined,
+    'ABcdefg12!#',
+    'Abcdefgh12!#',
+    'ABcDEFGH12!#',
+    'ABcdefghi1!#',
+    'ABcdefghi12!',
+  ];
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isStrongPassword(value, options)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isStrongPassword(value, options)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isStrongPassword';
+    const message = 'someProperty is not strong enough';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsBase58', () => {
+  const constraint = '';
+  const validValues = ['4Fcj4ooZqEQiyH68xykKJFnwZbePBCxgTjwQVtce1VyS'];
+  const invalidValues = [null, undefined, 'my*name-isKinggodHoon'];
+
+  class MyClass {
+    @IsBase58()
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isBase58(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isBase58(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isBase58';
+    const message = 'someProperty must be base58 encoded';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsISO4217', () => {
+  class MyClass {
+    @IsISO4217CurrencyCode()
+    someProperty: string;
+  }
+
+  it('should not fail for a valid ISO4217 code', () => {
+    const validValues = ['EUR', 'USD', 'BDT', 'LRD'];
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail for invalid values', () => {
+    const invalidValues = [undefined, null, '', 'USS'];
+    return checkInvalidValues(new MyClass(), invalidValues);
   });
 });
