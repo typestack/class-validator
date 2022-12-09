@@ -837,7 +837,7 @@ isBoolean(value);
 | `@IsAscii()`                                    | Checks if the string contains ASCII chars only. |
 | `@IsBase32()`                                   | Checks if a string is base32 encoded. |
 | `@IsBase58()`                                   | Checks if a string is base58 encoded. |
-| `@IsBase64()`                                   | Checks if a string is base64 encoded. |
+| `@IsBase64(options?: IsBase64Options)`          | Checks if a string is base64 encoded. |
 | `@IsIBAN()`                                     | Checks if a string is a IBAN (International Bank Account Number). |
 | `@IsBIC()`                                      | Checks if a string is a BIC (Bank Identification Code) or SWIFT code. |
 | `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range. |
