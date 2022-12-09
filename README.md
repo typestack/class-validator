@@ -887,7 +887,7 @@ isBoolean(value);
 | `@IsTaxId()`                                    | Checks if the string is a valid tax ID. Default locale is `en-US`.
 | `@IsUrl(options?: IsURLOptions)`                | Checks if the string is a URL. |
 | `@IsMagnetURI()`                                | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme). |
-| `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`       | Checks if the string is a UUID (version 3, 4, 5 or all ). |
+| `@IsUUID(version?: UUIDVersion)`       | Checks if the string is a UUID (version 3, 4, 5 or all ). |
 | `@IsFirebasePushId()`                           | Checks if the string is a [Firebase Push ID](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html) |
 | `@IsUppercase()`                                | Checks if the string is uppercase. |
 | `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range. |
