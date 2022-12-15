@@ -4000,10 +4000,6 @@ describe('IsTimeZone', () => {
 describe('isPhoneNumber', () => {
   describe('with region', () => {
     const validValues = [
-      '0311111111',
-      '031 633 60 01',
-      '079 4 666 666',
-      '075 416 20 30',
       '+41 311111111',
       '+41 31 633 60 01',
       '+41 79 4 666 666',
@@ -4012,7 +4008,6 @@ describe('isPhoneNumber', () => {
       '+41 (0)31 633 60 01',
       '+41 (0)79 4 666 666',
       '+41 (0)75 416 20 30',
-      '+49 9072 1111',
     ];
     const invalidValues = [undefined, null, 'asdf', '1'];
 
