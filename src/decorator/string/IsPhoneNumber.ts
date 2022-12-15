@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import { isValidPhoneNumber, CountryCode } from 'libphonenumber-js/max';
+import { parsePhoneNumber, CountryCode } from 'libphonenumber-js/max';
 
 export const IS_PHONE_NUMBER = 'isPhoneNumber';
 
@@ -17,7 +17,21 @@ export function isPhoneNumber(value: string, region?: CountryCode): boolean {
     return false;
   }
 
-  return isValidPhoneNumber(value, region);
+  try {
+    const phoneNumber = parsePhoneNumber(value, region);
+
+    /**
+     * We fail the validation if the user provided a region code
+     * and it doesn't match with the country code of the parsed number.
+     **/
+    if (region && phoneNumber.country !== region) {
+      return false;
+    }
+
+    return phoneNumber.isValid();
+  } catch (error) {
+    return false;
+  }
 }
 
 /**
