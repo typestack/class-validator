@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { isDate } from '../typechecker/IsDate';
 
 export const MAX_DATE = 'maxDate';
 
@@ -17,7 +18,7 @@ export function MaxDate(date: Date | (() => Date), validationOptions?: Validatio
   return ValidateBy(
     {
       name: MAX_DATE,
-      constraints: [date],
+      constraints: [isDate(date) ? date : date()],
       validator: {
         validate: (value, args): boolean => maxDate(value, args?.constraints[0]),
         defaultMessage: buildMessage(

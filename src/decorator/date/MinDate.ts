@@ -1,5 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
+import { isDate } from '../typechecker/IsDate';
 
 export const MIN_DATE = 'minDate';
 
@@ -17,7 +18,7 @@ export function MinDate(date: Date | (() => Date), validationOptions?: Validatio
   return ValidateBy(
     {
       name: MIN_DATE,
-      constraints: [date],
+      constraints: [isDate(date) ? date : date()],
       validator: {
         validate: (value, args): boolean => minDate(value, args?.constraints[0]),
         defaultMessage: buildMessage(
