@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@types/validator": "^13.7.10",
-    "libphonenumber-js": "^1.10.15",
+    "libphonenumber-js": "^1.10.17",
     "validator": "^13.7.0"
   },
   "devDependencies": {
@@ -45,15 +45,15 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/eslint-plugin": "^5.48.0",
-    "@typescript-eslint/parser": "^5.48.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-jest": "^27.2.0",
+    "eslint-plugin-jest": "^27.2.1",
     "husky": "^4.3.8",
     "jest": "^29.3.1",
     "lint-staged": "^13.1.0",
-    "prettier": "^2.8.1",
+    "prettier": "^2.8.2",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rollup": "^2.79.1",
