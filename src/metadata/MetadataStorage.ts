@@ -149,6 +149,27 @@ export class MetadataStorage {
   }
 
   /**
+   * The function allows to get the property names of the target constructor that are decorated with validation decorators, thus you can use this list of properties to validate your object.
+   */
+  getTargetValidationProperties(
+    targetConstructor: Function,
+    targetSchema: string,
+    always: boolean,
+    strictGroups: boolean,
+    groups?: string[]
+  ): string[] {
+    const metadata = this.getTargetValidationMetadatas(
+      targetConstructor,
+      targetSchema,
+      always,
+      strictGroups,
+      groups
+    );
+    const grouped = this.groupByPropertyName(metadata);
+    return Object.keys(grouped);
+  }
+
+  /**
    * Gets all validator constraints for the given object.
    */
   getTargetValidatorConstraints(target: Function): ConstraintMetadata[] {
