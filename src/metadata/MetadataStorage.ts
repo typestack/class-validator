@@ -158,13 +158,7 @@ export class MetadataStorage {
     strictGroups: boolean,
     groups?: string[]
   ): string[] {
-    const metadata = this.getTargetValidationMetadatas(
-      targetConstructor,
-      targetSchema,
-      always,
-      strictGroups,
-      groups
-    );
+    const metadata = this.getTargetValidationMetadatas(targetConstructor, targetSchema, always, strictGroups, groups);
     const grouped = this.groupByPropertyName(metadata);
     return Object.keys(grouped);
   }
