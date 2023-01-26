@@ -939,7 +939,7 @@ There are several extensions that simplify class-validator integration with othe
 
 See information about breaking changes and release notes [here][3].
 
-[1]: https://github.com/chriso/validator.js
+[1]: https://github.com/validatorjs/validator.js
 [2]: https://github.com/pleerock/typedi
 [3]: CHANGELOG.md
 
