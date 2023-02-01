@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@types/validator": "^13.7.11",
-    "libphonenumber-js": "^1.10.18",
+    "libphonenumber-js": "^1.10.19",
     "validator": "^13.7.0"
   },
   "devDependencies": {
@@ -45,8 +45,8 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-jest": "^27.2.1",
