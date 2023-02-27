@@ -81,7 +81,7 @@ export class ValidationExecutor {
       validationError.value = undefined;
       validationError.property = targetPropertyName || undefined;
       validationError.children = [];
-      const additionalDetail = targetPropertyName ? ` for property + ${targetPropertyName}`
+      const additionalDetail = targetPropertyName ? ` for property + '${targetPropertyName}'`
       validationError.constraints = { unknownValue: `an unknown value was passed to the validate function${additionalDetail};
 
       validationErrors.push(validationError);
