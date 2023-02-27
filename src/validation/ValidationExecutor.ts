@@ -36,7 +36,7 @@ export class ValidationExecutor {
   // Public Methods
   // -------------------------------------------------------------------------
 
-  execute(object: object, targetSchema: string, validationErrors: ValidationError[]): void {
+  execute(object: object, targetSchema: string, validationErrors: ValidationError[], targetPropertyName: string): void {
     /**
      * If there is no metadata registered it means possibly the dependencies are not flatterned and
      * more than one instance is used.
@@ -79,9 +79,9 @@ export class ValidationExecutor {
         validationError.target = object;
 
       validationError.value = undefined;
-      validationError.property = undefined;
+      validationError.property = targetPropertyName || undefined;
       validationError.children = [];
-      validationError.constraints = { unknownValue: 'an unknown value was passed to the validate function' };
+      validationError.constraints = { unknownValue: `an unknown value was passed to the validate function${' for property' + targetPropertyName}` };
 
       validationErrors.push(validationError);
 
@@ -362,7 +362,7 @@ export class ValidationExecutor {
         });
       } else if (value instanceof Object) {
         const targetSchema = typeof metadata.target === 'string' ? metadata.target : metadata.target.name;
-        this.execute(value, targetSchema, error.children);
+        this.execute(value, targetSchema, error.children, metadata.propertyName);
       } else {
         const [type, message] = this.createValidationError(metadata.target as object, value, metadata);
         error.constraints[type] = message;
