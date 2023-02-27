@@ -30,10 +30,10 @@ describe('validator options', () => {
     return validator.validate(anonymousObject, { forbidUnknownValues: true }).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].target).toEqual(anonymousObject);
-      expect(errors[0].property).toEqual(undefined);
+      expect(errors[0].property).toEqual('badKey');
       expect(errors[0].value).toEqual(undefined);
       expect(errors[0].children).toBeInstanceOf(Array);
-      expect(errors[0].constraints).toEqual({ unknownValue: 'an unknown value was passed to the validate function' });
+      expect(errors[0].constraints).toEqual({ unknownValue: 'an unknown value was passed to the validate function for property badKey' });
     });
   });
 
