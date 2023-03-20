@@ -2,7 +2,7 @@ import { Validator } from '../../src/validation/Validator';
 import { ValidationArguments } from '../../src/validation/ValidationArguments';
 import { registerDecorator } from '../../src/register-decorator';
 import { ValidationOptions } from '../../src/decorator/ValidationOptions';
-import { ValidatorConstraint, Validate, IsNotEmpty } from '../../src/decorator/decorators';
+import { ValidatorConstraint, Validate, IsNotEmpty, IsString, ValidateIf } from '../../src/decorator/decorators';
 import { ValidatorConstraintInterface } from '../../src/validation/ValidatorConstraintInterface';
 
 const validator = new Validator();
@@ -66,5 +66,53 @@ describe('sync validation should ignore async validation constraints', () => {
     const errors = validator.validateSync(model);
     expect(errors.length).toEqual(1);
     expect(errors[0].constraints).toEqual({ isNotEmpty: 'name should not be empty' });
+  });
+});
+
+describe('sync CustomValidation should not ignore other validation annotations', () => {
+  @ValidatorConstraint({ name: 'customValidation', async: false })
+  class CustomValidation implements ValidatorConstraintInterface {
+    validate(value: any, args: ValidationArguments): boolean {
+      return true;
+    }
+  }
+
+  class SecondClass {
+
+    @Validate(CustomValidation)
+    @ValidateIf((v) => !!v.name)
+    @IsString()
+    lastName: string | number;
+
+    @IsString()
+    name?: string;
+  }
+
+  it('validate the @Validate rule', () => {
+    expect.assertions(1);
+    const model: SecondClass = new SecondClass();
+    model.lastName = 'Doe';
+    model.name = 'John';
+    const errors = validator.validateSync(model);
+    expect(errors.length).toEqual(0);
+  });
+
+  it('should run other validation decorators if ValidateIf is satisfied', () => {
+    expect.assertions(2);
+    const model = new SecondClass();
+    model.lastName = 4;
+    model.name = 'Kostas';
+    const errors = validator.validateSync(model);
+    expect(errors.length).toEqual(1);
+    expect(errors[0].constraints).toEqual({ isString: 'lastName must be a string' });
+  });
+
+  it('should not run other validation decorators if ValidateIf is not satisfied', () => {
+    expect.assertions(2);
+    const model = new SecondClass();
+    model.lastName = 5;
+    const errors = validator.validateSync(model);
+    expect(errors.length).toEqual(1);
+    expect(errors[0].constraints).toEqual({ isString: 'name must be a string' });
   });
 });
