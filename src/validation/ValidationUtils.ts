@@ -5,7 +5,7 @@ import { ValidationArguments } from './ValidationArguments';
  */
 export function constraintToString(constraint: unknown): string {
   if (Array.isArray(constraint)) {
-    return constraint.join(', ');
+    return constraint.map(c => constraintToString(c)).join(', ');
   }
 
   if (typeof constraint === 'symbol') {
