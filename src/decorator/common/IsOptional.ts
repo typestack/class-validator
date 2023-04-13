@@ -4,7 +4,7 @@ import { ValidationTypes } from '../../validation/ValidationTypes';
 import { ValidationMetadata } from '../../metadata/ValidationMetadata';
 import { getMetadataStorage } from '../../metadata/MetadataStorage';
 
-export const IS_OPTIONAL = "isOptional";
+export const IS_OPTIONAL = 'isOptional';
 
 /**
  * Checks if value is missing and if so, ignores all validators.
