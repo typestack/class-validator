@@ -67,6 +67,7 @@ export * from './string/IsIP';
 export * from './string/IsPort';
 export * from './string/IsISBN';
 export * from './string/IsISIN';
+export * from './string/IsISO6391';
 export * from './string/IsISO8601';
 export * from './string/IsJSON';
 export * from './string/IsJWT';
