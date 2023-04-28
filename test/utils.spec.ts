@@ -23,6 +23,18 @@ describe('convertToArray', () => {
     expect(newArr).toContain('world');
   });
 
+  it('convert Literal Object into array of values', () => {
+    const object = {
+      key1: 'hello',
+      key2: 'world',
+    };
+    const newArr = convertToArray(object);
+    expect(newArr).toBeInstanceOf(Array);
+    expect(newArr.length).toEqual(2);
+    expect(newArr).toContain('hello');
+    expect(newArr).toContain('world');
+  });
+
   it('should return array untouched', () => {
     const arr = ['hello', 'world'];
     expect(arr).toBeInstanceOf(Array);
