@@ -2,6 +2,60 @@
 
 _This changelog follows the [keep a changelog][keep-a-changelog]_ format to maintain a human readable changelog.
 
+### [0.14.0](https://github.com/typestack/class-validator/compare/v0.13.2...v0.14.0) (2022-12-09)
+
+### Added
+
+- add `@IsTimeZone` decorator to check if given string is valid IANA time zone
+- add `@IsISO4217CurrencyCode` decorator to check if the string is an ISO 4217 currency code
+- add `@IsStrongPassword` decorator to check if given password matches specific complexity criteria
+- add `@IsBase58` decorator to check if a string is base58 encoded
+- add `@IsTaxId` decorator to check if a given string is a valid tax ID in a given locale
+- add support for passing function as date generator in `@MinDate` and `@MaxDate` decorators
+- add option to print constraint error message instead of constraint type in validation error
+- improve decorator metadata lookup performance
+- return possible values in error message for `@IsEnum` decorator
+
+### Fixed
+
+- re-added `@types/validator` as dependency
+- fix error generation when using `@NestedValidation`
+- pass validation options correctly to validator in `@IsDateString` decorator
+- support passing `Symbol` as parameter in error message generation
+- specify supported locales for `@IsAlphanumeric` decorator
+- correctly assign decorator name in metadata instead of loosing it
+- fix various spelling errors in documentation
+- fix various spelling errors and inconsistencies in JSDoc for decorators
+
+### Changed
+
+- enable `forbidUnknownValues` option by default
+- remove documentation about deprecated schema based validation and added warning
+- update warning message logged about missing decorator metadata
+- update `libphonenumber-js` to `^1.10.14` from `^1.9.43`
+- update various dev-dependencies
+
+### BREAKING CHANGES
+
+**`forbidUnknownValues` option is enabled by default**
+
+From this release the `forbidUnknownValues` is enabled by default. This is the desired behavior for majority of
+use-cases, but this change may break validation for some. The two scenarios that results in failed validation:
+
+- when attempting to validate a class instance without metadata for it
+- when using group validation and the specified validation group results in zero validation applied
+
+The old behavior can be restored via specifying `forbidUnknownValues: false` option when calling the validate functions.
+
+For more details see [PR #1798](https://github.com/typestack/class-validator/pull/1798) and [#1422 (comment)](https://github.com/typestack/class-validator/issues/1422#issuecomment-1317953863).
+
+**`@NestedValidation` decorator correctly assigns validation errors**
+
+Until now the errors from a nested validation in some cases were incorrectly assigned
+to the parent instead of the child being validated. Now the validation errors are correctly assigned.
+
+For more details see [#679](https://github.com/typestack/class-validator/issues/679).
+
 ### [0.13.2](https://github.com/typestack/class-validator/compare/v0.13.1...v0.13.2) (2021-11-20)
 
 > **NOTE:** This version fixes a security vulnerability allowing denial of service attacks with a specially crafted request payload.

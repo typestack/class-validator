@@ -3196,60 +3196,80 @@ describe('IsNotEmptyObject', () => {
     [],
     [{ key: 'value' }],
   ];
-  const nullableValidValues = [{ key: 'value' }, { key: 'value' }];
-  const nullableInvalidValues = [
-    null,
-    undefined,
-    '{ key: "value" }',
-    "{ 'key': 'value' }",
-    'string',
-    1234,
-    false,
-    {},
-    { key: undefined },
-    { key: null },
-    [],
-    [{ key: 'value' }],
-  ];
 
   class MyClass {
     @IsNotEmptyObject()
     someProperty: object;
   }
 
-  class NullableMyClass {
-    @IsNotEmptyObject({ nullable: true })
-    someProperty: object;
-  }
-
-  it.each([
-    [new MyClass(), validValues],
-    [new NullableMyClass(), nullableValidValues],
-  ])('should not fail if validator.validate said that its valid', (validationObject, values) => {
-    return checkValidValues(validationObject, values);
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
   });
 
-  it.each([
-    [new MyClass(), invalidValues],
-    [new NullableMyClass(), nullableInvalidValues],
-  ])('should fail if validator.validate said that its invalid', (validationObject, values) => {
-    return checkInvalidValues(validationObject, values);
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
     validValues.forEach(value => expect(isNotEmptyObject(value)).toBeTruthy());
-    nullableValidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeTruthy());
   });
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(isNotEmptyObject(value)).toBeFalsy());
-    nullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
     const validationType = 'isNotEmptyObject';
     const message = 'someProperty must be a non-empty object';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+
+  describe('with `nullable` option', () => {
+    const nullableValidValues = validValues;
+    const nullableInvalidValues = invalidValues;
+    const nonNullableValidValues = [{ key: 'value' }, { key: 'value' }];
+    const nonNullableInvalidValues = [
+      null,
+      undefined,
+      '{ key: "value" }',
+      "{ 'key': 'value' }",
+      'string',
+      1234,
+      false,
+      {},
+      { key: undefined },
+      { key: null },
+      [],
+      [{ key: 'value' }],
+    ];
+    class NullableMyClass {
+      @IsNotEmptyObject({ nullable: true })
+      someProperty: object;
+    }
+    class NonNullableMyClass {
+      @IsNotEmptyObject({ nullable: false })
+      someProperty: object;
+    }
+
+    it('should not fail if validator.validate said that its valid', async () => {
+      await checkValidValues(new NullableMyClass(), nullableValidValues);
+      await checkValidValues(new NonNullableMyClass(), nonNullableValidValues);
+    });
+
+    it('should fail if validator.validate said that its valid', async () => {
+      await checkInvalidValues(new NullableMyClass(), nullableInvalidValues);
+      await checkInvalidValues(new NonNullableMyClass(), nonNullableInvalidValues);
+    });
+
+    it('should not fail if method in validator said that its valid', () => {
+      nullableValidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeTruthy());
+      nonNullableValidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: false })).toBeTruthy());
+    });
+
+    it('should fail if method in validator said that its invalid', () => {
+      nullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: true })).toBeFalsy());
+      nonNullableInvalidValues.forEach(value => expect(isNotEmptyObject(value, { nullable: false })).toBeFalsy());
+    });
   });
 });
 
@@ -3980,10 +4000,6 @@ describe('IsTimeZone', () => {
 describe('isPhoneNumber', () => {
   describe('with region', () => {
     const validValues = [
-      '0311111111',
-      '031 633 60 01',
-      '079 4 666 666',
-      '075 416 20 30',
       '+41 311111111',
       '+41 31 633 60 01',
       '+41 79 4 666 666',
@@ -3992,7 +4008,6 @@ describe('isPhoneNumber', () => {
       '+41 (0)31 633 60 01',
       '+41 (0)79 4 666 666',
       '+41 (0)75 416 20 30',
-      '+49 9072 1111',
     ];
     const invalidValues = [undefined, null, 'asdf', '1'];
 

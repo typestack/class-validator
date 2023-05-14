@@ -1,6 +1,6 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
-import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
+import { parsePhoneNumber, CountryCode } from 'libphonenumber-js/max';
 
 export const IS_PHONE_NUMBER = 'isPhoneNumber';
 
@@ -13,12 +13,23 @@ export const IS_PHONE_NUMBER = 'isPhoneNumber';
  * If text doesn't start with the international calling code (e.g. +41), then you must set this parameter.
  */
 export function isPhoneNumber(value: string, region?: CountryCode): boolean {
+  if (typeof value !== 'string' || value.trim() !== value) {
+    return false;
+  }
+
   try {
-    const phoneNum = parsePhoneNumberFromString(value, region);
-    const result = phoneNum?.isValid();
-    return !!result;
+    const phoneNumber = parsePhoneNumber(value, region);
+
+    /**
+     * We fail the validation if the user provided a region code
+     * and it doesn't match with the country code of the parsed number.
+     **/
+    if (region && phoneNumber.country !== region) {
+      return false;
+    }
+
+    return phoneNumber.isValid();
   } catch (error) {
-    // logging?
     return false;
   }
 }
