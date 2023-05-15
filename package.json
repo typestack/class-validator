@@ -36,18 +36,18 @@
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
-    "@types/validator": "^13.7.15",
-    "libphonenumber-js": "^1.10.28",
+    "@types/validator": "^13.7.17",
+    "libphonenumber-js": "^1.10.30",
     "validator": "^13.9.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@types/jest": "^29.5.1",
-    "@types/node": "^18.16.3",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
-    "@typescript-eslint/parser": "^5.59.2",
-    "eslint": "^8.39.0",
+    "@types/node": "^20.1.4",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
+    "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-jest": "^27.2.1",
     "husky": "^4.3.8",
