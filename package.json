@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@types/validator": "^13.7.17",
-    "libphonenumber-js": "^1.10.31",
+    "libphonenumber-js": "^1.10.33",
     "validator": "^13.9.0"
   },
   "devDependencies": {
