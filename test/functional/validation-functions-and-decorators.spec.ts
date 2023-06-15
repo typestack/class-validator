@@ -193,7 +193,7 @@ import {
   isTaxId,
   IsTaxId,
   IsISO4217CurrencyCode,
-  IsEmoji
+  IsEmoji,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -209,7 +209,7 @@ function checkValidValues(
   const promises = values.map(value => {
     object.someProperty = value;
     return validator.validate(object, validatorOptions).then(errors => {
-      console.log(errors)
+      console.log(errors);
 
       expect(errors.length).toEqual(0);
       if (errors.length !== 0) {
@@ -4790,12 +4790,12 @@ describe('IsEmoji', () => {
   }
 
   it('should not fail if we pass an emoji or emoji regex', () => {
-    const validValues = ['😁', '👋🏽']
+    const validValues = ['😁', '👋🏽'];
     return checkValidValues(new MyClass(), validValues);
-  })
+  });
 
   it('should fail if the emoji regex passed are invalid', () => {
-    const invalidValues = ['U1FAF2', 'U0F3FC']
+    const invalidValues = ['U1FAF2', 'U0F3FC'];
     return checkInvalidValues(new MyClass(), invalidValues);
-  })
-})
+  });
+});

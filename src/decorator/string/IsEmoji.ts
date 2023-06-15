@@ -6,7 +6,7 @@ export const IS_EMOJI = 'isEmoji';
 
 /**
  * Checks if the string is an emoji.
- * If the given value is not a string, then it returns false. 
+ * If the given value is not a string, then it returns false.
  */
 export function isEmoji(value: unknown): boolean {
   const valueMatchesRegex = emojiRegex().test(value as string);
@@ -16,7 +16,7 @@ export function isEmoji(value: unknown): boolean {
 
 /**
  * Checks if the string is an emoji.
- * If the given value is not a string, then it returns false. 
+ * If the given value is not a string, then it returns false.
  */
 export function IsEmoji(validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
@@ -24,9 +24,9 @@ export function IsEmoji(validationOptions?: ValidationOptions): PropertyDecorato
       name: IS_EMOJI,
       validator: {
         validate: (value, args): boolean => isEmoji(value),
-        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an emoji', validationOptions)
+        defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be an emoji', validationOptions),
       },
     },
     validationOptions
-  )
+  );
 }
