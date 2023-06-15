@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@types/validator": "^13.7.17",
+    "emoji-regex": "^10.2.1",
     "libphonenumber-js": "^1.10.34",
     "validator": "^13.9.0"
   },
