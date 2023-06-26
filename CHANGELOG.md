@@ -29,6 +29,7 @@ _This changelog follows the [keep a changelog][keep-a-changelog]_ format to main
 
 ### Changed
 
+- enable `forbidUnknownValues` option by default
 - remove documentation about deprecated schema based validation and added warning
 - update warning message logged about missing decorator metadata
 - update `libphonenumber-js` to `^1.10.14` from `^1.9.43`
