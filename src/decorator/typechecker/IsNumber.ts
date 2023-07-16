@@ -29,8 +29,10 @@ export function isNumber(value: unknown, options: IsNumberOptions = {}): value i
   }
 
   if (options.maxDecimalPlaces !== undefined) {
-    if (parseFloat(value.toFixed(options.maxDecimalPlaces)) !== value) {
-      return false;
+    if (value % 1 !== 0) {
+      if (parseFloat(value.toFixed(options.maxDecimalPlaces)) !== value) {
+        return false;
+      }
     }
   }
 
