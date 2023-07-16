@@ -31,7 +31,7 @@ export function isNumber(value: unknown, options: IsNumberOptions = {}): value i
   if (options.maxDecimalPlaces !== undefined) {
     let decimalPlaces = 0;
     if (value % 1 !== 0) {
-      decimalPlaces = value.toString().split('.')[1].length;
+      decimalPlaces = value.toFixed(options.maxDecimalPlaces).split('.')[1].length;
     }
     if (decimalPlaces > options.maxDecimalPlaces) {
       return false;
