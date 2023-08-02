@@ -4,7 +4,7 @@ import { buildMessage, ValidateBy } from '../common/ValidateBy';
 export const IS_Safe_INT = 'isSafeInt';
 
 /**
- * Checks if value is an integer.
+ * Checks if value is an safe integer.
  */
 export function isSafeInt(val: unknown): val is Number {
   return typeof val === 'number' && Number.isSafeInteger(val);
