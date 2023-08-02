@@ -193,6 +193,7 @@ import {
   isTaxId,
   IsTaxId,
   IsISO4217CurrencyCode,
+  IsSafeInt,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -4777,5 +4778,40 @@ describe('IsISO4217', () => {
   it('should fail for invalid values', () => {
     const invalidValues = [undefined, null, '', 'USS'];
     return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
+describe('IsSafeInt', () => {
+  const stringValues = ['01', '-01', '000', '100e10', '123.123', '   ', ''];
+  const decimalValues = [2.5, -0.1];
+  const bigIntValues = [BigInt(2), BigInt(4), BigInt(100), BigInt(1000), BigInt(0), BigInt(-0)];
+  const invalidValues = [Number.MAX_SAFE_INTEGER + 1, Number.MIN_SAFE_INTEGER - 1, ...stringValues, ...decimalValues, ...bigIntValues];
+  const validValues = [2, 4, 100, 1000, Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER, 0, -0];
+
+  class MyClass {
+    @IsSafeInt()
+    someProperty: number;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isInt(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isInt(value as any)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isSafeInt';
+    const message = 'someProperty must be an safe integer number';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
