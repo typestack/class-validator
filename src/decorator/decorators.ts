@@ -33,6 +33,7 @@ export * from './number/IsPositive';
 export * from './number/IsNegative';
 export * from './number/Max';
 export * from './number/Min';
+export * from './number/IsSafeInt';
 
 // -------------------------------------------------------------------------
 // Date checkers
@@ -126,7 +127,6 @@ export * from './typechecker/IsDate';
 export * from './typechecker/IsNumber';
 export * from './typechecker/IsEnum';
 export * from './typechecker/IsInt';
-export * from './typechecker/IsSafeInt';
 export * from './typechecker/IsString';
 export * from './typechecker/IsArray';
 export * from './typechecker/IsObject';
