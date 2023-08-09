@@ -44,4 +44,9 @@ describe('validator options', () => {
       expect(errors.length).toEqual(0);
     });
   });
+
+  it(`should forbidUnknownValues by default`, function () {
+    expect(validator.validateSync({}).length).toEqual(1);
+    expect(validator.validateSync({}, {}).length).toEqual(1);
+  });
 });
