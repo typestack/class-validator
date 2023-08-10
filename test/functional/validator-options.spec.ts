@@ -55,6 +55,19 @@ describe('validator options', () => {
     });
   });
 
+  it(`should return error on unknown objects if empty options object argument passed`, () => {
+    const anonymousObject = { badKey: 'This should not pass.' };
+
+    return validator.validate(anonymousObject, {}).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(anonymousObject);
+      expect(errors[0].property).toEqual(undefined);
+      expect(errors[0].value).toEqual(undefined);
+      expect(errors[0].children).toBeInstanceOf(Array);
+      expect(errors[0].constraints).toEqual({ unknownValue: 'an unknown value was passed to the validate function' });
+    });
+  });
+
   it(`should return error on unknown objects if options object argument passed with forbidUnknownValues undefined`, () => {
     const anonymousObject = { badKey: 'This should not pass.' };
 
