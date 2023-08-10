@@ -77,6 +77,7 @@ export interface ValidatorOptions {
    * For instance, since a plain empty object has no annotations used for validation:
    * - `validate({})` // fails.
    * - `validate({}, { forbidUnknownValues: true })` // fails.
+   * - `validate({}, { forbidUnknownValues: false })` // passes.
    * - `validate(new SomeAnnotatedEmptyClass(), { forbidUnknownValues: true })` // passes.
    */
   forbidUnknownValues?: boolean;
