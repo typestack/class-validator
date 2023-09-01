@@ -193,6 +193,8 @@ import {
   isTaxId,
   IsTaxId,
   IsISO4217CurrencyCode,
+  IsEmoji,
+  isEmoji,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -4777,5 +4779,37 @@ describe('IsISO4217', () => {
   it('should fail for invalid values', () => {
     const invalidValues = [undefined, null, '', 'USS'];
     return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
+describe('IsEmoji', () => {
+  const validValues = ['🙂', '🚀', 'U+1F606', 'U+1F603', '😃'];
+  const invalidValues = [null, undefined, '😃😃', 'U+1F606U+1F603', 'this is a string', '', '1'];
+
+  class MyClass {
+    @IsEmoji()
+    someProperty: unknown;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isEmoji(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isEmoji(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isEmoji';
+    const message = 'someProperty must be an emoji';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
