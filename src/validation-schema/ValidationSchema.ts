@@ -57,6 +57,11 @@ export interface ValidationSchema {
       groups?: string[];
 
       /**
+       * Indicates if validation must be performed always, no matter of condition.
+       */
+      ignoreCondition?: boolean;
+
+      /**
        * Specific validation type options.
        */
       options?: any;

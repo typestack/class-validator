@@ -25,6 +25,11 @@ export interface ValidationOptions {
    */
   always?: boolean;
 
+  /**
+   * Indicates if validation must be performed always, no matter of condition.
+   */
+  ignoreCondition?: boolean;
+
   /*
    * A transient set of data passed through to the validation result for response mapping
    */
