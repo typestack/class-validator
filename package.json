@@ -53,7 +53,7 @@
     "husky": "^4.3.8",
     "jest": "^29.7.0",
     "lint-staged": "^14.0.1",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.3",
     "reflect-metadata": "0.1.13",
     "rimraf": "5.0.5",
     "rollup": "^2.79.1",
