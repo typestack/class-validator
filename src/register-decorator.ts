@@ -7,6 +7,8 @@ import { ValidationArguments } from './validation/ValidationArguments';
 import { getFromContainer } from './container';
 import { MetadataStorage, getMetadataStorage } from './metadata/MetadataStorage';
 import { ValidationOptions } from './decorator/ValidationOptions';
+import { buildMessage } from './decorator/decorators';
+import { getLocaleMessage } from './locale';
 
 export interface ValidationDecoratorOptions {
   /**
@@ -64,6 +66,27 @@ export function registerDecorator(options: ValidationDecoratorOptions): void {
       }
 
       defaultMessage(validationArguments?: ValidationArguments): string {
+        const localeMessage = getLocaleMessage(options.name as string);
+
+        if (typeof localeMessage === 'function') {
+          return buildMessage(
+            eachPrefix => `${eachPrefix}${localeMessage(eachPrefix, validationArguments, options.name)}`,
+            options.options,
+          )(validationArguments);
+        }
+
+        /*
+          when localeMessage not is a function, is ALWAYS a string,
+          because if he doesn't exists, the getLocaleMessage function returns a empty string.
+          Then .trim() function is needed
+        */
+        if (typeof localeMessage === 'string' && localeMessage.trim()) {
+          return buildMessage(
+            eachPrefix => `${eachPrefix}${localeMessage}`,
+            options.options,
+          )(validationArguments);
+        }
+
         if (validator.defaultMessage) {
           return validator.defaultMessage(validationArguments);
         }

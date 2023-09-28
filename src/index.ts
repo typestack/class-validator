@@ -11,6 +11,7 @@ import { getFromContainer } from './container';
 
 export * from './container';
 export * from './decorator/decorators';
+export * from './locale';
 export * from './decorator/ValidationOptions';
 export * from './validation/ValidatorConstraintInterface';
 export * from './validation/ValidationError';
