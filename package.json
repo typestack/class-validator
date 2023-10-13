@@ -37,17 +37,17 @@
   },
   "dependencies": {
     "@types/validator": "^13.9.0",
-    "libphonenumber-js": "^1.10.46",
+    "libphonenumber-js": "^1.10.47",
     "validator": "^13.9.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.5",
-    "@rollup/plugin-node-resolve": "^15.2.2",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/jest": "^29.5.5",
-    "@types/node": "^20.8.2",
+    "@types/node": "^20.8.5",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.50.0",
+    "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jest": "^27.4.2",
     "husky": "^4.3.8",
