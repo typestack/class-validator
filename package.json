@@ -41,7 +41,7 @@
     "validator": "^13.9.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.5",
+    "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/jest": "^29.5.5",
     "@types/node": "^20.8.6",
