@@ -405,7 +405,7 @@ user.welcome = 'helo';
 
 validate(user).then(errors => {
   // ...
-}); // it will return errors for email, title and text properties
+}); // it will return errors for email, password, name and welcome properties
 ```
 
 ## Conditional validation
