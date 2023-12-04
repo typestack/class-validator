@@ -24,6 +24,7 @@ export class ValidationExecutor {
   // Private Properties
   // -------------------------------------------------------------------------
 
+  private instance: any = undefined;
   private metadataStorage = getMetadataStorage();
 
   // -------------------------------------------------------------------------
@@ -49,6 +50,11 @@ export class ValidationExecutor {
           `  - There may be multiple class-validator versions installed. You will need to flatten your dependencies to fix the issue.\n` +
           `  - This validation runs before any file with validation decorator was parsed by NodeJS.`
       );
+    }
+
+    // Keep the instance to the original object
+    if (this.instance === undefined){
+      this.instance = object;
     }
 
     const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
@@ -268,7 +274,7 @@ export class ValidationExecutor {
         };
 
         if (!metadata.each || !(Array.isArray(value) || value instanceof Set || value instanceof Map)) {
-          const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
+          const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments, this.instance);
           if (isPromise(validatedValue)) {
             const promise = validatedValue.then(isValid => {
               if (!isValid) {
@@ -297,7 +303,7 @@ export class ValidationExecutor {
         const arrayValue = convertToArray(value);
         // Validation needs to be applied to each array item
         const validatedSubValues = arrayValue.map((subValue: any) =>
-          customConstraintMetadata.instance.validate(subValue, validationArguments)
+          customConstraintMetadata.instance.validate(subValue, validationArguments, this.instance)
         );
         const validationIsAsync = validatedSubValues.some((validatedSubValue: boolean | Promise<boolean>) =>
           isPromise(validatedSubValue)
