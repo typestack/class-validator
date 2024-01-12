@@ -12,6 +12,15 @@ jobs:
         with:
           node-version: 'lts/*'
           registry-url: https://registry.npmjs.org
+      - run: |
+          release_tag=$(echo "${GITHUB_REF}" | cut -d '/' -f 3 | sed -e 's/^v//')
+          package_json=$(cat build/package.json)
+          
+          if [[ "${release_tag}" != "$(jq -r '.version' <<< "${package_json}")" ]]; then
+           new_version="${release_tag}"
+           jq '.version = "${new_version}"' build/package.json > updated_package.json
+           mv updated_package.json build/package.json
+          fi
       - run: npm ci --ignore-scripts
       - run: npm run prettier:check
       - run: npm run lint:check
@@ -24,16 +33,6 @@ jobs:
       - run: cp LICENSE build/LICENSE
       - run: cp README.md build/README.md
       - run: jq 'del(.devDependencies) | del(.scripts)' package.json > build/package.json
-      - run: |
-          jq 'del(.devDependencies) | del(.scripts)' package.json > build/package.json
-          
-          release_tag=$(echo "${GITHUB_REF}" | cut -d '/' -f 3 | sed -e 's/^v//')
-          package_json=$(cat build/package.json)
-          
-          if [[ "${release_tag}" != "$(jq -r '.version' <<< "${package_json}")" ]]; then
-            new_version="${release_tag}"
-            jq '.version = "${new_version}"' build/package.json > updated_package.json
-            mv updated_package.json build/package.json
-          fi
+      - run: npm publish ./build
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
