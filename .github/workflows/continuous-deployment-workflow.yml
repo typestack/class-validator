@@ -24,6 +24,16 @@ jobs:
       - run: cp LICENSE build/LICENSE
       - run: cp README.md build/README.md
       - run: jq 'del(.devDependencies) | del(.scripts)' package.json > build/package.json
-      - run: npm publish ./build
+      - run: |
+          jq 'del(.devDependencies) | del(.scripts)' package.json > build/package.json
+          
+          release_tag=$(echo "${GITHUB_REF}" | cut -d '/' -f 3 | sed -e 's/^v//')
+          package_json=$(cat build/package.json)
+          
+          if [[ "${release_tag}" != "$(jq -r '.version' <<< "${package_json}")" ]]; then
+            new_version="${release_tag}"
+            jq '.version = "${new_version}"' build/package.json > updated_package.json
+            mv updated_package.json build/package.json
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
