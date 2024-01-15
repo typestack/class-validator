@@ -11,7 +11,6 @@ import {
   ValidatorConstraint,
   IsOptional,
   Min,
-  Max,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import {
@@ -1290,17 +1289,13 @@ describe('validateIf', () => {
   class MyClass {
     @Min(5, {
       message: 'min',
-      validateIf: (value, args) => {
-        const obj = args.object as MyClass;
+      validateIf: (obj: MyClass, value) => {
         return !obj.someOtherProperty || obj.someOtherProperty === 'min';
       },
     })
     @Max(3, {
       message: 'max',
-      validateIf: (value, args) => {
-        const obj = args.object as MyClass;
-        return !obj.someOtherProperty || obj.someOtherProperty === 'max';
-      },
+      validateIf: (o: MyClass) => !o.someOtherProperty || o.someOtherProperty === 'max',
     })
     someProperty: number;
 

@@ -67,7 +67,7 @@ export class ValidationMetadata {
   /**
    * validation will be performed while the result is true
    */
-  validateIf?: (value: any, validationArguments: ValidationArguments) => boolean;
+  validateIf?: (object: object, value: any) => boolean;
 
   /**
    * Extra options specific to validation type.

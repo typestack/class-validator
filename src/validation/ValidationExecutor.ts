@@ -261,7 +261,7 @@ export class ValidationExecutor {
         return validationArguments;
       };
       if (metadata.validateIf) {
-        const validateIf = metadata.validateIf(object, getValidationArguments());
+        const validateIf = metadata.validateIf(object, value);
         if (!validateIf) return;
       }
       this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls).forEach(customConstraintMetadata => {
