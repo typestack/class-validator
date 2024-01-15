@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isEmailValidator from 'validator/lib/isEmail';
-import ValidatorJS from 'validator';
+import * as ValidatorJS from 'validator';
 
 export const IS_EMAIL = 'isEmail';
 
