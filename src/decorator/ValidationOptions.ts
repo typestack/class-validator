@@ -33,7 +33,7 @@ export interface ValidationOptions {
   /**
    * validation will be performed while the result is true
    */
-  validateIf?: (value: any, validationArguments: ValidationArguments) => boolean;
+  validateIf?: (object: any, value: any) => boolean;
 }
 
 export function isValidationOptions(val: any): val is ValidationOptions {
