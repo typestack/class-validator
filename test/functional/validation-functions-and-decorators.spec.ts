@@ -1655,6 +1655,7 @@ describe('IsBase32', () => {
 
 describe('IsBase64', () => {
   const constraint = '';
+  const urlNotSafe = [btoa('malicious_data+/=')]
   const validValues = ['aGVsbG8='];
   const invalidValues = [null, undefined, 'hell*mynameisalex'];
 
@@ -1677,6 +1678,14 @@ describe('IsBase64', () => {
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(isBase64(value)).toBeFalsy());
+  });
+
+  it('should fail if method in validator said that its invalid, and i pass a url not safe and set in options urlSafe to true', () => {
+    urlNotSafe.forEach(value => expect(isBase64(value, { urlSafe: true })).toBeFalsy());
+  });
+
+  it('should not fail if method in validator said that its valid, and i pass a url not safe and set in options urlSafe to false', () => {
+    urlNotSafe.forEach(value => expect(isBase64(value, { urlSafe: false })).toBeTruthy());
   });
 
   it('should return error object with proper data', () => {
