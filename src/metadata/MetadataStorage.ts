@@ -63,8 +63,15 @@ export class MetadataStorage {
   groupByPropertyName(metadata: ValidationMetadata[]): { [propertyName: string]: ValidationMetadata[] } {
     const grouped: { [propertyName: string]: ValidationMetadata[] } = {};
     metadata.forEach(metadata => {
-      if (!grouped[metadata.propertyName]) grouped[metadata.propertyName] = [];
-      grouped[metadata.propertyName].push(metadata);
+      if (!metadata.propertyName) return;
+
+      const propertyName = metadata.propertyName.toString();
+
+      if (!grouped[propertyName]) {
+        grouped[propertyName] = [];
+      }
+
+      grouped[propertyName].push(metadata);
     });
     return grouped;
   }
@@ -74,7 +81,7 @@ export class MetadataStorage {
    */
   getTargetValidationMetadatas(
     targetConstructor: Function,
-    targetSchema: string,
+    targetSchema: string | undefined,
     always: boolean,
     strictGroups: boolean,
     groups?: string[]
@@ -151,7 +158,7 @@ export class MetadataStorage {
   /**
    * Gets all validator constraints for the given object.
    */
-  getTargetValidatorConstraints(target: Function): ConstraintMetadata[] {
+  getTargetValidatorConstraints(target?: Function): ConstraintMetadata[] {
     return this.constraintMetadatas.get(target) || [];
   }
 }

@@ -20,7 +20,8 @@ export class ValidationUtils {
     message: string | ((args: ValidationArguments) => string),
     validationArguments: ValidationArguments
   ): string {
-    let messageString: string;
+    let messageString = '';
+
     if (message instanceof Function) {
       messageString = (message as (args: ValidationArguments) => string)(validationArguments);
     } else if (typeof message === 'string') {

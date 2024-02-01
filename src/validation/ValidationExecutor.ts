@@ -36,7 +36,7 @@ export class ValidationExecutor {
   // Public Methods
   // -------------------------------------------------------------------------
 
-  execute(object: object, targetSchema: string, validationErrors: ValidationError[]): void {
+  execute(object: object, targetSchema: string | undefined, validationErrors: ValidationError[]): void {
     /**
      * If there is no metadata registered it means possibly the dependencies are not flatterned and
      * more than one instance is used.
@@ -151,8 +151,8 @@ export class ValidationExecutor {
         error.children = this.stripEmptyErrors(error.children);
       }
 
-      if (Object.keys(error.constraints).length === 0) {
-        if (error.children.length === 0) {
+      if (Object.keys(error.constraints || {}).length === 0) {
+        if (error.children?.length === 0) {
           return false;
         } else {
           delete error.constraints;
@@ -244,7 +244,7 @@ export class ValidationExecutor {
 
   private conditionalValidations(object: object, value: any, metadatas: ValidationMetadata[]): ValidationMetadata[] {
     return metadatas
-      .map(metadata => metadata.constraints[0](object, value))
+      .map(metadata => metadata.constraints?.[0](object, value))
       .reduce((resultA, resultB) => resultA && resultB, true);
   }
 
@@ -264,16 +264,23 @@ export class ValidationExecutor {
           property: metadata.propertyName,
           object: object,
           value: value,
-          constraints: metadata.constraints,
+          constraints: metadata.constraints || [],
         };
 
         if (!metadata.each || !(Array.isArray(value) || value instanceof Set || value instanceof Map)) {
           const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
+
           if (isPromise(validatedValue)) {
             const promise = validatedValue.then(isValid => {
               if (!isValid) {
                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+
+                if (!error.constraints) {
+                  error.constraints = {};
+                }
+
                 error.constraints[type] = message;
+
                 if (metadata.context) {
                   if (!error.contexts) {
                     error.contexts = {};
@@ -282,10 +289,16 @@ export class ValidationExecutor {
                 }
               }
             });
+
             this.awaitingPromises.push(promise);
           } else {
             if (!validatedValue) {
               const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+
+              if (!error.constraints) {
+                error.constraints = {};
+              }
+
               error.constraints[type] = message;
             }
           }
@@ -313,7 +326,12 @@ export class ValidationExecutor {
               const validationResult = flatValidatedValues.every((isValid: boolean) => isValid);
               if (!validationResult) {
                 const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+
+                if (!error.constraints) {
+                  error.constraints = {};
+                }
                 error.constraints[type] = message;
+
                 if (metadata.context) {
                   if (!error.contexts) {
                     error.contexts = {};
@@ -329,9 +347,13 @@ export class ValidationExecutor {
           return;
         }
 
-        const validationResult = validatedSubValues.every((isValid: boolean) => isValid);
+        const validationResult = validatedSubValues.every(isValid => isValid);
         if (!validationResult) {
           const [type, message] = this.createValidationError(object, value, metadata, customConstraintMetadata);
+
+          if (!error.constraints) {
+            error.constraints = {};
+          }
           error.constraints[type] = message;
         }
       });
@@ -358,13 +380,17 @@ export class ValidationExecutor {
         // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
         const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
         arrayLikeValue.forEach((subValue: any, index: any) => {
-          this.performValidations(value, subValue, index.toString(), [], metadatas, error.children);
+          this.performValidations(value, subValue, index.toString(), [], metadatas, error.children || []);
         });
       } else if (value instanceof Object) {
         const targetSchema = typeof metadata.target === 'string' ? metadata.target : metadata.target.name;
-        this.execute(value, targetSchema, error.children);
+        this.execute(value, targetSchema, error.children || []);
       } else {
         const [type, message] = this.createValidationError(metadata.target as object, value, metadata);
+
+        if (!error.constraints) {
+          error.constraints = {};
+        }
         error.constraints[type] = message;
       }
     });
@@ -381,7 +407,7 @@ export class ValidationExecutor {
 
         const type = this.getConstraintType(metadata, customConstraint);
 
-        if (error.constraints[type]) {
+        if (error.constraints?.[type]) {
           if (!error.contexts) {
             error.contexts = {};
           }
@@ -405,7 +431,7 @@ export class ValidationExecutor {
       property: metadata.propertyName,
       object: object,
       value: value,
-      constraints: metadata.constraints,
+      constraints: metadata.constraints || [],
     };
 
     let message = metadata.message || '';

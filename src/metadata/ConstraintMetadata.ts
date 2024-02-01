@@ -30,7 +30,7 @@ export class ConstraintMetadata {
 
   constructor(target: Function, name?: string, async: boolean = false) {
     this.target = target;
-    this.name = name;
+    this.name = name || '';
     this.async = async;
   }
 
