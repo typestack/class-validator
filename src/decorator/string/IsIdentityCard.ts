@@ -1,7 +1,7 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isIdentityCardValidator from 'validator/lib/isIdentityCard';
-import ValidatorJS from 'validator';
+import * as ValidatorJS from 'validator';
 
 export const IS_IDENTITY_CARD = 'isIdentityCard';
 

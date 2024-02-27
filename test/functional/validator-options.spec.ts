@@ -44,4 +44,43 @@ describe('validator options', () => {
       expect(errors.length).toEqual(0);
     });
   });
+
+  it(`should return error on unknown objects if no options object argument is passed`, () => {
+    const anonymousObject = { badKey: 'This should not pass.' };
+
+    return validator.validate(anonymousObject, undefined).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(anonymousObject);
+      expect(errors[0].property).toEqual(undefined);
+      expect(errors[0].value).toEqual(undefined);
+      expect(errors[0].children).toBeInstanceOf(Array);
+      expect(errors[0].constraints).toEqual({ unknownValue: 'an unknown value was passed to the validate function' });
+    });
+  });
+
+  it(`should return error on unknown objects if empty options object argument passed`, () => {
+    const anonymousObject = { badKey: 'This should not pass.' };
+
+    return validator.validate(anonymousObject, {}).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(anonymousObject);
+      expect(errors[0].property).toEqual(undefined);
+      expect(errors[0].value).toEqual(undefined);
+      expect(errors[0].children).toBeInstanceOf(Array);
+      expect(errors[0].constraints).toEqual({ unknownValue: 'an unknown value was passed to the validate function' });
+    });
+  });
+
+  it(`should return error on unknown objects if options object argument passed with forbidUnknownValues undefined`, () => {
+    const anonymousObject = { badKey: 'This should not pass.' };
+
+    return validator.validate(anonymousObject, { forbidUnknownValues: undefined }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(anonymousObject);
+      expect(errors[0].property).toEqual(undefined);
+      expect(errors[0].value).toEqual(undefined);
+      expect(errors[0].children).toBeInstanceOf(Array);
+      expect(errors[0].constraints).toEqual({ unknownValue: 'an unknown value was passed to the validate function' });
+    });
+  });
 });

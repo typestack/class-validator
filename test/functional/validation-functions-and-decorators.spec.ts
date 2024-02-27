@@ -199,7 +199,7 @@ import {
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
 import { constraintToString } from '../../src/validation/ValidationUtils';
-import { default as ValidatorJS } from 'validator';
+import * as ValidatorJS from 'validator';
 
 function checkValidValues(
   object: { someProperty: any },
