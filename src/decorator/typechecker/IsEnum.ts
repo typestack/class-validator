@@ -16,8 +16,7 @@ export function isEnum(value: unknown, entity: any): boolean {
  */
 function validEnumValues(entity: any): string[] {
   return Object.entries(entity)
-    .filter(([key, value]) => isNaN(parseInt(key)))
-    .filter(([key, value]) => typeof value !== 'function')
+    .filter(([key, value]) => typeof value === 'string' && isNaN(parseInt(key)))
     .map(([key, value]) => value as string);
 }
 
