@@ -1,149 +1,161 @@
 // -------------------------------------------------------------------------
-// System
+// System: property decorators
 // -------------------------------------------------------------------------
 
 // -------------------------------------------------------------------------
 // Common checkers
 // -------------------------------------------------------------------------
 
-export * from './common/Allow';
-export * from './common/IsDefined';
-export * from './common/IsOptional';
-export * from './common/Validate';
-export * from './common/ValidateBy';
-export * from './common/ValidateIf';
-export * from './common/ValidateNested';
-export * from './common/ValidatePromise';
-export * from './common/IsLatLong';
-export * from './common/IsLatitude';
-export * from './common/IsLongitude';
-export * from './common/Equals';
-export * from './common/NotEquals';
-export * from './common/IsEmpty';
-export * from './common/IsNotEmpty';
-export * from './common/IsIn';
-export * from './common/IsNotIn';
+export * from './property/common/Allow';
+export * from './property/common/IsDefined';
+export * from './property/common/IsOptional';
+export * from './property/common/Validate';
+export * from './property/common/ValidateBy';
+export * from './property/common/ValidateIf';
+export * from './property/common/ValidateNested';
+export * from './property/common/ValidatePromise';
+export * from './property/common/IsLatLong';
+export * from './property/common/IsLatitude';
+export * from './property/common/IsLongitude';
+export * from './property/common/Equals';
+export * from './property/common/NotEquals';
+export * from './property/common/IsEmpty';
+export * from './property/common/IsNotEmpty';
+export * from './property/common/IsIn';
+export * from './property/common/IsNotIn';
 
 // -------------------------------------------------------------------------
 // Number checkers
 // -------------------------------------------------------------------------
 
-export * from './number/IsDivisibleBy';
-export * from './number/IsPositive';
-export * from './number/IsNegative';
-export * from './number/Max';
-export * from './number/Min';
+export * from './property/number/IsDivisibleBy';
+export * from './property/number/IsPositive';
+export * from './property/number/IsNegative';
+export * from './property/number/Max';
+export * from './property/number/Min';
 
 // -------------------------------------------------------------------------
 // Date checkers
 // -------------------------------------------------------------------------
 
-export * from './date/MinDate';
-export * from './date/MaxDate';
+export * from './property/date/MinDate';
+export * from './property/date/MaxDate';
 
 // -------------------------------------------------------------------------
 // String checkers
 // -------------------------------------------------------------------------
 
-export * from './string/Contains';
-export * from './string/NotContains';
-export * from './string/IsAlpha';
-export * from './string/IsAlphanumeric';
-export * from './string/IsDecimal';
-export * from './string/IsAscii';
-export * from './string/IsBase64';
-export * from './string/IsByteLength';
-export * from './string/IsCreditCard';
-export * from './string/IsCurrency';
-export * from './string/IsEmail';
-export * from './string/IsFQDN';
-export * from './string/IsFullWidth';
-export * from './string/IsHalfWidth';
-export * from './string/IsVariableWidth';
-export * from './string/IsHexColor';
-export * from './string/IsHexadecimal';
-export * from './string/IsMacAddress';
-export * from './string/IsIP';
-export * from './string/IsPort';
-export * from './string/IsISBN';
-export * from './string/IsISIN';
-export * from './string/IsISO8601';
-export * from './string/IsJSON';
-export * from './string/IsJWT';
-export * from './string/IsLowercase';
-export * from './string/IsMobilePhone';
-export * from './string/IsISO31661Alpha2';
-export * from './string/IsISO31661Alpha3';
-export * from './string/IsMongoId';
-export * from './string/IsMultibyte';
-export * from './string/IsSurrogatePair';
-export * from './string/IsUrl';
-export * from './string/IsUUID';
-export * from './string/IsFirebasePushId';
-export * from './string/IsUppercase';
-export * from './string/Length';
-export * from './string/MaxLength';
-export * from './string/MinLength';
-export * from './string/Matches';
-export * from './string/IsPhoneNumber';
-export * from './string/IsMilitaryTime';
-export * from './string/IsHash';
-export * from './string/IsISSN';
-export * from './string/IsDateString';
-export * from './string/IsBooleanString';
-export * from './string/IsNumberString';
-export * from './string/IsBase32';
-export * from './string/IsBIC';
-export * from './string/IsBtcAddress';
-export * from './string/IsDataURI';
-export * from './string/IsEAN';
-export * from './string/IsEthereumAddress';
-export * from './string/IsHSL';
-export * from './string/IsIBAN';
-export * from './string/IsIdentityCard';
-export * from './string/IsISRC';
-export * from './string/IsLocale';
-export * from './string/IsMagnetURI';
-export * from './string/IsMimeType';
-export * from './string/IsOctal';
-export * from './string/IsPassportNumber';
-export * from './string/IsPostalCode';
-export * from './string/IsRFC3339';
-export * from './string/IsRgbColor';
-export * from './string/IsSemVer';
-export * from './string/IsStrongPassword';
-export * from './string/IsTimeZone';
-export * from './string/IsBase58';
-export * from './string/is-tax-id';
-export * from './string/is-iso4217-currency-code';
+export * from './property/string/Contains';
+export * from './property/string/NotContains';
+export * from './property/string/IsAlpha';
+export * from './property/string/IsAlphanumeric';
+export * from './property/string/IsDecimal';
+export * from './property/string/IsAscii';
+export * from './property/string/IsBase64';
+export * from './property/string/IsByteLength';
+export * from './property/string/IsCreditCard';
+export * from './property/string/IsCurrency';
+export * from './property/string/IsEmail';
+export * from './property/string/IsFQDN';
+export * from './property/string/IsFullWidth';
+export * from './property/string/IsHalfWidth';
+export * from './property/string/IsVariableWidth';
+export * from './property/string/IsHexColor';
+export * from './property/string/IsHexadecimal';
+export * from './property/string/IsMacAddress';
+export * from './property/string/IsIP';
+export * from './property/string/IsPort';
+export * from './property/string/IsISBN';
+export * from './property/string/IsISIN';
+export * from './property/string/IsISO8601';
+export * from './property/string/IsJSON';
+export * from './property/string/IsJWT';
+export * from './property/string/IsLowercase';
+export * from './property/string/IsMobilePhone';
+export * from './property/string/IsISO31661Alpha2';
+export * from './property/string/IsISO31661Alpha3';
+export * from './property/string/IsMongoId';
+export * from './property/string/IsMultibyte';
+export * from './property/string/IsSurrogatePair';
+export * from './property/string/IsUrl';
+export * from './property/string/IsUUID';
+export * from './property/string/IsFirebasePushId';
+export * from './property/string/IsUppercase';
+export * from './property/string/Length';
+export * from './property/string/MaxLength';
+export * from './property/string/MinLength';
+export * from './property/string/Matches';
+export * from './property/string/IsPhoneNumber';
+export * from './property/string/IsMilitaryTime';
+export * from './property/string/IsHash';
+export * from './property/string/IsISSN';
+export * from './property/string/IsDateString';
+export * from './property/string/IsBooleanString';
+export * from './property/string/IsNumberString';
+export * from './property/string/IsBase32';
+export * from './property/string/IsBIC';
+export * from './property/string/IsBtcAddress';
+export * from './property/string/IsDataURI';
+export * from './property/string/IsEAN';
+export * from './property/string/IsEthereumAddress';
+export * from './property/string/IsHSL';
+export * from './property/string/IsIBAN';
+export * from './property/string/IsIdentityCard';
+export * from './property/string/IsISRC';
+export * from './property/string/IsLocale';
+export * from './property/string/IsMagnetURI';
+export * from './property/string/IsMimeType';
+export * from './property/string/IsOctal';
+export * from './property/string/IsPassportNumber';
+export * from './property/string/IsPostalCode';
+export * from './property/string/IsRFC3339';
+export * from './property/string/IsRgbColor';
+export * from './property/string/IsSemVer';
+export * from './property/string/IsStrongPassword';
+export * from './property/string/IsTimeZone';
+export * from './property/string/IsBase58';
+export * from './property/string/is-tax-id';
+export * from './property/string/is-iso4217-currency-code';
 
 // -------------------------------------------------------------------------
 // Type checkers
 // -------------------------------------------------------------------------
 
-export * from './typechecker/IsBoolean';
-export * from './typechecker/IsDate';
-export * from './typechecker/IsNumber';
-export * from './typechecker/IsEnum';
-export * from './typechecker/IsInt';
-export * from './typechecker/IsString';
-export * from './typechecker/IsArray';
-export * from './typechecker/IsObject';
+export * from './property/typechecker/IsBoolean';
+export * from './property/typechecker/IsDate';
+export * from './property/typechecker/IsNumber';
+export * from './property/typechecker/IsEnum';
+export * from './property/typechecker/IsInt';
+export * from './property/typechecker/IsString';
+export * from './property/typechecker/IsArray';
+export * from './property/typechecker/IsObject';
 
 // -------------------------------------------------------------------------
 // Array checkers
 // -------------------------------------------------------------------------
 
-export * from './array/ArrayContains';
-export * from './array/ArrayNotContains';
-export * from './array/ArrayNotEmpty';
-export * from './array/ArrayMinSize';
-export * from './array/ArrayMaxSize';
-export * from './array/ArrayUnique';
+export * from './property/array/ArrayContains';
+export * from './property/array/ArrayNotContains';
+export * from './property/array/ArrayNotEmpty';
+export * from './property/array/ArrayMinSize';
+export * from './property/array/ArrayMaxSize';
+export * from './property/array/ArrayUnique';
 
 // -------------------------------------------------------------------------
 // Object checkers
 // -------------------------------------------------------------------------
 
-export * from './object/IsNotEmptyObject';
-export * from './object/IsInstance';
+export * from './property/object/IsNotEmptyObject';
+export * from './property/object/IsInstance';
+
+// -------------------------------------------------------------------------
+// System: argument decorators
+// -------------------------------------------------------------------------
+
+export * from './argument';
+
+// -------------------------------------------------------------------------
+// String checkers
+// -------------------------------------------------------------------------
+
+export * from './argument/is-not-empty';

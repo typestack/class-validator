@@ -1,8 +1,8 @@
-import { ValidationOptions } from '../ValidationOptions';
-import { ValidationMetadataArgs } from '../../metadata/ValidationMetadataArgs';
-import { ValidationTypes } from '../../validation/ValidationTypes';
-import { ValidationMetadata } from '../../metadata/ValidationMetadata';
-import { getMetadataStorage } from '../../metadata/MetadataStorage';
+import { ValidationOptions } from '../../ValidationOptions';
+import { ValidationMetadataArgs } from '../../../metadata/ValidationMetadataArgs';
+import { ValidationTypes } from '../../../validation/ValidationTypes';
+import { ValidationMetadata } from '../../../metadata/ValidationMetadata';
+import { getMetadataStorage } from '../../../metadata/MetadataStorage';
 
 /**
  * Objects / object arrays marked with this decorator will also be validated.

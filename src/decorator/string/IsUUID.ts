@@ -1,4 +1,4 @@
-import { ValidationOptions } from '../ValidationOptions';
+import { ValidationOptions } from '../../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isUuidValidator from 'validator/lib/isUUID';
 import * as ValidatorJS from 'validator';

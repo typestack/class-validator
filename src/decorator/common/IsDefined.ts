@@ -1,6 +1,6 @@
-import { ValidationOptions } from '../ValidationOptions';
+import { ValidationOptions } from '../../ValidationOptions';
 import { buildMessage, ValidateBy } from './ValidateBy';
-import { ValidationTypes } from '../../validation/ValidationTypes';
+import { ValidationTypes } from '../../../validation/ValidationTypes';
 
 // isDefined is (yet) a special case
 export const IS_DEFINED = ValidationTypes.IS_DEFINED;

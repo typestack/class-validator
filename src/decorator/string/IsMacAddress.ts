@@ -1,4 +1,4 @@
-import { ValidationOptions, isValidationOptions } from '../ValidationOptions';
+import { ValidationOptions, isValidationOptions } from '../../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isMacAddressValidator from 'validator/lib/isMACAddress';
 import * as ValidatorJS from 'validator';

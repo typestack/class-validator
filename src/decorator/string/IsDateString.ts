@@ -1,4 +1,4 @@
-import { ValidationOptions } from '../ValidationOptions';
+import { ValidationOptions } from '../../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import * as ValidatorJS from 'validator';
 import { isISO8601 } from './IsISO8601';

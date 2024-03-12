@@ -1,4 +1,4 @@
-import { ValidationOptions } from '../ValidationOptions';
+import { ValidationOptions } from '../../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isPostalCodeValidator from 'validator/lib/isPostalCode';
 import * as ValidatorJS from 'validator';

@@ -1,4 +1,4 @@
-import { ValidationOptions } from '../ValidationOptions';
+import { ValidationOptions } from '../../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isIdentityCardValidator from 'validator/lib/isIdentityCard';
 import * as ValidatorJS from 'validator';

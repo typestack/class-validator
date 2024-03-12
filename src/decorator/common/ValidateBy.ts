@@ -1,7 +1,7 @@
-import { ValidationOptions } from '../ValidationOptions';
-import { registerDecorator } from '../../register-decorator';
-import { ValidationArguments } from '../../validation/ValidationArguments';
-import { ValidatorConstraintInterface } from '../../validation/ValidatorConstraintInterface';
+import { ValidationOptions } from '../../ValidationOptions';
+import { registerDecorator } from '../../../register-decorator';
+import { ValidationArguments } from '../../../validation/ValidationArguments';
+import { ValidatorConstraintInterface } from '../../../validation/ValidatorConstraintInterface';
 
 export interface ValidateByOptions {
   name: string;

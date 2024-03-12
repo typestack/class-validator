@@ -1,4 +1,4 @@
-import { ValidationOptions } from '../ValidationOptions';
+import { ValidationOptions } from '../../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isMobilePhoneValidator from 'validator/lib/isMobilePhone';
 import * as ValidatorJS from 'validator';

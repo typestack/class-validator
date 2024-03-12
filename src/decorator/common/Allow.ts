@@ -1,8 +1,8 @@
-import { ValidationOptions } from '../ValidationOptions';
-import { ValidationMetadataArgs } from '../../metadata/ValidationMetadataArgs';
-import { ValidationTypes } from '../../validation/ValidationTypes';
-import { ValidationMetadata } from '../../metadata/ValidationMetadata';
-import { getMetadataStorage } from '../../metadata/MetadataStorage';
+import { ValidationOptions } from '../../ValidationOptions';
+import { ValidationMetadataArgs } from '../../../metadata/ValidationMetadataArgs';
+import { ValidationTypes } from '../../../validation/ValidationTypes';
+import { ValidationMetadata } from '../../../metadata/ValidationMetadata';
+import { getMetadataStorage } from '../../../metadata/MetadataStorage';
 
 /**
  * If object has both allowed and not allowed properties a validation error will be thrown.
