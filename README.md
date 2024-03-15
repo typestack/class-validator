@@ -921,6 +921,21 @@ Schema-based validation without decorators is no longer supported by `class-vali
 
 Due to nature of the decorators, the validated object has to be instantiated using `new Class()` syntax. If you have your class defined using class-validator decorators and you want to validate plain JS object (literal object or returned by JSON.parse), you need to transform it to the class instance via using [class-transformer](https://github.com/pleerock/class-transformer)).
 
+## Method's arguments runtime validation
+
+```typescript
+import { ValidateArguments, IsNotEmptyArgument } from 'class-validator';
+
+class MyClass {
+  @ValidateArguments
+  testMethod(@IsNotEmptyArgument test: string): void {
+    const someVariable = `${test}`;
+  }
+}
+```
+
+When the value of `test` variable is read it will be validated in runtime. In case if it's invalid it will throw an exception.
+
 ## Samples
 
 Take a look on samples in [./sample](https://github.com/pleerock/class-validator/tree/master/sample) for more examples of
