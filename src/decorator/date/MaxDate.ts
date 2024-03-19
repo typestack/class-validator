@@ -11,7 +11,7 @@ export function maxDate(date: unknown, maxDate: Date | (() => Date)): boolean {
 }
 
 /**
- * Checks if the value is a date that's after the specified date.
+ * Checks if the value is a date that's before the specified date.
  */
 export function MaxDate(date: Date | (() => Date), validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
