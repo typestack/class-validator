@@ -1,0 +1,10 @@
+{
+  "success": "The request was successful!",
+  "failure": "Something went wrong with the request!",
+  "validation": {
+    "isString": "$property must be a string.",
+    "isEnum": "$property must be one of this $constraint2.",
+    "isObject": "$property must be a object.",
+    "uniqueString": "$property must be an unique string."
+  }
+}

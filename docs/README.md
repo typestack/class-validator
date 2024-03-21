@@ -18,7 +18,7 @@
   - [Custom Validation Decorators](advanced/validations-decoratos.md)
   - [Custom Validation Classes](advanced/validation-classes.md)
 - [Decorators Reference](reference/decoratos.md)
-  - [Common Decorators](reference/common-decoratos.md)
+  - [Common Decorators](reference/common-decoratos.md)̌
   - [Number Decorators](reference/number-decoratos.md)
   - [String Decorators](reference/string-decoratos.md)
   - [Date Decorators](reference/date-decoratos.md)

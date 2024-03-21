@@ -1,58 +1,34 @@
-# class-validator
+# class-validator-custom-errors
 
-![Build Status](https://github.com/typestack/class-validator/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/typestack/class-validator/branch/develop/graph/badge.svg)](https://codecov.io/gh/typestack/class-validator)
-[![npm version](https://badge.fury.io/js/class-validator.svg)](https://badge.fury.io/js/class-validator)
-[![install size](https://packagephobia.now.sh/badge?p=class-validator)](https://packagephobia.now.sh/result?p=class-validator)
+![Build Status](https://github.com/arizworld/class-validator-custom-errors/workflows/CI/badge.svg)
+[![npm version](https://badge.fury.io/js/class-validator-custom-errors.svg)](https://badge.fury.io/js/class-validator-custom-errors)
+[![install size](https://packagephobia.now.sh/badge?p=class-validator-custom-errors)](https://packagephobia.com/result?p=class-validator-custom-errors)
 
-Allows use of decorator and non-decorator based validation.
-Internally uses [validator.js][1] to perform validation.
-Class-validator works on both browser and node.js platforms.
+This package is a fork of [class-validator](https://github.com/typestack/class-validator) with the ability of customization of the error messages globally. Useful for implementing internationalization or multilingualism of the error messages or modifying the error messages in general for each validation.
 
 ## Table of Contents
 
-- [class-validator](#class-validator)
+- [class-validator-custom-errors](#class-validator-custom-errors)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
-    - [Passing options](#passing-options)
-  - [Validation errors](#validation-errors)
-  - [Validation messages](#validation-messages)
-  - [Validating arrays](#validating-arrays)
-  - [Validating sets](#validating-sets)
-  - [Validating maps](#validating-maps)
-  - [Validating nested objects](#validating-nested-objects)
-  - [Validating promises](#validating-promises)
-  - [Inheriting Validation decorators](#inheriting-validation-decorators)
-  - [Conditional validation](#conditional-validation)
-  - [Whitelisting](#whitelisting)
-  - [Passing context to decorators](#passing-context-to-decorators)
-  - [Skipping missing properties](#skipping-missing-properties)
-  - [Validation groups](#validation-groups)
-  - [Custom validation classes](#custom-validation-classes)
-  - [Custom validation decorators](#custom-validation-decorators)
-  - [Using service container](#using-service-container)
-  - [Synchronous validation](#synchronous-validation)
-  - [Manual validation](#manual-validation)
   - [Validation decorators](#validation-decorators)
-  - [Defining validation schema without decorators](#defining-validation-schema-without-decorators)
-  - [Validating plain objects](#validating-plain-objects)
-  - [Samples](#samples)
-  - [Extensions](#extensions)
-  - [Release notes](#release-notes)
-  - [Contributing](#contributing)
 
 ## Installation
 
 ```sh
-npm install class-validator --save
+npm install class-validator-custom-errors --save
 ```
 
-> Note: Please use at least npm@6 when using class-validator. From npm@6 the dependency tree is flattened, which is required by `class-validator` to function properly.
+> Note: Please use at least npm@6 when using class-validator-custom-errors. From npm@6 the dependency tree is flattened, which is required by `class-validator-custom-errors` to function properly.
 
 ## Usage
 
-Create your class and put some validation decorators on the properties you want to validate:
+Create your class and put some validation decorators on the properties you want to validate
+and add custom `transformFunction` to provide implementation for the errorMessage and
+add some custom `transformKey` to be passed to the `transformFunction` for handling the specific ones:
+
+[stackblitz playground](https://stackblitz.com/edit/class-validator-custom-errors-basic-usage?file=index.ts)
 
 ```typescript
 import {
@@ -66,28 +42,30 @@ import {
   IsDate,
   Min,
   Max,
-} from 'class-validator';
+} from 'class-validator-custom-errors';
 
 export class Post {
   @Length(10, 20)
-  title: string;
+  title!: string;
 
-  @Contains('hello')
-  text: string;
+  @Contains('hello', {
+    transformKey: 'customContainsKey', //transformKey to be passed to handle special cases
+  })
+  text!: string;
 
   @IsInt()
   @Min(0)
   @Max(10)
-  rating: number;
+  rating!: number;
 
   @IsEmail()
-  email: string;
+  email!: string;
 
   @IsFQDN()
-  site: string;
+  site!: string;
 
   @IsDate()
-  createDate: Date;
+  createDate!: Date;
 }
 
 let post = new Post();
@@ -97,7 +75,12 @@ post.rating = 11; // should not pass
 post.email = 'google.com'; // should not pass
 post.site = 'googlecom'; // should not pass
 
-validate(post).then(errors => {
+validate(post, {
+  validationError: {
+    //pass a transform function to overwrite the default implementation for this validation only
+    transformFunction: (key: string) => `I was called with ${key}`,
+  },
+}).then((errors) => {
   // errors is an array of validation errors
   if (errors.length > 0) {
     console.log('validation failed. errors: ', errors);
@@ -106,691 +89,175 @@ validate(post).then(errors => {
   }
 });
 
-validateOrReject(post).catch(errors => {
+validateOrReject(post, {
+  validationError: {
+    //pass a transform function to overwrite the default implementation for this validation only
+    transformFunction: (key: string) => `I was called with ${key}`,
+  },
+}).catch((errors) => {
   console.log('Promise rejected (validation failed). Errors: ', errors);
 });
 // or
-async function validateOrRejectExample(input) {
+async function validateOrRejectExample(input: any) {
   try {
-    await validateOrReject(input);
+    await validateOrReject(input,{
+      validationError: {
+        //pass a transform function to overwrite the default implementation for this validation only
+        transformFunction: (key: string) => `I was called with ${key}`,
+      },
+    });
   } catch (errors) {
-    console.log('Caught promise rejection (validation failed). Errors: ', errors);
+    console.log(
+      'Caught promise rejection (validation failed). Errors: ',
+      errors
+    );
   }
 }
 ```
 
-### Passing options
+Implementing internationalization with i18next:
 
-The `validate` function optionally expects a `ValidatorOptions` object as a second parameter:
+Full code can be found in [stackblitz playground](https://stackblitz.com/~/github.com/arizworld/class-validator-custom-errors-i18next)
 
-```ts
-export interface ValidatorOptions {
-  skipMissingProperties?: boolean;
-  whitelist?: boolean;
-  forbidNonWhitelisted?: boolean;
-  groups?: string[];
-  dismissDefaultMessages?: boolean;
-  validationError?: {
-    target?: boolean;
-    value?: boolean;
-  };
-
-  forbidUnknownValues?: boolean;
-  stopAtFirstError?: boolean;
-}
-```
-
-> **IMPORTANT**
-> The `forbidUnknownValues` value is set to `true` by default and **it is highly advised to keep the default**.
-> Setting it to `false` will result unknown objects passing the validation!
-
-## Validation errors
-
-The `validate` method returns an array of `ValidationError` objects. Each `ValidationError` is:
+Or clone it from here [github class-validator-custom-errors-i18next](https://github.com/arizworld/class-validator-custom-errors-i18next)
 
 ```typescript
+// locales/en/translation.json
 {
-    target: Object; // Object that was validated.
-    property: string; // Object's property that haven't pass validation.
-    value: any; // Value that haven't pass a validation.
-    constraints?: { // Constraints that failed validation with error messages.
-        [type: string]: string;
-    };
-    children?: ValidationError[]; // Contains all nested validation errors of the property
+  "success": "The request was successful!",
+  "failure": "Something went wrong with the request!",
+  "validation": {
+    "isString": "$property must be a string.",
+    "isEnum": "$property must be one of this $constraint2.",
+    "isObject": "$property must be a object.",
+    "uniqueString": "$property must be an unique string."
+  }
 }
-```
-
-In our case, when we validated a Post object, we have such an array of `ValidationError` objects:
-
-```typescript
-[{
-    target: /* post object */,
-    property: "title",
-    value: "Hello",
-    constraints: {
-        length: "$property must be longer than or equal to 10 characters"
-    }
-}, {
-    target: /* post object */,
-    property: "text",
-    value: "this is a great post about hell world",
-    constraints: {
-        contains: "text must contain a hello string"
-    }
-},
-// and other errors
-]
-```
-
-If you don't want a `target` to be exposed in validation errors, there is a special option when you use validator:
-
-```typescript
-validator.validate(post, { validationError: { target: false } });
-```
-
-This is especially useful when you send errors back over http, and you most probably don't want to expose
-the whole target object.
-
-## Validation messages
-
-You can specify validation message in the decorator options and that message will be returned in the `ValidationError`
-returned by the `validate` method (in the case that validation for this field fails).
-
-```typescript
-import { MinLength, MaxLength } from 'class-validator';
-
-export class Post {
-  @MinLength(10, {
-    message: 'Title is too short',
-  })
-  @MaxLength(50, {
-    message: 'Title is too long',
-  })
-  title: string;
+// locales/fr/translation.json
+{
+  "success": "La demande a réussi!",
+  "failure": "Quelque chose s'est mal passé avec la demande!",
+  "validation": {
+    "isString": "La $property doit être une chaîne de caractères.",
+    "isEnum": "La $property doit être l'un de ceux-ci $constraint2.",
+    "isObject": "La $property doit être un objet.",
+    "isUnique": "La $property doit être une chaîne de caractères unique."
+  }
 }
-```
 
-There are few special tokens you can use in your messages:
+// src/schemas/Url.ts
+import { Type } from "class-transformer";
+import { IsArray, IsEnum, IsObject, IsOptional, IsString, ValidateNested } from "class-validator-custom-errors";
 
-- `$value` - the value that is being validated
-- `$property` - name of the object's property being validated
-- `$target` - name of the object's class being validated
-- `$constraint1`, `$constraint2`, ... `$constraintN` - constraints defined by specific validation type
-
-Example of usage:
-
-```typescript
-import { MinLength, MaxLength } from 'class-validator';
-
-export class Post {
-  @MinLength(10, {
-    // here, $constraint1 will be replaced with "10", and $value with actual supplied value
-    message: 'Title is too short. Minimal length is $constraint1 characters, but actual is $value',
-  })
-  @MaxLength(50, {
-    // here, $constraint1 will be replaced with "50", and $value with actual supplied value
-    message: 'Title is too long. Maximal length is $constraint1 characters, but actual is $value',
-  })
-  title: string;
+export enum HttpProtocols {
+  http = "http",
+  https = "https",
+  ws = "ws",
+  wss = "wss",
+  ftp = "ftp"
 }
-```
 
-Also you can provide a function, that returns a message. This allows you to create more granular messages:
+export class Query {
+  @IsString()
+  search!: string
 
-```typescript
-import { MinLength, MaxLength, ValidationArguments } from 'class-validator';
-
-export class Post {
-  @MinLength(10, {
-    message: (args: ValidationArguments) => {
-      if (args.value.length === 1) {
-        return 'Too short, minimum length is 1 character';
-      } else {
-        return 'Too short, minimum length is ' + args.constraints[0] + ' characters';
-      }
-    },
-  })
-  title: string;
-}
-```
-
-Message function accepts `ValidationArguments` which contains the following information:
-
-- `value` - the value that is being validated
-- `constraints` - array of constraints defined by specific validation type
-- `targetName` - name of the object's class being validated
-- `object` - object that is being validated
-- `property` - name of the object's property being validated
-
-## Validating arrays
-
-If your field is an array and you want to perform validation of each item in the array you must specify a
-special `each: true` decorator option:
-
-```typescript
-import { MinLength, MaxLength } from 'class-validator';
-
-export class Post {
-  @MaxLength(20, {
-    each: true,
-  })
-  tags: string[];
-}
-```
-
-This will validate each item in `post.tags` array.
-
-## Validating sets
-
-If your field is a set and you want to perform validation of each item in the set you must specify a
-special `each: true` decorator option:
-
-```typescript
-import { MinLength, MaxLength } from 'class-validator';
-
-export class Post {
-  @MaxLength(20, {
-    each: true,
-  })
-  tags: Set<string>;
-}
-```
-
-This will validate each item in `post.tags` set.
-
-## Validating maps
-
-If your field is a map and you want to perform validation of each item in the map you must specify a
-special `each: true` decorator option:
-
-```typescript
-import { MinLength, MaxLength } from 'class-validator';
-
-export class Post {
-  @MaxLength(20, {
-    each: true,
-  })
-  tags: Map<string, string>;
-}
-```
-
-This will validate each item in `post.tags` map.
-
-## Validating nested objects
-
-If your object contains nested objects and you want the validator to perform their validation too, then you need to
-use the `@ValidateNested()` decorator:
-
-```typescript
-import { ValidateNested } from 'class-validator';
-
-export class Post {
+  @IsArray()
+  @IsOptional()
   @ValidateNested()
-  user: User;
+  select: string[] = []
 }
-```
 
-Please note that nested object _must_ be an instance of a class, otherwise `@ValidateNested` won't know what class is target of validation. Check also [Validating plain objects](#validating-plain-objects).
+export class Url {
+  @IsString({
+    transformKey: 'uniqueString'
+  })
+  host!: string
 
-It also works with multi-dimensional array, like :
-
-```typescript
-import { ValidateNested } from 'class-validator';
-
-export class Plan2D {
-  @ValidateNested()
-  matrix: Point[][];
-}
-```
-
-## Validating promises
-
-If your object contains property with `Promise`-returned value that should be validated, then you need to use the `@ValidatePromise()` decorator:
-
-```typescript
-import { ValidatePromise, Min } from 'class-validator';
-
-export class Post {
-  @Min(0)
-  @ValidatePromise()
-  userId: Promise<number>;
-}
-```
-
-It also works great with `@ValidateNested` decorator:
-
-```typescript
-import { ValidateNested, ValidatePromise } from 'class-validator';
-
-export class Post {
-  @ValidateNested()
-  @ValidatePromise()
-  user: Promise<User>;
-}
-```
-
-## Inheriting Validation decorators
-
-When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant, class decorators will be applied on it from both its own class and the base class.
-
-```typescript
-import { validate } from 'class-validator';
-
-class BaseContent {
-  @IsEmail()
-  email: string;
+  @IsEnum(HttpProtocols)
+  protocol!: string
 
   @IsString()
-  password: string;
+  tld!: string
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => Query)
+  query!: Query
 }
 
-class User extends BaseContent {
-  @MinLength(10)
-  @MaxLength(20)
-  name: string;
+// src/utils/i18nextSetup.js
+import i18next from "i18next";
+import I18NexFsBackend from "i18next-fs-backend";
+import middleware from 'i18next-http-middleware'
 
-  @Contains('hello')
-  welcome: string;
-
-  @MinLength(20)
-  password: string;
-}
-
-let user = new User();
-
-user.email = 'invalid email'; // inherited property
-user.password = 'too short'; // password wil be validated not only against IsString, but against MinLength as well
-user.name = 'not valid';
-user.welcome = 'helo';
-
-validate(user).then(errors => {
-  // ...
-}); // it will return errors for email, password, name and welcome properties
-```
-
-## Conditional validation
-
-The conditional validation decorator (`@ValidateIf`) can be used to ignore the validators on a property when the provided condition function returns false. The condition function takes the object being validated and must return a `boolean`.
-
-```typescript
-import { ValidateIf, IsNotEmpty } from 'class-validator';
-
-export class Post {
-  otherProperty: string;
-
-  @ValidateIf(o => o.otherProperty === 'value')
-  @IsNotEmpty()
-  example: string;
-}
-```
-
-In the example above, the validation rules applied to `example` won't be run unless the object's `otherProperty` is `"value"`.
-
-Note that when the condition is false all validation decorators are ignored, including `isDefined`.
-
-## Whitelisting
-
-Even if your object is an instance of a validation class it can contain additional properties that are not defined.
-If you do not want to have such properties on your object, pass special flag to `validate` method:
-
-```typescript
-import { validate } from 'class-validator';
-// ...
-validate(post, { whitelist: true });
-```
-
-This will strip all properties that don't have any decorators. If no other decorator is suitable for your property,
-you can use @Allow decorator:
-
-```typescript
-import {validate, Allow, Min} from "class-validator";
-
-export class Post {
-
-    @Allow()
-    title: string;
-
-    @Min(0)
-    views: number;
-
-    nonWhitelistedProperty: number;
-}
-
-let post = new Post();
-post.title = 'Hello world!';
-post.views = 420;
-
-post.nonWhitelistedProperty = 69;
-(post as any).anotherNonWhitelistedProperty = "something";
-
-validate(post).then(errors => {
-  // post.nonWhitelistedProperty is not defined
-  // (post as any).anotherNonWhitelistedProperty is not defined
-  ...
-});
-```
-
-If you would rather to have an error thrown when any non-whitelisted properties are present, pass another flag to
-`validate` method:
-
-```typescript
-import { validate } from 'class-validator';
-// ...
-validate(post, { whitelist: true, forbidNonWhitelisted: true });
-```
-
-## Passing context to decorators
-
-It's possible to pass a custom object to decorators which will be accessible on the `ValidationError` instance of the property if validation failed.
-
-```ts
-import { validate } from 'class-validator';
-
-class MyClass {
-  @MinLength(32, {
-    message: 'EIC code must be at least 32 characters',
-    context: {
-      errorCode: 1003,
-      developerNote: 'The validated string must contain 32 or more characters.',
+i18next
+  .use(I18NexFsBackend)
+  .use(middleware.LanguageDetector)
+  .init({
+    fallbackLng: "en",
+    backend: {
+      loadPath: "./locales/{{lng}}/translation.json",
     },
-  })
-  eicCode: string;
-}
+  });
 
-const model = new MyClass();
-
-validate(model).then(errors => {
-  //errors[0].contexts['minLength'].errorCode === 1003
-});
-```
-
-## Skipping missing properties
-
-Sometimes you may want to skip validation of the properties that do not exist in the validating object. This is
-usually desirable when you want to update some parts of the object, and want to validate only updated parts,
-but skip everything else, e.g. skip missing properties.
-In such situations you will need to pass a special flag to `validate` method:
-
-```typescript
-import { validate } from 'class-validator';
-// ...
-validate(post, { skipMissingProperties: true });
-```
-
-When skipping missing properties, sometimes you want not to skip all missing properties, some of them maybe required
-for you, even if skipMissingProperties is set to true. For such cases you should use `@IsDefined()` decorator.
-`@IsDefined()` is the only decorator that ignores `skipMissingProperties` option.
-
-## Validation groups
-
-In different situations you may want to use different validation schemas of the same object.
-In such cases you can use validation groups.
-
-> **IMPORTANT**
-> Calling a validation with a group combination that would not result in a validation (eg: non existent group name)
-> will result in a unknown value error. When validating with groups the provided group combination should match at least one decorator.
-
-```typescript
-import { validate, Min, Length } from 'class-validator';
-
-export class User {
-  @Min(12, {
-    groups: ['registration'],
-  })
-  age: number;
-
-  @Length(2, 20, {
-    groups: ['registration', 'admin'],
-  })
-  name: string;
-}
-
-let user = new User();
-user.age = 10;
-user.name = 'Alex';
-
-validate(user, {
-  groups: ['registration'],
-}); // this will not pass validation
-
-validate(user, {
-  groups: ['admin'],
-}); // this will pass validation
-
-validate(user, {
-  groups: ['registration', 'admin'],
-}); // this will not pass validation
-
-validate(user, {
-  groups: undefined, // the default
-}); // this will not pass validation since all properties get validated regardless of their groups
-
-validate(user, {
-  groups: [],
-}); // this will not pass validation, (equivalent to 'groups: undefined', see above)
-```
-
-There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
-must be applied always no matter which group is used.
-
-## Custom validation classes
-
-If you have custom validation logic you can create a _Constraint class_:
-
-1. First create a file, lets say `CustomTextLength.ts`, and define a new class:
-
-   ```typescript
-   import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
-
-   @ValidatorConstraint({ name: 'customText', async: false })
-   export class CustomTextLength implements ValidatorConstraintInterface {
-     validate(text: string, args: ValidationArguments) {
-       return text.length > 1 && text.length < 10; // for async validations you must return a Promise<boolean> here
-     }
-
-     defaultMessage(args: ValidationArguments) {
-       // here you can provide default error message if validation failed
-       return 'Text ($value) is too short or too long!';
-     }
-   }
-   ```
-
-   We marked our class with `@ValidatorConstraint` decorator.
-   You can also supply a validation constraint name - this name will be used as "error type" in ValidationError.
-   If you will not supply a constraint name - it will be auto-generated.
-
-   Our class must implement `ValidatorConstraintInterface` interface and its `validate` method,
-   which defines validation logic. If validation succeeds, method returns true, otherwise false.
-   Custom validator can be asynchronous, if you want to perform validation after some asynchronous
-   operations, simply return a promise with boolean inside in `validate` method.
-
-   Also we defined optional method `defaultMessage` which defines a default error message,
-   in the case that the decorator's implementation doesn't set an error message.
-
-2. Then you can use your new validation constraint in your class:
-
-   ```typescript
-   import { Validate } from 'class-validator';
-   import { CustomTextLength } from './CustomTextLength';
-
-   export class Post {
-     @Validate(CustomTextLength, {
-       message: 'Title is too short or long!',
-     })
-     title: string;
-   }
-   ```
-
-   Here we set our newly created `CustomTextLength` validation constraint for `Post.title`.
-
-3. And use validator as usual:
-
-   ```typescript
-   import { validate } from 'class-validator';
-
-   validate(post).then(errors => {
-     // ...
-   });
-   ```
-
-You can also pass constraints to your validator, like this:
-
-```typescript
-import { Validate } from 'class-validator';
-import { CustomTextLength } from './CustomTextLength';
-
-export class Post {
-  @Validate(CustomTextLength, [3, 20], {
-    message: 'Wrong post title',
-  })
-  title: string;
-}
-```
-
-And use them from `validationArguments` object:
-
-```typescript
-import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-
-@ValidatorConstraint()
-export class CustomTextLength implements ValidatorConstraintInterface {
-  validate(text: string, validationArguments: ValidationArguments) {
-    return text.length > validationArguments.constraints[0] && text.length < validationArguments.constraints[1];
+// src/main.ts
+import express, { NextFunction, Request, Response } from 'express'
+import i18next from 'i18next';
+import middleware from 'i18next-http-middleware'
+import './utils/i18nextSetup'
+import 'reflect-metadata'
+import { validateOrReject } from 'class-validator-custom-errors';
+import { plainToClass } from 'class-transformer';
+import { Url } from './schemas/Url';
+const app = express()
+app.use([
+  middleware.handle(i18next),
+  express.json(),
+  express.urlencoded({ extended: true }),
+]);
+app.post('/urls/create', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await validateOrReject(plainToClass(Url, req.body), {
+      whitelist: true,
+      validationError: {
+        target: false,
+        transformFunction: (key: string) => req.t(`validation.${key}`)
+      }
+    })
+    res.json({ success: true, message: req.t("success"), errors: null })
+  } catch (error) {
+    res.json({ success: false, message: req.t("failure"), errors: error })
   }
-}
+})
+export default app
+
+// src/main.ts
+
+import inject from 'light-my-request'
+import app from './server'
+(async function () {
+  const responseEnglish = await inject(app, {
+    method: 'POST',
+    url: '/urls/create',
+    headers: {
+      "content-type": "application/json"
+    },
+    payload: JSON.stringify({ query: {} })
+  })
+  console.log('responseEnglish: ', JSON.stringify(responseEnglish.json(), null, 2))
+  const responseFrench = await inject(app, {
+    method: 'POST',
+    url: '/urls/create',
+    headers: {
+      "content-type": "application/json",
+      "accept-language": "fr"
+    },
+    payload: JSON.stringify({ query: {} })
+  })
+  console.log('responseFrench: ', JSON.stringify(responseFrench.json(), null, 2))
+})()
 ```
-
-## Custom validation decorators
-
-You can also create a custom decorators. Its the most elegant way of using a custom validations.
-Lets create a decorator called `@IsLongerThan`:
-
-1. Create a decorator itself:
-
-   ```typescript
-   import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
-
-   export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
-     return function (object: Object, propertyName: string) {
-       registerDecorator({
-         name: 'isLongerThan',
-         target: object.constructor,
-         propertyName: propertyName,
-         constraints: [property],
-         options: validationOptions,
-         validator: {
-           validate(value: any, args: ValidationArguments) {
-             const [relatedPropertyName] = args.constraints;
-             const relatedValue = (args.object as any)[relatedPropertyName];
-             return typeof value === 'string' && typeof relatedValue === 'string' && value.length > relatedValue.length; // you can return a Promise<boolean> here as well, if you want to make async validation
-           },
-         },
-       });
-     };
-   }
-   ```
-
-2. Put it to use:
-
-   ```typescript
-   import { IsLongerThan } from './IsLongerThan';
-
-   export class Post {
-     title: string;
-
-     @IsLongerThan('title', {
-       /* you can also use additional validation options, like "groups" in your custom validation decorators. "each" is not supported */
-       message: 'Text must be longer than the title',
-     })
-     text: string;
-   }
-   ```
-
-In your custom decorators you can also use `ValidationConstraint`.
-Lets create another custom validation decorator called `IsUserAlreadyExist`:
-
-1. Create a ValidationConstraint and decorator:
-
-   ```typescript
-   import {
-     registerDecorator,
-     ValidationOptions,
-     ValidatorConstraint,
-     ValidatorConstraintInterface,
-     ValidationArguments,
-   } from 'class-validator';
-
-   @ValidatorConstraint({ async: true })
-   export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
-     validate(userName: any, args: ValidationArguments) {
-       return UserRepository.findOneByName(userName).then(user => {
-         if (user) return false;
-         return true;
-       });
-     }
-   }
-
-   export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
-     return function (object: Object, propertyName: string) {
-       registerDecorator({
-         target: object.constructor,
-         propertyName: propertyName,
-         options: validationOptions,
-         constraints: [],
-         validator: IsUserAlreadyExistConstraint,
-       });
-     };
-   }
-   ```
-
-   note that we marked our constraint that it will by async by adding `{ async: true }` in validation options.
-
-2. And put it to use:
-
-   ```typescript
-   import { IsUserAlreadyExist } from './IsUserAlreadyExist';
-
-   export class User {
-     @IsUserAlreadyExist({
-       message: 'User $value already exists. Choose another name.',
-     })
-     name: string;
-   }
-   ```
-
-## Using service container
-
-Validator supports service container in the case if want to inject dependencies into your custom validator constraint
-classes. Here is example how to integrate it with [typedi][2]:
-
-```typescript
-import { Container } from 'typedi';
-import { useContainer, Validator } from 'class-validator';
-
-// do this somewhere in the global application level:
-useContainer(Container);
-let validator = Container.get(Validator);
-
-// now everywhere you can inject Validator class which will go from the container
-// also you can inject classes using constructor injection into your custom ValidatorConstraint-s
-```
-
-## Synchronous validation
-
-If you want to perform a simple non async validation you can use `validateSync` method instead of regular `validate`
-method. It has the same arguments as `validate` method. But note, this method **ignores** all async validations
-you have.
-
-## Manual validation
-
-There are several method exist in the Validator that allows to perform non-decorator based validation:
-
-```typescript
-import { isEmpty, isBoolean } from 'class-validator';
-
-isEmpty(value);
-isBoolean(value);
-```
+See this for more of the basic [class-validator documentation](https://github.com/typestack/class-validator)
 
 ## Validation decorators
 
@@ -913,37 +380,9 @@ isBoolean(value);
 | **Other decorators**                                   |                                                                                                                                                                                                       |
 | `@Allow()`                                             | Prevent stripping off the property when no other constraint is specified for it.                                                                                                                      |
 
-## Defining validation schema without decorators
-
-Schema-based validation without decorators is no longer supported by `class-validator`. This feature was broken in version 0.12 and it will not be fixed. If you are interested in schema-based validation, you can find several such frameworks in [the zod readme's comparison section](https://github.com/colinhacks/zod#comparison).
-
-## Validating plain objects
-
-Due to nature of the decorators, the validated object has to be instantiated using `new Class()` syntax. If you have your class defined using class-validator decorators and you want to validate plain JS object (literal object or returned by JSON.parse), you need to transform it to the class instance via using [class-transformer](https://github.com/pleerock/class-transformer)).
-
 ## Samples
 
-Take a look on samples in [./sample](https://github.com/pleerock/class-validator/tree/master/sample) for more examples of
+Take a look on samples in [./sample](https://github.com/arizworld/class-validator-custom-errors/tree/develop/sample) for more examples of
 usages.
 
-## Extensions
 
-There are several extensions that simplify class-validator integration with other modules or add additional validations:
-
-- [class-validator integration](https://github.com/19majkel94/class-transformer-validator) with [class-transformer](https://github.com/pleerock/class-transformer)
-- [class-validator-rule](https://github.com/yantrab/class-validator-rule)
-- [ngx-dynamic-form-builder](https://github.com/EndyKaufman/ngx-dynamic-form-builder)
-- [abarghoud/ngx-reactive-form-class-validator](https://github.com/abarghoud/ngx-reactive-form-class-validator)
-- [class-validator-extended](https://github.com/pigulla/class-validator-extended)
-
-## Release notes
-
-See information about breaking changes and release notes [here][3].
-
-[1]: https://github.com/chriso/validator.js
-[2]: https://github.com/pleerock/typedi
-[3]: CHANGELOG.md
-
-## Contributing
-
-For information about how to contribute to this project, see [TypeStack's general contribution guide](https://github.com/typestack/.github/blob/master/CONTRIBUTING.md).

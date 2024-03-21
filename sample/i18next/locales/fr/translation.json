@@ -1,0 +1,10 @@
+{
+  "success": "La demande a réussi!",
+  "failure": "Quelque chose s'est mal passé avec la demande!",
+  "validation": {
+    "isString": "La $property doit être une chaîne de caractères.",
+    "isEnum": "La $property doit être l'un de ceux-ci $constraint2.",
+    "isObject": "La $property doit être un objet.",
+    "isUnique": "La $property doit être une chaîne de caractères unique."
+  }
+}

@@ -1,23 +1,24 @@
-name: Dependabot auto-merge
-on:
-  pull_request_target
-jobs:
-  dependabot:
-    runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
-    steps:
-    - name: 'Auto approve PR by Dependabot'
-      uses: hmarr/auto-approve-action@v2.0.0
-      with:
-        github-token: "${{ secrets.TYPESTACK_BOT_TOKEN }}"
-    - name: 'Comment merge command'
-      uses: actions/github-script@v3
-      with:
-        github-token: ${{secrets.TYPESTACK_BOT_TOKEN }}
-        script: |
-          await github.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: context.issue.number,
-            body: '@dependabot squash and merge'
-          })
+# Basically I don't understand this as of now, therefore not using it, but you are welcome to contribute on this part. 
+# name: Dependabot auto-merge
+# on:
+#   pull_request_target
+# jobs:
+#   dependabot:
+#     runs-on: ubuntu-latest
+#     if: github.actor == 'dependabot[bot]'
+#     steps:
+#     - name: 'Auto approve PR by Dependabot'
+#       uses: hmarr/auto-approve-action@v2.0.0
+#       with:
+#         github-token: "${{ secrets.TYPESTACK_BOT_TOKEN }}"
+#     - name: 'Comment merge command'
+#       uses: actions/github-script@v3
+#       with:
+#         github-token: ${{secrets.TYPESTACK_BOT_TOKEN }}
+#         script: |
+#           await github.issues.createComment({
+#             owner: context.repo.owner,
+#             repo: context.repo.repo,
+#             issue_number: context.issue.number,
+#             body: '@dependabot squash and merge'
+#           })

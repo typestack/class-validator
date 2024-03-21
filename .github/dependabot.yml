@@ -5,7 +5,7 @@ updates:
   schedule:
     interval: daily
     time: "10:00"
-    timezone: Europe/Budapest
+    timezone: Asia/Kolkata
   open-pull-requests-limit: 5
   versioning-strategy: increase
   commit-message:

@@ -1,8 +1,8 @@
 {
-  "name": "class-validator",
-  "version": "0.14.1",
-  "description": "Decorator-based property validation for classes.",
-  "author": "TypeStack contributors",
+  "name": "class-validator-custom-errors",
+  "version": "0.0.2",
+  "description": "Decorator-based property validation for classes with the ability to customize the error messages.",
+  "author": "Aritra Sadhukhan",
   "license": "MIT",
   "sideEffects": false,
   "main": "./cjs/index.js",
@@ -11,13 +11,20 @@
   "typings": "./types/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/typestack/class-validator.git"
+    "url": "https://github.com/arizworld/class-validator-custom-errors"
   },
   "tags": [
     "validator",
     "validation",
     "decorators",
     "typescript"
+  ],
+  "keywords": [
+    "class-validator",
+    "internationalization",
+    "custom errors",
+    "i18next",
+    "multilingualism"
   ],
   "scripts": {
     "build": "npm run build:cjs",
@@ -36,7 +43,6 @@
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
-    "@types/validator": "^13.11.8",
     "libphonenumber-js": "^1.10.58",
     "validator": "^13.9.0"
   },

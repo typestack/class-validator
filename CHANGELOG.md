@@ -1,6 +1,12 @@
 # Changelog
 
 _This changelog follows the [keep a changelog][keep-a-changelog]_ format to maintain a human readable changelog.
+### [0.0.1](https://github.com/arizworld/class-validator-custom-errors/pull/1/) (2024-03-21)
+
+### Added
+- added `transformFunction` in validatorOptions to customize the message for each time of validation.
+- added `transformKey` in validationOptions to pass specific keys to transformFunction for 
+specific properties.
 
 ### [0.14.0](https://github.com/typestack/class-validator/compare/v0.13.2...v0.14.0) (2022-12-09)
 

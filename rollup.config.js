@@ -6,15 +6,15 @@ export default {
   input: 'build/esm5/index.js',
   output: [
     {
-      name: 'ClassValidator',
+      name: 'ClassValidatorCustomErrors',
       format: 'umd',
-      file: 'build/bundles/class-validator.umd.js',
+      file: 'build/bundles/class-validator-custom-errors.umd.js',
       sourcemap: true,
     },
     {
-      name: 'ClassValidator',
+      name: 'ClassValidatorCustomErrors',
       format: 'umd',
-      file: 'build/bundles/class-validator.umd.min.js',
+      file: 'build/bundles/class-validator-custom-errors.umd.min.js',
       sourcemap: true,
       plugins: [terser()],
     },
