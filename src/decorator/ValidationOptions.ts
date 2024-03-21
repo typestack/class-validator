@@ -5,6 +5,17 @@ import { ValidationArguments } from '../validation/ValidationArguments';
  */
 export interface ValidationOptions {
   /**
+   * Indicates that an object is to be considered object literal record.
+   *
+   * For an object-valued property marked as object literal, the object the property holds may neither
+   * be specifically class-typed nor validated, but all the child values of said object MUST be.
+   * Effectively, this declares object literal, which will be validated the same way any other
+   * JavaScript collection does (Array, Map, Set, etc).
+   * The default is `false`; that is, an object-value must be an instance of a class.
+   */
+  objectLiteral?: boolean;
+
+  /**
    * Specifies if validated value is an array and each of its items must be validated.
    */
   each?: boolean;
@@ -35,5 +46,12 @@ export function isValidationOptions(val: any): val is ValidationOptions {
   if (!val) {
     return false;
   }
-  return 'each' in val || 'message' in val || 'groups' in val || 'always' in val || 'context' in val;
+  return (
+    'objectLiteral' in val ||
+    'each' in val ||
+    'message' in val ||
+    'groups' in val ||
+    'always' in val ||
+    'context' in val
+  );
 }

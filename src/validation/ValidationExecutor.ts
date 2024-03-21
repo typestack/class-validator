@@ -6,7 +6,7 @@ import { ValidationTypes } from './ValidationTypes';
 import { ConstraintMetadata } from '../metadata/ConstraintMetadata';
 import { ValidationArguments } from './ValidationArguments';
 import { ValidationUtils } from './ValidationUtils';
-import { isPromise, convertToArray } from '../utils';
+import { isPromise, convertToArray, isObjectLiteral } from '../utils';
 import { getMetadataStorage } from '../metadata/MetadataStorage';
 
 /**
@@ -267,7 +267,15 @@ export class ValidationExecutor {
           constraints: metadata.constraints,
         };
 
-        if (!metadata.each || !(Array.isArray(value) || value instanceof Set || value instanceof Map)) {
+        if (
+          !metadata.each ||
+          !(
+            Array.isArray(value) ||
+            value instanceof Set ||
+            value instanceof Map ||
+            (isObjectLiteral(value) && metadata.objectLiteral)
+          )
+        ) {
           const validatedValue = customConstraintMetadata.instance.validate(value, validationArguments);
           if (isPromise(validatedValue)) {
             const promise = validatedValue.then(isValid => {
@@ -293,8 +301,9 @@ export class ValidationExecutor {
           return;
         }
 
-        // convert set and map into array
+        // convert object literal, set and map into array
         const arrayValue = convertToArray(value);
+
         // Validation needs to be applied to each array item
         const validatedSubValues = arrayValue.map((subValue: any) =>
           customConstraintMetadata.instance.validate(subValue, validationArguments)
@@ -354,12 +363,34 @@ export class ValidationExecutor {
         return;
       }
 
-      if (Array.isArray(value) || value instanceof Set || value instanceof Map) {
-        // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
-        const arrayLikeValue = value instanceof Set ? Array.from(value) : value;
+      const isValueObjectLiteralAndMetadataPlain = isObjectLiteral(value) && metadata.objectLiteral;
+
+      if (
+        Array.isArray(value) ||
+        value instanceof Set ||
+        value instanceof Map ||
+        isValueObjectLiteralAndMetadataPlain
+      ) {
+        let arrayLikeValue: Set<any>[] | Map<any, any>;
+
+        if (isValueObjectLiteralAndMetadataPlain) {
+          // Convert object literal value into Map
+          arrayLikeValue = new Map(Object.entries(value));
+          // We must set `objectLiteral` to false because meta is also used for the child objects
+          metadata.objectLiteral = false;
+        } else {
+          // Treats Set as an array - as index of Set value is value itself and it is common case to have Object as value
+          arrayLikeValue = value instanceof Set ? Array.from(value) : value;
+        }
+
         arrayLikeValue.forEach((subValue: any, index: any) => {
           this.performValidations(value, subValue, index.toString(), [], metadatas, error.children);
         });
+
+        if (isValueObjectLiteralAndMetadataPlain) {
+          // Restore original value for `objectLiteral` in metadata
+          metadata.objectLiteral = true;
+        }
       } else if (value instanceof Object) {
         const targetSchema = typeof metadata.target === 'string' ? metadata.target : metadata.target.name;
         this.execute(value, targetSchema, error.children);

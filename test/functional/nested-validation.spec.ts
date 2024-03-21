@@ -1,4 +1,4 @@
-import { Contains, IsDefined, MinLength, ValidateNested } from '../../src/decorator/decorators';
+import { Contains, IsDefined, IsString, MinLength, ValidateNested } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidationTypes } from '../../src/validation/ValidationTypes';
 
@@ -295,6 +295,93 @@ describe('nested validation', () => {
       expect(errors[2].value).toEqual(model.mySubClasses);
       expect(errors[2].constraints).toBeUndefined();
       const subError2 = errors[2].children[0];
+      expect(subError2.target).toEqual(model.mySubClasses);
+      expect(subError2.value).toEqual(submodel1);
+      expect(subError2.property).toEqual('key1');
+      const subSubError = subError2.children[0];
+      expect(subSubError.target).toEqual(submodel1);
+      expect(subSubError.property).toEqual('name');
+      expect(subSubError.constraints).toEqual({ minLength: 'name must be longer than or equal to 5 characters' });
+      expect(subSubError.value).toEqual('my');
+    });
+  });
+
+  it('should validate nested object literal', () => {
+    expect.assertions(28);
+
+    class MySubClass {
+      @MinLength(5)
+      name: string;
+    }
+
+    class MyClass {
+      @Contains('hello')
+      title: string;
+
+      @IsString({
+        each: true,
+        objectLiteral: true,
+      })
+      stringRecord: Record<string, any>;
+
+      @ValidateNested()
+      mySubClass: MySubClass;
+
+      @ValidateNested({
+        objectLiteral: true,
+      })
+      mySubClasses: Record<string, MySubClass>;
+    }
+
+    const model = new MyClass();
+    model.title = 'helo world';
+    model.stringRecord = {
+      foo: 'bar',
+      bar: 123,
+    };
+    model.mySubClass = new MySubClass();
+    model.mySubClass.name = 'my';
+    model.mySubClasses = {};
+
+    const subsubmodel1 = new MySubClass();
+    subsubmodel1.name = 'shor';
+
+    const submodel1 = new MySubClass();
+    submodel1.name = 'my';
+    model.mySubClasses.key1 = submodel1;
+
+    const submodel2 = new MySubClass();
+    submodel2.name = 'not-short';
+    model.mySubClasses.key2 = submodel2;
+
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(4);
+
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('title');
+      expect(errors[0].constraints).toEqual({ contains: 'title must contain a hello string' });
+      expect(errors[0].value).toEqual('helo world');
+
+      expect(errors[1].target).toEqual(model);
+      expect(errors[1].property).toEqual('stringRecord');
+      expect(errors[1].constraints).toEqual({ isString: 'each value in stringRecord must be a string' });
+      expect(errors[1].value).toEqual({ foo: 'bar', bar: 123 });
+
+      expect(errors[2].target).toEqual(model);
+      expect(errors[2].property).toEqual('mySubClass');
+      expect(errors[2].value).toEqual(model.mySubClass);
+      expect(errors[2].constraints).toBeUndefined();
+      const subError1 = errors[2].children[0];
+      expect(subError1.target).toEqual(model.mySubClass);
+      expect(subError1.property).toEqual('name');
+      expect(subError1.constraints).toEqual({ minLength: 'name must be longer than or equal to 5 characters' });
+      expect(subError1.value).toEqual('my');
+
+      expect(errors[3].target).toEqual(model);
+      expect(errors[3].property).toEqual('mySubClasses');
+      expect(errors[3].value).toEqual(model.mySubClasses);
+      expect(errors[3].constraints).toBeUndefined();
+      const subError2 = errors[3].children[0];
       expect(subError2.target).toEqual(model.mySubClasses);
       expect(subError2.value).toEqual(submodel1);
       expect(subError2.property).toEqual('key1');
