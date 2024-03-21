@@ -38,11 +38,11 @@ export function Validate(
   constraintsOrValidationOptions?: any[] | ValidationOptions,
   maybeValidationOptions?: ValidationOptions
 ): PropertyDecorator {
-  return function (object: object, propertyName: string): void {
+  return function (object: object, propertyName: string | symbol): void {
     const args: ValidationMetadataArgs = {
       type: ValidationTypes.CUSTOM_VALIDATION,
       target: object.constructor,
-      propertyName: propertyName,
+      propertyName: propertyName as string,
       constraintCls: constraintClass,
       constraints: Array.isArray(constraintsOrValidationOptions) ? constraintsOrValidationOptions : undefined,
       validationOptions: !Array.isArray(constraintsOrValidationOptions)

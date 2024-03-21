@@ -32,17 +32,17 @@ export class ValidationMetadata {
   /**
    * Constraint class that performs validation. Used only for custom validations.
    */
-  constraintCls: Function;
+  constraintCls?: Function;
 
   /**
    * Array of constraints of this validation.
    */
-  constraints: any[];
+  constraints?: any[];
 
   /**
    * Validation message to be shown in the case of error.
    */
-  message: string | ((args: ValidationArguments) => string);
+  message?: string | ((args: ValidationArguments) => string);
 
   /**
    * Validation groups used for this validation.
@@ -83,9 +83,9 @@ export class ValidationMetadata {
     this.validationTypeOptions = args.validationTypeOptions;
     if (args.validationOptions) {
       this.message = args.validationOptions.message;
-      this.groups = args.validationOptions.groups;
+      this.groups = args.validationOptions.groups || [];
       this.always = args.validationOptions.always;
-      this.each = args.validationOptions.each;
+      this.each = args.validationOptions.each ?? false;
       this.context = args.validationOptions.context;
     }
   }
