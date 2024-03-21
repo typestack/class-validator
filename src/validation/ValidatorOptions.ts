@@ -69,6 +69,13 @@ export interface ValidatorOptions {
      * Indicates if validated value should be exposed in ValidationError.
      */
     value?: boolean;
+
+    /**
+     * A function to modify the error message.The function will be called with the transformKey or the name of the validation.
+     * @param key the name of the error.
+     * @returns string. it will be shown instead of the default error message.
+     */
+    transformFunction?: (key: string) => string
   };
 
   /**

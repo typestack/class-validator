@@ -45,6 +45,10 @@ export class ValidationMetadata {
   message: string | ((args: ValidationArguments) => string);
 
   /**
+   * While using transformFunction to customize error messages the transformFunction will be called with this key.
+   */
+  transformKey?: string
+  /**
    * Validation groups used for this validation.
    */
   groups: string[] = [];
@@ -87,6 +91,7 @@ export class ValidationMetadata {
       this.always = args.validationOptions.always;
       this.each = args.validationOptions.each;
       this.context = args.validationOptions.context;
+      this.transformKey = args.validationOptions.transformKey;
     }
   }
 }
