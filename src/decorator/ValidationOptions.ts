@@ -29,6 +29,11 @@ export interface ValidationOptions {
    * A transient set of data passed through to the validation result for response mapping
    */
   context?: any;
+
+  /**
+   * While using transformFunction if provided then the transformFunction will be called with this.
+   */
+  transformKey?: string
 }
 
 export function isValidationOptions(val: any): val is ValidationOptions {

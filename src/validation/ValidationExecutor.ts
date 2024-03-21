@@ -30,7 +30,7 @@ export class ValidationExecutor {
   // Constructor
   // -------------------------------------------------------------------------
 
-  constructor(private validator: Validator, private validatorOptions?: ValidatorOptions) {}
+  constructor(private validator: Validator, private validatorOptions?: ValidatorOptions) { }
 
   // -------------------------------------------------------------------------
   // Public Methods
@@ -46,8 +46,8 @@ export class ValidationExecutor {
     if (!this.metadataStorage.hasValidationMetaData && this.validatorOptions?.enableDebugMessages === true) {
       console.warn(
         `No validation metadata found. No validation will be  performed. There are multiple possible reasons:\n` +
-          `  - There may be multiple class-validator versions installed. You will need to flatten your dependencies to fix the issue.\n` +
-          `  - This validation runs before any file with validation decorator was parsed by NodeJS.`
+        `  - There may be multiple class-validator versions installed. You will need to flatten your dependencies to fix the issue.\n` +
+        `  - This validation runs before any file with validation decorator was parsed by NodeJS.`
       );
     }
 
@@ -66,6 +66,18 @@ export class ValidationExecutor {
       groups
     );
     const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
+
+    /**if transformationFunction is provided then overwrite the message with the transformationFunction */
+    if (this.validatorOptions?.validationError?.transformFunction && typeof this.validatorOptions?.validationError?.transformFunction === 'function') {
+      targetMetadatas.forEach(e => {
+        e.message = () => (this.validatorOptions?.validationError?.transformFunction as Function)(e.transformKey || e.name || e.type || 'This validation does not have an name or type associated with it, please add one.')
+      });
+      Object.keys(groupedMetadatas).forEach(prop => {
+        groupedMetadatas[prop].forEach(e => {
+          e.message = () => (this.validatorOptions?.validationError?.transformFunction as Function)(e.transformKey || e.name || e.type || 'This validation does not have an name or type associated with it, please add one.')
+        });
+      })
+    }
 
     if (forbidUnknownValues && !targetMetadatas.length) {
       const validationError = new ValidationError();
