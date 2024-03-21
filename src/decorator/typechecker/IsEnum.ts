@@ -15,9 +15,7 @@ export function isEnum(value: unknown, entity: any): boolean {
  * Returns the possible values from an enum (both simple number indexed and string indexed enums).
  */
 function validEnumValues(entity: any): string[] {
-  return Object.entries(entity)
-    .filter(([key, value]) => isNaN(parseInt(key)))
-    .map(([key, value]) => value as string);
+  return Object.values(entity).filter(value => typeof value === 'string') as string[];
 }
 
 /**
