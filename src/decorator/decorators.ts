@@ -33,6 +33,7 @@ export * from './number/IsPositive';
 export * from './number/IsNegative';
 export * from './number/Max';
 export * from './number/Min';
+export * from './number/IsSafeInt';
 
 // -------------------------------------------------------------------------
 // Date checkers
