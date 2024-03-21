@@ -55,6 +55,11 @@ export class ValidationMetadata {
   always?: boolean;
 
   /**
+   * Indicates if validation must be performed always, no matter of condition.
+   */
+  ignoreCondition?: boolean;
+
+  /**
    * Specifies if validated value is an array and each of its item must be validated.
    */
   each: boolean = false;
@@ -85,6 +90,7 @@ export class ValidationMetadata {
       this.message = args.validationOptions.message;
       this.groups = args.validationOptions.groups;
       this.always = args.validationOptions.always;
+      this.ignoreCondition = args.validationOptions.ignoreCondition;
       this.each = args.validationOptions.each;
       this.context = args.validationOptions.context;
     }

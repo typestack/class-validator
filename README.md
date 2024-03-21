@@ -25,6 +25,7 @@ Class-validator works on both browser and node.js platforms.
   - [Validating promises](#validating-promises)
   - [Inheriting Validation decorators](#inheriting-validation-decorators)
   - [Conditional validation](#conditional-validation)
+  - [Ignoring condition for specific decorators](#ignoring-condition-for-specific-decorators)
   - [Whitelisting](#whitelisting)
   - [Passing context to decorators](#passing-context-to-decorators)
   - [Skipping missing properties](#skipping-missing-properties)
@@ -427,6 +428,25 @@ export class Post {
 In the example above, the validation rules applied to `example` won't be run unless the object's `otherProperty` is `"value"`.
 
 Note that when the condition is false all validation decorators are ignored, including `isDefined`.
+
+## Ignoring condition for specific decorators
+
+It is possible to ignore the condition for specific decorators and make sure they will be validated always by using `ignoreValidation` property.
+
+```typescript
+import { ValidateIf, IsNotEmpty } from 'class-validator';
+
+export class Post {
+  otherProperty: string;
+
+  @ValidateIf(o => o.otherProperty === 'value')
+  @IsNotEmpty()
+  @IsUUID('4', { ignoreCondition: true })
+  id: string;
+}
+```
+
+In this case, the `IsUuid` decorator will be use regardless the result of the condition in `ValidateIf` decorator, but the `IsNotEmpty` decorator still depends on the condition.
 
 ## Whitelisting
 

@@ -184,13 +184,10 @@ export class ValidationExecutor {
     const validationError = this.generateValidationError(object, value, propertyName);
     validationErrors.push(validationError);
 
-    const canValidate = this.conditionalValidations(object, value, conditionalValidationMetadatas);
-    if (!canValidate) {
-      return;
-    }
+    const canValidate = !!this.conditionalValidations(object, value, conditionalValidationMetadatas);
 
     // handle IS_DEFINED validation type the special way - it should work no matter skipUndefinedProperties/skipMissingProperties is set or not
-    this.customValidations(object, value, definedMetadatas, validationError);
+    this.customValidations(object, value, definedMetadatas, validationError, canValidate);
     this.mapContexts(object, value, definedMetadatas, validationError);
 
     if (value === undefined && this.validatorOptions && this.validatorOptions.skipUndefinedProperties === true) {
@@ -209,8 +206,8 @@ export class ValidationExecutor {
       return;
     }
 
-    this.customValidations(object, value, customValidationMetadatas, validationError);
-    this.nestedValidations(value, nestedValidationMetadatas, validationError);
+    this.customValidations(object, value, customValidationMetadatas, validationError, canValidate);
+    this.nestedValidations(value, nestedValidationMetadatas, validationError, canValidate);
 
     this.mapContexts(object, value, metadatas, validationError);
     this.mapContexts(object, value, customValidationMetadatas, validationError);
@@ -248,8 +245,17 @@ export class ValidationExecutor {
       .reduce((resultA, resultB) => resultA && resultB, true);
   }
 
-  private customValidations(object: object, value: any, metadatas: ValidationMetadata[], error: ValidationError): void {
-    metadatas.forEach(metadata => {
+  private customValidations(
+    object: object,
+    value: any,
+    metadatas: ValidationMetadata[],
+    error: ValidationError,
+    canValidate: boolean
+  ): void {
+    for (const metadata of metadatas) {
+      if (!canValidate && !metadata.ignoreCondition) {
+        break;
+      }
       this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls).forEach(customConstraintMetadata => {
         if (customConstraintMetadata.async && this.ignoreAsyncValidations) return;
         if (
@@ -335,15 +341,23 @@ export class ValidationExecutor {
           error.constraints[type] = message;
         }
       });
-    });
+    }
   }
 
-  private nestedValidations(value: any, metadatas: ValidationMetadata[], error: ValidationError): void {
+  private nestedValidations(
+    value: any,
+    metadatas: ValidationMetadata[],
+    error: ValidationError,
+    canValidate: boolean
+  ): void {
     if (value === void 0) {
       return;
     }
 
-    metadatas.forEach(metadata => {
+    for (const metadata of metadatas) {
+      if (!canValidate && !metadata.ignoreCondition) {
+        break;
+      }
       if (metadata.type !== ValidationTypes.NESTED_VALIDATION && metadata.type !== ValidationTypes.PROMISE_VALIDATION) {
         return;
       } else if (
@@ -367,7 +381,7 @@ export class ValidationExecutor {
         const [type, message] = this.createValidationError(metadata.target as object, value, metadata);
         error.constraints[type] = message;
       }
-    });
+    }
   }
 
   private mapContexts(object: object, value: any, metadatas: ValidationMetadata[], error: ValidationError): void {

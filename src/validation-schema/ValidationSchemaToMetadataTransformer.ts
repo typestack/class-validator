@@ -15,6 +15,7 @@ export class ValidationSchemaToMetadataTransformer {
           message: validation.message,
           groups: validation.groups,
           always: validation.always,
+          ignoreCondition: validation.ignoreCondition,
           each: validation.each,
         };
         const args: ValidationMetadataArgs = {
