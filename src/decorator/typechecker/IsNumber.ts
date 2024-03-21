@@ -29,12 +29,10 @@ export function isNumber(value: unknown, options: IsNumberOptions = {}): value i
   }
 
   if (options.maxDecimalPlaces !== undefined) {
-    let decimalPlaces = 0;
     if (value % 1 !== 0) {
-      decimalPlaces = value.toString().split('.')[1].length;
-    }
-    if (decimalPlaces > options.maxDecimalPlaces) {
-      return false;
+      if (parseFloat(value.toFixed(options.maxDecimalPlaces)) !== value) {
+        return false;
+      }
     }
   }
 
