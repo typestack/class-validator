@@ -193,6 +193,11 @@ import {
   isTaxId,
   IsTaxId,
   IsISO4217CurrencyCode,
+  IsNatural,
+  isNatural,
+  IsNaturalNoZero,
+  iSNaturalNoZero,
+  iSNatural,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -4777,5 +4782,101 @@ describe('IsISO4217', () => {
   it('should fail for invalid values', () => {
     const invalidValues = [undefined, null, '', 'USS'];
     return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
+describe('IsNatural', () => {
+  const validValues = [0, '01', '0', '11', 2, 4, 100, 1000];
+  const invalidValues = ['-01', -11, '123.123', '   ', '', 2.5, -0.1];
+
+  class MyClass {
+    @IsNatural()
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isNatural(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isNatural(value as any)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isNatural';
+    const message = 'someProperty must be a natural number';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsNaturalNoZero', () => {
+  const validValues = [1, 2, 4, 6, 13, 100];
+  const invalidValues = ['-1', 0, -11, '123.123', -10.6, '   ', '', 2.5, -0.1];
+
+  class MyClass {
+    @IsNaturalNoZero()
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(iSNaturalNoZero(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(iSNaturalNoZero(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'iSNaturalNoZero';
+    const message = 'someProperty must be a natural number and greater then zero';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsNatural', () => {
+  const validValues = [0, 1, 11, 2, 4, 100];
+  const invalidValues = ['-1', -11, '123.123', -10.6, '   ', '', 2.5, -0.1];
+
+  class MyClass {
+    @IsNatural()
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(iSNatural(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(iSNatural(value)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'iSNatural';
+    const message = 'someProperty must be a natural number';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
