@@ -17,14 +17,14 @@ export interface ValidationSchema {
      */
     [propertyName: string]: {
       /**
+       * Validation name. Used to uniquely identify this validator.
+       */
+      name?: string;
+
+      /**
        * Validation type. Should be one of the ValidationTypes value.
        */
       type: string;
-
-      /**
-       * Validator name.
-       */
-      name?: string;
 
       /**
        * Constraints set by validation type.

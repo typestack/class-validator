@@ -1124,11 +1124,11 @@ describe('context', () => {
     function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
       return function (object: object, propertyName: string): void {
         registerDecorator({
+          name: 'isLongerThan',
           target: object.constructor,
           propertyName: propertyName,
           options: validationOptions,
           constraints: [property],
-          name: 'isLongerThan',
           validator: {
             validate(value: any, args: ValidationArguments): boolean {
               const [relatedPropertyName] = args.constraints;

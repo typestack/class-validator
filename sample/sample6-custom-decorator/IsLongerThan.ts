@@ -7,6 +7,7 @@ import { ValidationArguments } from '../../src/validation/ValidationArguments';
 export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
+      name: 'IsLongerThan',
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,

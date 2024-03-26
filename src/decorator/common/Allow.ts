@@ -10,6 +10,7 @@ import { getMetadataStorage } from '../../metadata/MetadataStorage';
 export function Allow(validationOptions?: ValidationOptions): PropertyDecorator {
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
+      name: 'Allow',
       type: ValidationTypes.WHITELIST,
       target: object.constructor,
       propertyName: propertyName,
