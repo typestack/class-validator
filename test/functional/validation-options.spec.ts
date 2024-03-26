@@ -1,7 +1,9 @@
 import {
   Contains,
+  Equals,
   IsDefined,
   Matches,
+  Max,
   MinLength,
   IsArray,
   Validate,
@@ -58,7 +60,7 @@ describe('message', () => {
     });
   });
 
-  it('$value token should be replaced in a custom message', () => {
+  it('$value token should be replaced in a custom message with a string', () => {
     class MyClass {
       @MinLength(2, {
         message: args => {
@@ -75,6 +77,38 @@ describe('message', () => {
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].constraints).toEqual({ minLength: ' is too short, minimum length is 2 characters name' });
+    });
+  });
+
+  it('$value token should be replaced in a custom message with a number', () => {
+    class MyClass {
+      @Max(100, { message: 'Maximum value is $constraint1, but actual is $value' })
+      val: number = 50;
+    }
+
+    const model = new MyClass();
+    model.val = 101;
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints).toEqual({
+        max: 'Maximum value is 100, but actual is 101',
+      });
+    });
+  });
+
+  it('$value token should be replaced in a custom message with a boolean', () => {
+    class MyClass {
+      @Equals(true, { message: 'Value must be $constraint1, but actual is $value' })
+      val: boolean = false;
+    }
+
+    const model = new MyClass();
+    model.val = false;
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints).toEqual({
+        equals: 'Value must be true, but actual is false',
+      });
     });
   });
 
