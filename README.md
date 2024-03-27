@@ -573,6 +573,48 @@ validate(user, {
 There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
 must be applied always no matter which group is used.
 
+## Validation validateIf
+
+If you want to validate that condition by object, you can use validation validateIf.
+
+```typescript
+class MyClass {
+  @Min(5, {
+    message: 'min',
+    validateIf: (obj: MyClass, value) => {
+      return !obj.someOtherProperty || obj.someOtherProperty === 'min';
+    },
+  })
+  @Max(3, {
+    message: 'max',
+    validateIf: (o: MyClass) => !o.someOtherProperty || o.someOtherProperty === 'max',
+  })
+  someProperty: number;
+
+  someOtherProperty: string;
+}
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'min';
+validator.validate(model); // this only validate min
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'max';
+validator.validate(model); // this only validate max
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = '';
+validator.validate(model); // this validate both
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'other';
+validator.validate(model); // this validate none
+```
+
 ## Custom validation classes
 
 If you have custom validation logic you can create a _Constraint class_:
