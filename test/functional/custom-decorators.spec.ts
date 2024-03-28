@@ -260,17 +260,52 @@ describe('decorator with symbol constraint', () => {
     };
   }
 
-  class MyClass {
+  function IsOneOfTypes(properties: unknown[], validationOptions?: ValidationOptions) {
+    return function (object: object, propertyName: string): void {
+      registerDecorator({
+        target: object.constructor,
+        propertyName: propertyName,
+        options: validationOptions,
+        constraints: [properties],
+        validator: {
+          validate(value: any, args: ValidationArguments) {
+            return args.constraints[0].some(t => typeof value === typeof t);
+          },
+          defaultMessage: buildMessage(
+            eachPrefix =>
+              eachPrefix + '$property must be of type ' + properties.map(property => typeof property).join(' or '),
+            validationOptions
+          ),
+        },
+      });
+    };
+  }
+
+  class MyClass1 {
     @IsSameType(mySymbol)
+    property: symbol;
+  }
+
+  class MyClass2 {
+    @IsOneOfTypes([mySymbol, 'str'])
     property: symbol;
   }
 
   it('if property is not a symbol then it should fail', () => {
     expect.assertions(2);
-    const model = new MyClass();
+    const model = new MyClass1();
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].constraints.customValidation).toEqual('property must be of type symbol');
+    });
+  });
+
+  it('if properties is not an array of symbols then it should fail', () => {
+    expect.assertions(2);
+    const model = new MyClass2();
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints.customValidation).toEqual('property must be of type symbol or string');
     });
   });
 });
