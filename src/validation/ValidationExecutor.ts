@@ -24,6 +24,7 @@ export class ValidationExecutor {
   // Private Properties
   // -------------------------------------------------------------------------
 
+  private instance: any = undefined;
   private metadataStorage = getMetadataStorage();
 
   // -------------------------------------------------------------------------
@@ -49,6 +50,11 @@ export class ValidationExecutor {
           `  - There may be multiple class-validator versions installed. You will need to flatten your dependencies to fix the issue.\n` +
           `  - This validation runs before any file with validation decorator was parsed by NodeJS.`
       );
+    }
+
+    // Keep the instance to the original object
+    if (this.instance === undefined){
+      this.instance = object;
     }
 
     const groups = this.validatorOptions ? this.validatorOptions.groups : undefined;
@@ -263,6 +269,7 @@ export class ValidationExecutor {
           targetName: object.constructor ? (object.constructor as any).name : undefined,
           property: metadata.propertyName,
           object: object,
+          instance: this.instance,
           value: value,
           constraints: metadata.constraints,
         };
@@ -405,6 +412,7 @@ export class ValidationExecutor {
       property: metadata.propertyName,
       object: object,
       value: value,
+      instance: this.instance,
       constraints: metadata.constraints,
     };
 
