@@ -1,4 +1,4 @@
-import validator from 'validator';
+import * as validator from 'validator';
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 

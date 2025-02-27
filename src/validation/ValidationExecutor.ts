@@ -67,7 +67,7 @@ export class ValidationExecutor {
     );
     const groupedMetadatas = this.metadataStorage.groupByPropertyName(targetMetadatas);
 
-    if (this.validatorOptions && forbidUnknownValues && !targetMetadatas.length) {
+    if (forbidUnknownValues && !targetMetadatas.length) {
       const validationError = new ValidationError();
 
       if (
