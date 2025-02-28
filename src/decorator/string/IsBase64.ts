@@ -26,7 +26,7 @@ export function IsBase64(
       name: IS_BASE64,
       constraints: [options],
       validator: {
-        validate: (value, args): boolean => isBase64(value),
+        validate: (value, args): boolean => isBase64(value, args?.constraints[0]),
         defaultMessage: buildMessage(eachPrefix => eachPrefix + '$property must be base64 encoded', validationOptions),
       },
     },
