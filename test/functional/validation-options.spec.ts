@@ -1308,7 +1308,7 @@ describe('validateIf', () => {
       const result = isValidationOptions({
         validateIf: (obj: MyClass, value) => {
           return obj.someOtherProperty;
-        }
+        },
       });
       expect(result).toEqual(true);
     });
