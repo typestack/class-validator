@@ -2,6 +2,25 @@
 
 _This changelog follows the [keep a changelog][keep-a-changelog]_ format to maintain a human readable changelog.
 
+### [0.14.1](https://github.com/typestack/class-validator/compare/v0.14.0...v0.14.1) (2024-01-12)
+
+#### Added
+
+- allow specifying options for `@IsBase64` decorator ([#1845](https://github.com/typestack/class-validator/issues/1845)) , closes [#1013](https://github.com/typestack/class-validator/issues/1013)
+- use official type for version in `@IsUUID` decorator ([#1846](https://github.com/typestack/class-validator/issues/1846)) , closes [#1497](https://github.com/typestack/class-validator/issues/1497)
+- update `@IsPhoneNumber` decorator to use max dataset ([#1857](https://github.com/typestack/class-validator/issues/1857))
+
+#### Fixed
+
+- fail for non-array constraint in `@IsIn` decorator ([#1844](https://github.com/typestack/class-validator/issues/1844)) , closes [#1693](https://github.com/typestack/class-validator/issues/1693)
+- allow number and boolean values in validation message "$value" tokens ([#1467](https://github.com/typestack/class-validator/issues/1467)) , closes [#921](https://github.com/typestack/class-validator/issues/921), [#1046](https://github.com/typestack/class-validator/issues/1046)
+- read nullable option in `@IsNotEmptyObject` decorator correctly ([#1555](https://github.com/typestack/class-validator/issues/1555)) , closes [#1554](https://github.com/typestack/class-validator/issues/1554)
+
+#### Changed
+
+- update `libphonenumber-js` to `^1.10.53` from `^1.10.14`
+- update various dev-dependencies
+
 ### [0.14.0](https://github.com/typestack/class-validator/compare/v0.13.2...v0.14.0) (2022-12-09)
 
 ### Added
