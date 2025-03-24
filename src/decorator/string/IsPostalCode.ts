@@ -18,7 +18,7 @@ export function isPostalCode(value: unknown, locale: 'any' | ValidatorJS.PostalC
  * If given value is not a string, then it returns false.
  */
 export function IsPostalCode(
-  locale?: 'any' | ValidatorJS.PostalCodeLocale,
+  locale: 'any' | ValidatorJS.PostalCodeLocale,
   validationOptions?: ValidationOptions
 ): PropertyDecorator {
   return ValidateBy(
