@@ -662,7 +662,7 @@ export class CustomTextLength implements ValidatorConstraintInterface {
 
 ## Custom validation decorators
 
-You can also create a custom decorators. Its the most elegant way of using a custom validations.
+You can also create a custom decorator. It's the most elegant way of using custom validations.
 Lets create a decorator called `@IsLongerThan`:
 
 1. Create a decorator itself:
