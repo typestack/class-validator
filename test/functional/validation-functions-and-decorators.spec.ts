@@ -193,6 +193,7 @@ import {
   isTaxId,
   IsTaxId,
   IsISO4217CurrencyCode,
+  IsDuration,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -4786,6 +4787,36 @@ describe('IsISO4217', () => {
 
   it('should fail for invalid values', () => {
     const invalidValues = [undefined, null, '', 'USS'];
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
+describe('IsDuration', () => {
+  class MyClass {
+    @IsDuration()
+    someProperty: string;
+  }
+
+  it('should not fail for valid duration strings', () => {
+    const validValues = ['123', '123Yrs', '123 Yrs', '45min', '45 MIN', '100Ms', '10 Days', '7weeks', '200 SEC', '1d'];
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail for invalid values', () => {
+    const invalidValues = [
+      'abc',
+      '123bananas',
+      '123 Yards',
+      '12.5 Hours',
+      ' 123 Hrs',
+      '123Hrs ',
+      '123  Hrs',
+      '123-Hrs',
+      '',
+      '0x10Ms',
+      10,
+      null,
+    ];
     return checkInvalidValues(new MyClass(), invalidValues);
   });
 });
