@@ -2,6 +2,16 @@
 
 _This changelog follows the [keep a changelog][keep-a-changelog]_ format to maintain a human readable changelog.
 
+## [0.14.2](https://github.com/typestack/class-validator/compare/v0.14.1...v0.14.2) (2025-05-02)
+
+#### Fixed
+
+- Fixed an issue where `forbidUnknownValues` did not default to `true` when `validatorOptions` was undefined. ([#2196](https://github.com/typestack/class-validator/pull/2196) by [@cduff](https://github.com/cduff))
+- Fixed the `ValidationMetadata.name` property to work correctly with the `@IsOptional` decorator. ([#2044](https://github.com/typestack/class-validator/pull/2044) by [@Clashsoft](https://github.com/Clashsoft))
+- Updated the Codecov configuration for continuous integration. ([#2556](https://github.com/typestack/class-validator/pull/2556) by [@haiweilian](https://github.com/haiweilian))
+- Fixed an issue where options were not passed correctly to the `@IsBase64` decorator. ([#2549](https://github.com/typestack/class-validator/pull/2549) by [@aseyfpour](https://github.com/aseyfpour))
+- Fixed argument handling for the `isBase64` function. ([#2574](https://github.com/typestack/class-validator/pull/2574) by [@braaar](https://github.com/braaar))
+
 ### [0.14.1](https://github.com/typestack/class-validator/compare/v0.14.0...v0.14.1) (2024-01-12)
 
 #### Added
