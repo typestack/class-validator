@@ -4,6 +4,8 @@ import { ValidationTypes } from '../../validation/ValidationTypes';
 import { ValidationMetadata } from '../../metadata/ValidationMetadata';
 import { getMetadataStorage } from '../../metadata/MetadataStorage';
 
+export const IS_OPTIONAL = 'isOptional';
+
 /**
  * Checks if value is missing and if so, ignores all validators.
  */
@@ -11,6 +13,7 @@ export function IsOptional(validationOptions?: ValidationOptions): PropertyDecor
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
       type: ValidationTypes.CONDITIONAL_VALIDATION,
+      name: IS_OPTIONAL,
       target: object.constructor,
       propertyName: propertyName,
       constraints: [

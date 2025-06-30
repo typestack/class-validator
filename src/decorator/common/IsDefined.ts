@@ -8,7 +8,7 @@ export const IS_DEFINED = ValidationTypes.IS_DEFINED;
 /**
  * Checks if value is defined (!== undefined, !== null).
  */
-export function isDefined(value: any): boolean {
+export function isDefined<T>(value: T | undefined | null): value is T {
   return value !== undefined && value !== null;
 }
 
