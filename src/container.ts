@@ -31,6 +31,7 @@ const defaultContainer: { get<T>(someClass: { new (...args: any[]): T } | Functi
 })();
 
 let userContainer: { get<T>(someClass: { new (...args: any[]): T } | Function): T };
+let userAsyncContainer: { get<T>(someClass: { new (...args: any[]): T } | Function): Promise<T> };
 let userContainerOptions: UseContainerOptions;
 
 /**
@@ -38,6 +39,11 @@ let userContainerOptions: UseContainerOptions;
  */
 export function useContainer(iocContainer: { get(someClass: any): any }, options?: UseContainerOptions): void {
   userContainer = iocContainer;
+  userContainerOptions = options;
+}
+
+export function useAsyncContainer(iocContainer: { get(someClass: any): Promise<any> }, options?: UseContainerOptions): void {
+  userAsyncContainer = iocContainer;
   userContainerOptions = options;
 }
 
@@ -56,4 +62,18 @@ export function getFromContainer<T>(someClass: { new (...args: any[]): T } | Fun
     }
   }
   return defaultContainer.get<T>(someClass);
+}
+
+export async function getFromAsyncContainer<T>(someClass: { new (...args: any[]): T } | Function): Promise<T> {
+  if (userAsyncContainer) {
+    try {
+      const instance = await userAsyncContainer.get(someClass);
+      if (instance) return instance;
+
+      if (!userContainerOptions || !userContainerOptions.fallback) return instance;
+    } catch (error) {
+      if (!userContainerOptions || !userContainerOptions.fallbackOnErrors) throw error;
+    }
+  }
+  return getFromContainer(someClass);
 }
