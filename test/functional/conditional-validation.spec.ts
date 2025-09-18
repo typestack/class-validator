@@ -1,4 +1,4 @@
-import { IsNotEmpty, ValidateIf, IsOptional, Equals } from '../../src/decorator/decorators';
+import { IsNotEmpty, ValidateIf, IsOptional, IsActuallyOptional, Equals } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 
 const validator = new Validator();
@@ -90,6 +90,38 @@ describe('conditional validation', () => {
       expect(errors[0].property).toEqual('title');
       expect(errors[0].constraints).toEqual({ equals: 'title must be equal to test' });
       expect(errors[0].value).toEqual('bad_value');
+    });
+  });
+
+  it('should validate a property when value is not missing', () => {
+    expect.assertions(5);
+
+    class MyClass {
+      @IsActuallyOptional()
+      @Equals('test')
+      title: string | null = null;
+    }
+
+    const model = new MyClass();
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(model);
+      expect(errors[0].property).toEqual('title');
+      expect(errors[0].constraints).toEqual({ equals: 'title must be equal to test' });
+      expect(errors[0].value).toEqual(null);
+    });
+  });
+
+  it('should not validate a property when value is missing', () => {
+    class MyClass {
+      @IsActuallyOptional()
+      @Equals('test')
+      title?: string = undefined;
+    }
+
+    const model = new MyClass();
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(0);
     });
   });
 });
