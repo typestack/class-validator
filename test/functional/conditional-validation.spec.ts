@@ -1,4 +1,4 @@
-import { IsNotEmpty, ValidateIf, IsOptional, IsActuallyOptional, Equals } from '../../src/decorator/decorators';
+import { IsNotEmpty, ValidateIf, IsOptional, IsStrictlyOptional, Equals } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 
 const validator = new Validator();
@@ -97,7 +97,7 @@ describe('conditional validation', () => {
     expect.assertions(5);
 
     class MyClass {
-      @IsActuallyOptional()
+      @IsStrictlyOptional()
       @Equals('test')
       title: string | null = null;
     }
@@ -114,7 +114,7 @@ describe('conditional validation', () => {
 
   it('should not validate a property when value is missing', () => {
     class MyClass {
-      @IsActuallyOptional()
+      @IsStrictlyOptional()
       @Equals('test')
       title?: string = undefined;
     }
