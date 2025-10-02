@@ -27,10 +27,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci --ignore-scripts
       - run: npm run test:ci
-      - run: npm install codecov -g
-        if: ${{ matrix.node-version == 'current' }}
-      - run: codecov -f ./coverage/clover.xml -t ${{ secrets.CODECOV_TOKEN }} --commit=$GITHUB_SHA --branch=${GITHUB_REF##*/}
-        if: ${{ matrix.node-version == 'current' }}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        if: ${{ matrix.node-version == 'current' && github.actor != 'dependabot[bot]' }}
+        with:
+          files: ./coverage/clover.xml
+          directory: ./coverage/lcov-report/
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
+          fail_ci_if_error: true
   build:
     name: Build
     runs-on: ubuntu-latest

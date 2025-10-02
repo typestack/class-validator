@@ -1658,17 +1658,27 @@ describe('IsBase64', () => {
   const validValues = ['aGVsbG8='];
   const invalidValues = [null, undefined, 'hell*mynameisalex'];
 
+  const validBase64UrlValues = ['dGVzdA', 'dGV_zdA'];
+  const invalidBase64UrlValues = [null, undefined, 'dGVzdA=', 'MTIzNDU2Nzg5!!', 'SGVsbG8+V29ybGQ='];
+
   class MyClass {
     @IsBase64()
     someProperty: string;
   }
 
-  it('should not fail if validator.validate said that its valid', () => {
-    return checkValidValues(new MyClass(), validValues);
+  class MyClassWithConstraint {
+    @IsBase64({ urlSafe: true })
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', async () => {
+    await checkValidValues(new MyClass(), validValues);
+    await checkValidValues(new MyClassWithConstraint(), validBase64UrlValues);
   });
 
-  it('should fail if validator.validate said that its invalid', () => {
-    return checkInvalidValues(new MyClass(), invalidValues);
+  it('should fail if validator.validate said that its invalid', async () => {
+    await checkInvalidValues(new MyClass(), invalidValues);
+    await checkInvalidValues(new MyClassWithConstraint(), invalidBase64UrlValues);
   });
 
   it('should not fail if method in validator said that its valid', () => {
