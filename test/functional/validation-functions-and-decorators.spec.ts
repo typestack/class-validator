@@ -265,8 +265,6 @@ function checkReturnedError(
   return Promise.all(promises);
 }
 
-const validator = new Validator();
-
 describe('IsDefined', () => {
   const validValues = [0, 1, true, false, '', '0', '1234', -1];
   const invalidValues: any[] = [null, undefined];
@@ -3117,9 +3115,13 @@ describe('IsJWT', () => {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb3JlbSI6Imlwc3VtIn0.ymiJSsMJXR6tMSr8G9usjQ15_8hKPDv_CArLhxw28MI',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb2xvciI6InNpdCIsImFtZXQiOlsibG9yZW0iLCJpcHN1bSJdfQ.rRpe04zbWbbJjwM43VnHzAboDzszJtGrNsUxaqQ-GQ8',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqb2huIjp7ImFnZSI6MjUsImhlaWdodCI6MTg1fSwiamFrZSI6eyJhZ2UiOjMwLCJoZWlnaHQiOjI3MH19.YRLPARDmhGMC3BBk_OhtwwK21PIkVCqQe8ncIRPKo-E',
+  ];
+  const invalidValues = [
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+    '$Zs.ewu.su84',
+    'ks64$S/9.dy$§kz.3sd73b',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ', // No signature
   ];
-  const invalidValues = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9', '$Zs.ewu.su84', 'ks64$S/9.dy$§kz.3sd73b'];
 
   class MyClass {
     @IsJWT()
@@ -3533,7 +3535,7 @@ describe('IsUrl', () => {
 
 describe('IsUUID', () => {
   const validValues = [
-    'A987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3',
     'A987FBC9-4BED-4078-8F07-9141BA07C9F3',
     'A987FBC9-4BED-5078-AF07-9141BA07C9F3',
   ];
@@ -3547,6 +3549,7 @@ describe('IsUUID', () => {
     '934859',
     '987FBC9-4BED-3078-CF07A-9141BA07C9F3',
     'AAAAAAAA-1111-1111-AAAG-111111111111',
+    'A987FBC9-4BED-3078-CF07-9141BA07C9F3', // does not conform to RFC9562 UUID
   ];
 
   class MyClass {
@@ -3578,7 +3581,12 @@ describe('IsUUID', () => {
 });
 
 describe('IsUUID v3', () => {
-  const validValues = ['A987FBC9-4BED-3078-CF07-9141BA07C9F3'];
+  const validValues = [
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3',
+    'A987FBC9-4BED-3078-9F07-9141BA07C9F3',
+    'A987FBC9-4BED-3078-AF07-9141BA07C9F3',
+    'A987FBC9-4BED-3078-BF07-9141BA07C9F3',
+  ];
   const invalidValues = [
     null,
     undefined,
@@ -3588,6 +3596,7 @@ describe('IsUUID v3', () => {
     'AAAAAAAA-1111-1111-AAAG-111111111111',
     'A987FBC9-4BED-4078-8F07-9141BA07C9F3',
     'A987FBC9-4BED-5078-AF07-9141BA07C9F3',
+    'A987FBC9-4BED-3078-CF07-9141BA07C9F3', // does not conform to RFC9562 UUID
   ];
 
   class MyClass {
