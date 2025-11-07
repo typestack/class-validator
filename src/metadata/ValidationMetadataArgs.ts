@@ -5,14 +5,14 @@ import { ValidationOptions } from '../decorator/ValidationOptions';
  */
 export interface ValidationMetadataArgs {
   /**
-   * Validation type.
+   * Validation type. Should be one of the ValidationTypes values.
    */
   type: string;
 
   /**
-   * Validator name.
+   * Validation name. Used to uniquely identify this validator.
    */
-  name?: string;
+  name: string;
 
   /**
    * Object that is used to be validated.

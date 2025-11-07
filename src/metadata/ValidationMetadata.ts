@@ -10,14 +10,14 @@ export class ValidationMetadata {
   // -------------------------------------------------------------------------
 
   /**
-   * Validation type.
+   * Validation type. Should be one of the ValidationTypes values.
    */
   type: string;
 
   /**
-   * Validator name.
+   * Validation name. Used to uniquely identify this validator.
    */
-  name?: string;
+  name: string;
 
   /**
    * Target class to which this validation is applied.
