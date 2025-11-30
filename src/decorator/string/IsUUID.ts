@@ -6,7 +6,7 @@ import * as ValidatorJS from 'validator';
 export const IS_UUID = 'isUuid';
 
 /**
- * Checks if the string is a UUID (version 3, 4 or 5).
+ * Checks if the string is a UUID (version 1-8, nil, max, all).
  * If given value is not a string, then it returns false.
  */
 export function isUUID(value: unknown, version?: ValidatorJS.UUIDVersion): boolean {
@@ -14,7 +14,7 @@ export function isUUID(value: unknown, version?: ValidatorJS.UUIDVersion): boole
 }
 
 /**
- * Checks if the string is a UUID (version 3, 4 or 5).
+ * Checks if the string is a UUID (version 1-8, nil, max, all).
  * If given value is not a string, then it returns false.
  */
 export function IsUUID(version?: ValidatorJS.UUIDVersion, validationOptions?: ValidationOptions): PropertyDecorator {
