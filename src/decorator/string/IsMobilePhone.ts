@@ -38,7 +38,7 @@ export function isMobilePhone(
  * If given value is not a string, then it returns false.
  */
 export function IsMobilePhone(
-  locale?: ValidatorJS.MobilePhoneLocale,
+  locale?: ValidatorJS.MobilePhoneLocale | ValidatorJS.MobilePhoneLocale[],
   options?: ValidatorJS.IsMobilePhoneOptions,
   validationOptions?: ValidationOptions
 ): PropertyDecorator {
