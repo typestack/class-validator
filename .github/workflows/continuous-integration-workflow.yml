@@ -9,6 +9,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
+          cache: 'npm'
       - run: npm ci --ignore-scripts
       - run: npm run prettier:check
       - run: npm run lint:check
@@ -25,6 +26,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - run: npm ci --ignore-scripts
       - run: npm run test:ci
       - name: Upload coverage to Codecov
@@ -44,6 +46,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
+          cache: 'npm'
       - run: npm ci --ignore-scripts
       - run: npm run build:es2015
       - run: npm run build:esm5
