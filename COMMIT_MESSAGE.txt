@@ -1,0 +1,28 @@
+feat: add IsUserName validator for username validation
+
+Add a new @IsUserName decorator that validates usernames with support for:
+- Unicode letters and numbers
+- Spaces, hyphens (-), and apostrophes (') by default
+- Configurable additional allowed characters via options
+
+This validator is useful for validating user names, display names, and other
+human-readable identifiers that may contain special characters like hyphens
+and apostrophes (e.g., "Mary-Jane O'Brien", "José María").
+
+Features:
+- Supports Unicode characters for internationalization
+- Allows custom characters to be specified via IsUserNameOptions
+- Properly escapes special regex characters in custom allowed characters
+- Includes comprehensive test suite
+- Includes usage examples
+
+Files added:
+- src/decorator/string/IsUserName.ts
+- src/decorator/string/IsUserName.spec.ts
+- sample/sample10-username-validation/User.ts
+- sample/sample10-username-validation/app.ts
+
+Files modified:
+- src/decorator/decorators.ts (export added)
+- README.md (documentation added)
+

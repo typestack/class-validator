@@ -2,6 +2,12 @@
 
 _This changelog follows the [keep a changelog][keep-a-changelog]_ format to maintain a human readable changelog.
 
+## [Unreleased]
+
+### Added
+
+- Added `@IsUserName` decorator to validate usernames with support for unicode letters, numbers, spaces, hyphens, and apostrophes. Additional characters can be specified via options.
+
 ## [0.14.3](https://github.com/typestack/class-validator/compare/v0.14.1...v0.14.3) (2025-11-24)
 
 - Fixed a vulnerability by bumping validator.js ([#2638](https://github.com/typestack/class-validator/pull/2638) by [@weikangchia](https://github.com/weikangchia))

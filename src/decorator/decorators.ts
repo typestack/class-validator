@@ -81,6 +81,7 @@ export * from './string/IsUrl';
 export * from './string/IsUUID';
 export * from './string/IsFirebasePushId';
 export * from './string/IsUppercase';
+export * from './string/IsUserName';
 export * from './string/Length';
 export * from './string/MaxLength';
 export * from './string/MinLength';
