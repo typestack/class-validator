@@ -125,3 +125,4 @@ validate(user).then(errors => {
 - The implementation follows the same patterns as other validators in the project
 - All tests pass and the code follows the project's style guidelines
 
+
