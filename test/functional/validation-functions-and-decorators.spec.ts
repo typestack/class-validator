@@ -193,6 +193,8 @@ import {
   isTaxId,
   IsTaxId,
   IsISO4217CurrencyCode,
+  ArraySize,
+  arraySize,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -4538,6 +4540,39 @@ describe('ArrayMaxSize', () => {
   it('should return error object with proper data', () => {
     const validationType = 'arrayMaxSize';
     const message = 'someProperty must contain no more than ' + constraintToString(constraint) + ' elements';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('ArraySize', () => {
+  const constraint = 2;
+  const validValues = [['world', 'hello']];
+  const invalidValues = [null, undefined, ['hi', 'typescript', 'javascript'], { test: 'me' }];
+
+  class MyClass {
+    @ArraySize(constraint)
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(arraySize(value, constraint)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(arraySize(value, constraint)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'arraySize';
+    const message = 'someProperty must contain exactly ' + constraintToString(constraint) + ' elements';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
