@@ -22,7 +22,7 @@ export * from './common/NotEquals';
 export * from './common/IsEmpty';
 export * from './common/IsNotEmpty';
 export * from './common/IsIn';
-export * from './common/IsNotIn';
+export * from './common/IsNotIn';;
 
 // -------------------------------------------------------------------------
 // Number checkers
@@ -33,6 +33,8 @@ export * from './number/IsPositive';
 export * from './number/IsNegative';
 export * from './number/Max';
 export * from './number/Min';
+export * from './number/IsNatural';
+export * from './number/IsNaturalNoZero';
 
 // -------------------------------------------------------------------------
 // Date checkers
