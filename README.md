@@ -21,6 +21,7 @@ Class-validator works on both browser and node.js platforms.
   - [Validating arrays](#validating-arrays)
   - [Validating sets](#validating-sets)
   - [Validating maps](#validating-maps)
+  - [Validating object literal](#validating-object-literal)
   - [Validating nested objects](#validating-nested-objects)
   - [Validating promises](#validating-promises)
   - [Inheriting Validation decorators](#inheriting-validation-decorators)
@@ -315,6 +316,25 @@ export class Post {
 ```
 
 This will validate each item in `post.tags` map.
+
+## Validating object literal
+
+If your field is a object literal and you want to perform validation of each item in the object you must specify a
+special `each: true` and `objectLiteral: true` decorator option:
+
+```typescript
+import { MaxLength } from 'class-validator';
+
+export class Post {
+  @MaxLength(20, {
+    each: true,
+    objectLiteral: true,
+  })
+  tags: Record<string, string>;
+}
+```
+
+This will validate each item in `post.tags` object.
 
 ## Validating nested objects
 

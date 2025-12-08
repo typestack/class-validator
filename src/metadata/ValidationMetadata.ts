@@ -55,6 +55,17 @@ export class ValidationMetadata {
   always?: boolean;
 
   /**
+   * Indicates that an object is to be considered object literal record.
+   *
+   * For an object-valued property marked as object literal, the object the property holds may neither
+   * be specifically class-typed nor validated, but all the child values of said object MUST be.
+   * Effectively, this declares object literal, which will be validated the same way any other
+   * JavaScript collection does (Array, Map, Set, etc).
+   * The default is `false`; that is, an object-value must be an instance of a class.
+   */
+  objectLiteral: boolean = false;
+
+  /**
    * Specifies if validated value is an array and each of its item must be validated.
    */
   each: boolean = false;
@@ -85,6 +96,7 @@ export class ValidationMetadata {
       this.message = args.validationOptions.message;
       this.groups = args.validationOptions.groups;
       this.always = args.validationOptions.always;
+      this.objectLiteral = args.validationOptions.objectLiteral;
       this.each = args.validationOptions.each;
       this.context = args.validationOptions.context;
     }
