@@ -193,6 +193,7 @@ import {
   isTaxId,
   IsTaxId,
   IsISO4217CurrencyCode,
+  DoesMatch,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -514,6 +515,38 @@ describe('IsNotIn', () => {
     const validationType = 'isNotIn';
     const message = 'someProperty should not be one of the following values: ' + constraintToString(constraint);
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('DoesMatch', () => {
+  const validValues = ['foobar'];
+  const invalidValues = ['bar'];
+  class MyClass {
+    @DoesMatch((obj, value) => obj.propertyToMatch === value)
+    someProperty: string;
+
+    @IsString()
+    propertyToMatch: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    const obj = new MyClass();
+    obj.propertyToMatch = 'foobar';
+    return checkValidValues(obj, validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    const obj = new MyClass();
+    obj.propertyToMatch = 'foobar';
+    return checkInvalidValues(obj, invalidValues);
+  });
+
+  it('should return error object with proper data', () => {
+    const obj = new MyClass();
+    obj.propertyToMatch = 'foobar';
+    const validationType = 'doesMatch';
+    const message = 'someProperty does not match';
+    return checkReturnedError(obj, invalidValues, validationType, message);
   });
 });
 

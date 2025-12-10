@@ -23,6 +23,7 @@ export * from './common/IsEmpty';
 export * from './common/IsNotEmpty';
 export * from './common/IsIn';
 export * from './common/IsNotIn';
+export * from './common/DoesMatch';
 
 // -------------------------------------------------------------------------
 // Number checkers
