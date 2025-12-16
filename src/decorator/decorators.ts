@@ -116,6 +116,7 @@ export * from './string/IsTimeZone';
 export * from './string/IsBase58';
 export * from './string/is-tax-id';
 export * from './string/is-iso4217-currency-code';
+export * from './string/IsVatId';
 
 // -------------------------------------------------------------------------
 // Type checkers

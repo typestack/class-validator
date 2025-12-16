@@ -193,6 +193,7 @@ import {
   isTaxId,
   IsTaxId,
   IsISO4217CurrencyCode,
+  IsVatId,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -4796,5 +4797,36 @@ describe('IsISO4217', () => {
   it('should fail for invalid values', () => {
     const invalidValues = [undefined, null, '', 'USS'];
     return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
+describe('IsVatId', () => {
+  class MyClass {
+    @IsVatId('AT')
+    someProperty: string;
+  }
+
+  class MyInvalidClass {
+    @IsVatId('ZZ')
+    someProperty: string;
+  }
+
+  const validAtVatIds = ['U12345678', 'U01234567'];
+  const invalidAtVatIds = ['12345678', '000', 'abcdefgh'];
+
+  it('should not fail for a valid VAT id for valid country code', () => {
+    return checkValidValues(new MyClass(), validAtVatIds);
+  });
+
+  it('should fail for invalid country code', () => {
+    return checkInvalidValues(new MyInvalidClass(), validAtVatIds);
+  });
+
+  it('should fail for invalid VAT id for valid country code', () => {
+    return checkInvalidValues(new MyClass(), invalidAtVatIds);
+  });
+
+  it('should fail for invalid VAT id for invalid country code', () => {
+    return checkInvalidValues(new MyInvalidClass(), invalidAtVatIds);
   });
 });
