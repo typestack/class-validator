@@ -59,6 +59,8 @@ import {
   NotEquals,
   IsEmpty,
   IsDefined,
+  IsNullable,
+  IsUndefined,
   IsNotIn,
   IsNumber,
   IsString,
@@ -447,6 +449,56 @@ describe('IsNotEmpty', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isNotEmpty';
     const message = 'someProperty should not be empty';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsNullable', () => {
+  const validValues = [null, ''];
+  const invalidValues = [1, false, new Date(), undefined];
+
+  class MyClass {
+    @IsNullable()
+    @IsString()
+    someProperty: string | null;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isString';
+    const message = 'someProperty must be a string';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUndefined', () => {
+  const validValues = [undefined, ''];
+  const invalidValues = [1, false, new Date(), null];
+
+  class MyClass {
+    @IsUndefined()
+    @IsString()
+    someProperty: string | undefined;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isString';
+    const message = 'someProperty must be a string';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
