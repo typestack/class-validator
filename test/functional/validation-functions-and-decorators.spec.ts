@@ -3164,6 +3164,7 @@ describe('IsObject', () => {
     '[]',
     [],
     [{ key: 'value' }],
+    function () {},
   ];
 
   class MyClass {
