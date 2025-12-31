@@ -3164,11 +3164,15 @@ describe('IsObject', () => {
     '[]',
     [],
     [{ key: 'value' }],
-    function () {},
   ];
 
   class MyClass {
     @IsObject()
+    someProperty: object;
+  }
+
+  class ExcludeFunctionsTestClass {
+    @IsObject({ excludeFunctions: true })
     someProperty: object;
   }
 
@@ -3192,6 +3196,10 @@ describe('IsObject', () => {
     const validationType = 'isObject';
     const message = 'someProperty must be an object';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+
+  it('should fail if excludeFunctions is true and the value is a function', () => {
+    return checkInvalidValues(new ExcludeFunctionsTestClass(), [function () {}]);
   });
 });
 
