@@ -4066,9 +4066,9 @@ describe('IsUUID all', () => {
 describe('IsUUID loose', () => {
   const validValues = [
     'A987FBC9-4BED-3078-8F07-9141BA07C9F3',
-    '{A987FBC9-4BED-3078-8F07-9141BA07C9F3}',
-    '{a987fbc9-4bed-3078-8f07-9141ba07c9f3}',
-    'A987FBC94BED30788F079141BA07C9F3',
+    'A987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    'A987FBC9-4BED-0078-0F07-9141BA07C9F3',
+    'a987fbc9-4bed-3078-1234-9141ba07c9f3',
   ];
   const invalidValues = [
     null,
@@ -4077,6 +4077,8 @@ describe('IsUUID loose', () => {
     'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
     '934859',
     'AAAAAAAA-1111-1111-AAAG-111111111111',
+    '{A987FBC9-4BED-3078-8F07-9141BA07C9F3}',
+    'A987FBC94BED30788F079141BA07C9F3',
   ];
 
   class MyClass {
