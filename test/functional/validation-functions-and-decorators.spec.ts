@@ -4107,6 +4107,44 @@ describe('IsUUID loose', () => {
   });
 });
 
+describe('IsUUID with version array', () => {
+  const validValues = ['017f22e2-79b0-7cc3-98c4-dc0c0c07398f', '00000000-0000-0000-0000-000000000000'];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3',
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1',
+  ];
+
+  class MyClass {
+    @IsUUID(['7', 'nil'])
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, ['7', 'nil'])).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, ['7', 'nil'])).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
 describe('IsFirebasePushId', () => {
   const validValues = [
     '-M-Jh_1KAH5rYJF_7-kY',
