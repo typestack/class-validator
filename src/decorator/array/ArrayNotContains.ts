@@ -10,7 +10,8 @@ export const ARRAY_NOT_CONTAINS = 'arrayNotContains';
 export function arrayNotContains(array: unknown, values: any[]): boolean {
   if (!Array.isArray(array)) return false;
 
-  return values.every(value => array.indexOf(value) === -1);
+  const arraySet = new Set(array);
+  return values.every(value => !arraySet.has(value));
 }
 
 /**

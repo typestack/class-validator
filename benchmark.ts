@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { validate, IsString, IsInt, IsBoolean, IsEmail, IsOptional, MinLength, MaxLength, Min, Max, IsNotEmpty, ValidateNested } from './src';
+import { validate, validateSync, IsString, IsInt, IsBoolean, IsEmail, IsOptional, MinLength, MaxLength, Min, Max, IsNotEmpty, ValidateNested } from './src';
 
 // --- Classes with inheritance and nesting ---
 class BaseEntity {
@@ -109,6 +109,18 @@ async function bench(label: string, iterations: number, fn: () => Promise<void>)
   console.log(`${label}: ${iterations} iterations in ${elapsed.toFixed(1)}ms (${opsPerSec.toLocaleString()} ops/sec)`);
 }
 
+function benchSync(label: string, iterations: number, fn: () => void): void {
+  // Warmup
+  for (let i = 0; i < 100; i++) fn();
+
+  const start = performance.now();
+  for (let i = 0; i < iterations; i++) fn();
+  const elapsed = performance.now() - start;
+
+  const opsPerSec = Math.round((iterations / elapsed) * 1000);
+  console.log(`${label}: ${iterations} iterations in ${elapsed.toFixed(1)}ms (${opsPerSec.toLocaleString()} ops/sec)`);
+}
+
 async function main(): Promise<void> {
   const iterations = 10_000;
   const user = createValidUser();
@@ -135,6 +147,20 @@ async function main(): Promise<void> {
 
   await bench('Valid object with strictGroups', iterations, async () => {
     await validate(user, { strictGroups: true });
+  });
+
+  console.log('\n--- validateSync (no Promise overhead) ---\n');
+
+  benchSync('Valid object (sync)', iterations, () => {
+    validateSync(user);
+  });
+
+  benchSync('Invalid object (sync)', iterations, () => {
+    validateSync(invalidUser);
+  });
+
+  benchSync('Valid object with strictGroups (sync)', iterations, () => {
+    validateSync(user, { strictGroups: true });
   });
 }
 
