@@ -274,3 +274,61 @@ describe('decorator with symbol constraint', () => {
     });
   });
 });
+
+describe('inline custom decorator fast-path behavior', () => {
+  function InlineFailing(name: string, validationOptions?: ValidationOptions) {
+    return function (object: object, propertyName: string): void {
+      registerDecorator({
+        target: object.constructor,
+        propertyName,
+        name,
+        options: validationOptions,
+        validator: {
+          validate(): boolean {
+            return false;
+          },
+        },
+      });
+    };
+  }
+
+  function InlineAsyncPassing(name: string, validationOptions?: ValidationOptions) {
+    return function (object: object, propertyName: string): void {
+      registerDecorator({
+        target: object.constructor,
+        propertyName,
+        name,
+        options: validationOptions,
+        validator: {
+          validate(): Promise<boolean> {
+            return Promise.resolve(true);
+          },
+        },
+      });
+    };
+  }
+
+  it('should stop after first inline custom validator failure when stopAtFirstError is enabled', () => {
+    class StopAtFirstErrorModel {
+      @InlineFailing('firstError', { message: 'first message' })
+      @InlineFailing('secondError', { message: 'second message' })
+      value: string = 'x';
+    }
+
+    return validator.validate(new StopAtFirstErrorModel(), { stopAtFirstError: true }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(Object.keys(errors[0].constraints).length).toEqual(1);
+    });
+  });
+
+  it('should not create a visible error when inline async validator resolves true', () => {
+    class AsyncPassModel {
+      @InlineAsyncPassing('asyncPass')
+      value: string = 'x';
+    }
+
+    return validator.validate(new AsyncPassModel()).then(errors => {
+      expect(errors.length).toEqual(0);
+    });
+  });
+});

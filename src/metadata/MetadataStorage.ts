@@ -148,7 +148,8 @@ export class MetadataStorage {
         }
       }
 
-      const customOnly = defined.length === 0 && nested.length === 0 && conditional.length === 0 && !hasPromiseValidation;
+      const customOnly =
+        defined.length === 0 && nested.length === 0 && conditional.length === 0 && !hasPromiseValidation;
       result[propertyName] = { defined, custom, nested, conditional, all, hasPromiseValidation, customOnly };
     }
 
@@ -159,13 +160,7 @@ export class MetadataStorage {
   /**
    * Gets all validation metadatas for the given object with the given groups.
    */
-  buildCacheKey(
-    target: Function,
-    schema: string,
-    always: boolean,
-    strictGroups: boolean,
-    groups?: string[]
-  ): string {
+  buildCacheKey(target: Function, schema: string, always: boolean, strictGroups: boolean, groups?: string[]): string {
     const targetId = (target as any).__cv_id ?? ((target as any).__cv_id = ++MetadataStorage._nextId);
     const groupKey = groups?.length ? groups.slice().sort().join(',') : '';
     return `${targetId}|${schema || ''}|${always ? 1 : 0}|${strictGroups ? 1 : 0}|${groupKey}`;

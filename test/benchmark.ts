@@ -1,5 +1,21 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import 'reflect-metadata';
-import { validate, validateSync, IsString, IsInt, IsBoolean, IsEmail, IsOptional, MinLength, MaxLength, Min, Max, IsNotEmpty, ValidateNested } from './src';
+import {
+  validate,
+  validateSync,
+  IsString,
+  IsInt,
+  IsBoolean,
+  IsEmail,
+  IsOptional,
+  MinLength,
+  MaxLength,
+  Min,
+  Max,
+  IsNotEmpty,
+  ValidateNested,
+} from '../src';
 
 // --- Classes with inheritance and nesting ---
 class BaseEntity {

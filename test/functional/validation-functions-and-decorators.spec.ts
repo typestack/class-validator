@@ -5069,6 +5069,11 @@ describe('ArrayUnique with identifier', () => {
     invalidValues.forEach(value => expect(arrayUnique(value, identifier)).toBeFalsy());
   });
 
+  it('should handle null and undefined entries when identifier is provided', () => {
+    expect(arrayUnique([{ name: 'world' }, null, { name: 'hello' }] as any, identifier)).toBeTruthy();
+    expect(arrayUnique([{ name: 'world' }, null, undefined, null] as any, identifier)).toBeFalsy();
+  });
+
   it('should return error object with proper data', () => {
     const validationType = 'arrayUnique';
     const message = "All someProperty's elements must be unique";

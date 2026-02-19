@@ -71,7 +71,9 @@ export class ValidationExecutor {
     this.strictGroups = (validatorOptions && validatorOptions.strictGroups) || false;
     this.always = (validatorOptions && validatorOptions.always) || false;
     this.forbidUnknownValues =
-      !validatorOptions || validatorOptions.forbidUnknownValues === undefined || validatorOptions.forbidUnknownValues !== false;
+      !validatorOptions ||
+      validatorOptions.forbidUnknownValues === undefined ||
+      validatorOptions.forbidUnknownValues !== false;
     this.whitelist = (validatorOptions && validatorOptions.whitelist) || false;
     this.forbidNonWhitelisted = (validatorOptions && validatorOptions.forbidNonWhitelisted) || false;
   }
@@ -95,7 +97,13 @@ export class ValidationExecutor {
       );
     }
 
-    const cacheKey = this.metadataStorage.buildCacheKey(object.constructor, targetSchema, this.always, this.strictGroups, this.groups);
+    const cacheKey = this.metadataStorage.buildCacheKey(
+      object.constructor,
+      targetSchema,
+      this.always,
+      this.strictGroups,
+      this.groups
+    );
     const targetMetadatas = this.metadataStorage.getTargetValidationMetadatas(
       object.constructor,
       targetSchema,
@@ -216,19 +224,25 @@ export class ValidationExecutor {
       for (const metadata of metadatas) {
         validationArguments.constraints = metadata.constraints;
 
-        if (metadata.inlineValidate && (!metadata.each || !(Array.isArray(value) || value instanceof Set || value instanceof Map))) {
+        if (
+          metadata.inlineValidate &&
+          (!metadata.each || !(Array.isArray(value) || value instanceof Set || value instanceof Map))
+        ) {
           if (this.stopAtFirstError && validationError && hasConstraints(validationError.constraints)) continue;
 
           const validatedValue = metadata.inlineValidate(value, validationArguments);
           if (validatedValue !== true && validatedValue !== false) {
-            const promise = (validatedValue as Promise<boolean>).then(isValid => {
+            const promise = (validatedValue ).then(isValid => {
               if (!isValid) {
                 if (!validationError) validationError = this.generateValidationError(object, value, propertyName);
                 const [type, message] = this.createValidationErrorInline(metadata, validationArguments);
                 validationError.constraints[type] = message;
                 if (metadata.context) {
                   if (!validationError.contexts) validationError.contexts = {};
-                  validationError.contexts[type] = Object.assign(validationError.contexts[type] || {}, metadata.context);
+                  validationError.contexts[type] = Object.assign(
+                    validationError.contexts[type] || {},
+                    metadata.context
+                  );
                 }
               }
             });
@@ -255,7 +269,11 @@ export class ValidationExecutor {
 
       if (validationError) {
         const hasAsyncPending = this.awaitingPromises.length > asyncCountBefore;
-        if (hasConstraints(validationError.constraints) || (validationError.children && validationError.children.length > 0) || hasAsyncPending) {
+        if (
+          hasConstraints(validationError.constraints) ||
+          (validationError.children && validationError.children.length > 0) ||
+          hasAsyncPending
+        ) {
           validationErrors.push(validationError);
         }
       } else if (this.awaitingPromises.length > asyncCountBefore) {
@@ -380,7 +398,10 @@ export class ValidationExecutor {
       if (metadata.validateIf && !metadata.validateIf(object, value)) continue;
 
       // Fast path: inline validators (all built-in decorators) bypass constraint metadata dispatch
-      if (metadata.inlineValidate && (!metadata.each || !(Array.isArray(value) || value instanceof Set || value instanceof Map))) {
+      if (
+        metadata.inlineValidate &&
+        (!metadata.each || !(Array.isArray(value) || value instanceof Set || value instanceof Map))
+      ) {
         if (this.stopAtFirstError) {
           const error = getError();
           if (hasConstraints(error.constraints)) continue;
@@ -389,7 +410,7 @@ export class ValidationExecutor {
         const validatedValue = metadata.inlineValidate(value, validationArguments);
         if (validatedValue !== true && validatedValue !== false) {
           // Async result (Promise)
-          const promise = (validatedValue as Promise<boolean>).then(isValid => {
+          const promise = (validatedValue ).then(isValid => {
             if (!isValid) {
               const error = getError();
               const [type, message] = this.createValidationErrorInline(metadata, validationArguments);
@@ -417,7 +438,8 @@ export class ValidationExecutor {
         continue;
       }
 
-      const constraintMetadatas = metadata.resolvedConstraints ??
+      const constraintMetadatas =
+        metadata.resolvedConstraints ??
         (metadata.resolvedConstraints = this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls));
       for (const customConstraintMetadata of constraintMetadatas) {
         if (customConstraintMetadata.async && this.ignoreAsyncValidations) continue;
@@ -509,10 +531,7 @@ export class ValidationExecutor {
     for (const metadata of metadatas) {
       if (metadata.type !== ValidationTypes.NESTED_VALIDATION && metadata.type !== ValidationTypes.PROMISE_VALIDATION) {
         continue;
-      } else if (
-        this.stopAtFirstError &&
-        Object.keys(error.constraints || {}).length > 0
-      ) {
+      } else if (this.stopAtFirstError && Object.keys(error.constraints || {}).length > 0) {
         continue;
       }
 
@@ -550,9 +569,12 @@ export class ValidationExecutor {
             // Inline validators: use metadata.name directly
             type = metadata.name || metadata.type;
           } else {
-            const customConstraints = metadata.resolvedConstraints ??
-              (metadata.resolvedConstraints = this.metadataStorage.getTargetValidatorConstraints(metadata.constraintCls));
-            type = (customConstraints[0] && customConstraints[0].name) ? customConstraints[0].name : metadata.type;
+            const customConstraints =
+              metadata.resolvedConstraints ??
+              (metadata.resolvedConstraints = this.metadataStorage.getTargetValidatorConstraints(
+                metadata.constraintCls
+              ));
+            type = customConstraints[0] && customConstraints[0].name ? customConstraints[0].name : metadata.type;
           }
         } else {
           type = metadata.type;
