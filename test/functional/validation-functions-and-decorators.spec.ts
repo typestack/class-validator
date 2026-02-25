@@ -3536,9 +3536,16 @@ describe('IsUrl', () => {
 
 describe('IsUUID', () => {
   const validValues = [
-    'A987FBC9-4BED-3078-8F07-9141BA07C9F3',
-    'A987FBC9-4BED-4078-8F07-9141BA07C9F3',
-    'A987FBC9-4BED-5078-AF07-9141BA07C9F3',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3', // v3
+    'A987FBC9-4BED-4078-8F07-9141BA07C9F3', // v4
+    'A987FBC9-4BED-5078-AF07-9141BA07C9F3', // v5
+    'e32c8312-5012-11e8-a3b3-069326100140', // v1
+    '00000000-0000-2000-8000-000000000000', // v2
+    '1ec9414c-232a-6b00-b3c8-9e6bdec7bc00', // v6
+    '017f22e2-79b0-7cc3-98c4-dc0c0c07398f', // v7
+    'a0eebc99-9c0b-8ef8-bb6d-6bb9bd380a11', // v8
+    '00000000-0000-0000-0000-000000000000', // nil
+    'ffffffff-ffff-ffff-ffff-ffffffffffff', // max
   ];
   const invalidValues = [
     null,
@@ -3711,6 +3718,427 @@ describe('IsUUID v5', () => {
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(isUUID(value, '5')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID v1', () => {
+  const validValues = ['e32c8312-5012-11e8-a3b3-069326100140', 'd9428888-122b-11e1-b85c-61cd3cbb3210'];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    '934859',
+    'AAAAAAAA-1111-1111-AAAG-111111111111',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3', // v3
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1', // v4
+  ];
+
+  class MyClass {
+    @IsUUID('1')
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, '1')).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, '1')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID v2', () => {
+  const validValues = ['00000000-0000-2000-8000-000000000000'];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    '934859',
+    'AAAAAAAA-1111-1111-AAAG-111111111111',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3', // v3
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1', // v4
+  ];
+
+  class MyClass {
+    @IsUUID('2')
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, '2')).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, '2')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID v6', () => {
+  const validValues = ['1ec9414c-232a-6b00-b3c8-9e6bdec7bc00'];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    '934859',
+    'AAAAAAAA-1111-1111-AAAG-111111111111',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3', // v3
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1', // v4
+  ];
+
+  class MyClass {
+    @IsUUID('6')
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, '6')).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, '6')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID v7', () => {
+  const validValues = ['017f22e2-79b0-7cc3-98c4-dc0c0c07398f'];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    '934859',
+    'AAAAAAAA-1111-1111-AAAG-111111111111',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3', // v3
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1', // v4
+  ];
+
+  class MyClass {
+    @IsUUID('7')
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, '7')).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, '7')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID v8', () => {
+  const validValues = ['a0eebc99-9c0b-8ef8-bb6d-6bb9bd380a11'];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    '934859',
+    'AAAAAAAA-1111-1111-AAAG-111111111111',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3', // v3
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1', // v4
+  ];
+
+  class MyClass {
+    @IsUUID('8')
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, '8')).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, '8')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID nil', () => {
+  const validValues = ['00000000-0000-0000-0000-000000000000'];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    '934859',
+    'AAAAAAAA-1111-1111-AAAG-111111111111',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3', // v3
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1', // v4
+  ];
+
+  class MyClass {
+    @IsUUID('nil')
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, 'nil')).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, 'nil')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID max', () => {
+  const validValues = ['ffffffff-ffff-ffff-ffff-ffffffffffff'];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    '934859',
+    'AAAAAAAA-1111-1111-AAAG-111111111111',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3', // v3
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1', // v4
+  ];
+
+  class MyClass {
+    @IsUUID('max')
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, 'max')).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, 'max')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID all', () => {
+  const validValues = [
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3', // v3
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1', // v4
+    '987FBC97-4BED-5078-AF07-9141BA07C9F3', // v5
+    'e32c8312-5012-11e8-a3b3-069326100140', // v1
+    '00000000-0000-2000-8000-000000000000', // v2
+    '1ec9414c-232a-6b00-b3c8-9e6bdec7bc00', // v6
+    '017f22e2-79b0-7cc3-98c4-dc0c0c07398f', // v7
+    'a0eebc99-9c0b-8ef8-bb6d-6bb9bd380a11', // v8
+    '00000000-0000-0000-0000-000000000000', // nil
+    'ffffffff-ffff-ffff-ffff-ffffffffffff', // max
+  ];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    '934859',
+    'AAAAAAAA-1111-1111-AAAG-111111111111',
+  ];
+
+  class MyClass {
+    @IsUUID('all')
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, 'all')).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, 'all')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID loose', () => {
+  const validValues = [
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3',
+    'A987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    'A987FBC9-4BED-0078-0F07-9141BA07C9F3',
+    'a987fbc9-4bed-3078-1234-9141ba07c9f3',
+  ];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3',
+    '934859',
+    'AAAAAAAA-1111-1111-AAAG-111111111111',
+    '{A987FBC9-4BED-3078-8F07-9141BA07C9F3}',
+    'A987FBC94BED30788F079141BA07C9F3',
+  ];
+
+  class MyClass {
+    @IsUUID('loose')
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, 'loose')).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, 'loose')).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isUuid';
+    const message = 'someProperty must be a UUID';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsUUID with version array', () => {
+  const validValues = ['017f22e2-79b0-7cc3-98c4-dc0c0c07398f', '00000000-0000-0000-0000-000000000000'];
+  const invalidValues = [
+    null,
+    undefined,
+    '',
+    'A987FBC9-4BED-3078-8F07-9141BA07C9F3',
+    '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1',
+  ];
+
+  class MyClass {
+    @IsUUID(['7', 'nil'])
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isUUID(value, ['7', 'nil'])).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isUUID(value, ['7', 'nil'])).toBeFalsy());
   });
 
   it('should return error object with proper data', () => {
