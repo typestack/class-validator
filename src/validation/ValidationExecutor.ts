@@ -232,7 +232,7 @@ export class ValidationExecutor {
 
           const validatedValue = metadata.inlineValidate(value, validationArguments);
           if (validatedValue !== true && validatedValue !== false) {
-            const promise = (validatedValue ).then(isValid => {
+            const promise = validatedValue.then(isValid => {
               if (!isValid) {
                 if (!validationError) validationError = this.generateValidationError(object, value, propertyName);
                 const [type, message] = this.createValidationErrorInline(metadata, validationArguments);
@@ -410,7 +410,7 @@ export class ValidationExecutor {
         const validatedValue = metadata.inlineValidate(value, validationArguments);
         if (validatedValue !== true && validatedValue !== false) {
           // Async result (Promise)
-          const promise = (validatedValue ).then(isValid => {
+          const promise = validatedValue.then(isValid => {
             if (!isValid) {
               const error = getError();
               const [type, message] = this.createValidationErrorInline(metadata, validationArguments);

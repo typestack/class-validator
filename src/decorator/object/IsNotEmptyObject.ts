@@ -14,8 +14,8 @@ export function isNotEmptyObject(value: unknown, options?: { nullable?: boolean 
   }
 
   if (options?.nullable === false) {
-    for (const key in value ) {
-      if ((value ).hasOwnProperty(key)) {
+    for (const key in value) {
+      if (value.hasOwnProperty(key)) {
         const propertyValue = (value as any)[key];
         if (propertyValue !== null && propertyValue !== undefined) {
           return true;
