@@ -2,7 +2,26 @@
 
 _This changelog follows the [keep a changelog][keep-a-changelog]_ format to maintain a human readable changelog.
 
-## [0.14.4](https://github.com/typestack/class-validator/compare/v0.14.3...v0.14.4) (2026-01-13)
+## [0.15.0](https://github.com/typestack/class-validator/compare/v0.14.4...v0.15.0) (2026-02-25)
+
+### BREAKING CHANGES
+
+- Added options argument to IsIBAN validator ([#2618](https://github.com/typestack/class-validator/pull/2618)), which breaks any existing usage of this decorator that pass an argument to the decorator, e.g. `@IsIBAN({forbidUnknownValues: false})`
+
+### Fixed
+
+- Updated lockfile to patch vulnerabilities ([#2669](https://github.com/typestack/class-validator/pull/2669))
+- Fixed a small grammatical error in the docs ([#2596](https://github.com/typestack/class-validator/pull/2596))
+
+### Added
+
+- Added `validateIf` option to all validators, providing a lot more flexibility in using conditional validation ([#1579](https://github.com/typestack/class-validator/pull/1579))
+- Added IsISO31661Numeric validator for country codes ([#2657](https://github.com/typestack/class-validator/pull/2657))
+- Added IsISO6391 validator for language codes ([#2626](https://github.com/typestack/class-validator/pull/2626))
+- Added more versions to IsUUID validator options. ([#2647](https://github.com/typestack/class-validator/pull/2647))
+-
+
+## [0.14.4](https://github.com/typestack/class-validator/compare/v0.14.3...v0.14.4) (2026-02-25)
 
 - Updated validator.js to 13.15.22 ([#2649](https://github.com/typestack/class-validator/pull/2649))
 
