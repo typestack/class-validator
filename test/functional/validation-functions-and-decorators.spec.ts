@@ -194,6 +194,7 @@ import {
   isTaxId,
   IsTaxId,
   IsISO4217CurrencyCode,
+  IsISO6391,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidatorOptions } from '../../src/validation/ValidatorOptions';
@@ -5241,6 +5242,23 @@ describe('IsISO4217', () => {
 
   it('should fail for invalid values', () => {
     const invalidValues = [undefined, null, '', 'USS'];
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
+describe('IsISO6391', () => {
+  class MyClass {
+    @IsISO6391()
+    someProperty: string;
+  }
+
+  it('should not fail for a valid ISO 639-1 language code', () => {
+    const validValues = ['de', 'en', 'eo', 'fy', 'nl'];
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail for invalid values', () => {
+    const invalidValues = [undefined, null, '', 'FR', 'xx', 'tok'];
     return checkInvalidValues(new MyClass(), invalidValues);
   });
 });
