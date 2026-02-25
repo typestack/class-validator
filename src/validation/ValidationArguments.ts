@@ -24,6 +24,11 @@ export interface ValidationArguments {
   object: object;
 
   /**
+   * Instance of the object being validated.
+   */
+  instance: object;
+
+  /**
    * Name of the object's property being validated.
    */
   property: string;

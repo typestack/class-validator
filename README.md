@@ -603,6 +603,8 @@ If you have custom validation logic you can create a _Constraint class_:
    which defines validation logic. If validation succeeds, method returns true, otherwise false.
    Custom validator can be asynchronous, if you want to perform validation after some asynchronous
    operations, simply return a promise with boolean inside in `validate` method.
+   `ValidationArguments` contains useful information about validation process, like object that is being validated,
+   or the current object instance to validate value based on parent nodes.
 
    Also we defined optional method `defaultMessage` which defines a default error message,
    in the case that the decorator's implementation doesn't set an error message.
