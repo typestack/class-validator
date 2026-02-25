@@ -573,6 +573,50 @@ validate(user, {
 There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
 must be applied always no matter which group is used.
 
+## Validation option validateIf
+
+If you want an individual validaton decorator to apply conditionally, you can you can use the option `validateIf` available to all validators.
+This allows more granular control than the `@ValidateIf` decorator which toggles all validators on the property, but keep in mind that
+with great power comes great responsibility: Take care not to create unnecessarily complex validation logic.
+
+```typescript
+class MyClass {
+  @Min(5, {
+    message: 'min',
+    validateIf: (obj: MyClass, value) => {
+      return !obj.someOtherProperty || obj.someOtherProperty === 'min';
+    },
+  })
+  @Max(3, {
+    message: 'max',
+    validateIf: (o: MyClass) => !o.someOtherProperty || o.someOtherProperty === 'max',
+  })
+  someProperty: number;
+
+  someOtherProperty: string;
+}
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'min';
+validator.validate(model); // this only validate min
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'max';
+validator.validate(model); // this only validate max
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = '';
+validator.validate(model); // this validate both
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'other';
+validator.validate(model); // this validate none
+```
+
 ## Custom validation classes
 
 If you have custom validation logic you can create a _Constraint class_:
@@ -876,6 +920,7 @@ isBoolean(value);
 | `@IsMobilePhone(locale: string)`                       | Checks if the string is a mobile phone number.                                                                                                                                                        |
 | `@IsISO31661Alpha2()`                                  | Checks if the string is a valid ISO 3166-1 alpha-2 officially assigned country code.                                                                                                                  |
 | `@IsISO31661Alpha3()`                                  | Checks if the string is a valid ISO 3166-1 alpha-3 officially assigned country code.                                                                                                                  |
+| `@IsISO31661Numeric()`                                 | Checks if the string is a valid ISO 3166-1 numeric officially assigned country code.                                                                                                                  |
 | `@IsLocale()`                                          | Checks if the string is a locale.                                                                                                                                                                     |
 | `@IsPhoneNumber(region: string)`                       | Checks if the string is a valid phone number using libphonenumber-js.                                                                                                                                 |
 | `@IsMongoId()`                                         | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                                                                                     |

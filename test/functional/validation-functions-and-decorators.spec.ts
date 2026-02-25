@@ -72,6 +72,7 @@ import {
   IsPhoneNumber,
   IsISO31661Alpha2,
   IsISO31661Alpha3,
+  IsISO31661Numeric,
   IsHash,
   IsMACAddress,
   IsISSN,
@@ -4540,6 +4541,23 @@ describe('IsISO31661Alpha3', () => {
 
   it('should fail for invalid values', () => {
     const invalidValues = [undefined, null, '', 'FR', 'fR', 'GB', 'PT', 'CM', 'JP', 'PM', 'ZW'];
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+});
+
+describe('IsISO31661Numeric', () => {
+  class MyClass {
+    @IsISO31661Numeric()
+    someProperty: string;
+  }
+
+  it('should not fail for a valid ISO 3166-1 numeric country code', () => {
+    const validValues = ['056', '208', '276', '528', '804'];
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail for invalid values', () => {
+    const invalidValues = [undefined, null, '', 'NL', 'NLD', '42', '000', '999'];
     return checkInvalidValues(new MyClass(), invalidValues);
   });
 });
