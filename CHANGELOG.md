@@ -2,6 +2,14 @@
 
 _This changelog follows the [keep a changelog][keep-a-changelog]_ format to maintain a human readable changelog.
 
+## [0.14.4](https://github.com/typestack/class-validator/compare/v0.14.3...v0.14.4) (2026-01-13)
+
+- Updated validator.js to 13.15.22 ([#2649](https://github.com/typestack/class-validator/pull/2649))
+
+## [0.14.3](https://github.com/typestack/class-validator/compare/v0.14.1...v0.14.3) (2025-11-24)
+
+- Fixed a vulnerability by bumping validator.js ([#2638](https://github.com/typestack/class-validator/pull/2638) by [@weikangchia](https://github.com/weikangchia))
+
 ## [0.14.2](https://github.com/typestack/class-validator/compare/v0.14.1...v0.14.2) (2025-05-02)
 
 #### Fixed

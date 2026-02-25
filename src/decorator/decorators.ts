@@ -74,6 +74,7 @@ export * from './string/IsLowercase';
 export * from './string/IsMobilePhone';
 export * from './string/IsISO31661Alpha2';
 export * from './string/IsISO31661Alpha3';
+export * from './string/IsISO31661Numeric';
 export * from './string/IsMongoId';
 export * from './string/IsMultibyte';
 export * from './string/IsSurrogatePair';
