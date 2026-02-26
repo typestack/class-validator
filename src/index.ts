@@ -3,7 +3,7 @@ import { ValidatorOptions } from './validation/ValidatorOptions';
 import { ValidationSchema } from './validation-schema/ValidationSchema';
 import { getMetadataStorage } from './metadata/MetadataStorage';
 import { Validator } from './validation/Validator';
-import { getFromContainer } from './container';
+import { getFromAsyncContainer, getFromContainer } from './container';
 
 // -------------------------------------------------------------------------
 // Export everything api users needs
@@ -49,11 +49,12 @@ export function validate(
   maybeValidatorOptions?: ValidatorOptions
 ): Promise<ValidationError[]> {
   if (typeof schemaNameOrObject === 'string') {
-    return getFromContainer(Validator).validate(
-      schemaNameOrObject,
-      objectOrValidationOptions as object,
-      maybeValidatorOptions
-    );
+    return getFromAsyncContainer(Validator)
+      .then((validator) => validator.validate(
+        schemaNameOrObject,
+        objectOrValidationOptions as object,
+        maybeValidatorOptions
+      ));
   } else {
     return getFromContainer(Validator).validate(schemaNameOrObject, objectOrValidationOptions as ValidatorOptions);
   }
@@ -82,11 +83,12 @@ export function validateOrReject(
   maybeValidatorOptions?: ValidatorOptions
 ): Promise<void> {
   if (typeof schemaNameOrObject === 'string') {
-    return getFromContainer(Validator).validateOrReject(
-      schemaNameOrObject,
-      objectOrValidationOptions as object,
-      maybeValidatorOptions
-    );
+    return getFromAsyncContainer(Validator).then((validator) => validator
+      .validateOrReject(
+        schemaNameOrObject,
+        objectOrValidationOptions as object,
+        maybeValidatorOptions
+    ));
   } else {
     return getFromContainer(Validator).validateOrReject(
       schemaNameOrObject,
