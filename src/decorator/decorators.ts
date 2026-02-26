@@ -9,6 +9,7 @@
 export * from './common/Allow';
 export * from './common/IsDefined';
 export * from './common/IsOptional';
+export * from './common/IsStrictlyOptional';
 export * from './common/Validate';
 export * from './common/ValidateBy';
 export * from './common/ValidateIf';
