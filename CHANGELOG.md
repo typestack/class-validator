@@ -2,7 +2,7 @@
 
 _This changelog follows the [keep a changelog][keep-a-changelog]_ format to maintain a human readable changelog.
 
-## [0.15.0](https://github.com/typestack/class-validator/compare/v0.14.4...v0.15.0) (2026-02-25)
+## [0.15.1](https://github.com/typestack/class-validator/compare/v0.14.4...v0.15.1) (2026-02-26)
 
 ### BREAKING CHANGES
 
