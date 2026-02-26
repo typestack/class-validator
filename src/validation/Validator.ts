@@ -2,11 +2,34 @@ import { ValidationError } from './ValidationError';
 import { ValidatorOptions } from './ValidatorOptions';
 import { ValidationExecutor } from './ValidationExecutor';
 import { ValidationOptions } from '../decorator/ValidationOptions';
+import { StandardSchemaV1 } from '../standard-schema/StandardSchema';
+import { validationErrorToIssues } from '../standard-schema/ValidationSchemaToStandardSchemaAdapters';
 
 /**
  * Validator performs validation of the given object based on its metadata.
  */
-export class Validator {
+export class Validator implements StandardSchemaV1 {
+  // -------------------------------------------------------------------------
+  // Standard Schema implementation
+  // -------------------------------------------------------------------------
+  '~standard': StandardSchemaV1.Props<unknown, unknown> = {
+    version: 1,
+
+    vendor: 'class-validator',
+
+    validate: async (input: unknown) => {
+      const validationResults = await this.validate(input as object);
+
+      const mappedErrors: StandardSchemaV1.Issue[] = [];
+
+      validationResults.forEach(valError => mappedErrors.push(...validationErrorToIssues(valError)));
+
+      if (mappedErrors.length > 0) return { issues: mappedErrors };
+
+      return { value: input };
+    },
+  };
+
   // -------------------------------------------------------------------------
   // Public Methods
   // -------------------------------------------------------------------------
