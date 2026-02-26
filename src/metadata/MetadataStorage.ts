@@ -138,10 +138,25 @@ export class MetadataStorage {
     // filter out duplicate metadatas, prefer original metadatas instead of inherited metadatas
     const uniqueInheritedMetadatas = inheritedMetadatas.filter(inheritedMetadata => {
       return !originalMetadatas.find(originalMetadata => {
-        return (
-          originalMetadata.propertyName === inheritedMetadata.propertyName &&
-          originalMetadata.type === inheritedMetadata.type
-        );
+        // We have no clean way to determine if 2 validators are the same, and thus can't easily determine
+        // which validators have been overwritten by a subclass
+        //  - Can't use `validatorCls` object/function: it's recreated on a per-usage basis so two decorators will give different instances
+        //  - Can't use `ValidationTypes`: this was useable until 11a7b8bb59c83d55bc723ebb236fdca912f49d88,
+        //    after which 90% of ValidationTypes were removed in favour of type "customValidation". Note that
+        //    some validators, including any custom validators, still had type "customValidation" before this, and therefore
+        //    did not work with inherited validation
+        //  - `name`: can be used to uniquely identify a validator, but is optional to not break backwards compatability
+        //    in a future release, it should be made required
+        const isSameProperty = originalMetadata.propertyName === inheritedMetadata.propertyName;
+        const isSameValidator =
+          originalMetadata.name && inheritedMetadata.name
+            ? // TODO: when names becomes required, ONLY compare by name
+              originalMetadata.name === inheritedMetadata.name
+            : // 95% of decorators are of type "customValidation", despite being different decorators
+              // therefore this equality comparison introduces lots of false positives
+              originalMetadata.type === inheritedMetadata.type;
+
+        return isSameProperty && isSameValidator;
       });
     });
 

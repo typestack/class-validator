@@ -12,6 +12,7 @@ export const IS_OPTIONAL = 'isOptional';
 export function IsOptional(validationOptions?: ValidationOptions): PropertyDecorator {
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
+      name: 'IsOptional',
       type: ValidationTypes.CONDITIONAL_VALIDATION,
       name: IS_OPTIONAL,
       target: object.constructor,

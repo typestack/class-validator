@@ -14,6 +14,7 @@ export function ValidateNested(validationOptions?: ValidationOptions): PropertyD
 
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
+      name: 'ValidateNested',
       type: ValidationTypes.NESTED_VALIDATION,
       target: object.constructor,
       propertyName: propertyName,

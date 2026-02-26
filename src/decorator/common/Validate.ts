@@ -26,6 +26,9 @@ export function ValidatorConstraint(options?: { name?: string; async?: boolean }
 /**
  * Performs validation based on the given custom validation class.
  * Validation class must be decorated with ValidatorConstraint decorator.
+ *
+ * TODO: allow passing in a `name` so the validator instance created can be uniquely identified
+ * until then, this validator will be overwritten by properties decorated with `Validate` on subclasses
  */
 export function Validate(constraintClass: Function, validationOptions?: ValidationOptions): PropertyDecorator;
 export function Validate(
@@ -40,6 +43,7 @@ export function Validate(
 ): PropertyDecorator {
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
+      name: 'Validate',
       type: ValidationTypes.CUSTOM_VALIDATION,
       target: object.constructor,
       propertyName: propertyName,
