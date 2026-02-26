@@ -83,7 +83,9 @@ export interface ValidatorOptions {
   forbidUnknownValues?: boolean;
 
   /**
-   * When set to true, validation of the given property will stop after encountering the first error. Defaults to false.
+   * When set to true, validation of each property will stop after encountering its
+   * first error. Decorators with synchronous validation are evaluated in reverse order
+   * of appearance. Async validators have no guaranteed order. Defaults to false.
    */
   stopAtFirstError?: boolean;
 }
