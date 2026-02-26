@@ -67,6 +67,7 @@ import {
   ArrayNotContains,
   ArrayUnique,
   IsArray,
+  IsBigInt,
   IsDateString,
   IsInstance,
   IsPhoneNumber,
@@ -80,6 +81,7 @@ import {
   isDefined,
   isNumber,
   isURL,
+  isBigInt,
   isBoolean,
   isString,
   isInt,
@@ -753,6 +755,40 @@ describe('IsInt', () => {
   it('should return error object with proper data', () => {
     const validationType = 'isInt';
     const message = 'someProperty must be an integer number';
+    return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsBigInt', () => {
+  // By casting bigints via function instead of `2n` annotation we can avoid
+  // to bump the typescript build target from es2018 to es2020
+  const validValues = [BigInt(2), BigInt(4), BigInt(100), BigInt(1000)];
+  const invalidValues = ['01', '-01', '000', '100e10', '123.123', '   ', '', 10, 2.5, -0.1];
+
+  class MyClass {
+    @IsBigInt()
+    someProperty: string;
+  }
+
+  it('should not fail if validator.validate said that its valid', () => {
+    return checkValidValues(new MyClass(), validValues);
+  });
+
+  it('should fail if validator.validate said that its invalid', () => {
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    validValues.forEach(value => expect(isBigInt(value)).toBeTruthy());
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    invalidValues.forEach(value => expect(isBigInt(value as any)).toBeFalsy());
+  });
+
+  it('should return error object with proper data', () => {
+    const validationType = 'isBigInt';
+    const message = 'someProperty must be a bigint number';
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });

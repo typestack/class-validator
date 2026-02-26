@@ -123,6 +123,7 @@ export * from './string/isISO6391';
 // Type checkers
 // -------------------------------------------------------------------------
 
+export * from './typechecker/IsBigInt';
 export * from './typechecker/IsBoolean';
 export * from './typechecker/IsDate';
 export * from './typechecker/IsNumber';
