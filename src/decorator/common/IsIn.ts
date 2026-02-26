@@ -7,7 +7,7 @@ export const IS_IN = 'isIn';
  * Checks if given value is in a array of allowed values.
  */
 export function isIn(value: unknown, possibleValues: readonly unknown[]): boolean {
-  return !Array.isArray(possibleValues) || possibleValues.some(possibleValue => possibleValue === value);
+  return Array.isArray(possibleValues) && possibleValues.some(possibleValue => possibleValue === value);
 }
 
 /**

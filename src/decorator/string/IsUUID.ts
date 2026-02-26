@@ -1,24 +1,34 @@
 import { ValidationOptions } from '../ValidationOptions';
 import { buildMessage, ValidateBy } from '../common/ValidateBy';
 import isUuidValidator from 'validator/lib/isUUID';
-
-export type UUIDVersion = '3' | '4' | '5' | 'all' | 3 | 4 | 5;
+import * as ValidatorJS from 'validator';
 
 export const IS_UUID = 'isUuid';
 
+export type IsUUIDVersion = ValidatorJS.UUIDVersion | ValidatorJS.UUIDVersion[];
+
 /**
- * Checks if the string is a UUID (version 3, 4 or 5).
+ * Checks if the string is a UUID (version 1-8, nil, max, loose, all).
  * If given value is not a string, then it returns false.
+ * Supports single version or array of versions.
  */
-export function isUUID(value: unknown, version?: UUIDVersion): boolean {
-  return typeof value === 'string' && isUuidValidator(value, version);
+export function isUUID(value: unknown, version?: IsUUIDVersion): boolean {
+  if (typeof value !== 'string') return false;
+  if (Array.isArray(version)) {
+    for (const v of version) {
+      if (isUuidValidator(value, v)) return true;
+    }
+    return false;
+  }
+  return isUuidValidator(value, version);
 }
 
 /**
- * Checks if the string is a UUID (version 3, 4 or 5).
+ * Checks if the string is a UUID (version 1-8, nil, max, loose, all).
  * If given value is not a string, then it returns false.
+ * Supports single version or array of versions.
  */
-export function IsUUID(version?: UUIDVersion, validationOptions?: ValidationOptions): PropertyDecorator {
+export function IsUUID(version?: IsUUIDVersion, validationOptions?: ValidationOptions): PropertyDecorator {
   return ValidateBy(
     {
       name: IS_UUID,

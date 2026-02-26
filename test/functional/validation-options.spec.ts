@@ -1,15 +1,16 @@
 import {
   Contains,
+  Equals,
   IsDefined,
   Matches,
+  Max,
   MinLength,
   IsArray,
   Validate,
   ValidateNested,
   ValidatorConstraint,
   IsOptional,
-  IsNotEmpty,
-  Allow,
+  Min,
 } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import {
@@ -18,6 +19,7 @@ import {
   ValidationError,
   ValidationOptions,
   ValidatorConstraintInterface,
+  isValidationOptions,
 } from '../../src';
 
 const validator = new Validator();
@@ -58,7 +60,7 @@ describe('message', () => {
     });
   });
 
-  it('$value token should be replaced in a custom message', () => {
+  it('$value token should be replaced in a custom message with a string', () => {
     class MyClass {
       @MinLength(2, {
         message: args => {
@@ -75,6 +77,38 @@ describe('message', () => {
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].constraints).toEqual({ minLength: ' is too short, minimum length is 2 characters name' });
+    });
+  });
+
+  it('$value token should be replaced in a custom message with a number', () => {
+    class MyClass {
+      @Max(100, { message: 'Maximum value is $constraint1, but actual is $value' })
+      val: number = 50;
+    }
+
+    const model = new MyClass();
+    model.val = 101;
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints).toEqual({
+        max: 'Maximum value is 100, but actual is 101',
+      });
+    });
+  });
+
+  it('$value token should be replaced in a custom message with a boolean', () => {
+    class MyClass {
+      @Equals(true, { message: 'Value must be $constraint1, but actual is $value' })
+      val: boolean = false;
+    }
+
+    const model = new MyClass();
+    model.val = false;
+    return validator.validate(model).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].constraints).toEqual({
+        equals: 'Value must be true, but actual is false',
+      });
     });
   });
 
@@ -1249,5 +1283,72 @@ describe('context', () => {
     });
 
     return Promise.all([hasStopAtFirstError, hasNotStopAtFirstError]);
+  });
+});
+
+describe('validateIf', () => {
+  class MyClass {
+    @Min(5, {
+      message: 'min',
+      validateIf: (obj: MyClass, value) => {
+        return !obj.someOtherProperty || obj.someOtherProperty === 'min';
+      },
+    })
+    @Max(3, {
+      message: 'max',
+      validateIf: (o: MyClass) => !o.someOtherProperty || o.someOtherProperty === 'max',
+    })
+    someProperty: number;
+
+    someOtherProperty: string;
+  }
+
+  describe('should validate if validateIf return true.', () => {
+    it('should be true', () => {
+      const result = isValidationOptions({
+        validateIf: (obj: MyClass, value) => {
+          return obj.someOtherProperty;
+        },
+      });
+      expect(result).toEqual(true);
+    });
+
+    it('should only validate min', () => {
+      const model = new MyClass();
+      model.someProperty = 4;
+      model.someOtherProperty = 'min';
+      return validator.validate(model).then(errors => {
+        expect(errors.length).toEqual(1);
+        expect(errors[0].constraints['min']).toBe('min');
+        expect(errors[0].constraints['max']).toBe(undefined);
+      });
+    });
+    it('should only validate max', () => {
+      const model = new MyClass();
+      model.someProperty = 4;
+      model.someOtherProperty = 'max';
+      return validator.validate(model).then(errors => {
+        expect(errors.length).toEqual(1);
+        expect(errors[0].constraints['min']).toBe(undefined);
+        expect(errors[0].constraints['max']).toBe('max');
+      });
+    });
+    it('should validate both', () => {
+      const model = new MyClass();
+      model.someProperty = 4;
+      return validator.validate(model).then(errors => {
+        expect(errors.length).toEqual(1);
+        expect(errors[0].constraints['min']).toBe('min');
+        expect(errors[0].constraints['max']).toBe('max');
+      });
+    });
+    it('should validate none', () => {
+      const model = new MyClass();
+      model.someProperty = 4;
+      model.someOtherProperty = 'other';
+      return validator.validate(model).then(errors => {
+        expect(errors.length).toEqual(0);
+      });
+    });
   });
 });

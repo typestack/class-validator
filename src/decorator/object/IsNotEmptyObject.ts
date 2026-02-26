@@ -13,7 +13,7 @@ export function isNotEmptyObject(value: unknown, options?: { nullable?: boolean 
     return false;
   }
 
-  if (options?.nullable === true) {
+  if (options?.nullable === false) {
     return !Object.values(value).every(propertyValue => propertyValue === null || propertyValue === undefined);
   }
 
