@@ -31,8 +31,8 @@
     "prettier:check": "prettier --check \"**/*.{ts,md}\"",
     "lint:fix": "eslint --max-warnings 0 --fix --ext .ts src/",
     "lint:check": "eslint --max-warnings 0 --ext .ts src/",
-    "test": "jest --coverage --verbose",
-    "test:watch": "jest --watch",
+    "test": "jest --maxWorkers=50% --coverage --verbose",
+    "test:watch": "jest --maxWorkers=50% --watch",
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
