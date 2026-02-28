@@ -3,6 +3,20 @@ import { ConstraintMetadata } from './ConstraintMetadata';
 import { ValidationSchema } from '../validation-schema/ValidationSchema';
 import { ValidationSchemaToMetadataTransformer } from '../validation-schema/ValidationSchemaToMetadataTransformer';
 import { getGlobal } from '../utils';
+import { ValidationTypes } from '../validation/ValidationTypes';
+
+export interface PartitionedPropertyMetadata {
+  defined: ValidationMetadata[];
+  custom: ValidationMetadata[];
+  nested: ValidationMetadata[];
+  conditional: ValidationMetadata[];
+  all: ValidationMetadata[];
+  hasPromiseValidation: boolean;
+  /** True when only custom validators exist (no defined/nested/conditional) — enables fast path */
+  customOnly: boolean;
+}
+
+export type PartitionedMetadata = Record<string, PartitionedPropertyMetadata>;
 
 /**
  * Storage all metadatas.
@@ -12,8 +26,13 @@ export class MetadataStorage {
   // Private properties
   // -------------------------------------------------------------------------
 
+  private static _nextId = 0;
+
   private validationMetadatas: Map<any, ValidationMetadata[]> = new Map();
   private constraintMetadatas: Map<any, ConstraintMetadata[]> = new Map();
+  private targetMetadataCache: Map<string, ValidationMetadata[]> = new Map();
+  private groupedMetadataCache: Map<string, Record<string, ValidationMetadata[]>> = new Map();
+  private partitionedMetadataCache: Map<string, PartitionedMetadata> = new Map();
 
   get hasValidationMetaData(): boolean {
     return !!this.validationMetadatas.size;
@@ -35,6 +54,10 @@ export class MetadataStorage {
    * Adds a new validation metadata.
    */
   addValidationMetadata(metadata: ValidationMetadata): void {
+    this.targetMetadataCache.clear();
+    this.groupedMetadataCache.clear();
+    this.partitionedMetadataCache.clear();
+
     const existingMetadata = this.validationMetadatas.get(metadata.target);
 
     if (existingMetadata) {
@@ -60,25 +83,101 @@ export class MetadataStorage {
   /**
    * Groups metadata by their property names.
    */
-  groupByPropertyName(metadata: ValidationMetadata[]): { [propertyName: string]: ValidationMetadata[] } {
+  groupByPropertyName(
+    metadata: ValidationMetadata[],
+    cacheKey?: string
+  ): { [propertyName: string]: ValidationMetadata[] } {
+    if (cacheKey) {
+      const cached = this.groupedMetadataCache.get(cacheKey);
+      if (cached) return cached;
+    }
+
     const grouped: { [propertyName: string]: ValidationMetadata[] } = {};
     metadata.forEach(metadata => {
       if (!grouped[metadata.propertyName]) grouped[metadata.propertyName] = [];
       grouped[metadata.propertyName].push(metadata);
     });
+
+    if (cacheKey) {
+      this.groupedMetadataCache.set(cacheKey, grouped);
+    }
+
     return grouped;
+  }
+
+  /**
+   * Returns pre-partitioned metadata grouped by property name, with each property's
+   * metadata split by type. Cached for repeated validations of the same class.
+   */
+  getPartitionedMetadata(
+    groupedMetadatas: Record<string, ValidationMetadata[]>,
+    cacheKey: string
+  ): PartitionedMetadata {
+    const cached = this.partitionedMetadataCache.get(cacheKey);
+    if (cached) return cached;
+
+    const result: PartitionedMetadata = {};
+    for (const propertyName in groupedMetadatas) {
+      const allMetadatas = groupedMetadatas[propertyName];
+      const defined: ValidationMetadata[] = [];
+      const custom: ValidationMetadata[] = [];
+      const nested: ValidationMetadata[] = [];
+      const conditional: ValidationMetadata[] = [];
+      const all: ValidationMetadata[] = [];
+      let hasPromiseValidation = false;
+
+      for (const metadata of allMetadatas) {
+        if (metadata.type === ValidationTypes.IS_DEFINED) {
+          defined.push(metadata);
+        } else if (metadata.type !== ValidationTypes.WHITELIST) {
+          all.push(metadata);
+          switch (metadata.type) {
+            case ValidationTypes.CUSTOM_VALIDATION:
+              custom.push(metadata);
+              break;
+            case ValidationTypes.NESTED_VALIDATION:
+              nested.push(metadata);
+              break;
+            case ValidationTypes.CONDITIONAL_VALIDATION:
+              conditional.push(metadata);
+              break;
+            case ValidationTypes.PROMISE_VALIDATION:
+              hasPromiseValidation = true;
+              break;
+          }
+        }
+      }
+
+      const customOnly =
+        defined.length === 0 && nested.length === 0 && conditional.length === 0 && !hasPromiseValidation;
+      result[propertyName] = { defined, custom, nested, conditional, all, hasPromiseValidation, customOnly };
+    }
+
+    this.partitionedMetadataCache.set(cacheKey, result);
+    return result;
   }
 
   /**
    * Gets all validation metadatas for the given object with the given groups.
    */
+  buildCacheKey(target: Function, schema: string, always: boolean, strictGroups: boolean, groups?: string[]): string {
+    const targetId = (target as any).__cv_id ?? ((target as any).__cv_id = ++MetadataStorage._nextId);
+    const groupKey = groups?.length ? groups.slice().sort().join(',') : '';
+    return `${targetId}|${schema || ''}|${always ? 1 : 0}|${strictGroups ? 1 : 0}|${groupKey}`;
+  }
+
   getTargetValidationMetadatas(
     targetConstructor: Function,
     targetSchema: string,
     always: boolean,
     strictGroups: boolean,
-    groups?: string[]
+    groups?: string[],
+    cacheKey?: string
   ): ValidationMetadata[] {
+    const key = cacheKey ?? this.buildCacheKey(targetConstructor, targetSchema, always, strictGroups, groups);
+    const cached = this.targetMetadataCache.get(key);
+    if (cached) return cached;
+
     const includeMetadataBecauseOfAlwaysOption = (metadata: ValidationMetadata): boolean => {
       // `metadata.always` overrides global default.
       if (typeof metadata.always !== 'undefined') return metadata.always;
@@ -145,7 +244,9 @@ export class MetadataStorage {
       });
     });
 
-    return originalMetadatas.concat(uniqueInheritedMetadatas);
+    const result = originalMetadatas.concat(uniqueInheritedMetadatas);
+    this.targetMetadataCache.set(key, result);
+    return result;
   }
 
   /**

@@ -7,7 +7,7 @@ export const IS_ENUM = 'isEnum';
  * Checks if a given value is the member of the provided enum.
  */
 export function isEnum(value: unknown, entity: any): boolean {
-  const enumValues = Object.keys(entity).map(k => entity[k]);
+  const enumValues = Object.values(entity);
   return enumValues.includes(value);
 }
 
@@ -24,12 +24,13 @@ function validEnumValues(entity: any): string[] {
  * Checks if a given value is the member of the provided enum.
  */
 export function IsEnum(entity: object, validationOptions?: ValidationOptions): PropertyDecorator {
+  const enumValuesSet = new Set(Object.values(entity));
   return ValidateBy(
     {
       name: IS_ENUM,
       constraints: [entity, validEnumValues(entity)],
       validator: {
-        validate: (value, args): boolean => isEnum(value, args?.constraints[0]),
+        validate: (value): boolean => enumValuesSet.has(value),
         defaultMessage: buildMessage(
           eachPrefix => eachPrefix + '$property must be one of the following values: $constraint2',
           validationOptions

@@ -83,5 +83,16 @@ export function registerDecorator(options: ValidationDecoratorOptions): void {
     constraintCls: constraintCls,
     constraints: options.constraints,
   };
-  getMetadataStorage().addValidationMetadata(new ValidationMetadata(validationMetadataArgs));
+  const validationMetadata = new ValidationMetadata(validationMetadataArgs);
+
+  // For inline object validators (all built-in decorators), store the validate/defaultMessage
+  // functions directly to bypass constraint metadata lookup and wrapper class dispatch.
+  if (!(options.validator instanceof Function)) {
+    validationMetadata.inlineValidate = options.validator.validate.bind(options.validator);
+    if (options.validator.defaultMessage) {
+      validationMetadata.inlineDefaultMessage = options.validator.defaultMessage.bind(options.validator);
+    }
+  }
+
+  getMetadataStorage().addValidationMetadata(validationMetadata);
 }

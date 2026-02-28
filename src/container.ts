@@ -18,15 +18,15 @@ export interface UseContainerOptions {
  * container simply creates a new instance of the given class.
  */
 const defaultContainer: { get<T>(someClass: { new (...args: any[]): T } | Function): T } = new (class {
-  private instances: { type: Function; object: any }[] = [];
+  private instances = new Map<Function, any>();
   get<T>(someClass: { new (...args: any[]): T }): T {
-    let instance = this.instances.find(instance => instance.type === someClass);
+    let instance = this.instances.get(someClass);
     if (!instance) {
-      instance = { type: someClass, object: new someClass() };
-      this.instances.push(instance);
+      instance = new someClass();
+      this.instances.set(someClass, instance);
     }
 
-    return instance.object;
+    return instance;
   }
 })();
 

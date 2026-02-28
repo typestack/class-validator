@@ -15,8 +15,7 @@ export function arrayUnique(array: unknown[], identifier?: ArrayUniqueIdentifier
     array = array.map(o => (o != null ? identifier(o) : o));
   }
 
-  const uniqueItems = array.filter((a, b, c) => c.indexOf(a) === b);
-  return array.length === uniqueItems.length;
+  return new Set(array).size === array.length;
 }
 
 /**

@@ -20,6 +20,7 @@
     "typescript"
   ],
   "scripts": {
+    "benchmark": "ts-node --transpile-only test/benchmark.ts",
     "build": "npm run build:cjs",
     "build:clean": "rimraf build",
     "build:es2015": "tsc --project tsconfig.prod.esm2015.json",

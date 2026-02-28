@@ -74,6 +74,22 @@ export class ValidationMetadata {
    */
   validationTypeOptions: any;
 
+  /**
+   * Cached resolved constraint metadatas for this validation.
+   * Populated on first access to avoid repeated Map lookups.
+   */
+  resolvedConstraints: any[] | undefined = undefined;
+
+  /**
+   * Inline validate function for built-in validators, bypassing constraint metadata dispatch.
+   */
+  inlineValidate?: (value: any, args?: any) => Promise<boolean> | boolean;
+
+  /**
+   * Inline defaultMessage function for built-in validators.
+   */
+  inlineDefaultMessage?: (args?: any) => string;
+
   // -------------------------------------------------------------------------
   // Constructor
   // -------------------------------------------------------------------------

@@ -4,6 +4,9 @@ import { registerDecorator } from '../../src/register-decorator';
 import { ValidationOptions } from '../../src/decorator/ValidationOptions';
 import { buildMessage, ValidatorConstraint } from '../../src/decorator/decorators';
 import { ValidatorConstraintInterface } from '../../src/validation/ValidatorConstraintInterface';
+import { useContainer } from '../../src/container';
+import { getMetadataStorage, MetadataStorage } from '../../src/metadata/MetadataStorage';
+import { ConstraintMetadata } from '../../src/metadata/ConstraintMetadata';
 
 const validator = new Validator();
 
@@ -272,5 +275,128 @@ describe('decorator with symbol constraint', () => {
       expect(errors.length).toEqual(1);
       expect(errors[0].constraints.customValidation).toEqual('property must be of type symbol');
     });
+  });
+});
+
+describe('inline custom decorator fast-path behavior', () => {
+  afterEach(() => {
+    useContainer(
+      {
+        get() {
+          return undefined;
+        },
+      },
+      { fallback: true }
+    );
+  });
+
+  function InlineFailing(name: string, validationOptions?: ValidationOptions) {
+    return function (object: object, propertyName: string): void {
+      registerDecorator({
+        target: object.constructor,
+        propertyName,
+        name,
+        options: validationOptions,
+        validator: {
+          validate(): boolean {
+            return false;
+          },
+        },
+      });
+    };
+  }
+
+  function InlineAsyncPassing(name: string, validationOptions?: ValidationOptions) {
+    return function (object: object, propertyName: string): void {
+      registerDecorator({
+        target: object.constructor,
+        propertyName,
+        name,
+        options: validationOptions,
+        validator: {
+          validate(): Promise<boolean> {
+            return Promise.resolve(true);
+          },
+        },
+      });
+    };
+  }
+
+  it('should stop after first inline custom validator failure when stopAtFirstError is enabled', () => {
+    class StopAtFirstErrorModel {
+      @InlineFailing('firstError', { message: 'first message' })
+      @InlineFailing('secondError', { message: 'second message' })
+      value: string = 'x';
+    }
+
+    return validator.validate(new StopAtFirstErrorModel(), { stopAtFirstError: true }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(Object.keys(errors[0].constraints).length).toEqual(1);
+    });
+  });
+
+  it('should not create a visible error when inline async validator resolves true', () => {
+    class AsyncPassModel {
+      @InlineAsyncPassing('asyncPass')
+      value: string = 'x';
+    }
+
+    return validator.validate(new AsyncPassModel()).then(errors => {
+      expect(errors.length).toEqual(0);
+    });
+  });
+
+  it('should use an empty default message when inline validator does not provide one', () => {
+    class NoDefaultMessageModel {}
+
+    registerDecorator({
+      target: NoDefaultMessageModel,
+      propertyName: 'value',
+      name: 'noDefaultMessageValidator',
+      validator: {
+        validate(): boolean {
+          return false;
+        },
+      },
+    });
+
+    const metadata = getMetadataStorage()
+      .getTargetValidationMetadatas(NoDefaultMessageModel, '', false, false)
+      .find(entry => entry.propertyName === 'value');
+    const constraint = getMetadataStorage().getTargetValidatorConstraints(metadata!.constraintCls)[0];
+
+    expect(constraint.instance.defaultMessage()).toEqual('');
+    expect(metadata!.inlineDefaultMessage).toBeUndefined();
+  });
+
+  it('should throw when multiple constraint implementations are returned for a validator class', () => {
+    @ValidatorConstraint()
+    class DuplicateConstraint implements ValidatorConstraintInterface {
+      validate(): boolean {
+        return true;
+      }
+    }
+
+    const metadataStorage = new MetadataStorage();
+    metadataStorage.addConstraintMetadata(new ConstraintMetadata(DuplicateConstraint));
+    metadataStorage.addConstraintMetadata(new ConstraintMetadata(DuplicateConstraint));
+
+    useContainer({
+      get(target: Function) {
+        if (target === MetadataStorage) {
+          return metadataStorage;
+        }
+
+        return new (target as any)();
+      },
+    });
+
+    expect(() =>
+      registerDecorator({
+        target: DuplicateConstraint,
+        propertyName: 'value',
+        validator: DuplicateConstraint,
+      })
+    ).toThrow('More than one implementation of ValidatorConstraintInterface found');
   });
 });

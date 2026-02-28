@@ -28,6 +28,8 @@ export class ConstraintMetadata {
   // Constructor
   // -------------------------------------------------------------------------
 
+  private _instance!: ValidatorConstraintInterface;
+
   constructor(target: Function, name?: string, async: boolean = false) {
     this.target = target;
     this.name = name;
@@ -42,6 +44,9 @@ export class ConstraintMetadata {
    * Instance of the target custom validation class which performs validation.
    */
   get instance(): ValidatorConstraintInterface {
-    return getFromContainer<ValidatorConstraintInterface>(this.target);
+    if (!this._instance) {
+      this._instance = getFromContainer<ValidatorConstraintInterface>(this.target);
+    }
+    return this._instance;
   }
 }

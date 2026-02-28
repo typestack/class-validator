@@ -82,7 +82,7 @@ export class Validator {
     executor.ignoreAsyncValidations = true;
     const validationErrors: ValidationError[] = [];
     executor.execute(object, schema, validationErrors);
-    return executor.stripEmptyErrors(validationErrors);
+    return validationErrors.length === 0 ? validationErrors : executor.stripEmptyErrors(validationErrors);
   }
 
   // -------------------------------------------------------------------------
@@ -106,8 +106,14 @@ export class Validator {
     const validationErrors: ValidationError[] = [];
     executor.execute(object, schema, validationErrors);
 
+    if (executor.awaitingPromises.length === 0) {
+      return Promise.resolve(
+        validationErrors.length === 0 ? validationErrors : executor.stripEmptyErrors(validationErrors)
+      );
+    }
+
     return Promise.all(executor.awaitingPromises).then(() => {
-      return executor.stripEmptyErrors(validationErrors);
+      return validationErrors.length === 0 ? validationErrors : executor.stripEmptyErrors(validationErrors);
     });
   }
 }
