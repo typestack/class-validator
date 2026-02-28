@@ -185,7 +185,7 @@ export class ValidationExecutor {
       }
 
       if (!hasConstraints(error.constraints)) {
-        if (error.children.length === 0) {
+        if (error.children?.length === 0) {
           return false;
         } else {
           delete error.constraints;
