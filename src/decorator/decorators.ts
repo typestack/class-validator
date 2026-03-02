@@ -74,6 +74,7 @@ export * from './string/IsLowercase';
 export * from './string/IsMobilePhone';
 export * from './string/IsISO31661Alpha2';
 export * from './string/IsISO31661Alpha3';
+export * from './string/IsISO31661Numeric';
 export * from './string/IsMongoId';
 export * from './string/IsMultibyte';
 export * from './string/IsSurrogatePair';
@@ -116,6 +117,7 @@ export * from './string/IsTimeZone';
 export * from './string/IsBase58';
 export * from './string/is-tax-id';
 export * from './string/is-iso4217-currency-code';
+export * from './string/isISO6391';
 
 // -------------------------------------------------------------------------
 // Type checkers

@@ -2,6 +2,62 @@
 
 _This changelog follows the [keep a changelog][keep-a-changelog]_ format to maintain a human readable changelog.
 
+## [0.15.1](https://github.com/typestack/class-validator/compare/v0.14.4...v0.15.1) (2026-02-26)
+
+### BREAKING CHANGES
+
+- Added options argument to IsIBAN validator ([#2618](https://github.com/typestack/class-validator/pull/2618)), which breaks any existing usage of this decorator that pass an argument to the decorator, e.g. `@IsIBAN({forbidUnknownValues: false})`
+
+### Fixed
+
+- Updated lockfile to patch vulnerabilities ([#2669](https://github.com/typestack/class-validator/pull/2669))
+- Fixed a small grammatical error in the docs ([#2596](https://github.com/typestack/class-validator/pull/2596))
+
+### Added
+
+- Added `validateIf` option to all validators, providing a lot more flexibility in using conditional validation ([#1579](https://github.com/typestack/class-validator/pull/1579))
+- Added IsISO31661Numeric validator for country codes ([#2657](https://github.com/typestack/class-validator/pull/2657))
+- Added IsISO6391 validator for language codes ([#2626](https://github.com/typestack/class-validator/pull/2626))
+- Added more versions to IsUUID validator options. ([#2647](https://github.com/typestack/class-validator/pull/2647))
+-
+
+## [0.14.4](https://github.com/typestack/class-validator/compare/v0.14.3...v0.14.4) (2026-02-25)
+
+- Updated validator.js to 13.15.22 ([#2649](https://github.com/typestack/class-validator/pull/2649))
+
+## [0.14.3](https://github.com/typestack/class-validator/compare/v0.14.1...v0.14.3) (2025-11-24)
+
+- Fixed a vulnerability by bumping validator.js ([#2638](https://github.com/typestack/class-validator/pull/2638) by [@weikangchia](https://github.com/weikangchia))
+
+## [0.14.2](https://github.com/typestack/class-validator/compare/v0.14.1...v0.14.2) (2025-05-02)
+
+#### Fixed
+
+- Fixed an issue where `forbidUnknownValues` did not default to `true` when `validatorOptions` was undefined. ([#2196](https://github.com/typestack/class-validator/pull/2196) by [@cduff](https://github.com/cduff))
+- Fixed the `ValidationMetadata.name` property to work correctly with the `@IsOptional` decorator. ([#2044](https://github.com/typestack/class-validator/pull/2044) by [@Clashsoft](https://github.com/Clashsoft))
+- Updated the Codecov configuration for continuous integration. ([#2556](https://github.com/typestack/class-validator/pull/2556) by [@haiweilian](https://github.com/haiweilian))
+- Fixed an issue where options were not passed correctly to the `@IsBase64` decorator. ([#2549](https://github.com/typestack/class-validator/pull/2549) by [@aseyfpour](https://github.com/aseyfpour))
+- Fixed argument handling for the `isBase64` function. ([#2574](https://github.com/typestack/class-validator/pull/2574) by [@braaar](https://github.com/braaar))
+
+### [0.14.1](https://github.com/typestack/class-validator/compare/v0.14.0...v0.14.1) (2024-01-12)
+
+#### Added
+
+- allow specifying options for `@IsBase64` decorator ([#1845](https://github.com/typestack/class-validator/issues/1845)) , closes [#1013](https://github.com/typestack/class-validator/issues/1013)
+- use official type for version in `@IsUUID` decorator ([#1846](https://github.com/typestack/class-validator/issues/1846)) , closes [#1497](https://github.com/typestack/class-validator/issues/1497)
+- update `@IsPhoneNumber` decorator to use max dataset ([#1857](https://github.com/typestack/class-validator/issues/1857))
+
+#### Fixed
+
+- fail for non-array constraint in `@IsIn` decorator ([#1844](https://github.com/typestack/class-validator/issues/1844)) , closes [#1693](https://github.com/typestack/class-validator/issues/1693)
+- allow number and boolean values in validation message "$value" tokens ([#1467](https://github.com/typestack/class-validator/issues/1467)) , closes [#921](https://github.com/typestack/class-validator/issues/921), [#1046](https://github.com/typestack/class-validator/issues/1046)
+- read nullable option in `@IsNotEmptyObject` decorator correctly ([#1555](https://github.com/typestack/class-validator/issues/1555)) , closes [#1554](https://github.com/typestack/class-validator/issues/1554)
+
+#### Changed
+
+- update `libphonenumber-js` to `^1.10.53` from `^1.10.14`
+- update various dev-dependencies
+
 ### [0.14.0](https://github.com/typestack/class-validator/compare/v0.13.2...v0.14.0) (2022-12-09)
 
 ### Added
