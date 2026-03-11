@@ -3,6 +3,8 @@ import { ConstraintMetadata } from './ConstraintMetadata';
 import { ValidationSchema } from '../validation-schema/ValidationSchema';
 import { ValidationSchemaToMetadataTransformer } from '../validation-schema/ValidationSchemaToMetadataTransformer';
 import { getGlobal } from '../utils';
+import { IS_DEFINED } from '../decorator/common/IsDefined';
+import { IS_OPTIONAL } from '../decorator/common/IsOptional';
 
 /**
  * Storage all metadatas.
@@ -138,10 +140,12 @@ export class MetadataStorage {
     // filter out duplicate metadatas, prefer original metadatas instead of inherited metadatas
     const uniqueInheritedMetadatas = inheritedMetadatas.filter(inheritedMetadata => {
       return !originalMetadatas.find(originalMetadata => {
-        return (
-          originalMetadata.propertyName === inheritedMetadata.propertyName &&
-          originalMetadata.type === inheritedMetadata.type
-        );
+        const isSameProperty = originalMetadata.propertyName === inheritedMetadata.propertyName;
+        const isSameValidator =
+          originalMetadata.name === inheritedMetadata.name ||
+          (originalMetadata.name === IS_DEFINED && inheritedMetadata.name === IS_OPTIONAL);
+
+        return isSameProperty && isSameValidator;
       });
     });
 

@@ -4,6 +4,7 @@ import { ValidationTypes } from '../../validation/ValidationTypes';
 import { ValidationMetadata } from '../../metadata/ValidationMetadata';
 import { getMetadataStorage } from '../../metadata/MetadataStorage';
 
+const VALIDATE_NESTED = 'validateNested';
 /**
  * Objects / object arrays marked with this decorator will also be validated.
  */
@@ -14,6 +15,7 @@ export function ValidateNested(validationOptions?: ValidationOptions): PropertyD
 
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
+      name: VALIDATE_NESTED,
       type: ValidationTypes.NESTED_VALIDATION,
       target: object.constructor,
       propertyName: propertyName,

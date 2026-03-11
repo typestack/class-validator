@@ -4,6 +4,8 @@ import { ValidationTypes } from '../../validation/ValidationTypes';
 import { ValidationMetadata } from '../../metadata/ValidationMetadata';
 import { getMetadataStorage } from '../../metadata/MetadataStorage';
 
+const VALIDATE_IF = 'validateIf';
+
 /**
  * Ignores the other validators on a property when the provided condition function returns false.
  */
@@ -13,6 +15,7 @@ export function ValidateIf(
 ): PropertyDecorator {
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
+      name: VALIDATE_IF,
       type: ValidationTypes.CONDITIONAL_VALIDATION,
       target: object.constructor,
       propertyName: propertyName,

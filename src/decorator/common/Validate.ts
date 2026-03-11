@@ -5,6 +5,8 @@ import { getMetadataStorage } from '../../metadata/MetadataStorage';
 import { ValidationTypes } from '../../validation/ValidationTypes';
 import { ConstraintMetadata } from '../../metadata/ConstraintMetadata';
 
+export const VALIDATE = 'validate';
+
 /**
  * Registers custom validator class.
  */
@@ -40,6 +42,7 @@ export function Validate(
 ): PropertyDecorator {
   return function (object: object, propertyName: string): void {
     const args: ValidationMetadataArgs = {
+      name: VALIDATE,
       type: ValidationTypes.CUSTOM_VALIDATION,
       target: object.constructor,
       propertyName: propertyName,

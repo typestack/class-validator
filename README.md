@@ -371,7 +371,14 @@ export class Post {
 
 ## Inheriting Validation decorators
 
-When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant, class decorators will be applied on it from both its own class and the base class.
+When you define a subclass which extends from another one, the subclass will automatically inherit the parent's
+decorators.
+If a property is redefined in the descendant, class decorators will be applied on it from both its own class and the
+base class.
+If a property-decorator pair is defined in both the subclass and parent-class, the decorator from the subclass will be
+used instead of the parent-class.
+When a property has @IsDefined() decorator in the sub-class and @IsOptional() decorator in the parent class, the
+@IsOptional() decorator is ignored and @IsDefined() takes precedence.
 
 ```typescript
 import { validate } from 'class-validator';
@@ -777,6 +784,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
    export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
      return function (object: Object, propertyName: string) {
        registerDecorator({
+         name: 'isUserAlreadyExist',
          target: object.constructor,
          propertyName: propertyName,
          options: validationOptions,
