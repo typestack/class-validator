@@ -580,6 +580,50 @@ validate(user, {
 There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
 must be applied always no matter which group is used.
 
+## Validation option validateIf
+
+If you want an individual validaton decorator to apply conditionally, you can you can use the option `validateIf` available to all validators.
+This allows more granular control than the `@ValidateIf` decorator which toggles all validators on the property, but keep in mind that
+with great power comes great responsibility: Take care not to create unnecessarily complex validation logic.
+
+```typescript
+class MyClass {
+  @Min(5, {
+    message: 'min',
+    validateIf: (obj: MyClass, value) => {
+      return !obj.someOtherProperty || obj.someOtherProperty === 'min';
+    },
+  })
+  @Max(3, {
+    message: 'max',
+    validateIf: (o: MyClass) => !o.someOtherProperty || o.someOtherProperty === 'max',
+  })
+  someProperty: number;
+
+  someOtherProperty: string;
+}
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'min';
+validator.validate(model); // this only validate min
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'max';
+validator.validate(model); // this only validate max
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = '';
+validator.validate(model); // this validate both
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'other';
+validator.validate(model); // this validate none
+```
+
 ## Custom validation classes
 
 If you have custom validation logic you can create a _Constraint class_:
@@ -669,7 +713,7 @@ export class CustomTextLength implements ValidatorConstraintInterface {
 
 ## Custom validation decorators
 
-You can also create a custom decorators. Its the most elegant way of using a custom validations.
+You can also create a custom decorator. It's the most elegant way of using custom validations.
 Lets create a decorator called `@IsLongerThan`:
 
 1. Create a decorator itself:
@@ -882,8 +926,10 @@ isBoolean(value);
 | `@IsLatitude()`                                        | Checks if the string or number is a valid latitude coordinate.                                                                                                                                        |
 | `@IsLongitude()`                                       | Checks if the string or number is a valid longitude coordinate.                                                                                                                                       |
 | `@IsMobilePhone(locale: string)`                       | Checks if the string is a mobile phone number.                                                                                                                                                        |
+| `@IsISO6391()`                                         | Checks if the string is a valid ISO 639-1 officially assigned language code.                                                                                                                          |
 | `@IsISO31661Alpha2()`                                  | Checks if the string is a valid ISO 3166-1 alpha-2 officially assigned country code.                                                                                                                  |
 | `@IsISO31661Alpha3()`                                  | Checks if the string is a valid ISO 3166-1 alpha-3 officially assigned country code.                                                                                                                  |
+| `@IsISO31661Numeric()`                                 | Checks if the string is a valid ISO 3166-1 numeric officially assigned country code.                                                                                                                  |
 | `@IsLocale()`                                          | Checks if the string is a locale.                                                                                                                                                                     |
 | `@IsPhoneNumber(region: string)`                       | Checks if the string is a valid phone number using libphonenumber-js.                                                                                                                                 |
 | `@IsMongoId()`                                         | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                                                                                     |
@@ -893,7 +939,7 @@ isBoolean(value);
 | `@IsTaxId()`                                           | Checks if the string is a valid tax ID. Default locale is `en-US`.                                                                                                                                    |
 | `@IsUrl(options?: IsURLOptions)`                       | Checks if the string is a URL.                                                                                                                                                                        |
 | `@IsMagnetURI()`                                       | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme).                                                                                                       |
-| `@IsUUID(version?: UUIDVersion)`                       | Checks if the string is a UUID (version 3, 4, 5 or all ).                                                                                                                                             |
+| `@IsUUID(version?: UUIDVersion)`                       | Checks if the string is a UUID (version 1-8, nil, max, loose, all). Also accepts array of versions.                                                                                                   |
 | `@IsFirebasePushId()`                                  | Checks if the string is a [Firebase Push ID](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html)                                                                          |
 | `@IsUppercase()`                                       | Checks if the string is uppercase.                                                                                                                                                                    |
 | `@Length(min: number, max?: number)`                   | Checks if the string's length falls in a range.                                                                                                                                                       |
