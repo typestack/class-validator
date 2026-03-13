@@ -19,7 +19,7 @@ export const IS_MOBILE_PHONE = 'isMobilePhone';
  */
 export function isMobilePhone(
   value: unknown,
-  locale?: ValidatorJS.MobilePhoneLocale,
+  locale?: 'any' | ValidatorJS.MobilePhoneLocale | ValidatorJS.MobilePhoneLocale[],
   options?: ValidatorJS.IsMobilePhoneOptions
 ): boolean {
   return typeof value === 'string' && isMobilePhoneValidator(value, locale, options);
@@ -38,7 +38,7 @@ export function isMobilePhone(
  * If given value is not a string, then it returns false.
  */
 export function IsMobilePhone(
-  locale?: ValidatorJS.MobilePhoneLocale,
+  locale?: 'any' | ValidatorJS.MobilePhoneLocale | ValidatorJS.MobilePhoneLocale[],
   options?: ValidatorJS.IsMobilePhoneOptions,
   validationOptions?: ValidationOptions
 ): PropertyDecorator {
