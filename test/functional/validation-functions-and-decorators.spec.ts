@@ -918,6 +918,11 @@ describe('IsEnum', () => {
     someProperty: MyStringEnum;
   }
 
+  class MyClassFour {
+    @IsEnum(['first', 'second'])
+    someProperty: 'first' | 'second';
+  }
+
   it('should not fail if validator.validate said that its valid', () => {
     return checkValidValues(new MyClassTwo(), validValues);
   });
@@ -966,6 +971,20 @@ describe('IsEnum', () => {
     const validationType = 'isEnum';
     const message = 'someProperty must be one of the following values: first, second';
     return checkReturnedError(new MyClassThree(), invalidValues, validationType, message);
+  });
+
+  it('should not fail if validator.validate said that its valid (array of strings)', () => {
+    return checkValidValues(new MyClassFour(), validStringValues);
+  });
+
+  it('should fail if validator.validate said that its invalid (array of strings)', () => {
+    return checkInvalidValues(new MyClassFour(), invalidValues);
+  });
+
+  it('should return error with proper message for array of strings', () => {
+    const validationType = 'isEnum';
+    const message = 'someProperty must be one of the following values: first, second';
+    return checkReturnedError(new MyClassFour(), invalidValues, validationType, message);
   });
 });
 
