@@ -4544,6 +4544,11 @@ describe('IsISO31661Alpha3', () => {
     const invalidValues = [undefined, null, '', 'FR', 'fR', 'GB', 'PT', 'CM', 'JP', 'PM', 'ZW'];
     return checkInvalidValues(new MyClass(), invalidValues);
   });
+
+  it('should fail for lowercase values', () => {
+    const invalidValues = ['tw', 'us', 'jp', 'aE'];
+    return checkInvalidValues(new MyClass(), invalidValues);
+  });
 });
 
 describe('IsISO31661Numeric', () => {
