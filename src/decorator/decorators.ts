@@ -149,3 +149,4 @@ export * from './array/ArrayUnique';
 
 export * from './object/IsNotEmptyObject';
 export * from './object/IsInstance';
+export * from './object/AtLeastOneField';
