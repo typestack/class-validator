@@ -102,7 +102,7 @@ validate(post).then(errors => {
   if (errors.length > 0) {
     console.log('validation failed. errors: ', errors);
   } else {
-    console.log('validation succeed');
+    console.log('validation succeeded');
   }
 });
 
@@ -142,7 +142,7 @@ export interface ValidatorOptions {
 
 > **IMPORTANT**
 > The `forbidUnknownValues` value is set to `true` by default and **it is highly advised to keep the default**.
-> Setting it to `false` will result unknown objects passing the validation!
+> Setting it to `false` will result in unknown objects passing the validation!
 
 ## Validation errors
 
@@ -210,7 +210,7 @@ export class Post {
 }
 ```
 
-There are few special tokens you can use in your messages:
+There are a few special tokens you can use in your messages:
 
 - `$value` - the value that is being validated
 - `$property` - name of the object's property being validated
@@ -399,7 +399,7 @@ class User extends BaseContent {
 let user = new User();
 
 user.email = 'invalid email'; // inherited property
-user.password = 'too short'; // password wil be validated not only against IsString, but against MinLength as well
+user.password = 'too short'; // password will be validated not only against IsString, but against MinLength as well
 user.name = 'not valid';
 user.welcome = 'helo';
 
@@ -528,7 +528,7 @@ In such cases you can use validation groups.
 
 > **IMPORTANT**
 > Calling a validation with a group combination that would not result in a validation (eg: non existent group name)
-> will result in a unknown value error. When validating with groups the provided group combination should match at least one decorator.
+> will result in an unknown value error. When validating with groups the provided group combination should match at least one decorator.
 
 ```typescript
 import { validate, Min, Length } from 'class-validator';
@@ -575,7 +575,7 @@ must be applied always no matter which group is used.
 
 ## Validation option validateIf
 
-If you want an individual validaton decorator to apply conditionally, you can you can use the option `validateIf` available to all validators.
+If you want an individual validation decorator to apply conditionally, you can use the option `validateIf` available to all validators.
 This allows more granular control than the `@ValidateIf` decorator which toggles all validators on the property, but keep in mind that
 with great power comes great responsibility: Take care not to create unnecessarily complex validation logic.
 
@@ -707,7 +707,7 @@ export class CustomTextLength implements ValidatorConstraintInterface {
 ## Custom validation decorators
 
 You can also create a custom decorator. It's the most elegant way of using custom validations.
-Lets create a decorator called `@IsLongerThan`:
+Let's create a decorator called `@IsLongerThan`:
 
 1. Create a decorator itself:
 
@@ -751,7 +751,7 @@ Lets create a decorator called `@IsLongerThan`:
    ```
 
 In your custom decorators you can also use `ValidationConstraint`.
-Lets create another custom validation decorator called `IsUserAlreadyExist`:
+Let's create another custom validation decorator called `IsUserAlreadyExist`:
 
 1. Create a ValidationConstraint and decorator:
 
@@ -787,7 +787,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
    }
    ```
 
-   note that we marked our constraint that it will by async by adding `{ async: true }` in validation options.
+   note that we marked our constraint that it will be async by adding `{ async: true }` in validation options.
 
 2. And put it to use:
 
@@ -804,8 +804,8 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
 
 ## Using service container
 
-Validator supports service container in the case if want to inject dependencies into your custom validator constraint
-classes. Here is example how to integrate it with [typedi][2]:
+Validator supports a service container in the case you want to inject dependencies into your custom validator constraint
+classes. Here is an example of how to integrate it with [typedi][2]:
 
 ```typescript
 import { Container } from 'typedi';
@@ -827,7 +827,7 @@ you have.
 
 ## Manual validation
 
-There are several method exist in the Validator that allows to perform non-decorator based validation:
+Several methods are available in the Validator that allow you to perform non-decorator based validation:
 
 ```typescript
 import { isEmpty, isBoolean } from 'class-validator';
