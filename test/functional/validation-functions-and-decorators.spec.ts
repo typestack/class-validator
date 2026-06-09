@@ -3166,6 +3166,10 @@ describe('IsObject', () => {
     '[]',
     [],
     [{ key: 'value' }],
+    () => 'function',
+    function namedFn() {
+      return 'named function';
+    },
   ];
 
   class MyClass {
