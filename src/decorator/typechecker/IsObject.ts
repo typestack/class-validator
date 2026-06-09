@@ -8,7 +8,7 @@ export const IS_OBJECT = 'isObject';
  * Returns false if the value is not an object.
  */
 export function isObject<T = object>(value: unknown): value is T {
-  return value != null && (typeof value === 'object' || typeof value === 'function') && !Array.isArray(value);
+  return value != null && typeof value === 'object' && !Array.isArray(value);
 }
 
 /**
