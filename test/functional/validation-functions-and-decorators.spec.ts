@@ -967,6 +967,25 @@ describe('IsEnum', () => {
     const message = 'someProperty must be one of the following values: first, second';
     return checkReturnedError(new MyClassThree(), invalidValues, validationType, message);
   });
+
+  it('should not accept the enum member name for a custom indexed enum', () => {
+    expect(isEnum('First', MyCustomIndexedEnum)).toBeFalsy();
+    expect(isEnum('Second', MyCustomIndexedEnum)).toBeFalsy();
+  });
+
+  it('should not accept the enum member name for a default indexed enum', () => {
+    expect(isEnum('First', MyDefaultIndexedEnum)).toBeFalsy();
+    expect(isEnum('Second', MyDefaultIndexedEnum)).toBeFalsy();
+  });
+
+  it('should not accept the reverse-mapped numeric key string', () => {
+    expect(isEnum('1', MyCustomIndexedEnum)).toBeFalsy();
+    expect(isEnum('999', MyCustomIndexedEnum)).toBeFalsy();
+  });
+
+  it('should fail if the enum member name is passed instead of its value', () => {
+    return checkInvalidValues(new MyClassTwo(), ['First', 'Second']);
+  });
 });
 
 describe('IsDivisibleBy', () => {
