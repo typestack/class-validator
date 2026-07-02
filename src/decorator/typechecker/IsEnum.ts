@@ -7,8 +7,8 @@ export const IS_ENUM = 'isEnum';
  * Checks if a given value is the member of the provided enum.
  */
 export function isEnum(value: unknown, entity: any): boolean {
-  const enumValues = Object.keys(entity).map(k => entity[k]);
-  return enumValues.includes(value);
+  const enumValues = validEnumValues(entity);
+  return enumValues.includes(value as string);
 }
 
 /**
