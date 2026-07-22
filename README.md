@@ -956,6 +956,7 @@ isBoolean(value);
 | `@ArrayUnique(identifier?: (o) => any)`                | Checks if all array's values are unique. Comparison for objects is reference-based. Optional function can be speciefied which return value will be used for the comparsion.                           |
 | **Object validation decorators**                       |
 | `@IsInstance(value: any)`                              | Checks if the property is an instance of the passed value.                                                                                                                                            |
+| `@IsMutuallyExclusiveWith(property: string)`           | Checks if the property and the given related property are not both provided at the same time.                                                                                                         |
 | **Other decorators**                                   |                                                                                                                                                                                                       |
 | `@Allow()`                                             | Prevent stripping off the property when no other constraint is specified for it.                                                                                                                      |
 

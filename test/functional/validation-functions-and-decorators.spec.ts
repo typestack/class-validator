@@ -7,6 +7,7 @@ import {
   IsNegative,
   Contains,
   Equals,
+  IsMutuallyExclusiveWith,
   MinDate,
   MaxDate,
   IsAlpha,
@@ -122,6 +123,7 @@ import {
   maxLength,
   isFirebasePushId,
   equals,
+  isMutuallyExclusiveWith,
   notEquals,
   isEmpty,
   isNotEmpty,
@@ -353,6 +355,52 @@ describe('Equals', () => {
     const validationType = 'equals';
     const message = 'someProperty must be equal to ' + constraintToString(constraint);
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
+  });
+});
+
+describe('IsMutuallyExclusiveWith', () => {
+  class MyClass {
+    @IsMutuallyExclusiveWith('propertyB')
+    someProperty: string;
+
+    propertyB: string;
+  }
+
+  it('should not fail if only one property is provided', () => {
+    const model1 = new MyClass();
+    const model2 = new MyClass();
+    model2.propertyB = 'bar';
+
+    return Promise.all([checkValidValues(model1, ['foo']), checkValidValues(model2, [undefined])]);
+  });
+
+  it('should not fail if neither property is provided', () => {
+    const model = new MyClass();
+    return checkValidValues(model, [undefined]);
+  });
+
+  it('should fail if both properties are provided', () => {
+    const model = new MyClass();
+    model.propertyB = 'bar';
+
+    return checkInvalidValues(model, ['foo']);
+  });
+
+  it('should not fail if method in validator said that its valid', () => {
+    expect(isMutuallyExclusiveWith('foo', 'propertyB', { object: {} } as any)).toBeTruthy();
+  });
+
+  it('should fail if method in validator said that its invalid', () => {
+    expect(isMutuallyExclusiveWith('foo', 'propertyB', { object: { propertyB: 'bar' } } as any)).toBeFalsy();
+  });
+
+  it('should return error object with proper data', () => {
+    const model = new MyClass();
+    model.propertyB = 'bar';
+
+    const validationType = 'isMutuallyExclusiveWith';
+    const message = 'someProperty and propertyB cannot both be provided';
+    return checkReturnedError(model, ['foo'], validationType, message);
   });
 });
 
