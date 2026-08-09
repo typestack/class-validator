@@ -4267,6 +4267,19 @@ describe('Length', () => {
     const message = 'someProperty must be shorter than or equal to ' + constraintToString(constraint2) + ' characters';
     return checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
   });
+
+  describe('when only min is specified and the value is not a string', () => {
+    class MinOnlyClass {
+      @Length(constraint1)
+      someProperty: any;
+    }
+
+    it('should not reference the unset max constraint in the error message', () => {
+      const validationType = 'isLength';
+      const message = 'someProperty must be longer than or equal to ' + constraintToString(constraint1) + ' characters';
+      return checkReturnedError(new MinOnlyClass(), [123, true, { foo: 'bar' }], validationType, message);
+    });
+  });
 });
 
 describe('MinLength', () => {
