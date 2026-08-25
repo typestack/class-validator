@@ -5025,6 +5025,24 @@ describe('ArrayUnique', () => {
     invalidValues.forEach(value => expect(arrayUnique(value)).toBeFalsy());
   });
 
+  it('should compare objects by reference', () => {
+    const object = { name: 'test' };
+
+    expect(arrayUnique([object, { name: 'test' }])).toBeTruthy();
+    expect(arrayUnique([object, object])).toBeFalsy();
+  });
+
+  it('should use SameValueZero semantics for NaN', () => {
+    expect(arrayUnique([1, NaN, 2])).toBeTruthy();
+    expect(arrayUnique([NaN, NaN])).toBeFalsy();
+  });
+
+  it('should treat sparse array items as undefined', () => {
+    expect(arrayUnique([, 1])).toBeTruthy();
+    expect(arrayUnique([, , 1])).toBeFalsy();
+    expect(arrayUnique([undefined, , 1])).toBeFalsy();
+  });
+
   it('should return error object with proper data', () => {
     const validationType = 'arrayUnique';
     const message = "All someProperty's elements must be unique";
@@ -5067,6 +5085,19 @@ describe('ArrayUnique with identifier', () => {
 
   it('should fail if method in validator said that its invalid', () => {
     invalidValues.forEach(value => expect(arrayUnique(value, identifier)).toBeFalsy());
+  });
+
+  it('should call the identifier for every non-null value before checking uniqueness', () => {
+    const visitedNames: string[] = [];
+    const trackingIdentifier = (value: { name: string }): string => {
+      visitedNames.push(value.name);
+      return value.name;
+    };
+
+    expect(
+      arrayUnique([{ name: 'duplicate' }, { name: 'duplicate' }, { name: 'last' }], trackingIdentifier)
+    ).toBeFalsy();
+    expect(visitedNames).toEqual(['duplicate', 'duplicate', 'last']);
   });
 
   it('should return error object with proper data', () => {
