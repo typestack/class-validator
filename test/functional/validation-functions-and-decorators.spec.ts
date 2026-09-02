@@ -4267,6 +4267,33 @@ describe('Length', () => {
     const message = 'someProperty must be shorter than or equal to ' + constraintToString(constraint2) + ' characters';
     return checkReturnedError(new MyClass(), ['aaaa', 'azzazza'], validationType, message);
   });
+
+  describe('with each: true', () => {
+    class TagsClass {
+      @Length(constraint1, constraint2, { each: true })
+      someProperty: string[];
+    }
+
+    it('should not fail for valid items', () => {
+      return checkValidValues(new TagsClass(), [['ab', 'abc'], ['de']]);
+    });
+
+    it('should report max-length when an item is too long', () => {
+      const validationType = 'isLength';
+      const message =
+        'each value in someProperty must be shorter than or equal to ' +
+        constraintToString(constraint2) +
+        ' characters';
+      return checkReturnedError(new TagsClass(), [['abcd'], ['aaaa']], validationType, message);
+    });
+
+    it('should report min-length when items are too short', () => {
+      const validationType = 'isLength';
+      const message =
+        'each value in someProperty must be longer than or equal to ' + constraintToString(constraint1) + ' characters';
+      return checkReturnedError(new TagsClass(), [['a', 'a', 'a', 'a']], validationType, message);
+    });
+  });
 });
 
 describe('MinLength', () => {
