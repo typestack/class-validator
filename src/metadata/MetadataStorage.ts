@@ -3,6 +3,7 @@ import { ConstraintMetadata } from './ConstraintMetadata';
 import { ValidationSchema } from '../validation-schema/ValidationSchema';
 import { ValidationSchemaToMetadataTransformer } from '../validation-schema/ValidationSchemaToMetadataTransformer';
 import { getGlobal } from '../utils';
+import { ValidationTypes } from '../validation/ValidationTypes';
 
 /**
  * Storage all metadatas.
@@ -140,7 +141,11 @@ export class MetadataStorage {
       return !originalMetadatas.find(originalMetadata => {
         return (
           originalMetadata.propertyName === inheritedMetadata.propertyName &&
-          originalMetadata.type === inheritedMetadata.type
+          originalMetadata.type === inheritedMetadata.type &&
+          (originalMetadata.type !== ValidationTypes.CUSTOM_VALIDATION ||
+            (originalMetadata.name !== undefined || inheritedMetadata.name !== undefined
+              ? originalMetadata.name === inheritedMetadata.name
+              : originalMetadata.constraintCls === inheritedMetadata.constraintCls))
         );
       });
     });
