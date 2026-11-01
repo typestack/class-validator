@@ -4230,6 +4230,34 @@ describe('IsUppercase', () => {
 });
 
 describe('Length', () => {
+  it('should report the minimum bound for strings containing surrogate pairs', () => {
+    class Message {
+      @Length(4, 5)
+      someProperty: string;
+    }
+
+    return checkReturnedError(
+      new Message(),
+      ['😀😀😀'],
+      'isLength',
+      'someProperty must be longer than or equal to 4 characters'
+    );
+  });
+
+  it('should report the maximum bound for strings containing surrogate pairs', () => {
+    class Message {
+      @Length(1, 2)
+      someProperty: string;
+    }
+
+    return checkReturnedError(
+      new Message(),
+      ['😀😀😀'],
+      'isLength',
+      'someProperty must be shorter than or equal to 2 characters'
+    );
+  });
+
   const constraint1 = 2;
   const constraint2 = 3;
   const validValues = ['abc', 'de'];
