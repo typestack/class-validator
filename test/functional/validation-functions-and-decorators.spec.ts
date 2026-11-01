@@ -4,6 +4,8 @@ import {
   IsLatLong,
   IsLongitude,
   IsLatitude,
+  isLatitude,
+  isLongitude,
   IsNegative,
   Contains,
   Equals,
@@ -574,6 +576,11 @@ describe('IsLatLong', () => {
 });
 
 describe('IsLatitude', () => {
+  it('should accept numeric coordinates through the validation function', () => {
+    [-90, 0, 45.5, 90].forEach(value => expect(isLatitude(value)).toBe(true));
+    [-91, 91, NaN, Infinity].forEach(value => expect(isLatitude(value)).toBe(false));
+  });
+
   const validValues = ['27.6945311', '27.675509', 27.675509];
   const invalidValues = ['276945311', 'asas', 1234222, 5678921];
 
@@ -592,6 +599,11 @@ describe('IsLatitude', () => {
 });
 
 describe('IsLongitude', () => {
+  it('should accept numeric coordinates through the validation function', () => {
+    [-180, 0, 120.5, 180].forEach(value => expect(isLongitude(value)).toBe(true));
+    [-181, 181, NaN, Infinity].forEach(value => expect(isLongitude(value)).toBe(false));
+  });
+
   const validValues = ['85.3446311', '85.2100893', 85.2100893];
   const invalidValues = ['853446311', 'as.as12', 12345, 737399];
 
