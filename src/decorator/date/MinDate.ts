@@ -23,7 +23,7 @@ export function MinDate(date: Date | (() => Date), validationOptions?: Validatio
         defaultMessage: buildMessage((eachPrefix, args) => {
           const constraint = args.constraints[0];
           const date = typeof constraint === 'function' ? constraint() : constraint;
-          return 'minimal allowed date for ' + eachPrefix + '$property is ' + date;
+          return 'minimal allowed date for ' + eachPrefix + '$property is ' + String(date);
         }, validationOptions),
       },
     },

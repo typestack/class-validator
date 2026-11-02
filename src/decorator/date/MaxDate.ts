@@ -23,7 +23,7 @@ export function MaxDate(date: Date | (() => Date), validationOptions?: Validatio
         defaultMessage: buildMessage((eachPrefix, args) => {
           const constraint = args.constraints[0];
           const date = typeof constraint === 'function' ? constraint() : constraint;
-          return 'maximal allowed date for ' + eachPrefix + '$property is ' + date;
+          return 'maximal allowed date for ' + eachPrefix + '$property is ' + String(date);
         }, validationOptions),
       },
     },
