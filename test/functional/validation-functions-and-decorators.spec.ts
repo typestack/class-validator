@@ -1264,7 +1264,7 @@ describe('MinDate function constraint', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'minDate';
-    const message = 'minimal allowed date for someProperty is ' + constraintToString(constraint);
+    const message = 'minimal allowed date for someProperty is ' + constraintToString(constraint());
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
@@ -1297,7 +1297,7 @@ describe('MaxDate function constraint', () => {
 
   it('should return error object with proper data', () => {
     const validationType = 'maxDate';
-    const message = 'maximal allowed date for someProperty is ' + constraintToString(constraint);
+    const message = 'maximal allowed date for someProperty is ' + constraintToString(constraint());
     return checkReturnedError(new MyClass(), invalidValues, validationType, message);
   });
 });
