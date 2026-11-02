@@ -20,10 +20,11 @@ export function MaxDate(date: Date | (() => Date), validationOptions?: Validatio
       constraints: [date],
       validator: {
         validate: (value, args): boolean => maxDate(value, args?.constraints[0]),
-        defaultMessage: buildMessage(
-          eachPrefix => 'maximal allowed date for ' + eachPrefix + '$property is $constraint1',
-          validationOptions
-        ),
+        defaultMessage: buildMessage((eachPrefix, args) => {
+          const constraint = args.constraints[0];
+          const date = typeof constraint === 'function' ? constraint() : constraint;
+          return 'maximal allowed date for ' + eachPrefix + '$property is ' + date;
+        }, validationOptions),
       },
     },
     validationOptions
