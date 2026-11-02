@@ -29,8 +29,7 @@ export class ValidationUtils {
 
     if (messageString && Array.isArray(validationArguments.constraints)) {
       validationArguments.constraints.forEach((constraint, index) => {
-        messageString = messageString.replace(
-          new RegExp(`\\$constraint${index + 1}`, 'g'),
+        messageString = messageString.replace(new RegExp(`\\$constraint${index + 1}`, 'g'), () =>
           constraintToString(constraint)
         );
       });
@@ -42,9 +41,9 @@ export class ValidationUtils {
       validationArguments.value !== null &&
       ['string', 'boolean', 'number'].includes(typeof validationArguments.value)
     )
-      messageString = messageString.replace(/\$value/g, validationArguments.value);
-    if (messageString) messageString = messageString.replace(/\$property/g, validationArguments.property);
-    if (messageString) messageString = messageString.replace(/\$target/g, validationArguments.targetName);
+      messageString = messageString.replace(/\$value/g, () => String(validationArguments.value));
+    if (messageString) messageString = messageString.replace(/\$property/g, () => validationArguments.property);
+    if (messageString) messageString = messageString.replace(/\$target/g, () => validationArguments.targetName);
 
     return messageString;
   }
