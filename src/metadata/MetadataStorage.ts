@@ -61,7 +61,7 @@ export class MetadataStorage {
    * Groups metadata by their property names.
    */
   groupByPropertyName(metadata: ValidationMetadata[]): { [propertyName: string]: ValidationMetadata[] } {
-    const grouped: { [propertyName: string]: ValidationMetadata[] } = {};
+    const grouped: { [propertyName: string]: ValidationMetadata[] } = Object.create(null);
     metadata.forEach(metadata => {
       if (!grouped[metadata.propertyName]) grouped[metadata.propertyName] = [];
       grouped[metadata.propertyName].push(metadata);
