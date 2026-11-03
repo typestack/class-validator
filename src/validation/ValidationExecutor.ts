@@ -107,7 +107,9 @@ export class ValidationExecutor {
       ) {
         this.awaitingPromises.push(
           value.then(resolvedValue => {
+            const previousPromiseCount = this.awaitingPromises.length;
             this.performValidations(object, resolvedValue, propertyName, definedMetadatas, metadatas, validationErrors);
+            return Promise.all(this.awaitingPromises.slice(previousPromiseCount));
           })
         );
       } else {
