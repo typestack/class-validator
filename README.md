@@ -575,7 +575,7 @@ must be applied always no matter which group is used.
 
 ## Validation option validateIf
 
-If you want an individual validaton decorator to apply conditionally, you can you can use the option `validateIf` available to all validators.
+If you want an individual validation decorator to apply conditionally, you can use the option `validateIf` available to all validators.
 This allows more granular control than the `@ValidateIf` decorator which toggles all validators on the property, but keep in mind that
 with great power comes great responsibility: Take care not to create unnecessarily complex validation logic.
 
@@ -953,7 +953,7 @@ isBoolean(value);
 | `@ArrayNotEmpty()`                                     | Checks if given array is not empty.                                                                                                                                                                   |
 | `@ArrayMinSize(min: number)`                           | Checks if the array's length is greater than or equal to the specified number.                                                                                                                        |
 | `@ArrayMaxSize(max: number)`                           | Checks if the array's length is less or equal to the specified number.                                                                                                                                |
-| `@ArrayUnique(identifier?: (o) => any)`                | Checks if all array's values are unique. Comparison for objects is reference-based. Optional function can be speciefied which return value will be used for the comparsion.                           |
+| `@ArrayUnique(identifier?: (o) => any)`                | Checks if all array's values are unique. Comparison for objects is reference-based. Optional function can be specified which return value will be used for the comparison.                           |
 | **Object validation decorators**                       |
 | `@IsInstance(value: any)`                              | Checks if the property is an instance of the passed value.                                                                                                                                            |
 | **Other decorators**                                   |                                                                                                                                                                                                       |
